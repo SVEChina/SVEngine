@@ -1,0 +1,23 @@
+{
+	"sv_spine":{
+		"name":"ani2d_0",
+		"posX":10.282180786132813,
+		"posY":-640.5999755859375,
+		"posZ":0.0,
+		"rotX":0.0,
+		"rotY":0.0,
+		"rotZ":0.0,
+		"scaleX":1.0,
+		"scaleY":1.0,
+		"scaleZ":1.0,
+		"offsetX":0.0,
+		"offsetY":0.0,
+		"bind":-1,
+		"canselect":true,
+		"drawaabb":false,
+		"fjson":"spine.json",
+		"fatlas":"spine.atlas",
+		"animation":"animation",
+		"loop":true
+	}
+}
