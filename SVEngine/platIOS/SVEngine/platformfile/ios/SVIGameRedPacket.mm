@@ -42,74 +42,47 @@ void redpacket_op_callback(const char* _info) {
 }
 
 - (void)loadGameResource{
-    NSString *t_path = [[NSBundle mainBundle] pathForResource:@"libao" ofType:@"bundle"];
-    SVInst* t_app = (SVInst*)m_pApp;
-    SVOpLoadRedPacketPtr t_op = MakeSharedPtr<SVOpLoadRedPacket>(t_app,[t_path UTF8String]);
-    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
-    //
-    NSString *t_path0 = [t_path stringByAppendingPathComponent:@"321.wav"];
-    [m_audio loadSound:t_path0];
-    NSString *t_path1 = [t_path stringByAppendingPathComponent:@"ready2.wav"];
-    [m_audio loadSound:t_path1];
-    NSString *t_path2 = [t_path stringByAppendingPathComponent:@"ready.wav"];
-    [m_audio loadSound:t_path2];
-    NSString *t_path3 = [t_path stringByAppendingPathComponent:@"ready1.wav"];
-    [m_audio loadSound:t_path3];
-    NSString *t_path4 = [t_path stringByAppendingPathComponent:@"explosion.wav"];
-    [m_audio loadSound:t_path4];
-    NSString *t_path5 = [t_path stringByAppendingPathComponent:@"showgold.wav"];
-    [m_audio loadSound:t_path5];
-    NSString *t_path6 = [t_path stringByAppendingPathComponent:@"goldend.wav"];
-    [m_audio loadSound:t_path6];
-    NSString *t_path7 = [t_path stringByAppendingPathComponent:@"background.wav"];
-    [m_audio loadSound:t_path7];
-    NSString *t_path8 = [t_path stringByAppendingPathComponent:@"54321.wav"];
-    [m_audio loadSound:t_path8];
+//    NSString *t_path = [[NSBundle mainBundle] pathForResource:@"libao" ofType:@"bundle"];
+//    SVInst* t_app = (SVInst*)m_pApp;
+//    SVOpLoadRedPacketPtr t_op = MakeSharedPtr<SVOpLoadRedPacket>(t_app,[t_path UTF8String]);
+//    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
+//    //
+//    NSString *t_path0 = [t_path stringByAppendingPathComponent:@"321.wav"];
+//    [m_audio loadSound:t_path0];
+//    NSString *t_path1 = [t_path stringByAppendingPathComponent:@"ready2.wav"];
+//    [m_audio loadSound:t_path1];
+//    NSString *t_path2 = [t_path stringByAppendingPathComponent:@"ready.wav"];
+//    [m_audio loadSound:t_path2];
+//    NSString *t_path3 = [t_path stringByAppendingPathComponent:@"ready1.wav"];
+//    [m_audio loadSound:t_path3];
+//    NSString *t_path4 = [t_path stringByAppendingPathComponent:@"explosion.wav"];
+//    [m_audio loadSound:t_path4];
+//    NSString *t_path5 = [t_path stringByAppendingPathComponent:@"showgold.wav"];
+//    [m_audio loadSound:t_path5];
+//    NSString *t_path6 = [t_path stringByAppendingPathComponent:@"goldend.wav"];
+//    [m_audio loadSound:t_path6];
+//    NSString *t_path7 = [t_path stringByAppendingPathComponent:@"background.wav"];
+//    [m_audio loadSound:t_path7];
+//    NSString *t_path8 = [t_path stringByAppendingPathComponent:@"54321.wav"];
+//    [m_audio loadSound:t_path8];
 }
 
 - (void)startGame:(int)_packetNum Mode:(int)_mode msg:(NSString *)_msg{
-    int t_packetNum = 100;
-    if (_packetNum>0 && _packetNum<=100) {
-        t_packetNum = _packetNum;
-    }
-    m_mode = _mode;
-    NSString *t_path = [[NSBundle mainBundle] pathForResource:@"libao" ofType:@"bundle"];
-    SVInst* t_app = (SVInst*)m_pApp;
-    SVOpCreateRedPacketPtr t_op = MakeSharedPtr<SVOpCreateRedPacket>(t_app,[t_path UTF8String], t_packetNum, _mode);
-    t_op->setCallBack(redpacket_op_callback, [_msg UTF8String]);
-    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
-    
 }
 
 - (void)stopGame{
-    SVInst* t_app = (SVInst*)m_pApp;
-    SVOpDestroyRedPacketPtr t_op = MakeSharedPtr<SVOpDestroyRedPacket>(t_app);
-    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
-    [m_audio removeAllSounds];
 }
 
 - (void)openPacketMoney:(int)_value{
-    SVInst* t_app = (SVInst*)m_pApp;
-    SVOpOpenRedPacketMoneyPtr t_op = MakeSharedPtr<SVOpOpenRedPacketMoney>(t_app, _value);
-    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
 
 - (void)setWalletPosX:(int)_x PosY:(int)_y{
-    SVInst* t_app = (SVInst*)m_pApp;
-    SVOpWalletPosPtr t_op = MakeSharedPtr<SVOpWalletPos>(t_app, _x, _y);
-    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
 
 - (void)setTotalMoney:(NSString *)_text{
-    SVInst* t_app = (SVInst*)m_pApp;
-    SVOpTotalMoneyPtr t_op = MakeSharedPtr<SVOpTotalMoney>(t_app,[_text UTF8String]);
-    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
 
 - (void)removeOnePacket:(int)_value{
-    SVInst* t_app = (SVInst*)m_pApp;
-    SVOpRemoveOnePacketPtr t_op = MakeSharedPtr<SVOpRemoveOnePacket>(t_app, -1);
-    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
 
 - (void)dealloc{

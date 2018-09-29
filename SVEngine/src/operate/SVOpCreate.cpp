@@ -29,18 +29,10 @@
 #include "../file/SVParseMain.h"
 #include "../module/SVModuleSys.h"
 #include "../module/SVModuleBase.h"
-#include "../module/SVRedPacket.h"
-#include "../module/SVRedPacketRun.h"
-#include "../module/SVRedPacketReady.h"
-#include "../module/SVRedPacketEnd.h"
 #include "../basesys/SVPickProcess.h"
 #include "../module/SVModuleDelaySuspend.h"
 #include "../module/SVDivisonFilter.h"
-//heart
-#include "../module/SVHeartFlutter.h"
-#include "../module/SVHeartFlutterReady.h"
-#include "../module/SVHeartFlutterRun.h"
-#include "../module/SVHeartFlutterEnd.h"
+
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
 : SVOpBase(_app) {
@@ -146,134 +138,6 @@ void SVOpCreateEffcet::_process(f32 dt) {
     }
 }
 
-//
-SVOpLoadRedPacket::SVOpLoadRedPacket(SVInst *_app, cptr8 pStrPath)
-:SVOpBase(_app){
-    m_strPath = pStrPath;
-}
-
-SVOpLoadRedPacket::~SVOpLoadRedPacket(){
-    
-}
-
-void SVOpLoadRedPacket::_process(f32 dt){
-    SVString t_name = "sv_game_redpacket";
-    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
-    if (t_modulePtr == nullptr) {
-        SVParseMain t_parssMain(mApp);
-        SVString t_path = m_strPath;
-        t_modulePtr = t_parssMain.parse(t_path.c_str(),111);
-        SVRedPacketPtr t_redPacket = std::dynamic_pointer_cast<SVRedPacket>(t_modulePtr);
-        if (t_redPacket) {
-            mApp->getModuleSys()->regist(t_modulePtr, t_name.c_str());
-        }
-    }
-}
-
-//创建红包
-SVOpCreateRedPacket::SVOpCreateRedPacket(SVInst *_app,cptr8 pStrPath, s32 _totalPacketNum, s32 _mode)
-: SVOpBase(_app)
-, m_strPath(pStrPath) {
-    m_totalPacketNum = _totalPacketNum;
-    m_mode = _mode;
-}
-
-SVOpCreateRedPacket::~SVOpCreateRedPacket() {
-    
-}
-
-void SVOpCreateRedPacket::_process(f32 dt) {
-    SVString t_name = "sv_game_redpacket";
-    SVModuleBasePtr t_module = mApp->getModuleSys()->getModule(t_name.c_str());
-    SVRedPacketPtr t_redPacket = std::dynamic_pointer_cast<SVRedPacket>(t_module);
-    if (t_redPacket) {
-        t_redPacket->setOpCallBack(m_pCB);
-        //设置红包总数
-        t_redPacket->m_packetRun->getPacketUnitMgr()->setWillShowPacketNum(m_totalPacketNum);
-        //设置准备动画倒计时模式
-        t_redPacket->m_packetReady->setReadyMode((READYMODE)m_mode);
-        //进入动画
-        t_redPacket->open();
-        //开启拾取
-        SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
-        if (t_pickModule) {
-            t_pickModule->enablePick();
-        }
-    }
- 
-}
-
-SVOpOpenRedPacketMoney::SVOpOpenRedPacketMoney(SVInst *_app, s32 _value):SVOpBase(_app){
-    m_value = _value;
-}
-
-SVOpOpenRedPacketMoney::~SVOpOpenRedPacketMoney(){
-    
-}
-
-void SVOpOpenRedPacketMoney::_process(f32 dt){
-    SVString t_name = "sv_game_redpacket";
-    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
-    SVRedPacketPtr t_redPacket = std::dynamic_pointer_cast<SVRedPacket>(t_modulePtr);
-    if (t_redPacket) {
-        t_redPacket->m_packetRun->showMoney(m_value);
-    }
-}
-
-SVOpWalletPos::SVOpWalletPos(SVInst *_app, f32 _x, f32 _y) : SVOpBase(_app){
-    m_x = _x;
-    m_y = _y;
-}
-
-SVOpWalletPos::~SVOpWalletPos(){
-    
-}
-
-void SVOpWalletPos::_process(f32 dt){
-    SVString t_name = "sv_game_redpacket";
-    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
-    SVRedPacketPtr t_redPacket = std::dynamic_pointer_cast<SVRedPacket>(t_modulePtr);
-    if (t_redPacket) {
-        t_redPacket->m_packetRun->setTarPos(FVec3(m_x, m_y, 0.0));
-        t_redPacket->m_packetEnd->setWalletPos(FVec3(m_x, m_y, 0.0));
-    }
-}
-
-SVOpTotalMoney::SVOpTotalMoney(SVInst *_app, cptr8 _text) : SVOpBase(_app){
-    m_text = _text;
-}
-
-SVOpTotalMoney::~SVOpTotalMoney(){
-    
-}
-
-void SVOpTotalMoney::_process(f32 dt){
-    SVString t_name = "sv_game_redpacket";
-    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
-    SVRedPacketPtr t_redPacket = std::dynamic_pointer_cast<SVRedPacket>(t_modulePtr);
-    if (t_redPacket) {
-        t_redPacket->m_packetEnd->setText(m_text.c_str());
-    }
-}
-
-SVOpRemoveOnePacket::SVOpRemoveOnePacket(SVInst *_app, s32 _id): SVOpBase(_app){
-    m_id = _id;
-}
-
-SVOpRemoveOnePacket::~SVOpRemoveOnePacket(){
-
-    
-}
-
-void SVOpRemoveOnePacket::_process(f32 dt){
-    SVString t_name = "sv_game_redpacket";
-    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
-    SVRedPacketPtr t_redPacket = std::dynamic_pointer_cast<SVRedPacket>(t_modulePtr);
-    if (t_redPacket) {
-        t_redPacket->m_packetRun->getPacketUnitMgr()->disappearOnePacketWithID(m_id);
-    }
-}
-
 SVOpOpenDelaySuspend::SVOpOpenDelaySuspend(SVInst *_app, f32 _time) : SVOpBase(_app){
     m_time = _time;
 }
@@ -372,74 +236,4 @@ void SVOpCreateDivision::_process(f32 dt) {
         t_modulePtr->open();
         mApp->getModuleSys()->regist(t_modulePtr, t_name.c_str());
     }
-}
-
-
-//
-SVOpLoadHeartFlutter::SVOpLoadHeartFlutter(SVInst *_app, cptr8 pStrPath)
-:SVOpBase(_app){
-    m_strPath = pStrPath;
-}
-
-SVOpLoadHeartFlutter::~SVOpLoadHeartFlutter(){
-    
-}
-
-void SVOpLoadHeartFlutter::_process(f32 dt){
-    SVString t_name = "sv_game_heartflutter";
-    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
-    if (t_modulePtr == nullptr) {
-        SVParseMain t_parssMain(mApp);
-        SVString t_path = m_strPath;
-        t_modulePtr = t_parssMain.parse(t_path.c_str(),111);
-        SVHeartFlutterPtr t_heartFlutter = std::dynamic_pointer_cast<SVHeartFlutter>(t_modulePtr);
-        if (t_heartFlutter) {
-            mApp->getModuleSys()->regist(t_modulePtr, t_name.c_str());
-        }
-    }
-}
-
-//创建红包
-SVOpBeginHeartFlutter::SVOpBeginHeartFlutter(SVInst *_app,cptr8 pStrPath)
-: SVOpBase(_app)
-, m_strPath(pStrPath) {
-}
-
-SVOpBeginHeartFlutter::~SVOpBeginHeartFlutter() {
-    
-}
-
-void SVOpBeginHeartFlutter::_process(f32 dt) {
-    SVString t_name = "sv_game_heartflutter";
-    SVModuleBasePtr t_module = mApp->getModuleSys()->getModule(t_name.c_str());
-    SVHeartFlutterPtr t_heartFlutter = std::dynamic_pointer_cast<SVHeartFlutter>(t_module);
-    if (t_heartFlutter) {
-        t_heartFlutter->setOpCallBack(m_pCB);
-        //进入动画
-        t_heartFlutter->open();
-        //开启拾取
-//        SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
-//        if (t_pickModule) {
-//            t_pickModule->enablePick();
-//        }
-    }
-    
-}
-
-SVOpDisappearHeartFlutter::SVOpDisappearHeartFlutter(SVInst *_app)
-: SVOpBase(_app) {
-}
-
-SVOpDisappearHeartFlutter::~SVOpDisappearHeartFlutter() {
-    
-}
-
-void SVOpDisappearHeartFlutter::_process(f32 dt) {
-    SVString t_name = "sv_game_heartflutter";
-    SVModuleBasePtr t_module = mApp->getModuleSys()->getModule(t_name.c_str());
-    SVHeartFlutterPtr t_heartFlutter = std::dynamic_pointer_cast<SVHeartFlutter>(t_module);
-    if (t_heartFlutter) {
-        t_heartFlutter->m_heartFlutterRun->getHeartUnitMgr()->disappearAllHearUnit();
-    }
-    
 }

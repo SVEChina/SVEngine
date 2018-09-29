@@ -76,22 +76,11 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpCreateDivision);
     
     //红心飘动游戏
-    DECLARE_SHAREPTR(SVOpLoadHeartFlutter);
-    DECLARE_SHAREPTR(SVOpBeginHeartFlutter);
-    DECLARE_SHAREPTR(SVOpDisappearHeartFlutter);
-    DECLARE_SHAREPTR(SVOpDestroyHeartFlutter);
-    //
     DECLARE_SHAREPTR(SVOpDestroyScene);
     DECLARE_SHAREPTR(SVOpCameraControl);
     DECLARE_SHAREPTR(SVOpCreateSkyDome);
     DECLARE_SHAREPTR(SVOpCreateParticle);
     DECLARE_SHAREPTR(SVOpCreateEffcet);
-    DECLARE_SHAREPTR(SVOpLoadRedPacket);
-    DECLARE_SHAREPTR(SVOpCreateRedPacket);
-    DECLARE_SHAREPTR(SVOpOpenRedPacketMoney);
-    DECLARE_SHAREPTR(SVOpWalletPos);
-    DECLARE_SHAREPTR(SVOpTotalMoney);
-    DECLARE_SHAREPTR(SVOpRemoveOnePacket);
     DECLARE_SHAREPTR(SVOpCloseDetect);
     DECLARE_SHAREPTR(SVOpSetBeautyFilter);
     DECLARE_SHAREPTR(SVOpUpdateFilterSmooth);

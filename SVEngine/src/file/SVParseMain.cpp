@@ -19,9 +19,8 @@
 #include "SVParseBitfont.h"
 #include "SVParseGame.h"
 #include "SVParseGameHeartFlutter.h"
-#include "../module/SVRedPacket.h"
-#include "../module/SVHeartFlutter.h"
 #include "../module/SVEffectPackage.h"
+
 SVParseMain::SVParseMain(SVInst *_app)
 :SVGBase(_app) {
     m_app = _app;
@@ -90,19 +89,19 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
         t_type = type.GetString();
     }
     if (strcmp("game", t_type.c_str()) == 0) {
-        //解析游戏
-        SVRedPacketPtr t_redPacket = MakeSharedPtr<SVRedPacket>(m_app);
-        SVString t_path = SVString(path) + "/";
-        SVParseGame::parseGame(m_app, doc, resid, t_path, t_redPacket);
-        return t_redPacket;
-
+//        //解析游戏
+//        SVRedPacketPtr t_redPacket = MakeSharedPtr<SVRedPacket>(m_app);
+//        SVString t_path = SVString(path) + "/";
+//        SVParseGame::parseGame(m_app, doc, resid, t_path, t_redPacket);
+//        return t_redPacket;
+        return nullptr;
     }else if (strcmp("game_heartflutter", t_type.c_str()) == 0) {
-        //解析游戏
-        SVHeartFlutterPtr t_heartFlutter = MakeSharedPtr<SVHeartFlutter>(m_app);
-        SVString t_path = SVString(path) + "/";
-        SVParseGameHeartFlutter::parseGame(m_app, doc, resid, t_path, t_heartFlutter);
-        return t_heartFlutter;
-        
+//        //解析游戏
+//        SVHeartFlutterPtr t_heartFlutter = MakeSharedPtr<SVHeartFlutter>(m_app);
+//        SVString t_path = SVString(path) + "/";
+//        SVParseGameHeartFlutter::parseGame(m_app, doc, resid, t_path, t_heartFlutter);
+//        return t_heartFlutter;
+        return nullptr;
     }
     else{
         SVEffectPackagePtr t_bundle = MakeSharedPtr<SVEffectPackage>(m_app);

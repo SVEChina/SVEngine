@@ -13,8 +13,7 @@
 #include "../base/SVPreDeclare.h"
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVPickProcess.h"
-#include "../module/SVRedPacket.h"
-#include "../module/SVHeartFlutter.h"
+
 SVOpDestroyEffect::SVOpDestroyEffect(SVInst *_app, cptr8 _name)
 :SVOpBase(_app) {
     m_name = _name;

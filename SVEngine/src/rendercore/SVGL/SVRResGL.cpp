@@ -20,7 +20,6 @@
 #include "../renderer/SVContextBase.h"
 #include "../renderer/SVRendererBase.h"
 #include "../SVGL/SVRendererGL.h"
-#include "../../mtl/SVBeatyShader.h"
 
 SVRResGLTex::SVRResGLTex(SVInst* _app)
         :SVResTex(_app){
@@ -613,7 +612,7 @@ u32 SVRResGLShader::_loadTechGS(cptr8 _precision,cptr8 _src) {
 
 u32 SVRResGLShader::_loadVS(cptr8 _filename) {
     SVDataChunk tDataStream;
-    u32 t_id=shaderPreLoad(_filename);
+    u32 t_id=0;
     bool t_flag=false;
     if(!t_id){
         t_flag = mApp->getFileMgr()->loadFileContentStr(&tDataStream, _filename);
@@ -650,7 +649,7 @@ u32 SVRResGLShader::_loadVS(cptr8 _filename) {
 
 u32 SVRResGLShader::_loadFS(cptr8 _filename){
     SVDataChunk tDataStream;
-    u32 t_id=shaderPreLoad(_filename);
+    u32 t_id=0;
     bool t_flag=false;
     if(!t_id){
         t_flag = mApp->getFileMgr()->loadFileContentStr(&tDataStream, _filename);

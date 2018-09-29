@@ -13,7 +13,6 @@
 #include "../basesys/SVPictureProcess.h"
 #include "../basesys/filter/SVFilterBase.h"
 #include "../basesys/filter/SVBasedonFilter.h"
-#include "../basesys/filter/SVFaceBeautyShowFilter.h"
 #include "../basesys/filter/SVFilterDef.h"
 #include "../event/SVEventMgr.h"
 #include "../event/SVEvent.h"
@@ -31,26 +30,26 @@ SVOpSetBeautyFilter::SVOpSetBeautyFilter(SVInst* _app,cptr8 _scenename,cptr8 _fi
 void SVOpSetBeautyFilter::_process(f32 _dt) {
     SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
     if( t_picproc ) {
-        SVBasedonFilterPtr t_baseOn=MakeSharedPtr<SVBasedonFilter>(mApp);
-        t_baseOn->create();
-        t_picproc->addFilter(t_baseOn);
-        t_picproc->openFilter(t_baseOn);
-        if(m_lows==0){
-            SVFairDataPtr t_fair=MakeSharedPtr<SVFairData>(mApp);
-            t_fair->create();
-            t_picproc->addFilter(t_fair);
-            t_picproc->openFilter(t_fair);
-        }else if(m_lows==1){
-            SVFairDataBlurPtr t_fair=MakeSharedPtr<SVFairDataBlur>(mApp);
-            t_fair->create();
-            t_picproc->addFilter(t_fair);
-            t_picproc->openFilter(t_fair);
-        }else if(m_lows==2){
-            SVFairLtraLowPtr t_fair=MakeSharedPtr<SVFairLtraLow>(mApp);
-            t_fair->create();
-            t_picproc->addFilter(t_fair);
-            t_picproc->openFilter(t_fair);
-        }
+//        SVBasedonFilterPtr t_baseOn=MakeSharedPtr<SVBasedonFilter>(mApp);
+//        t_baseOn->create();
+//        t_picproc->addFilter(t_baseOn);
+//        t_picproc->openFilter(t_baseOn);
+//        if(m_lows==0){
+//            SVFairDataPtr t_fair=MakeSharedPtr<SVFairData>(mApp);
+//            t_fair->create();
+//            t_picproc->addFilter(t_fair);
+//            t_picproc->openFilter(t_fair);
+//        }else if(m_lows==1){
+//            SVFairDataBlurPtr t_fair=MakeSharedPtr<SVFairDataBlur>(mApp);
+//            t_fair->create();
+//            t_picproc->addFilter(t_fair);
+//            t_picproc->openFilter(t_fair);
+//        }else if(m_lows==2){
+//            SVFairLtraLowPtr t_fair=MakeSharedPtr<SVFairLtraLow>(mApp);
+//            t_fair->create();
+//            t_picproc->addFilter(t_fair);
+//            t_picproc->openFilter(t_fair);
+//        }
     }
 }
 
