@@ -1,0 +1,75 @@
+//
+// SVNodeDeclare.h
+// SVEngine
+// Copyright 2017-2020
+// yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
+//
+
+#ifndef SV_NODEDECLARE_H
+#define SV_NODEDECLARE_H
+
+#include "../base/SVPreDeclare.h"
+
+namespace sv {
+    
+    namespace node {
+        
+        //visit
+        DECLARE_SHAREPTR(SVVisitorBase);
+        DECLARE_SHAREPTR(SVVisitCollectResID);
+        DECLARE_SHAREPTR(SVSpineNodeNameVisitor);
+        DECLARE_SHAREPTR(SVVisitCollectAllNode);
+        DECLARE_SHAREPTR(SVVisitRayPick);
+        
+        //
+        DECLARE_SHAREPTR(SVTree4);
+        DECLARE_SHAREPTR(SVScene);
+        //node
+        DECLARE_SHAREPTR(SVNode);
+        DECLARE_SHAREPTR(SV2DFaceMaskASNode);
+        DECLARE_SHAREPTR(SV2DFaceMaskASNoneMouthNode);
+        DECLARE_SHAREPTR(SV2DFaceMaskASFixLashNode);
+        DECLARE_SHAREPTR(SV2DFaceMaskASNoEyeNode);
+        DECLARE_SHAREPTR(SV2DFaceMaskASMouthFaceOutline);
+        DECLARE_SHAREPTR(SV2DFaceMaskFPNode);
+        DECLARE_SHAREPTR(SV2DFaceMaskNode);
+        DECLARE_SHAREPTR(SV2DFaceMaskSTNode);
+        DECLARE_SHAREPTR(SV3DBox);
+        DECLARE_SHAREPTR(SVBitFontNode);
+        DECLARE_SHAREPTR(SVCameraNode);
+        DECLARE_SHAREPTR(SVCoordGridNode);
+        DECLARE_SHAREPTR(SVDummyNode);
+        DECLARE_SHAREPTR(SVMultPassNode);
+        DECLARE_SHAREPTR(SVFrameOutNode);
+        DECLARE_SHAREPTR(SVFreeTypeNode);
+        DECLARE_SHAREPTR(SVGameWrapNode);
+        DECLARE_SHAREPTR(SVIOSInstreamNode);
+#ifdef SV_IOS
+        DECLARE_SHAREPTR(SVIOSOutstreamNode);
+#endif
+        DECLARE_SHAREPTR(SVTransTexNode);
+        DECLARE_SHAREPTR(SVModelNode);
+        DECLARE_SHAREPTR(SVParticleNode);
+        DECLARE_SHAREPTR(SVSkyDomeNode);
+        DECLARE_SHAREPTR(SVSpineNode);
+        DECLARE_SHAREPTR(SVSpriteNode);
+        DECLARE_SHAREPTR(SVBackGroundNode);
+        DECLARE_SHAREPTR(SVFacePointNode);
+        DECLARE_SHAREPTR(SVFaceDetectPointNode);
+        DECLARE_SHAREPTR(SVFaceShapeNode);
+
+        DECLARE_SHAREPTR(SVShapeVariedNode);
+        DECLARE_SHAREPTR(SVFaceImageUsingMoveNode);
+
+        DECLARE_SHAREPTR(SVParticlesWorld);
+        DECLARE_SHAREPTR(SVParticlesNode);
+        
+    }//!namespace node
+    
+}//!namespace sv
+
+
+
+
+
+#endif //SV_NODEDECLARE_H

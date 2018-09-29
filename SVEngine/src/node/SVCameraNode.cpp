@@ -1,0 +1,212 @@
+//
+// SVCameraNode.cpp
+// SVEngine
+// Copyright 2017-2020
+// yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
+//
+
+#include "SVCameraNode.h"
+#include "../basesys/SVConfig.h"
+#include "../rendercore/SVFboObject.h"
+//
+SVCameraNode::SVCameraNode(SVInst *_app)
+: SVNode(_app) {
+    ntype = "SVCameraNode";
+    m_lockTarget = false;
+    m_fboPoolDirty = true;
+    m_fovy = 60.0f;
+    m_mat_proj.setIdentity();
+    m_mat_view.setIdentity();
+    m_mat_vp.setIdentity();
+    m_resLock = MakeSharedPtr<SVLock>();
+}
+
+SVCameraNode::~SVCameraNode() {
+    m_fbobjectPool.destroy();
+    m_resLock = nullptr;
+}
+
+void SVCameraNode::update(f32 _dt) {
+    _removeUnuseLinkFboObject();
+    if (m_dirty) {
+        //更新本地矩阵
+        m_dirty = false;
+        m_fboPoolDirty = true;
+        updateProjMat();
+        updateCameraMat();
+    }
+    if (m_fboPoolDirty) {
+        m_fboPoolDirty = false;
+        for (s32 i = 0; i < m_fbobjectPool.size(); i++) {
+            SVFboObjectPtr t_fbo = m_fbobjectPool[i];
+            t_fbo->m_mat_proj = m_mat_proj;
+            t_fbo->m_mat_view = m_mat_view;
+            t_fbo->m_mat_vp = m_mat_vp;
+        }
+    }
+
+}
+
+void SVCameraNode::active() {
+    m_active = true;
+}
+
+void SVCameraNode::unactive() {
+    m_active = false;
+}
+
+void SVCameraNode::resetDefaultCamera() {
+    resetCamera(720.0f, 1280.0f);
+}
+
+void SVCameraNode::resetCamera(f32 w, f32 h, f32 fovy) {
+    //设置默认值
+    m_width = w;
+    m_height = h;
+    m_p_zn = 100.0f;
+    m_p_zf = 5000.0f;
+    m_fovy = fovy;
+    //
+    m_postion.set(0.0f, 0.0f, 0.5f * m_height / tan(0.5f*m_fovy * DEGTORAD));
+    //
+    m_targetEx.set(0.0f, 0.0f, 0.0f);
+    //
+    m_direction = m_targetEx - m_postion;
+    m_direction.normalize();
+    //
+    m_upEx.set(0.0f,1.0f,0.0f);
+    m_upEx.normalize();
+    //
+    updateProjMat();
+    updateCameraMat();
+}
+
+void SVCameraNode::setProjectParam(f32 _znear, f32 _zfar, f32 _fovy, f32 _aspect) {
+    m_p_zn = _znear;
+    m_p_zf = _zfar;
+    updateProjMat();
+}
+
+void SVCameraNode::setZ(f32 _near, f32 _far) {
+    m_p_zn = _near;
+    m_p_zf = _far;
+    updateProjMat();
+}
+
+void SVCameraNode::setPosition(FVec3& _pos){
+    SVNode::setPosition(_pos);
+    updateCameraMat(false);
+}
+
+void SVCameraNode::setTarget(f32 _x, f32 _y, f32 _z) {
+    m_targetEx.set(_x,_y,_z);
+    updateCameraMat();
+}
+
+void SVCameraNode::setDirection(f32 _x, f32 _y, f32 _z) {
+    m_direction.set(_x, _y, _z);
+    m_direction.normalize();
+    updateCameraMat(false);
+}
+
+void SVCameraNode::setUp(f32 _x, f32 _y, f32 _z) {
+    m_upEx.set(_x, _y, _z);
+    m_upEx.normalize();
+    updateCameraMat();
+}
+
+void SVCameraNode::setLockTarget(bool _enable){
+    m_lockTarget = _enable;
+}
+
+FVec3& SVCameraNode::getDirection(){
+    return m_direction;
+}
+
+f32 *SVCameraNode::getProjectMat() {
+    return m_mat_proj.get();
+}
+
+f32 *SVCameraNode::getCameraMat() {
+    return m_mat_view.get();
+}
+
+f32 *SVCameraNode::getVPMat() {
+    return m_mat_vp.get();
+}
+
+FMat4& SVCameraNode::getProjectMatObj(){
+    return m_mat_proj;
+}
+
+FMat4& SVCameraNode::getViewMatObj(){
+    return m_mat_view;
+}
+
+FMat4& SVCameraNode::getVPMatObj(){
+    return m_mat_vp;
+}
+
+void SVCameraNode::updateProjMat() {
+    m_mat_proj = perspective(m_fovy,m_width/m_height, m_p_zn, m_p_zf);
+    //m_mat_proj.buildProjectionMatrixPerspectiveFovRH();
+    m_mat_vp =m_mat_proj*m_mat_view;
+}
+
+void SVCameraNode::updateCameraMat(bool _bUpdateDir) {
+    if(!m_lockTarget){
+        m_targetEx = m_postion + m_direction*100.0f;
+    }
+    m_mat_view = lookAt(FVec3(m_postion.x,m_postion.y,m_postion.z),
+                        FVec3(m_targetEx.x,m_targetEx.y,m_targetEx.z),
+                        FVec3(m_upEx.x,m_upEx.y,m_upEx.z) );
+    m_mat_vp =m_mat_proj*m_mat_view;
+}
+
+void SVCameraNode::updateViewProj() {
+    m_mat_vp =m_mat_proj*m_mat_view;
+}
+
+void SVCameraNode::addLinkFboObject(SVFboObjectPtr _fbo){
+    if (_fbo) {
+        m_fboPoolDirty = true;
+        m_fbobjectPool.append(_fbo);
+    }
+}
+
+void SVCameraNode::_removeUnuseLinkFboObject(){
+    m_resLock->lock();
+    //小心复值引用计数会加 1！！！！！！！！！！！！！！ 晓帆。。
+    for(s32 i=0;i<m_fbobjectPool.size();) {
+        if(m_fbobjectPool[i].use_count() == 2) {
+            m_fbobjectPool.remove(i);
+        }else{
+            i++;
+        }
+    }
+    m_fbobjectPool.reserveForce(m_fbobjectPool.size());
+    m_resLock->unlock();
+}
+
+bool SVCameraNode::removeLinkFboObject(SVFboObjectPtr _fbo){
+    if (_fbo) {
+        for (s32 i = 0; i < m_fbobjectPool.size(); i++) {
+            if (m_fbobjectPool[i] == _fbo) {
+                m_fbobjectPool.removeForce(i);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool SVCameraNode::hasLinkFboObject(SVFboObjectPtr _fbo){
+    if (_fbo) {
+        for (s32 i = 0; i < m_fbobjectPool.size(); i++) {
+            if (m_fbobjectPool[i] == _fbo) {
+                return true;
+            }
+        }
+    }
+    return false;
+}

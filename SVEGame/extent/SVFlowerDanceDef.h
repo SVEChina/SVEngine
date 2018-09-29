@@ -1,0 +1,42 @@
+//
+// SVTripleDownDef.cpp
+// SVEngine
+// Copyright 2017-2020
+// 付一洲,尹龙,林龙飞,徐子昱,李晓帆,李达明
+//
+#ifndef SV_FLOWERDANCE_DEFINE_H
+#define SV_FLOWERDANCE_DEFINE_H
+
+enum FLOWERDANCEGAMESTATE {
+    FD_GAME_BEGIN = 0,
+    FD_GAME_PREBAT,
+    FD_GAME_BAT,
+    FD_GAME_RESULT,
+    FD_GAME_PAUSE,
+    FD_GAME_END
+};
+
+enum FLOWERDANCEUNITTYPE{
+    FD_HONG = 0,
+    FD_HUANG,
+    FD_LV,
+    FD_TYPE_MAX
+};
+
+
+enum FLOWERDANCESTATE {
+    FD_BEGIN = 0,
+    FD_ALIVE,
+    FD_DEADING,
+    FD_DEADED,
+    FD_END
+};
+
+enum FLOWERDANCEPLAYERSTATE{
+    FD_STAYONFLOWER,
+    FD_FLYING_CIRCLE,
+    FD_FLYING_CIRCLE_ACEE,
+    FD_FLYING_OUT_FLOWER
+};
+
+#endif //SV_TRIPLEDOWN_DEFINE_H

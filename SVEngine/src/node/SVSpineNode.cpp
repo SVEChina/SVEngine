@@ -1,0 +1,367 @@
+//
+// SVSpineNode.cpp
+// SVEngine
+// Copyright 2017-2020
+// yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
+//
+
+#include <spine/Slot.h>
+#include <spine/RegionAttachment.h>
+#include <spine/MeshAttachment.h>
+#include "SVSpineNode.h"
+#include "SVCameraNode.h"
+#include "SVScene.h"
+#include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/SVRenderScene.h"
+#include "../rendercore/SVRenderMesh.h"
+#include "../rendercore/SVRenderObject.h"
+#include "../core/SVSpine.h"
+#include "../detect/SVDetectMgr.h"
+#include "../detect/SVDetectBase.h"
+#include "../event/SVEventMgr.h"
+#include "../event/SVEvent.h"
+#include "../event/SVOpEvent.h"
+#include "../mtl/SVMtlAni2D.h"
+#include "../mtl/SVTexMgr.h"
+#include "../mtl/SVTexture.h"
+#include "../basesys/SVConfig.h"
+#include "../rendercore/renderer/SVRendererBase.h"
+//
+SVSpineNode::SVSpineNode(SVInst *_app)
+:SVNode(_app) {
+    ntype = "SVSpineNode";
+    m_spine = nullptr;
+    m_pRObj = nullptr;
+    m_spine_callback = nullptr;
+    m_p_cb_obj = nullptr;
+    m_visible = false;
+    m_state = tANI_STATE_WAIT;
+    m_rsType = RST_ANIMATE;
+    m_cur_aniname = "animation";
+    m_canSelect = true;
+    m_box_scale = 1.0f;
+    m_stable_box_dirty = false;
+    m_update_stable_box = false;
+}
+
+SVSpineNode::~SVSpineNode() {
+    if(m_pRObj){
+        m_pRObj->clearMesh();
+        m_pRObj = nullptr;
+    }
+    clearSpine();
+    m_spine_callback = nullptr;
+    m_p_cb_obj = nullptr;
+}
+
+void SVSpineNode::setSpine(SVSpinePtr _spine) {
+    if (m_spine == _spine) {
+        return;
+    }
+    if (m_spine) {
+        clearSpine();
+        
+    }
+    m_spine = _spine;
+    if(!m_pRObj){
+        m_pRObj = MakeSharedPtr<SVMultMeshMtlRenderObject>();
+    }
+    m_pRObj->clearMesh();
+    //回调函数
+    m_spine->m_cb_startListener = [this](s32 itrackId) -> void {
+        _spine_start();
+    };
+    //
+    m_spine->m_cb_completeListener = [this](s32 itrackId, s32 iLoopCount) -> void {
+        _spine_complete();
+    };
+    //
+    m_spine->m_cb_endListener = [this](s32 itrackId) -> void {
+        _spine_stop();
+    };
+}
+
+SVSpinePtr SVSpineNode::getSpine() {
+    return m_spine;
+}
+
+void SVSpineNode::clearSpine() {
+    m_spine = nullptr;
+}
+
+void SVSpineNode::setstate(E_ANISTATE _state){
+    m_state = _state;
+}
+
+E_ANISTATE SVSpineNode::getstate(){
+    return m_state;
+}
+
+cptr8 SVSpineNode::getCurAniName(){
+    return m_cur_aniname.c_str();
+}
+
+void SVSpineNode::setCurAniName(cptr8 _name){
+    m_cur_aniname = _name;
+}
+
+void SVSpineNode::setloop(bool _loop){
+    m_loop = _loop;
+}
+
+bool SVSpineNode::getloop(){
+    return m_loop;
+}
+
+void SVSpineNode::setSpineCallback(sv_spine_callback _cb,void* _obj) {
+    m_spine_callback = _cb;
+    m_p_cb_obj = _obj;
+}
+
+//
+void SVSpineNode::update(f32 dt) {
+    if( m_pRObj && m_spine) {
+        //spine更新
+        m_spine->update(dt);
+        m_aabbBox = m_spine->m_aabbBox;
+        _fixBoundingBox();
+        SVNode::update(dt);
+        //更新模型
+        m_pRObj->clearMesh();
+        
+        for (s32 i = 0, n = m_spine->m_pSkeleton->slotsCount; i < n; i++) {
+            spSlot *t_slot = m_spine->m_pSkeleton->drawOrder[i];
+            if (!t_slot->attachment) {
+                continue;   //没有挂在项目
+            }
+            SpineMeshDataPtr pMeshData = m_spine->m_spineDataPool[i];
+            SVMtlAni2DPtr t_mtl = MakeSharedPtr<SVMtlAni2D>(mApp);
+            t_mtl->setModelMatrix(m_absolutMat.get());
+            t_mtl->setTexture(0,pMeshData->m_pTex);
+            t_mtl->setBlendEnable(true);
+            t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            t_mtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_NORMAL);
+            
+            switch (pMeshData->m_blendMode) {
+                case SP_BLEND_MODE_NORMAL:{
+                    if(m_spine->m_preMultAlpha){
+                        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+                    }else{
+                        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+                    }
+                    break;
+                }
+                case SP_BLEND_MODE_ADDITIVE:{
+                    t_mtl->setBlendState(m_spine->m_preMultAlpha ? GL_ONE : GL_SRC_ALPHA, GL_ONE);
+                    break;
+                }
+                case SP_BLEND_MODE_MULTIPLY:{
+                    t_mtl->setBlendState(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+                    break;
+                }
+                case SP_BLEND_MODE_SCREEN:{
+                    t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
+                    t_mtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_SCREEN);
+                    break;
+                }
+                default:{
+                    t_mtl->setBlendState(m_spine->m_preMultAlpha ? GL_ONE : GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                    break;
+                }
+            }
+            m_pRObj->addRenderObj(pMeshData->m_pRenderMesh,t_mtl);
+        }
+    }
+}
+
+void SVSpineNode::render() {
+    if (!m_visible)
+        return;
+    if (!mApp->m_pGlobalParam->m_curScene)
+        return;
+    SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+    if (m_pRObj) {
+        m_pRObj->pushCmd(t_rs, m_rsType, "SVSpineNode");
+    }
+    SVNode::render();
+}
+
+void SVSpineNode::play(cptr8 _actname) {
+        if( m_state != E_ANISTATE::tANI_STATE_PLAY ){
+        if (m_spine) {
+            m_cur_aniname = _actname;
+            m_spine->setToSetupPose();
+            m_spine->setAnimationForTrack(0, _actname, m_loop);
+            m_visible = true;
+            m_state = E_ANISTATE::tANI_STATE_PLAY;
+            _sendAniEvent("sv_spine_ani_pause");
+        }
+    }
+}
+
+void SVSpineNode::addAni(cptr8 _actname){
+    if (m_spine) {
+        m_spine->addAnimationForTrack(0, _actname, m_loop,0);
+    }
+    m_visible = true;
+}
+
+void SVSpineNode::pause() {
+    if( m_state != E_ANISTATE::tANI_STATE_PAUSE ){
+        m_state = E_ANISTATE::tANI_STATE_PAUSE;
+        _sendAniEvent("sv_spine_ani_pause");
+    }
+    
+}
+
+void SVSpineNode::stop() {
+    if( m_state != E_ANISTATE::tANI_STATE_STOP ){
+        m_state = E_ANISTATE::tANI_STATE_STOP;
+        m_visible = false;
+        m_state = E_ANISTATE::tANI_STATE_STOP;
+        if (m_spine) {
+            m_spine->clearTrack(0);
+        }
+    }
+}
+
+//开始回调
+void SVSpineNode::_spine_start() {
+    _sendAniEvent("sv_spine_ani_play");
+    //回调
+    if( m_spine_callback ){
+        (*m_spine_callback)(THIS_TO_SHAREPTR(SVSpineNode),m_p_cb_obj,1);
+    }
+}
+
+//完成回调
+void SVSpineNode::_spine_complete() {
+    _sendAniEvent("sv_spine_ain_complete");
+    //回调
+    if( m_spine_callback ){
+        (*m_spine_callback)(THIS_TO_SHAREPTR(SVSpineNode),m_p_cb_obj,2);
+    }
+}
+
+//停止回调
+void SVSpineNode::_spine_stop() {
+    if (m_state == E_ANISTATE::tANI_STATE_STOP) {
+        return;
+    }
+    m_visible = false;
+    m_state = E_ANISTATE::tANI_STATE_STOP;
+    _sendAniEvent("sv_spine_ani_stop");
+    //回调
+    if( m_spine_callback ){
+        (*m_spine_callback)(THIS_TO_SHAREPTR(SVSpineNode),m_p_cb_obj,3);
+    }
+}
+
+//发送事件
+void SVSpineNode::_sendAniEvent(cptr8 _eventName) {
+    SVAnimateEventPtr t_event = MakeSharedPtr<SVAnimateEvent>();
+    t_event->personID = m_personID;
+    t_event->m_AnimateName = m_spine->getSpineName();
+    t_event->eventName = _eventName;
+    mApp->getEventMgr()->pushEventToSecondPool(t_event);
+}
+
+void SVSpineNode::setPosition(f32 _x, f32 _y, f32 _z) {
+    m_postion.set(_x, _y, _z);
+    m_dirty = true;
+}
+
+void SVSpineNode::setScale(f32 _x, f32 _y, f32 _z) {
+    FVec3& pAdaptScale = mApp->getConfig()->getAdaptScale();
+    m_scale.set(_x*pAdaptScale.x, _y*pAdaptScale.x, _z);
+    m_dirty = true;
+}
+
+void SVSpineNode::setPosition(FVec3& _pos) {
+    m_postion = FVec3(_pos.x, _pos.y, _pos.z);
+    m_dirty = true;
+}
+
+void SVSpineNode::setScale(FVec3& _scale) {
+    FVec3& pAdaptScale = mApp->getConfig()->getAdaptScale();
+    m_scale = FVec3(_scale.x*pAdaptScale.x, _scale.y*pAdaptScale.x, _scale.z);
+    m_dirty = true;
+}
+
+bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename) {
+    spBone *m_bone = m_spine->findBone(bonename);//spSkeleton_findBone(,bonename);           //绑定的骨头
+    if (m_bone) {
+        px = m_bone->worldX;//+postion.x;
+        py = m_bone->worldY;//+postion.y;
+        //逐层找父节点，把本地坐标和世界坐标加上
+        SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpineNode);
+        while (t_curNode) {
+            px = t_curNode->getPosition().x + px;
+            py = t_curNode->getPosition().y + py;
+            
+            if (t_curNode->getParent()) {
+                t_curNode = t_curNode->getParent();
+            } else {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool SVSpineNode::getBoneScale(f32 &sx, f32 &sy, cptr8 bonename){
+    spBone *m_bone = m_spine->findBone(bonename);//spSkeleton_findBone(,bonename);           //绑定的骨头
+    if (m_bone) {
+        sx = m_bone->scaleX;
+        sy = m_bone->scaleY;
+        SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpineNode);
+        while (t_curNode) {
+            sx = sx * t_curNode->getScale().x;
+            sy = sy * t_curNode->getScale().y;
+            
+            if (t_curNode->getParent()) {
+                t_curNode = t_curNode->getParent();
+            } else {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+f32 SVSpineNode::getSlotAlpha(cptr8 bonename) {
+    spSlot *t_slot = m_spine->findSlot(bonename);
+    f32 fAlpha = 1.0f;
+    if (t_slot == NULL) {
+        return fAlpha;
+    }
+    fAlpha = t_slot->color.a;
+    return fAlpha;
+}
+
+void SVSpineNode::setStableBoundingBoxScale(f32 _scale){
+    if (_scale == 1.0f) {
+        m_stable_box_dirty = false;
+    }else{
+        m_stable_box_dirty = true;
+    }
+    m_box_scale = _scale;
+    m_update_stable_box = false;
+}
+
+void SVSpineNode::_fixBoundingBox(){
+    if (m_box_scale != 1.0f) {
+        if (m_stable_box_dirty) {
+            m_stable_box = SVBoundBox(m_aabbBox);
+            m_stable_box_dirty = false;
+            m_update_stable_box = true;
+        }
+        if (m_update_stable_box) {
+            m_aabbBox = SVBoundBox(m_stable_box);
+        }
+        FVec3 t_min = m_aabbBox.getMin();
+        FVec3 t_max = m_aabbBox.getMax();
+        SVBoundBox t_new_box = SVBoundBox(FVec3(t_min.x*m_box_scale, t_min.y*m_box_scale, 1.0), FVec3(t_max.x*m_box_scale, t_max.y*m_box_scale, 1.0));
+        m_aabbBox = t_new_box;
+    }
+}

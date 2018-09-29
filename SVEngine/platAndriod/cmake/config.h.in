@@ -1,0 +1,11 @@
+#ifndef __CMAKE_CONFIG_DEF_
+#define __CMAKE_CONFIG_DEF_
+
+#cmakedefine CONFIG_IS_LOAD_AUDIO
+ cmakedefine CONFIG_IS_LOAD_ASSIMP
+#cmakedefine CONFIG_IS_LOAD_FFMPEG
+#cmakedefine CONFIG_IS_LOAD_FREETYPE
+ cmakedefine CONFIG_IS_OPEN_GLESv3
+#cmakedefine CONFIG_IS_LOAD_GIF
+
+#endif
