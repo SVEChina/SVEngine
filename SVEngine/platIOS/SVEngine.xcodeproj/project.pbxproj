@@ -2535,7 +2535,7 @@
 /* Begin PBXFileReference section */
 		022224382105A2B0002CB19E /* SVIGameRedPacket.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVIGameRedPacket.mm; sourceTree = "<group>"; };
 		022224392105A2B1002CB19E /* SVIGameRedPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIGameRedPacket.h; sourceTree = "<group>"; };
-		023574B020E514F500F29FB8 /* libsve_static_mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libsve_static_mac.a; path = libsve_s_mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		023574B020E514F500F29FB8 /* libsve_s_mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsve_s_mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		02357A1920EB563400F29FB8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		023651192154E57B0011A9F1 /* SVIGameHeartFlutter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVIGameHeartFlutter.mm; sourceTree = "<group>"; };
 		0236511A2154E57B0011A9F1 /* SVIGameHeartFlutter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIGameHeartFlutter.h; sourceTree = "<group>"; };
@@ -2679,28 +2679,28 @@
 		5F7D5DE4215F407700803BCF /* SVPngLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPngLoader.h; sourceTree = "<group>"; };
 		5F7D5DE5215F407700803BCF /* SVParseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseData.h; sourceTree = "<group>"; };
 		5F7D5DE8215F407700803BCF /* pnginfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnginfo.h; sourceTree = "<group>"; };
-		5F7D5DE9215F407700803BCF /* pngtest.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngtest.c; sourceTree = "<group>"; };
-		5F7D5DEA215F407700803BCF /* pngrio.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngrio.c; sourceTree = "<group>"; };
-		5F7D5DEB215F407700803BCF /* pngerror.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngerror.c; sourceTree = "<group>"; };
-		5F7D5DEC215F407700803BCF /* pngwio.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngwio.c; sourceTree = "<group>"; };
+		5F7D5DE9215F407700803BCF /* pngtest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngtest.c; sourceTree = "<group>"; };
+		5F7D5DEA215F407700803BCF /* pngrio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngrio.c; sourceTree = "<group>"; };
+		5F7D5DEB215F407700803BCF /* pngerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngerror.c; sourceTree = "<group>"; };
+		5F7D5DEC215F407700803BCF /* pngwio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwio.c; sourceTree = "<group>"; };
 		5F7D5DED215F407700803BCF /* pngstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngstruct.h; sourceTree = "<group>"; };
-		5F7D5DEE215F407700803BCF /* pngtrans.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngtrans.c; sourceTree = "<group>"; };
+		5F7D5DEE215F407700803BCF /* pngtrans.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngtrans.c; sourceTree = "<group>"; };
 		5F7D5DEF215F407700803BCF /* pngpriv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngpriv.h; sourceTree = "<group>"; };
-		5F7D5DF0215F407700803BCF /* pngwrite.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngwrite.c; sourceTree = "<group>"; };
+		5F7D5DF0215F407700803BCF /* pngwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwrite.c; sourceTree = "<group>"; };
 		5F7D5DF1215F407700803BCF /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
-		5F7D5DF2215F407700803BCF /* pngwutil.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngwutil.c; sourceTree = "<group>"; };
-		5F7D5DF3215F407700803BCF /* pngwtran.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngwtran.c; sourceTree = "<group>"; };
+		5F7D5DF2215F407700803BCF /* pngwutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwutil.c; sourceTree = "<group>"; };
+		5F7D5DF3215F407700803BCF /* pngwtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwtran.c; sourceTree = "<group>"; };
 		5F7D5DF4215F407700803BCF /* pnglibconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnglibconf.h; sourceTree = "<group>"; };
 		5F7D5DF5215F407700803BCF /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngconf.h; sourceTree = "<group>"; };
-		5F7D5DF6215F407700803BCF /* pngpread.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngpread.c; sourceTree = "<group>"; };
+		5F7D5DF6215F407700803BCF /* pngpread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngpread.c; sourceTree = "<group>"; };
 		5F7D5DF7215F407700803BCF /* pngdebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngdebug.h; sourceTree = "<group>"; };
-		5F7D5DF8215F407700803BCF /* pngread.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngread.c; sourceTree = "<group>"; };
-		5F7D5DF9215F407700803BCF /* pngmem.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngmem.c; sourceTree = "<group>"; };
-		5F7D5DFA215F407700803BCF /* pngget.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngget.c; sourceTree = "<group>"; };
-		5F7D5DFB215F407700803BCF /* png.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = png.c; sourceTree = "<group>"; };
-		5F7D5DFC215F407700803BCF /* pngrtran.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngrtran.c; sourceTree = "<group>"; };
-		5F7D5DFD215F407700803BCF /* pngrutil.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngrutil.c; sourceTree = "<group>"; };
-		5F7D5DFE215F407700803BCF /* pngset.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = pngset.c; sourceTree = "<group>"; };
+		5F7D5DF8215F407700803BCF /* pngread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngread.c; sourceTree = "<group>"; };
+		5F7D5DF9215F407700803BCF /* pngmem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngmem.c; sourceTree = "<group>"; };
+		5F7D5DFA215F407700803BCF /* pngget.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngget.c; sourceTree = "<group>"; };
+		5F7D5DFB215F407700803BCF /* png.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = png.c; sourceTree = "<group>"; };
+		5F7D5DFC215F407700803BCF /* pngrtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngrtran.c; sourceTree = "<group>"; };
+		5F7D5DFD215F407700803BCF /* pngrutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngrutil.c; sourceTree = "<group>"; };
+		5F7D5DFE215F407700803BCF /* pngset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngset.c; sourceTree = "<group>"; };
 		5F7D5E02215F407700803BCF /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		5F7D5E03215F407700803BCF /* EventData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventData.h; sourceTree = "<group>"; };
 		5F7D5E04215F407700803BCF /* SlotData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotData.h; sourceTree = "<group>"; };
@@ -2741,47 +2741,47 @@
 		5F7D5E27215F407700803BCF /* AnimationState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationState.h; sourceTree = "<group>"; };
 		5F7D5E28215F407700803BCF /* MeshAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshAttachment.h; sourceTree = "<group>"; };
 		5F7D5E29215F407700803BCF /* AtlasAttachmentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtlasAttachmentLoader.h; sourceTree = "<group>"; };
-		5F7D5E2C215F407700803BCF /* AttachmentLoader.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AttachmentLoader.c; sourceTree = "<group>"; };
-		5F7D5E2D215F407700803BCF /* Json.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Json.c; sourceTree = "<group>"; };
-		5F7D5E2E215F407700803BCF /* Skeleton.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Skeleton.c; sourceTree = "<group>"; };
-		5F7D5E2F215F407700803BCF /* extension.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = extension.c; sourceTree = "<group>"; };
-		5F7D5E30215F407700803BCF /* PathConstraintData.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PathConstraintData.c; sourceTree = "<group>"; };
-		5F7D5E31215F407700803BCF /* Array.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Array.c; sourceTree = "<group>"; };
-		5F7D5E32215F407700803BCF /* TransformConstraintData.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = TransformConstraintData.c; sourceTree = "<group>"; };
-		5F7D5E33215F407700803BCF /* SkeletonBinary.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SkeletonBinary.c; sourceTree = "<group>"; };
-		5F7D5E34215F407700803BCF /* VertexEffect.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = VertexEffect.c; sourceTree = "<group>"; };
-		5F7D5E35215F407700803BCF /* Skin.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Skin.c; sourceTree = "<group>"; };
-		5F7D5E36215F407700803BCF /* SkeletonData.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SkeletonData.c; sourceTree = "<group>"; };
-		5F7D5E37215F407700803BCF /* BoundingBoxAttachment.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = BoundingBoxAttachment.c; sourceTree = "<group>"; };
-		5F7D5E38215F407700803BCF /* IkConstraint.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = IkConstraint.c; sourceTree = "<group>"; };
-		5F7D5E39215F407700803BCF /* PathConstraint.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PathConstraint.c; sourceTree = "<group>"; };
-		5F7D5E3A215F407700803BCF /* MeshAttachment.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MeshAttachment.c; sourceTree = "<group>"; };
-		5F7D5E3B215F407700803BCF /* AnimationState.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AnimationState.c; sourceTree = "<group>"; };
-		5F7D5E3C215F407700803BCF /* AtlasAttachmentLoader.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AtlasAttachmentLoader.c; sourceTree = "<group>"; };
-		5F7D5E3D215F407700803BCF /* BoneData.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = BoneData.c; sourceTree = "<group>"; };
-		5F7D5E3E215F407700803BCF /* SkeletonBounds.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SkeletonBounds.c; sourceTree = "<group>"; };
-		5F7D5E3F215F407700803BCF /* Slot.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Slot.c; sourceTree = "<group>"; };
-		5F7D5E40215F407700803BCF /* EventData.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = EventData.c; sourceTree = "<group>"; };
+		5F7D5E2C215F407700803BCF /* AttachmentLoader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AttachmentLoader.c; sourceTree = "<group>"; };
+		5F7D5E2D215F407700803BCF /* Json.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Json.c; sourceTree = "<group>"; };
+		5F7D5E2E215F407700803BCF /* Skeleton.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Skeleton.c; sourceTree = "<group>"; };
+		5F7D5E2F215F407700803BCF /* extension.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = extension.c; sourceTree = "<group>"; };
+		5F7D5E30215F407700803BCF /* PathConstraintData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PathConstraintData.c; sourceTree = "<group>"; };
+		5F7D5E31215F407700803BCF /* Array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Array.c; sourceTree = "<group>"; };
+		5F7D5E32215F407700803BCF /* TransformConstraintData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TransformConstraintData.c; sourceTree = "<group>"; };
+		5F7D5E33215F407700803BCF /* SkeletonBinary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SkeletonBinary.c; sourceTree = "<group>"; };
+		5F7D5E34215F407700803BCF /* VertexEffect.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VertexEffect.c; sourceTree = "<group>"; };
+		5F7D5E35215F407700803BCF /* Skin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Skin.c; sourceTree = "<group>"; };
+		5F7D5E36215F407700803BCF /* SkeletonData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SkeletonData.c; sourceTree = "<group>"; };
+		5F7D5E37215F407700803BCF /* BoundingBoxAttachment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BoundingBoxAttachment.c; sourceTree = "<group>"; };
+		5F7D5E38215F407700803BCF /* IkConstraint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IkConstraint.c; sourceTree = "<group>"; };
+		5F7D5E39215F407700803BCF /* PathConstraint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PathConstraint.c; sourceTree = "<group>"; };
+		5F7D5E3A215F407700803BCF /* MeshAttachment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MeshAttachment.c; sourceTree = "<group>"; };
+		5F7D5E3B215F407700803BCF /* AnimationState.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AnimationState.c; sourceTree = "<group>"; };
+		5F7D5E3C215F407700803BCF /* AtlasAttachmentLoader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AtlasAttachmentLoader.c; sourceTree = "<group>"; };
+		5F7D5E3D215F407700803BCF /* BoneData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BoneData.c; sourceTree = "<group>"; };
+		5F7D5E3E215F407700803BCF /* SkeletonBounds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SkeletonBounds.c; sourceTree = "<group>"; };
+		5F7D5E3F215F407700803BCF /* Slot.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Slot.c; sourceTree = "<group>"; };
+		5F7D5E40215F407700803BCF /* EventData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EventData.c; sourceTree = "<group>"; };
 		5F7D5E41215F407700803BCF /* kvec.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc.preprocessed; fileEncoding = 4; path = kvec.h; sourceTree = "<group>"; };
-		5F7D5E42215F407700803BCF /* SlotData.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SlotData.c; sourceTree = "<group>"; };
-		5F7D5E43215F407700803BCF /* Animation.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Animation.c; sourceTree = "<group>"; };
+		5F7D5E42215F407700803BCF /* SlotData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SlotData.c; sourceTree = "<group>"; };
+		5F7D5E43215F407700803BCF /* Animation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Animation.c; sourceTree = "<group>"; };
 		5F7D5E44215F407700803BCF /* Json.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc.preprocessed; fileEncoding = 4; path = Json.h; sourceTree = "<group>"; };
-		5F7D5E45215F407700803BCF /* Event.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Event.c; sourceTree = "<group>"; };
-		5F7D5E46215F407700803BCF /* PointAttachment.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PointAttachment.c; sourceTree = "<group>"; };
-		5F7D5E47215F407700803BCF /* Bone.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Bone.c; sourceTree = "<group>"; };
-		5F7D5E48215F407700803BCF /* Atlas.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Atlas.c; sourceTree = "<group>"; };
-		5F7D5E49215F407700803BCF /* PathAttachment.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PathAttachment.c; sourceTree = "<group>"; };
-		5F7D5E4A215F407700803BCF /* SkeletonClipping.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SkeletonClipping.c; sourceTree = "<group>"; };
-		5F7D5E4B215F407700803BCF /* ClippingAttachment.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ClippingAttachment.c; sourceTree = "<group>"; };
-		5F7D5E4C215F407700803BCF /* VertexAttachment.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = VertexAttachment.c; sourceTree = "<group>"; };
-		5F7D5E4D215F407700803BCF /* SkeletonJson.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SkeletonJson.c; sourceTree = "<group>"; };
-		5F7D5E4E215F407700803BCF /* AnimationStateData.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AnimationStateData.c; sourceTree = "<group>"; };
-		5F7D5E4F215F407700803BCF /* IkConstraintData.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = IkConstraintData.c; sourceTree = "<group>"; };
-		5F7D5E50215F407700803BCF /* TransformConstraint.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = TransformConstraint.c; sourceTree = "<group>"; };
-		5F7D5E51215F407700803BCF /* Color.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Color.c; sourceTree = "<group>"; };
-		5F7D5E52215F407700803BCF /* Triangulator.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Triangulator.c; sourceTree = "<group>"; };
-		5F7D5E53215F407700803BCF /* Attachment.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Attachment.c; sourceTree = "<group>"; };
-		5F7D5E54215F407700803BCF /* RegionAttachment.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = RegionAttachment.c; sourceTree = "<group>"; };
+		5F7D5E45215F407700803BCF /* Event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Event.c; sourceTree = "<group>"; };
+		5F7D5E46215F407700803BCF /* PointAttachment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PointAttachment.c; sourceTree = "<group>"; };
+		5F7D5E47215F407700803BCF /* Bone.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Bone.c; sourceTree = "<group>"; };
+		5F7D5E48215F407700803BCF /* Atlas.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Atlas.c; sourceTree = "<group>"; };
+		5F7D5E49215F407700803BCF /* PathAttachment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PathAttachment.c; sourceTree = "<group>"; };
+		5F7D5E4A215F407700803BCF /* SkeletonClipping.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SkeletonClipping.c; sourceTree = "<group>"; };
+		5F7D5E4B215F407700803BCF /* ClippingAttachment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ClippingAttachment.c; sourceTree = "<group>"; };
+		5F7D5E4C215F407700803BCF /* VertexAttachment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VertexAttachment.c; sourceTree = "<group>"; };
+		5F7D5E4D215F407700803BCF /* SkeletonJson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SkeletonJson.c; sourceTree = "<group>"; };
+		5F7D5E4E215F407700803BCF /* AnimationStateData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AnimationStateData.c; sourceTree = "<group>"; };
+		5F7D5E4F215F407700803BCF /* IkConstraintData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IkConstraintData.c; sourceTree = "<group>"; };
+		5F7D5E50215F407700803BCF /* TransformConstraint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TransformConstraint.c; sourceTree = "<group>"; };
+		5F7D5E51215F407700803BCF /* Color.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Color.c; sourceTree = "<group>"; };
+		5F7D5E52215F407700803BCF /* Triangulator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Triangulator.c; sourceTree = "<group>"; };
+		5F7D5E53215F407700803BCF /* Attachment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Attachment.c; sourceTree = "<group>"; };
+		5F7D5E54215F407700803BCF /* RegionAttachment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = RegionAttachment.c; sourceTree = "<group>"; };
 		5F7D5E56215F407700803BCF /* fwd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fwd.h; sourceTree = "<group>"; };
 		5F7D5E57215F407700803BCF /* memorystream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memorystream.h; sourceTree = "<group>"; };
 		5F7D5E58215F407700803BCF /* reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = reader.h; sourceTree = "<group>"; };
@@ -4167,7 +4167,7 @@
 				822A3F971E70069800CF3953 /* SVEngine.framework */,
 				82F7CB421FCD68A4009A750D /* libSVEngine_Static.a */,
 				82B7719220245AEB0097A0DD /* SVEngine_Mac.framework */,
-				023574B020E514F500F29FB8 /* libsve_static_mac.a */,
+				023574B020E514F500F29FB8 /* libsve_s_mac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5630,7 +5630,7 @@
 			);
 			name = sve_s_mac;
 			productName = SVEngine_Static_Mac;
-			productReference = 023574B020E514F500F29FB8 /* libsve_static_mac.a */;
+			productReference = 023574B020E514F500F29FB8 /* libsve_s_mac.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		822A3F961E70069800CF3953 /* SVEngine */ = {
@@ -6943,11 +6943,10 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/src/third/spine/include\"",
-					"\"$(SRCROOT)/src/third\"",
-					"\"$(SRCROOT)/SVEngine/library\"",
-					"\"$(SRCROOT)/src/third/libpng\"",
-					"\"$(SRCROOT)/SVEngine/library/3d\"",
+					"\"$(SRCROOT)/../src/third\"",
+					"\"$(SRCROOT)/../src/third/libpng\"",
+					"\"$(SRCROOT)/../src/third/spine/include\"",
+					"\"$(SRCROOT)/library\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = NO;
@@ -6977,11 +6976,10 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/src/third/spine/include\"",
-					"\"$(SRCROOT)/src/third\"",
-					"\"$(SRCROOT)/SVEngine/library\"",
-					"\"$(SRCROOT)/src/third/libpng\"",
-					"\"$(SRCROOT)/SVEngine/library/3d\"",
+					"\"$(SRCROOT)/../src/third\"",
+					"\"$(SRCROOT)/../src/third/libpng\"",
+					"\"$(SRCROOT)/../src/third/spine/include\"",
+					"\"$(SRCROOT)/library\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = NO;
@@ -7233,12 +7231,10 @@
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/src/third/spine/include\"",
-					"\"$(SRCROOT)/src/third\"",
-					"\"$(SRCROOT)/src/third/ffmpeg\"",
-					"\"$(SRCROOT)/SVEngine/library\"",
-					"\"$(SRCROOT)/src/third/libpng\"",
-					"\"$(SRCROOT)/SVEngine/library/3d\"",
+					"\"$(SRCROOT)/../src/third/spine/include\"",
+					"\"$(SRCROOT)/../src/third\"",
+					"\"$(SRCROOT)/../src/third/ffmpeg\"",
+					"\"$(SRCROOT)/library\"",
 				);
 				INFOPLIST_FILE = SVEngine/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -7283,12 +7279,10 @@
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/src/third/spine/include\"",
-					"\"$(SRCROOT)/src/third\"",
-					"\"$(SRCROOT)/src/third/ffmpeg\"",
-					"\"$(SRCROOT)/SVEngine/library\"",
-					"\"$(SRCROOT)/src/third/libpng\"",
-					"\"$(SRCROOT)/SVEngine/library/3d\"",
+					"\"$(SRCROOT)/../src/third/spine/include\"",
+					"\"$(SRCROOT)/../src/third\"",
+					"\"$(SRCROOT)/../src/third/ffmpeg\"",
+					"\"$(SRCROOT)/library\"",
 				);
 				INFOPLIST_FILE = SVEngine/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -7325,12 +7319,10 @@
 				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/src/third/spine/include\"",
-					"\"$(SRCROOT)/src/third\"",
-					"\"$(SRCROOT)/src/third/ffmpeg\"",
-					"\"$(SRCROOT)/SVEngine/library\"",
-					"\"$(SRCROOT)/src/third/libpng\"",
-					"\"$(SRCROOT)/SVEngine/library/3d\"",
+					"\"$(SRCROOT)/../src/third\"",
+					"\"$(SRCROOT)/../src/third/spine/include\"",
+					"\"$(SRCROOT)/../src/third/libpng\"",
+					"\"$(SRCROOT)/library\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -7366,12 +7358,10 @@
 				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/src/third/spine/include\"",
-					"\"$(SRCROOT)/src/third\"",
-					"\"$(SRCROOT)/src/third/ffmpeg\"",
-					"\"$(SRCROOT)/SVEngine/library\"",
-					"\"$(SRCROOT)/src/third/libpng\"",
-					"\"$(SRCROOT)/SVEngine/library/3d\"",
+					"\"$(SRCROOT)/../src/third\"",
+					"\"$(SRCROOT)/../src/third/spine/include\"",
+					"\"$(SRCROOT)/../src/third/libpng\"",
+					"\"$(SRCROOT)/library\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = (
