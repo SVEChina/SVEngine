@@ -1,0 +1,133 @@
+{
+  "loadType":1,
+  "cfg":[
+         {
+         "isSlider" : "0",
+         "image":"特效",
+         "name":"美颜",
+         "id":"-5",
+         "value":[
+                  "weinisi2.bundle",
+                  "qiqiu2.bundle",
+                  "qiuhun_yingke.bundle",
+                  "chou.bundle",
+                  "dan.bundle",
+                  "jing.bundle",
+                  "mo.bundle",
+                  "sheng.bundle",
+                  "manhualian.bundle",
+                  "biaoqing.bundle"
+                  ]
+         },
+         
+         {
+         "isSlider" : "0",
+         "image":"default_circle_ic",
+         "name":"滤镜",
+         "id":"-5",
+         "value":[
+                   "beach01.bundle",
+                   "clean02.bundle",
+                   "coral.bundle",
+                   "fresh01.bundle",
+                   "grass.bundle",
+                   "guass01.bundle",
+                   "inkwell01.bundle",
+                   "inkwell02.bundle",
+                   "inkwell03.bundle",
+                   "lolita.bundle",
+                   "pink.bundle",
+                   "sunset.bundle",
+                   "sweety.bundle",
+                   "urban.bundle",
+                   "valencia.bundle",
+                   "walden.bundle"
+                ]
+         },
+         
+
+         {
+         "isSlider" : "0",
+         "image":"瘦脸",
+         "name":"瘦脸",
+         "id":"-2",
+         "value":[
+                  "lianxing4.bundle",
+                  "youyong_0.5.bundle"
+                  ]
+         },
+
+        {
+          "name":"大眼",
+          "image":"大眼",
+          "isSlider" : "1",
+          "id":"-1",
+          "value":[
+                   "faceShapeBeautify.bundle"
+                   ]
+        },
+       {
+      "isSlider" : "0",
+      "name":"特效",
+      "image":"特效",
+      "id":"-3",
+      "value":[
+               "mz4.bundle",
+               "mz3.bundle",
+               "meizhuang2.bundle",
+               "mz_bql.bundle",
+               "mz_heitiane.bundle",
+               "mz_gudianns.bundle",
+               "word4.bundle",
+               "handsuccess_yingke.bundle",
+               "qiuhun_yingke.bundle",
+               "bianhuanyanjing.bundle",
+               "bixin.bundle",
+               "chengshishenshi.bundle",
+               "chensi.bundle",
+               "dapao.bundle",
+               "dese.bundle",
+               "maren.bundle",
+               "mojinghaitan.bundle",
+               "tousha.bundle",
+               "tuzhu.bundle",
+               "weijingren.bundle",
+               "xiaomei.bundle",
+               "yindian.bundle",
+               "yuhangyuan.bundle",
+               "yuzhou.bundle",
+               "zhaoji.bundle",
+               "motuo.bundle",
+               "effect1.bundle",
+               "effect2.bundle",
+               "effect3.bundle",
+               "effect4.bundle",
+               "effect5.bundle"
+      ]
+    },
+    {
+      "isSlider" : "0",
+      "image":"default_circle_ic",
+      "name":"3D",
+         
+      "id":"-4",
+      "value":[
+        "chou.bundle",
+        "dan.bundle",
+        "mo.bundle",
+        "jing.bundle",
+        "sheng.bundle",
+        "HaiDao_nan.bundle",
+        "huakui.bundle",
+        "HaiDaoMao_Nv.bundle",
+        "WeiJingRen.bundle",
+        "MoNv.bundle",
+        "TuZi.bundle",
+        "XiaoYang.bundle",
+        "Space.bundle"
+      ]
+    }
+         
+
+  ]
+}

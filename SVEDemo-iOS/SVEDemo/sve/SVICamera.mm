@@ -6,14 +6,14 @@
 //
 
 #import "SVICamera.h"
-#import "SVInst.h"
-#import "SVGlobalMgr.h"
-#import "SVLogicMgr.h"
-#import "SVStreamIn.h"
-#import "SVStreamOut.h"
-#import "SVOpOutCamera.h"
-#import "SVThreadMain.h"
-#import "SVThreadPool.h"
+#import "app/SVInst.h"
+#import "app/SVGlobalMgr.h"
+#import "basesys/SVBasicSys.h"
+#import "basesys/SVStreamIn.h"
+#import "basesys/SVStreamOut.h"
+#import "operate/SVOpOutCamera.h"
+#import "work/SVThreadMain.h"
+#import "work/SVThreadPool.h"
 
 
 #if TARGET_OS_IPHONE
@@ -79,16 +79,18 @@
                     memcpy(m_frame_cpy + i * width * 4 , bufferPtr + a, width*4);
                     a += bytesPerRow;
                 }
-                SVStreamInPtr t_streamIn = t_app->getLogicMgr()->getStreamIn();
+                SVStreamInPtr t_streamIn = t_app->getBasicSys()->getStreamIn();
                 if(t_streamIn){
                     t_streamIn->pushStreamData([_name UTF8String],(u8*)m_frame_cpy, (s32)width, (s32)height,pixelFormat, 0);
                 }
             }else{
-                SVStreamInPtr t_streamIn = t_app->getLogicMgr()->getStreamIn();
+                SVStreamInPtr t_streamIn = t_app->getBasicSys()->getStreamIn();
                 if(t_streamIn){
                     t_streamIn->pushStreamData([_name UTF8String],(u8*)bufferPtr, (s32)width, (s32)height,pixelFormat, 0);
                 }
             }
+            
+            
             CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
         }
     }

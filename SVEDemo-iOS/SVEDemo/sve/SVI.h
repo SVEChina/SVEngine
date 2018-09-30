@@ -23,7 +23,6 @@
 @interface SVI : SVInterfaceBase
 //
 @property(nonatomic, strong) SVICamera *pCamera;
-@property(nonatomic, strong) SVIDetect *pDetect;
 @property(nonatomic, strong) SVIEffect *pEffect;
 
 //设置资源路径

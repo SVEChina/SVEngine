@@ -7,7 +7,7 @@
 
 #import "SVInterfaceBase.h"
 
-#include "SVInst.h"
+#include "app/SVInst.h"
 
 #if TARGET_OS_IPHONE
 
