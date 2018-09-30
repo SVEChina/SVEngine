@@ -7,18 +7,17 @@
 
 #import "SVI.h"
 #import "SVICamera.h"
-#import "SVIDetect.h"
 #import "SVIEffect.h"
-#import "SVThreadPool.h"
-#import "SVThreadMain.h"
-#import "SVThreadHelp.h"
-#import "SVFileMgr.h"
-#import "SVContextIOS.h"
-#import "SVOpRender.h"
-#import "SVOpCreate.h"
-#import "SVBasicSys.h"
-#import "SVOpEvent.h"
-#import "SVEventMgr.h"
+#import "work/SVThreadPool.h"
+#import "work/SVThreadMain.h"
+#import "work/SVThreadHelp.h"
+#import "file/SVFileMgr.h"
+#import "rendercore/renderer/SVContextIOS.h"
+#import "operate/SVOpRender.h"
+#import "operate/SVOpCreate.h"
+#import "basesys/SVBasicSys.h"
+#import "event/SVOpEvent.h"
+#import "event/SVEventMgr.h"
 #if TARGET_OS_IPHONE
 #import <UIKit/UIApplication.h>
 @interface SVI(){
@@ -43,9 +42,6 @@ void callback_op(const char* info){
         self.pCamera = [[SVICamera alloc] init];
         [self.pCamera setSVE: m_pApp];
         
-        self.pDetect = [[SVIDetect alloc] init];
-        [self.pDetect setSVE: m_pApp];
-        
         self.pEffect = [[SVIEffect alloc] init];
         [self.pEffect setSVE: m_pApp];
 
@@ -69,10 +65,8 @@ void callback_op(const char* info){
     }
     //
     [self.pCamera setSVE: nullptr];
-    [self.pDetect setSVE: nullptr];
     [self.pEffect setSVE: nullptr];
     self.pCamera = nil;
-    self.pDetect = nil;
     self.pEffect = nil;
 }
 
