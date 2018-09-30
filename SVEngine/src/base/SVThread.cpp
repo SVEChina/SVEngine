@@ -44,7 +44,7 @@ void SVThread::stopThread(){
         m_run = false;
         m_signrun->notice();
         m_signrun->unlock();
-        //析构线程
+        //析构线程(这块怎么保证同步销毁？)
         if (m_pThread->joinable()) {
             m_pThread->join();
             delete m_pThread;
