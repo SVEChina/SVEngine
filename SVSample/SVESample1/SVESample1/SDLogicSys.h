@@ -7,13 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SVI.h"
-#import "SDState.h"
 #import "ViewController.h"
 
 @interface SDLogicSys : NSObject
 
-@property (strong, nonatomic) SVI *pSVI;
 @property (strong, nonatomic) ViewController *m_pVC;
 
 +(instancetype) getInst;
@@ -23,5 +20,7 @@
 - (void)destroySys;
 
 -(EAGLContext*)getGLContext;
+
+-(void*)getSVE;
 
 @end

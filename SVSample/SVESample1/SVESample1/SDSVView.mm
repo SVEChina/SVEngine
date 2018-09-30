@@ -8,8 +8,7 @@
 
 #import "SDSVView.h"
 #import "SDLogicSys.h"
-#import "SDState.h"
-#import "SVI.h"
+
 @interface SDSVView(){
     CAEAGLLayer* m_layer;
     unsigned int m_fboID;
@@ -94,14 +93,14 @@
 
 -(void)active {
     //创建渲染目标
-    if( [SDLogicSys getInst].pSVI ) {
-        [[SDLogicSys getInst].pSVI createRenderTarget:m_fboID Color:m_colorID Width:m_layer_w Height:m_layer_h Mirror:true];
+    if( [[SDLogicSys getInst] getSVE] ) {
+//        [[SDLogicSys getInst].pSVI createRenderTarget:m_fboID Color:m_colorID Width:m_layer_w Height:m_layer_h Mirror:true];
     }
 }
 
 -(void)unactive {
-    if( [SDLogicSys getInst].pSVI ) {
-        [[SDLogicSys getInst].pSVI destroyRenderTarget];
+    if( [[SDLogicSys getInst] getSVE]) {
+        //[[SDLogicSys getInst].pSVI destroyRenderTarget];
     }
 }
 

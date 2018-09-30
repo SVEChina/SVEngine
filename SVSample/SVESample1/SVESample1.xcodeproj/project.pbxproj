@@ -7,32 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5F8271AF215F72A70099D732 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271AE215F72A70099D732 /* AppDelegate.m */; };
-		5F8271B2215F72A70099D732 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271B1215F72A70099D732 /* ViewController.m */; };
+		5F8271AF215F72A70099D732 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271AE215F72A70099D732 /* AppDelegate.mm */; };
+		5F8271B2215F72A70099D732 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271B1215F72A70099D732 /* ViewController.mm */; };
 		5F8271B5215F72A70099D732 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F8271B3215F72A70099D732 /* Main.storyboard */; };
 		5F8271B7215F72A80099D732 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F8271B6215F72A80099D732 /* Assets.xcassets */; };
 		5F8271BA215F72A80099D732 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F8271B8215F72A80099D732 /* LaunchScreen.storyboard */; };
 		5F8271BD215F72A80099D732 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271BC215F72A80099D732 /* main.m */; };
-		5F8271F1215F788B0099D732 /* SDSVView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271E7215F788B0099D732 /* SDSVView.m */; };
-		5F8271F2215F788B0099D732 /* SDLogicSys.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271E8215F788B0099D732 /* SDLogicSys.m */; };
-		5F827207215F7D5A0099D732 /* SVEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8271FF215F7D150099D732 /* SVEngine.framework */; };
+		5F8271F1215F788B0099D732 /* SDSVView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271E7215F788B0099D732 /* SDSVView.mm */; };
+		5F8271F2215F788B0099D732 /* SDLogicSys.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271E8215F788B0099D732 /* SDLogicSys.mm */; };
+		5F8272132160FD040099D732 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8272122160FD030099D732 /* CoreMedia.framework */; };
+		5F8272142160FD1B0099D732 /* libSVEngine_Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F827201215F7D150099D732 /* libSVEngine_Static.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5F8271C3215F72A80099D732 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5F8271A2215F72A70099D732 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5F8271A9215F72A70099D732;
-			remoteInfo = SVESample1;
-		};
-		5F8271CE215F72A80099D732 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5F8271A2215F72A70099D732 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5F8271A9215F72A70099D732;
-			remoteInfo = SVESample1;
-		};
 		5F8271FE215F7D150099D732 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5F8271F6215F7D150099D732 /* SVEngine.xcodeproj */;
@@ -66,21 +53,20 @@
 /* Begin PBXFileReference section */
 		5F8271AA215F72A70099D732 /* SVESample1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SVESample1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F8271AD215F72A70099D732 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		5F8271AE215F72A70099D732 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		5F8271AE215F72A70099D732 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		5F8271B0215F72A70099D732 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		5F8271B1215F72A70099D732 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		5F8271B1215F72A70099D732 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		5F8271B4215F72A70099D732 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5F8271B6215F72A80099D732 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5F8271B9215F72A80099D732 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5F8271BB215F72A80099D732 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F8271BC215F72A80099D732 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5F8271C2215F72A80099D732 /* SVESample1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SVESample1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5F8271CD215F72A80099D732 /* SVESample1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SVESample1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F8271DF215F788A0099D732 /* SDLogicSys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLogicSys.h; sourceTree = "<group>"; };
 		5F8271E1215F788A0099D732 /* SDSVView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDSVView.h; sourceTree = "<group>"; };
-		5F8271E7215F788B0099D732 /* SDSVView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDSVView.m; sourceTree = "<group>"; };
-		5F8271E8215F788B0099D732 /* SDLogicSys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLogicSys.m; sourceTree = "<group>"; };
+		5F8271E7215F788B0099D732 /* SDSVView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SDSVView.mm; sourceTree = "<group>"; };
+		5F8271E8215F788B0099D732 /* SDLogicSys.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SDLogicSys.mm; sourceTree = "<group>"; };
 		5F8271F6215F7D150099D732 /* SVEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SVEngine.xcodeproj; path = ../../../SVEngine/platIOS/SVEngine.xcodeproj; sourceTree = "<group>"; };
+		5F8272122160FD030099D732 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,21 +74,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F827207215F7D5A0099D732 /* SVEngine.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F8271BF215F72A80099D732 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F8271CA215F72A80099D732 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				5F8272142160FD1B0099D732 /* libSVEngine_Static.a in Frameworks */,
+				5F8272132160FD040099D732 /* CoreMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,8 +96,6 @@
 			isa = PBXGroup;
 			children = (
 				5F8271AA215F72A70099D732 /* SVESample1.app */,
-				5F8271C2215F72A80099D732 /* SVESample1Tests.xctest */,
-				5F8271CD215F72A80099D732 /* SVESample1UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,13 +104,13 @@
 			isa = PBXGroup;
 			children = (
 				5F8271DF215F788A0099D732 /* SDLogicSys.h */,
-				5F8271E8215F788B0099D732 /* SDLogicSys.m */,
+				5F8271E8215F788B0099D732 /* SDLogicSys.mm */,
 				5F8271E1215F788A0099D732 /* SDSVView.h */,
-				5F8271E7215F788B0099D732 /* SDSVView.m */,
+				5F8271E7215F788B0099D732 /* SDSVView.mm */,
 				5F8271AD215F72A70099D732 /* AppDelegate.h */,
-				5F8271AE215F72A70099D732 /* AppDelegate.m */,
+				5F8271AE215F72A70099D732 /* AppDelegate.mm */,
 				5F8271B0215F72A70099D732 /* ViewController.h */,
-				5F8271B1215F72A70099D732 /* ViewController.m */,
+				5F8271B1215F72A70099D732 /* ViewController.mm */,
 				5F8271B3215F72A70099D732 /* Main.storyboard */,
 				5F8271B6215F72A80099D732 /* Assets.xcassets */,
 				5F8271B8215F72A80099D732 /* LaunchScreen.storyboard */,
@@ -171,6 +142,7 @@
 		5F827206215F7D5A0099D732 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F8272122160FD030099D732 /* CoreMedia.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -195,42 +167,6 @@
 			productReference = 5F8271AA215F72A70099D732 /* SVESample1.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5F8271C1215F72A80099D732 /* SVESample1Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5F8271D9215F72A80099D732 /* Build configuration list for PBXNativeTarget "SVESample1Tests" */;
-			buildPhases = (
-				5F8271BE215F72A80099D732 /* Sources */,
-				5F8271BF215F72A80099D732 /* Frameworks */,
-				5F8271C0215F72A80099D732 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5F8271C4215F72A80099D732 /* PBXTargetDependency */,
-			);
-			name = SVESample1Tests;
-			productName = SVESample1Tests;
-			productReference = 5F8271C2215F72A80099D732 /* SVESample1Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		5F8271CC215F72A80099D732 /* SVESample1UITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5F8271DC215F72A80099D732 /* Build configuration list for PBXNativeTarget "SVESample1UITests" */;
-			buildPhases = (
-				5F8271C9215F72A80099D732 /* Sources */,
-				5F8271CA215F72A80099D732 /* Frameworks */,
-				5F8271CB215F72A80099D732 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5F8271CF215F72A80099D732 /* PBXTargetDependency */,
-			);
-			name = SVESample1UITests;
-			productName = SVESample1UITests;
-			productReference = 5F8271CD215F72A80099D732 /* SVESample1UITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -242,14 +178,6 @@
 				TargetAttributes = {
 					5F8271A9215F72A70099D732 = {
 						CreatedOnToolsVersion = 10.0;
-					};
-					5F8271C1215F72A80099D732 = {
-						CreatedOnToolsVersion = 10.0;
-						TestTargetID = 5F8271A9215F72A70099D732;
-					};
-					5F8271CC215F72A80099D732 = {
-						CreatedOnToolsVersion = 10.0;
-						TestTargetID = 5F8271A9215F72A70099D732;
 					};
 				};
 			};
@@ -273,8 +201,6 @@
 			projectRoot = "";
 			targets = (
 				5F8271A9215F72A70099D732 /* SVESample1 */,
-				5F8271C1215F72A80099D732 /* SVESample1Tests */,
-				5F8271CC215F72A80099D732 /* SVESample1UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -321,20 +247,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5F8271C0215F72A80099D732 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F8271CB215F72A80099D732 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -342,42 +254,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F8271B2215F72A70099D732 /* ViewController.m in Sources */,
-				5F8271F2215F788B0099D732 /* SDLogicSys.m in Sources */,
+				5F8271B2215F72A70099D732 /* ViewController.mm in Sources */,
+				5F8271F2215F788B0099D732 /* SDLogicSys.mm in Sources */,
 				5F8271BD215F72A80099D732 /* main.m in Sources */,
-				5F8271AF215F72A70099D732 /* AppDelegate.m in Sources */,
-				5F8271F1215F788B0099D732 /* SDSVView.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F8271BE215F72A80099D732 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F8271C9215F72A80099D732 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				5F8271AF215F72A70099D732 /* AppDelegate.mm in Sources */,
+				5F8271F1215F788B0099D732 /* SDSVView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5F8271C4215F72A80099D732 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5F8271A9215F72A70099D732 /* SVESample1 */;
-			targetProxy = 5F8271C3215F72A80099D732 /* PBXContainerItemProxy */;
-		};
-		5F8271CF215F72A80099D732 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5F8271A9215F72A70099D732 /* SVESample1 */;
-			targetProxy = 5F8271CE215F72A80099D732 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5F8271B3215F72A70099D732 /* Main.storyboard */ = {
@@ -517,11 +402,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K9H559M465;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../SVEngine/src\"",
+					"\"$(SRCROOT)/../../SVEngine\"",
+					"\"$(SRCROOT)/../../SVEngine/src/third\"",
+					"\"$(SRCROOT)/../../SVEngine/src/third/spine/include\"",
+				);
 				INFOPLIST_FILE = SVESample1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/SVESample1-bbsxszlwydhdzeaeeylxbtmcuiff/Build/Products/Debug-iphoneos\"";
 				PRODUCT_BUNDLE_IDENTIFIER = fyz.SVESample1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -534,88 +426,21 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K9H559M465;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../SVEngine/src\"",
+					"\"$(SRCROOT)/../../SVEngine\"",
+					"\"$(SRCROOT)/../../SVEngine/src/third\"",
+					"\"$(SRCROOT)/../../SVEngine/src/third/spine/include\"",
+				);
 				INFOPLIST_FILE = SVESample1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/SVESample1-bbsxszlwydhdzeaeeylxbtmcuiff/Build/Products/Debug-iphoneos\"";
 				PRODUCT_BUNDLE_IDENTIFIER = fyz.SVESample1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		5F8271DA215F72A80099D732 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = K9H559M465;
-				INFOPLIST_FILE = SVESample1Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = fyz.SVESample1Tests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SVESample1.app/SVESample1";
-			};
-			name = Debug;
-		};
-		5F8271DB215F72A80099D732 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = K9H559M465;
-				INFOPLIST_FILE = SVESample1Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = fyz.SVESample1Tests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SVESample1.app/SVESample1";
-			};
-			name = Release;
-		};
-		5F8271DD215F72A80099D732 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = K9H559M465;
-				INFOPLIST_FILE = SVESample1UITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = fyz.SVESample1UITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SVESample1;
-			};
-			name = Debug;
-		};
-		5F8271DE215F72A80099D732 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = K9H559M465;
-				INFOPLIST_FILE = SVESample1UITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = fyz.SVESample1UITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SVESample1;
 			};
 			name = Release;
 		};
@@ -636,24 +461,6 @@
 			buildConfigurations = (
 				5F8271D7215F72A80099D732 /* Debug */,
 				5F8271D8215F72A80099D732 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5F8271D9215F72A80099D732 /* Build configuration list for PBXNativeTarget "SVESample1Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5F8271DA215F72A80099D732 /* Debug */,
-				5F8271DB215F72A80099D732 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5F8271DC215F72A80099D732 /* Build configuration list for PBXNativeTarget "SVESample1UITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5F8271DD215F72A80099D732 /* Debug */,
-				5F8271DE215F72A80099D732 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
