@@ -102,6 +102,16 @@ static SDLogicSys *mInst;
         [self.pSVI.pCamera createInStream:SCENENAME Type:0 width:self.pState.svOutW height:self.pState.svOutH OP:NULL msg:@""];
         //创建输出流节点
         [self.pSVI.pCamera createOutStream:SCENENAME Type:0 StreamType:0 OP:NULL msg:@""];
+        //
+//        [self.pSVI.pEffect setBeautyFilter:@"" level:1 OP:nil msg:nil];
+//        //
+//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:50.0f filtertype:SVI_EBEAUTY_FILTER];
+//        //
+//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:20.0f filtertype:SVI_WHITENING_FILTER];
+//        //
+//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:10.0 filtertype:SVI_ACUTANCE_FILTER];
+//        //
+//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:18.0 filtertype:SVI_CONTRAST_FILTER];
 
     }
 }

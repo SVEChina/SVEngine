@@ -16,12 +16,12 @@ SET(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS ON)
 include_directories(include)
 
 ##############文件路径##############
-set(SVE_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../SVEngine/src)
-set(SVE_LIBS_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/../android/lib_third)
+set(SVE_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../src)
+set(SVE_LIBS_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/../lib_third)
 ##############文件路径##############
 
-##############添加配置文件 给变量初始化 该变量可以控制MKConfig.h中的变量#############
-##############添加配置文件 给变量初始化 该变量可以控制MKConfig.h中的变量############
+##############添加配置文件 给变量初始化 该变量可以控制SVEConfig.h中的变量#############
+##############添加配置文件 给变量初始化 该变量可以控制SVEConfig.h中的变量############
 ############## 加入一个配置头文件，用于处理 CMake 对源码的设置 ##############
 ADD_DEFINITIONS(-DCONFIG_IS_LOAD_FREETYPE)
 option(CONFIG_IS_OPEN_GLESv3 "Enable CONFIG_IS_OPEN_GLESv3" ON)

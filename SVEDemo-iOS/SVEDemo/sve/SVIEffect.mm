@@ -6,20 +6,18 @@
 //
 
 #import "SVIEffect.h"
-#import "SVInst.h"
-#import "SVGlobalMgr.h"
-#import "SVLogicMgr.h"
-#import "SVThreadMain.h"
-#import "SVThreadPool.h"
-#import "SVOpFilter.h"
-#import "SVOpCreate.h"
-#import "SVOpDestroy.h"
-#include "SVEngine_Static/src/module/SVModuleSys.h"
-#include "SVEngine_Static/src/module/SVEffectPackage.h"
-#include "SVEngine_Static/src/core/SVSpine.h"
-#include "SVEngine_Static/src/node/SVSpineNode.h"
-#include "SVEngine_Static/src/app/SVGlobalMgr.h"
-#include "SVEngine_Static/src/app/SVInst.h"
+#import "app/SVInst.h"
+#import "app/SVGlobalMgr.h"
+#import "work/SVThreadMain.h"
+#import "work/SVThreadPool.h"
+#import "operate/SVOpFilter.h"
+#import "operate/SVOpCreate.h"
+#import "operate/SVOpDestroy.h"
+#include "module/SVModuleSys.h"
+#include "module/SVEffectPackage.h"
+#include "core/SVSpine.h"
+#include "node/SVSpineNode.h"
+#include "app/SVGlobalMgr.h"
 #if TARGET_OS_IPHONE
 
 @interface SVIEffect(){
@@ -61,7 +59,8 @@
     SVEffectPackagePtr t_effectPackage = std::dynamic_pointer_cast<SVEffectPackage>(t_module);
     if (t_effectPackage) {
         SVSpineNodePtr t_spine = std::dynamic_pointer_cast<SVSpineNode>(t_effectPackage->getNode("ani2d_0"));
-        SVArray<SVString> t_anis = t_spine->getAnimations();
+        SVArray<SVString> t_anis;
+        t_spine->getSpine()->getAllAnimationName(t_anis);
         NSMutableArray *anis = [[NSMutableArray alloc] init];
         for (int i=0; i<t_anis.size(); i++) {
             SVString t_ani = t_anis[i];
@@ -81,6 +80,50 @@
         t_spine->stop();
         t_spine->play([_ani UTF8String]);
     }
+}
+
+//设置滤镜
+-(void)setBeautyFilter:(NSString*)_filter level:(int)_level OP:(cb_func_op)_cb msg:(NSString*)_msg{
+    int t_isLevel = 1;
+    if (_level == 0) {
+        t_isLevel = 0;
+    }
+    SVInst* t_app = (SVInst*)m_pApp;
+    SVOpSetBeautyFilterPtr t_op = MakeSharedPtr<SVOpSetBeautyFilter>(t_app,"","",t_isLevel);
+    t_op->setCallBack(_cb, [_msg UTF8String]);
+    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
+}
+
+//关闭美颜滤镜
+-(void)closeBeautyFilterOP:(cb_func_op)_cb msg:(NSString*)_msg{
+    SVInst* t_app = (SVInst*)m_pApp;
+    SVOpCloseBeautyFilterPtr t_op = MakeSharedPtr<SVOpCloseBeautyFilter>(t_app);
+    t_op->setCallBack(_cb, [_msg UTF8String]);
+    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
+}
+
+-(void)updateFilterOP:(cb_func_op)_cb msg:(NSString*)_msg smooth:(float)_smooth filtertype:(SVIEFILTERTYPE) _type{
+    SVInst* t_app = (SVInst*)m_pApp;
+    SVOpUpdateFilterSmoothPtr t_op = MakeSharedPtr<SVOpUpdateFilterSmooth>(t_app,_smooth,_type);
+    t_op->setCallBack(_cb, [_msg UTF8String]);
+    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
+}
+
+-(void)updateFaceShapeOP:(cb_func_op)_cb msg:(NSString*)_msg face:(float) _face eye:(float) _eye {
+    SVInst* t_app = (SVInst*)m_pApp;
+    SVOpShapeFaceSmoothFilterPtr t_op = MakeSharedPtr<SVOpShapeFaceSmoothFilter>(t_app,_face,_eye);
+    t_op->setCallBack(_cb, [_msg UTF8String]);
+    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
+}
+
+-(void)updateFilterBSplineOP:(cb_func_op)_cb msg:(NSString*)_msg dataTex:(unsigned char*)_data{
+    SVInst* t_app = (SVInst*)m_pApp;
+    SVDataSwapPtr t_pDataSwap = MakeSharedPtr<SVDataSwap>();
+    t_pDataSwap->writeData(_data, 256*4);
+    SVOpUpdateBSplineFilterPtr t_op = MakeSharedPtr<SVOpUpdateBSplineFilter>(t_app,t_pDataSwap);
+    t_op->setCallBack(_cb, [_msg UTF8String]);
+    t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
+    
 }
 
 @end

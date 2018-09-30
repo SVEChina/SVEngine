@@ -13,8 +13,6 @@
 		02297727213D0E01000E27EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02297726213D0E01000E27EE /* Assets.xcassets */; };
 		0229772A213D0E01000E27EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02297728213D0E01000E27EE /* LaunchScreen.storyboard */; };
 		0229772D213D0E01000E27EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0229772C213D0E01000E27EE /* main.m */; };
-		02297867213D0EDE000E27EE /* libSVEngine_Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02297866213D0EDD000E27EE /* libSVEngine_Static.a */; };
-		0229787C213D101A000E27EE /* SVIDetect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0229786B213D1018000E27EE /* SVIDetect.mm */; };
 		0229787D213D101A000E27EE /* SVInterfaceBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0229786D213D1018000E27EE /* SVInterfaceBase.mm */; };
 		0229787E213D101A000E27EE /* SVI.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02297871213D1019000E27EE /* SVI.mm */; };
 		02297880213D101A000E27EE /* SVICamera.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02297875213D1019000E27EE /* SVICamera.mm */; };
@@ -26,12 +24,44 @@
 		0231CABE213D1BEC004A2414 /* SDLogicSys.m in Sources */ = {isa = PBXBuildFile; fileRef = 0231CABD213D1BEC004A2414 /* SDLogicSys.m */; };
 		0231CAC1213D1D9A004A2414 /* SDState.m in Sources */ = {isa = PBXBuildFile; fileRef = 0231CAC0213D1D9A004A2414 /* SDState.m */; };
 		0231CAC5213D20EF004A2414 /* SDCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0231CAC4213D20EF004A2414 /* SDCamera.m */; };
-		0231CAC7213D234F004A2414 /* sve.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0231CAC6213D234F004A2414 /* sve.bundle */; };
 		0231CACC213D2D9A004A2414 /* SDMainUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0231CACB213D2D9A004A2414 /* SDMainUI.m */; };
+		023652B4216082790011A9F1 /* libSVEngine_Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 023652AF216082050011A9F1 /* libSVEngine_Static.a */; };
+		023652B7216087800011A9F1 /* sve.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 023652B6216087800011A9F1 /* sve.bundle */; };
 		02D0304D213E4ED000E148FD /* qiuqian.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 02D0304C213E4ED000E148FD /* qiuqian.bundle */; };
 		02D031EB213E615200E148FD /* SVIEffect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D031EA213E615100E148FD /* SVIEffect.mm */; };
 		02D031EE213E624500E148FD /* hero.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 02D031ED213E624500E148FD /* hero.bundle */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		023652AC216082050011A9F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 023652A4216082050011A9F1 /* SVEngine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 822A3F971E70069800CF3953;
+			remoteInfo = SVEngine;
+		};
+		023652AE216082050011A9F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 023652A4216082050011A9F1 /* SVEngine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82F7CB421FCD68A4009A750D;
+			remoteInfo = SVEngine_Static;
+		};
+		023652B0216082050011A9F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 023652A4216082050011A9F1 /* SVEngine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82B7719220245AEB0097A0DD;
+			remoteInfo = SVEngine_Mac;
+		};
+		023652B2216082050011A9F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 023652A4216082050011A9F1 /* SVEngine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 023574B020E514F500F29FB8;
+			remoteInfo = sve_s_mac;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0229771A213D0DFE000E27EE /* SVEDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SVEDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,9 +74,7 @@
 		02297729213D0E01000E27EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0229772B213D0E01000E27EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0229772C213D0E01000E27EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		02297866213D0EDD000E27EE /* libSVEngine_Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVEngine_Static.a; sourceTree = "<group>"; };
 		02297869213D1018000E27EE /* SVI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVI.h; sourceTree = "<group>"; };
-		0229786B213D1018000E27EE /* SVIDetect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVIDetect.mm; sourceTree = "<group>"; };
 		0229786D213D1018000E27EE /* SVInterfaceBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVInterfaceBase.mm; sourceTree = "<group>"; };
 		0229786E213D1018000E27EE /* SVIHead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIHead.h; sourceTree = "<group>"; };
 		0229786F213D1018000E27EE /* SVInterfaceBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVInterfaceBase.h; sourceTree = "<group>"; };
@@ -54,7 +82,6 @@
 		02297871213D1019000E27EE /* SVI.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVI.mm; sourceTree = "<group>"; };
 		02297872213D1019000E27EE /* SVIEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIEffect.h; sourceTree = "<group>"; };
 		02297875213D1019000E27EE /* SVICamera.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVICamera.mm; sourceTree = "<group>"; };
-		02297879213D1019000E27EE /* SVIDetect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIDetect.h; sourceTree = "<group>"; };
 		0229787A213D1019000E27EE /* SVIDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIDef.h; sourceTree = "<group>"; };
 		022978A2213D13FD000E27EE /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		022978A4213D1648000E27EE /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -71,373 +98,11 @@
 		0231CAC2213D1EFE004A2414 /* SDPreDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDPreDef.h; sourceTree = "<group>"; };
 		0231CAC3213D20EF004A2414 /* SDCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDCamera.h; sourceTree = "<group>"; };
 		0231CAC4213D20EF004A2414 /* SDCamera.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDCamera.m; sourceTree = "<group>"; };
-		0231CAC6213D234F004A2414 /* sve.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = sve.bundle; sourceTree = "<group>"; };
 		0231CACA213D2D9A004A2414 /* SDMainUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDMainUI.h; sourceTree = "<group>"; };
 		0231CACB213D2D9A004A2414 /* SDMainUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDMainUI.m; sourceTree = "<group>"; };
+		023652A4216082050011A9F1 /* SVEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SVEngine.xcodeproj; path = ../../../SVEngine/platIOS/SVEngine.xcodeproj; sourceTree = "<group>"; };
+		023652B6216087800011A9F1 /* sve.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = sve.bundle; path = ../../../SVERes/sve.bundle; sourceTree = "<group>"; };
 		02D0304C213E4ED000E148FD /* qiuqian.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = qiuqian.bundle; sourceTree = "<group>"; };
-		02D03060213E610E00E148FD /* SVDetectMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDetectMgr.h; sourceTree = "<group>"; };
-		02D03061213E610E00E148FD /* SVPersonExpressionExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPersonExpressionExt.h; sourceTree = "<group>"; };
-		02D03062213E610E00E148FD /* SVPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPerson.h; sourceTree = "<group>"; };
-		02D03063213E610E00E148FD /* SVPersonTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPersonTracker.h; sourceTree = "<group>"; };
-		02D03064213E610E00E148FD /* SVDetectBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDetectBase.h; sourceTree = "<group>"; };
-		02D03065213E610E00E148FD /* SVPersonModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPersonModule.h; sourceTree = "<group>"; };
-		02D03066213E610E00E148FD /* SVDetectST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDetectST.h; sourceTree = "<group>"; };
-		02D03068213E610E00E148FD /* SVPickModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPickModule.h; sourceTree = "<group>"; };
-		02D03069213E610E00E148FD /* SVStreamOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVStreamOut.h; sourceTree = "<group>"; };
-		02D0306A213E610E00E148FD /* SVBasicSys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBasicSys.h; sourceTree = "<group>"; };
-		02D0306B213E610E00E148FD /* SVUIMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUIMgr.h; sourceTree = "<group>"; };
-		02D0306C213E610E00E148FD /* SVRecycleModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRecycleModule.h; sourceTree = "<group>"; };
-		02D0306D213E610E00E148FD /* SVFontModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFontModule.h; sourceTree = "<group>"; };
-		02D0306E213E610E00E148FD /* SVSceneMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSceneMgr.h; sourceTree = "<group>"; };
-		02D0306F213E610E00E148FD /* SVConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVConfig.h; sourceTree = "<group>"; };
-		02D03070213E610E00E148FD /* SVStaticData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVStaticData.h; sourceTree = "<group>"; };
-		02D03071213E610E00E148FD /* SVLogicMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVLogicMgr.h; sourceTree = "<group>"; };
-		02D03072213E610E00E148FD /* SVLogicDeclare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVLogicDeclare.h; sourceTree = "<group>"; };
-		02D03074213E610E00E148FD /* SVRGBToneCurveFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRGBToneCurveFilter.h; sourceTree = "<group>"; };
-		02D03075213E610E00E148FD /* SVFilterDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFilterDef.h; sourceTree = "<group>"; };
-		02D03076213E610E00E148FD /* SVFaceBeautyShowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceBeautyShowFilter.h; sourceTree = "<group>"; };
-		02D03077213E610E00E148FD /* SVBasedonFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBasedonFilter.h; sourceTree = "<group>"; };
-		02D03078213E610E00E148FD /* SVRGBToneCurveCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRGBToneCurveCore.h; sourceTree = "<group>"; };
-		02D03079213E610E00E148FD /* SVSysBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSysBase.h; sourceTree = "<group>"; };
-		02D0307A213E610E00E148FD /* SVStreamIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVStreamIn.h; sourceTree = "<group>"; };
-		02D0307B213E610E00E148FD /* SVPictureProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPictureProcess.h; sourceTree = "<group>"; };
-		02D0307F213E610E00E148FD /* SVMathHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMathHelper.h; sourceTree = "<group>"; };
-		02D03080213E610E00E148FD /* SVSkinModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSkinModel.h; sourceTree = "<group>"; };
-		02D03081213E610E00E148FD /* SVGeoGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGeoGen.h; sourceTree = "<group>"; };
-		02D03082213E610E00E148FD /* SVBasicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBasicModel.h; sourceTree = "<group>"; };
-		02D03083213E610E00E148FD /* SVSpine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSpine.h; sourceTree = "<group>"; };
-		02D03084213E610E00E148FD /* SVSkinAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSkinAnimator.h; sourceTree = "<group>"; };
-		02D03085213E610E00E148FD /* SVSpineListen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSpineListen.h; sourceTree = "<group>"; };
-		02D03086213E610E00E148FD /* SVPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPass.h; sourceTree = "<group>"; };
-		02D03087213E610E00E148FD /* SVGeometryBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGeometryBase.h; sourceTree = "<group>"; };
-		02D03088213E610E00E148FD /* GLParticles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLParticles.h; sourceTree = "<group>"; };
-		02D03089213E610E00E148FD /* SVSpineObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSpineObjc.h; sourceTree = "<group>"; };
-		02D0308A213E610E00E148FD /* SVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVModel.h; sourceTree = "<group>"; };
-		02D0308B213E610E00E148FD /* SVMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMesh.h; sourceTree = "<group>"; };
-		02D0308C213E610E00E148FD /* SVAsRigidAsPossible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAsRigidAsPossible.h; sourceTree = "<group>"; };
-		02D0308D213E610E00E148FD /* SVParticles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParticles.h; sourceTree = "<group>"; };
-		02D0308E213E610E00E148FD /* SVImageUsingMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVImageUsingMove.h; sourceTree = "<group>"; };
-		02D0308F213E610E00E148FD /* SVVertDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVVertDef.h; sourceTree = "<group>"; };
-		02D03091213E610E00E148FD /* SVGlobalMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGlobalMgr.h; sourceTree = "<group>"; };
-		02D03092213E610E00E148FD /* SVGlobalParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGlobalParam.h; sourceTree = "<group>"; };
-		02D03093213E610E00E148FD /* SVInst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVInst.h; sourceTree = "<group>"; };
-		02D03095213E610E00E148FD /* SVFileWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFileWriter.h; sourceTree = "<group>"; };
-		02D03096213E610E00E148FD /* SVDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDataBase.h; sourceTree = "<group>"; };
-		02D03097213E610E00E148FD /* SVObjLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVObjLoader.h; sourceTree = "<group>"; };
-		02D03098213E610E00E148FD /* SVFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFileLoader.h; sourceTree = "<group>"; };
-		02D03099213E610E00E148FD /* SVParseGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseGame.h; sourceTree = "<group>"; };
-		02D0309A213E610E00E148FD /* SVParseBitfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseBitfont.h; sourceTree = "<group>"; };
-		02D0309B213E610E00E148FD /* SVParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParse.h; sourceTree = "<group>"; };
-		02D0309C213E610E00E148FD /* SVParseSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseSprite.h; sourceTree = "<group>"; };
-		02D0309D213E610E00E148FD /* SVFileMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFileMgr.h; sourceTree = "<group>"; };
-		02D0309E213E610E00E148FD /* SVDataFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDataFilter.h; sourceTree = "<group>"; };
-		02D0309F213E610E00E148FD /* SVDataNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDataNode.h; sourceTree = "<group>"; };
-		02D030A0213E610E00E148FD /* SVParseDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseDef.h; sourceTree = "<group>"; };
-		02D030A1213E610E00E148FD /* SVParseAnimate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseAnimate.h; sourceTree = "<group>"; };
-		02D030A2213E610E00E148FD /* SVParseMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseMask.h; sourceTree = "<group>"; };
-		02D030A3213E610E00E148FD /* SVParseMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseMain.h; sourceTree = "<group>"; };
-		02D030A4213E610E00E148FD /* SVPngWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPngWriter.h; sourceTree = "<group>"; };
-		02D030A5213E610E00E148FD /* SVPngLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPngLoader.h; sourceTree = "<group>"; };
-		02D030A6213E610E00E148FD /* SVParseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseData.h; sourceTree = "<group>"; };
-		02D030A9213E610E00E148FD /* pnginfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnginfo.h; sourceTree = "<group>"; };
-		02D030AA213E610E00E148FD /* pngstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngstruct.h; sourceTree = "<group>"; };
-		02D030AB213E610E00E148FD /* pngpriv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngpriv.h; sourceTree = "<group>"; };
-		02D030AC213E610E00E148FD /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
-		02D030AD213E610E00E148FD /* pnglibconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnglibconf.h; sourceTree = "<group>"; };
-		02D030AE213E610E00E148FD /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngconf.h; sourceTree = "<group>"; };
-		02D030AF213E610E00E148FD /* pngdebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngdebug.h; sourceTree = "<group>"; };
-		02D030B3213E610E00E148FD /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
-		02D030B4213E610E00E148FD /* EventData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventData.h; sourceTree = "<group>"; };
-		02D030B5213E610E00E148FD /* SlotData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotData.h; sourceTree = "<group>"; };
-		02D030B6213E610E00E148FD /* SkeletonClipping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonClipping.h; sourceTree = "<group>"; };
-		02D030B7213E610E00E148FD /* PathAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathAttachment.h; sourceTree = "<group>"; };
-		02D030B8213E610E00E148FD /* PointAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAttachment.h; sourceTree = "<group>"; };
-		02D030B9213E610E00E148FD /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
-		02D030BA213E610E00E148FD /* Bone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bone.h; sourceTree = "<group>"; };
-		02D030BB213E610E00E148FD /* Atlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atlas.h; sourceTree = "<group>"; };
-		02D030BC213E610E00E148FD /* VertexAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexAttachment.h; sourceTree = "<group>"; };
-		02D030BD213E610E00E148FD /* spine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spine.h; sourceTree = "<group>"; };
-		02D030BE213E610E00E148FD /* ClippingAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClippingAttachment.h; sourceTree = "<group>"; };
-		02D030BF213E610E00E148FD /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
-		02D030C0213E610E00E148FD /* Triangulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangulator.h; sourceTree = "<group>"; };
-		02D030C1213E610E00E148FD /* RegionAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegionAttachment.h; sourceTree = "<group>"; };
-		02D030C2213E610E00E148FD /* Attachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attachment.h; sourceTree = "<group>"; };
-		02D030C3213E610E00E148FD /* TransformConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformConstraint.h; sourceTree = "<group>"; };
-		02D030C4213E610E00E148FD /* dll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dll.h; sourceTree = "<group>"; };
-		02D030C5213E610E00E148FD /* SkeletonJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonJson.h; sourceTree = "<group>"; };
-		02D030C6213E610E00E148FD /* IkConstraintData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IkConstraintData.h; sourceTree = "<group>"; };
-		02D030C7213E610E00E148FD /* AnimationStateData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationStateData.h; sourceTree = "<group>"; };
-		02D030C8213E610E00E148FD /* Skeleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skeleton.h; sourceTree = "<group>"; };
-		02D030C9213E610E00E148FD /* AttachmentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentLoader.h; sourceTree = "<group>"; };
-		02D030CA213E610E00E148FD /* Skin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skin.h; sourceTree = "<group>"; };
-		02D030CB213E610E00E148FD /* VertexEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexEffect.h; sourceTree = "<group>"; };
-		02D030CC213E610E00E148FD /* SkeletonBinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonBinary.h; sourceTree = "<group>"; };
-		02D030CD213E610E00E148FD /* SkeletonData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonData.h; sourceTree = "<group>"; };
-		02D030CE213E610E00E148FD /* Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
-		02D030CF213E610E00E148FD /* PathConstraintData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathConstraintData.h; sourceTree = "<group>"; };
-		02D030D0213E610E00E148FD /* TransformConstraintData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformConstraintData.h; sourceTree = "<group>"; };
-		02D030D1213E610E00E148FD /* extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extension.h; sourceTree = "<group>"; };
-		02D030D2213E610E00E148FD /* PathConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathConstraint.h; sourceTree = "<group>"; };
-		02D030D3213E610E00E148FD /* IkConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IkConstraint.h; sourceTree = "<group>"; };
-		02D030D4213E610E00E148FD /* BoundingBoxAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBoxAttachment.h; sourceTree = "<group>"; };
-		02D030D5213E610E00E148FD /* SkeletonBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonBounds.h; sourceTree = "<group>"; };
-		02D030D6213E610E00E148FD /* Slot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slot.h; sourceTree = "<group>"; };
-		02D030D7213E610E00E148FD /* BoneData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoneData.h; sourceTree = "<group>"; };
-		02D030D8213E610E00E148FD /* AnimationState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationState.h; sourceTree = "<group>"; };
-		02D030D9213E610E00E148FD /* MeshAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshAttachment.h; sourceTree = "<group>"; };
-		02D030DA213E610E00E148FD /* AtlasAttachmentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtlasAttachmentLoader.h; sourceTree = "<group>"; };
-		02D030DD213E610E00E148FD /* kvec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kvec.h; sourceTree = "<group>"; };
-		02D030DE213E610E00E148FD /* Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Json.h; sourceTree = "<group>"; };
-		02D030E0213E610E00E148FD /* fwd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fwd.h; sourceTree = "<group>"; };
-		02D030E1213E610E00E148FD /* memorystream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memorystream.h; sourceTree = "<group>"; };
-		02D030E2213E610E00E148FD /* reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = reader.h; sourceTree = "<group>"; };
-		02D030E3213E610E00E148FD /* prettywriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prettywriter.h; sourceTree = "<group>"; };
-		02D030E4213E610E00E148FD /* ostreamwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ostreamwrapper.h; sourceTree = "<group>"; };
-		02D030E5213E610E00E148FD /* encodedstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = encodedstream.h; sourceTree = "<group>"; };
-		02D030E6213E610E00E148FD /* filereadstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filereadstream.h; sourceTree = "<group>"; };
-		02D030E7213E610E00E148FD /* istreamwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = istreamwrapper.h; sourceTree = "<group>"; };
-		02D030E8213E610E00E148FD /* stringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringbuffer.h; sourceTree = "<group>"; };
-		02D030EA213E610E00E148FD /* ieee754.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ieee754.h; sourceTree = "<group>"; };
-		02D030EB213E610E00E148FD /* strtod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strtod.h; sourceTree = "<group>"; };
-		02D030EC213E610E00E148FD /* swap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = swap.h; sourceTree = "<group>"; };
-		02D030ED213E610E00E148FD /* regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = regex.h; sourceTree = "<group>"; };
-		02D030EE213E610E00E148FD /* diyfp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = diyfp.h; sourceTree = "<group>"; };
-		02D030EF213E610E00E148FD /* biginteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = biginteger.h; sourceTree = "<group>"; };
-		02D030F0213E610E00E148FD /* strfunc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strfunc.h; sourceTree = "<group>"; };
-		02D030F1213E610E00E148FD /* itoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = itoa.h; sourceTree = "<group>"; };
-		02D030F2213E610E00E148FD /* stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stack.h; sourceTree = "<group>"; };
-		02D030F3213E610E00E148FD /* dtoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dtoa.h; sourceTree = "<group>"; };
-		02D030F4213E610E00E148FD /* meta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = meta.h; sourceTree = "<group>"; };
-		02D030F5213E610E00E148FD /* pow10.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pow10.h; sourceTree = "<group>"; };
-		02D030F6213E610E00E148FD /* encodings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = encodings.h; sourceTree = "<group>"; };
-		02D030F7213E610E00E148FD /* schema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = schema.h; sourceTree = "<group>"; };
-		02D030F8213E610E00E148FD /* stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stream.h; sourceTree = "<group>"; };
-		02D030F9213E610E00E148FD /* filewritestream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filewritestream.h; sourceTree = "<group>"; };
-		02D030FA213E610E00E148FD /* rapidjson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rapidjson.h; sourceTree = "<group>"; };
-		02D030FB213E610E00E148FD /* document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = document.h; sourceTree = "<group>"; };
-		02D030FC213E610E00E148FD /* allocators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = allocators.h; sourceTree = "<group>"; };
-		02D030FD213E610E00E148FD /* writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = writer.h; sourceTree = "<group>"; };
-		02D030FF213E610E00E148FD /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
-		02D03100213E610E00E148FD /* en.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = en.h; sourceTree = "<group>"; };
-		02D03101213E610E00E148FD /* memorybuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memorybuffer.h; sourceTree = "<group>"; };
-		02D03102213E610E00E148FD /* pointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pointer.h; sourceTree = "<group>"; };
-		02D03104213E610E00E148FD /* inttypes.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = inttypes.hh; sourceTree = "<group>"; };
-		02D03105213E610E00E148FD /* stdint.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = stdint.hh; sourceTree = "<group>"; };
-		02D03107213E610E00E148FD /* SVGameEnd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGameEnd.h; sourceTree = "<group>"; };
-		02D03108213E610E00E148FD /* SVRedPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRedPacket.h; sourceTree = "<group>"; };
-		02D03109213E610E00E148FD /* SVGameBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGameBase.h; sourceTree = "<group>"; };
-		02D0310A213E610E00E148FD /* SVGamePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGamePart.h; sourceTree = "<group>"; };
-		02D0310B213E610E00E148FD /* SVModuleBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVModuleBase.h; sourceTree = "<group>"; };
-		02D0310C213E610E00E148FD /* SVRedPacketRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRedPacketRun.h; sourceTree = "<group>"; };
-		02D0310D213E610E00E148FD /* SVModuleDelaySuspend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVModuleDelaySuspend.h; sourceTree = "<group>"; };
-		02D0310E213E610E00E148FD /* SVEffectPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEffectPackage.h; sourceTree = "<group>"; };
-		02D0310F213E610E00E148FD /* SVGameReady.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGameReady.h; sourceTree = "<group>"; };
-		02D03110213E610E00E148FD /* SVModuleDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVModuleDef.h; sourceTree = "<group>"; };
-		02D03111213E610E00E148FD /* SVRedPacketEnd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRedPacketEnd.h; sourceTree = "<group>"; };
-		02D03112213E610E00E148FD /* SVModuleSys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVModuleSys.h; sourceTree = "<group>"; };
-		02D03113213E610E00E148FD /* SVRedPacketReady.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRedPacketReady.h; sourceTree = "<group>"; };
-		02D03114213E610E00E148FD /* SVGameRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGameRun.h; sourceTree = "<group>"; };
-		02D03116213E610E00E148FD /* SVActSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActSequence.h; sourceTree = "<group>"; };
-		02D03117213E610E00E148FD /* SVActDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActDef.h; sourceTree = "<group>"; };
-		02D03118213E610E00E148FD /* SVActBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActBase.h; sourceTree = "<group>"; };
-		02D03119213E610E00E148FD /* SVActionSys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActionSys.h; sourceTree = "<group>"; };
-		02D0311A213E610E00E148FD /* SVActMtl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActMtl.h; sourceTree = "<group>"; };
-		02D0311B213E610E00E148FD /* SVActDeform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActDeform.h; sourceTree = "<group>"; };
-		02D0311C213E610E00E148FD /* SVActionUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActionUnit.h; sourceTree = "<group>"; };
-		02D0311D213E610E00E148FD /* SVActFollow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActFollow.h; sourceTree = "<group>"; };
-		02D0311E213E610E00E148FD /* SVActDeclare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActDeclare.h; sourceTree = "<group>"; };
-		02D0311F213E610E00E148FD /* SVActTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActTime.h; sourceTree = "<group>"; };
-		02D03122213E610E00E148FD /* SVOpBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpBase.h; sourceTree = "<group>"; };
-		02D03123213E610E00E148FD /* SVOpCreate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpCreate.h; sourceTree = "<group>"; };
-		02D03124213E610E00E148FD /* SVOpFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpFilter.h; sourceTree = "<group>"; };
-		02D03125213E610E00E148FD /* SVOpRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpRender.h; sourceTree = "<group>"; };
-		02D03126213E610E00E148FD /* SVOpThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpThread.h; sourceTree = "<group>"; };
-		02D03127213E610E00E148FD /* SVOpParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpParse.h; sourceTree = "<group>"; };
-		02D03128213E610E00E148FD /* SVOpOutCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpOutCamera.h; sourceTree = "<group>"; };
-		02D03129213E610E00E148FD /* SVOpDetect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpDetect.h; sourceTree = "<group>"; };
-		02D0312A213E610E00E148FD /* SVOpLoadBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpLoadBase.h; sourceTree = "<group>"; };
-		02D0312B213E610E00E148FD /* SVOpDestroy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpDestroy.h; sourceTree = "<group>"; };
-		02D0312E213E610E00E148FD /* SVGLCmdTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGLCmdTexture.h; sourceTree = "<group>"; };
-		02D0312F213E610E00E148FD /* SVRResGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRResGL.h; sourceTree = "<group>"; };
-		02D03130213E610E00E148FD /* SVGLCmdBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGLCmdBase.h; sourceTree = "<group>"; };
-		02D03131213E610E00E148FD /* SVGLCmdVbo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGLCmdVbo.h; sourceTree = "<group>"; };
-		02D03132213E610E00E148FD /* SVGLCmdFbo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGLCmdFbo.h; sourceTree = "<group>"; };
-		02D03133213E610E00E148FD /* SVRenderCmdOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderCmdOut.h; sourceTree = "<group>"; };
-		02D03134213E610E00E148FD /* SVRenderCmd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderCmd.h; sourceTree = "<group>"; };
-		02D03136213E610E00E148FD /* SVContextBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVContextBase.h; sourceTree = "<group>"; };
-		02D03137213E610E00E148FD /* SVContextIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVContextIOS.h; sourceTree = "<group>"; };
-		02D03138213E610E00E148FD /* SVRendererVK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRendererVK.h; sourceTree = "<group>"; };
-		02D03139213E610E00E148FD /* SVRendererMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRendererMetal.h; sourceTree = "<group>"; };
-		02D0313A213E610E00E148FD /* SVRenderState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderState.h; sourceTree = "<group>"; };
-		02D0313B213E610E00E148FD /* SVRendererBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRendererBase.h; sourceTree = "<group>"; };
-		02D0313C213E610E00E148FD /* SVRendererGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRendererGL.h; sourceTree = "<group>"; };
-		02D0313D213E610E00E148FD /* SVContextOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVContextOSX.h; sourceTree = "<group>"; };
-		02D0313E213E610E00E148FD /* SVRenderStateGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderStateGL.h; sourceTree = "<group>"; };
-		02D0313F213E610E00E148FD /* SVEGLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEGLContext.h; sourceTree = "<group>"; };
-		02D03140213E610E00E148FD /* SVResTex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVResTex.h; sourceTree = "<group>"; };
-		02D03141213E610E00E148FD /* SVRenderDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderDef.h; sourceTree = "<group>"; };
-		02D03142213E610E00E148FD /* SVResFBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVResFBO.h; sourceTree = "<group>"; };
-		02D03143213E610E00E148FD /* SVRenderStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderStream.h; sourceTree = "<group>"; };
-		02D03144213E610E00E148FD /* SVRenderCmdGeo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderCmdGeo.h; sourceTree = "<group>"; };
-		02D03145213E610E00E148FD /* SVRenderMeshData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderMeshData.h; sourceTree = "<group>"; };
-		02D03146213E610E00E148FD /* SVRenderScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderScene.h; sourceTree = "<group>"; };
-		02D03147213E610E00E148FD /* SVFboObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFboObject.h; sourceTree = "<group>"; };
-		02D03148213E610E00E148FD /* SVRenderTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderTexture.h; sourceTree = "<group>"; };
-		02D03149213E610E00E148FD /* SVRenderPipline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderPipline.h; sourceTree = "<group>"; };
-		02D0314A213E610E00E148FD /* SVRenderMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderMgr.h; sourceTree = "<group>"; };
-		02D0314B213E610E00E148FD /* SVRenderDeclare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderDeclare.h; sourceTree = "<group>"; };
-		02D0314C213E610E00E148FD /* SVRenderMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderMesh.h; sourceTree = "<group>"; };
-		02D0314D213E610E00E148FD /* SVRObjBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRObjBase.h; sourceTree = "<group>"; };
-		02D0314E213E610E00E148FD /* SVRenderObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderObject.h; sourceTree = "<group>"; };
-		02D0314F213E610E00E148FD /* SVRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRenderTarget.h; sourceTree = "<group>"; };
-		02D03151213E610E00E148FD /* SVThreadPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVThreadPool.h; sourceTree = "<group>"; };
-		02D03152213E610E00E148FD /* SVThreadWork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVThreadWork.h; sourceTree = "<group>"; };
-		02D03153213E610E00E148FD /* SVThreadHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVThreadHelp.h; sourceTree = "<group>"; };
-		02D03154213E610E00E148FD /* SVThreadMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVThreadMain.h; sourceTree = "<group>"; };
-		02D03155213E610E00E148FD /* SVThreadRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVThreadRender.h; sourceTree = "<group>"; };
-		02D03157213E610E00E148FD /* SVTexMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVTexMgr.h; sourceTree = "<group>"; };
-		02D03158213E610E00E148FD /* SVShaderMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVShaderMgr.h; sourceTree = "<group>"; };
-		02D03159213E610E00E148FD /* SVMtlRepeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlRepeat.h; sourceTree = "<group>"; };
-		02D0315A213E610E00E148FD /* SVTexturePList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVTexturePList.h; sourceTree = "<group>"; };
-		02D0315B213E610E00E148FD /* SVMtlFilterShake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlFilterShake.h; sourceTree = "<group>"; };
-		02D0315C213E610E00E148FD /* SVMtlParamBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlParamBase.h; sourceTree = "<group>"; };
-		02D0315D213E610E00E148FD /* SVMtlColorSelect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlColorSelect.h; sourceTree = "<group>"; };
-		02D0315E213E610E00E148FD /* SVMtlBeautyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlBeautyFilter.h; sourceTree = "<group>"; };
-		02D0315F213E610E00E148FD /* SVMtlMirror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlMirror.h; sourceTree = "<group>"; };
-		02D03160213E610E00E148FD /* SVMtlBeauty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlBeauty.h; sourceTree = "<group>"; };
-		02D03161213E610E00E148FD /* SVMtlShapeVaried.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlShapeVaried.h; sourceTree = "<group>"; };
-		02D03162213E610E00E148FD /* SVTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVTexture.h; sourceTree = "<group>"; };
-		02D03163213E610E00E148FD /* SVMtlBlendColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlBlendColor.h; sourceTree = "<group>"; };
-		02D03164213E610E00E148FD /* SVMtlNocolor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlNocolor.h; sourceTree = "<group>"; };
-		02D03165213E610E00E148FD /* SVTextureIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVTextureIOS.h; sourceTree = "<group>"; };
-		02D03166213E610E00E148FD /* SVMtlToneCurverRGB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlToneCurverRGB.h; sourceTree = "<group>"; };
-		02D03167213E610E00E148FD /* SVMtlImageUsingMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlImageUsingMove.h; sourceTree = "<group>"; };
-		02D03168213E610E00E148FD /* SVMtlBasedOn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlBasedOn.h; sourceTree = "<group>"; };
-		02D03169213E610E00E148FD /* SVMtlFaceShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlFaceShape.h; sourceTree = "<group>"; };
-		02D0316A213E610E00E148FD /* SVMtlDeclare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlDeclare.h; sourceTree = "<group>"; };
-		02D0316B213E610E00E148FD /* SVMtlFilterTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlFilterTime.h; sourceTree = "<group>"; };
-		02D0316C213E610E00E148FD /* SVBeatyShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBeatyShader.h; sourceTree = "<group>"; };
-		02D0316D213E610E00E148FD /* SVMtlRGB2YUV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlRGB2YUV.h; sourceTree = "<group>"; };
-		02D0316E213E610E00E148FD /* SVMtlScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlScreen.h; sourceTree = "<group>"; };
-		02D0316F213E610E00E148FD /* SVMtlMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlMask.h; sourceTree = "<group>"; };
-		02D03170213E610E00E148FD /* SVMtlCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlCore.h; sourceTree = "<group>"; };
-		02D03171213E610E00E148FD /* SVMtlDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlDef.h; sourceTree = "<group>"; };
-		02D03172213E610E00E148FD /* SVMtlFace2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlFace2d.h; sourceTree = "<group>"; };
-		02D03173213E610E00E148FD /* SVMtlSkinModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlSkinModel.h; sourceTree = "<group>"; };
-		02D03174213E610E00E148FD /* SVMtlFair1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlFair1.h; sourceTree = "<group>"; };
-		02D03176213E610E00E148FD /* SVOpCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpCallback.h; sourceTree = "<group>"; };
-		02D03177213E610E00E148FD /* SVThreadWorkCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVThreadWorkCallback.h; sourceTree = "<group>"; };
-		02D03178213E610E00E148FD /* SVCallbackBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCallbackBase.h; sourceTree = "<group>"; };
-		02D03179213E610E00E148FD /* SVThreadCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVThreadCallback.h; sourceTree = "<group>"; };
-		02D0317B213E610E00E148FD /* SVIOSInstreamNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIOSInstreamNode.h; sourceTree = "<group>"; };
-		02D0317C213E610E00E148FD /* SVModelNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVModelNode.h; sourceTree = "<group>"; };
-		02D0317D213E610E00E148FD /* SVSkyDomeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSkyDomeNode.h; sourceTree = "<group>"; };
-		02D0317E213E610E00E148FD /* SVFaceDetectPointNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceDetectPointNode.h; sourceTree = "<group>"; };
-		02D0317F213E610E00E148FD /* SVIOSOutstreamNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIOSOutstreamNode.h; sourceTree = "<group>"; };
-		02D03180213E610E00E148FD /* SV2DFaceMaskSTNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SV2DFaceMaskSTNode.h; sourceTree = "<group>"; };
-		02D03181213E610E00E148FD /* SVSpriteNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSpriteNode.h; sourceTree = "<group>"; };
-		02D03182213E610E00E148FD /* SVNodeDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVNodeDef.h; sourceTree = "<group>"; };
-		02D03183213E610E00E148FD /* SVParticlesNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParticlesNode.h; sourceTree = "<group>"; };
-		02D03184213E610E00E148FD /* SV3DBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SV3DBox.h; sourceTree = "<group>"; };
-		02D03185213E610E00E148FD /* SVBitFontNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBitFontNode.h; sourceTree = "<group>"; };
-		02D03186213E610E00E148FD /* SVFreeTypeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFreeTypeNode.h; sourceTree = "<group>"; };
-		02D03187213E610E00E148FD /* SVCoordGridNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCoordGridNode.h; sourceTree = "<group>"; };
-		02D03188213E610E00E148FD /* SVFaceImageUsingMoveNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceImageUsingMoveNode.h; sourceTree = "<group>"; };
-		02D03189213E610E00E148FD /* SV2DFaceMaskNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SV2DFaceMaskNode.h; sourceTree = "<group>"; };
-		02D0318A213E610E00E148FD /* SVFrameOutNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFrameOutNode.h; sourceTree = "<group>"; };
-		02D0318B213E610E00E148FD /* SVSpineNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSpineNode.h; sourceTree = "<group>"; };
-		02D0318C213E610E00E148FD /* SVTransTexNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVTransTexNode.h; sourceTree = "<group>"; };
-		02D0318D213E610E00E148FD /* SVBGRAInstreamNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBGRAInstreamNode.h; sourceTree = "<group>"; };
-		02D0318E213E610E00E148FD /* SVCameraNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCameraNode.h; sourceTree = "<group>"; };
-		02D0318F213E610E00E148FD /* SVNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVNode.h; sourceTree = "<group>"; };
-		02D03190213E610E00E148FD /* SVFacePointNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFacePointNode.h; sourceTree = "<group>"; };
-		02D03191213E610E00E148FD /* SVFaceShapeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceShapeNode.h; sourceTree = "<group>"; };
-		02D03192213E610E00E148FD /* SVYUVInstreamNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVYUVInstreamNode.h; sourceTree = "<group>"; };
-		02D03193213E610E00E148FD /* SVDummyNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDummyNode.h; sourceTree = "<group>"; };
-		02D03194213E610E00E148FD /* SVShapeVariedNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVShapeVariedNode.h; sourceTree = "<group>"; };
-		02D03195213E610E00E148FD /* SVScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVScene.h; sourceTree = "<group>"; };
-		02D03196213E610E00E148FD /* SVMultPassNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMultPassNode.h; sourceTree = "<group>"; };
-		02D03197213E610E00E148FD /* SVNodeVisit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVNodeVisit.h; sourceTree = "<group>"; };
-		02D03199213E610E00E148FD /* SVEventVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEventVideo.h; sourceTree = "<group>"; };
-		02D0319A213E610E00E148FD /* SVEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEvent.h; sourceTree = "<group>"; };
-		02D0319B213E610E00E148FD /* SVEventProc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEventProc.h; sourceTree = "<group>"; };
-		02D0319C213E610E00E148FD /* SVEventMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEventMgr.h; sourceTree = "<group>"; };
-		02D0319D213E610E00E148FD /* SVEventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEventThread.h; sourceTree = "<group>"; };
-		02D0319E213E610E00E148FD /* SVOpEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpEvent.h; sourceTree = "<group>"; };
-		02D0319F213E610E00E148FD /* SVEventDeclare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEventDeclare.h; sourceTree = "<group>"; };
-		02D031A0213E610E00E148FD /* SVEventDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEventDef.h; sourceTree = "<group>"; };
-		02D031A2213E610E00E148FD /* aMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aMath.h; sourceTree = "<group>"; };
-		02D031A3213E610E00E148FD /* SVSem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSem.h; sourceTree = "<group>"; };
-		02D031A4213E610E00E148FD /* SVCoreTree.spu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCoreTree.spu.h; sourceTree = "<group>"; };
-		02D031A5213E610E00E148FD /* aMathLib.spu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aMathLib.spu.h; sourceTree = "<group>"; };
-		02D031A6213E610E00E148FD /* aGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aGeometry.h; sourceTree = "<group>"; };
-		02D031A7213E610E00E148FD /* SVCoreAllocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCoreAllocator.h; sourceTree = "<group>"; };
-		02D031A8213E610E00E148FD /* SVMat4d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMat4d.h; sourceTree = "<group>"; };
-		02D031A9213E610E00E148FD /* SVIDPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIDPool.h; sourceTree = "<group>"; };
-		02D031AA213E610E00E148FD /* SVCoreTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCoreTree.h; sourceTree = "<group>"; };
-		02D031AB213E610E00E148FD /* SVUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUtils.h; sourceTree = "<group>"; };
-		02D031AC213E610E00E148FD /* SVGVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGVector.h; sourceTree = "<group>"; };
-		02D031AD213E610E00E148FD /* SVVec3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVVec3.h; sourceTree = "<group>"; };
-		02D031AE213E610E00E148FD /* SVLine3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVLine3d.h; sourceTree = "<group>"; };
-		02D031AF213E610E00E148FD /* SVBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBase.h; sourceTree = "<group>"; };
-		02D031B0213E610E00E148FD /* SVMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMap.h; sourceTree = "<group>"; };
-		02D031B1213E610E00E148FD /* SVBase.spu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBase.spu.h; sourceTree = "<group>"; };
-		02D031B2213E610E00E148FD /* SVTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVTypes.h; sourceTree = "<group>"; };
-		02D031B3213E610E00E148FD /* SVLine2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVLine2d.h; sourceTree = "<group>"; };
-		02D031B4213E610E00E148FD /* SVHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVHash.h; sourceTree = "<group>"; };
-		02D031B5213E610E00E148FD /* SVSign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSign.h; sourceTree = "<group>"; };
-		02D031B6213E610E00E148FD /* SVSet.spu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSet.spu.h; sourceTree = "<group>"; };
-		02D031B7213E610E00E148FD /* aBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aBase.h; sourceTree = "<group>"; };
-		02D031B8213E610E00E148FD /* SVQuat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVQuat.h; sourceTree = "<group>"; };
-		02D031B9213E610E00E148FD /* SVRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRect.h; sourceTree = "<group>"; };
-		02D031BA213E610E00E148FD /* SVVec4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVVec4.h; sourceTree = "<group>"; };
-		02D031BB213E610E00E148FD /* SVVector2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVVector2d.h; sourceTree = "<group>"; };
-		02D031BC213E610E00E148FD /* SVGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGeometry.h; sourceTree = "<group>"; };
-		02D031BD213E610E00E148FD /* SVMat2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMat2.h; sourceTree = "<group>"; };
-		02D031BE213E610E00E148FD /* SVMap.spu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMap.spu.h; sourceTree = "<group>"; };
-		02D031BF213E610E00E148FD /* SVGBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGBase.h; sourceTree = "<group>"; };
-		02D031C0213E610E00E148FD /* SVListenBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVListenBase.h; sourceTree = "<group>"; };
-		02D031C1213E610E00E148FD /* aBase.spu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aBase.spu.h; sourceTree = "<group>"; };
-		02D031C2213E610E00E148FD /* SVColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVColor.h; sourceTree = "<group>"; };
-		02D031C3213E610E00E148FD /* heapsort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = heapsort.h; sourceTree = "<group>"; };
-		02D031C4213E610E00E148FD /* SVVector3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVVector3d.h; sourceTree = "<group>"; };
-		02D031C5213E610E00E148FD /* SVMeshData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMeshData.h; sourceTree = "<group>"; };
-		02D031C6213E610E00E148FD /* SVTriangle3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVTriangle3d.h; sourceTree = "<group>"; };
-		02D031C7213E610E00E148FD /* SVLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVLock.h; sourceTree = "<group>"; };
-		02D031C8213E610E00E148FD /* SVMat3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMat3.h; sourceTree = "<group>"; };
-		02D031C9213E610E00E148FD /* SVDataSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDataSwap.h; sourceTree = "<group>"; };
-		02D031CA213E610E00E148FD /* SVGMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGMatrix.h; sourceTree = "<group>"; };
-		02D031CB213E610E00E148FD /* SVCompileConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCompileConfig.h; sourceTree = "<group>"; };
-		02D031CC213E610E00E148FD /* SVDataChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDataChunk.h; sourceTree = "<group>"; };
-		02D031CD213E610E00E148FD /* SVRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRandom.h; sourceTree = "<group>"; };
-		02D031CE213E610E00E148FD /* fast_atof.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fast_atof.h; sourceTree = "<group>"; };
-		02D031CF213E610E00E148FD /* SVStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVStack.h; sourceTree = "<group>"; };
-		02D031D0213E610E00E148FD /* SVArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVArray.h; sourceTree = "<group>"; };
-		02D031D1213E610E00E148FD /* SVPreDeclare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPreDeclare.h; sourceTree = "<group>"; };
-		02D031D2213E610E00E148FD /* SVDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDef.h; sourceTree = "<group>"; };
-		02D031D3213E610E00E148FD /* SVCoreMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCoreMath.h; sourceTree = "<group>"; };
-		02D031D4213E610E00E148FD /* SVMathLib.spu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMathLib.spu.h; sourceTree = "<group>"; };
-		02D031D5213E610E00E148FD /* aSimdLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aSimdLib.h; sourceTree = "<group>"; };
-		02D031D6213E610E00E148FD /* SVaabbox3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVaabbox3d.h; sourceTree = "<group>"; };
-		02D031D7213E610E00E148FD /* SVSimdLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSimdLib.h; sourceTree = "<group>"; };
-		02D031D8213E610E00E148FD /* SVMat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMat4.h; sourceTree = "<group>"; };
-		02D031D9213E610E00E148FD /* SVCoreCompileConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCoreCompileConfig.h; sourceTree = "<group>"; };
-		02D031DA213E610E00E148FD /* SVThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVThread.h; sourceTree = "<group>"; };
-		02D031DB213E610E00E148FD /* svstr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = svstr.h; sourceTree = "<group>"; };
-		02D031DC213E610E00E148FD /* SVDatatDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDatatDef.h; sourceTree = "<group>"; };
-		02D031DD213E610E00E148FD /* SVHalf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVHalf.h; sourceTree = "<group>"; };
-		02D031DE213E610E00E148FD /* SVUtils.spu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUtils.spu.h; sourceTree = "<group>"; };
-		02D031DF213E610E00E148FD /* SVVec2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVVec2.h; sourceTree = "<group>"; };
-		02D031E0213E610E00E148FD /* aMathLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aMathLib.h; sourceTree = "<group>"; };
-		02D031E1213E610E00E148FD /* SVMathLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMathLib.h; sourceTree = "<group>"; };
-		02D031E2213E610E00E148FD /* SVDimension2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDimension2d.h; sourceTree = "<group>"; };
-		02D031E3213E610E00E148FD /* SVSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSet.h; sourceTree = "<group>"; };
-		02D031E4213E610E00E148FD /* SVPosition2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPosition2d.h; sourceTree = "<group>"; };
-		02D031E5213E610E00E148FD /* SVCoreList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCoreList.h; sourceTree = "<group>"; };
-		02D031E6213E610E00E148FD /* SVVecbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVVecbase.h; sourceTree = "<group>"; };
-		02D031E7213E610E00E148FD /* SVLockSpin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVLockSpin.h; sourceTree = "<group>"; };
-		02D031E8213E610E00E148FD /* SVObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVObject.h; sourceTree = "<group>"; };
-		02D031E9213E610E00E148FD /* SVBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBounds.h; sourceTree = "<group>"; };
 		02D031EA213E615100E148FD /* SVIEffect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVIEffect.mm; sourceTree = "<group>"; };
 		02D031ED213E624500E148FD /* hero.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = hero.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -447,9 +112,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				023652B4216082790011A9F1 /* libSVEngine_Static.a in Frameworks */,
 				022978A5213D1648000E27EE /* CoreMedia.framework in Frameworks */,
 				022978A3213D13FD000E27EE /* VideoToolbox.framework in Frameworks */,
-				02297867213D0EDE000E27EE /* libSVEngine_Static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,11 +174,10 @@
 		02297733213D0ECD000E27EE /* svelib */ = {
 			isa = PBXGroup;
 			children = (
+				023652A4216082050011A9F1 /* SVEngine.xcodeproj */,
+				023652B6216087800011A9F1 /* sve.bundle */,
 				02D0304C213E4ED000E148FD /* qiuqian.bundle */,
 				02D031ED213E624500E148FD /* hero.bundle */,
-				02297866213D0EDD000E27EE /* libSVEngine_Static.a */,
-				02D0304E213E610E00E148FD /* include */,
-				0231CAC6213D234F004A2414 /* sve.bundle */,
 			);
 			path = svelib;
 			sourceTree = "<group>";
@@ -526,8 +190,6 @@
 				02297870213D1018000E27EE /* SVICamera.h */,
 				02297875213D1019000E27EE /* SVICamera.mm */,
 				0229787A213D1019000E27EE /* SVIDef.h */,
-				02297879213D1019000E27EE /* SVIDetect.h */,
-				0229786B213D1018000E27EE /* SVIDetect.mm */,
 				02297872213D1019000E27EE /* SVIEffect.h */,
 				02D031EA213E615100E148FD /* SVIEffect.mm */,
 				0229786E213D1018000E27EE /* SVIHead.h */,
@@ -546,646 +208,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		02D0304E213E610E00E148FD /* include */ = {
+		023652A5216082050011A9F1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				02D0304F213E610E00E148FD /* SVEngine_Static */,
+				023652AD216082050011A9F1 /* SVEngine.framework */,
+				023652AF216082050011A9F1 /* libSVEngine_Static.a */,
+				023652B1216082050011A9F1 /* SVEngine_Mac.framework */,
+				023652B3216082050011A9F1 /* libsve_s_mac.a */,
 			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		02D0304F213E610E00E148FD /* SVEngine_Static */ = {
-			isa = PBXGroup;
-			children = (
-				02D0305E213E610E00E148FD /* src */,
-			);
-			path = SVEngine_Static;
-			sourceTree = "<group>";
-		};
-		02D0305E213E610E00E148FD /* src */ = {
-			isa = PBXGroup;
-			children = (
-				02D0305F213E610E00E148FD /* detect */,
-				02D03067213E610E00E148FD /* basesys */,
-				02D0307C213E610E00E148FD /* animate */,
-				02D0307D213E610E00E148FD /* stickers */,
-				02D0307E213E610E00E148FD /* core */,
-				02D03090213E610E00E148FD /* app */,
-				02D03094213E610E00E148FD /* file */,
-				02D030A7213E610E00E148FD /* third */,
-				02D03106213E610E00E148FD /* module */,
-				02D03115213E610E00E148FD /* act */,
-				02D03120213E610E00E148FD /* logicsys */,
-				02D03121213E610E00E148FD /* operate */,
-				02D0312C213E610E00E148FD /* rendercore */,
-				02D03150213E610E00E148FD /* work */,
-				02D03156213E610E00E148FD /* mtl */,
-				02D03175213E610E00E148FD /* callback */,
-				02D0317A213E610E00E148FD /* node */,
-				02D03198213E610E00E148FD /* event */,
-				02D031A1213E610E00E148FD /* base */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		02D0305F213E610E00E148FD /* detect */ = {
-			isa = PBXGroup;
-			children = (
-				02D03060213E610E00E148FD /* SVDetectMgr.h */,
-				02D03061213E610E00E148FD /* SVPersonExpressionExt.h */,
-				02D03062213E610E00E148FD /* SVPerson.h */,
-				02D03063213E610E00E148FD /* SVPersonTracker.h */,
-				02D03064213E610E00E148FD /* SVDetectBase.h */,
-				02D03065213E610E00E148FD /* SVPersonModule.h */,
-				02D03066213E610E00E148FD /* SVDetectST.h */,
-			);
-			path = detect;
-			sourceTree = "<group>";
-		};
-		02D03067213E610E00E148FD /* basesys */ = {
-			isa = PBXGroup;
-			children = (
-				02D03068213E610E00E148FD /* SVPickModule.h */,
-				02D03069213E610E00E148FD /* SVStreamOut.h */,
-				02D0306A213E610E00E148FD /* SVBasicSys.h */,
-				02D0306B213E610E00E148FD /* SVUIMgr.h */,
-				02D0306C213E610E00E148FD /* SVRecycleModule.h */,
-				02D0306D213E610E00E148FD /* SVFontModule.h */,
-				02D0306E213E610E00E148FD /* SVSceneMgr.h */,
-				02D0306F213E610E00E148FD /* SVConfig.h */,
-				02D03070213E610E00E148FD /* SVStaticData.h */,
-				02D03071213E610E00E148FD /* SVLogicMgr.h */,
-				02D03072213E610E00E148FD /* SVLogicDeclare.h */,
-				02D03073213E610E00E148FD /* filter */,
-				02D03079213E610E00E148FD /* SVSysBase.h */,
-				02D0307A213E610E00E148FD /* SVStreamIn.h */,
-				02D0307B213E610E00E148FD /* SVPictureProcess.h */,
-			);
-			path = basesys;
-			sourceTree = "<group>";
-		};
-		02D03073213E610E00E148FD /* filter */ = {
-			isa = PBXGroup;
-			children = (
-				02D03074213E610E00E148FD /* SVRGBToneCurveFilter.h */,
-				02D03075213E610E00E148FD /* SVFilterDef.h */,
-				02D03076213E610E00E148FD /* SVFaceBeautyShowFilter.h */,
-				02D03077213E610E00E148FD /* SVBasedonFilter.h */,
-				02D03078213E610E00E148FD /* SVRGBToneCurveCore.h */,
-			);
-			path = filter;
-			sourceTree = "<group>";
-		};
-		02D0307C213E610E00E148FD /* animate */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = animate;
-			sourceTree = "<group>";
-		};
-		02D0307D213E610E00E148FD /* stickers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = stickers;
-			sourceTree = "<group>";
-		};
-		02D0307E213E610E00E148FD /* core */ = {
-			isa = PBXGroup;
-			children = (
-				02D0307F213E610E00E148FD /* SVMathHelper.h */,
-				02D03080213E610E00E148FD /* SVSkinModel.h */,
-				02D03081213E610E00E148FD /* SVGeoGen.h */,
-				02D03082213E610E00E148FD /* SVBasicModel.h */,
-				02D03083213E610E00E148FD /* SVSpine.h */,
-				02D03084213E610E00E148FD /* SVSkinAnimator.h */,
-				02D03085213E610E00E148FD /* SVSpineListen.h */,
-				02D03086213E610E00E148FD /* SVPass.h */,
-				02D03087213E610E00E148FD /* SVGeometryBase.h */,
-				02D03088213E610E00E148FD /* GLParticles.h */,
-				02D03089213E610E00E148FD /* SVSpineObjc.h */,
-				02D0308A213E610E00E148FD /* SVModel.h */,
-				02D0308B213E610E00E148FD /* SVMesh.h */,
-				02D0308C213E610E00E148FD /* SVAsRigidAsPossible.h */,
-				02D0308D213E610E00E148FD /* SVParticles.h */,
-				02D0308E213E610E00E148FD /* SVImageUsingMove.h */,
-				02D0308F213E610E00E148FD /* SVVertDef.h */,
-			);
-			path = core;
-			sourceTree = "<group>";
-		};
-		02D03090213E610E00E148FD /* app */ = {
-			isa = PBXGroup;
-			children = (
-				02D03091213E610E00E148FD /* SVGlobalMgr.h */,
-				02D03092213E610E00E148FD /* SVGlobalParam.h */,
-				02D03093213E610E00E148FD /* SVInst.h */,
-			);
-			path = app;
-			sourceTree = "<group>";
-		};
-		02D03094213E610E00E148FD /* file */ = {
-			isa = PBXGroup;
-			children = (
-				02D03095213E610E00E148FD /* SVFileWriter.h */,
-				02D03096213E610E00E148FD /* SVDataBase.h */,
-				02D03097213E610E00E148FD /* SVObjLoader.h */,
-				02D03098213E610E00E148FD /* SVFileLoader.h */,
-				02D03099213E610E00E148FD /* SVParseGame.h */,
-				02D0309A213E610E00E148FD /* SVParseBitfont.h */,
-				02D0309B213E610E00E148FD /* SVParse.h */,
-				02D0309C213E610E00E148FD /* SVParseSprite.h */,
-				02D0309D213E610E00E148FD /* SVFileMgr.h */,
-				02D0309E213E610E00E148FD /* SVDataFilter.h */,
-				02D0309F213E610E00E148FD /* SVDataNode.h */,
-				02D030A0213E610E00E148FD /* SVParseDef.h */,
-				02D030A1213E610E00E148FD /* SVParseAnimate.h */,
-				02D030A2213E610E00E148FD /* SVParseMask.h */,
-				02D030A3213E610E00E148FD /* SVParseMain.h */,
-				02D030A4213E610E00E148FD /* SVPngWriter.h */,
-				02D030A5213E610E00E148FD /* SVPngLoader.h */,
-				02D030A6213E610E00E148FD /* SVParseData.h */,
-			);
-			path = file;
-			sourceTree = "<group>";
-		};
-		02D030A7213E610E00E148FD /* third */ = {
-			isa = PBXGroup;
-			children = (
-				02D030A8213E610E00E148FD /* libpng */,
-				02D030B0213E610E00E148FD /* spine */,
-				02D030DF213E610E00E148FD /* rapidjson */,
-			);
-			path = third;
-			sourceTree = "<group>";
-		};
-		02D030A8213E610E00E148FD /* libpng */ = {
-			isa = PBXGroup;
-			children = (
-				02D030A9213E610E00E148FD /* pnginfo.h */,
-				02D030AA213E610E00E148FD /* pngstruct.h */,
-				02D030AB213E610E00E148FD /* pngpriv.h */,
-				02D030AC213E610E00E148FD /* png.h */,
-				02D030AD213E610E00E148FD /* pnglibconf.h */,
-				02D030AE213E610E00E148FD /* pngconf.h */,
-				02D030AF213E610E00E148FD /* pngdebug.h */,
-			);
-			path = libpng;
-			sourceTree = "<group>";
-		};
-		02D030B0213E610E00E148FD /* spine */ = {
-			isa = PBXGroup;
-			children = (
-				02D030B1213E610E00E148FD /* include */,
-				02D030DB213E610E00E148FD /* src */,
-			);
-			path = spine;
-			sourceTree = "<group>";
-		};
-		02D030B1213E610E00E148FD /* include */ = {
-			isa = PBXGroup;
-			children = (
-				02D030B2213E610E00E148FD /* spine */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		02D030B2213E610E00E148FD /* spine */ = {
-			isa = PBXGroup;
-			children = (
-				02D030B3213E610E00E148FD /* Animation.h */,
-				02D030B4213E610E00E148FD /* EventData.h */,
-				02D030B5213E610E00E148FD /* SlotData.h */,
-				02D030B6213E610E00E148FD /* SkeletonClipping.h */,
-				02D030B7213E610E00E148FD /* PathAttachment.h */,
-				02D030B8213E610E00E148FD /* PointAttachment.h */,
-				02D030B9213E610E00E148FD /* Event.h */,
-				02D030BA213E610E00E148FD /* Bone.h */,
-				02D030BB213E610E00E148FD /* Atlas.h */,
-				02D030BC213E610E00E148FD /* VertexAttachment.h */,
-				02D030BD213E610E00E148FD /* spine.h */,
-				02D030BE213E610E00E148FD /* ClippingAttachment.h */,
-				02D030BF213E610E00E148FD /* Color.h */,
-				02D030C0213E610E00E148FD /* Triangulator.h */,
-				02D030C1213E610E00E148FD /* RegionAttachment.h */,
-				02D030C2213E610E00E148FD /* Attachment.h */,
-				02D030C3213E610E00E148FD /* TransformConstraint.h */,
-				02D030C4213E610E00E148FD /* dll.h */,
-				02D030C5213E610E00E148FD /* SkeletonJson.h */,
-				02D030C6213E610E00E148FD /* IkConstraintData.h */,
-				02D030C7213E610E00E148FD /* AnimationStateData.h */,
-				02D030C8213E610E00E148FD /* Skeleton.h */,
-				02D030C9213E610E00E148FD /* AttachmentLoader.h */,
-				02D030CA213E610E00E148FD /* Skin.h */,
-				02D030CB213E610E00E148FD /* VertexEffect.h */,
-				02D030CC213E610E00E148FD /* SkeletonBinary.h */,
-				02D030CD213E610E00E148FD /* SkeletonData.h */,
-				02D030CE213E610E00E148FD /* Array.h */,
-				02D030CF213E610E00E148FD /* PathConstraintData.h */,
-				02D030D0213E610E00E148FD /* TransformConstraintData.h */,
-				02D030D1213E610E00E148FD /* extension.h */,
-				02D030D2213E610E00E148FD /* PathConstraint.h */,
-				02D030D3213E610E00E148FD /* IkConstraint.h */,
-				02D030D4213E610E00E148FD /* BoundingBoxAttachment.h */,
-				02D030D5213E610E00E148FD /* SkeletonBounds.h */,
-				02D030D6213E610E00E148FD /* Slot.h */,
-				02D030D7213E610E00E148FD /* BoneData.h */,
-				02D030D8213E610E00E148FD /* AnimationState.h */,
-				02D030D9213E610E00E148FD /* MeshAttachment.h */,
-				02D030DA213E610E00E148FD /* AtlasAttachmentLoader.h */,
-			);
-			path = spine;
-			sourceTree = "<group>";
-		};
-		02D030DB213E610E00E148FD /* src */ = {
-			isa = PBXGroup;
-			children = (
-				02D030DC213E610E00E148FD /* spine */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		02D030DC213E610E00E148FD /* spine */ = {
-			isa = PBXGroup;
-			children = (
-				02D030DD213E610E00E148FD /* kvec.h */,
-				02D030DE213E610E00E148FD /* Json.h */,
-			);
-			path = spine;
-			sourceTree = "<group>";
-		};
-		02D030DF213E610E00E148FD /* rapidjson */ = {
-			isa = PBXGroup;
-			children = (
-				02D030E0213E610E00E148FD /* fwd.h */,
-				02D030E1213E610E00E148FD /* memorystream.h */,
-				02D030E2213E610E00E148FD /* reader.h */,
-				02D030E3213E610E00E148FD /* prettywriter.h */,
-				02D030E4213E610E00E148FD /* ostreamwrapper.h */,
-				02D030E5213E610E00E148FD /* encodedstream.h */,
-				02D030E6213E610E00E148FD /* filereadstream.h */,
-				02D030E7213E610E00E148FD /* istreamwrapper.h */,
-				02D030E8213E610E00E148FD /* stringbuffer.h */,
-				02D030E9213E610E00E148FD /* internal */,
-				02D030F6213E610E00E148FD /* encodings.h */,
-				02D030F7213E610E00E148FD /* schema.h */,
-				02D030F8213E610E00E148FD /* stream.h */,
-				02D030F9213E610E00E148FD /* filewritestream.h */,
-				02D030FA213E610E00E148FD /* rapidjson.h */,
-				02D030FB213E610E00E148FD /* document.h */,
-				02D030FC213E610E00E148FD /* allocators.h */,
-				02D030FD213E610E00E148FD /* writer.h */,
-				02D030FE213E610E00E148FD /* error */,
-				02D03101213E610E00E148FD /* memorybuffer.h */,
-				02D03102213E610E00E148FD /* pointer.h */,
-				02D03103213E610E00E148FD /* msinttypes */,
-			);
-			path = rapidjson;
-			sourceTree = "<group>";
-		};
-		02D030E9213E610E00E148FD /* internal */ = {
-			isa = PBXGroup;
-			children = (
-				02D030EA213E610E00E148FD /* ieee754.h */,
-				02D030EB213E610E00E148FD /* strtod.h */,
-				02D030EC213E610E00E148FD /* swap.h */,
-				02D030ED213E610E00E148FD /* regex.h */,
-				02D030EE213E610E00E148FD /* diyfp.h */,
-				02D030EF213E610E00E148FD /* biginteger.h */,
-				02D030F0213E610E00E148FD /* strfunc.h */,
-				02D030F1213E610E00E148FD /* itoa.h */,
-				02D030F2213E610E00E148FD /* stack.h */,
-				02D030F3213E610E00E148FD /* dtoa.h */,
-				02D030F4213E610E00E148FD /* meta.h */,
-				02D030F5213E610E00E148FD /* pow10.h */,
-			);
-			path = internal;
-			sourceTree = "<group>";
-		};
-		02D030FE213E610E00E148FD /* error */ = {
-			isa = PBXGroup;
-			children = (
-				02D030FF213E610E00E148FD /* error.h */,
-				02D03100213E610E00E148FD /* en.h */,
-			);
-			path = error;
-			sourceTree = "<group>";
-		};
-		02D03103213E610E00E148FD /* msinttypes */ = {
-			isa = PBXGroup;
-			children = (
-				02D03104213E610E00E148FD /* inttypes.hh */,
-				02D03105213E610E00E148FD /* stdint.hh */,
-			);
-			path = msinttypes;
-			sourceTree = "<group>";
-		};
-		02D03106213E610E00E148FD /* module */ = {
-			isa = PBXGroup;
-			children = (
-				02D03107213E610E00E148FD /* SVGameEnd.h */,
-				02D03108213E610E00E148FD /* SVRedPacket.h */,
-				02D03109213E610E00E148FD /* SVGameBase.h */,
-				02D0310A213E610E00E148FD /* SVGamePart.h */,
-				02D0310B213E610E00E148FD /* SVModuleBase.h */,
-				02D0310C213E610E00E148FD /* SVRedPacketRun.h */,
-				02D0310D213E610E00E148FD /* SVModuleDelaySuspend.h */,
-				02D0310E213E610E00E148FD /* SVEffectPackage.h */,
-				02D0310F213E610E00E148FD /* SVGameReady.h */,
-				02D03110213E610E00E148FD /* SVModuleDef.h */,
-				02D03111213E610E00E148FD /* SVRedPacketEnd.h */,
-				02D03112213E610E00E148FD /* SVModuleSys.h */,
-				02D03113213E610E00E148FD /* SVRedPacketReady.h */,
-				02D03114213E610E00E148FD /* SVGameRun.h */,
-			);
-			path = module;
-			sourceTree = "<group>";
-		};
-		02D03115213E610E00E148FD /* act */ = {
-			isa = PBXGroup;
-			children = (
-				02D03116213E610E00E148FD /* SVActSequence.h */,
-				02D03117213E610E00E148FD /* SVActDef.h */,
-				02D03118213E610E00E148FD /* SVActBase.h */,
-				02D03119213E610E00E148FD /* SVActionSys.h */,
-				02D0311A213E610E00E148FD /* SVActMtl.h */,
-				02D0311B213E610E00E148FD /* SVActDeform.h */,
-				02D0311C213E610E00E148FD /* SVActionUnit.h */,
-				02D0311D213E610E00E148FD /* SVActFollow.h */,
-				02D0311E213E610E00E148FD /* SVActDeclare.h */,
-				02D0311F213E610E00E148FD /* SVActTime.h */,
-			);
-			path = act;
-			sourceTree = "<group>";
-		};
-		02D03120213E610E00E148FD /* logicsys */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = logicsys;
-			sourceTree = "<group>";
-		};
-		02D03121213E610E00E148FD /* operate */ = {
-			isa = PBXGroup;
-			children = (
-				02D03122213E610E00E148FD /* SVOpBase.h */,
-				02D03123213E610E00E148FD /* SVOpCreate.h */,
-				02D03124213E610E00E148FD /* SVOpFilter.h */,
-				02D03125213E610E00E148FD /* SVOpRender.h */,
-				02D03126213E610E00E148FD /* SVOpThread.h */,
-				02D03127213E610E00E148FD /* SVOpParse.h */,
-				02D03128213E610E00E148FD /* SVOpOutCamera.h */,
-				02D03129213E610E00E148FD /* SVOpDetect.h */,
-				02D0312A213E610E00E148FD /* SVOpLoadBase.h */,
-				02D0312B213E610E00E148FD /* SVOpDestroy.h */,
-			);
-			path = operate;
-			sourceTree = "<group>";
-		};
-		02D0312C213E610E00E148FD /* rendercore */ = {
-			isa = PBXGroup;
-			children = (
-				02D0312D213E610E00E148FD /* SVGL */,
-				02D03133213E610E00E148FD /* SVRenderCmdOut.h */,
-				02D03134213E610E00E148FD /* SVRenderCmd.h */,
-				02D03135213E610E00E148FD /* renderer */,
-				02D03140213E610E00E148FD /* SVResTex.h */,
-				02D03141213E610E00E148FD /* SVRenderDef.h */,
-				02D03142213E610E00E148FD /* SVResFBO.h */,
-				02D03143213E610E00E148FD /* SVRenderStream.h */,
-				02D03144213E610E00E148FD /* SVRenderCmdGeo.h */,
-				02D03145213E610E00E148FD /* SVRenderMeshData.h */,
-				02D03146213E610E00E148FD /* SVRenderScene.h */,
-				02D03147213E610E00E148FD /* SVFboObject.h */,
-				02D03148213E610E00E148FD /* SVRenderTexture.h */,
-				02D03149213E610E00E148FD /* SVRenderPipline.h */,
-				02D0314A213E610E00E148FD /* SVRenderMgr.h */,
-				02D0314B213E610E00E148FD /* SVRenderDeclare.h */,
-				02D0314C213E610E00E148FD /* SVRenderMesh.h */,
-				02D0314D213E610E00E148FD /* SVRObjBase.h */,
-				02D0314E213E610E00E148FD /* SVRenderObject.h */,
-				02D0314F213E610E00E148FD /* SVRenderTarget.h */,
-			);
-			path = rendercore;
-			sourceTree = "<group>";
-		};
-		02D0312D213E610E00E148FD /* SVGL */ = {
-			isa = PBXGroup;
-			children = (
-				02D0312E213E610E00E148FD /* SVGLCmdTexture.h */,
-				02D0312F213E610E00E148FD /* SVRResGL.h */,
-				02D03130213E610E00E148FD /* SVGLCmdBase.h */,
-				02D03131213E610E00E148FD /* SVGLCmdVbo.h */,
-				02D03132213E610E00E148FD /* SVGLCmdFbo.h */,
-			);
-			path = SVGL;
-			sourceTree = "<group>";
-		};
-		02D03135213E610E00E148FD /* renderer */ = {
-			isa = PBXGroup;
-			children = (
-				02D03136213E610E00E148FD /* SVContextBase.h */,
-				02D03137213E610E00E148FD /* SVContextIOS.h */,
-				02D03138213E610E00E148FD /* SVRendererVK.h */,
-				02D03139213E610E00E148FD /* SVRendererMetal.h */,
-				02D0313A213E610E00E148FD /* SVRenderState.h */,
-				02D0313B213E610E00E148FD /* SVRendererBase.h */,
-				02D0313C213E610E00E148FD /* SVRendererGL.h */,
-				02D0313D213E610E00E148FD /* SVContextOSX.h */,
-				02D0313E213E610E00E148FD /* SVRenderStateGL.h */,
-				02D0313F213E610E00E148FD /* SVEGLContext.h */,
-			);
-			path = renderer;
-			sourceTree = "<group>";
-		};
-		02D03150213E610E00E148FD /* work */ = {
-			isa = PBXGroup;
-			children = (
-				02D03151213E610E00E148FD /* SVThreadPool.h */,
-				02D03152213E610E00E148FD /* SVThreadWork.h */,
-				02D03153213E610E00E148FD /* SVThreadHelp.h */,
-				02D03154213E610E00E148FD /* SVThreadMain.h */,
-				02D03155213E610E00E148FD /* SVThreadRender.h */,
-			);
-			path = work;
-			sourceTree = "<group>";
-		};
-		02D03156213E610E00E148FD /* mtl */ = {
-			isa = PBXGroup;
-			children = (
-				02D03157213E610E00E148FD /* SVTexMgr.h */,
-				02D03158213E610E00E148FD /* SVShaderMgr.h */,
-				02D03159213E610E00E148FD /* SVMtlRepeat.h */,
-				02D0315A213E610E00E148FD /* SVTexturePList.h */,
-				02D0315B213E610E00E148FD /* SVMtlFilterShake.h */,
-				02D0315C213E610E00E148FD /* SVMtlParamBase.h */,
-				02D0315D213E610E00E148FD /* SVMtlColorSelect.h */,
-				02D0315E213E610E00E148FD /* SVMtlBeautyFilter.h */,
-				02D0315F213E610E00E148FD /* SVMtlMirror.h */,
-				02D03160213E610E00E148FD /* SVMtlBeauty.h */,
-				02D03161213E610E00E148FD /* SVMtlShapeVaried.h */,
-				02D03162213E610E00E148FD /* SVTexture.h */,
-				02D03163213E610E00E148FD /* SVMtlBlendColor.h */,
-				02D03164213E610E00E148FD /* SVMtlNocolor.h */,
-				02D03165213E610E00E148FD /* SVTextureIOS.h */,
-				02D03166213E610E00E148FD /* SVMtlToneCurverRGB.h */,
-				02D03167213E610E00E148FD /* SVMtlImageUsingMove.h */,
-				02D03168213E610E00E148FD /* SVMtlBasedOn.h */,
-				02D03169213E610E00E148FD /* SVMtlFaceShape.h */,
-				02D0316A213E610E00E148FD /* SVMtlDeclare.h */,
-				02D0316B213E610E00E148FD /* SVMtlFilterTime.h */,
-				02D0316C213E610E00E148FD /* SVBeatyShader.h */,
-				02D0316D213E610E00E148FD /* SVMtlRGB2YUV.h */,
-				02D0316E213E610E00E148FD /* SVMtlScreen.h */,
-				02D0316F213E610E00E148FD /* SVMtlMask.h */,
-				02D03170213E610E00E148FD /* SVMtlCore.h */,
-				02D03171213E610E00E148FD /* SVMtlDef.h */,
-				02D03172213E610E00E148FD /* SVMtlFace2d.h */,
-				02D03173213E610E00E148FD /* SVMtlSkinModel.h */,
-				02D03174213E610E00E148FD /* SVMtlFair1.h */,
-			);
-			path = mtl;
-			sourceTree = "<group>";
-		};
-		02D03175213E610E00E148FD /* callback */ = {
-			isa = PBXGroup;
-			children = (
-				02D03176213E610E00E148FD /* SVOpCallback.h */,
-				02D03177213E610E00E148FD /* SVThreadWorkCallback.h */,
-				02D03178213E610E00E148FD /* SVCallbackBase.h */,
-				02D03179213E610E00E148FD /* SVThreadCallback.h */,
-			);
-			path = callback;
-			sourceTree = "<group>";
-		};
-		02D0317A213E610E00E148FD /* node */ = {
-			isa = PBXGroup;
-			children = (
-				02D0317B213E610E00E148FD /* SVIOSInstreamNode.h */,
-				02D0317C213E610E00E148FD /* SVModelNode.h */,
-				02D0317D213E610E00E148FD /* SVSkyDomeNode.h */,
-				02D0317E213E610E00E148FD /* SVFaceDetectPointNode.h */,
-				02D0317F213E610E00E148FD /* SVIOSOutstreamNode.h */,
-				02D03180213E610E00E148FD /* SV2DFaceMaskSTNode.h */,
-				02D03181213E610E00E148FD /* SVSpriteNode.h */,
-				02D03182213E610E00E148FD /* SVNodeDef.h */,
-				02D03183213E610E00E148FD /* SVParticlesNode.h */,
-				02D03184213E610E00E148FD /* SV3DBox.h */,
-				02D03185213E610E00E148FD /* SVBitFontNode.h */,
-				02D03186213E610E00E148FD /* SVFreeTypeNode.h */,
-				02D03187213E610E00E148FD /* SVCoordGridNode.h */,
-				02D03188213E610E00E148FD /* SVFaceImageUsingMoveNode.h */,
-				02D03189213E610E00E148FD /* SV2DFaceMaskNode.h */,
-				02D0318A213E610E00E148FD /* SVFrameOutNode.h */,
-				02D0318B213E610E00E148FD /* SVSpineNode.h */,
-				02D0318C213E610E00E148FD /* SVTransTexNode.h */,
-				02D0318D213E610E00E148FD /* SVBGRAInstreamNode.h */,
-				02D0318E213E610E00E148FD /* SVCameraNode.h */,
-				02D0318F213E610E00E148FD /* SVNode.h */,
-				02D03190213E610E00E148FD /* SVFacePointNode.h */,
-				02D03191213E610E00E148FD /* SVFaceShapeNode.h */,
-				02D03192213E610E00E148FD /* SVYUVInstreamNode.h */,
-				02D03193213E610E00E148FD /* SVDummyNode.h */,
-				02D03194213E610E00E148FD /* SVShapeVariedNode.h */,
-				02D03195213E610E00E148FD /* SVScene.h */,
-				02D03196213E610E00E148FD /* SVMultPassNode.h */,
-				02D03197213E610E00E148FD /* SVNodeVisit.h */,
-			);
-			path = node;
-			sourceTree = "<group>";
-		};
-		02D03198213E610E00E148FD /* event */ = {
-			isa = PBXGroup;
-			children = (
-				02D03199213E610E00E148FD /* SVEventVideo.h */,
-				02D0319A213E610E00E148FD /* SVEvent.h */,
-				02D0319B213E610E00E148FD /* SVEventProc.h */,
-				02D0319C213E610E00E148FD /* SVEventMgr.h */,
-				02D0319D213E610E00E148FD /* SVEventThread.h */,
-				02D0319E213E610E00E148FD /* SVOpEvent.h */,
-				02D0319F213E610E00E148FD /* SVEventDeclare.h */,
-				02D031A0213E610E00E148FD /* SVEventDef.h */,
-			);
-			path = event;
-			sourceTree = "<group>";
-		};
-		02D031A1213E610E00E148FD /* base */ = {
-			isa = PBXGroup;
-			children = (
-				02D031A2213E610E00E148FD /* aMath.h */,
-				02D031A3213E610E00E148FD /* SVSem.h */,
-				02D031A4213E610E00E148FD /* SVCoreTree.spu.h */,
-				02D031A5213E610E00E148FD /* aMathLib.spu.h */,
-				02D031A6213E610E00E148FD /* aGeometry.h */,
-				02D031A7213E610E00E148FD /* SVCoreAllocator.h */,
-				02D031A8213E610E00E148FD /* SVMat4d.h */,
-				02D031A9213E610E00E148FD /* SVIDPool.h */,
-				02D031AA213E610E00E148FD /* SVCoreTree.h */,
-				02D031AB213E610E00E148FD /* SVUtils.h */,
-				02D031AC213E610E00E148FD /* SVGVector.h */,
-				02D031AD213E610E00E148FD /* SVVec3.h */,
-				02D031AE213E610E00E148FD /* SVLine3d.h */,
-				02D031AF213E610E00E148FD /* SVBase.h */,
-				02D031B0213E610E00E148FD /* SVMap.h */,
-				02D031B1213E610E00E148FD /* SVBase.spu.h */,
-				02D031B2213E610E00E148FD /* SVTypes.h */,
-				02D031B3213E610E00E148FD /* SVLine2d.h */,
-				02D031B4213E610E00E148FD /* SVHash.h */,
-				02D031B5213E610E00E148FD /* SVSign.h */,
-				02D031B6213E610E00E148FD /* SVSet.spu.h */,
-				02D031B7213E610E00E148FD /* aBase.h */,
-				02D031B8213E610E00E148FD /* SVQuat.h */,
-				02D031B9213E610E00E148FD /* SVRect.h */,
-				02D031BA213E610E00E148FD /* SVVec4.h */,
-				02D031BB213E610E00E148FD /* SVVector2d.h */,
-				02D031BC213E610E00E148FD /* SVGeometry.h */,
-				02D031BD213E610E00E148FD /* SVMat2.h */,
-				02D031BE213E610E00E148FD /* SVMap.spu.h */,
-				02D031BF213E610E00E148FD /* SVGBase.h */,
-				02D031C0213E610E00E148FD /* SVListenBase.h */,
-				02D031C1213E610E00E148FD /* aBase.spu.h */,
-				02D031C2213E610E00E148FD /* SVColor.h */,
-				02D031C3213E610E00E148FD /* heapsort.h */,
-				02D031C4213E610E00E148FD /* SVVector3d.h */,
-				02D031C5213E610E00E148FD /* SVMeshData.h */,
-				02D031C6213E610E00E148FD /* SVTriangle3d.h */,
-				02D031C7213E610E00E148FD /* SVLock.h */,
-				02D031C8213E610E00E148FD /* SVMat3.h */,
-				02D031C9213E610E00E148FD /* SVDataSwap.h */,
-				02D031CA213E610E00E148FD /* SVGMatrix.h */,
-				02D031CB213E610E00E148FD /* SVCompileConfig.h */,
-				02D031CC213E610E00E148FD /* SVDataChunk.h */,
-				02D031CD213E610E00E148FD /* SVRandom.h */,
-				02D031CE213E610E00E148FD /* fast_atof.h */,
-				02D031CF213E610E00E148FD /* SVStack.h */,
-				02D031D0213E610E00E148FD /* SVArray.h */,
-				02D031D1213E610E00E148FD /* SVPreDeclare.h */,
-				02D031D2213E610E00E148FD /* SVDef.h */,
-				02D031D3213E610E00E148FD /* SVCoreMath.h */,
-				02D031D4213E610E00E148FD /* SVMathLib.spu.h */,
-				02D031D5213E610E00E148FD /* aSimdLib.h */,
-				02D031D6213E610E00E148FD /* SVaabbox3d.h */,
-				02D031D7213E610E00E148FD /* SVSimdLib.h */,
-				02D031D8213E610E00E148FD /* SVMat4.h */,
-				02D031D9213E610E00E148FD /* SVCoreCompileConfig.h */,
-				02D031DA213E610E00E148FD /* SVThread.h */,
-				02D031DB213E610E00E148FD /* svstr.h */,
-				02D031DC213E610E00E148FD /* SVDatatDef.h */,
-				02D031DD213E610E00E148FD /* SVHalf.h */,
-				02D031DE213E610E00E148FD /* SVUtils.spu.h */,
-				02D031DF213E610E00E148FD /* SVVec2.h */,
-				02D031E0213E610E00E148FD /* aMathLib.h */,
-				02D031E1213E610E00E148FD /* SVMathLib.h */,
-				02D031E2213E610E00E148FD /* SVDimension2d.h */,
-				02D031E3213E610E00E148FD /* SVSet.h */,
-				02D031E4213E610E00E148FD /* SVPosition2d.h */,
-				02D031E5213E610E00E148FD /* SVCoreList.h */,
-				02D031E6213E610E00E148FD /* SVVecbase.h */,
-				02D031E7213E610E00E148FD /* SVLockSpin.h */,
-				02D031E8213E610E00E148FD /* SVObject.h */,
-				02D031E9213E610E00E148FD /* SVBounds.h */,
-			);
-			path = base;
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1233,6 +264,12 @@
 			mainGroup = 02297711213D0DFD000E27EE;
 			productRefGroup = 0229771B213D0DFE000E27EE /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 023652A5216082050011A9F1 /* Products */;
+					ProjectRef = 023652A4216082050011A9F1 /* SVEngine.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				02297719213D0DFE000E27EE /* SVEDemo */,
@@ -1240,12 +277,43 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		023652AD216082050011A9F1 /* SVEngine.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SVEngine.framework;
+			remoteRef = 023652AC216082050011A9F1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		023652AF216082050011A9F1 /* libSVEngine_Static.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSVEngine_Static.a;
+			remoteRef = 023652AE216082050011A9F1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		023652B1216082050011A9F1 /* SVEngine_Mac.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SVEngine_Mac.framework;
+			remoteRef = 023652B0216082050011A9F1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		023652B3216082050011A9F1 /* libsve_s_mac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libsve_s_mac.a;
+			remoteRef = 023652B2216082050011A9F1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		02297718213D0DFE000E27EE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0231CAC7213D234F004A2414 /* sve.bundle in Resources */,
+				023652B7216087800011A9F1 /* sve.bundle in Resources */,
 				02D031EE213E624500E148FD /* hero.bundle in Resources */,
 				02D0304D213E4ED000E148FD /* qiuqian.bundle in Resources */,
 				0229772A213D0E01000E27EE /* LaunchScreen.storyboard in Resources */,
@@ -1274,7 +342,6 @@
 				0231CAC1213D1D9A004A2414 /* SDState.m in Sources */,
 				0229787D213D101A000E27EE /* SVInterfaceBase.mm in Sources */,
 				02D031EB213E615200E148FD /* SVIEffect.mm in Sources */,
-				0229787C213D101A000E27EE /* SVIDetect.mm in Sources */,
 				0229771F213D0DFE000E27EE /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1419,8 +486,8 @@
 				DEVELOPMENT_TEAM = R98BC2PLD7;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/SVEDemo/svelib/include",
-					"$(PROJECT_DIR)/SVEDemo/svelib/include/SVEngine_Static/src/third/spine/include",
+					"\"$(SRCROOT)/../SVEngine/src\"",
+					"\"$(SRCROOT)/../SVEngine/src/third/spine/include\"",
 				);
 				INFOPLIST_FILE = SVEDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1445,8 +512,8 @@
 				DEVELOPMENT_TEAM = R98BC2PLD7;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/SVEDemo/svelib/include",
-					"$(PROJECT_DIR)/SVEDemo/svelib/include/SVEngine_Static/src/third/spine/include",
+					"\"$(SRCROOT)/../SVEngine/src\"",
+					"\"$(SRCROOT)/../SVEngine/src/third/spine/include\"",
 				);
 				INFOPLIST_FILE = SVEDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

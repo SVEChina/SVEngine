@@ -21,25 +21,7 @@ namespace sv {
     class SVGameEnd;
     typedef std::shared_ptr<SVGameEnd> SVGameEndPtr;
     class SVRedPacket;
-    typedef std::shared_ptr<SVRedPacket> SVRedPacketPtr;
-    class SVRedPacketReady;
-    typedef std::shared_ptr<SVRedPacketReady> SVRedPacketReadyPtr;
-    class SVRedPacketReadyUnit;
-    typedef std::shared_ptr<SVRedPacketReadyUnit> SVRedPacketReadyUnitPtr;
-    class SVRedPacketRun;
-    typedef std::shared_ptr<SVRedPacketRun> SVRedPacketRunPtr;
-    class SVRedPacketEnd;
-    typedef std::shared_ptr<SVRedPacketEnd> SVRedPacketEndPtr;
-    class SVRedPacketUnit;
-    typedef std::shared_ptr<SVRedPacketUnit> SVRedPacketUnitPtr;
-    class SVRedPacketUnitMgr;
-    typedef std::shared_ptr<SVRedPacketUnitMgr> SVRedPacketUnitMgrPtr;
-    class SVGoldUnit;
-    typedef std::shared_ptr<SVGoldUnit> SVGoldUnitPtr;
-    class SVTouchAniUnit;
-    typedef std::shared_ptr<SVTouchAniUnit> SVTouchAniUnitPtr;
-    class SVTouchAniUnitMgr;
-    typedef std::shared_ptr<SVTouchAniUnitMgr> SVTouchAniUnitMgrPtr;
+    
     class SVEffectUnit;
     typedef std::shared_ptr<SVEffectUnit> SVEffectUnitPtr;
     class SVEffectPackage;
@@ -47,18 +29,7 @@ namespace sv {
     class SVDivisonFilter;
     typedef std::shared_ptr<SVDivisonFilter> SVDivisonFilterPtr;
     //heart flutter
-    class SVHeartFlutter;
-    typedef std::shared_ptr<SVHeartFlutter> SVHeartFlutterPtr;
-    class SVHeartFlutterReady;
-    typedef std::shared_ptr<SVHeartFlutterReady> SVHeartFlutterReadyPtr;
-    class SVHeartFlutterRun;
-    typedef std::shared_ptr<SVHeartFlutterRun> SVHeartFlutterRunPtr;
-    class SVHeartFlutterEnd;
-    typedef std::shared_ptr<SVHeartFlutterEnd> SVHeartFlutterEndPtr;
-    class SVHeartUnit;
-    typedef std::shared_ptr<SVHeartUnit> SVHeartUnitPtr;
-    class SVHeartUnitMgr;
-    typedef std::shared_ptr<SVHeartUnitMgr> SVHeartUnitMgrPtr;
+
     
 }//!namespace sv
 

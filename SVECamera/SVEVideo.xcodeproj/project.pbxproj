@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0217ECC220F07B6600BB08E1 /* SWDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0217ECC120F07B6600BB08E1 /* SWDetection.m */; };
 		0217ECC520F07CFB00BB08E1 /* SWDetectionSenseTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0217ECC420F07CFB00BB08E1 /* SWDetectionSenseTime.m */; };
+		023652A3216081D80011A9F1 /* sve.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0236529D216081D80011A9F1 /* sve.bundle */; };
 		02422D0E20EDF23400990F4D /* SWInStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 02422D0D20EDF23400990F4D /* SWInStream.m */; };
 		02422D1920EDF25B00990F4D /* SWOutStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 02422D1820EDF25B00990F4D /* SWOutStream.m */; };
 		02422D1F20EDF83300990F4D /* SWInStreamBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 02422D1E20EDF83300990F4D /* SWInStreamBuffer.m */; };
@@ -40,7 +41,6 @@
 		5F0DC6C420A2EFB800780738 /* RecordImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0DC53620A2EFB600780738 /* RecordImage.m */; };
 		5F0DC6C520A2EFB800780738 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0DC53720A2EFB600780738 /* Camera.m */; };
 		5F0DC6C620A2EFB800780738 /* RecordVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0DC53820A2EFB600780738 /* RecordVideo.m */; };
-		5F0DC6C820A2EFB800780738 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F0DC53D20A2EFB600780738 /* Assets.xcassets */; };
 		5F0DC71220A2EFB800780738 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F0DC59220A2EFB600780738 /* LaunchScreen.storyboard */; };
 		5F0DC71320A2EFB800780738 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F0DC59420A2EFB600780738 /* Main.storyboard */; };
 		5F0DC71520A2EFB800780738 /* SWLogicAni.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0DC59920A2EFB700780738 /* SWLogicAni.m */; };
@@ -96,45 +96,43 @@
 		5F0DC7B220A2F42400780738 /* SWRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0DC7A920A2F42300780738 /* SWRecord.m */; };
 		5F0DC7B420A2F42400780738 /* SWMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0DC7AB20A2F42300780738 /* SWMediaPlayer.m */; };
 		5F0DC7B520A2F42400780738 /* SWBasicSys.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0DC7AC20A2F42300780738 /* SWBasicSys.m */; };
-		5F2A9E53210A127100A73BFD /* sve.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5F2A9E52210A127000A73BFD /* sve.bundle */; };
 		5F34E8CC20A31A3B00E86A88 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F34E8BF20A31A3B00E86A88 /* Utility.m */; };
 		5F34E8CD20A31A3B00E86A88 /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F34E8C020A31A3B00E86A88 /* UIImage+Helper.m */; };
 		5F34E8CE20A31A3B00E86A88 /* SWFileUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F34E8C120A31A3B00E86A88 /* SWFileUtil.m */; };
 		5F34E8D020A31A3B00E86A88 /* SWTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F34E8C420A31A3B00E86A88 /* SWTimer.m */; };
-		5F34E8EB20A3368300E86A88 /* SVEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F0DC7C220A2F7A900780738 /* SVEngine.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		5FB1078220A5B6D9009CD4EC /* SWSVView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB1078120A5B6D9009CD4EC /* SWSVView.m */; };
 		5FB6794A20BEDD7800955D25 /* SWNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB6794820BEDD7800955D25 /* SWNavigationController.m */; };
 		5FB6794B20BEDD7800955D25 /* SWMainVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB6794920BEDD7800955D25 /* SWMainVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		023579FE20E7C49900F29FB8 /* PBXContainerItemProxy */ = {
+		02365294216080900011A9F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 5F0DC7BA20A2F7A900780738 /* SVEngine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 023574B020E514F500F29FB8;
-			remoteInfo = SVEngine_Static_Mac;
-		};
-		5F0DC7C120A2F7A900780738 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5F0DC7BA20A2F7A900780738 /* SVEngine.xcodeproj */;
+			containerPortal = 0236528C216080900011A9F1 /* SVEngine.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 822A3F971E70069800CF3953;
 			remoteInfo = SVEngine;
 		};
-		5F0DC7C320A2F7A900780738 /* PBXContainerItemProxy */ = {
+		02365296216080900011A9F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 5F0DC7BA20A2F7A900780738 /* SVEngine.xcodeproj */;
+			containerPortal = 0236528C216080900011A9F1 /* SVEngine.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 82F7CB421FCD68A4009A750D;
 			remoteInfo = SVEngine_Static;
 		};
-		5F0DC7C520A2F7A900780738 /* PBXContainerItemProxy */ = {
+		02365298216080900011A9F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 5F0DC7BA20A2F7A900780738 /* SVEngine.xcodeproj */;
+			containerPortal = 0236528C216080900011A9F1 /* SVEngine.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 82B7719220245AEB0097A0DD;
 			remoteInfo = SVEngine_Mac;
+		};
+		0236529A216080900011A9F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0236528C216080900011A9F1 /* SVEngine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 023574B020E514F500F29FB8;
+			remoteInfo = sve_s_mac;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -144,6 +142,8 @@
 		0217ECC120F07B6600BB08E1 /* SWDetection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWDetection.m; sourceTree = "<group>"; };
 		0217ECC320F07CFB00BB08E1 /* SWDetectionSenseTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SWDetectionSenseTime.h; sourceTree = "<group>"; };
 		0217ECC420F07CFB00BB08E1 /* SWDetectionSenseTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWDetectionSenseTime.m; sourceTree = "<group>"; };
+		0236528C216080900011A9F1 /* SVEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SVEngine.xcodeproj; path = ../../../SVEngine/platIOS/SVEngine.xcodeproj; sourceTree = "<group>"; };
+		0236529D216081D80011A9F1 /* sve.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = sve.bundle; path = ../../SVERes/sve.bundle; sourceTree = "<group>"; };
 		02422D0C20EDF23400990F4D /* SWInStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SWInStream.h; sourceTree = "<group>"; };
 		02422D0D20EDF23400990F4D /* SWInStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWInStream.m; sourceTree = "<group>"; };
 		02422D1720EDF25B00990F4D /* SWOutStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SWOutStream.h; sourceTree = "<group>"; };
@@ -206,7 +206,6 @@
 		5F0DC53A20A2EFB600780738 /* MoviePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoviePlayer.h; sourceTree = "<group>"; };
 		5F0DC53B20A2EFB600780738 /* VideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoRecorder.h; sourceTree = "<group>"; };
 		5F0DC53C20A2EFB600780738 /* RecordMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordMedia.h; sourceTree = "<group>"; };
-		5F0DC53D20A2EFB600780738 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5F0DC59320A2EFB600780738 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5F0DC59520A2EFB600780738 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
 		5F0DC59820A2EFB700780738 /* SWFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWFilter.h; sourceTree = "<group>"; };
@@ -317,8 +316,6 @@
 		5F0DC7AE20A2F42300780738 /* SWRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRecord.h; sourceTree = "<group>"; };
 		5F0DC7AF20A2F42300780738 /* SWMotionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMotionManager.h; sourceTree = "<group>"; };
 		5F0DC7B020A2F42300780738 /* SWMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMediaPlayer.h; sourceTree = "<group>"; };
-		5F0DC7BA20A2F7A900780738 /* SVEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SVEngine.xcodeproj; path = ../../../SVEngine/SVEngine.xcodeproj; sourceTree = "<group>"; };
-		5F2A9E52210A127000A73BFD /* sve.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = sve.bundle; path = ../../SVEngine/sve.bundle; sourceTree = "<group>"; };
 		5F34E8BE20A31A3B00E86A88 /* SWTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWTimer.h; sourceTree = "<group>"; };
 		5F34E8BF20A31A3B00E86A88 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
 		5F34E8C020A31A3B00E86A88 /* UIImage+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helper.m"; sourceTree = "<group>"; };
@@ -342,13 +339,23 @@
 			files = (
 				02D03223214278D800E148FD /* AudioToolbox.framework in Frameworks */,
 				5CCA939720C03CF100D07969 /* libst_mobile.a in Frameworks */,
-				5F34E8EB20A3368300E86A88 /* SVEngine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0236528D216080900011A9F1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				02365295216080900011A9F1 /* SVEngine.framework */,
+				02365297216080900011A9F1 /* libSVEngine_Static.a */,
+				02365299216080900011A9F1 /* SVEngine_Mac.framework */,
+				0236529B216080900011A9F1 /* libsve_s_mac.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		025FC47120EF9E0000C67940 /* datasrc */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,10 +457,9 @@
 		5F0DC4E720A2EEA800780738 /* SVEVideo */ = {
 			isa = PBXGroup;
 			children = (
-				5F2A9E52210A127000A73BFD /* sve.bundle */,
 				5F0DC4E820A2EEA800780738 /* AppDelegate.h */,
-				5F0DC53D20A2EFB600780738 /* Assets.xcassets */,
 				5F0DC4E920A2EEA800780738 /* AppDelegate.m */,
+				0236529D216081D80011A9F1 /* sve.bundle */,
 				5F0DC59120A2EFB600780738 /* Base.lproj */,
 				5F0DC4F620A2EEA800780738 /* Info.plist */,
 				5F0DC62420A2EFB700780738 /* libs */,
@@ -634,8 +640,8 @@
 		5F0DC62420A2EFB700780738 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				0236528C216080900011A9F1 /* SVEngine.xcodeproj */,
 				5CCA939520C03CBF00D07969 /* third */,
-				5F0DC7BA20A2F7A900780738 /* SVEngine.xcodeproj */,
 				5F0DC66220A2EFB700780738 /* SSZipArchive */,
 			);
 			path = libs;
@@ -716,17 +722,6 @@
 			path = swbasic;
 			sourceTree = "<group>";
 		};
-		5F0DC7BB20A2F7A900780738 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5F0DC7C220A2F7A900780738 /* SVEngine.framework */,
-				5F0DC7C420A2F7A900780738 /* libSVEngine_Static.a */,
-				5F0DC7C620A2F7A900780738 /* SVEngine_Mac.framework */,
-				023579FF20E7C49900F29FB8 /* libsve_static_mac.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		5F34E8BA20A31A3B00E86A88 /* utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -801,8 +796,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 5F0DC7BB20A2F7A900780738 /* Products */;
-					ProjectRef = 5F0DC7BA20A2F7A900780738 /* SVEngine.xcodeproj */;
+					ProductGroup = 0236528D216080900011A9F1 /* Products */;
+					ProjectRef = 0236528C216080900011A9F1 /* SVEngine.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -813,33 +808,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		023579FF20E7C49900F29FB8 /* libsve_static_mac.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			name = libsve_static_mac.a;
-			path = libsve_s_mac.a;
-			remoteRef = 023579FE20E7C49900F29FB8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5F0DC7C220A2F7A900780738 /* SVEngine.framework */ = {
+		02365295216080900011A9F1 /* SVEngine.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SVEngine.framework;
-			remoteRef = 5F0DC7C120A2F7A900780738 /* PBXContainerItemProxy */;
+			remoteRef = 02365294216080900011A9F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		5F0DC7C420A2F7A900780738 /* libSVEngine_Static.a */ = {
+		02365297216080900011A9F1 /* libSVEngine_Static.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libSVEngine_Static.a;
-			remoteRef = 5F0DC7C320A2F7A900780738 /* PBXContainerItemProxy */;
+			remoteRef = 02365296216080900011A9F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		5F0DC7C620A2F7A900780738 /* SVEngine_Mac.framework */ = {
+		02365299216080900011A9F1 /* SVEngine_Mac.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SVEngine_Mac.framework;
-			remoteRef = 5F0DC7C520A2F7A900780738 /* PBXContainerItemProxy */;
+			remoteRef = 02365298216080900011A9F1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0236529B216080900011A9F1 /* libsve_s_mac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libsve_s_mac.a;
+			remoteRef = 0236529A216080900011A9F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -856,9 +850,8 @@
 				5F0DC77E20A2EFB800780738 /* Info.plist in Resources */,
 				5F0DC72520A2EFB800780738 /* SWSetUpHeaderCell.xib in Resources */,
 				5F0DC72A20A2EFB800780738 /* SWSetUpCell3.xib in Resources */,
-				5F2A9E53210A127100A73BFD /* sve.bundle in Resources */,
 				5F0DC6BF20A2EFB800780738 /* magic_cfg.json in Resources */,
-				5F0DC6C820A2EFB800780738 /* Assets.xcassets in Resources */,
+				023652A3216081D80011A9F1 /* sve.bundle in Resources */,
 				5F0DC71220A2EFB800780738 /* LaunchScreen.storyboard in Resources */,
 				5CCA93A320C041C600D07969 /* SENSEME.lic in Resources */,
 			);
@@ -1092,7 +1085,6 @@
 		5F0DC51220A2EEA900780738 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1125,7 +1117,6 @@
 		5F0DC51320A2EEA900780738 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
