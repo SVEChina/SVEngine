@@ -17,8 +17,6 @@
 #include "SVParseMask.h"
 #include "SVParseSprite.h"
 #include "SVParseBitfont.h"
-#include "SVParseGame.h"
-#include "SVParseGameHeartFlutter.h"
 #include "../module/SVEffectPackage.h"
 
 SVParseMain::SVParseMain(SVInst *_app)
@@ -88,37 +86,20 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
         RAPIDJSON_NAMESPACE::Value &type = doc["type"];
         t_type = type.GetString();
     }
-    if (strcmp("game", t_type.c_str()) == 0) {
-//        //解析游戏
-//        SVRedPacketPtr t_redPacket = MakeSharedPtr<SVRedPacket>(m_app);
-//        SVString t_path = SVString(path) + "/";
-//        SVParseGame::parseGame(m_app, doc, resid, t_path, t_redPacket);
-//        return t_redPacket;
-        return nullptr;
-    }else if (strcmp("game_heartflutter", t_type.c_str()) == 0) {
-//        //解析游戏
-//        SVHeartFlutterPtr t_heartFlutter = MakeSharedPtr<SVHeartFlutter>(m_app);
-//        SVString t_path = SVString(path) + "/";
-//        SVParseGameHeartFlutter::parseGame(m_app, doc, resid, t_path, t_heartFlutter);
-//        return t_heartFlutter;
-        return nullptr;
-    }
-    else{
-        SVEffectPackagePtr t_bundle = MakeSharedPtr<SVEffectPackage>(m_app);
-        for(auto iter = doc.MemberBegin(); iter != doc.MemberEnd(); ++iter){
-            cptr8 key = (iter->name).GetString();
-            if (doc.HasMember(key)) {
-                RAPIDJSON_NAMESPACE::Value &item = iter->value;
-                SVNodePtr t_node = _callTypeParse(key, item, resid, t_path.get());
-                if (t_node) {
-                    t_bundle->addEffectUnit(t_node);
-                }
+    
+    SVEffectPackagePtr t_bundle = MakeSharedPtr<SVEffectPackage>(m_app);
+    for(auto iter = doc.MemberBegin(); iter != doc.MemberEnd(); ++iter){
+        cptr8 key = (iter->name).GetString();
+        if (doc.HasMember(key)) {
+            RAPIDJSON_NAMESPACE::Value &item = iter->value;
+            SVNodePtr t_node = _callTypeParse(key, item, resid, t_path.get());
+            if (t_node) {
+                t_bundle->addEffectUnit(t_node);
             }
         }
-        SV_LOG_ERROR("SVParseMain::parse end\n");
-        return t_bundle;
     }
-    return nullptr;
+    SV_LOG_ERROR("SVParseMain::parse end\n");
+    return t_bundle;
 }
 
 SVNodePtr SVParseMain::_callTypeParse(cptr8 type, RAPIDJSON_NAMESPACE::Value &item, s32 resid, cptr8 _path) {
