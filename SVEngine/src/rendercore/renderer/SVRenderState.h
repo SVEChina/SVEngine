@@ -22,6 +22,8 @@ namespace sv {
             
             ~SVRenderState();
             
+            virtual void resetState(){};
+            
             u32 m_shaderID;
         };
         

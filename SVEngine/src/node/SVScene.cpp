@@ -261,7 +261,7 @@ void SVScene::update(f32 dt) {
             m_pRenderScene->pushRenderCmd(RST_SCENE_BEGIN, t_clear);
             //
             SVRenderCmdFboUnbindPtr t_fbo_unbind = MakeSharedPtr<SVRenderCmdFboUnbind>(t_renderer->getRenderTexture());
-            t_fbo_unbind->mTag = "main_frame_bind";
+            t_fbo_unbind->mTag = "main_frame_unbind";
             m_pRenderScene->pushRenderCmd(RST_SCENE_END, t_fbo_unbind);
         }
     }

@@ -7,9 +7,6 @@
 //
 
 #import "SDLogicSys.h"
-#include "app/SVInst.h"
-
-//@property (strong, nonatomic) SVInst *m_pInst;
 
 @interface SDLogicSys(){
     SVInst *m_pInst;
@@ -30,15 +27,14 @@ static SDLogicSys *mInst;
 
 - (void)initSys{
     m_pInst = new SVInst();
+    m_pInst->init();
     //创建设备上下文
     m_pGLContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-    //注册监听消息
+    //注册监听消息（退到后台和重返前台）
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground) name:@"didEnterBackground" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterForeground) name:@"didEnterForeground" object:nil];
     //初始化引擎
     [self initSVE];
-    //创建ViewControl
-    self.m_pVC = [[ViewController alloc] init];
 }
 
 - (void)destroySys{
@@ -49,30 +45,32 @@ static SDLogicSys *mInst;
     [self destroySVE];
 }
 
--(void*)getSVE {
+-(SVInst*)getSVE {
     return m_pInst;
 }
 
 - (void)initSVE {
     if(m_pInst) {
-//        //设置资源路径
-//        NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
-//        bundlePath = [NSString stringWithFormat:@"%@/",bundlePath];
-//        [self.pSVI addResPath:bundlePath];
-//        [self.pSVI addResPath:@""];
-//        //开启引擎
-//        [self.pSVI startEngine];
-//        //创建渲染器
-//        [self.pSVI createRendererGL:3 Context:m_pGLContext Width:720 Height:1280];
-//        //创建场景
-//        [self.pSVI createScene:NULL msg:@""];
+        //设置资源路径
+        NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
+        bundlePath = [NSString stringWithFormat:@"%@/",bundlePath];
+        //
+        m_pInst->addRespath([bundlePath UTF8String]);
+        m_pInst->addRespath("");
+        //开启引擎
+        m_pInst->startSVE();
+        //创建渲染器
+        //[m_pInst-> createRendererGL:3 Context:m_pGLContext Width:720 Height:1280];
+        //创建场景
+        //[m_pInst-> createScene:NULL msg:@""];
     }
 }
 
 - (void)destroySVE {
     //停止引擎并析构
     if( m_pInst ) {
-        //[self.pSVI stopEngine];
+        m_pInst->stopSVE();
+        m_pInst->destroy();
         m_pInst = nil;
     }
 }

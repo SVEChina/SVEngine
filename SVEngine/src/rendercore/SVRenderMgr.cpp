@@ -120,9 +120,10 @@ void SVRenderMgr::render(){
             SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
             if( t_context->activeRenderTarget( t_rt ) ){
                 m_pRenderScene->render();
+                m_pRenderer->resetState();
                 t_context->swapRenderTarget( t_rt );   //交换场景
             }
-            m_pRenderer->removeUnuseRes();
+            m_pRenderer->removeUnuseRes();  //资源释放
         }
     }
     m_renderLock->unlock();

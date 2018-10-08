@@ -20,7 +20,6 @@
     // Override point for customization after application launch.
     [[SDLogicSys getInst] initSys];
     [self.window makeKeyAndVisible];
-    self.window.rootViewController = [SDLogicSys getInst].m_pVC;
     return YES;
 }
 

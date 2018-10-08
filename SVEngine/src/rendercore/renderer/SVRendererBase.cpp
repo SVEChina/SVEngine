@@ -15,6 +15,7 @@
 #include "../SVRenderTarget.h"
 #include "../SVRenderTexture.h"
 #include "../SVRObjBase.h"
+#include "SVRenderState.h"
 
 SVRendererBase::SVRendererBase(SVInst* _app)
 :SVGBase(_app)
@@ -43,8 +44,16 @@ void SVRendererBase::destroy(){
     m_resLock = nullptr;
 }
 
+//获取状态
 SVRenderStatePtr SVRendererBase::getState(){
     return m_pRState;
+}
+
+//重置状态
+void SVRendererBase::resetState() {
+    if(m_pRState){
+        m_pRState->resetState();
+    }
 }
 
 void SVRendererBase::resize(s32 _w,s32 _) {

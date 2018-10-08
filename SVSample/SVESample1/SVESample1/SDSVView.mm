@@ -8,6 +8,10 @@
 
 #import "SDSVView.h"
 #import "SDLogicSys.h"
+#include "src/work/SVThreadPool.h"
+#include "src/work/SVThreadMain.h"
+#include "src/operate/SVOpCreate.h"
+#include "src/operate/SVOpRender.h"
 
 @interface SDSVView(){
     CAEAGLLayer* m_layer;
@@ -70,14 +74,14 @@
         CATransform3D translate = CATransform3DMakeTranslation((self.bounds.size.width - t_width)*0.5, (self.bounds.size.height - t_height)*0.5, 0);
         CATransform3D transform = CATransform3DScale(translate, t_scale, t_scale ,1.0);
         m_layer.transform = transform;
-        
         m_layer.backgroundColor = [UIColor greenColor].CGColor;
     }
-    [self active];
+    //创建SVE渲染器
+    [self active:_GLContext];
 }
 
 -(void)destroyGLView:(EAGLContext*)_GLContext{
-    //
+    //销毁SVE渲染器
     [self unactive];
     //
     if( _GLContext ){
@@ -91,16 +95,33 @@
     }
 }
 
--(void)active {
-    //创建渲染目标
-    if( [[SDLogicSys getInst] getSVE] ) {
-//        [[SDLogicSys getInst].pSVI createRenderTarget:m_fboID Color:m_colorID Width:m_layer_w Height:m_layer_h Mirror:true];
+-(void)active:(EAGLContext*)_GLContext {
+    SVInst* pSVE = [[SDLogicSys getInst] getSVE];
+    if( pSVE ) {
+        //创建渲染器
+        CGFloat t_width = 720;
+        CGFloat t_height = 1280;
+        SVOpCreateRenderderPtr t_op = MakeSharedPtr<SVOpCreateRenderder>(pSVE);
+        t_op->setGLParam(3,(__bridge_retained void *)_GLContext,t_width,t_height);
+        pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op);
+        
+        //创建渲染环境
+        SVOpSetRenderTargetPtr t_op_rt = MakeSharedPtr<SVOpSetRenderTarget>(pSVE);
+        t_op_rt->setTargetParam(t_width,t_height,m_fboID,m_colorID, false);
+        pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op_rt);
+
+        //创建一个普通的场景
+        SVOpCreateScenePtr t_op_sc = MakeSharedPtr<SVOpCreateScene>(pSVE,"sveScene");
+        pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op_sc);
     }
 }
 
 -(void)unactive {
-    if( [[SDLogicSys getInst] getSVE]) {
-        //[[SDLogicSys getInst].pSVI destroyRenderTarget];
+    //销毁渲染目标
+    SVInst* pSVE = [[SDLogicSys getInst] getSVE];
+    if( pSVE ) {
+        SVOpDestroyRenderTargetPtr t_op = MakeSharedPtr<SVOpDestroyRenderTarget>(pSVE);
+        pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op);
     }
 }
 
