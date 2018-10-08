@@ -189,12 +189,8 @@ namespace sv {
         //filter 部分
         DECLARE_SHAREPTR(SVFilterBase);
         DECLARE_SHAREPTR(SVLookUpFilter);
-        DECLARE_SHAREPTR(SVFilterLookUpTableAdjust);
-        DECLARE_SHAREPTR(SVFairData);
         DECLARE_SHAREPTR(SVDataFilter);
-        DECLARE_SHAREPTR(SVFairDataLows);
-        DECLARE_SHAREPTR(SVFairDataBlur);
-        DECLARE_SHAREPTR(SVFairLtraLow);
+        DECLARE_SHAREPTR(SVFilterLookUpTableAdjust);
         DECLARE_SHAREPTR(SVRGBToneCurveFilter);
         DECLARE_SHAREPTR(SVBasedonFilter);
         DECLARE_SHAREPTR(SVAni2DStickersMgr);
