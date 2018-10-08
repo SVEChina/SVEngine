@@ -54,15 +54,10 @@ static SDLogicSys *mInst;
         //设置资源路径
         NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
         bundlePath = [NSString stringWithFormat:@"%@/",bundlePath];
-        //
         m_pInst->addRespath([bundlePath UTF8String]);
         m_pInst->addRespath("");
         //开启引擎
         m_pInst->startSVE();
-        //创建渲染器
-        //[m_pInst-> createRendererGL:3 Context:m_pGLContext Width:720 Height:1280];
-        //创建场景
-        //[m_pInst-> createScene:NULL msg:@""];
     }
 }
 

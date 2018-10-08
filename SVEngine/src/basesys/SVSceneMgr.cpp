@@ -95,7 +95,6 @@ void SVSceneMgr::_adapt(f32 _dt) {
             SVRenderCmdAdaptPtr t_cmd = MakeSharedPtr<SVRenderCmdAdapt>();
             t_cmd->mTag = "adaptscene";
             t_cmd->setWinSize(mApp->m_pGlobalParam->m_inner_width,mApp->m_pGlobalParam->m_inner_height);
-            //mApp->getDataMgr()->m_screenMesh->setDrawMethod(E_DM_LINE_STRIP);
             t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
             t_cmd->setMaterial(t_pMtl->clone());
             t_rs->pushRenderCmd(RST_ADAPT_SCENE, t_cmd);

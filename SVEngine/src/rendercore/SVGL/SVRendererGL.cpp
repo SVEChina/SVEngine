@@ -118,6 +118,7 @@ void SVRendererGL::submitShader(u32 _shader) {
 //        glUseProgram(_shader);
 //    }
     glUseProgram(_shader);
+    m_pRState->m_shaderID = _shader;
 }
 
 //
