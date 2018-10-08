@@ -64,7 +64,7 @@
 		5F8271DF215F788A0099D732 /* SDLogicSys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLogicSys.h; sourceTree = "<group>"; };
 		5F8271E1215F788A0099D732 /* SDSVView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDSVView.h; sourceTree = "<group>"; };
 		5F8271E7215F788B0099D732 /* SDSVView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SDSVView.mm; sourceTree = "<group>"; };
-		5F8271E8215F788B0099D732 /* SDLogicSys.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SDLogicSys.mm; sourceTree = "<group>"; };
+		5F8271E8215F788B0099D732 /* SDLogicSys.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SDLogicSys.mm; sourceTree = "<group>"; };
 		5F8271F6215F7D150099D732 /* SVEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SVEngine.xcodeproj; path = ../../../SVEngine/platIOS/SVEngine.xcodeproj; sourceTree = "<group>"; };
 		5F8272122160FD030099D732 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */

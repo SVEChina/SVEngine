@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ViewController.h"
+#include "app/SVInst.h"
 
 @interface SDLogicSys : NSObject
 
@@ -21,6 +22,6 @@
 
 -(EAGLContext*)getGLContext;
 
--(void*)getSVE;
+-(SVInst*)getSVE;
 
 @end
