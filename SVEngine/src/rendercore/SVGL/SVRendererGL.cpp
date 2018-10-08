@@ -113,10 +113,11 @@ void SVRendererGL::resize(s32 _w,s32 _h) {
 
 //
 void SVRendererGL::submitShader(u32 _shader) {
-    if (m_pRState->m_shaderID != _shader) {
-        m_pRState->m_shaderID = _shader;
-        glUseProgram(_shader);
-    }
+//    if (m_pRState->m_shaderID != _shader) {
+//        m_pRState->m_shaderID = _shader;
+//        glUseProgram(_shader);
+//    }
+    glUseProgram(_shader);
 }
 
 //

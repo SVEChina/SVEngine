@@ -55,6 +55,8 @@ namespace sv {
             void destroySVTex(SVTEXTYPE _type);
             //获取渲染状态
             SVRenderStatePtr getState();
+            //重置状态
+            void resetState();
         protected:
             //渲染上下文
             SVContextBasePtr m_pRenderContext;

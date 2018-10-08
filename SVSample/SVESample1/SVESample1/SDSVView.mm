@@ -104,6 +104,12 @@
         SVOpCreateRenderderPtr t_op = MakeSharedPtr<SVOpCreateRenderder>(pSVE);
         t_op->setGLParam(3,(__bridge_retained void *)_GLContext,t_width,t_height);
         pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op);
+        
+        //创建渲染环境
+        SVOpSetRenderTargetPtr t_op_rt = MakeSharedPtr<SVOpSetRenderTarget>(pSVE);
+        t_op_rt->setTargetParam(t_width,t_height,m_fboID,m_colorID, false);
+        pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op_rt);
+
         //创建一个普通的场景
         SVOpCreateScenePtr t_op_sc = MakeSharedPtr<SVOpCreateScene>(pSVE,"sveScene");
         pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op_sc);

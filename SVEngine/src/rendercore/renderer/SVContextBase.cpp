@@ -28,10 +28,12 @@ bool SVContextBase::activeRenderTarget(SVRenderTargetPtr _target){
         t_rendererGL->svViewPort(0, 0,_target->getWidth(),_target->getHeight());
         glClearColor(0.0,0.0,0.0,0.0);
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
-    } else {
-        t_rendererGL->svBindFrameBuffer(0);
+        return true;
     }
-    return true;
+//    else {
+//        t_rendererGL->svBindFrameBuffer(0);
+//    }
+    return false;
 }
 
 void SVContextBase::swapRenderTarget(SVRenderTargetPtr _target){
