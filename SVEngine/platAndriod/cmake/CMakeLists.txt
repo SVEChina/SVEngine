@@ -51,59 +51,10 @@ ${SVE_SRC_DIR}/*.cpp
 ${SVE_SRC_DIR}/*.c
 ${SVE_SRC_DIR}/*.c++
 ${SVE_SRC_DIR}/*.cc
+${SVE_SRC_DIR}/*.h
 )
 
 
-file(GLOB SDK_SVE_ACT_INCLUDE         ${SVE_SRC_DIR}/act/*.h)
-file(GLOB SDK_SVE_ACT_SRC             ${SVE_SRC_DIR}/act/*.cpp)
-file(GLOB SDK_SVE_APP_INCLUDE         ${SVE_SRC_DIR}/app/*.h)
-file(GLOB SDK_SVE_APP_SRC             ${SVE_SRC_DIR}/app/*.cpp)
-file(GLOB SDK_SVE_BASE_INCLUDE        ${SVE_SRC_DIR}/app/base/*.h)
-file(GLOB SDK_SVE_BASE_SRC            ${SVE_SRC_DIR}/base/*.cpp)
-file(GLOB SDK_SVE_BASESYS_INCLUDE     ${SVE_SRC_DIR}/basesys/*.h)
-file(GLOB SDK_SVE_BASESYS_SRC         ${SVE_SRC_DIR}/basesys/*.cpp)
-file(GLOB SDK_SVE_CALLBACK_INCLUDE    ${SVE_SRC_DIR}/callback/*.h)
-file(GLOB SDK_SVE_CALLBACK_SRC        ${SVE_SRC_DIR}/callback/*.cpp)
-file(GLOB SDK_SVE_CORE_INCLUDE        ${SVE_SRC_DIR}/core/*.h)
-file(GLOB SDK_SVE_CORE_SRC            ${SVE_SRC_DIR}/core/*.cpp)
-file(GLOB SDK_SVE_DETECT_INCLUDE      ${SVE_SRC_DIR}/detect/*.h)
-file(GLOB SDK_SVE_DETECT_SRC          ${SVE_SRC_DIR}/detect/*.cpp)
-file(GLOB SDK_SVE_EDIT_INCLUDE        ${SVE_SRC_DIR}/edit/*.h)
-file(GLOB SDK_SVE_EDIT_SRC            ${SVE_SRC_DIR}/edit/*.cpp)
-file(GLOB SDK_SVE_EVENT_INCLUDE       ${SVE_SRC_DIR}/event/*.h)
-file(GLOB SDK_SVE_EVENT_SRC           ${SVE_SRC_DIR}/event/*.cpp)
-file(GLOB SDK_SVE_FILE_INCLUDE        ${SVE_SRC_DIR}/file/*.h)
-file(GLOB SDK_SVE_FILE_SRC            ${SVE_SRC_DIR}/file/*.cpp)
-file(GLOB SDK_SVE_GAME_INCLUDE        ${SVE_SRC_DIR}/game/*.h)
-file(GLOB SDK_SVE_GAME_SRC            ${SVE_SRC_DIR}/game/*.cpp)
-file(GLOB SDK_SVE_LOGICSYS_INCLUDE    ${SVE_SRC_DIR}/logicsys/*.h)
-file(GLOB SDK_SVE_LOGICSYS_SRC        ${SVE_SRC_DIR}/logicsys/*.cpp)
-file(GLOB SDK_SVE_MEDIA_INCLUDE       ${SVE_SRC_DIR}/media/*.h)
-file(GLOB SDK_SVE_MEDIA_SRC           ${SVE_SRC_DIR}/media/*.cpp)
-file(GLOB SDK_SVE_MTL_INCLUDE         ${SVE_SRC_DIR}/mtl/*.h)
-file(GLOB SDK_SVE_MTL_SRC             ${SVE_SRC_DIR}/mtl/*.cpp)
-file(GLOB SDK_SVE_NODE_INCLUDE        ${SVE_SRC_DIR}/node/*.h)
-file(GLOB SDK_SVE_NODE_SRC            ${SVE_SRC_DIR}/node/*.cpp)
-file(GLOB SDK_SVE_OPERATE_INCLUDE     ${SVE_SRC_DIR}/operate/*.h)
-file(GLOB SDK_SVE_OPERATE_SRC         ${SVE_SRC_DIR}/operate/*.cpp)
-file(GLOB SDK_SVE_PARSE_INCLUDE       ${SVE_SRC_DIR}/parse/*.h)
-file(GLOB SDK_SVE_PARSE_SRC           ${SVE_SRC_DIR}/parse/*.cpp)
-file(GLOB SDK_SVE_PARTICLE_INCLUDE    ${SVE_SRC_DIR}/particle/*.h)
-file(GLOB SDK_SVE_PARTICLE_SRC        ${SVE_SRC_DIR}/particle/*.cpp)
-file(GLOB SDK_SVE_RENDERCORE_INCLUDE  ${SVE_SRC_DIR}/rendercore/*.h 
-                                      ${SVE_SRC_DIR}/rendercore/**/*.h)
-file(GLOB SDK_SVE_RENDERCORE_SRC      ${SVE_SRC_DIR}/rendercore/*.cpp 
-                                      ${SVE_SRC_DIR}/rendercore/**/*.cpp)
-file(GLOB SDK_SVE_SDATA_INCLUDE       ${SVE_SRC_DIR}/sdata/*.h)
-file(GLOB SDK_SVE_SDATA_SRC           ${SVE_SRC_DIR}/sdata/*.cpp)
-file(GLOB SDK_SVE_TEXTURE_INCLUDE     ${SVE_SRC_DIR}/texture/*.h)
-file(GLOB SDK_SVE_TEXTURE_SRC         ${SVE_SRC_DIR}/texture/*.cpp)
-file(GLOB SDK_SVE_UI_INCLUDE          ${SVE_SRC_DIR}/ui/*.h)
-file(GLOB SDK_SVE_UI_SRC              ${SVE_SRC_DIR}/ui/*.cpp)
-file(GLOB SDK_SVE_VIDEO_INCLUDE       ${SVE_SRC_DIR}/video/*.h)
-file(GLOB SDK_SVE_VIDEO_SRC           ${SVE_SRC_DIR}/video/*.cpp)
-file(GLOB SDK_SVE_WORK_INCLUDE        ${SVE_SRC_DIR}/work/*.h)
-file(GLOB SDK_SVE_WORK_SRC            ${SVE_SRC_DIR}/work/*.cpp)
 ########## code link ############
 
 #source_group("sve\\rendercore" FILES ${SDK_SVE_RENDERCORE_INCLUDE} ${SDK_SVE_RENDERCODE_SRC})
@@ -131,74 +82,19 @@ file(GLOB SDK_SVE_THIRD_LIBPNG_IMP_SOURCES   ${SVE_SRC_DIR}/third/libpng/**/*.c
 ######## third libpng #########
 
 ##################################code list###############################
-file(GLOB SVE_ROOT_LIST "*.h")
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_ACT_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_ACT_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_APP_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_APP_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_BASE_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_BASE_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_BASESYS_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_BASESYS_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_CALLBACK_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_CALLBACK_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_CORE_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_CORE_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_DETECT_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_DETECT_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_EDIT_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_EDIT_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_EVENT_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_EVENT_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_FILE_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_FILE_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_GAME_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_GAME_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_LOGICSYS_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_LOGICSYS_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_MEDIA_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_MEDIA_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_MTL_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_MTL_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_NODE_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_NODE_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_OPERATE_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_OPERATE_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_PARSE_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_PARSE_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_PARTICLE_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_PARTICLE_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_RENDERCORE_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_RENDERCORE_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_SDATA_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_SDATA_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_TEXTURE_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_TEXTURE_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_THIRD_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_THIRD_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_UI_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_UI_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_VIDEO_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_VIDEO_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_WORK_SRC})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_WORK_INCLUDE})
+
 ##################################code list###############################
 
 ############ thrid spine list ###########
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_THIRD_SPINE_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_THIRD_SPINE_SRC_CPP})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_THIRD_SPINE_SRC_C})
+
 ############t hrid spine list ###########
 
 ########third rapidjson list #########
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_THIRD_RAPIDJSON_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_THIRD_RAPIDJSON_SRC})
+
 ########third rapidjson list #########
 
 ######## third libpng list #########
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_THIRD_LIBPNG_INCLUDE})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_THIRD_LIBPNG_SOURCES})
-list(APPEND SVE_ROOT_LIST ${SDK_SVE_THIRD_LIBPNG_IMP_SOURCES})
+
 ######## third libpng  list #########
 
 
