@@ -87,7 +87,7 @@ namespace sv {
             
             cptr8 getname(){ return m_name.c_str(); }
             
-            void setSceneColr(f32 _r,f32 _g,f32 _b,f32 _a);
+            void setSceneColor(f32 _r,f32 _g,f32 _b,f32 _a);
             
         protected:
             //场景名称
