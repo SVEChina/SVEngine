@@ -87,6 +87,8 @@ namespace sv {
             
             cptr8 getname(){ return m_name.c_str(); }
             
+            void setSceneColor(f32 _r,f32 _g,f32 _b,f32 _a);
+            
         protected:
             //场景名称
             SVString m_name;
@@ -94,6 +96,8 @@ namespace sv {
             SVTree4Ptr m_pSceneTree;
             //渲染场景
             SVRenderScenePtr m_pRenderScene;
+            //
+            SVColor m_color;
 
         public:
             bool procEvent(SVEventPtr _event);

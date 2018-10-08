@@ -186,6 +186,7 @@ bool SVTree4::hasNode(SVNodePtr _node) {
 SVScene::SVScene(SVInst *_app,cptr8 _name)
 :SVGBase(_app) {
     m_name = _name;
+    m_color.setColorARGB(0xff000000);
     //场景树
     m_pSceneTree = MakeSharedPtr<SVTree4>(_app);
     //渲染场景
@@ -243,6 +244,10 @@ void SVScene::active() {
 void SVScene::unactive() {
 }
 
+void SVScene::setSceneColor(f32 _r,f32 _g,f32 _b,f32 _a) {
+    m_color.setColor(_r, _g, _b, _a);
+}
+
 void SVScene::update(f32 dt) {
     //遍历场景树
     if(m_pSceneTree){
@@ -258,6 +263,7 @@ void SVScene::update(f32 dt) {
             //
             SVRenderCmdClearPtr t_clear = MakeSharedPtr<SVRenderCmdClear>();
             t_clear->mTag = "main_frame_clear";
+            t_clear->setClearColor(m_color.r, m_color.g, m_color.b, m_color.a);
             m_pRenderScene->pushRenderCmd(RST_SCENE_BEGIN, t_clear);
             //
             SVRenderCmdFboUnbindPtr t_fbo_unbind = MakeSharedPtr<SVRenderCmdFboUnbind>(t_renderer->getRenderTexture());

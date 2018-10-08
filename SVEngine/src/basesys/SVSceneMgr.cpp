@@ -84,7 +84,7 @@ void SVSceneMgr::_adapt(f32 _dt) {
             SVMtlCorePtr t_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "screennor");
             t_pMtl->update(_dt);
             t_pMtl->setTexture(0,E_TEX_MAIN);    //那第一张纹理
-            t_pMtl->setBlendEnable(true);
+            t_pMtl->setBlendEnable(false);
             t_pMtl->setBlendState(GL_ONE,GL_ZERO);
             bool t_mirror = mApp->getConfig()->mirror;
             if( !t_mirror ) {
@@ -94,6 +94,7 @@ void SVSceneMgr::_adapt(f32 _dt) {
             }
             SVRenderCmdAdaptPtr t_cmd = MakeSharedPtr<SVRenderCmdAdapt>();
             t_cmd->mTag = "adaptscene";
+            t_cmd->setClearColor(0.0f, 0.0f, 1.0f, 1.0f);
             t_cmd->setWinSize(mApp->m_pGlobalParam->m_inner_width,mApp->m_pGlobalParam->m_inner_height);
             t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
             t_cmd->setMaterial(t_pMtl->clone());

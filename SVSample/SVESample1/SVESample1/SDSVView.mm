@@ -12,13 +12,15 @@
 #include "src/work/SVThreadMain.h"
 #include "src/operate/SVOpCreate.h"
 #include "src/operate/SVOpRender.h"
+#include "src/basesys/SVSceneMgr.h"
+#include "src/node/SVScene.h"
 
 @interface SDSVView(){
     CAEAGLLayer* m_layer;
     unsigned int m_fboID;
     unsigned int m_colorID;
-    unsigned int m_layer_w;
-    unsigned int m_layer_h;
+    int m_layer_w;
+    int m_layer_h;
 }
 @end
 
@@ -45,23 +47,16 @@
         m_layer.drawableProperties = @{kEAGLDrawablePropertyRetainedBacking:@NO,
                                        kEAGLDrawablePropertyColorFormat:kEAGLColorFormatRGBA8};
         //
-        unsigned int t_fboID;
-        glGenFramebuffers(1, &t_fboID);
-        m_fboID = t_fboID;
+        glGenFramebuffers(1, &m_fboID);
         glBindFramebuffer(GL_FRAMEBUFFER, m_fboID);
         //
-        unsigned int t_colorID;
-        glGenRenderbuffers(1, &t_colorID);
-        m_colorID = t_colorID;
+        glGenRenderbuffers(1, &m_colorID);
         glBindRenderbuffer(GL_RENDERBUFFER, m_colorID);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_colorID);
         [_GLContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:m_layer];
-        int t_layer_w,t_layer_h;
-        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &t_layer_w);
-        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &t_layer_h);
-        //
-        m_layer_w = t_layer_w;
-        m_layer_h = t_layer_h;
+        //int t_layer_w,t_layer_h;
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &m_layer_w);
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &m_layer_h);
         //check success
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
             NSLog(@"Failed to make complete framebuffer object: %i", glCheckFramebufferStatus(GL_FRAMEBUFFER));
@@ -99,20 +94,27 @@
     SVInst* pSVE = [[SDLogicSys getInst] getSVE];
     if( pSVE ) {
         //创建渲染器
-        CGFloat t_width = 720;
-        CGFloat t_height = 1280;
         SVOpCreateRenderderPtr t_op = MakeSharedPtr<SVOpCreateRenderder>(pSVE);
-        t_op->setGLParam(3,(__bridge_retained void *)_GLContext,t_width,t_height);
+        t_op->setGLParam(3,(__bridge_retained void *)_GLContext,m_layer_w,m_layer_h);
         pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op);
         
-        //创建渲染环境
+        //指定外部渲染环境
         SVOpSetRenderTargetPtr t_op_rt = MakeSharedPtr<SVOpSetRenderTarget>(pSVE);
-        t_op_rt->setTargetParam(t_width,t_height,m_fboID,m_colorID, false);
+        t_op_rt->setTargetParam(m_layer_w,m_layer_h,m_fboID,m_colorID, false);
         pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op_rt);
-
+        
         //创建一个普通的场景
-        SVOpCreateScenePtr t_op_sc = MakeSharedPtr<SVOpCreateScene>(pSVE,"sveScene");
-        pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op_sc);
+        if(0) {
+            SVOpCreateScenePtr t_op_sc = MakeSharedPtr<SVOpCreateScene>(pSVE,"sveScene");
+            pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op_sc);
+        }else{
+            SVScenePtr t_pScene = MakeSharedPtr<SVScene>(pSVE,"sveScene");
+            if (t_pScene) {
+                t_pScene->create(); //创建场景树
+                t_pScene->setSceneColor(0.0f, 1.0f, 1.0f, 1.0);
+                pSVE->getSceneMgr()->setScene(t_pScene);
+            }
+        }
     }
 }
 
