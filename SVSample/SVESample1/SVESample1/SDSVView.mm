@@ -96,10 +96,9 @@
 }
 
 -(void)active:(EAGLContext*)_GLContext {
-    
     SVInst* pSVE = [[SDLogicSys getInst] getSVE];
     if( pSVE ) {
-        //创建渲染目标
+        //创建渲染器
         CGFloat t_width = 720;
         CGFloat t_height = 1280;
         SVOpCreateRenderderPtr t_op = MakeSharedPtr<SVOpCreateRenderder>(pSVE);

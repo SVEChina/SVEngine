@@ -12,8 +12,6 @@
 
 @interface SDLogicSys : NSObject
 
-@property (strong, nonatomic) ViewController *m_pVC;
-
 +(instancetype) getInst;
 
 - (void)initSys;

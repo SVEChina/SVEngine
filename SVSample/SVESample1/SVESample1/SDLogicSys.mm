@@ -35,8 +35,6 @@ static SDLogicSys *mInst;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterForeground) name:@"didEnterForeground" object:nil];
     //初始化引擎
     [self initSVE];
-    //创建ViewControl
-    self.m_pVC = [[ViewController alloc] init];
 }
 
 - (void)destroySys{

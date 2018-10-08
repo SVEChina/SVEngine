@@ -30,8 +30,7 @@ SVRenderTexture::~SVRenderTexture() {
 
 void SVRenderTexture::create(SVRendererBasePtr _renderer) {
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
-    SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
+    SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(_renderer);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
         SVRResGLTexPtr t_tex = nullptr;
@@ -39,20 +38,18 @@ void SVRenderTexture::create(SVRendererBasePtr _renderer) {
             t_tex = std::dynamic_pointer_cast<SVRResGLTex>(m_tex->getResTex());
         }
         m_objFBOPtr = MakeSharedPtr<SVResGLRenderTexture>(mApp, t_tex, m_depth, m_stencil);
-        
+        m_objFBOPtr->create(_renderer);
+        return ;
     }
-    SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
+    SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(_renderer);
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
         
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
     if (t_rendeMetalPtr) {
         //渲染器类型E_RENDERER_METAL,
         
-    }
-    if (m_objFBOPtr) {
-        m_objFBOPtr->create(_renderer);
     }
 }
 

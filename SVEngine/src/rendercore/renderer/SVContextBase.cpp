@@ -21,7 +21,7 @@ SVContextBase::~SVContextBase() {
 }
 
 bool SVContextBase::activeRenderTarget(SVRenderTargetPtr _target){
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
     if(t_rendererGL && _target) {
         t_rendererGL->svBindFrameBuffer(_target->getFboID());
@@ -35,7 +35,7 @@ bool SVContextBase::activeRenderTarget(SVRenderTargetPtr _target){
 }
 
 void SVContextBase::swapRenderTarget(SVRenderTargetPtr _target){
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
     if(t_rendererGL && _target){
         t_rendererGL->svBindFrameBuffer(_target->getFboID());

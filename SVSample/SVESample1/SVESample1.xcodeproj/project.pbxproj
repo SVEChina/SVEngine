@@ -17,6 +17,7 @@
 		5F8271F2215F788B0099D732 /* SDLogicSys.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271E8215F788B0099D732 /* SDLogicSys.mm */; };
 		5F8272132160FD040099D732 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8272122160FD030099D732 /* CoreMedia.framework */; };
 		5F8272142160FD1B0099D732 /* libSVEngine_Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F827201215F7D150099D732 /* libSVEngine_Static.a */; };
+		5F82722C216B16350099D732 /* sve.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5F82722B216B16350099D732 /* sve.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		5F8271E8215F788B0099D732 /* SDLogicSys.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SDLogicSys.mm; sourceTree = "<group>"; };
 		5F8271F6215F7D150099D732 /* SVEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SVEngine.xcodeproj; path = ../../../SVEngine/platIOS/SVEngine.xcodeproj; sourceTree = "<group>"; };
 		5F8272122160FD030099D732 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		5F82722B216B16350099D732 /* sve.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = sve.bundle; path = ../../../SVERes/sve.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,10 +87,11 @@
 		5F8271A1215F72A70099D732 = {
 			isa = PBXGroup;
 			children = (
-				5F8271F5215F7CE80099D732 /* lib */,
-				5F8271AC215F72A70099D732 /* SVESample1 */,
-				5F8271AB215F72A70099D732 /* Products */,
 				5F827206215F7D5A0099D732 /* Frameworks */,
+				5F8271F5215F7CE80099D732 /* lib */,
+				5F8271AB215F72A70099D732 /* Products */,
+				5F82722A216B16210099D732 /* res */,
+				5F8271AC215F72A70099D732 /* SVESample1 */,
 			);
 			sourceTree = "<group>";
 		};
@@ -145,6 +148,14 @@
 				5F8272122160FD030099D732 /* CoreMedia.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5F82722A216B16210099D732 /* res */ = {
+			isa = PBXGroup;
+			children = (
+				5F82722B216B16350099D732 /* sve.bundle */,
+			);
+			path = res;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,6 +252,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F82722C216B16350099D732 /* sve.bundle in Resources */,
 				5F8271BA215F72A80099D732 /* LaunchScreen.storyboard in Resources */,
 				5F8271B7215F72A80099D732 /* Assets.xcassets in Resources */,
 				5F8271B5215F72A70099D732 /* Main.storyboard in Resources */,
