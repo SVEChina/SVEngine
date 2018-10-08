@@ -99,11 +99,6 @@ namespace sv {
             s32 m_winWidth;
             
             s32 m_winHeight;
-            
-            f32 m_color_r;
-            f32 m_color_g;
-            f32 m_color_b;
-            f32 m_color_a;
         };
         
         //多批次渲染命令
