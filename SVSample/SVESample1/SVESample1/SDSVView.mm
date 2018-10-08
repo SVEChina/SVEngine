@@ -19,8 +19,8 @@
     CAEAGLLayer* m_layer;
     unsigned int m_fboID;
     unsigned int m_colorID;
-    unsigned int m_layer_w;
-    unsigned int m_layer_h;
+    int m_layer_w;
+    int m_layer_h;
 }
 @end
 
@@ -47,23 +47,16 @@
         m_layer.drawableProperties = @{kEAGLDrawablePropertyRetainedBacking:@NO,
                                        kEAGLDrawablePropertyColorFormat:kEAGLColorFormatRGBA8};
         //
-        unsigned int t_fboID;
-        glGenFramebuffers(1, &t_fboID);
-        m_fboID = t_fboID;
+        glGenFramebuffers(1, &m_fboID);
         glBindFramebuffer(GL_FRAMEBUFFER, m_fboID);
         //
-        unsigned int t_colorID;
-        glGenRenderbuffers(1, &t_colorID);
-        m_colorID = t_colorID;
+        glGenRenderbuffers(1, &m_colorID);
         glBindRenderbuffer(GL_RENDERBUFFER, m_colorID);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_colorID);
         [_GLContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:m_layer];
-        int t_layer_w,t_layer_h;
-        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &t_layer_w);
-        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &t_layer_h);
-        //
-        m_layer_w = t_layer_w;
-        m_layer_h = t_layer_h;
+        //int t_layer_w,t_layer_h;
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &m_layer_w);
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &m_layer_h);
         //check success
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
             NSLog(@"Failed to make complete framebuffer object: %i", glCheckFramebufferStatus(GL_FRAMEBUFFER));
@@ -109,7 +102,7 @@
         SVOpSetRenderTargetPtr t_op_rt = MakeSharedPtr<SVOpSetRenderTarget>(pSVE);
         t_op_rt->setTargetParam(m_layer_w,m_layer_h,m_fboID,m_colorID, false);
         pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op_rt);
-
+        
         //创建一个普通的场景
         if(0) {
             SVOpCreateScenePtr t_op_sc = MakeSharedPtr<SVOpCreateScene>(pSVE,"sveScene");
