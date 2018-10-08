@@ -84,25 +84,32 @@ void SVRenderCmdNor::render() {
 }
 
 //
-SVRenderCmdClear::SVRenderCmdClear(){
+SVRenderCmdClear::SVRenderCmdClear()
+:m_color_r(1.0f)
+,m_color_g(1.0f)
+,m_color_b(1.0f)
+,m_color_a(1.0f){
 }
 
 SVRenderCmdClear::~SVRenderCmdClear(){
 }
 
+void SVRenderCmdClear::setClearColor(f32 _r,f32 _g,f32 _b,f32 _a) {
+    m_color_r = _r;
+    m_color_g = _g;
+    m_color_b = _b;
+    m_color_a = _a;
+}
+
 void SVRenderCmdClear::render(){
-    glClearColor(0.0f,0.0f,0.0f,0.0f);
+    glClearColor(m_color_r,m_color_g,m_color_b,m_color_a);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
 }
 
 //
 SVRenderCmdAdapt::SVRenderCmdAdapt()
 :m_winWidth(720)
-,m_winHeight(1280)
-,m_color_r(1.0f)
-,m_color_g(1.0f)
-,m_color_b(1.0f)
-,m_color_a(1.0f){
+,m_winHeight(1280){
 }
 
 SVRenderCmdAdapt::~SVRenderCmdAdapt(){
@@ -111,13 +118,6 @@ SVRenderCmdAdapt::~SVRenderCmdAdapt(){
 void SVRenderCmdAdapt::setWinSize(s32 _w,s32 _h){
     m_winWidth = _w;
     m_winHeight = _h;
-}
-
-void SVRenderCmdAdapt::setClearColor(f32 _r,f32 _g,f32 _b,f32 _a) {
-    m_color_r = _r;
-    m_color_g = _g;
-    m_color_b = _b;
-    m_color_a = _a;
 }
 
 void SVRenderCmdAdapt::render(){

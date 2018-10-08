@@ -73,19 +73,25 @@ namespace sv {
             
             ~SVRenderCmdClear();
             
+            void setClearColor(f32 _r,f32 _g,f32 _b,f32 _a);
+            
             virtual void render();
+            
+        protected:
+            f32 m_color_r;
+            f32 m_color_g;
+            f32 m_color_b;
+            f32 m_color_a;
         };
         
         //适配命令
-        class SVRenderCmdAdapt : public SVRenderCmdNor {
+        class SVRenderCmdAdapt : public SVRenderCmdClear {
         public:
             SVRenderCmdAdapt();
             
             ~SVRenderCmdAdapt();
             
             void setWinSize(s32 _w,s32 _h);
-            
-            void setClearColor(f32 _r,f32 _g,f32 _b,f32 _a);
             
             virtual void render();
             
