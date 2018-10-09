@@ -20,7 +20,7 @@
     if( pSVE ) {
         SVScenePtr t_sc = pSVE->getSceneMgr()->getScene();
         if(t_sc) {
-            SVSpriteNodePtr t_sp = MakeSharedPtr<SVSpriteNode>(pSVE,300,400);
+            SVSpriteNodePtr t_sp = MakeSharedPtr<SVSpriteNode>(pSVE,400,600);
             t_sp->setTexture(pSVE->getTexMgr()->getSVETexture());
             t_sc->addNode(t_sp);
         }
