@@ -4,6 +4,11 @@
      "vs": "screennor",
      "fs": "screennor",
      "programme": "screennor"
-     }
+     },
+     {
+      "vs": "normal2d",
+      "fs": "normal",
+      "programme": "normal2d"
+    }
   ]
 }
