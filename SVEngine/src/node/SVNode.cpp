@@ -124,7 +124,7 @@ bool SVNode::_clip() {
 
 void SVNode::render() {
     if( m_drawBox && mApp->m_pGlobalParam->m_curScene ){
-        SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if( t_rs ){
             SVMtlGeo3dPtr t_mtl = MakeSharedPtr<SVMtlGeo3d>(mApp);
             t_mtl->setColor(0.0f, 1.0f, 0.0f, 1.0f);

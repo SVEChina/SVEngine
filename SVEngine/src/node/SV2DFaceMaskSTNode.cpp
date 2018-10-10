@@ -135,7 +135,7 @@ void SV2DFaceMaskSTNode::_updateVerts(){
 void SV2DFaceMaskSTNode::render(){
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
-    SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_renderObject ) {
         m_renderObject->pushCmd(t_rs, RST_MASK2D, "SV2DFaceMaskSTNode");
     }
