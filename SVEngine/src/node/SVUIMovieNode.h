@@ -26,6 +26,14 @@ namespace sv {
             void update(f32 dt);
             
             void render();
+            
+        protected:
+            void _renderMoview();
+            void _renderMovieHead();
+            void _renderMovieBody();
+            bool _renderDragma();
+            bool _renderTimeLine();
+            bool _renderKey();
         };
 
     }//!namespace node

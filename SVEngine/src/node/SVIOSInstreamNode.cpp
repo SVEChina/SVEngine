@@ -57,7 +57,7 @@ void SVIOSInstreamNode::update(f32 dt) {
 void SVIOSInstreamNode::render() {
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
-    SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_pRenderObj ) {
         m_pRenderObj->pushCmd(t_rs, RST_BACKGROUND, "SVIOSInstreamNode");
     }

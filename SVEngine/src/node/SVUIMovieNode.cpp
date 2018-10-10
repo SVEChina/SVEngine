@@ -6,6 +6,9 @@
 //
 
 #include "SVUIMovieNode.h"
+#include "../act/SVMovie.h"
+#include "../act/SVDragma.h"
+#include "../act/SVKeyFrame.h"
 
 //
 SVUIMovieNode::SVUIMovieNode(SVInst *_app)
@@ -25,8 +28,41 @@ void SVUIMovieNode::destroy() {
 
 void SVUIMovieNode::update(f32 dt) {
     SVNode::update(dt);
+    SVMoviePtr t_movie = nullptr;
 }
 
 void SVUIMovieNode::render() {
     SVNode::render();
+    //渲染move背景
+    //SVMoviePtr t_movie = nullptr;
+    //渲染dragma
+    
+    //渲染timeline
+    
+    //渲染key
+    
+}
+
+void SVUIMovieNode::_renderMoview() {
+    
+}
+
+void VUIMovieNode::_renderMovieHead() {
+    
+}
+
+void VUIMovieNode::_renderMovieBody() {
+    
+}
+
+bool SVUIMovieNode::_renderDragma() {
+    return true;
+}
+
+bool SVUIMovieNode::_renderTimeLine() {
+    return true;
+}
+
+bool SVUIMovieNode::_renderKey() {
+    return true;
 }

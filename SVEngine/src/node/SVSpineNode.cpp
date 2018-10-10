@@ -179,7 +179,7 @@ void SVSpineNode::render() {
         return;
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
-    SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_pRObj) {
         m_pRObj->pushCmd(t_rs, m_rsType, "SVSpineNode");
     }

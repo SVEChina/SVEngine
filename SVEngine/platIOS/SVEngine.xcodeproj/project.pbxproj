@@ -2488,6 +2488,8 @@
 		5F7D698F215F407900803BCF /* SVBounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5FE5215F407700803BCF /* SVBounds.h */; };
 		5FBA206B216DFF7000A6868E /* SVUIMovieNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA2069216DFF6F00A6868E /* SVUIMovieNode.h */; };
 		5FBA206C216DFF7000A6868E /* SVUIMovieNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA206A216DFF6F00A6868E /* SVUIMovieNode.cpp */; };
+		5FBA206F216E02AA00A6868E /* SVUIPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA206D216E02A900A6868E /* SVUIPanel.cpp */; };
+		5FBA2070216E02AA00A6868E /* SVUIPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA206E216E02AA00A6868E /* SVUIPanel.h */; };
 		5FC2D1CE20AC42200065DAF6 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC2D1CD20AC42200065DAF6 /* CoreVideo.framework */; };
 		5FC2D1D020AC42EE0065DAF6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC2D1CF20AC42EE0065DAF6 /* CoreMedia.framework */; };
 /* End PBXBuildFile section */
@@ -3115,6 +3117,8 @@
 		5F7D5FE5215F407700803BCF /* SVBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBounds.h; sourceTree = "<group>"; };
 		5FBA2069216DFF6F00A6868E /* SVUIMovieNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUIMovieNode.h; sourceTree = "<group>"; };
 		5FBA206A216DFF6F00A6868E /* SVUIMovieNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVUIMovieNode.cpp; sourceTree = "<group>"; };
+		5FBA206D216E02A900A6868E /* SVUIPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVUIPanel.cpp; sourceTree = "<group>"; };
+		5FBA206E216E02AA00A6868E /* SVUIPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUIPanel.h; sourceTree = "<group>"; };
 		5FC2D1CD20AC42200065DAF6 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreVideo.framework; sourceTree = DEVELOPER_DIR; };
 		5FC2D1CF20AC42EE0065DAF6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		822A3F971E70069800CF3953 /* SVEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SVEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3932,6 +3936,8 @@
 				5F7D5F6C215F407700803BCF /* SVTransTexNode.h */,
 				5FBA206A216DFF6F00A6868E /* SVUIMovieNode.cpp */,
 				5FBA2069216DFF6F00A6868E /* SVUIMovieNode.h */,
+				5FBA206D216E02A900A6868E /* SVUIPanel.cpp */,
+				5FBA206E216E02AA00A6868E /* SVUIPanel.h */,
 			);
 			path = node;
 			sourceTree = "<group>";
@@ -4884,6 +4890,7 @@
 				5F7D64B6215F407800803BCF /* SVTimeLineEvent.h in Headers */,
 				5F7D62B6215F407800803BCF /* VertexEffect.h in Headers */,
 				5F7D60FA215F407700803BCF /* SVBasicModel.h in Headers */,
+				5FBA2070216E02AA00A6868E /* SVUIPanel.h in Headers */,
 				5F7D65A8215F407800803BCF /* SVEGLContext.h in Headers */,
 				5F7D695C215F407900803BCF /* SVMathLib.h in Headers */,
 				5F7D66FC215F407900803BCF /* SVMtlFair1.h in Headers */,
@@ -6188,6 +6195,7 @@
 				5F7D6342215F407800803BCF /* Slot.c in Sources */,
 				5F7D6332215F407800803BCF /* AnimationState.c in Sources */,
 				5F7D607A215F407700803BCF /* SVStreamIn.cpp in Sources */,
+				5FBA206F216E02AA00A6868E /* SVUIPanel.cpp in Sources */,
 				5F7D635E215F407800803BCF /* PointAttachment.c in Sources */,
 				5F7D661C215F407800803BCF /* SVRenderTarget.cpp in Sources */,
 				5F7D685C215F407900803BCF /* SVMat4d.cpp in Sources */,

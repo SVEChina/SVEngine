@@ -28,6 +28,7 @@ enum RENDERSTREAMTYPE {
     RST_LASTFILTER,
     RST_MAGIC_END,
     RST_SCENE_END,          //场景之后是在界面尺寸(真分辨率)下玩的内容
+    RST_UI,
     RST_DATATRANS,          //数据转换流
     RST_ADAPT_SCENE,        //scene单独使用，将设计分辨率的内容 适配给真是分辨率
     RST_LOGO,

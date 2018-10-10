@@ -305,7 +305,7 @@ void SVFaceImageUsingMoveNode::render(){
     if( t_person && t_person->getExist()||m_dataPoint ){
         t_person->getFaceData();
         //t_person->getFaceData()
-        SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
 
         m_fbo->setTexture(m_tex);
         SVRenderCmdFboBindPtr t_fbo_bind = MakeSharedPtr<SVRenderCmdFboBind>(m_fbo);
