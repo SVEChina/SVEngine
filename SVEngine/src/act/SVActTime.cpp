@@ -7,46 +7,6 @@
 
 #include "SVActTime.h"
 #include "../node/SVNode.h"
-//param
-SVActParamTime::SVActParamTime():SVActParam(){
-    m_time = 0.0f;
-}
-
-SVActBasePtr SVActParamTime::genAct(SVInst *_app){
-    SVActBasePtr t_act = MakeSharedPtr<SVActTime>(_app);
-    SVActParamPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamTime>(this->shared_from_this());
-    if (t_paramPtr) {
-        t_act->initParam(t_paramPtr);
-    }
-    return t_act;
-}
-
-SVActParamWait::SVActParamWait():SVActParamTime(){
-    
-}
-
-SVActBasePtr SVActParamWait::genAct(SVInst *_app){
-    SVActBasePtr t_act = MakeSharedPtr<SVActWait>(_app);
-    SVActParamPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamWait>(this->shared_from_this());
-    if (t_paramPtr) {
-        t_act->initParam(t_paramPtr);
-    }
-    return t_act;
-}
-
-SVActParamHide::SVActParamHide():SVActParamTime(){
-    
-}
-
-SVActBasePtr SVActParamHide::genAct(SVInst *_app){
-    SVActBasePtr t_act = MakeSharedPtr<SVActHide>(_app);
-    SVActParamPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamHide>(this->shared_from_this());
-    if (t_paramPtr) {
-        t_act->initParam(t_paramPtr);
-    }
-    return t_act;
-}
-
 //动作
 SVActTime::SVActTime(SVInst *_app):SVActBase(_app) {
     m_acttype = "SVActTime";
@@ -56,14 +16,6 @@ SVActTime::SVActTime(SVInst *_app):SVActBase(_app) {
 
 SVActTime::~SVActTime(){
     
-}
-
-
-void SVActTime::initParam(SVActParamPtr _paramPtr){
-    SVActParamTimePtr t_paramPtr = std::dynamic_pointer_cast<SVActParamTime>(_paramPtr);
-    if(t_paramPtr){
-        m_time = t_paramPtr->m_time;
-    }
 }
 
 void SVActTime::run(SVNodePtr _node, f32 _dt) {
