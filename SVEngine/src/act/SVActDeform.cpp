@@ -157,6 +157,7 @@ void SVActMoveTo::run(SVNodePtr _nodePtr, f32 _dt){
         _nodePtr->setPosition(t_result);
         //
         if (t_lerp == 1.0f) {
+            m_isEnd = true;
             if (m_act_callback) {
                 m_act_callback(THIS_TO_SHAREPTR(SVActMoveTo), m_p_cb_obj);
             }
@@ -166,6 +167,7 @@ void SVActMoveTo::run(SVNodePtr _nodePtr, f32 _dt){
 
 void SVActMoveTo::enter(SVNodePtr _nodePtr){
     if(_nodePtr){
+        m_isEnd = false;
         m_srcpos = _nodePtr->getPosition();
     }
 }

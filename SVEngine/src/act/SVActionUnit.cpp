@@ -11,6 +11,7 @@ SVActionUnit::SVActionUnit(SVInst *_app)
 :SVGBase(_app) {
     m_actPtr = nullptr;
     m_nodePtr = nullptr;
+    m_isEnd = false;
 }
 
 SVActionUnit::~SVActionUnit() {
@@ -28,6 +29,7 @@ void SVActionUnit::destroy() {
 
 void SVActionUnit::enter(){
     if (m_actPtr && m_nodePtr) {
+        m_isEnd = false;
         m_actPtr->enter(m_nodePtr);
     }
 }
@@ -41,6 +43,9 @@ void SVActionUnit::exit(){
 void SVActionUnit::update(f32 _dt) {
     
     if (m_actPtr && m_nodePtr) {
+        if(m_actPtr->isEnd()){
+            m_isEnd = true;
+        }
         m_actPtr->run(m_nodePtr, _dt);
     }
 
@@ -56,4 +61,8 @@ void SVActionUnit::setNode(SVNodePtr _nodePtr){
     if (m_nodePtr != _nodePtr) {
         m_nodePtr = _nodePtr;
     }
+}
+
+bool SVActionUnit::isEnd(){
+    return m_isEnd;
 }

@@ -15,6 +15,7 @@ SVActParam::SVActParam(){
 SVActBase::SVActBase(SVInst* _app):SVGBase(_app) {
     m_act_callback = nullptr;
     m_p_cb_obj = nullptr;
+    m_isEnd = false;
 }
 
 SVActBase::~SVActBase() {
@@ -33,7 +34,7 @@ void SVActBase::exit(SVNodePtr _nodePtr) {
 }
 
 bool SVActBase::isEnd() {
-    return true;
+    return m_isEnd;
 }
 
 void SVActBase::reset(){

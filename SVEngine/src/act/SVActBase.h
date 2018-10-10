@@ -47,6 +47,8 @@ namespace sv {
             
             void setActCallBack(sv_act_callback _act_callback, void *_obj);
         protected:
+            bool m_isEnd;
+            
             SVString m_acttype;
             
             void* m_p_cb_obj;
