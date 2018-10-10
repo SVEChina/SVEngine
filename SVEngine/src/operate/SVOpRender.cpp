@@ -143,8 +143,10 @@ void SVOpSetRenderTarget::setTargetParam(s32 _w, s32 _h, u32 _frameID, u32 _colo
 }
 
 void SVOpSetRenderTarget::_process(f32 dt) {
-    SVRenderTargetOutPtr t_renderTargetEnv = MakeSharedPtr<SVRenderTargetOut>(mApp, m_width,
-                                                                              m_height, m_frameID,
+    SVRenderTargetOutPtr t_renderTargetEnv = MakeSharedPtr<SVRenderTargetOut>(mApp,
+                                                                              m_width,
+                                                                              m_height,
+                                                                              m_frameID,
                                                                               m_colorID);
     mApp->getRenderMgr()->pushRCmdCreate(t_renderTargetEnv);
     mApp->getRenderMgr()->setRenderTarget("sve", t_renderTargetEnv);

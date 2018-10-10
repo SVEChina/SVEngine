@@ -129,17 +129,17 @@ void SVRenderTargetOut::create(SVRendererBasePtr _renderer) {
         //渲染器类型E_RENDERER_GLES,
         m_objFBOPtr = MakeSharedPtr<SVResGLRenderTargetOut>(mApp, m_w, m_h, m_fboid, m_colorID);
 
-    }
-    SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
-    if (t_rendeVKPtr) {
-        //渲染器类型E_RENDERER_VUNKAN,
-
-    }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(
-            t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-
+    }else{
+        SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
+        if (t_rendeVKPtr) {
+            //渲染器类型E_RENDERER_VUNKAN,
+            
+        }else{
+            SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+            if (t_rendeMetalPtr) {
+                //渲染器类型E_RENDERER_METAL,
+            }
+        }
     }
     if (m_objFBOPtr) {
         m_objFBOPtr->create(_renderer);
