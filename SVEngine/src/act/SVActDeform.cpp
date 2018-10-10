@@ -158,9 +158,6 @@ void SVActMoveTo::run(SVNodePtr _nodePtr, f32 _dt){
         //
         if (t_lerp == 1.0f) {
             m_isEnd = true;
-            if (m_act_callback) {
-                m_act_callback(THIS_TO_SHAREPTR(SVActMoveTo), m_p_cb_obj);
-            }
         }
     }
 }
@@ -363,9 +360,7 @@ void SVActScaleTo::run(SVNodePtr _nodePtr, f32 _dt) {
         _nodePtr->setScale(t_result.x, t_result.y, t_result.z);
         //
         if (t_lerp == 1.0f) {
-            if (m_act_callback) {
-                m_act_callback(THIS_TO_SHAREPTR(SVActScaleTo), m_p_cb_obj);
-            }
+            m_isEnd = true;
         }
     }
   

@@ -1278,8 +1278,6 @@
 		5F7D64D3215F407800803BCF /* SVActFollow.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5EAA215F407700803BCF /* SVActFollow.h */; };
 		5F7D64D4215F407800803BCF /* SVActFollow.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5EAA215F407700803BCF /* SVActFollow.h */; };
 		5F7D64D5215F407800803BCF /* SVActFollow.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5EAA215F407700803BCF /* SVActFollow.h */; };
-		5F7D64D6215F407800803BCF /* build.gradle in Resources */ = {isa = PBXBuildFile; fileRef = 5F7D5EAB215F407700803BCF /* build.gradle */; };
-		5F7D64D7215F407800803BCF /* build.gradle in Resources */ = {isa = PBXBuildFile; fileRef = 5F7D5EAB215F407700803BCF /* build.gradle */; };
 		5F7D64D8215F407800803BCF /* SVActMtl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5EAC215F407700803BCF /* SVActMtl.cpp */; };
 		5F7D64D9215F407800803BCF /* SVActMtl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5EAC215F407700803BCF /* SVActMtl.cpp */; };
 		5F7D64DA215F407800803BCF /* SVActMtl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5EAC215F407700803BCF /* SVActMtl.cpp */; };
@@ -2813,7 +2811,6 @@
 		5F7D5EA8215F407700803BCF /* SVActDeform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActDeform.h; sourceTree = "<group>"; };
 		5F7D5EA9215F407700803BCF /* SVActionUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActionUnit.h; sourceTree = "<group>"; };
 		5F7D5EAA215F407700803BCF /* SVActFollow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActFollow.h; sourceTree = "<group>"; };
-		5F7D5EAB215F407700803BCF /* build.gradle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build.gradle; sourceTree = "<group>"; };
 		5F7D5EAC215F407700803BCF /* SVActMtl.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVActMtl.cpp; sourceTree = "<group>"; };
 		5F7D5EAD215F407700803BCF /* SVActDeclare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActDeclare.h; sourceTree = "<group>"; };
 		5F7D5EAE215F407700803BCF /* SVActTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActTime.h; sourceTree = "<group>"; };
@@ -3631,7 +3628,6 @@
 		5F7D5E93215F407700803BCF /* act */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5EAB215F407700803BCF /* build.gradle */,
 				5F7D5EA2215F407700803BCF /* SVActBase.cpp */,
 				5F7D5E9A215F407700803BCF /* SVActBase.h */,
 				5F7D5EAD215F407700803BCF /* SVActDeclare.h */,
@@ -5617,7 +5613,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F7D64D6215F407800803BCF /* build.gradle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5625,7 +5620,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F7D64D7215F407800803BCF /* build.gradle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
