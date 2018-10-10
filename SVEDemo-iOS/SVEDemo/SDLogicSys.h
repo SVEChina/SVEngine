@@ -14,6 +14,7 @@
 @property (strong, nonatomic) SVI *pSVI;
 @property (strong, nonatomic) SDState *pState;
 @property (strong, nonatomic)SDCamera *pCamera;
+@property (copy, nonatomic) NSString *m_airdropFilePath;
 +(instancetype) getInst;
 - (void)initSys;
 - (void)destroySys;
