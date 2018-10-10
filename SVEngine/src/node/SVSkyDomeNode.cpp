@@ -12,6 +12,7 @@
 #include "../mtl/SVMtlCore.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderMesh.h"
+#include "../rendercore/SVRenderMgr.h"
 
 SVSkyDomeNode::SVSkyDomeNode(SVInst* _app)
 :SVNode(_app)
