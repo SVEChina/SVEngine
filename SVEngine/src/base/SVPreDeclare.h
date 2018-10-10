@@ -18,7 +18,6 @@ typedef std::shared_ptr<classname> classname##Ptr;\
 namespace sv {
 
     DECLARE_SHAREPTR(SVObject);
-    DECLARE_SHAREPTR(SVObject);
     
     //MainApp
     DECLARE_SHAREPTR(SVInst);

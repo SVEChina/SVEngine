@@ -2488,6 +2488,8 @@
 		5F7D698D215F407900803BCF /* SVBounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5FE5215F407700803BCF /* SVBounds.h */; };
 		5F7D698E215F407900803BCF /* SVBounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5FE5215F407700803BCF /* SVBounds.h */; };
 		5F7D698F215F407900803BCF /* SVBounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5FE5215F407700803BCF /* SVBounds.h */; };
+		5FBA206B216DFF7000A6868E /* SVUIMoveNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA2069216DFF6F00A6868E /* SVUIMoveNode.h */; };
+		5FBA206C216DFF7000A6868E /* SVUIMoveNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA206A216DFF6F00A6868E /* SVUIMoveNode.cpp */; };
 		5FC2D1CE20AC42200065DAF6 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC2D1CD20AC42200065DAF6 /* CoreVideo.framework */; };
 		5FC2D1D020AC42EE0065DAF6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC2D1CF20AC42EE0065DAF6 /* CoreMedia.framework */; };
 /* End PBXBuildFile section */
@@ -3114,6 +3116,8 @@
 		5F7D5FE3215F407700803BCF /* SVMat2.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMat2.cpp; sourceTree = "<group>"; };
 		5F7D5FE4215F407700803BCF /* SVObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVObject.h; sourceTree = "<group>"; };
 		5F7D5FE5215F407700803BCF /* SVBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBounds.h; sourceTree = "<group>"; };
+		5FBA2069216DFF6F00A6868E /* SVUIMoveNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUIMoveNode.h; sourceTree = "<group>"; };
+		5FBA206A216DFF6F00A6868E /* SVUIMoveNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVUIMoveNode.cpp; sourceTree = "<group>"; };
 		5FC2D1CD20AC42200065DAF6 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreVideo.framework; sourceTree = DEVELOPER_DIR; };
 		5FC2D1CF20AC42EE0065DAF6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		822A3F971E70069800CF3953 /* SVEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SVEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3627,39 +3631,39 @@
 		5F7D5E93215F407700803BCF /* act */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5E94215F407700803BCF /* SVActSequence.h */,
-				5F7D5E95215F407700803BCF /* SVTimeLine.cpp */,
-				5F7D5E96215F407700803BCF /* SVDragma.cpp */,
-				5F7D5E97215F407700803BCF /* SVActDef.h */,
-				5F7D5E98215F407700803BCF /* SVTimeLineMtl.cpp */,
-				5F7D5E99215F407700803BCF /* SVActSequence.cpp */,
-				5F7D5E9A215F407700803BCF /* SVActBase.h */,
-				5F7D5E9B215F407700803BCF /* SVTimeLine.h */,
-				5F7D5E9C215F407700803BCF /* SVActionSys.h */,
-				5F7D5E9D215F407700803BCF /* SVActFollow.cpp */,
-				5F7D5E9E215F407700803BCF /* SVActionSys.cpp */,
-				5F7D5E9F215F407700803BCF /* SVTimeLineDeform.h */,
-				5F7D5EA0215F407700803BCF /* SVMovie.h */,
-				5F7D5EA1215F407700803BCF /* SVActMtl.h */,
-				5F7D5EA2215F407700803BCF /* SVActBase.cpp */,
-				5F7D5EA3215F407700803BCF /* SVTimeLineEvent.h */,
-				5F7D5EA4215F407700803BCF /* SVActionUnit.cpp */,
-				5F7D5EA5215F407700803BCF /* SVMovie.cpp */,
-				5F7D5EA6215F407700803BCF /* SVKeyFrame.h */,
-				5F7D5EA7215F407700803BCF /* SVTimeLineEvent.cpp */,
-				5F7D5EA8215F407700803BCF /* SVActDeform.h */,
-				5F7D5EA9215F407700803BCF /* SVActionUnit.h */,
-				5F7D5EAA215F407700803BCF /* SVActFollow.h */,
 				5F7D5EAB215F407700803BCF /* build.gradle */,
-				5F7D5EAC215F407700803BCF /* SVActMtl.cpp */,
+				5F7D5EA2215F407700803BCF /* SVActBase.cpp */,
+				5F7D5E9A215F407700803BCF /* SVActBase.h */,
 				5F7D5EAD215F407700803BCF /* SVActDeclare.h */,
-				5F7D5EAE215F407700803BCF /* SVActTime.h */,
-				5F7D5EAF215F407700803BCF /* SVTimeLineDeform.cpp */,
+				5F7D5E97215F407700803BCF /* SVActDef.h */,
 				5F7D5EB0215F407700803BCF /* SVActDeform.cpp */,
-				5F7D5EB1215F407700803BCF /* SVKeyFrame.cpp */,
-				5F7D5EB2215F407700803BCF /* SVTimeLineMtl.h */,
+				5F7D5EA8215F407700803BCF /* SVActDeform.h */,
+				5F7D5E9D215F407700803BCF /* SVActFollow.cpp */,
+				5F7D5EAA215F407700803BCF /* SVActFollow.h */,
+				5F7D5E9E215F407700803BCF /* SVActionSys.cpp */,
+				5F7D5E9C215F407700803BCF /* SVActionSys.h */,
+				5F7D5EA4215F407700803BCF /* SVActionUnit.cpp */,
+				5F7D5EA9215F407700803BCF /* SVActionUnit.h */,
+				5F7D5EAC215F407700803BCF /* SVActMtl.cpp */,
+				5F7D5EA1215F407700803BCF /* SVActMtl.h */,
+				5F7D5E99215F407700803BCF /* SVActSequence.cpp */,
+				5F7D5E94215F407700803BCF /* SVActSequence.h */,
 				5F7D5EB3215F407700803BCF /* SVActTime.cpp */,
+				5F7D5EAE215F407700803BCF /* SVActTime.h */,
+				5F7D5E96215F407700803BCF /* SVDragma.cpp */,
 				5F7D5EB4215F407700803BCF /* SVDragma.h */,
+				5F7D5EB1215F407700803BCF /* SVKeyFrame.cpp */,
+				5F7D5EA6215F407700803BCF /* SVKeyFrame.h */,
+				5F7D5EA5215F407700803BCF /* SVMovie.cpp */,
+				5F7D5EA0215F407700803BCF /* SVMovie.h */,
+				5F7D5E95215F407700803BCF /* SVTimeLine.cpp */,
+				5F7D5E9B215F407700803BCF /* SVTimeLine.h */,
+				5F7D5EAF215F407700803BCF /* SVTimeLineDeform.cpp */,
+				5F7D5E9F215F407700803BCF /* SVTimeLineDeform.h */,
+				5F7D5EA7215F407700803BCF /* SVTimeLineEvent.cpp */,
+				5F7D5EA3215F407700803BCF /* SVTimeLineEvent.h */,
+				5F7D5E98215F407700803BCF /* SVTimeLineMtl.cpp */,
+				5F7D5EB2215F407700803BCF /* SVTimeLineMtl.h */,
 			);
 			path = act;
 			sourceTree = "<group>";
@@ -3930,6 +3934,8 @@
 				5F7D5F54215F407700803BCF /* SVSpriteNode.h */,
 				5F7D5F49215F407700803BCF /* SVTransTexNode.cpp */,
 				5F7D5F6C215F407700803BCF /* SVTransTexNode.h */,
+				5FBA206A216DFF6F00A6868E /* SVUIMoveNode.cpp */,
+				5FBA2069216DFF6F00A6868E /* SVUIMoveNode.h */,
 			);
 			path = node;
 			sourceTree = "<group>";
@@ -4888,6 +4894,7 @@
 				5F7D64AE215F407800803BCF /* SVActMtl.h in Headers */,
 				5F7D6938215F407900803BCF /* SVMat4.h in Headers */,
 				5F7D616A215F407700803BCF /* SVFileWriter.h in Headers */,
+				5FBA206B216DFF7000A6868E /* SVUIMoveNode.h in Headers */,
 				5F7D63D6215F407800803BCF /* strfunc.h in Headers */,
 				5F7D6720215F407900803BCF /* SVIOSInstreamNode.h in Headers */,
 				5F7D646A215F407800803BCF /* SVModuleSys.h in Headers */,
@@ -6011,6 +6018,7 @@
 				5F7D67DC215F407900803BCF /* SVBackGroundNode.cpp in Sources */,
 				5F7D60B6215F407700803BCF /* SVFilterBase.cpp in Sources */,
 				5F7D649E215F407800803BCF /* SVActFollow.cpp in Sources */,
+				5FBA206C216DFF7000A6868E /* SVUIMoveNode.cpp in Sources */,
 				5F7D611E215F407700803BCF /* SVVertDef.cpp in Sources */,
 				5F7D60F6215F407700803BCF /* SVModel.cpp in Sources */,
 				5F7D6780215F407900803BCF /* SVBGRAInstreamNode.cpp in Sources */,
