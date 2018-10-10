@@ -18,7 +18,8 @@ namespace sv {
     
     namespace logic {
         
-        //mv
+        //电影和剧本的关系
+        
         class SVMovie : public SVGBase {
         public:
             SVMovie(SVInst* _app);

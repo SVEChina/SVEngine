@@ -12,24 +12,15 @@
 
 namespace sv {
     
-    class SVGameBase;
-    typedef std::shared_ptr<SVGameBase> SVGameBasePtr;
-    class SVGameReady;
-    typedef std::shared_ptr<SVGameReady> SVGameReadyPtr;
-    class SVGameRun;
-    typedef std::shared_ptr<SVGameRun> SVGameRunPtr;
-    class SVGameEnd;
-    typedef std::shared_ptr<SVGameEnd> SVGameEndPtr;
-    class SVRedPacket;
+    DECLARE_SHAREPTR(SVGameBase);
+    DECLARE_SHAREPTR(SVGameReady);
+    DECLARE_SHAREPTR(SVGameRun);
+    DECLARE_SHAREPTR(SVGameEnd);
+    DECLARE_SHAREPTR(SVRedPacket);
     
-    class SVEffectUnit;
-    typedef std::shared_ptr<SVEffectUnit> SVEffectUnitPtr;
-    class SVEffectPackage;
-    typedef std::shared_ptr<SVEffectPackage> SVEffectPackagePtr;
-    class SVDivisonFilter;
-    typedef std::shared_ptr<SVDivisonFilter> SVDivisonFilterPtr;
-    //heart flutter
-
+    DECLARE_SHAREPTR(SVEffectUnit);
+    DECLARE_SHAREPTR(SVEffectPackage);
+    DECLARE_SHAREPTR(SVDivisonFilter);
     
 }//!namespace sv
 
