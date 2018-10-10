@@ -1,5 +1,5 @@
 //
-// SVUIMoveNode.h
+// SVUIMovieNode.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
@@ -13,11 +13,11 @@ namespace sv {
     
     namespace node{
         
-        class SVUIMoveNode : public SVNode {
+        class SVUIMovieNode : public SVNode {
         public:
-            SVUIMoveNode(SVInst *_app);
+            SVUIMovieNode(SVInst *_app);
             
-            ~SVUIMoveNode();
+            ~SVUIMovieNode();
             
             void create(s32 _w,s32 _h);
             
