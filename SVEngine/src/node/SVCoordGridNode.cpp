@@ -11,6 +11,7 @@
 #include "../node/SVScene.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderScene.h"
+#include "../rendercore/SVRenderMgr.h"
 
 SVCoordGridNode::SVCoordGridNode(SVInst *_app)
 :SVNode(_app)

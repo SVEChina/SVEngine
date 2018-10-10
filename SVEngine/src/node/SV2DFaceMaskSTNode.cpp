@@ -8,14 +8,15 @@
 #include "SV2DFaceMaskSTNode.h"
 
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRenderObject.h"
+#include "../mtl/SVMtlFace2d.h"
 #include "../core/SVMathHelper.h"
-#include "../basesys/SVConfig.h"
 #include "../base/SVMeshData.h"
+#include "../basesys/SVConfig.h"
 #include "../basesys/SVStaticData.h"
 #include "../rendercore/SVRenderMesh.h"
+#include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/SVRenderObject.h"
 #include "../detect/SVDetectMgr.h"
-#include "../mtl/SVMtlFace2d.h"
 #include "SVScene.h"
 
 //ST masknode

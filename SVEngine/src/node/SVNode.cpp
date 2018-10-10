@@ -14,8 +14,9 @@
 #include "../act/SVActBase.h"
 #include "../event/SVEventMgr.h"
 #include "../basesys/SVSceneMgr.h"
-#include "../rendercore/SVRenderObject.h"
 #include "../basesys/SVConfig.h"
+#include "../rendercore/SVRenderObject.h"
+#include "../rendercore/SVRenderMgr.h"
 
 //
 SVNode::SVNode(SVInst *_app)

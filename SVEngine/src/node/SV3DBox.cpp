@@ -11,6 +11,7 @@
 #include "../app/SVInst.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderMesh.h"
+#include "../rendercore/SVRenderMgr.h"
 #include "../core/SVGeoGen.h"
 #include "../mtl/SVMtlNocolor.h"
 
