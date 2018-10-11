@@ -23,6 +23,10 @@
             SVSpriteNodePtr t_sp = MakeSharedPtr<SVSpriteNode>(pSVE,400,600);
             t_sp->setTexture(pSVE->getTexMgr()->getSVETexture());
             t_sc->addNode(t_sp);
+            //
+            t_sp->setScale(0.2, 0.5, 1.0f);
+            t_sp->setPosition(100, 100, -100);
+            t_sp->setRotation(0.0f, 0.0f, 45.0f);
         }
     }
 }
