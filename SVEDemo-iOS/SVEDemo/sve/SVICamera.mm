@@ -43,7 +43,7 @@
 //创建一个IOS输入流
 - (void)createInStream:(NSString*)_name Type:(int)_type width:(int)_w height:(int)_h OP:(cb_func_op)_cb msg:(NSString*)_msg{
     SVInst* t_app = (SVInst*)m_pApp;
-    SVOpCreateIOSInstreamPtr t_op = MakeSharedPtr<SVOpCreateIOSInstream>(t_app,[_name UTF8String],1,_w,_h,0.0f);
+    SVOpCreateIOSInstreamPtr t_op = MakeSharedPtr<SVOpCreateIOSInstream>(t_app,[_name UTF8String],1,_w,_h,0.0f, true);
     t_op->setCallBack(_cb, [_msg UTF8String]);
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }

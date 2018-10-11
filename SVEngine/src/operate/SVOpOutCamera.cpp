@@ -15,13 +15,14 @@
 
 //设置ios相机
 SVOpCreateIOSInstream::SVOpCreateIOSInstream(SVInst *_app, cptr8 _name, s32 _format, s32 _w, s32 _h,
-                                             f32 _angle)
+                                             f32 _angle, bool _show)
         : SVOpBase(_app) {
     m_name = _name;
     m_formate = _format;
     m_width = _w;
     m_height = _h;
     m_angle = _angle;
+    m_show = _show;
 }
 
 void SVOpCreateIOSInstream::_process(f32 _dt) {
@@ -29,7 +30,7 @@ void SVOpCreateIOSInstream::_process(f32 _dt) {
     //创建一个ios相机节点 挂在场景中
     SVStreamInPtr t_cam_stream = mApp->getBasicSys()->getStreamIn();
     if(t_cam_stream){
-        t_cam_stream->createInStream(m_name.c_str(),0,SV_PF_BGRA,m_width,m_height,m_angle);
+        t_cam_stream->createInStream(m_name.c_str(),0,SV_PF_BGRA,m_width,m_height,m_angle, m_show);
         t_cam_stream->active(m_name.c_str());
     }
 #endif

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		029B7423216F28AD009764CA /* libSVEngine_Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 029B741E216F2892009764CA /* libSVEngine_Static.a */; };
 		029B7427216F2B2A009764CA /* sve.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 029B7426216F2B29009764CA /* sve.bundle */; };
+		029B742E216F33F0009764CA /* SDCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 029B742D216F33F0009764CA /* SDCamera.m */; };
 		5F8271AF215F72A70099D732 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271AE215F72A70099D732 /* AppDelegate.mm */; };
 		5F8271B2215F72A70099D732 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F8271B1215F72A70099D732 /* ViewController.mm */; };
 		5F8271B5215F72A70099D732 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F8271B3215F72A70099D732 /* Main.storyboard */; };
@@ -55,6 +56,8 @@
 /* Begin PBXFileReference section */
 		029B7413216F2891009764CA /* SVEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SVEngine.xcodeproj; path = ../../../../SVEngine/platIOS/SVEngine.xcodeproj; sourceTree = "<group>"; };
 		029B7426216F2B29009764CA /* sve.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = sve.bundle; path = ../../../../SVERes/sve.bundle; sourceTree = "<group>"; };
+		029B742C216F33F0009764CA /* SDCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCamera.h; sourceTree = "<group>"; };
+		029B742D216F33F0009764CA /* SDCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCamera.m; sourceTree = "<group>"; };
 		5F8271AA215F72A70099D732 /* SVESample2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SVESample2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F8271AD215F72A70099D732 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5F8271AE215F72A70099D732 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -144,6 +147,8 @@
 				5F8271BB215F72A80099D732 /* Info.plist */,
 				5F8271B8215F72A80099D732 /* LaunchScreen.storyboard */,
 				5F8271BC215F72A80099D732 /* main.m */,
+				029B742C216F33F0009764CA /* SDCamera.h */,
+				029B742D216F33F0009764CA /* SDCamera.m */,
 				5F8271B3215F72A70099D732 /* Main.storyboard */,
 				5F8271DF215F788A0099D732 /* SDLogicSys.h */,
 				5F8271E8215F788B0099D732 /* SDLogicSys.mm */,
@@ -277,6 +282,7 @@
 				5F8271F2215F788B0099D732 /* SDLogicSys.mm in Sources */,
 				5F8271BD215F72A80099D732 /* main.m in Sources */,
 				5F8271AF215F72A70099D732 /* AppDelegate.mm in Sources */,
+				029B742E216F33F0009764CA /* SDCamera.m in Sources */,
 				5FBA205F216C794200A6868E /* SVTest.mm in Sources */,
 				5F8271F1215F788B0099D732 /* SDSVView.mm in Sources */,
 			);
@@ -424,6 +430,7 @@
 				DEVELOPMENT_TEAM = R98BC2PLD7;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SVEngine/src\"";
 				INFOPLIST_FILE = "$(SRCROOT)/SVESample2/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -443,6 +450,7 @@
 				DEVELOPMENT_TEAM = R98BC2PLD7;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SVEngine/src\"";
 				INFOPLIST_FILE = "$(SRCROOT)/SVESample2/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

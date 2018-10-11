@@ -3754,18 +3754,18 @@
 		5F7D5ED8215F407700803BCF /* renderer */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5ED9215F407700803BCF /* SVContextIOS.cpp */,
-				5F7D5EDA215F407700803BCF /* SVEGLContext.cpp */,
+				5F7D5EE1215F407700803BCF /* SVContextBase.cpp */,
 				5F7D5EDB215F407700803BCF /* SVContextBase.h */,
+				5F7D5ED9215F407700803BCF /* SVContextIOS.cpp */,
 				5F7D5EDC215F407700803BCF /* SVContextIOS.h */,
 				5F7D5EDD215F407700803BCF /* SVContextOSX.cpp */,
-				5F7D5EDE215F407700803BCF /* SVRenderState.h */,
-				5F7D5EDF215F407700803BCF /* SVRendererBase.h */,
-				5F7D5EE0215F407700803BCF /* SVRendererBase.cpp */,
-				5F7D5EE1215F407700803BCF /* SVContextBase.cpp */,
 				5F7D5EE2215F407700803BCF /* SVContextOSX.h */,
-				5F7D5EE3215F407700803BCF /* SVRenderState.cpp */,
+				5F7D5EDA215F407700803BCF /* SVEGLContext.cpp */,
 				5F7D5EE4215F407700803BCF /* SVEGLContext.h */,
+				5F7D5EE0215F407700803BCF /* SVRendererBase.cpp */,
+				5F7D5EDF215F407700803BCF /* SVRendererBase.h */,
+				5F7D5EE3215F407700803BCF /* SVRenderState.cpp */,
+				5F7D5EDE215F407700803BCF /* SVRenderState.h */,
 			);
 			path = renderer;
 			sourceTree = "<group>";
