@@ -19,9 +19,6 @@ SVActBase::SVActBase(SVInst* _app):SVGBase(_app) {
 SVActBase::~SVActBase() {
 }
 
-void SVActBase::initParam(SVActParamPtr _paramPtr){
-}
-
 void SVActBase::run(SVNodePtr _nodePtr, f32 dt) {
 }
 

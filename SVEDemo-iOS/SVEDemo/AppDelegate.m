@@ -53,5 +53,16 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options
+{
+    NSString* path = [url absoluteString];
+    if ([path containsString:@"file:///private"]) {
+        path =  [path substringFromIndex:15];
+    }
+    NSString *copy_path = [[SDLogicSys getInst].m_airdropFilePath stringByAppendingPathComponent:[path lastPathComponent]];
+    NSError *error;
+    [[NSFileManager defaultManager] copyItemAtPath:path toPath:copy_path error:&error];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"effectPath" object:path];
+    return YES;
+}
 @end

@@ -8,80 +8,6 @@
 #include "SVActDeform.h"
 #include "../node/SVNode.h"
 /********************************************************/
-//param
-
-SVActParamDeform::SVActParamDeform()
-:SVActParamTime(){
-}
-
-SVActBasePtr SVActParamDeform::genAct(SVInst *_app){
-    SVActBasePtr t_act = MakeSharedPtr<SVActDeform>(_app);
-    SVActParamPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamDeform>(this->shared_from_this());
-    t_act->initParam(t_paramPtr);
-    return t_act;
-}
-
-SVActParamMove::SVActParamMove():SVActParamTime(){
-    
-}
-
-SVActBasePtr SVActParamMove::genAct(SVInst *_app){
-    SVActBasePtr t_act = MakeSharedPtr<SVActMove>(_app);
-    SVActParamPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamMove>(this->shared_from_this());
-    t_act->initParam(t_paramPtr);
-    return t_act;
-}
-
-
-SVActParamMoveTo::SVActParamMoveTo()
-:SVActParamTime(){
-    
-}
-
-
-SVActBasePtr SVActParamMoveTo::genAct(SVInst *_app){
-    SVActBasePtr t_act = MakeSharedPtr<SVActMoveTo>(_app);
-    SVActParamPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamMoveTo>(this->shared_from_this());
-    t_act->initParam(t_paramPtr);
-    return t_act;
-}
-
-
-SVActParamMoveBy::SVActParamMoveBy():SVActParamTime(){
-    
-}
-
-SVActBasePtr SVActParamMoveBy::genAct(SVInst *_app){
-    SVActBasePtr t_act = MakeSharedPtr<SVActMoveBy>(_app);
-    SVActParamPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamMoveBy>(this->shared_from_this());
-    t_act->initParam(t_paramPtr);
-    return t_act;
-}
-
-SVActParamMoveBetween::SVActParamMoveBetween():SVActParamTime(){
-    
-}
-
-
-SVActBasePtr SVActParamMoveBetween::genAct(SVInst *_app){
-    SVActBasePtr t_act = MakeSharedPtr<SVActMoveBetween>(_app);
-    SVActParamMoveBetweenPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamMoveBetween>(this->shared_from_this());
-    t_act->initParam(t_paramPtr);
-    return t_act;
-}
-
-SVActParamScaleBetween::SVActParamScaleBetween():SVActParamTime(){
-    
-}
-
-SVActBasePtr SVActParamScaleBetween::genAct(SVInst *_app){
-    SVActBasePtr t_act = MakeSharedPtr<SVActScaleBetween>(_app);
-    SVActParamPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamScaleBetween>(this->shared_from_this());
-    t_act->initParam(t_paramPtr);
-    return t_act;
-}
-
-/********************************************************/
 
 SVActDeform::SVActDeform(SVInst *_app):SVActTime(_app) {
     m_acttype = "SVActDeform";
@@ -102,14 +28,6 @@ SVActMove::SVActMove(SVInst *_app):SVActDeform(_app) {
 
 SVActMove::~SVActMove(){
     
-}
-
-void SVActMove::initParam(SVActParamPtr _paramPtr){
-    SVActParamMovePtr t_paramPtr = std::dynamic_pointer_cast<SVActParamMove>(_paramPtr);
-    if(t_paramPtr){
-        m_time = t_paramPtr->m_time;
-        m_pos = t_paramPtr->m_pos;
-    }
 }
 
 void SVActMove::run(SVNodePtr _nodePtr, f32 _dt) {
@@ -136,12 +54,12 @@ SVActMoveTo::SVActMoveTo(SVInst *_app):SVActDeform(_app) {
 SVActMoveTo::~SVActMoveTo(){
 }
 
-void SVActMoveTo::initParam(SVActParamPtr _paramPtr){
-    SVActParamMoveToPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamMoveTo>(_paramPtr);
-    if(t_paramPtr){
-        m_time      = t_paramPtr->m_time;
-        m_target    = t_paramPtr->m_target;
-    }
+void SVActMoveTo::setBeginPos(FVec3& _pos){
+    m_srcpos = _pos;
+}
+
+void SVActMoveTo::setEndPos(FVec3& _pos){
+    m_target = _pos;
 }
 
 void SVActMoveTo::run(SVNodePtr _nodePtr, f32 _dt){
@@ -182,15 +100,6 @@ SVActMoveBetween::SVActMoveBetween(SVInst *_app):SVActDeform(_app) {
 
 SVActMoveBetween::~SVActMoveBetween(){
     
-}
-
-void SVActMoveBetween::initParam(SVActParamPtr _paramPtr){
-    SVActParamMoveBetweenPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamMoveBetween>(_paramPtr);
-    if(t_paramPtr){
-        m_time = t_paramPtr->m_time;
-        m_begin = t_paramPtr->m_begin;
-        m_end = t_paramPtr->m_end;
-    }
 }
 
 void SVActMoveBetween::run(SVNodePtr _nodePtr, f32 _dt) {
@@ -239,15 +148,6 @@ SVActMoveBy::SVActMoveBy(SVInst *_app):SVActDeform(_app) {
 
 SVActMoveBy::~SVActMoveBy(){
     
-}
-
-void SVActMoveBy::initParam(SVActParamPtr _paramPtr){
-    SVActParamMoveByPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamMoveBy>(_paramPtr);
-    if(t_paramPtr){
-        m_time = t_paramPtr->m_time;
-        m_sp   = t_paramPtr->m_Speed;
-        m_dir  = t_paramPtr->m_dir;
-    }
 }
 
 void SVActMoveBy::run(SVNodePtr _nodePtr, f32 _dt) {
@@ -375,15 +275,6 @@ SVActScaleBetween::SVActScaleBetween(SVInst *_app):SVActDeform(_app) {
 
 SVActScaleBetween::~SVActScaleBetween(){
     
-}
-
-void SVActScaleBetween::initParam(SVActParamPtr _paramPtr){
-    SVActParamScaleBetweenPtr t_paramPtr = std::dynamic_pointer_cast<SVActParamScaleBetween>(_paramPtr);
-    if(t_paramPtr){
-        m_time = t_paramPtr->m_time;
-        m_begin = t_paramPtr->m_begin;
-        m_end = t_paramPtr->m_end;
-    }
 }
 
 void SVActScaleBetween::run(SVNodePtr _nodePtr, f32 _dt) {
