@@ -12,9 +12,6 @@
 #include "../base/SVGBase.h"
 #include "../base/SVVec3.h"
 #include "../node/SVNodeDeclare.h"
-
-typedef void (*sv_act_callback)(SVActBasePtr _act,void* _obj);
-
 namespace sv {
     
     namespace logic {
@@ -33,8 +30,6 @@ namespace sv {
             
             ~SVActBase();
             
-            virtual void initParam(SVActParamPtr _paramPtr);
-            
             virtual void run(SVNodePtr _nodePtr, f32 dt);  //循环action
             
             virtual void enter(SVNodePtr _nodePtr);   //进入action
@@ -44,14 +39,10 @@ namespace sv {
             virtual bool isEnd();
             
             virtual void reset();
-            
-            void setActCallBack(sv_act_callback _act_callback, void *_obj);
         protected:
+            bool m_isEnd;
+            
             SVString m_acttype;
-            
-            void* m_p_cb_obj;
-            
-            sv_act_callback m_act_callback;
             
         };
 

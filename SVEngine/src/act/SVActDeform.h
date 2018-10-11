@@ -16,76 +16,6 @@
 namespace sv {
     
     namespace logic {
-        
-        //时间参数表
-        class SVActParamDeform : public SVActParamTime {
-        public:
-            SVActParamDeform();
-            
-            SVActBasePtr genAct(SVInst *_app);
-        };
-
-        //
-        class SVActParamMove : public SVActParamTime {
-        public:
-            
-            SVActParamMove();
-            
-            SVActBasePtr genAct(SVInst *_app);
-            
-            FVec3 m_pos;
-        };
-
-        //
-        class SVActParamMoveTo : public SVActParamTime {
-        public:
-            
-            SVActParamMoveTo();
-            
-            SVActBasePtr genAct(SVInst *_apps);
-            
-            FVec3 m_target;
-        };
-
-        //
-        class SVActParamMoveBy : public SVActParamTime {
-        public:
-            
-            SVActParamMoveBy();
-            
-            SVActBasePtr genAct(SVInst *_app);
-            
-            FVec3 m_dir;
-            
-            s32 m_Speed;
-        };
-
-        //
-        class SVActParamMoveBetween : public SVActParamTime {
-        public:
-            SVActParamMoveBetween();
-            
-            SVActBasePtr genAct(SVInst *_app);
-            
-            FVec3 m_begin;
-            
-            FVec3 m_end;
-        };
-
-        //从一个缩放比例 变换到两一个比例
-        class SVActParamScaleBetween : public SVActParamTime {
-        public:
-            
-            SVActParamScaleBetween();
-            
-            SVActBasePtr genAct(SVInst *_app);
-            
-            FVec3 m_begin;
-            
-            FVec3 m_end;
-        };
-
-
         /*************************************************************/
 
         class SVActDeform : public SVActTime {
@@ -95,7 +25,7 @@ namespace sv {
             ~SVActDeform();
             
             virtual void run(SVNodePtr _node, f32 _dt);
-            
+        
         protected:
             
         };
@@ -106,8 +36,6 @@ namespace sv {
             SVActMove(SVInst *_app);
             
             ~SVActMove();
-            
-            virtual void initParam(SVActParamPtr _paramPtr);
             
             virtual void run(SVNodePtr _nodePtr, f32 _dt);
             
@@ -125,13 +53,15 @@ namespace sv {
             
             ~SVActMoveTo();
             
-            virtual void initParam(SVActParamPtr _paramPtr);
-            
             virtual void run(SVNodePtr _node, f32 _dt);
             
             virtual void enter(SVNodePtr _node);   //进入action
             
             virtual void exit(SVNodePtr _node);    //退出action
+            
+            void setBeginPos(FVec3& _pos);
+            
+            void setEndPos(FVec3& _pos);
         protected:
             FVec3 m_target;
             FVec3 m_srcpos;
@@ -142,8 +72,6 @@ namespace sv {
             SVActMoveBetween(SVInst *_app);
             
             ~SVActMoveBetween();
-            
-            virtual void initParam(SVActParamPtr _paramPtr);
             
             virtual void run(SVNodePtr _nodePtr, f32 _dt);
             
@@ -166,8 +94,6 @@ namespace sv {
             SVActMoveBy(SVInst *_app);
             
             ~SVActMoveBy();
-            
-            virtual void initParam(SVActParamPtr _paramPtr);
             
             virtual void run(SVNodePtr _nodePtr, f32 _dt);
             
@@ -215,6 +141,26 @@ namespace sv {
             
         protected:
         };
+        //
+        class SVActAlpha : public SVActDeform {
+        public:
+            SVActAlpha(SVInst *_app);
+            
+            ~SVActAlpha();
+            
+            virtual void run(SVNodePtr _nodePtr, f32 _dt);
+            
+            virtual void enter(SVNodePtr _nodePtr);   //进入action
+            
+            virtual void exit(SVNodePtr _nodePtr);    //退出action
+            
+            void setSrcAlpha(f32 _alpha);
+            
+            void setTarAlpha(f32 _alpha);
+        protected:
+            f32 m_srcAlpha;
+            f32 m_tarAlpha;
+        };
 
         //
         class SVActScale : public SVActDeform {
@@ -251,8 +197,6 @@ namespace sv {
             SVActScaleBetween(SVInst *_app);
             
             ~SVActScaleBetween();
-            
-            virtual void initParam(SVActParamPtr _paramPtr);
             
             virtual void run(SVNodePtr _nodePtr, f32 _dt);
             

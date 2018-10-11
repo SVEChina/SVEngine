@@ -14,18 +14,7 @@
 namespace sv {
     //
     namespace logic {
-        //act部分
-        DECLARE_SHAREPTR(SVActParam);
-        DECLARE_SHAREPTR(SVActParamTime);
-        DECLARE_SHAREPTR(SVActParamWait);
-        DECLARE_SHAREPTR(SVActParamHide);
-        DECLARE_SHAREPTR(SVActParamDeform);
-        DECLARE_SHAREPTR(SVActParamMove);
-        DECLARE_SHAREPTR(SVActParamMoveTo);
-        DECLARE_SHAREPTR(SVActParamMoveBy);
-        DECLARE_SHAREPTR(SVActParamMoveBetween);
-        DECLARE_SHAREPTR(SVActParamScaleBetween);
-        
+        //act部分        
         DECLARE_SHAREPTR(SVActBase);
         DECLARE_SHAREPTR(SVActDeform);
         DECLARE_SHAREPTR(SVActMove);
@@ -34,6 +23,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVActMoveBy);
         DECLARE_SHAREPTR(SVActRot);
         DECLARE_SHAREPTR(SVActRotTo);
+        DECLARE_SHAREPTR(SVActAlpha);
         DECLARE_SHAREPTR(SVActHide);
         DECLARE_SHAREPTR(SVActWait);
         DECLARE_SHAREPTR(SVActRotBetween);

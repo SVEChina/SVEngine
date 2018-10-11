@@ -30,6 +30,10 @@ static SDLogicSys *mInst;
     return mInst;
 }
 
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)initSys{
     //
     self.pSVI = nil;
@@ -45,10 +49,8 @@ static SDLogicSys *mInst;
     //
     [self initCamera];
     
-    //打开输出流
-//    if (self.pSVI) {
-//        [self.pSVI.pCamera openOutStream:data_out_stream Mode:1];
-//    }
+    [self initAirdropFilePath];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addEffect:) name:@"effectPath" object:nil];
 }
 
 - (void)destroySys{
@@ -80,6 +82,15 @@ static SDLogicSys *mInst;
     }else if (connection == self.pCamera.audioConnection) {
         
         
+    }
+}
+
+- (void)initAirdropFilePath{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSString *path = [paths lastObject];
+    self.m_airdropFilePath = [path stringByAppendingPathComponent:@"airdropeffect"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:self.m_airdropFilePath]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:self.m_airdropFilePath withIntermediateDirectories:YES attributes:nil error:nil];
     }
 }
 
@@ -142,4 +153,11 @@ static SDLogicSys *mInst;
     //如果有预览视频正在播放，那么继续播放。
     [self.pSVI resume];
 }
+
+- (void)addEffect:(NSNotification*)notifi{
+    NSString* path = notifi.object;
+    NSString *copy_path = [self.m_airdropFilePath stringByAppendingPathComponent:[path lastPathComponent]];
+    [self.pSVI.pEffect loadEffectPath:copy_path OP:NULL msg:@""];
+}
+
 @end

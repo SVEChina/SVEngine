@@ -11,6 +11,7 @@
 #include "../app/SVInst.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderMesh.h"
+#include "../rendercore/SVRenderMgr.h"
 #include "../core/SVGeoGen.h"
 #include "../mtl/SVMtlNocolor.h"
 
@@ -75,7 +76,7 @@ void SV3DBox::update(f32 dt) {
 
 void SV3DBox::render() {
     if (mApp->m_pGlobalParam->m_curScene && m_visible ){
-        SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj) {
             m_pRenderObj->pushCmd(t_rs, RST_DEBUG_INNER, "SV3DBox");
         }

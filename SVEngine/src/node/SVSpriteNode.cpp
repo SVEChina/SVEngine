@@ -23,7 +23,15 @@
 //
 SVSpriteNode::SVSpriteNode(SVInst *_app)
 :SVNode(_app) {
-    SVSpriteNode(_app,100,100);
+    ntype = "SVSpriteNode";
+    m_inTexType = E_TEX_END;
+    m_rsType = RST_ANIMATE;
+    m_pRenderObj = MakeSharedPtr<SVRenderObject>();
+    m_canSelect = false;
+    m_pTex = nullptr;
+    m_pMesh = nullptr;
+    setTexcoord(1.0,-1.0);
+    setSpriteSize(100,100);
 }
 
 SVSpriteNode::SVSpriteNode(SVInst *_app,f32 _w,f32 _h)
@@ -133,7 +141,7 @@ void SVSpriteNode::update(f32 dt) {
 
 void SVSpriteNode::render() {
     if (mApp->m_pGlobalParam->m_curScene && m_visible ){
-        SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj) {
             m_pRenderObj->pushCmd(t_rs, m_rsType, "SVSpriteNode");
         }

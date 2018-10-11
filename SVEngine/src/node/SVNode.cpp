@@ -14,8 +14,9 @@
 #include "../act/SVActBase.h"
 #include "../event/SVEventMgr.h"
 #include "../basesys/SVSceneMgr.h"
-#include "../rendercore/SVRenderObject.h"
 #include "../basesys/SVConfig.h"
+#include "../rendercore/SVRenderObject.h"
+#include "../rendercore/SVRenderMgr.h"
 
 //
 SVNode::SVNode(SVInst *_app)
@@ -124,7 +125,7 @@ bool SVNode::_clip() {
 
 void SVNode::render() {
     if( m_drawBox && mApp->m_pGlobalParam->m_curScene ){
-        SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if( t_rs ){
             SVMtlGeo3dPtr t_mtl = MakeSharedPtr<SVMtlGeo3d>(mApp);
             t_mtl->setColor(0.0f, 1.0f, 0.0f, 1.0f);
@@ -363,4 +364,7 @@ void SVNode::setZOrder(s32 _zorder){
     }
 }
 
+void SVNode::setAlpha(f32 _alpha){
+    
+}
 

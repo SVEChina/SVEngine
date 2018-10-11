@@ -8,11 +8,12 @@
 
 #import "SVTest.h"
 #import "SDLogicSys.h"
-#include "src/basesys/SVSceneMgr.h"
-#include "src/node/SVScene.h"
-#include "src/node/SVSpriteNode.h"
-#include "src/mtl/SVTexMgr.h"
-
+#include "basesys/SVSceneMgr.h"
+#include "node/SVScene.h"
+#include "node/SVSpriteNode.h"
+#include "mtl/SVTexMgr.h"
+#include "rendercore/SVRenderMgr.h"
+#include "rendercore/renderer/SVRendererBase.h"
 @implementation SVTest
 
 -(void)testSprite {
@@ -21,8 +22,12 @@
         SVScenePtr t_sc = pSVE->getSceneMgr()->getScene();
         if(t_sc) {
             SVSpriteNodePtr t_sp = MakeSharedPtr<SVSpriteNode>(pSVE,400,600);
-            t_sp->setTexture(pSVE->getTexMgr()->getSVETexture());
+            t_sp->setTexture(E_TEX_INSTREAM);
             t_sc->addNode(t_sp);
+            //
+            t_sp->setScale(0.2, 0.5, 1.0f);
+            t_sp->setPosition(100, 100, -100);
+            t_sp->setRotation(0.0f, 0.0f, 0.0f);
         }
     }
 }

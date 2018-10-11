@@ -179,7 +179,7 @@ void SVSpineNode::render() {
         return;
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
-    SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_pRObj) {
         m_pRObj->pushCmd(t_rs, m_rsType, "SVSpineNode");
     }
@@ -286,6 +286,15 @@ void SVSpineNode::setScale(FVec3& _scale) {
     FVec3& pAdaptScale = mApp->getConfig()->getAdaptScale();
     m_scale = FVec3(_scale.x*pAdaptScale.x, _scale.y*pAdaptScale.x, _scale.z);
     m_dirty = true;
+}
+
+void SVSpineNode::setAlpha(f32 _alpha){
+    if (_alpha < 0.0f || _alpha > 1.0f) {
+        return;
+    }
+    if(m_spine){
+        m_spine->setAlpha(_alpha);
+    }
 }
 
 bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename) {

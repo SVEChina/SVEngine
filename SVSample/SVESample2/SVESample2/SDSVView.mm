@@ -9,12 +9,12 @@
 #import "SDSVView.h"
 #import "SDLogicSys.h"
 #import "SVTest.h"
-#include "src/work/SVThreadPool.h"
-#include "src/work/SVThreadMain.h"
-#include "src/operate/SVOpCreate.h"
-#include "src/operate/SVOpRender.h"
-#include "src/basesys/SVSceneMgr.h"
-#include "src/node/SVScene.h"
+#include "work/SVThreadPool.h"
+#include "work/SVThreadMain.h"
+#include "operate/SVOpCreate.h"
+#include "operate/SVOpRender.h"
+#include "basesys/SVSceneMgr.h"
+#include "node/SVScene.h"
 
 @interface SDSVView(){
     CAEAGLLayer* m_layer;
@@ -22,6 +22,7 @@
     unsigned int m_colorID;
     int m_layer_w;
     int m_layer_h;
+    SVTest *m_pTest;
 }
 @end
 
@@ -94,29 +95,10 @@
 -(void)active:(EAGLContext*)_GLContext {
     SVInst* pSVE = [[SDLogicSys getInst] getSVE];
     if( pSVE ) {
-        //创建渲染器
-        SVOpCreateRenderderPtr t_op = MakeSharedPtr<SVOpCreateRenderder>(pSVE);
-        t_op->setGLParam(3,(__bridge_retained void *)_GLContext,m_layer_w,m_layer_h);
-        pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op);
-        
         //指定外部渲染环境
         SVOpSetRenderTargetPtr t_op_rt = MakeSharedPtr<SVOpSetRenderTarget>(pSVE);
         t_op_rt->setTargetParam(m_layer_w,m_layer_h,m_fboID,m_colorID, false);
         pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op_rt);
-        
-        //创建一个普通的场景
-        if(0) {
-            SVOpCreateScenePtr t_op_sc = MakeSharedPtr<SVOpCreateScene>(pSVE,"sveScene");
-            pSVE->m_pTPool->getMainThread()->pushThreadOp(t_op_sc);
-        }else{
-            SVScenePtr t_pScene = MakeSharedPtr<SVScene>(pSVE,"sveScene");
-            if (t_pScene) {
-                t_pScene->create(); //创建场景树
-                t_pScene->setSceneColor(0.0f, 1.0f, 1.0f, 1.0);
-                pSVE->getSceneMgr()->setScene(t_pScene);
-            }
-        }
-        //
         [self testInit];
     }
 }
@@ -131,8 +113,8 @@
 }
 
 -(void)testInit {
-    SVTest* t_test = [[SVTest alloc] init];
-    [t_test testSprite];
+    m_pTest = [[SVTest alloc] init];
+    [m_pTest testSprite];
 }
 
 @end

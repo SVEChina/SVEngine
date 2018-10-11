@@ -14,41 +14,11 @@
 namespace sv {
     
     namespace logic {
-        
-        //时间参数表
-        class SVActParamTime : public SVActParam {
-        public:
-            SVActParamTime();
-       
-            SVActBasePtr genAct(SVInst *_app);
-            
-            f32 m_time;
-        };
-        
-        //等待
-        class SVActParamWait : public SVActParamTime {
-        public:
-            SVActParamWait();
-            
-            SVActBasePtr genAct(SVInst *_app);
-        };
-        
-        //隐藏
-        class SVActParamHide : public SVActParamTime {
-        public:
-            SVActParamHide();
-            
-            SVActBasePtr genAct(SVInst *_app);
-        };
-        
-        
         class SVActTime : public SVActBase {
         public:
             SVActTime(SVInst *_app);
             
             ~SVActTime();
-            
-            virtual void initParam(SVActParamPtr _paramPtr);
             
             virtual void run(SVNodePtr _nodePtr, f32 _dt);
             

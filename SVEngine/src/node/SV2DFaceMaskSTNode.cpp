@@ -8,14 +8,15 @@
 #include "SV2DFaceMaskSTNode.h"
 
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRenderObject.h"
+#include "../mtl/SVMtlFace2d.h"
 #include "../core/SVMathHelper.h"
-#include "../basesys/SVConfig.h"
 #include "../base/SVMeshData.h"
+#include "../basesys/SVConfig.h"
 #include "../basesys/SVStaticData.h"
 #include "../rendercore/SVRenderMesh.h"
+#include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/SVRenderObject.h"
 #include "../detect/SVDetectMgr.h"
-#include "../mtl/SVMtlFace2d.h"
 #include "SVScene.h"
 
 //ST masknode
@@ -135,7 +136,7 @@ void SV2DFaceMaskSTNode::_updateVerts(){
 void SV2DFaceMaskSTNode::render(){
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
-    SVRenderScenePtr t_rs = mApp->m_pGlobalParam->m_curScene->getRenderRS();
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_renderObject ) {
         m_renderObject->pushCmd(t_rs, RST_MASK2D, "SV2DFaceMaskSTNode");
     }

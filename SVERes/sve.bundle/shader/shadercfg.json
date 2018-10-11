@@ -84,6 +84,26 @@
      "vs": "screennor",
      "fs": "trans/yuv2rgbyv12",
      "programme": "yuv2rgbyv12"
+     },
+     {
+     "vs": "screennor",
+     "fs": "screennorbgra",
+     "programme": "screennorbgra"
+     },
+     {
+     "vs": "normal2d_c",
+     "fs": "normal_c",
+     "programme": "normal2d_c"
+     },
+     {
+     "vs": "normal2dani_c",
+     "fs": "normalani_c",
+     "programme": "normal2dani_c"
+     },
+     {
+     "vs": "normal2d",
+     "fs": "normal",
+     "programme": "normal2d"
      }
   ]
 }

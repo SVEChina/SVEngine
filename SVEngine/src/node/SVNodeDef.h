@@ -22,6 +22,17 @@ enum E_ANISTATE{
     tANI_STATE_WAIT
 };
 
-
+//锚点
+enum EUIARCHO {
+    E_ARCHO_LT = 0,
+    E_ARCHO_CT,
+    E_ARCHO_RT,
+    E_ARCHO_LC,
+    E_ARCHO_CC,
+    E_ARCHO_RC,
+    E_ARCHO_LB,
+    E_ARCHO_CB,
+    E_ARCHO_RB
+};
 
 #endif //SV_NODEDEF_H
