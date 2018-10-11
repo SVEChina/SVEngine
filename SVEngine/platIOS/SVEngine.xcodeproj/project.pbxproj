@@ -3261,19 +3261,19 @@
 		5F7D5D86215F407700803BCF /* filter */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5D87215F407700803BCF /* SVRGBToneCurveFilter.h */,
 				5F7D5D88215F407700803BCF /* SVFilterDef.h */,
+				5F7D5D93215F407700803BCF /* SVFilterLookUpTableAdjust.h */,
 				5F7D5D89215F407700803BCF /* SVFilterLookUpTableAdjust.cpp */,
+				5F7D5D8D215F407700803BCF /* SVBasedonFilter.h */,
 				5F7D5D8A215F407700803BCF /* SVBasedonFilter.cpp */,
 				5F7D5D8B215F407700803BCF /* SVLookUpFilter.h */,
-				5F7D5D8C215F407700803BCF /* SVFilterBase.h */,
-				5F7D5D8D215F407700803BCF /* SVBasedonFilter.h */,
 				5F7D5D8E215F407700803BCF /* SVLookUpFilter.cpp */,
-				5F7D5D8F215F407700803BCF /* SVRGBToneCurveCore.h */,
+				5F7D5D87215F407700803BCF /* SVRGBToneCurveFilter.h */,
 				5F7D5D90215F407700803BCF /* SVRGBToneCurveFilter.cpp */,
+				5F7D5D8F215F407700803BCF /* SVRGBToneCurveCore.h */,
 				5F7D5D91215F407700803BCF /* SVRGBToneCurveCore.cpp */,
+				5F7D5D8C215F407700803BCF /* SVFilterBase.h */,
 				5F7D5D92215F407700803BCF /* SVFilterBase.cpp */,
-				5F7D5D93215F407700803BCF /* SVFilterLookUpTableAdjust.h */,
 			);
 			path = filter;
 			sourceTree = "<group>";

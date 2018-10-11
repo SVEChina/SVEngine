@@ -102,3 +102,45 @@ void SVMtlVibrance::_submitMtl(SVRendererBasePtr _render) {
     _render->submitUniformf("vibrance", m_vibrance);
 }
 
+SVMtlHSL::SVMtlHSL(SVInst *_app)
+:SVMtlCore(_app,"HSL2"){
+     m_saturation=0.0f;
+     m_Hue=0.0f;
+     m_Lightness=0.0f;
+     m_HueRadius=0.0f;
+}
+
+SVMtlHSL::SVMtlHSL(SVMtlHSL* _mtl)
+:SVMtlCore(_mtl){
+}
+
+SVMtlHSL::~SVMtlHSL(){
+}
+
+SVMtlCorePtr SVMtlHSL::clone(){
+    return PointerSharedPtr<SVMtlHSL>(new SVMtlHSL(this));
+}
+
+void SVMtlHSL::setSaturation(f32 _smooth){
+    m_saturation=_smooth;
+}
+
+void SVMtlHSL::setHue(f32 _smooth){
+    m_Hue=_smooth;
+}
+
+void SVMtlHSL::setLightness(f32 _smooth){
+    m_Lightness=_smooth;
+}
+
+void SVMtlHSL::setHueRadius(f32 _smooth){
+    m_HueRadius=_smooth;
+}
+
+void SVMtlHSL::_submitMtl(SVRendererBasePtr _render){
+    SVMtlCore::_submitMtl(_render);
+    _render->submitUniformf("m_Hue", m_Hue);
+    _render->submitUniformf("m_Saturation", m_saturation);
+    _render->submitUniformf("m_Lightness", m_Lightness);
+    _render->submitUniformf("m_HueRadius", m_HueRadius);
+}
