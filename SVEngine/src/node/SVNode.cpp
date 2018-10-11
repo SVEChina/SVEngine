@@ -364,4 +364,7 @@ void SVNode::setZOrder(s32 _zorder){
     }
 }
 
+void SVNode::setAlpha(f32 _alpha){
+    
+}
 

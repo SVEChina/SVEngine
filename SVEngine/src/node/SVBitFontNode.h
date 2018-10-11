@@ -66,7 +66,7 @@ namespace sv {
             
             cptr8 getTexturePath();
             
-            void setAlpha(s32 _alpha);
+            virtual void setAlpha(s32 _alpha);
         private:
             void _genMesh();
             void _genTexcoords();

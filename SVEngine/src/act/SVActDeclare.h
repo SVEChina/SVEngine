@@ -23,6 +23,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVActMoveBy);
         DECLARE_SHAREPTR(SVActRot);
         DECLARE_SHAREPTR(SVActRotTo);
+        DECLARE_SHAREPTR(SVActAlpha);
         DECLARE_SHAREPTR(SVActHide);
         DECLARE_SHAREPTR(SVActWait);
         DECLARE_SHAREPTR(SVActRotBetween);

@@ -97,7 +97,7 @@ SVStreamIn::~SVStreamIn() {
     m_streamLock = nullptr;
 }
 
-void SVStreamIn::createInStream(cptr8 _name,s32 _type,PICFORMATE _formate,s32 _w,s32 _h,f32 _angle) {
+void SVStreamIn::createInStream(cptr8 _name,s32 _type,PICFORMATE _formate,s32 _w,s32 _h,f32 _angle, bool _show) {
     if(!mApp->getRenderer()) {
         return ;
     }
@@ -105,7 +105,7 @@ void SVStreamIn::createInStream(cptr8 _name,s32 _type,PICFORMATE _formate,s32 _w
     m_streamLock->lock();
     //PICFORMATE
     StreamInCorePtr t_incore =MakeSharedPtr<StreamInCore>(mApp);
-    t_incore->init(_w,_h,_formate,_angle,true);
+    t_incore->init(_w,_h,_formate,_angle,_show);
     m_TexMap.append(_name,t_incore);
     m_streamLock->unlock();
 }

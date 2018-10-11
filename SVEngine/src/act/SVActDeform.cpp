@@ -212,6 +212,52 @@ SVActRotBetween::~SVActRotBetween(){
 void SVActRotBetween::run(SVNodePtr _nodePtr, f32 _dt) {
     SVActDeform::run(_nodePtr, _dt);
 }
+//
+SVActAlpha::SVActAlpha(SVInst *_app):SVActDeform(_app) {
+    m_acttype = "SVActAlpha";
+    m_srcAlpha = 1.0f;
+    m_tarAlpha = 1.0f;
+}
+
+SVActAlpha::~SVActAlpha(){
+    
+}
+
+void SVActAlpha::run(SVNodePtr _nodePtr, f32 _dt) {
+    SVActDeform::run(_nodePtr, _dt);
+    if(_nodePtr && m_time>0.0f){
+        f32 t_lerp = m_acctime/m_time;
+        if(t_lerp<0)
+            t_lerp = 0.0f;
+        if(t_lerp>1.0f)
+            t_lerp = 1.0f;
+        
+        f32 t_result = m_srcAlpha + (m_tarAlpha - m_srcAlpha)*t_lerp;
+        _nodePtr->setAlpha(t_result);
+        //
+        if (t_lerp == 1.0f) {
+            m_isEnd = true;
+        }
+    }
+}
+
+void SVActAlpha::enter(SVNodePtr _nodePtr){
+    if (_nodePtr) {
+//        _nodePtr->setAlpha(m_srcAlpha);
+    }
+}
+
+void SVActAlpha::exit(SVNodePtr _nodePtr){
+}
+
+
+void SVActAlpha::setTarAlpha(f32 _alpha){
+    m_tarAlpha = _alpha;
+}
+
+void SVActAlpha::setSrcAlpha(f32 _alpha){
+    m_srcAlpha = _alpha;
+}
 
 //
 SVActScale::SVActScale(SVInst *_app):SVActDeform(_app) {

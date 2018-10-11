@@ -288,6 +288,15 @@ void SVSpineNode::setScale(FVec3& _scale) {
     m_dirty = true;
 }
 
+void SVSpineNode::setAlpha(f32 _alpha){
+    if (_alpha < 0.0f || _alpha > 1.0f) {
+        return;
+    }
+    if(m_spine){
+        m_spine->setAlpha(_alpha);
+    }
+}
+
 bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename) {
     spBone *m_bone = m_spine->findBone(bonename);//spSkeleton_findBone(,bonename);           //绑定的骨头
     if (m_bone) {
