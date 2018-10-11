@@ -3204,18 +3204,18 @@
 		5F7D5D5B215F407700803BCF /* detect */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */,
-				5F7D5D5D215F407700803BCF /* SVPerson.cpp */,
-				5F7D5D5E215F407700803BCF /* SVDetectMgr.h */,
-				5F7D5D5F215F407700803BCF /* SVPerson.h */,
-				5F7D5D60215F407700803BCF /* SVPersonTracker.cpp */,
-				5F7D5D61215F407700803BCF /* SVPersonModule.cpp */,
 				5F7D5D62215F407700803BCF /* SVDetectBase.cpp */,
-				5F7D5D63215F407700803BCF /* SVPersonTracker.h */,
 				5F7D5D64215F407700803BCF /* SVDetectBase.h */,
-				5F7D5D65215F407700803BCF /* SVPersonModule.h */,
-				5F7D5D66215F407700803BCF /* SVDetectST.h */,
+				5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */,
+				5F7D5D5E215F407700803BCF /* SVDetectMgr.h */,
 				5F7D5D67215F407700803BCF /* SVDetectST.cpp */,
+				5F7D5D66215F407700803BCF /* SVDetectST.h */,
+				5F7D5D5D215F407700803BCF /* SVPerson.cpp */,
+				5F7D5D5F215F407700803BCF /* SVPerson.h */,
+				5F7D5D61215F407700803BCF /* SVPersonModule.cpp */,
+				5F7D5D65215F407700803BCF /* SVPersonModule.h */,
+				5F7D5D60215F407700803BCF /* SVPersonTracker.cpp */,
+				5F7D5D63215F407700803BCF /* SVPersonTracker.h */,
 			);
 			path = detect;
 			sourceTree = "<group>";
@@ -3266,19 +3266,19 @@
 		5F7D5D86215F407700803BCF /* filter */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5D87215F407700803BCF /* SVRGBToneCurveFilter.h */,
+				5F7D5D8A215F407700803BCF /* SVBasedonFilter.cpp */,
+				5F7D5D8D215F407700803BCF /* SVBasedonFilter.h */,
+				5F7D5D92215F407700803BCF /* SVFilterBase.cpp */,
+				5F7D5D8C215F407700803BCF /* SVFilterBase.h */,
 				5F7D5D88215F407700803BCF /* SVFilterDef.h */,
 				5F7D5D89215F407700803BCF /* SVFilterLookUpTableAdjust.cpp */,
-				5F7D5D8A215F407700803BCF /* SVBasedonFilter.cpp */,
-				5F7D5D8B215F407700803BCF /* SVLookUpFilter.h */,
-				5F7D5D8C215F407700803BCF /* SVFilterBase.h */,
-				5F7D5D8D215F407700803BCF /* SVBasedonFilter.h */,
+				5F7D5D93215F407700803BCF /* SVFilterLookUpTableAdjust.h */,
 				5F7D5D8E215F407700803BCF /* SVLookUpFilter.cpp */,
+				5F7D5D8B215F407700803BCF /* SVLookUpFilter.h */,
+				5F7D5D91215F407700803BCF /* SVRGBToneCurveCore.cpp */,
 				5F7D5D8F215F407700803BCF /* SVRGBToneCurveCore.h */,
 				5F7D5D90215F407700803BCF /* SVRGBToneCurveFilter.cpp */,
-				5F7D5D91215F407700803BCF /* SVRGBToneCurveCore.cpp */,
-				5F7D5D92215F407700803BCF /* SVFilterBase.cpp */,
-				5F7D5D93215F407700803BCF /* SVFilterLookUpTableAdjust.h */,
+				5F7D5D87215F407700803BCF /* SVRGBToneCurveFilter.h */,
 			);
 			path = filter;
 			sourceTree = "<group>";
@@ -3754,18 +3754,18 @@
 		5F7D5ED8215F407700803BCF /* renderer */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5ED9215F407700803BCF /* SVContextIOS.cpp */,
-				5F7D5EDA215F407700803BCF /* SVEGLContext.cpp */,
+				5F7D5EE1215F407700803BCF /* SVContextBase.cpp */,
 				5F7D5EDB215F407700803BCF /* SVContextBase.h */,
+				5F7D5ED9215F407700803BCF /* SVContextIOS.cpp */,
 				5F7D5EDC215F407700803BCF /* SVContextIOS.h */,
 				5F7D5EDD215F407700803BCF /* SVContextOSX.cpp */,
-				5F7D5EDE215F407700803BCF /* SVRenderState.h */,
-				5F7D5EDF215F407700803BCF /* SVRendererBase.h */,
-				5F7D5EE0215F407700803BCF /* SVRendererBase.cpp */,
-				5F7D5EE1215F407700803BCF /* SVContextBase.cpp */,
 				5F7D5EE2215F407700803BCF /* SVContextOSX.h */,
-				5F7D5EE3215F407700803BCF /* SVRenderState.cpp */,
+				5F7D5EDA215F407700803BCF /* SVEGLContext.cpp */,
 				5F7D5EE4215F407700803BCF /* SVEGLContext.h */,
+				5F7D5EE0215F407700803BCF /* SVRendererBase.cpp */,
+				5F7D5EDF215F407700803BCF /* SVRendererBase.h */,
+				5F7D5EE3215F407700803BCF /* SVRenderState.cpp */,
+				5F7D5EDE215F407700803BCF /* SVRenderState.h */,
 			);
 			path = renderer;
 			sourceTree = "<group>";
@@ -3784,10 +3784,10 @@
 		5F7D5EF7215F407700803BCF /* SVVulkan */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5EF8215F407700803BCF /* SVRenderStateVK.h */,
-				5F7D5EF9215F407700803BCF /* SVRendererVK.h */,
 				5F7D5EFA215F407700803BCF /* SVRendererVK.cpp */,
+				5F7D5EF9215F407700803BCF /* SVRendererVK.h */,
 				5F7D5EFB215F407700803BCF /* SVRenderStateVK.cpp */,
+				5F7D5EF8215F407700803BCF /* SVRenderStateVK.h */,
 			);
 			path = SVVulkan;
 			sourceTree = "<group>";
@@ -3796,15 +3796,15 @@
 			isa = PBXGroup;
 			children = (
 				5F7D5F0B215F407700803BCF /* SVThreadHelp.cpp */,
+				5F7D5F0F215F407700803BCF /* SVThreadHelp.h */,
+				5F7D5F11215F407700803BCF /* SVThreadMain.cpp */,
+				5F7D5F10215F407700803BCF /* SVThreadMain.h */,
+				5F7D5F14215F407700803BCF /* SVThreadPool.cpp */,
 				5F7D5F0C215F407700803BCF /* SVThreadPool.h */,
 				5F7D5F0D215F407700803BCF /* SVThreadRender.cpp */,
-				5F7D5F0E215F407700803BCF /* SVThreadWork.h */,
-				5F7D5F0F215F407700803BCF /* SVThreadHelp.h */,
-				5F7D5F10215F407700803BCF /* SVThreadMain.h */,
-				5F7D5F11215F407700803BCF /* SVThreadMain.cpp */,
 				5F7D5F12215F407700803BCF /* SVThreadRender.h */,
 				5F7D5F13215F407700803BCF /* SVThreadWork.cpp */,
-				5F7D5F14215F407700803BCF /* SVThreadPool.cpp */,
+				5F7D5F0E215F407700803BCF /* SVThreadWork.h */,
 			);
 			path = work;
 			sourceTree = "<group>";
@@ -3859,14 +3859,14 @@
 		5F7D5F3E215F407700803BCF /* callback */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5F3F215F407700803BCF /* SVOpCallback.h */,
-				5F7D5F40215F407700803BCF /* SVThreadWorkCallback.h */,
-				5F7D5F41215F407700803BCF /* SVThreadWorkCallback.cpp */,
-				5F7D5F42215F407700803BCF /* SVCallbackBase.h */,
 				5F7D5F43215F407700803BCF /* SVCallbackBase.cpp */,
-				5F7D5F44215F407700803BCF /* SVThreadCallback.h */,
+				5F7D5F42215F407700803BCF /* SVCallbackBase.h */,
 				5F7D5F45215F407700803BCF /* SVOpCallback.cpp */,
+				5F7D5F3F215F407700803BCF /* SVOpCallback.h */,
 				5F7D5F46215F407700803BCF /* SVThreadCallback.cpp */,
+				5F7D5F44215F407700803BCF /* SVThreadCallback.h */,
+				5F7D5F41215F407700803BCF /* SVThreadWorkCallback.cpp */,
+				5F7D5F40215F407700803BCF /* SVThreadWorkCallback.h */,
 			);
 			path = callback;
 			sourceTree = "<group>";
@@ -3945,20 +3945,20 @@
 		5F7D5F84215F407700803BCF /* event */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5F85215F407700803BCF /* SVEventVideo.h */,
-				5F7D5F86215F407700803BCF /* SVEvent.h */,
 				5F7D5F87215F407700803BCF /* SVEvent.cpp */,
-				5F7D5F88215F407700803BCF /* SVEventProc.h */,
-				5F7D5F89215F407700803BCF /* SVEventMgr.h */,
-				5F7D5F8A215F407700803BCF /* SVEventMgr.cpp */,
-				5F7D5F8B215F407700803BCF /* SVEventThread.h */,
-				5F7D5F8C215F407700803BCF /* SVEventVideo.cpp */,
-				5F7D5F8D215F407700803BCF /* SVEventProc.cpp */,
-				5F7D5F8E215F407700803BCF /* SVOpEvent.cpp */,
-				5F7D5F8F215F407700803BCF /* SVEventThread.cpp */,
-				5F7D5F90215F407700803BCF /* SVOpEvent.h */,
+				5F7D5F86215F407700803BCF /* SVEvent.h */,
 				5F7D5F91215F407700803BCF /* SVEventDeclare.h */,
 				5F7D5F92215F407700803BCF /* SVEventDef.h */,
+				5F7D5F8A215F407700803BCF /* SVEventMgr.cpp */,
+				5F7D5F89215F407700803BCF /* SVEventMgr.h */,
+				5F7D5F8D215F407700803BCF /* SVEventProc.cpp */,
+				5F7D5F88215F407700803BCF /* SVEventProc.h */,
+				5F7D5F8F215F407700803BCF /* SVEventThread.cpp */,
+				5F7D5F8B215F407700803BCF /* SVEventThread.h */,
+				5F7D5F8C215F407700803BCF /* SVEventVideo.cpp */,
+				5F7D5F85215F407700803BCF /* SVEventVideo.h */,
+				5F7D5F8E215F407700803BCF /* SVOpEvent.cpp */,
+				5F7D5F90215F407700803BCF /* SVOpEvent.h */,
 			);
 			path = event;
 			sourceTree = "<group>";

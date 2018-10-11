@@ -40,49 +40,44 @@ void SVFaceDetectPointNode::setTexture(SVTexturePtr _tex){
 }
 
 void SVFaceDetectPointNode::createMesh( V2* _facepoint){
-
     m_aabbBox.clear();
-    //
     V2_T0 verts[636];
-    
     for(s32 i=0;i<106;i++){
+        f32 _inx=_facepoint[i].x;
+        f32 _iny=m_height-_facepoint[i].y;
+        f32 _x=_inx-m_width/2;
+        f32 _y=_iny-m_height/2;
+        //   V2_T0 verts[4];
+        verts[i*6].x = -0.5f * m_inw+_x;
+        verts[i*6].y = -0.5f * m_inh+_y;
+        verts[i*6].t0x = 0.0;
+        verts[i*6].t0y = 0.0;
         
-    f32 _inx=_facepoint[i].x;
-    f32 _iny=m_height-_facepoint[i].y;
-    f32 _x=_inx-m_width/2;
-    f32 _y=_iny-m_height/2;
- //   V2_T0 verts[4];
-    verts[i*6].x = -0.5f * m_inw+_x;
-    verts[i*6].y = -0.5f * m_inh+_y;
-    verts[i*6].t0x = 0.0;
-    verts[i*6].t0y = 0.0;
-    
-    verts[i*6+1].x = 0.5f * m_inw+_x;
-    verts[i*6+1].y = -0.5f * m_inh+_y;
-    verts[i*6+1].t0x = 1.0;
-    verts[i*6+1].t0y = 0.0;
-    
-    verts[i*6+2].x = -0.5f * m_inw+_x;
-    verts[i*6+2].y = 0.5f * m_inh+_y;
-    verts[i*6+2].t0x = 0.0;
-    verts[i*6+2].t0y = 1.0;
-    
-    verts[i*6+3].x = -0.5f * m_inw+_x;
-    verts[i*6+3].y = 0.5f * m_inh+_y;
-    verts[i*6+3].t0x = 0.0;
-    verts[i*6+3].t0y = 1.0;
+        verts[i*6+1].x = 0.5f * m_inw+_x;
+        verts[i*6+1].y = -0.5f * m_inh+_y;
+        verts[i*6+1].t0x = 1.0;
+        verts[i*6+1].t0y = 0.0;
         
-    verts[i*6+4].x = 0.5f * m_inw+_x;
-    verts[i*6+4].y = 0.5f * m_inh+_y;
-    verts[i*6+4].t0x = 1.0;
-    verts[i*6+4].t0y = 1.0;
+        verts[i*6+2].x = -0.5f * m_inw+_x;
+        verts[i*6+2].y = 0.5f * m_inh+_y;
+        verts[i*6+2].t0x = 0.0;
+        verts[i*6+2].t0y = 1.0;
         
-    verts[i*6+5].x = 0.5f * m_inw+_x;
-    verts[i*6+5].y = -0.5f * m_inh+_y;
-    verts[i*6+5].t0x = 1.0;
-    verts[i*6+5].t0y = 0.0;
+        verts[i*6+3].x = -0.5f * m_inw+_x;
+        verts[i*6+3].y = 0.5f * m_inh+_y;
+        verts[i*6+3].t0x = 0.0;
+        verts[i*6+3].t0y = 1.0;
         
-    //设置包围盒
+        verts[i*6+4].x = 0.5f * m_inw+_x;
+        verts[i*6+4].y = 0.5f * m_inh+_y;
+        verts[i*6+4].t0x = 1.0;
+        verts[i*6+4].t0y = 1.0;
+        
+        verts[i*6+5].x = 0.5f * m_inw+_x;
+        verts[i*6+5].y = -0.5f * m_inh+_y;
+        verts[i*6+5].t0x = 1.0;
+        verts[i*6+5].t0y = 0.0;
+        //设置包围盒
         for(s32 j=0;j<6;j++){
             if (j == 0) {
                 m_aabbBox.expand(FVec3(verts[i*4+j].x, verts[i*4+j].y, 0.0f));
@@ -93,7 +88,7 @@ void SVFaceDetectPointNode::createMesh( V2* _facepoint){
     }
     //
     if(!m_pMesh){
-    m_pMesh = mApp->getRenderMgr()->createMeshRObj();
+        m_pMesh = mApp->getRenderMgr()->createMeshRObj();
     }
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
     t_data->writeData(&verts[0], sizeof(V2_T0) * 636);
