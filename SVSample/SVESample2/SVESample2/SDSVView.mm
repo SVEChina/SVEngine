@@ -9,12 +9,12 @@
 #import "SDSVView.h"
 #import "SDLogicSys.h"
 #import "SVTest.h"
-#include "src/work/SVThreadPool.h"
-#include "src/work/SVThreadMain.h"
-#include "src/operate/SVOpCreate.h"
-#include "src/operate/SVOpRender.h"
-#include "src/basesys/SVSceneMgr.h"
-#include "src/node/SVScene.h"
+#include "work/SVThreadPool.h"
+#include "work/SVThreadMain.h"
+#include "operate/SVOpCreate.h"
+#include "operate/SVOpRender.h"
+#include "basesys/SVSceneMgr.h"
+#include "node/SVScene.h"
 
 @interface SDSVView(){
     CAEAGLLayer* m_layer;

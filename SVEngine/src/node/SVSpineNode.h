@@ -39,6 +39,8 @@ namespace sv {
             
             virtual void setScale(FVec3& _scale);
             
+            virtual void setAlpha(f32 _alpha);
+            
             void setSpine(SVSpinePtr _spine);
             
             SVSpinePtr getSpine();

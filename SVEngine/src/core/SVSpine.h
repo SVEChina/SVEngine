@@ -107,6 +107,7 @@ namespace sv {
             
             void update(f32 deltaTime);
             
+            void setAlpha(f32 _alpha);
         protected:
             SVTexturePtr _getTexture(spAttachment *pAttach);
             
@@ -158,7 +159,8 @@ namespace sv {
             
             typedef SVArray<SpineMeshDataPtr> SPINEDATAPOOL;
             SPINEDATAPOOL m_spineDataPool;
-            
+        protected:
+            f32 m_alpha;
         };
         
     }//!namespace util

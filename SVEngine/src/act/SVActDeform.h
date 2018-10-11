@@ -141,6 +141,26 @@ namespace sv {
             
         protected:
         };
+        //
+        class SVActAlpha : public SVActDeform {
+        public:
+            SVActAlpha(SVInst *_app);
+            
+            ~SVActAlpha();
+            
+            virtual void run(SVNodePtr _nodePtr, f32 _dt);
+            
+            virtual void enter(SVNodePtr _nodePtr);   //进入action
+            
+            virtual void exit(SVNodePtr _nodePtr);    //退出action
+            
+            void setSrcAlpha(f32 _alpha);
+            
+            void setTarAlpha(f32 _alpha);
+        protected:
+            f32 m_srcAlpha;
+            f32 m_tarAlpha;
+        };
 
         //
         class SVActScale : public SVActDeform {

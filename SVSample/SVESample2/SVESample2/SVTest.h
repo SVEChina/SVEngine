@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#include "src/node/SVScene.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

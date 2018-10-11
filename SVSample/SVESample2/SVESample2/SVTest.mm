@@ -8,10 +8,10 @@
 
 #import "SVTest.h"
 #import "SDLogicSys.h"
-#include "src/basesys/SVSceneMgr.h"
-#include "src/node/SVScene.h"
-#include "src/node/SVSpriteNode.h"
-#include "src/mtl/SVTexMgr.h"
+#include "basesys/SVSceneMgr.h"
+#include "node/SVScene.h"
+#include "node/SVSpriteNode.h"
+#include "mtl/SVTexMgr.h"
 
 @implementation SVTest
 

@@ -96,6 +96,7 @@ SVSpine::SVSpine(SVInst *_app)
     m_cb_endListener = nullptr;
     m_cb_completeListener = nullptr;
     m_cb_eventListener = nullptr;
+    m_alpha = 1.0f;
 }
 
 SVSpine::~SVSpine() {
@@ -270,7 +271,7 @@ void SVSpine::update(f32 deltaTime) {
             pt.r = (u8) (r * 255);
             pt.g = (u8) (g * 255);
             pt.b = (u8) (b * 255);
-            pt.a = (u8) (a * 255);
+            pt.a = (u8) (a * 255 * m_alpha);
             pt.t0x = uvs[k * 2];
             pt.t0y = uvs[k * 2 + 1];
             r_meshdata->m_aRenderVecData.append(pt);
@@ -510,6 +511,10 @@ cptr8 SVSpine::getSpineName() {
 
 void SVSpine::setSpineName(cptr8 name) {
     m_spineName = name;
+}
+
+void SVSpine::setAlpha(f32 _alpha){
+    m_alpha = _alpha;
 }
 
 //cptr8 SVSpine::getActiveAct() {
