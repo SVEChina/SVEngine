@@ -129,34 +129,37 @@ void SVDeformImageMove::_initPoint(){
     }
 }
 
-void SVDeformImageMove::_createScreenRectMesh(V2 *t_data,V2 *t_targetData){
-    SVDataSwapPtr t_index = MakeSharedPtr<SVDataSwap>();
-    t_index->writeData((void  *)m_dataIndex, m_iIndexCount * sizeof(u16));
-    m_pMeshBg->setIndexData(t_index, m_iIndexCount);
-    //渲染数据
-    V2_C_T0 pVer[m_wPointCount*m_hPointCont];
-    for (s32 i = 0; i < m_wPointCount*m_hPointCont ; ++i){
-        f32 x= t_targetData[i].x/m_tt_w;
-        f32 y= t_targetData[i].y/m_tt_h;
-        
-        f32 t_x= t_data[i].x/m_tt_w;
-        f32 t_y= t_data[i].y/m_tt_h;
-        
-        pVer[i].x = 1.0-x*2.0;
-        pVer[i].y = y*2.0-1.0;
-        pVer[i].t0x = t_x;
-        pVer[i].t0y = t_y;
-        pVer[i].r = 255;
-        pVer[i].g = 255;
-        pVer[i].b = 255;
-        pVer[i].a = 255;
+void SVDeformImageMove::_createScreenRectMesh(V2 *_data,V2 *_targetData){
+    if(m_pMeshBg) {
+        //更新索引
+        SVDataSwapPtr t_index = MakeSharedPtr<SVDataSwap>();
+        t_index->writeData((void  *)m_dataIndex, m_iIndexCount * sizeof(u16));
+        m_pMeshBg->setIndexData(t_index, m_iIndexCount);
+        //渲染数据
+        V2_C_T0 pVer[m_wPointCount*m_hPointCont];
+        for (s32 i = 0; i < m_wPointCount*m_hPointCont ; ++i){
+            f32 x= _targetData[i].x/m_tt_w;
+            f32 y= _targetData[i].y/m_tt_h;
+            
+            f32 t_x= _data[i].x/m_tt_w;
+            f32 t_y= _data[i].y/m_tt_h;
+            
+            pVer[i].x = 1.0-x*2.0;
+            pVer[i].y = y*2.0-1.0;
+            pVer[i].t0x = t_x;
+            pVer[i].t0y = t_y;
+            pVer[i].r = 255;
+            pVer[i].g = 255;
+            pVer[i].b = 255;
+            pVer[i].a = 255;
+        }
+        m_pMeshBg->setVertexType(E_VF_V2_C_T0);
+        SVDataSwapPtr t_datav = MakeSharedPtr<SVDataSwap>();
+        t_datav->writeData(pVer, sizeof(V2_C_T0) * m_wPointCount * m_hPointCont);
+        m_pMeshBg->setVertexDataNum( m_wPointCount * m_hPointCont );
+        m_pMeshBg->setVertexData(t_datav);
+        m_pMeshBg->createMesh();
     }
-    m_pMeshBg->setVertexType(E_VF_V2_C_T0);
-    SVDataSwapPtr t_datav = MakeSharedPtr<SVDataSwap>();
-    t_datav->writeData(pVer, sizeof(V2_C_T0) * m_wPointCount*m_hPointCont);
-    m_pMeshBg->setVertexDataNum( m_wPointCount*m_hPointCont);
-    m_pMeshBg->setVertexData(t_datav);
-    m_pMeshBg->createMesh();
 }
 
 void SVDeformImageMove::update(f32 _dt){
@@ -203,9 +206,9 @@ void SVDeformImageMove::setDeformSwitch(bool _swith){
     is_swith=_swith;
 }
 
-void  SVDeformImageMove::pointMove(V2 *t_data){
+void SVDeformImageMove::pointMove(V2 *t_data){
     V2 t_outlinePoints[106];
-    for(int i  = 0 ; i < 106 ; i++){
+    for(s32 i  = 0 ; i < 106 ; i++){
         t_outlinePoints[i].x   = t_data[i].x;
         if(m_flip){
             t_outlinePoints[i].y =  t_data[i].y;
@@ -236,7 +239,7 @@ void  SVDeformImageMove::pointMove(V2 *t_data){
         m_pIUMP->setTargetControl(point_v);
         it++;
     }
-    
+    //
     V2 t_targetData[m_wPointCount*m_hPointCont];
     for(s32 i=0;i< m_wPointCount*m_hPointCont;i++){
         if(m_pointScreen[i].x==0.0
@@ -251,6 +254,7 @@ void  SVDeformImageMove::pointMove(V2 *t_data){
             t_targetData[i].y=t_xy.y;
         }
     }
+    //
     _createScreenRectMesh(m_pointScreen, t_targetData);
 }
 
