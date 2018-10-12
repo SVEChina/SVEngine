@@ -36,7 +36,8 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_pMtlBg     = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_pMeshBg    = mApp->getRenderMgr()->createMeshRObj();
     m_iump       = MakeSharedPtr<SVImageUsingMove>();
-    m_tex = nullptr;
+    m_tt_w = 0;
+    m_tt_h = 0;
     m_pass1 = nullptr;
     m_dataPoint=nullptr;
     m_fbo=nullptr;
@@ -58,8 +59,9 @@ SVDeformImageMove::~SVDeformImageMove(){
 
 void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
     SVRendererBasePtr t_renderer =  mApp->getRenderer();
-    if(t_renderer){
-        m_tex = _intex;
+    if(t_renderer && _intex && _texout){
+        m_tt_w = _intex->getwidth();
+        m_tt_h = _intex->getheight();
         m_flip=true;
         _initPoint();
         m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,
@@ -87,7 +89,7 @@ void SVDeformImageMove::clearPass() {
 }
 
 void SVDeformImageMove::setPoint(V2 *_data){
-    m_dataPoint=_data;
+    m_dataPoint = _data;
 }
 
 void SVDeformImageMove::updatePointMSL(){
@@ -98,20 +100,14 @@ void SVDeformImageMove::updatePointMSL(){
 }
 
 void SVDeformImageMove::_initPoint(){
-    
-    f32 _w=m_tex->getwidth() ;
-    f32 _h=m_tex->getheight();
-    
     s32 iWidthPoint = m_wPointCount , iHeightPoint = m_hPointCont;
     s32 iDataCount = iWidthPoint * iHeightPoint;
-    
     s32 iWidthRect  = iWidthPoint - 1;
     s32 iHeightRect = iHeightPoint - 1;
-    f32 fWidthDelta =  _w / iWidthRect;
-    f32 fHeightDelta = _h / iHeightRect;
+    f32 fWidthDelta =  m_tt_w / iWidthRect;
+    f32 fHeightDelta = m_tt_h / iHeightRect;
     s32 iDataIndex = 0;
     memset(m_pointScreen , 0 , sizeof(V2) * iDataCount);
-    
     for (s32 i = 0 ; i < iHeightPoint ; ++i){
         for (s32 j = 0 ; j < iWidthPoint ; ++j ){
             m_pointScreen[iDataIndex].x = fWidthDelta * j;
@@ -135,7 +131,7 @@ void SVDeformImageMove::_initPoint(){
     }
 }
 
-void SVDeformImageMove::createScreenRectMesh(V2 *t_data,V2 *t_targetData){
+void SVDeformImageMove::_createScreenRectMesh(V2 *t_data,V2 *t_targetData){
     SVDataSwapPtr t_index = MakeSharedPtr<SVDataSwap>();
     t_index->writeData((void  *)m_dataIndex, m_iIndexCount * sizeof(u16));
     m_pMeshBg->setIndexData(t_index, m_iIndexCount);
@@ -143,11 +139,11 @@ void SVDeformImageMove::createScreenRectMesh(V2 *t_data,V2 *t_targetData){
     V2_C_T0 pVer[m_wPointCount*m_hPointCont];
     
     for (s32 i = 0; i < m_wPointCount*m_hPointCont ; ++i){
-        f32 x= t_targetData[i].x/m_tex->getwidth();
-        f32 y= t_targetData[i].y/m_tex->getheight();
+        f32 x= t_targetData[i].x/m_tt_w;
+        f32 y= t_targetData[i].y/m_tt_h;
         
-        f32 t_x= t_data[i].x/m_tex->getwidth();
-        f32 t_y= t_data[i].y/m_tex->getheight();
+        f32 t_x= t_data[i].x/m_tt_w;
+        f32 t_y= t_data[i].y/m_tt_h;
         
         pVer[i].x = 1.0-x*2.0;
         pVer[i].y = y*2.0-1.0;
@@ -189,11 +185,11 @@ void SVDeformImageMove::update(f32 _dt){
 }
 
 s32 SVDeformImageMove::getWidth(){
-    return m_tex->getwidth();
+    return m_tt_w;
 }
 
 s32 SVDeformImageMove::getHeight(){
-    return m_tex->getheight();
+    return m_tt_h;
 }
 
 void  SVDeformImageMove::setTagPoint(u32 _postion,V2 _point){
@@ -218,7 +214,7 @@ void  SVDeformImageMove::pointMove(V2 *t_data){
         if(m_flip){
             t_outlinePoints[i].y =  t_data[i].y;
         }else{
-            t_outlinePoints[i].y = m_tex->getheight()-t_data[i].y;
+            t_outlinePoints[i].y = m_tt_h-t_data[i].y;
         }
     }
     FVec2 eyer=FVec2(t_outlinePoints[77].x,t_outlinePoints[77].y);
@@ -229,8 +225,8 @@ void  SVDeformImageMove::pointMove(V2 *t_data){
     f32 t_inversedStandardLength = 1.0 / leng;
     FVec2 t_eyel=eyer-eyel;
     f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
-    m_iump->setControl(FVec2(m_tex->getwidth()/2,m_tex->getheight()/2));
-    m_iump->setTargetControl(FVec2(m_tex->getwidth()/2,m_tex->getheight()/2));
+    m_iump->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
+    m_iump->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
     FVec2 t_rangleV2(t_outlinePoints[46].x,t_outlinePoints[46].y);
     SVMap<u32,V2>::Iterator it=m_pointMap.begin();
     while (it!=m_pointMap.end()) {
@@ -248,9 +244,9 @@ void  SVDeformImageMove::pointMove(V2 *t_data){
     V2 t_targetData[m_wPointCount*m_hPointCont];
     for(s32 i=0;i< m_wPointCount*m_hPointCont;i++){
         if(m_pointScreen[i].x==0.0
-           ||m_pointScreen[i].x==m_tex->getwidth()
+           ||m_pointScreen[i].x==m_tt_w
            ||m_pointScreen[i].y==0.0
-           ||m_pointScreen[i].y==m_tex->getheight()){
+           ||m_pointScreen[i].y==m_tt_h){
             t_targetData[i].x=m_pointScreen[i].x;
             t_targetData[i].y=m_pointScreen[i].y;
         }else{
@@ -259,7 +255,7 @@ void  SVDeformImageMove::pointMove(V2 *t_data){
             t_targetData[i].y=t_xy.y;
         }
     }
-    createScreenRectMesh(m_pointScreen, t_targetData);
+    _createScreenRectMesh(m_pointScreen, t_targetData);
 }
 
 void SVDeformImageMove::render(){

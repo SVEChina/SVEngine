@@ -50,7 +50,8 @@ namespace sv {
             SVTexturePtr m_pTexBg;
             SVMtlCorePtr m_pMtlBg;
             SVRenderMeshPtr m_pMeshBg;
-            SVTexturePtr m_tex;
+            s32 m_tt_w;
+            s32 m_tt_h;
             
             SVImageUsingMovePtr m_iump;
             V2 m_pointScreen[2400];//30*80
@@ -65,12 +66,12 @@ namespace sv {
             s32 m_inh;
             bool m_flip;
             
-            void createScreenRectMesh(V2 *t_data,V2 *t_targetData);
-            void createPointMesh( V2* _facepoint);
+            void _createScreenRectMesh(V2 *t_data,V2 *t_targetData);
             
             void _initPoint();
             
             void addPass(SVPassPtr _pass);
+            
             void clearPass();
             
         protected:

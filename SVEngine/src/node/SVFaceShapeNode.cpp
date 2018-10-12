@@ -58,7 +58,7 @@ void SVFaceShapeNode::init(){
     t_pass1->setMtl(m_pMtl);
     m_pMtl->setTexcoordFlip(1.0f, -1.0f);
     t_pass1->setMesh(m_pMesh);
-    t_pass1->setInTex(0, t_renderer->getSVTex(E_TEX_MAIN));
+    t_pass1->setInTex(0, E_TEX_MAIN);
     t_pass1->setOutTex(t_tex);
     addPass(t_pass1);
     
@@ -66,7 +66,7 @@ void SVFaceShapeNode::init(){
     t_pass2->setMtl(t_mtl);
     t_pass2->setInTex(0, t_tex);
     t_pass2->setMesh(mApp->getDataMgr()->m_screenMesh);
-    t_pass2->setOutTex(t_renderer->getSVTex(E_TEX_MAIN));
+    t_pass2->setOutTex(E_TEX_MAIN);
     addPass(t_pass2);
 }
 
