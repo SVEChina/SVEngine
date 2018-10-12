@@ -53,7 +53,7 @@ namespace sv {
             s32 m_tt_w;
             s32 m_tt_h;
             
-            SVImageUsingMovePtr m_iump;
+            SVImageUsingMovePtr m_pIUMP;
             V2 m_pointScreen[2400];//30*80
             s32 m_iIndexCount;
             u16 m_dataIndex[14400];//30*80*2*3
