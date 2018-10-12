@@ -35,10 +35,30 @@ SVFilterLookUpTableAdjust::SVFilterLookUpTableAdjust(SVInst *_app)
     m_brightness=0.0f;
     m_contrast=0.0f;
     m_vibrance=0.0f;
-    m_HSLSaturation=1.0f;
-    m_HSLLightness=1.0f;
-    m_HSLHue=0.0f;
-    m_HSLHueRaduis=-1.0f;
+    
+    m_HSLSaturationRed=1.0f;
+    m_HSLLightnessRed=1.0f;
+    m_HSLHueRed=0.0f;
+    
+    m_HSLSaturationYellow=1.0f;
+    m_HSLLightnessYellow=1.0f;
+    m_HSLHueYellow=0.0f;
+    
+    m_HSLSaturationGreen=1.0f;
+    m_HSLLightnessGreen=1.0f;
+    m_HSLHueGreen=0.0f;
+    
+    m_HSLSaturationMagenta=1.0f;
+    m_HSLLightnessMagenta=1.0f;
+    m_HSLHueMagenta=0.0f;
+    
+    m_HSLSaturationBlue=1.0f;
+    m_HSLLightnessBlue=1.0f;
+    m_HSLHueBlue=0.0f;
+    
+    m_HSLSaturationCyan=1.0f;
+    m_HSLLightnessCyan=1.0f;
+    m_HSLHueCyan=0.0f;
 }
 
 SVFilterLookUpTableAdjust::~SVFilterLookUpTableAdjust(){
@@ -121,10 +141,30 @@ void SVFilterLookUpTableAdjust::destroy(){
     m_brightness=0.0f;
     m_contrast=0.0f;
     m_vibrance=0.0f;
-    m_HSLSaturation=0.0f;
-    m_HSLLightness=0.0f;
-    m_HSLHue=0.0f;
-    m_HSLHueRaduis=0.0f;
+    
+    m_HSLSaturationRed=0.0f;
+    m_HSLLightnessRed=0.0f;
+    m_HSLHueRed=0.0f;
+
+    m_HSLSaturationYellow=0.0f;
+    m_HSLLightnessYellow=0.0f;
+    m_HSLHueYellow=0.0f;
+
+    m_HSLSaturationGreen=0.0f;
+    m_HSLLightnessGreen=0.0f;
+    m_HSLHueGreen=0.0f;
+
+    m_HSLSaturationMagenta=0.0f;
+    m_HSLLightnessMagenta=0.0f;
+    m_HSLHueMagenta=0.0f;
+
+    m_HSLSaturationBlue=0.0f;
+    m_HSLLightnessBlue=0.0f;
+    m_HSLHueBlue=0.0f;
+
+    m_HSLSaturationCyan=0.0f;
+    m_HSLLightnessCyan=0.0f;
+    m_HSLHueCyan=0.0f;
 }
 
 void SVFilterLookUpTableAdjust::update(f32 dt){
@@ -132,8 +172,29 @@ void SVFilterLookUpTableAdjust::update(f32 dt){
     m_BCMtl->setContrast(m_contrast);
     m_SaturationMtl->setSaturation(m_saturation);
     m_VibranceMtl->setVibrance(m_vibrance);
-    m_hslMtl->setSaturation(m_HSLSaturation);
-    m_hslMtl->setHue(m_HSLHue);
-    m_hslMtl->setHueRadius(m_HSLHueRaduis);
-    m_hslMtl->setLightness(m_HSLLightness);
+    
+    m_hslMtl->setSaturationRed(m_HSLSaturationRed);
+    m_hslMtl->setHueRed(m_HSLHueRed);
+    m_hslMtl->setLightnessRed(m_HSLLightnessRed);
+    
+    m_hslMtl->setSaturationYellow(m_HSLSaturationYellow);
+    m_hslMtl->setHueYellow(m_HSLHueYellow);
+    m_hslMtl->setLightnessYellow(m_HSLLightnessYellow);
+    
+    m_hslMtl->setSaturationGreen(m_HSLSaturationGreen);
+    m_hslMtl->setHueGreen(m_HSLHueGreen);
+    m_hslMtl->setLightnessGreen(m_HSLLightnessGreen);
+    
+    m_hslMtl->setSaturationMagenta(m_HSLSaturationMagenta);
+    m_hslMtl->setHueMagenta(m_HSLHueMagenta);
+    m_hslMtl->setLightnessMagenta(m_HSLLightnessMagenta);
+    
+    m_hslMtl->setSaturationBlue(m_HSLSaturationBlue);
+    m_hslMtl->setHueBlue(m_HSLHueBlue);
+    m_hslMtl->setLightnessBlue(m_HSLLightnessBlue);
+    
+    m_hslMtl->setSaturationCyan(m_HSLSaturationCyan);
+    m_hslMtl->setHueCyan(m_HSLHueCyan);
+    m_hslMtl->setLightnessCyan(m_HSLLightnessCyan);
+    
 }
