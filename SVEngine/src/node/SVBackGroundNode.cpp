@@ -59,7 +59,7 @@ void SVBackGroundNode::destroy(){
 void SVBackGroundNode::update(f32 _dt){
     SVSpriteNode::update(_dt);
     m_Deform->update(_dt);
-    SVSpriteNode::setTexcoord(-1.0, -1.0);
+    setTexcoord(-1.0, -1.0);
 }
 
 void SVBackGroundNode::render(){

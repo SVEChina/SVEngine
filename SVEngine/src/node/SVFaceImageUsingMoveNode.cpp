@@ -31,8 +31,6 @@
 #include "../core/SVImageUsingMove.h"
 #include "../base/SVVec2.h"
 
-
-
 SVFaceImageUsingMoveNode::SVFaceImageUsingMoveNode(SVInst *_app)
 :SVNode(_app){
     ntype = "SVDeformNode";

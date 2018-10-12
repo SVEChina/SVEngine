@@ -56,11 +56,10 @@ namespace sv {
             SVTexturePtr m_tex;
             
             SVImageUsingMovePtr m_iump;
-            V2 m_pointScreen[30*80];
+            V2 m_pointScreen[2400];//30*80
             s32 m_iIndexCount;
-            u16 m_dataIndex[30*80*2*3];
+            u16 m_dataIndex[14400];//30*80*2*3
             SVMap<u32, V2> m_pointMap;
-            
             V2 *m_dataPoint;
             s32 m_wPointCount;
             s32 m_hPointCont;
@@ -78,6 +77,7 @@ namespace sv {
         protected:
             typedef SVArray<SVPassPtr> PASSPOOL;
             PASSPOOL m_passPool;
+            //
             SVRenderTexturePtr m_fbo;
             bool is_swith;
             SVPassPtr m_pass1;

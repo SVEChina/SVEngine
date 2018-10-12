@@ -26,17 +26,14 @@
 #include "../app/SVGlobalMgr.h"
 #include "../mtl/SVMtlFaceShape.h"
 #include "../mtl/SVMtlShapeVaried.h"
-
 #include "../mtl/SVTexMgr.h"
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectST.h"
-
 #include "../base/SVVec2.h"
-
 
 SVDeformImageMove::SVDeformImageMove(SVInst *_app)
 :SVGBase(_app){
-    m_pMtlBg       = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
+    m_pMtlBg     = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_pMeshBg    = mApp->getRenderMgr()->createMeshRObj();
     m_iump       = MakeSharedPtr<SVImageUsingMove>();
     m_tex = nullptr;
@@ -48,21 +45,16 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_inh=10;
     m_flip=false;
     is_swith=true;
+    //
     m_pass1 = MakeSharedPtr<SVPass>();
     m_pass1->setMtl(m_pMtlBg);
     m_pMtlBg->setTexcoordFlip(1.0f, 1.0f);
     m_pass1->setMesh(m_pMeshBg);
-//    m_pass2 = MakeSharedPtr<SVPass>();
-//    SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
-//    t_mtl->setTexcoordFlip(1.0f, 1.0f);
-//    m_pass2->setMesh(mApp->getDataMgr()->m_screenMesh);
-//    m_pass2->setMtl(t_mtl);
     addPass(m_pass1);
-    //addPass(m_pass2);
-  
 }
 
 SVDeformImageMove::~SVDeformImageMove(){
+    m_dataPoint = nullptr;
     destroy();
 }
 
@@ -194,8 +186,6 @@ void SVDeformImageMove::update(f32 _dt){
             m_passPool[i]->m_pMtl->update(_dt);
             SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
             if(m_dataPoint){
-//                 m_iump->clearContrl();
-//                 pointMove(m_dataPoint);
             }else if( t_person && t_person->getExist()){
                 V2 *t_data = (V2*)t_person->getFaceDataOriginal();
                 pointMove(t_data);
@@ -241,9 +231,7 @@ void  SVDeformImageMove::pointMove(V2 *t_data){
     FVec2 eyel=FVec2(t_outlinePoints[74].x,t_outlinePoints[74].y);
     
     f32 leng=getDistanceFrom(eyer,eyel);
-    
     f32 _smooth=(leng/240.0);
-    
     f32 t_inversedStandardLength = 1.0 / leng;
     FVec2 t_eyel=eyer-eyel;
     f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
@@ -263,9 +251,8 @@ void  SVDeformImageMove::pointMove(V2 *t_data){
         it++;
     }
     
-    V2 t_targetData[ m_wPointCount*m_hPointCont];
-    
-    for(int i=0;i< m_wPointCount*m_hPointCont;i++){
+    V2 t_targetData[m_wPointCount*m_hPointCont];
+    for(s32 i=0;i< m_wPointCount*m_hPointCont;i++){
         if(m_pointScreen[i].x==0.0
            ||m_pointScreen[i].x==m_tex->getwidth()
            ||m_pointScreen[i].y==0.0
@@ -285,13 +272,8 @@ void SVDeformImageMove::render(){
     if(!is_swith){
         return;
     }
-    if (!mApp->m_pGlobalParam->m_curScene)
-        return;
     SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
-    if( t_person && t_person->getExist()||m_dataPoint ){
-        t_person->getFaceData();
-        //t_person->getFaceData()
-        
+    if( (t_person && t_person->getExist()) || m_dataPoint ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (t_rs && false  == t_rs->isSuspend()) {
             for(s32 i=0;i<m_passPool.size();i++){

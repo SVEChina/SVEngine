@@ -15,7 +15,6 @@
 #include "../node/SVFreeTypeNode.h"
 #include "../node/SVNode.h"
 #include "../node/SVSpineNode.h"
-#include "../node/SVFaceImageUsingMoveNode.h"
 #include "../node/SVBackGroundNode.h"
 #include "../node/SV2DFaceMaskSTNode.h"
 #include "../mtl/SVTexMgr.h"
@@ -332,8 +331,7 @@ void SVDataNodeDeform::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
 }
 
 SVNodePtr SVDataNodeDeform::toNode(){
-    SVFaceImageUsingMoveNodePtr m_shapenode = MakeSharedPtr<SVFaceImageUsingMoveNode>(mApp);
-    return m_shapenode;
+    return nullptr;
 }
 //
 SVDataNodeFilter::SVDataNodeFilter(SVInst *_app)
