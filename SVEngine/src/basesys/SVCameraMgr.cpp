@@ -21,7 +21,6 @@ SVCameraMgr::~SVCameraMgr() {
 }
 
 void SVCameraMgr::init() {
-    //相机
     m_mainCamera = MakeSharedPtr<SVCameraNode>(mApp);
 }
 
@@ -34,7 +33,9 @@ void SVCameraMgr::destroy() {
 void SVCameraMgr::update(f32 dt) {
     if(m_mainCamera){
         m_mainCamera->update(dt);
-        mApp->m_pGlobalParam->updateMainMat(m_mainCamera->getProjectMatObj(), m_mainCamera->getViewMatObj(), m_mainCamera->getVPMatObj());
+        mApp->m_pGlobalParam->updateMainMat(m_mainCamera->getProjectMatObj(),
+                                            m_mainCamera->getViewMatObj(),
+                                            m_mainCamera->getVPMatObj());
     }
     m_cameraLock->lock();
     CAMERAPOOL::Iterator it = m_camerPool.begin();
@@ -84,7 +85,6 @@ SVCameraNodePtr SVCameraMgr::getCamera(cptr8 _name){
     }
     return nullptr;
 }
-
 
 bool SVCameraMgr::hasCamera(cptr8 _name) {
     CAMERAPOOL::Iterator it = m_camerPool.find(SVString(_name));

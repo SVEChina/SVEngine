@@ -139,6 +139,16 @@ bool SVFboObject::hasStencil(){
     return 0;
 }
 
+void SVFboObject::setProjMat(FMat4 _mat) {
+    m_mat_proj = _mat;
+    m_mat_vp = m_mat_proj*m_mat_view;
+}
+
+void SVFboObject::setViewMat(FMat4 _view) {
+    m_mat_view = _view;
+    m_mat_vp = m_mat_proj*m_mat_view;
+}
+
 //
 SVOutFboObject::SVOutFboObject(SVInst *_app,u32 _fboid)
 :SVFboObject(_app){
