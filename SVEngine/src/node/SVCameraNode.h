@@ -65,6 +65,7 @@ namespace sv {
             bool removeLinkFboObject(SVFboObjectPtr _fbo);
             
             bool hasLinkFboObject(SVFboObjectPtr _fbo);
+            
             f32 m_width;
             f32 m_height;
             f32 m_fovy;
@@ -79,7 +80,7 @@ namespace sv {
             
         protected:
             void _removeUnuseLinkFboObject();
-        protected:
+
             SVLockPtr m_resLock;
             bool m_active;
             bool m_lockTarget;
