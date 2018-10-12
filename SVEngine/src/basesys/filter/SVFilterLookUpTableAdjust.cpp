@@ -25,6 +25,7 @@ SVFilterLookUpTableAdjust::SVFilterLookUpTableAdjust(SVInst *_app)
     m_SaturationMtl=nullptr;
     m_passSaturation=nullptr;
     m_VibranceMtl=nullptr;
+    m_hslMtl=nullptr;
     m_passVibrance=nullptr;
     m_passBC=nullptr;
     m_passBack=nullptr;
@@ -34,6 +35,10 @@ SVFilterLookUpTableAdjust::SVFilterLookUpTableAdjust(SVInst *_app)
     m_brightness=0.0f;
     m_contrast=0.0f;
     m_vibrance=0.0f;
+    m_HSLSaturation=1.0f;
+    m_HSLLightness=1.0f;
+    m_HSLHue=0.0f;
+    m_HSLHueRaduis=-1.0f;
 }
 
 SVFilterLookUpTableAdjust::~SVFilterLookUpTableAdjust(){
@@ -66,6 +71,9 @@ bool SVFilterLookUpTableAdjust::create(){
     
     m_VibranceMtl=MakeSharedPtr<SVMtlVibrance>(mApp);
     m_VibranceMtl->setTexcoordFlip(1.0f, 1.0f);
+    
+    m_hslMtl=MakeSharedPtr<SVMtlHSL>(mApp);
+    m_hslMtl->setTexcoordFlip(1.0, 1.0);
    
     m_passBC    = MakeSharedPtr<SVPass>();
     m_passBC->setMtl(m_BCMtl);
@@ -82,14 +90,20 @@ bool SVFilterLookUpTableAdjust::create(){
     m_passVibrance->setInTex(0,tex02);
     m_passVibrance->setOutTex(tex01);
     
+    m_passHSL=MakeSharedPtr<SVPass>();
+    m_passHSL->setMtl(m_hslMtl);
+    m_passHSL->setInTex(0, tex01);
+    m_passHSL->setOutTex(tex02);
+    
     m_passBack=MakeSharedPtr<SVPass>();
     m_passBack->setMtl(t_mtl_back);
-    m_passBack->setInTex(0,tex01);
+    m_passBack->setInTex(0,tex02);
     m_passBack->setOutTex(outTex);
     
     m_pPassNode->addPass(m_passBC);
     m_pPassNode->addPass(m_passSaturation);
-     m_pPassNode->addPass(m_passVibrance);
+    m_pPassNode->addPass(m_passVibrance);
+    m_pPassNode->addPass(m_passHSL);
     m_pPassNode->addPass(m_passBack);
     
     return true;
@@ -107,6 +121,10 @@ void SVFilterLookUpTableAdjust::destroy(){
     m_brightness=0.0f;
     m_contrast=0.0f;
     m_vibrance=0.0f;
+    m_HSLSaturation=0.0f;
+    m_HSLLightness=0.0f;
+    m_HSLHue=0.0f;
+    m_HSLHueRaduis=0.0f;
 }
 
 void SVFilterLookUpTableAdjust::update(f32 dt){
@@ -114,5 +132,8 @@ void SVFilterLookUpTableAdjust::update(f32 dt){
     m_BCMtl->setContrast(m_contrast);
     m_SaturationMtl->setSaturation(m_saturation);
     m_VibranceMtl->setVibrance(m_vibrance);
-    
+    m_hslMtl->setSaturation(m_HSLSaturation);
+    m_hslMtl->setHue(m_HSLHue);
+    m_hslMtl->setHueRadius(m_HSLHueRaduis);
+    m_hslMtl->setLightness(m_HSLLightness);
 }

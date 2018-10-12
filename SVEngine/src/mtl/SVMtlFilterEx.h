@@ -72,6 +72,30 @@ namespace sv {
             f32 m_vibrance;
         };
         
+        
+        class SVMtlHSL : public SVMtlCore  {
+        public:
+            SVMtlHSL(SVInst *_app);
+            
+            SVMtlHSL(SVMtlHSL* _mtl);
+            
+            ~SVMtlHSL();
+            
+            virtual SVMtlCorePtr clone();
+            
+            void setSaturation(f32 _smooth);
+            void setHue(f32 _smooth);
+            void setLightness(f32 _smooth);
+            void setHueRadius(f32 _smooth);
+        protected:
+            virtual void _submitMtl(SVRendererBasePtr _render);
+            //
+            f32 m_saturation;
+            f32 m_Hue;
+            f32 m_Lightness;
+            f32 m_HueRadius;
+        };
+        
     }//!namespace mtl
     
 }//!namespace sv

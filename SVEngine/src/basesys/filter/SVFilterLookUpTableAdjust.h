@@ -42,18 +42,35 @@ namespace sv {
                 m_vibrance=_vibrance;
             }
             
+            inline void setHSLSaturation(f32 _saturation){
+                m_HSLSaturation=_saturation;
+            }
+            
+            inline void setHSLLightness(f32 _lightness){
+                m_HSLLightness=_lightness;
+            }
+            
+            inline void setHSLHue(f32 _hue){
+                m_HSLHue=_hue;
+            }
+            
+            inline void setHSLHueRaduis(f32 _hueRaduis){
+                m_HSLHueRaduis=_hueRaduis;
+            }
+            
             inline SVTexturePtr getOutTex(){
                 return outTex;
             }
-            
             
         protected:
             SVMtlBrightnessContrastPtr m_BCMtl;//brightness contrast
             SVMtlSaturationPtr m_SaturationMtl;
             SVMtlVibrancePtr m_VibranceMtl;
+            SVMtlHSLPtr m_hslMtl;
             
             SVPassPtr m_passSaturation;
             SVPassPtr m_passVibrance;
+            SVPassPtr m_passHSL;
             SVPassPtr m_passBC;
             SVPassPtr m_passBack;
             SVTexturePtr outTex;
@@ -62,6 +79,10 @@ namespace sv {
             f32 m_contrast;
             f32 m_saturation;
             f32 m_vibrance;
+            f32 m_HSLSaturation;
+            f32 m_HSLLightness;
+            f32 m_HSLHue;
+            f32 m_HSLHueRaduis;
             
         };
     };//!namespace logic
