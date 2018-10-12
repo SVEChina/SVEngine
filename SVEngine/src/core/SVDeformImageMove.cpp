@@ -36,13 +36,10 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_pIUMP    = MakeSharedPtr<SVImageUsingMove>();
     m_tt_w = 0;
     m_tt_h = 0;
-    m_pass1 = nullptr;
     m_dataPoint = nullptr;
     m_fbo = nullptr;
     m_wPointCount = 30;
     m_hPointCont = 80;
-    m_inw = 10;
-    m_inh = 10;
     m_flip = false;
     is_swith = true;
 }
@@ -67,7 +64,8 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
                                                false,
                                                false);
         mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
-        m_pass1 = MakeSharedPtr<SVPass>();
+        //
+        SVPassPtr m_pass1 = MakeSharedPtr<SVPass>();
         m_pass1->setInTex(0,_intex);
         m_pass1->setOutTex(_texout);
         m_pass1->setMtl(m_pMtlBg);
@@ -98,52 +96,57 @@ void SVDeformImageMove::updatePointMSL(){
 }
 
 void SVDeformImageMove::_initPoint(){
-    s32 iWidthPoint = m_wPointCount , iHeightPoint = m_hPointCont;
-    s32 iDataCount = iWidthPoint * iHeightPoint;
-    s32 iWidthRect  = iWidthPoint - 1;
-    s32 iHeightRect = iHeightPoint - 1;
-    f32 fWidthDelta =  m_tt_w / iWidthRect;
-    f32 fHeightDelta = m_tt_h / iHeightRect;
-    s32 iDataIndex = 0;
-    memset(m_pointScreen , 0 , sizeof(V2) * iDataCount);
-    for (s32 i = 0 ; i < iHeightPoint ; ++i){
-        for (s32 j = 0 ; j < iWidthPoint ; ++j ){
-            m_pointScreen[iDataIndex].x = fWidthDelta * j;
-            m_pointScreen[iDataIndex].y = fHeightDelta * i;
-            iDataIndex += 1;
-        }
-    }
-    s32 iRectCount  = iWidthRect * iHeightRect;
-    m_iIndexCount = iRectCount * 2 * 3;
-    s32 iIndexIndex = 0;
-    for (s32 i = 0 ; i < iHeightRect ; ++i){
-        for (s32 j = 0; j < iWidthRect ; ++j){
-            m_dataIndex[iIndexIndex]     = i * iWidthPoint + j;
-            m_dataIndex[iIndexIndex + 1] = i * iWidthPoint + j + 1;
-            m_dataIndex[iIndexIndex + 2] = (i + 1) * iWidthPoint + j;
-            m_dataIndex[iIndexIndex + 3] = (i + 1) * iWidthPoint + j;
-            m_dataIndex[iIndexIndex + 4] = i * iWidthPoint + j + 1;
-            m_dataIndex[iIndexIndex + 5] = (i + 1) * iWidthPoint + j + 1;
-            iIndexIndex += 6;
-        }
-    }
-}
-
-void SVDeformImageMove::_createScreenRectMesh(V2 *_data,V2 *_targetData){
     if(m_pMeshBg) {
-        //更新索引
+        //索引数据
+        u16 m_dataIndex[14400];//30*80*2*3
+        //
+        s32 iWidthPoint = m_wPointCount , iHeightPoint = m_hPointCont;
+        s32 iDataCount = iWidthPoint * iHeightPoint;
+        s32 iWidthRect  = iWidthPoint - 1;
+        s32 iHeightRect = iHeightPoint - 1;
+        f32 fWidthDelta =  m_tt_w / iWidthRect;
+        f32 fHeightDelta = m_tt_h / iHeightRect;
+        s32 iDataIndex = 0;
+        memset(m_pointScreen , 0 , sizeof(V2) * iDataCount);
+        for (s32 i = 0 ; i < iHeightPoint ; ++i){
+            for (s32 j = 0 ; j < iWidthPoint ; ++j ){
+                m_pointScreen[iDataIndex].x = fWidthDelta * j;
+                m_pointScreen[iDataIndex].y = fHeightDelta * i;
+                iDataIndex += 1;
+            }
+        }
+        s32 iRectCount  = iWidthRect * iHeightRect;
+        s32 m_iIndexCount = iRectCount * 2 * 3;
+        s32 iIndexIndex = 0;
+        for (s32 i = 0 ; i < iHeightRect ; ++i){
+            for (s32 j = 0; j < iWidthRect ; ++j){
+                m_dataIndex[iIndexIndex]     = i * iWidthPoint + j;
+                m_dataIndex[iIndexIndex + 1] = i * iWidthPoint + j + 1;
+                m_dataIndex[iIndexIndex + 2] = (i + 1) * iWidthPoint + j;
+                m_dataIndex[iIndexIndex + 3] = (i + 1) * iWidthPoint + j;
+                m_dataIndex[iIndexIndex + 4] = i * iWidthPoint + j + 1;
+                m_dataIndex[iIndexIndex + 5] = (i + 1) * iWidthPoint + j + 1;
+                iIndexIndex += 6;
+            }
+        }
+        //第一次更新索引数据
         SVDataSwapPtr t_index = MakeSharedPtr<SVDataSwap>();
         t_index->writeData((void  *)m_dataIndex, m_iIndexCount * sizeof(u16));
         m_pMeshBg->setIndexData(t_index, m_iIndexCount);
+        //第一次更新顶点数据
+        _refreshScreenRectMesh(m_pointScreen,m_pointScreen);
+    }
+}
+
+void SVDeformImageMove::_refreshScreenRectMesh(V2 *_data,V2 *_targetData){
+    if(m_pMeshBg) {
         //渲染数据
         V2_C_T0 pVer[m_wPointCount*m_hPointCont];
         for (s32 i = 0; i < m_wPointCount*m_hPointCont ; ++i){
             f32 x= _targetData[i].x/m_tt_w;
             f32 y= _targetData[i].y/m_tt_h;
-            
             f32 t_x= _data[i].x/m_tt_w;
             f32 t_y= _data[i].y/m_tt_h;
-            
             pVer[i].x = 1.0-x*2.0;
             pVer[i].y = y*2.0-1.0;
             pVer[i].t0x = t_x;
@@ -162,6 +165,12 @@ void SVDeformImageMove::_createScreenRectMesh(V2 *_data,V2 *_targetData){
     }
 }
 
+//            SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
+//            if(m_dataPoint){
+//            }else if( t_person && t_person->getExist()){
+//                V2 *t_data = (V2*)t_person->getFaceDataOriginal();
+//                pointMove(t_data);
+//            }
 void SVDeformImageMove::update(f32 _dt){
     if(!is_swith){
         return;
@@ -173,12 +182,29 @@ void SVDeformImageMove::update(f32 _dt){
     for(s32 i=0;i<m_passPool.size();i++){
         if(m_passPool[i]->m_pMtl){
             m_passPool[i]->m_pMtl->update(_dt);
-//            SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
-//            if(m_dataPoint){
-//            }else if( t_person && t_person->getExist()){
-//                V2 *t_data = (V2*)t_person->getFaceDataOriginal();
-//                pointMove(t_data);
-//            }
+        }
+    }
+}
+
+void SVDeformImageMove::render(){
+    if(!is_swith){
+        return;
+    }
+    if( !m_dataPoint ){
+        return;
+    }
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    if (t_rs && false  == t_rs->isSuspend()) {
+        for(s32 i=0;i<m_passPool.size();i++){
+            if(m_passPool[i]->m_pMtl){
+                SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
+                t_cmd->mTag = "SVBackGroundNode";
+                t_cmd->setFbo(m_fbo);
+                t_cmd->setTexture(m_passPool[i]->m_outTex);
+                t_cmd->setMesh(m_passPool[i]->m_pMesh);
+                t_cmd->setMaterial(m_passPool[i]->m_pMtl->clone());
+                t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);
+            }
         }
     }
 }
@@ -196,10 +222,16 @@ void  SVDeformImageMove::setTagPoint(u32 _postion,V2 _point){
 }
 
 V2 SVDeformImageMove::MSL(V2 point){
-    FVec2 t_xy=m_pIUMP->MLS(FVec2(point.x,point.y));
+    if(m_pIUMP) {
+        FVec2 t_xy=m_pIUMP->MLS(FVec2(point.x,point.y));
+        V2 xy;
+        xy.x=t_xy.x;
+        xy.y=t_xy.y;
+        return xy;
+    }
     V2 xy;
-    xy.x=t_xy.x;
-    xy.y=t_xy.y;
+    xy.x=0;
+    xy.y=0;
     return xy;
 }
 void SVDeformImageMove::setDeformSwitch(bool _swith){
@@ -242,12 +274,12 @@ void SVDeformImageMove::pointMove(V2 *t_data){
     //
     V2 t_targetData[m_wPointCount*m_hPointCont];
     for(s32 i=0;i< m_wPointCount*m_hPointCont;i++){
-        if(m_pointScreen[i].x==0.0
-           ||m_pointScreen[i].x==m_tt_w
-           ||m_pointScreen[i].y==0.0
-           ||m_pointScreen[i].y==m_tt_h){
-            t_targetData[i].x=m_pointScreen[i].x;
-            t_targetData[i].y=m_pointScreen[i].y;
+        if(m_pointScreen[i].x == 0.0
+           ||m_pointScreen[i].x == m_tt_w
+           ||m_pointScreen[i].y == 0.0
+           ||m_pointScreen[i].y == m_tt_h){
+            t_targetData[i].x = m_pointScreen[i].x;
+            t_targetData[i].y = m_pointScreen[i].y;
         }else{
             FVec2 t_xy=m_pIUMP->MLS(FVec2(m_pointScreen[i].x,m_pointScreen[i].y));
             t_targetData[i].x=t_xy.x;
@@ -255,30 +287,5 @@ void SVDeformImageMove::pointMove(V2 *t_data){
         }
     }
     //
-    _createScreenRectMesh(m_pointScreen, t_targetData);
-}
-
-void SVDeformImageMove::render(){
-    if(!is_swith){
-        return;
-    }
-
-    if( !m_dataPoint ){
-        return;
-    }
-    
-    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    if (t_rs && false  == t_rs->isSuspend()) {
-        for(s32 i=0;i<m_passPool.size();i++){
-            if(m_passPool[i]->m_pMtl){
-                SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
-                t_cmd->mTag = "SVBackGroundNode";
-                t_cmd->setFbo(m_fbo);
-                t_cmd->setTexture(m_passPool[i]->m_outTex);
-                t_cmd->setMesh(m_passPool[i]->m_pMesh);
-                t_cmd->setMaterial(m_passPool[i]->m_pMtl->clone());
-                t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);
-            }
-        }
-    }
+    _refreshScreenRectMesh(m_pointScreen, t_targetData);
 }
