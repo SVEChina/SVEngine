@@ -37,6 +37,7 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_pMeshBg    = mApp->getRenderMgr()->createMeshRObj();
     m_iump       = MakeSharedPtr<SVImageUsingMove>();
     m_tex = nullptr;
+    m_pass1 = nullptr;
     m_dataPoint=nullptr;
     m_fbo=nullptr;
     m_wPointCount=30;
@@ -45,17 +46,34 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_inh=10;
     m_flip=false;
     is_swith=true;
-    //
-    m_pass1 = MakeSharedPtr<SVPass>();
-    m_pass1->setMtl(m_pMtlBg);
-    m_pMtlBg->setTexcoordFlip(1.0f, 1.0f);
-    m_pass1->setMesh(m_pMeshBg);
-    addPass(m_pass1);
 }
 
 SVDeformImageMove::~SVDeformImageMove(){
+    clearPass();
+    m_pMeshBg = nullptr;
+    m_pMtlBg = nullptr;
+    m_iump = nullptr;
     m_dataPoint = nullptr;
-    destroy();
+}
+
+void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
+    SVRendererBasePtr t_renderer =  mApp->getRenderer();
+    if(t_renderer){
+        m_tex = _intex;
+        m_flip=true;
+        _initPoint();
+        m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,
+                                               _texout,
+                                               false,
+                                               false);
+        mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
+        m_pass1 = MakeSharedPtr<SVPass>();
+        m_pass1->setInTex(0,_intex);
+        m_pass1->setOutTex(_texout);
+        m_pass1->setMtl(m_pMtlBg);
+        m_pass1->setMesh(m_pMeshBg);
+        addPass(m_pass1);
+    }
 }
 
 void SVDeformImageMove::addPass(SVPassPtr _pass) {
@@ -72,26 +90,6 @@ void SVDeformImageMove::setPoint(V2 *_data){
     m_dataPoint=_data;
 }
 
-void SVDeformImageMove::init(SVTexturePtr _tex,SVTexturePtr _texout){
-    
-    m_tex = _tex;
-    m_flip=true;
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
-    if(!t_renderer)
-        return ;
-    initPoint();
-    m_pTexBg = mApp->getTexMgr()->createUnctrlTexture(m_tex->getwidth(), m_tex->getheight(),GL_RGBA, GL_RGBA);
-    m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,
-                                           m_pTexBg,
-                                           false,
-                                           false);
-    mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
-    m_pass1->setInTex(0, m_tex);
-    m_pass1->setOutTex(_texout);
-//    m_pass2->setInTex(0, m_pTexBg);
-//    m_pass2->setOutTex(_texout);
-}
-
 void SVDeformImageMove::updatePointMSL(){
     if(m_dataPoint){
         m_iump->clearContrl();
@@ -99,7 +97,7 @@ void SVDeformImageMove::updatePointMSL(){
     }
 }
 
-void SVDeformImageMove::initPoint(){
+void SVDeformImageMove::_initPoint(){
     
     f32 _w=m_tex->getwidth() ;
     f32 _h=m_tex->getheight();
@@ -160,7 +158,6 @@ void SVDeformImageMove::createScreenRectMesh(V2 *t_data,V2 *t_targetData){
         pVer[i].b = 255;
         pVer[i].a = 255;
     }
-    
     m_pMeshBg->setVertexType(E_VF_V2_C_T0);
     SVDataSwapPtr t_datav = MakeSharedPtr<SVDataSwap>();
     t_datav->writeData(pVer, sizeof(V2_C_T0) * m_wPointCount*m_hPointCont);
@@ -169,23 +166,20 @@ void SVDeformImageMove::createScreenRectMesh(V2 *t_data,V2 *t_targetData){
     m_pMeshBg->createMesh();
 }
 
-void SVDeformImageMove::destroy(){
-    clearPass();
-    m_pMeshBg=nullptr;
-    m_pMtlBg=nullptr;
-    m_pTexBg=nullptr;
-    m_iump=nullptr;
-}
-
 void SVDeformImageMove::update(f32 _dt){
     if(!is_swith){
         return;
     }
+    if(m_pMtlBg){
+        m_pMtlBg->setTexcoordFlip(1.0f, 1.0f);
+    }
+    //
     for(s32 i=0;i<m_passPool.size();i++){
         if(m_passPool[i]->m_pMtl){
             m_passPool[i]->m_pMtl->update(_dt);
             SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
             if(m_dataPoint){
+                
             }else if( t_person && t_person->getExist()){
                 V2 *t_data = (V2*)t_person->getFaceDataOriginal();
                 pointMove(t_data);

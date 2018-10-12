@@ -22,21 +22,31 @@ namespace sv {
             
             virtual ~SVBackGroundNode();
             
-            void destroy();
-            
             void update(f32 dt);
             
             void render();
             
+            void setTexture(cptr8 _path);
+            
             void setTexture(SVTexturePtr _tex);
+            
+            void setTexture(SVTEXTYPE _textype);
             
             SVTexturePtr getOutTex();
             
-            SVDeformImageMovePtr getDeform();
-        protected:
-            SVTexturePtr  m_texout;
-            SVDeformImageMovePtr m_Deform;
+            SVTEXTYPE getUseInnerTex(){ return m_useTexType; }
             
+            bool enableDeform(SVTEXTYPE _textype);
+            
+            void disableDeform();
+            
+            bool isDeform();
+            
+            SVDeformImageMovePtr getDeform();
+            
+        protected:
+            SVTEXTYPE m_useTexType;
+            SVDeformImageMovePtr m_pDeform;
         };
         
     }//!namespace node

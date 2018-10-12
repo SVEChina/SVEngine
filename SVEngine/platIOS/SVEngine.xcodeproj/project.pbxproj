@@ -1890,10 +1890,6 @@
 		5F7D6739215F407900803BCF /* SVFaceDetectPointNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5F4E215F407700803BCF /* SVFaceDetectPointNode.h */; };
 		5F7D673A215F407900803BCF /* SVFaceDetectPointNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5F4E215F407700803BCF /* SVFaceDetectPointNode.h */; };
 		5F7D673B215F407900803BCF /* SVFaceDetectPointNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5F4E215F407700803BCF /* SVFaceDetectPointNode.h */; };
-		5F7D673C215F407900803BCF /* SVFaceImageUsingMoveNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5F4F215F407700803BCF /* SVFaceImageUsingMoveNode.cpp */; };
-		5F7D673D215F407900803BCF /* SVFaceImageUsingMoveNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5F4F215F407700803BCF /* SVFaceImageUsingMoveNode.cpp */; };
-		5F7D673E215F407900803BCF /* SVFaceImageUsingMoveNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5F4F215F407700803BCF /* SVFaceImageUsingMoveNode.cpp */; };
-		5F7D673F215F407900803BCF /* SVFaceImageUsingMoveNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5F4F215F407700803BCF /* SVFaceImageUsingMoveNode.cpp */; };
 		5F7D6740215F407900803BCF /* SVCoordGridNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5F50215F407700803BCF /* SVCoordGridNode.cpp */; };
 		5F7D6741215F407900803BCF /* SVCoordGridNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5F50215F407700803BCF /* SVCoordGridNode.cpp */; };
 		5F7D6742215F407900803BCF /* SVCoordGridNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5F50215F407700803BCF /* SVCoordGridNode.cpp */; };
@@ -1966,10 +1962,6 @@
 		5F7D6785215F407900803BCF /* SVDummyNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5F61215F407700803BCF /* SVDummyNode.cpp */; };
 		5F7D6786215F407900803BCF /* SVDummyNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5F61215F407700803BCF /* SVDummyNode.cpp */; };
 		5F7D6787215F407900803BCF /* SVDummyNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5F61215F407700803BCF /* SVDummyNode.cpp */; };
-		5F7D6788215F407900803BCF /* SVFaceImageUsingMoveNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5F62215F407700803BCF /* SVFaceImageUsingMoveNode.h */; };
-		5F7D6789215F407900803BCF /* SVFaceImageUsingMoveNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5F62215F407700803BCF /* SVFaceImageUsingMoveNode.h */; };
-		5F7D678A215F407900803BCF /* SVFaceImageUsingMoveNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5F62215F407700803BCF /* SVFaceImageUsingMoveNode.h */; };
-		5F7D678B215F407900803BCF /* SVFaceImageUsingMoveNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5F62215F407700803BCF /* SVFaceImageUsingMoveNode.h */; };
 		5F7D678C215F407900803BCF /* SVParticlesWorld.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5F63215F407700803BCF /* SVParticlesWorld.h */; };
 		5F7D678D215F407900803BCF /* SVParticlesWorld.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5F63215F407700803BCF /* SVParticlesWorld.h */; };
 		5F7D678E215F407900803BCF /* SVParticlesWorld.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5F63215F407700803BCF /* SVParticlesWorld.h */; };
@@ -2966,7 +2958,6 @@
 		5F7D5F4C215F407700803BCF /* SVSkyDomeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSkyDomeNode.h; sourceTree = "<group>"; };
 		5F7D5F4D215F407700803BCF /* SVNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVNode.cpp; sourceTree = "<group>"; };
 		5F7D5F4E215F407700803BCF /* SVFaceDetectPointNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceDetectPointNode.h; sourceTree = "<group>"; };
-		5F7D5F4F215F407700803BCF /* SVFaceImageUsingMoveNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFaceImageUsingMoveNode.cpp; sourceTree = "<group>"; };
 		5F7D5F50215F407700803BCF /* SVCoordGridNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVCoordGridNode.cpp; sourceTree = "<group>"; };
 		5F7D5F51215F407700803BCF /* SVBitFontNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBitFontNode.cpp; sourceTree = "<group>"; };
 		5F7D5F52215F407700803BCF /* SVIOSOutstreamNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIOSOutstreamNode.h; sourceTree = "<group>"; };
@@ -2985,7 +2976,6 @@
 		5F7D5F5F215F407700803BCF /* SVSkyDomeNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVSkyDomeNode.cpp; sourceTree = "<group>"; };
 		5F7D5F60215F407700803BCF /* SVBGRAInstreamNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBGRAInstreamNode.cpp; sourceTree = "<group>"; };
 		5F7D5F61215F407700803BCF /* SVDummyNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVDummyNode.cpp; sourceTree = "<group>"; };
-		5F7D5F62215F407700803BCF /* SVFaceImageUsingMoveNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceImageUsingMoveNode.h; sourceTree = "<group>"; };
 		5F7D5F63215F407700803BCF /* SVParticlesWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParticlesWorld.h; sourceTree = "<group>"; };
 		5F7D5F64215F407700803BCF /* SV2DFaceMaskNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SV2DFaceMaskNode.h; sourceTree = "<group>"; };
 		5F7D5F65215F407700803BCF /* SVSpriteNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVSpriteNode.cpp; sourceTree = "<group>"; };
@@ -3894,8 +3884,6 @@
 				5F7D5F78215F407700803BCF /* SVDummyNode.h */,
 				5F7D5F81215F407700803BCF /* SVFaceDetectPointNode.cpp */,
 				5F7D5F4E215F407700803BCF /* SVFaceDetectPointNode.h */,
-				5F7D5F4F215F407700803BCF /* SVFaceImageUsingMoveNode.cpp */,
-				5F7D5F62215F407700803BCF /* SVFaceImageUsingMoveNode.h */,
 				5F7D5F5E215F407700803BCF /* SVFacePointNode.cpp */,
 				5F7D5F73215F407700803BCF /* SVFacePointNode.h */,
 				5F7D5F5D215F407700803BCF /* SVFaceShapeNode.cpp */,
@@ -4288,7 +4276,6 @@
 				5F7D67D3215F407900803BCF /* SVFaceShapeNode.h in Headers */,
 				5F7D686B215F407900803BCF /* SVCoreTree.h in Headers */,
 				5F7D672F215F407900803BCF /* SVModelNode.h in Headers */,
-				5F7D678B215F407900803BCF /* SVFaceImageUsingMoveNode.h in Headers */,
 				5F7D687B215F407900803BCF /* SVBase.h in Headers */,
 				5F7D65F3215F407800803BCF /* SVRenderStateVK.h in Headers */,
 				5F7D679F215F407900803BCF /* SVSpineNode.h in Headers */,
@@ -4637,7 +4624,6 @@
 				5F7D67D1215F407900803BCF /* SVFaceShapeNode.h in Headers */,
 				5F7D6869215F407900803BCF /* SVCoreTree.h in Headers */,
 				5F7D672D215F407900803BCF /* SVModelNode.h in Headers */,
-				5F7D6789215F407900803BCF /* SVFaceImageUsingMoveNode.h in Headers */,
 				5F7D6879215F407900803BCF /* SVBase.h in Headers */,
 				5F7D65F1215F407800803BCF /* SVRenderStateVK.h in Headers */,
 				5F7D679D215F407900803BCF /* SVSpineNode.h in Headers */,
@@ -4850,7 +4836,6 @@
 				5F7D61A6215F407700803BCF /* SVDataFilter.h in Headers */,
 				5F7D6688215F407800803BCF /* SVMtlFilterEx.h in Headers */,
 				5F7D67E8215F407900803BCF /* SVShapeVariedNode.h in Headers */,
-				5F7D6788215F407900803BCF /* SVFaceImageUsingMoveNode.h in Headers */,
 				5F7D605E215F407700803BCF /* SVPickProcess.h in Headers */,
 				5F7D6988215F407900803BCF /* SVObject.h in Headers */,
 				5F7D684C215F407900803BCF /* SVSem.h in Headers */,
@@ -5337,7 +5322,6 @@
 				5F7D67D2215F407900803BCF /* SVFaceShapeNode.h in Headers */,
 				5F7D686A215F407900803BCF /* SVCoreTree.h in Headers */,
 				5F7D672E215F407900803BCF /* SVModelNode.h in Headers */,
-				5F7D678A215F407900803BCF /* SVFaceImageUsingMoveNode.h in Headers */,
 				5F7D687A215F407900803BCF /* SVBase.h in Headers */,
 				5F7D65F2215F407800803BCF /* SVRenderStateVK.h in Headers */,
 				5F7D679E215F407900803BCF /* SVSpineNode.h in Headers */,
@@ -5897,7 +5881,6 @@
 				5F7D60F1215F407700803BCF /* SVBasicModel.cpp in Sources */,
 				5F7D6459215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				5F7D620D215F407800803BCF /* pngwio.c in Sources */,
-				5F7D673F215F407900803BCF /* SVFaceImageUsingMoveNode.cpp in Sources */,
 				5F7D6141215F407700803BCF /* SVImageUsingMove.cpp in Sources */,
 				5F7D6727215F407900803BCF /* SVTransTexNode.cpp in Sources */,
 				5F7D6967215F407900803BCF /* SVSign.cpp in Sources */,
@@ -5994,7 +5977,6 @@
 				5F7D6900215F407900803BCF /* SVMathLib.cpp in Sources */,
 				5F7D64E8215F407800803BCF /* SVActDeform.cpp in Sources */,
 				5F7D619E215F407700803BCF /* SVDataFilter.cpp in Sources */,
-				5F7D673C215F407900803BCF /* SVFaceImageUsingMoveNode.cpp in Sources */,
 				5F7D67A4215F407900803BCF /* SVNodeVisit.cpp in Sources */,
 				5F7D64B2215F407800803BCF /* SVActBase.cpp in Sources */,
 				5F7D6804215F407900803BCF /* SVFaceDetectPointNode.cpp in Sources */,
@@ -6461,7 +6443,6 @@
 				5F7D60F0215F407700803BCF /* SVBasicModel.cpp in Sources */,
 				5F7D6458215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				5F7D620C215F407800803BCF /* pngwio.c in Sources */,
-				5F7D673E215F407900803BCF /* SVFaceImageUsingMoveNode.cpp in Sources */,
 				5F7D6140215F407700803BCF /* SVImageUsingMove.cpp in Sources */,
 				5F7D6726215F407900803BCF /* SVTransTexNode.cpp in Sources */,
 				5F7D6966215F407900803BCF /* SVSign.cpp in Sources */,
@@ -6742,7 +6723,6 @@
 				5F7D60EF215F407700803BCF /* SVBasicModel.cpp in Sources */,
 				5F7D6457215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				5F7D620B215F407800803BCF /* pngwio.c in Sources */,
-				5F7D673D215F407900803BCF /* SVFaceImageUsingMoveNode.cpp in Sources */,
 				5F7D613F215F407700803BCF /* SVImageUsingMove.cpp in Sources */,
 				5F7D6725215F407900803BCF /* SVTransTexNode.cpp in Sources */,
 				5F7D6965215F407900803BCF /* SVSign.cpp in Sources */,

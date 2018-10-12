@@ -20,15 +20,12 @@ namespace sv {
         //deform imagemove 算法
         class SVDeformImageMove : public SVGBase {
         public:
-
             SVDeformImageMove(SVInst *_app);
             
             ~SVDeformImageMove();
             
             void init(SVTexturePtr _tex,SVTexturePtr _texout);
-            
-            void destroy();
-            
+
             void update(f32 dt);
             
             void render();
@@ -70,7 +67,9 @@ namespace sv {
             
             void createScreenRectMesh(V2 *t_data,V2 *t_targetData);
             void createPointMesh( V2* _facepoint);
-            void initPoint();
+            
+            void _initPoint();
+            
             void addPass(SVPassPtr _pass);
             void clearPass();
             
