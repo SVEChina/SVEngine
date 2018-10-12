@@ -22,7 +22,8 @@
 //
 
 SVFboObject::SVFboObject(SVInst *_app)
-:SVRObjBase(_app){
+:SVRObjBase(_app)
+,m_link(false){
 }
 
 SVFboObject::~SVFboObject() {
@@ -66,12 +67,15 @@ void SVFboObject::refresh() {
     }
 }
 
+void SVFboObject::setLink(bool _link) {
+    m_link = _link;
+}
+
 void SVFboObject::bind() {
     SVRResGLFBOPtr t_tmp = std::dynamic_pointer_cast<SVRResGLFBO>(m_objFBOPtr);
     if (t_tmp) {
         t_tmp->bind();
-        SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
-        if (t_camera && t_camera->hasLinkFboObject(THIS_TO_SHAREPTR(SVFboObject))) {
+        if(m_link){
             mApp->m_pGlobalParam->addToViewStack(m_mat_view);
             mApp->m_pGlobalParam->addToProjStack(m_mat_proj);
             mApp->m_pGlobalParam->addToVPStack(m_mat_vp);
@@ -90,8 +94,7 @@ void SVFboObject::unbind() {
     SVRResGLFBOPtr t_tmp = std::dynamic_pointer_cast<SVRResGLFBO>(m_objFBOPtr);
     if (t_tmp) {
         t_tmp->unbind();
-        SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
-        if (t_camera && t_camera->hasLinkFboObject(THIS_TO_SHAREPTR(SVFboObject))) {
+        if(m_link){
             mApp->m_pGlobalParam->removeViewMat();
             mApp->m_pGlobalParam->removeProjMat();
             mApp->m_pGlobalParam->removeVPMat();

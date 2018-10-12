@@ -50,10 +50,13 @@ namespace sv {
             
             void setViewMat(FMat4 _view);
             
+            void setLink(bool _link);
+            
         protected:
             FMat4 m_mat_proj;
             FMat4 m_mat_view;
             FMat4 m_mat_vp;
+            bool m_link;
             SVResFBOPtr m_objFBOPtr;
         };
         
