@@ -19,7 +19,6 @@
 #include "../node/SVFacePointNode.h"
 #include "../node/SVFaceShapeNode.h"
 #include "../node/SVShapeVariedNode.h"
-#include "../node/SVFaceImageUsingMoveNode.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/renderer/SVRendererBase.h"
 #include "../mtl/SVTexture.h"

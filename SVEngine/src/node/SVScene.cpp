@@ -186,7 +186,7 @@ bool SVTree4::hasNode(SVNodePtr _node) {
 SVScene::SVScene(SVInst *_app,cptr8 _name)
 :SVGBase(_app) {
     m_name = _name;
-    m_color.setColorARGB(0xff000000);
+    m_color.setColorARGB(0x00000000);
     //场景树
     m_pSceneTree = MakeSharedPtr<SVTree4>(_app);
     //渲染场景

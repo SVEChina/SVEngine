@@ -37,46 +37,143 @@ SVBackGroundNode::SVBackGroundNode(SVInst *_app)
 :SVSpriteNode(_app,720,1280){
     ntype = "SVDeformNode";
     m_rsType = RST_BACKGROUND;
-    m_texout=nullptr;
-    m_Deform=MakeSharedPtr<SVDeformImageMove>(mApp);
+    m_useTexType = E_TEX_END;
 }
 
 SVBackGroundNode::~SVBackGroundNode(){
-    
-}
-
-void SVBackGroundNode::destroy(){
-    exit();
-    if(m_Deform){
-        m_Deform->destroy();
-        m_Deform=nullptr;
-    }
-    if(m_texout){
-        m_texout=nullptr;
-    }
+    disableDeform();
 }
 
 void SVBackGroundNode::update(f32 _dt){
-    SVSpriteNode::update(_dt);
-    m_Deform->update(_dt);
-    SVSpriteNode::setTexcoord(-1.0, -1.0);
+    if(m_pDeform){
+        SVNode::update(_dt);
+        if (m_pRenderObj && m_pMesh) {
+            if(m_pMtl){
+                m_pMtl->setBlendEnable(true);
+                m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+                m_pMtl->setModelMatrix(m_absolutMat.get());
+                m_pMtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
+                m_pMtl->setTexture(0,m_useTexType);
+                m_pMtl->update(_dt);
+                m_pRenderObj->setMesh(m_pMesh);
+                m_pRenderObj->setMtl(m_pMtl);
+            }else{
+                //创建新的材质
+                SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d");
+                t_mtl->setModelMatrix(m_absolutMat.get());
+                t_mtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
+                t_mtl->setBlendEnable(true);
+                t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+                t_mtl->setTexture(0,m_useTexType);
+                t_mtl->update(_dt);
+                m_pRenderObj->setMesh(m_pMesh);
+                m_pRenderObj->setMtl(t_mtl);
+            }
+        }
+        m_pDeform->update(_dt);
+    }else{
+        SVSpriteNode::update(_dt);
+    }
 }
 
 void SVBackGroundNode::render(){
-    m_Deform->render();
-    SVSpriteNode::render();
+    if(m_pDeform){
+        if ( m_visible ){
+            //形变算法
+            m_pDeform->render();
+            //绘制形变结果
+            SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+            if (m_pRenderObj) {
+                m_pRenderObj->pushCmd(t_rs, m_rsType, "SVBackGroundNode");
+            }
+        }
+        SVNode::render();
+    }else{
+        SVSpriteNode::render();
+    }
+}
+
+void SVBackGroundNode::setTexture(cptr8 _path) {
+    SV_LOG_INFO("no support set texture by path in SVBackGroundNode!");
+    return ;
+}
+
+void SVBackGroundNode::setTexture(SVTEXTYPE _textype) {
+    SVSpriteNode::setTexture(_textype);
+    //重新创建一下纹理
+    if( isDeform() ) {
+        disableDeform();
+        enableDeform(m_useTexType);
+    }
 }
 
 void SVBackGroundNode::setTexture(SVTexturePtr _tex){
-    m_texout = mApp->getTexMgr()->createUnctrlTexture(_tex->getwidth(), _tex->getheight(),GL_RGBA, GL_RGBA);
-    m_Deform->init(_tex,m_texout);
-    SVSpriteNode::setTexture(m_texout);
+    SVSpriteNode::setTexture(_tex);
+    //重新创建一下纹理
+    if( isDeform() ) {
+        disableDeform();
+        enableDeform(m_useTexType);
+    }
 }
 
 SVTexturePtr SVBackGroundNode::getOutTex(){
-    return m_texout;
+    return nullptr;
 }
 
 SVDeformImageMovePtr SVBackGroundNode::getDeform(){
-    return m_Deform;
+    return m_pDeform;
+}
+
+bool SVBackGroundNode::enableDeform(SVTEXTYPE _textype) {
+    SVTexturePtr t_tex = mApp->getRenderMgr()->getRenderer()->getSVTex(_textype);
+    if(t_tex){
+        return false;
+    }
+    //
+    if(m_inTexType == E_TEX_END) {
+        if(m_pTex) {
+            if(!m_pDeform){
+                m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
+            }
+            SVTexturePtr m_texout =
+            mApp->getRenderMgr()->getRenderer()->createSVTex(_textype,
+                                                             m_pTex->getwidth(),
+                                                             m_pTex->getheight(),
+                                                             GL_RGBA);
+            m_pDeform->init(m_pTex,m_texout);
+            m_useTexType = _textype;
+            return true;
+        }
+    }else{
+        SVTexturePtr t_innerTex = mApp->getRenderMgr()->getRenderer()->getSVTex(m_inTexType);
+        if(t_innerTex){
+            if(!m_pDeform){
+                m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
+            }
+            SVTexturePtr m_texout =
+            mApp->getRenderMgr()->getRenderer()->createSVTex(_textype,
+                                                             t_innerTex->getwidth(),
+                                                             t_innerTex->getheight(),
+                                                             GL_RGBA);
+            m_pDeform->init(t_innerTex,m_texout);
+            m_useTexType = _textype;
+            return true;
+        }
+    }
+    return false;
+}
+
+void SVBackGroundNode::disableDeform() {
+    if(m_pDeform){
+        m_pDeform = nullptr;
+        mApp->getRenderMgr()->getRenderer()->destroySVTex(m_useTexType);
+        m_useTexType = E_TEX_END;;
+    }
+}
+
+bool SVBackGroundNode::isDeform() {
+    if(m_pDeform){
+        return true;
+    }
+    return false;
 }

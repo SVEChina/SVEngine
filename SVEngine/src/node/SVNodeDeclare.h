@@ -59,7 +59,6 @@ namespace sv {
         DECLARE_SHAREPTR(SVFaceShapeNode);
 
         DECLARE_SHAREPTR(SVShapeVariedNode);
-        DECLARE_SHAREPTR(SVFaceImageUsingMoveNode);
 
         DECLARE_SHAREPTR(SVParticlesWorld);
         DECLARE_SHAREPTR(SVParticlesNode);

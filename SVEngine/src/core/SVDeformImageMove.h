@@ -20,15 +20,12 @@ namespace sv {
         //deform imagemove 算法
         class SVDeformImageMove : public SVGBase {
         public:
-
             SVDeformImageMove(SVInst *_app);
             
             ~SVDeformImageMove();
             
             void init(SVTexturePtr _tex,SVTexturePtr _texout);
-            
-            void destroy();
-            
+
             void update(f32 dt);
             
             void render();
@@ -53,35 +50,30 @@ namespace sv {
             SVTexturePtr m_pTexBg;
             SVMtlCorePtr m_pMtlBg;
             SVRenderMeshPtr m_pMeshBg;
-            SVTexturePtr m_tex;
+            s32 m_tt_w;
+            s32 m_tt_h;
             
-            SVImageUsingMovePtr m_iump;
-            V2 m_pointScreen[30*80];
-            s32 m_iIndexCount;
-            u16 m_dataIndex[30*80*2*3];
+            SVImageUsingMovePtr m_pIUMP;
+            
+            V2 m_pointScreen[2400];//30*80
+            
             SVMap<u32, V2> m_pointMap;
-            
             V2 *m_dataPoint;
             s32 m_wPointCount;
             s32 m_hPointCont;
-            
-            s32 m_inw;
-            s32 m_inh;
+
             bool m_flip;
             
-            void createScreenRectMesh(V2 *t_data,V2 *t_targetData);
-            void createPointMesh( V2* _facepoint);
-            void initPoint();
-            void addPass(SVPassPtr _pass);
-            void clearPass();
+            void _refreshScreenRectMesh(V2 *t_data,V2 *t_targetData);
+            
+            void _initPoint();
             
         protected:
             typedef SVArray<SVPassPtr> PASSPOOL;
             PASSPOOL m_passPool;
+            //
             SVRenderTexturePtr m_fbo;
             bool is_swith;
-            SVPassPtr m_pass1;
-            SVPassPtr m_pass2;
         };
 
     }//!namespace util

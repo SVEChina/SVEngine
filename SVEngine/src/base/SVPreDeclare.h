@@ -219,6 +219,5 @@ using ShareFromThis = std::enable_shared_from_this<T> ;
 #define DYN_TO_SHAREPTR(classname,param) std::dynamic_pointer_cast<classname>(param);
 #define THIS_TO_SHAREPTR(classname) std::dynamic_pointer_cast<classname>(this->shared_from_this()) 
 
-
 #endif //SV_PREDECLARE_H
 

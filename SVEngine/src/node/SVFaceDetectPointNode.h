@@ -47,8 +47,6 @@ namespace sv {
             SVRenderMeshPtr m_pMesh;
             SVRenderObjectPtr m_pRenderObj;
             SVTexturePtr m_pTex;
-            void createPointMesh( V2* _facepoint);
-           
         };
         
     }//!namespace node
