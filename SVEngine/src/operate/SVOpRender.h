@@ -9,7 +9,7 @@
 #define SV_OPERATERENDER_H
 
 #include "SVOpBase.h"
-
+#include "../base/SVMat4.h"
 namespace sv {
     
     //创建渲染器
@@ -112,6 +112,17 @@ namespace sv {
         void _process(f32 dt);
         
         bool m_mirror;
+    };
+    //更新默认矩阵栈里的矩阵
+    class SVOpRefreshDefMat: public SVOpBase{
+    public:
+        SVOpRefreshDefMat(SVInst *_app, FMat4 _viewMat, FMat4 _projMat, FMat4 _vpMat);
+    protected:
+        void _process(f32 dt);
+        FMat4 m_viewMat;
+        FMat4 m_projMat;
+        FMat4 m_vpMat;
+        
     };
     
 }//!namespace sv

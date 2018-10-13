@@ -16,7 +16,7 @@ namespace sv {
         template <class Type,s32 Capacity> class SVStack {
         public:
             SVStack()
-            :depth(0) {
+            :m_depth(0) {
                 m_stack = new Type[Capacity];
             }
             
@@ -25,7 +25,7 @@ namespace sv {
             }
             
             sv_inline Type &get(s32 index) {
-                assert((u32)index < (u32)depth && "Stack::get(): bad index");
+                assert((u32)index < (u32)m_depth && "Stack::get(): bad index");
                 return m_stack[m_depth - 1 - index];
             }
             

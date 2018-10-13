@@ -13,7 +13,6 @@
 #include "../base/SVObject.h"
 #include "../base/SVPreDeclare.h"
 #include "../mtl/SVMtlDeclare.h"
-
 namespace sv {
     
     namespace render{
@@ -141,11 +140,9 @@ namespace sv {
             ~SVRenderCmdFboUnbind();
             
             virtual void render();
-            
         protected:
             SVFboObjectPtr m_fbo;
         };
-        
         
     }//!namespace render
     
