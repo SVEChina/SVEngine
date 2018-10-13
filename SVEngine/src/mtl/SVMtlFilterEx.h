@@ -72,6 +72,20 @@ namespace sv {
             f32 m_vibrance;
         };
         
+        class SVMtlColorBalance: public SVMtlCore  {
+        public:
+            SVMtlColorBalance(SVInst *_app);
+            
+            SVMtlColorBalance(SVMtlColorBalance* _mtl);
+            
+            ~SVMtlColorBalance();
+            
+            virtual SVMtlCorePtr clone();
+            
+        protected:
+            virtual void _submitMtl(SVRendererBasePtr _render);
+        };
+        
         
         class SVMtlHSL : public SVMtlCore  {
         public:
@@ -82,18 +96,106 @@ namespace sv {
             ~SVMtlHSL();
             
             virtual SVMtlCorePtr clone();
+
+            inline void setSaturationRed(f32 _smooth){
+                m_saturationRed=_smooth;
+            }
+
+            inline  void setHueRed(f32 _smooth){
+                m_HueRed=_smooth;
+            }
+
+            inline  void setLightnessRed(f32 _smooth){
+                m_LightnessRed=_smooth;
+            }
+
+            inline void setSaturationYellow(f32 _smooth){
+                m_saturationYellow=_smooth;
+            }
+
+            inline void setHueYellow(f32 _smooth){
+                m_HueYellow=_smooth;
+            }
+
+            inline void setLightnessYellow(f32 _smooth){
+                m_LightnessYellow=_smooth;
+            }
+
+            inline  void setSaturationGreen(f32 _smooth){
+                m_saturationGreen=_smooth;
+            }
+
+            inline void setHueGreen(f32 _smooth){
+                m_HueGreen=_smooth;
+            }
+
+            inline void setLightnessGreen(f32 _smooth){
+                m_LightnessGreen=_smooth;
+            }
+
+            inline void setSaturationMagenta(f32 _smooth){
+                m_saturationMagenta=_smooth;
+            }
+
+            inline void setHueMagenta(f32 _smooth){
+                m_HueMagenta=_smooth;
+            }
+
+            inline void setLightnessMagenta(f32 _smooth){
+                m_LightnessMagenta=_smooth;
+            }
+
+            inline void setSaturationBlue(f32 _smooth){
+                m_saturationBlue=_smooth;
+            }
+
+            inline void setHueBlue(f32 _smooth){
+                m_HueBlue=_smooth;
+            }
+
+            inline  void setLightnessBlue(f32 _smooth){
+                m_LightnessBlue=_smooth;
+            }
             
-            void setSaturation(f32 _smooth);
-            void setHue(f32 _smooth);
-            void setLightness(f32 _smooth);
-            void setHueRadius(f32 _smooth);
+            inline void  setSaturationCyan(f32 _smooth){
+                m_saturationCyan=_smooth;
+            }
+            
+            inline void setHueCyan(f32 _smooth){
+                m_HueCyan=_smooth;
+            }
+            
+            inline void setLightnessCyan(f32 _smooth){
+                m_LightnessCyan=_smooth;
+            }
+            
         protected:
             virtual void _submitMtl(SVRendererBasePtr _render);
             //
-            f32 m_saturation;
-            f32 m_Hue;
-            f32 m_Lightness;
-            f32 m_HueRadius;
+            f32 m_saturationRed;
+            f32 m_HueRed;
+            f32 m_LightnessRed;
+            
+            f32 m_saturationYellow;
+            f32 m_HueYellow;
+            f32 m_LightnessYellow;
+            
+            f32 m_saturationGreen;
+            f32 m_HueGreen;
+            f32 m_LightnessGreen;
+            
+            f32 m_saturationMagenta;
+            f32 m_HueMagenta;
+            f32 m_LightnessMagenta;
+            
+            f32 m_saturationBlue;
+            f32 m_HueBlue;
+            f32 m_LightnessBlue;
+            
+            f32 m_saturationCyan;
+            f32 m_HueCyan;
+            f32 m_LightnessCyan;
+            
         };
         
     }//!namespace mtl

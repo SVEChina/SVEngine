@@ -8,11 +8,12 @@
 #ifndef SV_FBOOBJECT_H
 #define SV_FBOOBJECT_H
 
+#include "SVRObjBase.h"
+#include "SVResFBO.h"
 #include "SVRenderDef.h"
 #include "../base/SVColor.h"
 #include "../base/SVMat4.h"
-#include "SVRObjBase.h"
-#include "SVResFBO.h"
+
 namespace sv {
     
     namespace render{
@@ -45,12 +46,18 @@ namespace sv {
             
             bool hasStencil();
             
+            void setProjMat(FMat4 _mat);
+            
+            void setViewMat(FMat4 _view);
+            
+            void setLink(bool _link);
+            
+        protected:
             FMat4 m_mat_proj;
             FMat4 m_mat_view;
             FMat4 m_mat_vp;
-        protected:
+            bool m_link;
             SVResFBOPtr m_objFBOPtr;
-            
         };
         
         //外部传递的一个fbo

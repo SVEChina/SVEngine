@@ -187,10 +187,11 @@ void SVGlobalMgr::update(f32 dt) {
     m_pEventMgr->update(dt);            //事件处理系统更新
     timeTag(false,"event cost");
     m_pActionSys->update(dt);
-    m_pSceneMgr->update(dt);            //场景更新(节点系统)
-    timeTag(false,"scene cost");
+    timeTag(false,"action cost");
     m_pCameraMgr->update(dt);            //相机更新(节点系统)
     timeTag(false,"camera cost");
+    m_pSceneMgr->update(dt);            //场景更新(节点系统)
+    timeTag(false,"scene cost");
     m_pUIMgr->update(dt);               //UI更新
     timeTag(false,"ui cost");
     m_pTexMgr->update(dt);              //删除不用的纹理

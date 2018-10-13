@@ -42,21 +42,78 @@ namespace sv {
                 m_vibrance=_vibrance;
             }
             
-            inline void setHSLSaturation(f32 _saturation){
-                m_HSLSaturation=_saturation;
+            inline void setHSLSaturationRed(f32 _saturation){
+                m_HSLSaturationRed=_saturation;
             }
             
-            inline void setHSLLightness(f32 _lightness){
-                m_HSLLightness=_lightness;
+            inline void setHSLLightnessRed(f32 _lightness){
+                m_HSLLightnessRed=_lightness;
             }
             
-            inline void setHSLHue(f32 _hue){
-                m_HSLHue=_hue;
+            inline void setHSLHueRed(f32 _hue){
+                m_HSLHueRed=_hue;
             }
             
-            inline void setHSLHueRaduis(f32 _hueRaduis){
-                m_HSLHueRaduis=_hueRaduis;
+            inline void setHSLSaturationYellow(f32 _saturation){
+                m_HSLSaturationYellow=_saturation;
             }
+            
+            inline void setHSLLightnessYellow(f32 _lightness){
+                m_HSLLightnessYellow=_lightness;
+            }
+            
+            inline void setHSLHueYellow(f32 _hue){
+                m_HSLHueYellow=_hue;
+            }
+            
+            inline void setHSLSaturationGreen(f32 _saturation){
+                m_HSLSaturationGreen=_saturation;
+            }
+            
+            inline void setHSLLightnessGreen(f32 _lightness){
+                m_HSLLightnessGreen=_lightness;
+            }
+            
+            inline void setHSLHueGreen(f32 _hue){
+                m_HSLHueGreen=_hue;
+            }
+            
+            inline void setHSLSaturationMagenta(f32 _saturation){
+                m_HSLSaturationMagenta=_saturation;
+            }
+            
+            inline void setHSLLightnessMagenta(f32 _lightness){
+                m_HSLLightnessMagenta=_lightness;
+            }
+            
+            inline void setHSLHueMagenta(f32 _hue){
+                m_HSLHueMagenta=_hue;
+            }
+            
+            inline void setHSLSaturationBlue(f32 _saturation){
+                m_HSLSaturationBlue=_saturation;
+            }
+            
+            inline void setHSLLightnessBlue(f32 _lightness){
+                m_HSLLightnessBlue=_lightness;
+            }
+            
+            inline void setHSLHueBlue(f32 _hue){
+                m_HSLHueBlue=_hue;
+            }
+            
+            inline void setHSLSaturationCyan(f32 _saturation){
+                m_HSLSaturationCyan=_saturation;
+            }
+            
+            inline void setHSLLightnessCyan(f32 _lightness){
+                m_HSLLightnessCyan=_lightness;
+            }
+            
+            inline void setHSLHueCyan(f32 _hue){
+                m_HSLHueCyan=_hue;
+            }
+            
             
             inline SVTexturePtr getOutTex(){
                 return outTex;
@@ -79,10 +136,31 @@ namespace sv {
             f32 m_contrast;
             f32 m_saturation;
             f32 m_vibrance;
-            f32 m_HSLSaturation;
-            f32 m_HSLLightness;
-            f32 m_HSLHue;
-            f32 m_HSLHueRaduis;
+           
+            f32 m_HSLSaturationRed;
+            f32 m_HSLLightnessRed;
+            f32 m_HSLHueRed;
+            
+            f32 m_HSLSaturationYellow;
+            f32 m_HSLLightnessYellow;
+            f32 m_HSLHueYellow;
+            
+            f32 m_HSLSaturationGreen;
+            f32 m_HSLLightnessGreen;
+            f32 m_HSLHueGreen;
+            
+            f32 m_HSLSaturationMagenta;
+            f32 m_HSLLightnessMagenta;
+            f32 m_HSLHueMagenta;
+            
+            f32 m_HSLSaturationBlue;
+            f32 m_HSLLightnessBlue;
+            f32 m_HSLHueBlue;
+            
+            f32 m_HSLSaturationCyan;
+            f32 m_HSLLightnessCyan;
+            f32 m_HSLHueCyan;
+            
             
         };
     };//!namespace logic

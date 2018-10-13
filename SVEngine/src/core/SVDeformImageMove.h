@@ -68,10 +68,6 @@ namespace sv {
             
             void _initPoint();
             
-            void addPass(SVPassPtr _pass);
-            
-            void clearPass();
-            
         protected:
             typedef SVArray<SVPassPtr> PASSPOOL;
             PASSPOOL m_passPool;
