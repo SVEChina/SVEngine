@@ -140,6 +140,9 @@ void SVRenderMgr::clear() {
         m_pRenderScene = nullptr;
     }
     m_targetPool.clear();
+    m_stack_proj.clear();
+    m_stack_view.clear();
+    m_stack_vp.clear();
     m_renderLock->unlock();
 }
 
@@ -148,4 +151,90 @@ void SVRenderMgr::recycleRes() {
     if( m_pRenderer ) {
         m_pRenderer->clearRes();
     }
+}
+
+void SVRenderMgr::updateMainMat(FMat4 _projMat, FMat4 _viewMat, FMat4 _vpMat){
+    FMat4 mat4Proj = _projMat;
+    if (m_stack_proj.size() > 0) {
+        m_stack_proj.set(0, mat4Proj);
+    }else{
+        m_stack_proj.append(mat4Proj);
+    }
+    //
+    FMat4 mat4View = _viewMat;
+    if (m_stack_view.size() > 0) {
+        m_stack_view.set(0, mat4View);
+    }else{
+        m_stack_view.append(mat4View);
+    }
+    //
+    FMat4 mat4VP = _vpMat;
+    if (m_stack_vp.size() > 0) {
+        m_stack_vp.set(0, mat4VP);
+    }else{
+        m_stack_vp.append(mat4VP);
+    }
+}
+
+void SVRenderMgr::addToProjStack(FMat4 _mat){
+    FMat4 mat4 = _mat;
+    m_stack_proj.append(mat4);
+}
+FMat4 SVRenderMgr::getProjMat(){
+    FMat4 mat4Proj;
+    mat4Proj.setIdentity();
+    if (m_stack_proj.size() > 0) {
+        mat4Proj = m_stack_proj[m_stack_proj.size() - 1];
+    }
+    return mat4Proj;
+}
+bool SVRenderMgr::removeProjMat(){
+    bool ret = false;
+    if (m_stack_proj.size() > 0) {
+        m_stack_proj.remove(m_stack_proj.size() - 1);
+        ret = true;
+    }
+    return ret;
+}
+//
+void SVRenderMgr::addToViewStack(FMat4 _mat){
+    FMat4 mat4 = _mat;
+    m_stack_view.append(mat4);
+}
+FMat4 SVRenderMgr::getViewMat(){
+    FMat4 mat4View;
+    mat4View.setIdentity();
+    if (m_stack_view.size() > 0) {
+        mat4View = m_stack_view[m_stack_view.size() - 1];
+    }
+    return mat4View;
+}
+bool SVRenderMgr::removeViewMat(){
+    bool ret = false;
+    if (m_stack_view.size() > 0) {
+        m_stack_view.remove(m_stack_view.size() - 1);
+        ret = true;
+    }
+    return ret;
+}
+//
+void SVRenderMgr::addToVPStack(FMat4 _mat){
+    FMat4 mat4 = _mat;
+    m_stack_vp.append(mat4);
+}
+FMat4 SVRenderMgr::getVPMat(){
+    FMat4 mat4VP;
+    mat4VP.setIdentity();
+    if (m_stack_vp.size() > 0) {
+        mat4VP = m_stack_vp[m_stack_vp.size() - 1];
+    }
+    return mat4VP;
+}
+bool SVRenderMgr::removeVPMat(){
+    bool ret = false;
+    if (m_stack_vp.size() > 0) {
+        m_stack_vp.remove(m_stack_vp.size() - 1);
+        ret = true;
+    }
+    return ret;
 }

@@ -9,6 +9,7 @@
 #include "../basesys/SVBasicSys.h"
 #include "../node/SVCameraNode.h"
 #include "../base/SVLock.h"
+#include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/renderer/SVRendererBase.h"
 #include "../rendercore/SVRenderTexture.h"
 
@@ -41,7 +42,7 @@ void SVCameraMgr::update(f32 dt) {
             m_mainCamera->addLinkFboObject( t_renderer->getRenderTexture() );
         }
         //
-        mApp->m_pGlobalParam->updateMainMat(m_mainCamera->getProjectMatObj(),
+        mApp->getRenderMgr()->updateMainMat(m_mainCamera->getProjectMatObj(),
                                             m_mainCamera->getViewMatObj(),
                                             m_mainCamera->getVPMatObj());
     }

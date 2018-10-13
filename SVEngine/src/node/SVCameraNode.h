@@ -82,7 +82,6 @@ namespace sv {
             SVLockPtr m_resLock;
             bool m_active;
             bool m_lockTarget;
-            bool m_fboPoolDirty;
             
             FVec3 m_targetEx;
             FVec3 m_upEx;

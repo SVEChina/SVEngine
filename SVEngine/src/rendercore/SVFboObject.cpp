@@ -76,9 +76,9 @@ void SVFboObject::bind() {
     if (t_tmp) {
         t_tmp->bind();
         if(m_link){
-            mApp->m_pGlobalParam->addToViewStack(m_mat_view);
-            mApp->m_pGlobalParam->addToProjStack(m_mat_proj);
-            mApp->m_pGlobalParam->addToVPStack(m_mat_vp);
+            mApp->getRenderMgr()->addToViewStack(m_mat_view);
+            mApp->getRenderMgr()->addToProjStack(m_mat_proj);
+            mApp->getRenderMgr()->addToVPStack(m_mat_vp);
         }
     }
 }
@@ -95,9 +95,9 @@ void SVFboObject::unbind() {
     if (t_tmp) {
         t_tmp->unbind();
         if(m_link){
-            mApp->m_pGlobalParam->removeViewMat();
-            mApp->m_pGlobalParam->removeProjMat();
-            mApp->m_pGlobalParam->removeVPMat();
+            mApp->getRenderMgr()->removeViewMat();
+            mApp->getRenderMgr()->removeProjMat();
+            mApp->getRenderMgr()->removeVPMat();
         }
     }
 }

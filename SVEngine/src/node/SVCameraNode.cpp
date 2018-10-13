@@ -13,7 +13,6 @@ SVCameraNode::SVCameraNode(SVInst *_app)
 : SVNode(_app) {
     ntype = "SVCameraNode";
     m_lockTarget = false;
-    m_fboPoolDirty = true;
     m_fovy = 60.0f;
     m_mat_proj.setIdentity();
     m_mat_view.setIdentity();
@@ -31,7 +30,6 @@ void SVCameraNode::update(f32 _dt) {
     if (m_dirty) {
         //更新本地矩阵
         m_dirty = false;
-        m_fboPoolDirty = true;
         updateProjMat();
         updateCameraMat();
     }
@@ -170,8 +168,6 @@ void SVCameraNode::addLinkFboObject(SVFboObjectPtr _fbo){
                 return ;
             }
         }
-        //
-        m_fboPoolDirty = true;
         m_fbobjectPool.append(_fbo);
     }
 }
