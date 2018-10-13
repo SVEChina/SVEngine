@@ -41,10 +41,6 @@ void SVCameraMgr::update(f32 dt) {
         if(t_renderer && t_renderer->getRenderTexture() ) {
             m_mainCamera->addLinkFboObject( t_renderer->getRenderTexture() );
         }
-        //
-        mApp->getRenderMgr()->updateMainMat(m_mainCamera->getProjectMatObj(),
-                                            m_mainCamera->getViewMatObj(),
-                                            m_mainCamera->getVPMatObj());
     }
     m_cameraLock->lock();
     CAMERAPOOL::Iterator it = m_camerPool.begin();
