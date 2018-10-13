@@ -77,7 +77,7 @@ namespace sv {
         typedef SVMap<SVString,SVRenderTargetPtr> TARGETPOOL;
         TARGETPOOL m_targetPool;
         //
-        typedef SVStack<FMat4,10> MAT4STACK;//注意：栈最大支持的矩阵个数为10个
+        typedef SVStack<FMat4,50> MAT4STACK;//注意：栈最大支持的矩阵个数为50个
         MAT4STACK m_stack_proj;
         MAT4STACK m_stack_view;
         MAT4STACK m_stack_vp;
