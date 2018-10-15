@@ -20,6 +20,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVMtlBrightnessContrast);
         DECLARE_SHAREPTR(SVMtlSaturation);
         DECLARE_SHAREPTR(SVMtlVibrance);
+        DECLARE_SHAREPTR(SVMtlShadowHighlight);        
         DECLARE_SHAREPTR(SVMtlColorBalance);
         DECLARE_SHAREPTR(SVMtlHSL);
         DECLARE_SHAREPTR(SVMtlGeo3d);

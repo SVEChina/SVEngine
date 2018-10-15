@@ -31,7 +31,7 @@ namespace sv {
             
             virtual f32 getFilterParam(SVFILTERITEMTYPE _type);
             
-            bool create(SVTexturePtr _looktex,SVTexturePtr _bgtex);
+            bool create(SVTexturePtr _looktex,SVTexturePtr _bgtex,SVTexturePtr _outTex);
             
         protected:
             SVMtlCorePtr m_lkMtl;
