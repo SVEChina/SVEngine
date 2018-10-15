@@ -30,6 +30,7 @@ namespace sv {
             void setMaterial(SVMtlFace2DPtr _mtlFace2D);
             
             SVMtlFace2DPtr getMaterial();
+            
         protected:
             SVRenderObjectPtr m_renderObject;
             SVRenderMeshDvidPtr m_pFaceMesh;
@@ -41,8 +42,8 @@ namespace sv {
             f32 m_standervers[MAX_FACEPOINTS_NUM];
             f32 m_standertexcoord[MAX_FACEPOINTS_NUM];
             u16 m_newmesh[600*3];
-            u32   m_pointsize;
-            u32   m_meshsize;
+            u32 m_pointsize;
+            u32 m_meshsize;
             f32 m_texwidth;
             f32 m_texheight;
         };

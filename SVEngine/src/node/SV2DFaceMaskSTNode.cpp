@@ -38,7 +38,7 @@ SV2DFaceMaskSTNode::SV2DFaceMaskSTNode(SVInst *_app)
     m_texwidth = standerface->design_img_width;
     m_texheight = standerface->design_img_height;
     m_pointsize = standerface->facepoints_count;
-    for (int i=0; i<m_pointsize*2; i++) {
+    for (s32 i=0; i<m_pointsize*2; i++) {
         m_standervers[i] = standerface->points[i];
         if (i%2 == 0) {
             m_standervers[i] = m_standervers[i] - m_texwidth*0.5;
@@ -47,12 +47,12 @@ SV2DFaceMaskSTNode::SV2DFaceMaskSTNode(SVInst *_app)
         }
     }
     
-    for (int i=0; i<m_pointsize*2; i++) {
+    for (s32 i=0; i<m_pointsize*2; i++) {
         m_standertexcoord[i] = standerface->points[i];
     }
     
     m_meshsize = facemesh->tricount;
-    for (int i=0; i<m_meshsize*3; i++) {
+    for (s32 i=0; i<m_meshsize*3; i++) {
         m_newmesh[i] = facemesh->triangles[i];
     }
     m_pIndexs->writeData(m_newmesh, m_meshsize*3*sizeof(u16));
@@ -102,8 +102,7 @@ void SV2DFaceMaskSTNode::update(f32 dt) {
 
 void SV2DFaceMaskSTNode::_updateVerts(){
     SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(m_personID);
-    if( t_person && t_person->getExist() )
-    {
+    if( t_person && t_person->getExist() ){
         s32 t_singleface_ptnum = 106;
         memset(m_faceDateExt, 0, sizeof(f32) * MAX_FACEPOINTS_NUM);
         memcpy(m_faceDateExt, t_person->getFaceData(), 2 * t_singleface_ptnum * sizeof(f32));
@@ -140,6 +139,15 @@ void SV2DFaceMaskSTNode::render(){
     if (m_renderObject ) {
         m_renderObject->pushCmd(t_rs, RST_MASK2D, "SV2DFaceMaskSTNode");
     }
+}
+
+//序列化接口
+void SV2DFaceMaskSTNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue) {
+    
+}
+
+void SV2DFaceMaskSTNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
+    
 }
 
 //=====================
@@ -199,8 +207,6 @@ void SVSTPointExt::st_foreHeadPointExtWithFaceLandMark(f32 *faceLandMark, s32 &m
     }
 }
 
-
-
 void SVSTPointExt::st_lipsPointExtWithFaceLandMark(f32 *faceLandMark, s32 &markIndex) {
     V2 t_toptip_bottom_originPoint[8];
     s32 j = 0;
@@ -254,14 +260,14 @@ void SVSTPointExt::st_lipsPointExtWithFaceLandMark(f32 *faceLandMark, s32 &markI
 
 void SVSTPointExt::st_faceOutlinePointExtWithFaceLandMark(f32 *faceLandMark, s32 &markIndex) {
     
-    float t_nose_tip_x = faceLandMark[2 * 46];
-    float t_nose_tip_y = faceLandMark[2 * 46 + 1];
-    for (int i = 0; i < 33; i++) {
-        float t_x = faceLandMark[2 * i];
-        float t_y = faceLandMark[2 * i + 1];
-        float t_p_x = t_x - t_nose_tip_x;
-        float t_p_y = t_y - t_nose_tip_y;
-        float p = SVMathHelper::vec2Length(t_p_x, t_p_y, 0, 0);
+    f32 t_nose_tip_x = faceLandMark[2 * 46];
+    f32 t_nose_tip_y = faceLandMark[2 * 46 + 1];
+    for (s32 i = 0; i < 33; i++) {
+        f32 t_x = faceLandMark[2 * i];
+        f32 t_y = faceLandMark[2 * i + 1];
+        f32 t_p_x = t_x - t_nose_tip_x;
+        f32 t_p_y = t_y - t_nose_tip_y;
+        f32 p = SVMathHelper::vec2Length(t_p_x, t_p_y, 0, 0);
         V2 t_v1;
         t_v1.x = t_p_x;
         t_v1.y = t_p_y;
@@ -269,11 +275,11 @@ void SVSTPointExt::st_faceOutlinePointExtWithFaceLandMark(f32 *faceLandMark, s32
         V2 t_v2;
         t_v2.x = 0;
         t_v2.y = 0;
-        float r = SVMathHelper::atan2fV2(t_v1, t_v2);
+        f32 r = SVMathHelper::atan2fV2(t_v1, t_v2);
         //
-        float x = 1.3 * p * cosf(r);
-        float y = 1.3 * p * sinf(r);
-        int index = markIndex * 2;
+        f32 x = 1.3 * p * cosf(r);
+        f32 y = 1.3 * p * sinf(r);
+        s32 index = markIndex * 2;
         faceLandMark[index] = x + t_nose_tip_x;
         faceLandMark[index + 1] = y + t_nose_tip_y;
         markIndex++;

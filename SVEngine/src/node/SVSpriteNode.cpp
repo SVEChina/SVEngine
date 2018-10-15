@@ -25,6 +25,7 @@ SVSpriteNode::SVSpriteNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVSpriteNode";
     m_inTexType = E_TEX_END;
+    m_pTexName = "default";
     m_rsType = RST_ANIMATE;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_canSelect = false;
@@ -71,13 +72,9 @@ void SVSpriteNode::setMaterial(SVMtlCorePtr _mtl){
 }
 
 void SVSpriteNode::setTexture(cptr8 _path){
-    if (m_pTex) {
-        if (strcmp(m_pTex->getname(), _path) != 0) {
-            m_pTex = nullptr;
-        }
-    }
-    if (m_pTex == nullptr) {
-        m_pTex = mApp->getTexMgr()->getTextureSync(_path,true);
+    if(m_pTexName!=_path) {
+        m_pTexName = _path;
+        m_pTex = mApp->getTexMgr()->getTextureSync(m_pTexName.c_str(),true);     
     }
 }
 
@@ -85,11 +82,7 @@ cptr8 SVSpriteNode::getTexturePath(){
     if (m_pTex) {
         return m_pTex->getname();
     }
-    return "";
-}
-
-void SVSpriteNode::setTexture(SVTexturePtr _tex){
-    m_pTex = _tex;
+    return m_pTexName.c_str();
 }
 
 void SVSpriteNode::setTexture(SVTEXTYPE _textype){

@@ -583,11 +583,10 @@ void SVDataNodeBackGround::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
 
 SVNodePtr SVDataNodeBackGround::toNode(){
     if(!m_spritePtr){
-     m_spritePtr = MakeSharedPtr<SVBackGroundNode>(mApp);
-    _toNodeData(m_spritePtr);
-    SVString t_resPath = m_root_path +  m_file_name;
-    SVTexturePtr t_tex = mApp->getTexMgr()->getTextureSync(t_resPath,true);
-    m_spritePtr->setTexture(t_tex);
+        m_spritePtr = MakeSharedPtr<SVBackGroundNode>(mApp);
+        _toNodeData(m_spritePtr);
+        SVString t_resPath = m_root_path +  m_file_name;
+        m_spritePtr->setTexture(t_resPath.c_str());
     }
     return m_spritePtr;
 }

@@ -28,8 +28,6 @@ namespace sv {
             
             void setTexture(cptr8 _path);
             
-            void setTexture(SVTexturePtr _tex);
-            
             void setTexture(SVTEXTYPE _textype);
             
             SVTexturePtr getOutTex();

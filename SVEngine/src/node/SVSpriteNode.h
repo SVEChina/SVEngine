@@ -40,8 +40,6 @@ namespace sv {
             
             virtual void setTexture(cptr8 _path);
             
-            virtual void setTexture(SVTexturePtr _tex);
-            
             virtual void setTexture(SVTEXTYPE _textype);
             
             void setMesh(SVRenderMeshPtr _mesh);
@@ -53,6 +51,7 @@ namespace sv {
             f32 m_texcoordY;
             SVString m_pTexName;
             SVTEXTYPE m_inTexType;
+            //运行时属性
             SVTexturePtr m_pTex;
             SVRenderMeshPtr m_pMesh;
             SVRenderObjectPtr m_pRenderObj;

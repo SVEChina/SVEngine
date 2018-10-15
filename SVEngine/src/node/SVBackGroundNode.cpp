@@ -94,21 +94,15 @@ void SVBackGroundNode::render(){
 }
 
 void SVBackGroundNode::setTexture(cptr8 _path) {
-    SV_LOG_INFO("no support set texture by path in SVBackGroundNode!");
-    return ;
-}
-
-void SVBackGroundNode::setTexture(SVTEXTYPE _textype) {
-    SVSpriteNode::setTexture(_textype);
-    //重新创建一下纹理
+    SVSpriteNode::setTexture(_path);
     if( isDeform() ) {
         disableDeform();
         enableDeform(m_useTexType);
     }
 }
 
-void SVBackGroundNode::setTexture(SVTexturePtr _tex){
-    SVSpriteNode::setTexture(_tex);
+void SVBackGroundNode::setTexture(SVTEXTYPE _textype) {
+    SVSpriteNode::setTexture(_textype);
     //重新创建一下纹理
     if( isDeform() ) {
         disableDeform();
