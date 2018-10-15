@@ -32,18 +32,7 @@ SVRenderMgr::~SVRenderMgr() {
 }
 
 void SVRenderMgr::init() {
-    //添加默认矩阵到矩阵栈
-    FMat4 t_defVMat;
-    t_defVMat.setIdentity();
-    m_stack_view.push(t_defVMat);
-    //
-    FMat4 t_defPMat;
-    t_defPMat.setIdentity();
-    m_stack_proj.push(t_defPMat);
-    //
-    FMat4 t_defVPMat;
-    t_defVPMat.setIdentity();
-    m_stack_vp.push(t_defVPMat);
+ 
 }
 
 void SVRenderMgr::destroy() {
@@ -129,6 +118,7 @@ void SVRenderMgr::render(){
     if(m_pRenderer && m_pRenderScene ){
         SVContextBasePtr t_context = m_pRenderer->getRenderContext();
         if( t_context && t_context->activeContext() ){
+            _pushMatStack();
             SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
             if( t_context->activeRenderTarget( t_rt ) ){
                 m_pRenderScene->render();
@@ -136,6 +126,7 @@ void SVRenderMgr::render(){
                 t_context->swapRenderTarget( t_rt );   //交换场景
             }
             m_pRenderer->removeUnuseRes();  //资源释放
+            _clearMatStack();
         }
     }
     m_renderLock->unlock();
@@ -166,11 +157,9 @@ void SVRenderMgr::recycleRes() {
 }
 
 void SVRenderMgr::refreshDefMat(FMat4 _viewMat, FMat4 _projMat, FMat4 _vpMat){
-    if ((m_stack_view.size() > 0) && (m_stack_proj.size() > 0) && (m_stack_vp.size() > 0)) {
-        m_stack_view.get(0).set(_viewMat.get());
-        m_stack_proj.get(0).set(_projMat.get());
-        m_stack_vp.get(0).set(_vpMat.get());
-    }
+    m_viewMat = _vpMat;
+    m_projMat = _projMat;
+    m_vpMat = _vpMat;
 }
 
 void SVRenderMgr::pushProjMat(FMat4 _mat){
@@ -207,4 +196,16 @@ FMat4 SVRenderMgr::getVPMat(){
 }
 void SVRenderMgr::popVPMat(){
     m_stack_vp.pop();
+}
+
+void SVRenderMgr::_clearMatStack(){
+    m_stack_proj.clear();
+    m_stack_view.clear();
+    m_stack_vp.clear();
+}
+
+void SVRenderMgr::_pushMatStack(){
+    pushProjMat(m_projMat);
+    pushViewMat(m_viewMat);
+    pushVPMat(m_vpMat);
 }
