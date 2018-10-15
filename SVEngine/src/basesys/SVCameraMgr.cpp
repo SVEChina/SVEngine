@@ -36,7 +36,7 @@ void SVCameraMgr::destroy() {
 void SVCameraMgr::update(f32 dt) {
     if(m_mainCamera){
         m_mainCamera->update(dt);
-        //
+        // 
         SVRendererBasePtr t_renderer = mApp->getRenderer();
         if(t_renderer && t_renderer->getRenderTexture() ) {
             m_mainCamera->addLinkFboObject( t_renderer->getRenderTexture() );

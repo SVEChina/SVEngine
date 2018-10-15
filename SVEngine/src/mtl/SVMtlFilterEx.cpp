@@ -102,10 +102,42 @@ void SVMtlVibrance::_submitMtl(SVRendererBasePtr _render) {
     _render->submitUniformf("vibrance", m_vibrance);
 }
 
+SVMtlShadowHighlight::SVMtlShadowHighlight(SVInst *_app)
+:SVMtlCore(_app,"shadowhighlight") {
+    m_shadow=0.0;
+    m_HighLight=0.0;
+}
+
+SVMtlShadowHighlight::SVMtlShadowHighlight(SVMtlShadowHighlight* _mtl)
+:SVMtlCore(_mtl){
+    
+}
+
+SVMtlShadowHighlight::~SVMtlShadowHighlight(){
+    
+}
+
+SVMtlCorePtr SVMtlShadowHighlight::clone(){
+    return PointerSharedPtr<SVMtlShadowHighlight>(new SVMtlShadowHighlight(this));
+}
+
+void SVMtlShadowHighlight::_submitMtl(SVRendererBasePtr _render){
+    SVMtlCore::_submitMtl(_render);
+    _render->submitUniformf("shadows", m_shadow);
+    _render->submitUniformf("highlights", m_HighLight);
+}
 
 SVMtlColorBalance::SVMtlColorBalance(SVInst *_app)
-:SVMtlCore(_app,"vibrance"){
-    
+:SVMtlCore(_app,"colorBalance"){
+    m_redShift      = 0.0f;
+    m_greenShift    = 0.0f;
+    m_blueShift     = 0.0f;
+    m_sdredShift    = 0.0f;
+    m_sdgreenShift  = 0.0f;
+    m_sdblueShift   = 0.0f;
+    m_hhredShift    = 0.0f;
+    m_hhgreenShift  = 0.0f;
+    m_hhblueShift   = 0.0f;
 }
     
 SVMtlColorBalance::SVMtlColorBalance(SVMtlColorBalance* _mtl)
@@ -114,7 +146,15 @@ SVMtlColorBalance::SVMtlColorBalance(SVMtlColorBalance* _mtl)
 }
     
 SVMtlColorBalance::~SVMtlColorBalance(){
-    
+    m_redShift      = 0.0f;
+    m_greenShift    = 0.0f;
+    m_blueShift     = 0.0f;
+    m_sdredShift    = 0.0f;
+    m_sdgreenShift  = 0.0f;
+    m_sdblueShift   = 0.0f;
+    m_hhredShift    = 0.0f;
+    m_hhgreenShift  = 0.0f;
+    m_hhblueShift   = 0.0f;
 }
     
 SVMtlCorePtr SVMtlColorBalance::clone(){
@@ -122,7 +162,16 @@ SVMtlCorePtr SVMtlColorBalance::clone(){
 }
 
 void SVMtlColorBalance::_submitMtl(SVRendererBasePtr _render){
-    
+     SVMtlCore::_submitMtl(_render);
+    _render->submitUniformf("redShift", m_redShift);
+    _render->submitUniformf("greenShift", m_greenShift);
+    _render->submitUniformf("blueShift", m_blueShift);
+    _render->submitUniformf("sdredShift", m_sdredShift);
+    _render->submitUniformf("sdgreenShift", m_sdgreenShift);
+    _render->submitUniformf("sdblueShift", m_sdblueShift);
+    _render->submitUniformf("hhredShift", m_hhredShift);
+    _render->submitUniformf("hhgreenShift", m_hhgreenShift);
+    _render->submitUniformf("hhblueShift", m_hhblueShift);
 }
 
 

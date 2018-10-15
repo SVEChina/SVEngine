@@ -23,14 +23,12 @@ SVFilterLookUpTableAdjust::SVFilterLookUpTableAdjust(SVInst *_app)
     m_name="SVFilterLookUpTableAdjust";
     m_BCMtl=nullptr;//brightness contrast
     m_SaturationMtl=nullptr;
-    m_passSaturation=nullptr;
+    m_colorBalanceMtl=nullptr;
     m_VibranceMtl=nullptr;
     m_hslMtl=nullptr;
-    m_passVibrance=nullptr;
-    m_passBC=nullptr;
-    m_passBack=nullptr;
-    outTex=nullptr;
-    inTex=nullptr;
+    m_shadowHighlightMtl=nullptr;
+    m_outTex=nullptr;
+
     m_saturation=0.0f;
     m_brightness=0.0f;
     m_contrast=0.0f;
@@ -59,6 +57,16 @@ SVFilterLookUpTableAdjust::SVFilterLookUpTableAdjust(SVInst *_app)
     m_HSLSaturationCyan=1.0f;
     m_HSLLightnessCyan=1.0f;
     m_HSLHueCyan=0.0f;
+    
+    m_redShift=0.0f;
+    m_greenShift=0.0f;
+    m_blueShift=0.0f;
+    m_sdredShift=0.0f;
+    m_sdgreenShift=0.0f;
+    m_sdblueShift=0.0f;
+    m_hhredShift=0.0f;
+    m_hhgreenShift=0.0f;
+    m_hhblueShift=0.0f;
 }
 
 SVFilterLookUpTableAdjust::~SVFilterLookUpTableAdjust(){
@@ -70,8 +78,8 @@ bool SVFilterLookUpTableAdjust::create(){
     if(!t_renderer)
         return false;
    
-    inTex= mApp->getTexMgr()->getTextureSync("svres/lookup.png", true);
-    outTex=mApp->getTexMgr()->createUnctrlTexture(inTex->getwidth(), inTex->getheight(), GL_RGBA,  GL_RGBA);
+    SVTexturePtr inTex= mApp->getTexMgr()->getTextureSync("svres/lookup.png", true);
+    m_outTex=mApp->getTexMgr()->createUnctrlTexture(inTex->getwidth(), inTex->getheight(), GL_RGBA,  GL_RGBA);
     SVTexturePtr tex01=mApp->getTexMgr()->createUnctrlTexture(inTex->getwidth(), inTex->getheight(), GL_RGBA,  GL_RGBA);
     SVTexturePtr tex02=mApp->getTexMgr()->createUnctrlTexture(inTex->getwidth(), inTex->getheight(), GL_RGBA,  GL_RGBA);
     //增加pass
@@ -92,51 +100,68 @@ bool SVFilterLookUpTableAdjust::create(){
     m_VibranceMtl=MakeSharedPtr<SVMtlVibrance>(mApp);
     m_VibranceMtl->setTexcoordFlip(1.0f, 1.0f);
     
+    m_colorBalanceMtl=MakeSharedPtr<SVMtlColorBalance>(mApp);
+    m_colorBalanceMtl->setTexcoordFlip(1.0f, 1.0f);
+    
     m_hslMtl=MakeSharedPtr<SVMtlHSL>(mApp);
     m_hslMtl->setTexcoordFlip(1.0, 1.0);
+    
+    m_shadowHighlightMtl=MakeSharedPtr<SVMtlShadowHighlight>(mApp);
+    m_shadowHighlightMtl->setTexcoordFlip(1.0, 1.0);
    
-    m_passBC    = MakeSharedPtr<SVPass>();
-    m_passBC->setMtl(m_BCMtl);
-    m_passBC->setInTex(0,inTex);
-    m_passBC->setOutTex(tex01);
+    SVPassPtr m_pass = MakeSharedPtr<SVPass>();
+    m_pass->setMtl(m_BCMtl);
+    m_pass->setInTex(0,inTex);
+    m_pass->setOutTex(tex01);
+    m_pPassNode->addPass(m_pass);
     
-    m_passSaturation=MakeSharedPtr<SVPass>();
-    m_passSaturation->setMtl(m_SaturationMtl);
-    m_passSaturation->setInTex(0,tex01);
-    m_passSaturation->setOutTex(tex02);
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(m_SaturationMtl);
+    m_pass->setInTex(0,tex01);
+    m_pass->setOutTex(tex02);
+    m_pPassNode->addPass(m_pass);
+   
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(m_VibranceMtl);
+    m_pass->setInTex(0,tex02);
+    m_pass->setOutTex(tex01);
+    m_pPassNode->addPass(m_pass);
+    
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(m_hslMtl);
+    m_pass->setInTex(0, tex01);
+    m_pass->setOutTex(tex02);
+    m_pPassNode->addPass(m_pass);
+    
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(m_colorBalanceMtl);
+    m_pass->setInTex(0, tex02);
+    m_pass->setOutTex(tex01);
+    m_pPassNode->addPass(m_pass);
+    
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(m_shadowHighlightMtl);
+    m_pass->setInTex(0, tex01);
+    m_pass->setOutTex(tex02);
+    m_pPassNode->addPass(m_pass);
+    
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(t_mtl_back);
+    m_pass->setInTex(0,tex02);
+    m_pass->setOutTex(m_outTex);
+    m_pPassNode->addPass(m_pass);
 
-    m_passVibrance=MakeSharedPtr<SVPass>();
-    m_passVibrance->setMtl(m_VibranceMtl);
-    m_passVibrance->setInTex(0,tex02);
-    m_passVibrance->setOutTex(tex01);
-    
-    m_passHSL=MakeSharedPtr<SVPass>();
-    m_passHSL->setMtl(m_hslMtl);
-    m_passHSL->setInTex(0, tex01);
-    m_passHSL->setOutTex(tex02);
-    
-    m_passBack=MakeSharedPtr<SVPass>();
-    m_passBack->setMtl(t_mtl_back);
-    m_passBack->setInTex(0,tex02);
-    m_passBack->setOutTex(outTex);
-    
-    m_pPassNode->addPass(m_passBC);
-    m_pPassNode->addPass(m_passSaturation);
-    m_pPassNode->addPass(m_passVibrance);
-    m_pPassNode->addPass(m_passHSL);
-    m_pPassNode->addPass(m_passBack);
-    
     return true;
 }
 
 void SVFilterLookUpTableAdjust::destroy(){
     m_BCMtl=nullptr;//brightness contrast
     m_SaturationMtl=nullptr;
-    m_passSaturation=nullptr;
-    m_passBC=nullptr;
-    m_passBack=nullptr;
-    outTex=nullptr;
-    inTex=nullptr;
+    m_colorBalanceMtl=nullptr;
+    m_VibranceMtl=nullptr;
+    m_hslMtl=nullptr;
+    m_outTex=nullptr;
+
     m_saturation=0.0f;
     m_brightness=0.0f;
     m_contrast=0.0f;
@@ -165,6 +190,19 @@ void SVFilterLookUpTableAdjust::destroy(){
     m_HSLSaturationCyan=0.0f;
     m_HSLLightnessCyan=0.0f;
     m_HSLHueCyan=0.0f;
+    
+    m_redShift=0.0f;
+    m_greenShift=0.0f;
+    m_blueShift=0.0f;
+    m_sdredShift=0.0f;
+    m_sdgreenShift=0.0f;
+    m_sdblueShift=0.0f;
+    m_hhredShift=0.0f;
+    m_hhgreenShift=0.0f;
+    m_hhblueShift=0.0f;
+    
+    m_shadow=0.0;
+    m_Highlight=0.0;
 }
 
 void SVFilterLookUpTableAdjust::update(f32 dt){
@@ -196,5 +234,18 @@ void SVFilterLookUpTableAdjust::update(f32 dt){
     m_hslMtl->setSaturationCyan(m_HSLSaturationCyan);
     m_hslMtl->setHueCyan(m_HSLHueCyan);
     m_hslMtl->setLightnessCyan(m_HSLLightnessCyan);
+    
+    m_colorBalanceMtl->setRedShift(m_redShift);
+    m_colorBalanceMtl->setGreenShift(m_greenShift);
+    m_colorBalanceMtl->setBlueShift(m_blueShift);
+    m_colorBalanceMtl->setSDRedShift(m_sdredShift);
+    m_colorBalanceMtl->setSDGreenShift(m_sdgreenShift);
+    m_colorBalanceMtl->setSDBlueShift(m_sdblueShift);
+    m_colorBalanceMtl->setHHRedShift(m_hhredShift);
+    m_colorBalanceMtl->setHHGreenShift(m_hhgreenShift);
+    m_colorBalanceMtl->setHHBlueShift(m_hhblueShift);
+    
+    m_shadowHighlightMtl->setShadow(m_shadow);
+    m_shadowHighlightMtl->setHighlight(m_Highlight);
     
 }

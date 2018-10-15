@@ -72,6 +72,32 @@ namespace sv {
             f32 m_vibrance;
         };
         
+        class SVMtlShadowHighlight : public SVMtlCore  {
+        public:
+            SVMtlShadowHighlight(SVInst *_app);
+            
+            SVMtlShadowHighlight(SVMtlShadowHighlight* _mtl);
+            
+            ~SVMtlShadowHighlight();
+            
+            virtual SVMtlCorePtr clone();
+            
+            void setShadow(f32 _smooth){
+                m_shadow=_smooth;
+            }
+            
+            void setHighlight(f32 _smooth){
+                m_HighLight=_smooth;
+            }
+            
+        protected:
+            virtual void _submitMtl(SVRendererBasePtr _render);
+            //
+            f32 m_shadow;
+            f32 m_HighLight;
+            
+        };
+        
         class SVMtlColorBalance: public SVMtlCore  {
         public:
             SVMtlColorBalance(SVInst *_app);
@@ -80,10 +106,47 @@ namespace sv {
             
             ~SVMtlColorBalance();
             
+            inline void setRedShift(f32 _redShift){
+                m_redShift=_redShift;
+            }
+            inline void setBlueShift(f32 _blueShift){
+                m_blueShift=_blueShift;
+            }
+            inline void setGreenShift(f32 _greenShift){
+                m_greenShift=_greenShift;
+            }
+            inline void setSDRedShift(f32 _sdredShift){
+                m_sdredShift=_sdredShift;
+            }
+            inline void setSDGreenShift(f32 _sdgreenShift){
+                m_sdgreenShift=_sdgreenShift;
+            }
+            inline void setSDBlueShift(f32 _sdblueShift){
+                m_sdblueShift=_sdblueShift;
+            }
+            inline void setHHRedShift(f32 _hhredShift){
+                m_hhredShift=_hhredShift;
+            }
+            inline void setHHGreenShift(f32 _hhgreenShift){
+                m_hhgreenShift=_hhgreenShift;
+            }
+            inline void setHHBlueShift(f32 _hhblueShift){
+                m_hhblueShift=_hhblueShift;
+            }
+            
             virtual SVMtlCorePtr clone();
             
         protected:
             virtual void _submitMtl(SVRendererBasePtr _render);
+            f32 m_redShift;
+            f32 m_greenShift;
+            f32 m_blueShift;
+            f32 m_sdredShift;
+            f32 m_sdgreenShift;
+            f32 m_sdblueShift;
+            f32 m_hhredShift;
+            f32 m_hhgreenShift;
+            f32 m_hhblueShift;
         };
         
         
