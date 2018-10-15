@@ -10,7 +10,7 @@
 
 #include "SVNode.h"
 
-class spAttachment;
+struct spAttachment;
 struct spSlot;
 struct spBone;
 

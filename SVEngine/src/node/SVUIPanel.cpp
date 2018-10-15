@@ -8,19 +8,22 @@
 #include "SVUIPanel.h"
 #include "../act/SVMovie.h"
 #include "../act/SVDragma.h"
-#include "../act/SVKeyFrame.h"
+#include "../rendercore/SVRenderScene.h"
+#include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/SVRenderMesh.h"
 #include "../rendercore/SVRenderObject.h"
+
 
 //
 SVUIPanel::SVUIPanel(SVInst *_app)
-:SVSpriteNode(_app) {
+:SVNode(_app) {
     ntype = "SVUIPanel";
     m_rsType = RST_UI;
     m_width = 100;
     m_height = 100;
     m_archo = E_ARCHO_CC;
     //
-    m_pRenderObj = MakeSharedPtr<SVRenderObject>(mApp);
+    m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pMesh = nullptr;
     m_dirty = true;
 }
@@ -67,7 +70,7 @@ void SVUIPanel::_computeRect() {
         t_off.set(-0.5f*m_width, 0.5f*m_height);
     }
     //
-    SVDataSwapPtr t_dataswap = MakeSharedPtr<SVDataSwap>(mApp);
+    SVDataSwapPtr t_dataswap = MakeSharedPtr<SVDataSwap>();
     //渲染数据
     V2_T0 VerData[6];
     VerData[0].t0x = 0.0f;

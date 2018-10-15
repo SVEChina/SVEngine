@@ -47,11 +47,11 @@ void SVUIMovieNode::_renderMoview() {
     
 }
 
-void VUIMovieNode::_renderMovieHead() {
+void SVUIMovieNode::_renderMovieHead() {
     
 }
 
-void VUIMovieNode::_renderMovieBody() {
+void SVUIMovieNode::_renderMovieBody() {
     
 }
 

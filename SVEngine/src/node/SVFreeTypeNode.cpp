@@ -22,6 +22,7 @@
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtlCore.h"
 #include "../rendercore/SVRenderObject.h"
+#include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderMesh.h"
 
 SVFreeTypeNode::SVFreeTypeNode(SVInst *_app)

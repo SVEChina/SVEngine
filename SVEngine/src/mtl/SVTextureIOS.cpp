@@ -18,7 +18,7 @@ SVTextureIOS::~SVTextureIOS() {
     
 }
 
-void SVTextureIOS::init(cptr8 _name, s32 _type, s32 _width, s32 _height, s32 _informate, s32 _dateformate){
+void SVTextureIOS::init(cptr8 _name, s32 _type, s32 _width, s32 _height, s32 _informate, s32 _dateformate, bool _enableMipMap){
     m_name = _name;
     m_width = _width;
     m_height = _height;

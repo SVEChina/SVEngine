@@ -10,33 +10,33 @@
 #include "SVNode.h"
 
 namespace sv {
-    
+
     namespace node{
-        
+
         class SVUIPanel : public SVNode {
         public:
             SVUIPanel(SVInst *_app);
-            
+
             ~SVUIPanel();
-            
+
             void setSize(f32 _w,f32 _h);
-            
+
             void update(f32 dt);
-            
+
             void render();
-            
+
             void setArcho(EUIARCHO _archo);
-            
+
             EUIARCHO getArcho();
-            
+
         protected:
             void _computeRect();
-            
+
             f32 m_width;
             f32 m_height;
-            
+
             EUIARCHO m_archo;
-            
+
             bool m_dirty;
             SVRenderMeshPtr m_pMesh;
             SVRenderObjectPtr m_pRenderObj;

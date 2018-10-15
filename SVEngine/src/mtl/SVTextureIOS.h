@@ -27,7 +27,7 @@ namespace sv {
             
             ~SVTextureIOS();
             
-            virtual void init(cptr8 _name, s32 _type, s32 _width, s32 _height, s32 _informate, s32 _dateformate);
+            virtual void init(cptr8 _name, s32 _type, s32 _width, s32 _height, s32 _informate, s32 _dateformate, bool _enableMipMap = false);
             
             virtual void create(SVRendererBasePtr _renderer);
             
