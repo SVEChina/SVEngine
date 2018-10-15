@@ -137,9 +137,9 @@ bool SVBackGroundNode::enableDeform(SVTEXTYPE _textype) {
             }
             SVTexturePtr m_texout =
             mApp->getRenderer()->createSVTex(_textype,
-                                                             m_pTex->getwidth(),
-                                                             m_pTex->getheight(),
-                                                             GL_RGBA);
+                                             m_pTex->getwidth(),
+                                             m_pTex->getheight(),
+                                             GL_RGBA);
             m_pDeform->init(m_pTex,m_texout);
             m_useTexType = _textype;
             return true;
@@ -152,9 +152,9 @@ bool SVBackGroundNode::enableDeform(SVTEXTYPE _textype) {
             }
             SVTexturePtr m_texout =
             mApp->getRenderer()->createSVTex(_textype,
-                                                             t_innerTex->getwidth(),
-                                                             t_innerTex->getheight(),
-                                                             GL_RGBA);
+                                             t_innerTex->getwidth(),
+                                             t_innerTex->getheight(),
+                                             GL_RGBA);
             m_pDeform->init(t_innerTex,m_texout);
             m_useTexType = _textype;
             return true;
@@ -176,4 +176,54 @@ bool SVBackGroundNode::isDeform() {
         return true;
     }
     return false;
+}
+
+//序列化
+void SVBackGroundNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    _toJsonData(_allocator, locationObj);
+    //sprite的属性 文件名 宽 高 纹理类型
+    locationObj.AddMember("file", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
+    locationObj.AddMember("spriteW", m_width, _allocator);
+    locationObj.AddMember("spriteH", m_height, _allocator);
+    locationObj.AddMember("textype", s32(m_inTexType), _allocator);
+    locationObj.AddMember("useTextype", s32(m_useTexType), _allocator);
+    //是否开了形变算法
+    bool t_hasDeform = isDeform();
+    locationObj.AddMember("hasDeform", t_hasDeform, _allocator);
+    if(t_hasDeform){
+        m_pDeform->toJSON(_allocator, locationObj);
+    }
+    _objValue.AddMember("SVBackGroundNode", locationObj, _allocator);
+}
+
+void SVBackGroundNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    _fromJsonData(item);
+    if (item.HasMember("file") && item["file"].IsString()) {
+        m_pTexName = item["file"].GetString();
+    }
+    if (item.HasMember("spriteW") && item["spriteW"].IsInt()) {
+        m_width = item["spriteW"].GetInt();
+    }
+    if (item.HasMember("spriteH") && item["spriteH"].IsInt()) {
+        m_height = item["spriteH"].GetInt();
+    }
+    if (item.HasMember("textype") && item["textype"].IsInt()) {
+        m_inTexType = SVTEXTYPE(item["textype"].GetInt());
+    }
+    if (item.HasMember("useTextype") && item["useTextype"].IsInt()) {
+        m_useTexType = SVTEXTYPE(item["useTextype"].GetInt());
+    }
+    //
+    bool t_hasDeform = false;
+    if (item.HasMember("hasDeform") && item["hasDeform"].IsBool()) {
+        t_hasDeform = item["hasDeform"].GetBool();
+    }
+    if(t_hasDeform){
+        if(m_pDeform){
+            disableDeform();
+        }
+        m_pDeform = MakeSharedPtr<SVDeformImageMove>(mApp);
+        m_pDeform->fromJSON(item);
+    }
 }

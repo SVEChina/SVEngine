@@ -47,6 +47,12 @@ namespace sv {
         protected:
             SVTEXTYPE m_useTexType;
             SVDeformImageMovePtr m_pDeform;
+            
+        public:
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
         
     }//!namespace node

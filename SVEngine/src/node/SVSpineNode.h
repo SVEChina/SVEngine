@@ -113,6 +113,7 @@ namespace sv {
             
             bool m_loop;
             
+        public:
             //序列化接口
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             

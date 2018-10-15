@@ -393,8 +393,8 @@ void SVSpineNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
         SVString t_json = m_spine->m_spine_json;
         locationObj.AddMember("ske_atlas", RAPIDJSON_NAMESPACE::StringRef(t_atlas.c_str()), _allocator);
         locationObj.AddMember("ske_json", RAPIDJSON_NAMESPACE::StringRef(t_json.c_str()), _allocator);
-        _objValue.AddMember("SVSpineNode", locationObj, _allocator);
     }
+    _objValue.AddMember("SVSpineNode", locationObj, _allocator);
 }
 
 void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
