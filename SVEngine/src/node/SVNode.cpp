@@ -25,7 +25,6 @@ SVNode::SVNode(SVInst *_app)
     uid = mApp->m_IDPool.applyUID();
     m_name = "";
     m_rsType = RST_DEBUG;
-    m_isUI = false;
     m_canSelect = false;
     m_beSelect = false;
     m_canProcEvent = false;
@@ -365,6 +364,107 @@ void SVNode::setZOrder(s32 _zorder){
 }
 
 void SVNode::setAlpha(f32 _alpha){
-    
 }
 
+//序列化接口
+void SVNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                    RAPIDJSON_NAMESPACE::Value &_objValue){
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    _toJsonData(_allocator, locationObj);
+    _objValue.AddMember("SVNode", locationObj, _allocator);
+}
+
+void SVNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    _fromJsonData(item);
+}
+
+void SVNode::_toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                             RAPIDJSON_NAMESPACE::Value &locationObj){
+    locationObj.AddMember("name",  RAPIDJSON_NAMESPACE::StringRef(m_name.c_str()), _allocator);
+    locationObj.AddMember("posX", m_postion.x, _allocator);
+    locationObj.AddMember("posY", m_postion.y, _allocator);
+    locationObj.AddMember("posZ", m_postion.z, _allocator);
+    locationObj.AddMember("rotX", m_rotation.x, _allocator);
+    locationObj.AddMember("rotY", m_rotation.y, _allocator);
+    locationObj.AddMember("rotZ", m_rotation.z, _allocator);
+    locationObj.AddMember("scaleX", m_scale.x, _allocator);
+    locationObj.AddMember("scaleY", m_scale.y, _allocator);
+    locationObj.AddMember("scaleZ", m_scale.z, _allocator);
+    locationObj.AddMember("offsetX", m_offpos.x, _allocator);
+    locationObj.AddMember("offsetY", m_offpos.y, _allocator);
+    //
+    locationObj.AddMember("zorder", m_iZOrder, _allocator);
+    locationObj.AddMember("renderstream", (s32)m_rsType, _allocator);
+    locationObj.AddMember("bind", m_bindIndex, _allocator);
+    locationObj.AddMember("person", m_personID, _allocator);
+    //
+    locationObj.AddMember("canselect", m_canSelect, _allocator);
+    locationObj.AddMember("drawaabb", m_drawBox, _allocator);
+    locationObj.AddMember("canprocevent", m_canProcEvent, _allocator);
+    locationObj.AddMember("visible", m_visible, _allocator);
+}
+
+void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
+    if (item.HasMember("name") && item["name"].IsString()) {
+        m_name = item["name"].GetString();
+    }
+    if (item.HasMember("posX") && item["posX"].IsFloat()) {
+        m_postion.x = item["posX"].GetFloat();
+    }
+    if (item.HasMember("posY") && item["posY"].IsFloat()) {
+        m_postion.y = item["posY"].GetFloat();
+    }
+    if (item.HasMember("posZ") && item["posZ"].IsFloat()) {
+        m_postion.z = item["posZ"].GetFloat();
+    }
+    if (item.HasMember("rotX") && item["rotX"].IsFloat()) {
+        m_rotation.x = item["rotX"].GetFloat();
+    }
+    if (item.HasMember("rotY") && item["rotY"].IsFloat()) {
+        m_rotation.y  = item["rotY"].GetFloat();
+    }
+    if (item.HasMember("rotZ") && item["rotZ"].IsFloat()) {
+        m_rotation.z = item["rotZ"].GetFloat();
+    }
+    if (item.HasMember("scaleX") && item["scaleX"].IsFloat()) {
+        m_scale.x = item["scaleX"].GetFloat();
+    }
+    if (item.HasMember("scaleY") && item["scaleY"].IsFloat()) {
+        m_scale.y = item["scaleY"].GetFloat();
+    }
+    if (item.HasMember("scaleZ") && item["scaleZ"].IsFloat()) {
+        m_scale.z = item["scaleZ"].GetFloat();
+    }
+    if (item.HasMember("offsetX") && item["offsetX"].IsFloat()) {
+        m_offpos.x = item["offsetX"].GetFloat();
+    }
+    if (item.HasMember("offsetY") && item["offsetY"].IsFloat()) {
+        m_offpos.y = item["offsetY"].GetFloat();
+    }
+    //
+    if (item.HasMember("zorder") && item["zorder"].IsInt()) {
+        m_iZOrder = item["zorder"].GetInt();
+    }
+    if (item.HasMember("renderstream") && item["renderstream"].IsInt()) {
+        m_rsType = (RENDERSTREAMTYPE)item["renderstream"].GetInt();
+    }
+    if (item.HasMember("bind") && item["bind"].IsInt()) {
+        m_bindIndex  = item["bind"].GetInt();
+    }
+    if (item.HasMember("person") && item["person"].IsInt()) {
+        m_personID  = item["person"].GetInt();
+    }
+    //
+    if (item.HasMember("canselect") && item["canselect"].IsBool()) {
+        m_canSelect = item["canselect"].GetBool();
+    }
+    if (item.HasMember("drawaabb") && item["drawaabb"].IsBool()) {
+        m_drawBox = item["drawaabb"].GetBool();
+    }
+    if (item.HasMember("canprocevent") && item["canprocevent"].IsBool()) {
+        m_canProcEvent = item["canprocevent"].GetBool();
+    }
+    if (item.HasMember("visible") && item["visible"].IsBool()) {
+        m_visible = item["visible"].GetBool();
+    }
+}

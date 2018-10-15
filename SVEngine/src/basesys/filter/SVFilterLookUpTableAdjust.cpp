@@ -74,7 +74,7 @@ SVFilterLookUpTableAdjust::~SVFilterLookUpTableAdjust(){
 }
 
 bool SVFilterLookUpTableAdjust::create(){
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
    

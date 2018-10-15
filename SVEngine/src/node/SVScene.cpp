@@ -254,7 +254,7 @@ void SVScene::update(f32 dt) {
         m_pSceneTree->update(dt);
     }
     //
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
     if( t_renderer && t_renderer->hasSVTex(E_TEX_MAIN) ){
         if (m_pRenderScene && false == m_pRenderScene->isSuspend() ) {
             SVRenderCmdFboBindPtr t_fbo_bind = MakeSharedPtr<SVRenderCmdFboBind>(t_renderer->getRenderTexture());

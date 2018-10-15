@@ -28,7 +28,7 @@ SVRGBToneCurveFilter::~SVRGBToneCurveFilter(){
 }
 
 bool SVRGBToneCurveFilter::create() {
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
     s32 t_w =  mApp->m_pGlobalParam->m_inner_width;

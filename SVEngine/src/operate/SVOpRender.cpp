@@ -102,7 +102,7 @@ SVOpDestroyRenderder::SVOpDestroyRenderder(SVInst *_app)
 
 void SVOpDestroyRenderder::_process(float dt) {
     //need write
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         mApp->getRenderMgr()->setRenderer(nullptr);
         t_renderer->destroy();
@@ -119,7 +119,7 @@ SVOpResizeRenderder::SVOpResizeRenderder(SVInst *_app,s32 _w,s32 _h)
 
 void SVOpResizeRenderder::_process(float dt) {
     //need write
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         t_renderer->resize(m_width,m_height);
         SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();

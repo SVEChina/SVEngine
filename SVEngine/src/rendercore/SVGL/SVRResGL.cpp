@@ -1667,7 +1667,7 @@ void SVResGLRenderMeshDvid::setBTagentData(SVDataSwapPtr _pdata){
 }
 
 void SVResGLRenderMeshDvid::render(){
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
     if(t_rendererGL) {
         if (m_bVisible ){

@@ -114,7 +114,6 @@ void SVUIPanel::update(f32 dt) {
         m_dirty = false;
         _computeRect();
     }
-    //
 }
 
 void SVUIPanel::render() {

@@ -76,6 +76,7 @@ namespace sv {
             f32 getSlotAlpha(cptr8 bonename);
             
             void setStableBoundingBoxScale(f32 _scale);
+            
         protected:
             
             void _fixBoundingBox();
@@ -92,23 +93,31 @@ namespace sv {
             
             SVMultMeshMtlRenderObjectPtr m_pRObj;
             
-            E_ANISTATE m_state;
-            
-            bool m_loop;
-            
-            SVString m_cur_aniname;
-            
-            void* m_p_cb_obj;
-            
-            sv_spine_callback m_spine_callback;
-            
-            f32 m_box_scale;
-            
+            //运行时属性
             SVBoundBox m_stable_box;
             
             bool m_stable_box_dirty;
             
             bool m_update_stable_box;
+            
+            f32 m_box_scale;
+            
+            void* m_p_cb_obj;
+            
+            sv_spine_callback m_spine_callback;
+            
+            E_ANISTATE m_state;
+            
+            //序列化属性
+            SVString m_cur_aniname;
+            
+            bool m_loop;
+            
+        public:
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
         
     }//!namespace node
