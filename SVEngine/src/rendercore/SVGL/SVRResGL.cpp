@@ -895,6 +895,7 @@ void  SVRResGLFBO::clear(){
 void SVRResGLFBO::unbind() {
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
+        t_renderer->svPopViewPort();
         t_renderer->svBindFrameBuffer(m_lastFboID);
     }
     m_lastFboID = 0;
