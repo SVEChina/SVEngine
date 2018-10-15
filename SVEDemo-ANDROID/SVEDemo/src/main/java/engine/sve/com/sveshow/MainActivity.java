@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
         mImageView=findViewById(R.id.svimageId);
         bitmap=Bitmap.createBitmap(768,1280, Bitmap.Config.ARGB_8888);
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
                 mSVEngine=SVEEngine.getinstance();
 
-                mSVEngine.init( Environment.getExternalStorageDirectory().getPath() + "/show/res/sve.bundle/sve.bundle/", 720, 1280,1280,720);
+                mSVEngine.init( Environment.getExternalStorageDirectory().getPath() + "/sve/res/", 720, 1280,1280,720);
                 mSVEngine.resume();
 
                 mSVEngine.openFaceBeauty(1);

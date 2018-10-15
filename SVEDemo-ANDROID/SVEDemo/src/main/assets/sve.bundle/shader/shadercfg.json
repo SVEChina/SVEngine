@@ -1,0 +1,114 @@
+{
+  "shader": [
+     {
+     "vs": "screennor",
+     "fs": "screennor",
+     "programme": "screennor"
+     },
+     {
+     "vs": "normal2d",
+     "fs": "normal",
+     "programme": "normal2d"
+     },
+     {
+     "vs": "fair/blur_fair_mean",
+     "fs": "fair/blur_fair_hipass",
+     "programme": "blur_fair_hipass"
+     },
+     {
+     "vs": "fair/blur_fair_mean",
+     "fs": "fair/blur_fair_mean",
+     "programme": "blur_fair_mean"
+     },
+     {
+     "vs": "fair/blur_fair_01",
+     "fs": "fair/blur_fair_01",
+     "programme": "blur_fair_01"
+     },
+     {
+     "vs": "screennor",
+     "fs": "fair/beauty",
+     "programme": "beauty"
+     },
+     {
+     "vs": "blur_fair_mean",
+     "fs": "fair/beauty02",
+     "programme": "beauty02"
+     },
+     {
+     "vs": "screennor",
+     "fs": "filter/baseFilterAdjustment",
+     "programme": "baseFilterAdjustment"
+     },
+     {
+     "vs": "screennor",
+     "fs": "filter/acutance",
+     "programme": "acutance"
+     },
+     {
+     "vs": "trans/rgb2yuv",
+     "fs": "trans/rgb2yuvnv12",
+     "programme": "rgb2yuvnv12"
+     },
+     {
+     "vs": "trans/rgb2yuv",
+     "fs": "trans/rgb2yuvnv21",
+     "programme": "rgb2yuvnv21"
+     },
+     {
+     "vs": "trans/rgb2yuv",
+     "fs": "trans/rgb2yuvyv12",
+     "programme": "rgb2yuvyv12"
+     },
+     {
+     "vs": "trans/rgb2yuv",
+     "fs": "trans/rgb2yuvi420",
+     "programme": "rgb2yuvi420"
+     },
+     {
+     "vs": "screennor",
+     "fs": "trans/yuv2rgb12",
+     "programme": "yuv2rgb12"
+     },
+     {
+     "vs": "screennor",
+     "fs": "trans/yuv2rgb21",
+     "programme": "yuv2rgb21"
+     },
+     {
+     "vs": "screennor",
+     "fs": "trans/yuv2rgbi420",
+     "programme": "yuv2rgbi420"
+     },
+     {
+     "vs": "screennor",
+     "fs": "trans/yuv2rgbyv12",
+     "programme": "yuv2rgbyv12"
+     },
+     {
+     "vs": "screennor",
+     "fs": "screennorbgra",
+     "programme": "screennorbgra"
+     },
+     {
+     "vs": "normal2d_c",
+     "fs": "normal_c",
+     "programme": "normal2d_c"
+     },
+     {
+     "vs": "normal2dani_c",
+     "fs": "normalani_c",
+     "programme": "normal2dani_c"
+     },
+     {
+     "vs": "normal2d",
+     "fs": "normal",
+     "programme": "normal2d"
+     },
+     {
+     "vs": "screennor",
+     "fs": "rgba",
+     "programme": "rgba"
+     }
+  ]
+}
