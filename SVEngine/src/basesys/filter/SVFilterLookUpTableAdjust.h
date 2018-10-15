@@ -114,24 +114,56 @@ namespace sv {
                 m_HSLHueCyan=_hue;
             }
             
+            inline void setRedShift(f32 _redShift){
+                m_redShift=_redShift;
+            }
+            inline void setBlueShift(f32 _blueShift){
+                m_blueShift=_blueShift;
+            }
+            inline void setGreenShift(f32 _greenShift){
+                m_greenShift=_greenShift;
+            }
+            inline void setSDRedShift(f32 _sdredShift){
+                m_sdredShift=_sdredShift;
+            }
+            inline void setSDGreenShift(f32 _sdgreenShift){
+                m_sdgreenShift=_sdgreenShift;
+            }
+            inline void setSDBlueShift(f32 _sdblueShift){
+                m_sdblueShift=_sdblueShift;
+            }
+            inline void setHHRedShift(f32 _hhredShift){
+                m_hhredShift=_hhredShift;
+            }
+            inline void setHHGreenShift(f32 _hhgreenShift){
+                m_hhgreenShift=_hhgreenShift;
+            }
+            inline void setHHBlueShift(f32 _hhblueShift){
+                m_hhblueShift=_hhblueShift;
+            }
+            
+            inline void setShadow(f32 _shadow){
+                m_shadow=_shadow;
+            }
+            
+            inline void setHighlight(f32 _highlight){
+                m_Highlight=_highlight;
+            }
             
             inline SVTexturePtr getOutTex(){
-                return outTex;
+                return m_outTex;
             }
             
         protected:
             SVMtlBrightnessContrastPtr m_BCMtl;//brightness contrast
             SVMtlSaturationPtr m_SaturationMtl;
             SVMtlVibrancePtr m_VibranceMtl;
+            SVMtlColorBalancePtr m_colorBalanceMtl;
+            SVMtlShadowHighlightPtr m_shadowHighlightMtl;
             SVMtlHSLPtr m_hslMtl;
             
-            SVPassPtr m_passSaturation;
-            SVPassPtr m_passVibrance;
-            SVPassPtr m_passHSL;
-            SVPassPtr m_passBC;
-            SVPassPtr m_passBack;
-            SVTexturePtr outTex;
-            SVTexturePtr inTex;
+            SVTexturePtr m_outTex;
+            
             f32 m_brightness;
             f32 m_contrast;
             f32 m_saturation;
@@ -160,6 +192,21 @@ namespace sv {
             f32 m_HSLSaturationCyan;
             f32 m_HSLLightnessCyan;
             f32 m_HSLHueCyan;
+            
+            f32 m_redShift;
+            f32 m_greenShift;
+            f32 m_blueShift;
+            f32 m_sdredShift;
+            f32 m_sdgreenShift;
+            f32 m_sdblueShift;
+            f32 m_hhredShift;
+            f32 m_hhgreenShift;
+            f32 m_hhblueShift;
+            
+            f32 m_shadow;
+            f32 m_Highlight;
+            
+            
             
             
         };

@@ -31,7 +31,7 @@ SVLookUpFilter::~SVLookUpFilter(){
     
 }
 
-bool SVLookUpFilter::create(SVTexturePtr _looktex,SVTexturePtr _bgtex){
+bool SVLookUpFilter::create(SVTexturePtr _looktex,SVTexturePtr _bgtex,SVTexturePtr _outTex){
     m_tex01=_bgtex;
     m_tex02=_looktex;
     SVRendererBasePtr t_renderer = mApp->getRenderer();
@@ -61,7 +61,7 @@ bool SVLookUpFilter::create(SVTexturePtr _looktex,SVTexturePtr _bgtex){
     SVPassPtr t_pass2 = MakeSharedPtr<SVPass>();
     t_pass2->setMtl(t_mtl_back);
     t_pass2->setInTex(0, tex);
-    t_pass2->setOutTex(m_tex01);
+    t_pass2->setOutTex(_outTex);
     m_pPassNode->addPass(t_pass2);
     return true;
 }
