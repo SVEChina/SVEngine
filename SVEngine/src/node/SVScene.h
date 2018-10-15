@@ -65,7 +65,7 @@ namespace sv {
             ~SVScene();
             
             //世界大小和深度
-            void create(f32 _worldw = SV_WORLD_SIZE ,f32 _wordh = SV_WORLD_SIZE ,s32 _depth = SV_WORLD_DEPTH);
+            void create(f32 _worldw = SV_WORLD_SIZE ,f32 _worldh = SV_WORLD_SIZE ,s32 _depth = SV_WORLD_DEPTH);
             
             void destroy();
             
@@ -98,9 +98,20 @@ namespace sv {
             SVRenderScenePtr m_pRenderScene;
             //
             SVColor m_color;
+            //
+            f32 m_worldW;
+            f32 m_worldH;
+            s32 m_worldD;
 
         public:
             bool procEvent(SVEventPtr _event);
+            
+        public:
+            //序列化场景
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
 
         

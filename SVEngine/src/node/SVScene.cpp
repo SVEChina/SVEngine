@@ -187,6 +187,9 @@ SVScene::SVScene(SVInst *_app,cptr8 _name)
 :SVGBase(_app) {
     m_name = _name;
     m_color.setColorARGB(0x00000000);
+    m_worldW = 0;
+    m_worldH = 0;
+    m_worldD = 0;
     //场景树
     m_pSceneTree = MakeSharedPtr<SVTree4>(_app);
     //渲染场景
@@ -201,12 +204,15 @@ SVScene::~SVScene() {
     m_pRenderScene = nullptr;
 }
 
-void SVScene::create(f32 _worldw ,f32 _wordh,s32 _depth){
+void SVScene::create(f32 _worldw ,f32 _worldh,s32 _depth){
+    m_worldW = _worldw;
+    m_worldH = _worldh;
+    m_worldD = _depth;
     if(m_pSceneTree){
         SVBoundBox _box;
         FVec3 t_min,t_max;
-        t_min.set(-0.5f*_worldw,-0.5f*_wordh, 0.0f);
-        t_max.set(0.5f*_worldw,0.5f*_wordh, 0.0f);
+        t_min.set(-0.5f*_worldw,-0.5f*_worldh, 0.0f);
+        t_max.set(0.5f*_worldw,0.5f*_worldh, 0.0f);
         _box.set(t_min, t_max);
         m_pSceneTree->create(_box,_depth);
     }
@@ -285,4 +291,45 @@ SVRenderScenePtr SVScene::getRenderRS(){
 
 bool SVScene::procEvent(SVEventPtr _event) {
     return true;
+}
+
+//序列化场景
+void SVScene::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                  RAPIDJSON_NAMESPACE::Value &_objValue) {
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    locationObj.AddMember("name",  RAPIDJSON_NAMESPACE::StringRef(m_name.c_str()), _allocator);
+    u32 t_color = m_color.getColorARGB();
+    locationObj.AddMember("color", t_color, _allocator);
+    locationObj.AddMember("worldw", m_worldW, _allocator);
+    locationObj.AddMember("worldh", m_worldH, _allocator);
+    locationObj.AddMember("worldd", m_worldD, _allocator);
+    //序列化树 ? 要做这么复杂吗
+    if(m_pSceneTree){
+        
+    }
+    //
+    _objValue.AddMember("SVScene", locationObj, _allocator);
+}
+
+void SVScene::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
+    if (item.HasMember("name") && item["name"].IsString()) {
+        m_name = item["name"].GetString();
+    }
+    if (item.HasMember("color") && item["color"].IsUint()) {
+        u32 t_color = item["color"].GetUint();
+        m_color.setColorARGB(t_color);
+    }
+    if (item.HasMember("worldw") && item["worldw"].IsFloat()) {
+        m_worldW = item["worldw"].GetFloat();
+    }
+    if (item.HasMember("worldh") && item["worldh"].IsFloat()) {
+        m_worldH = item["worldh"].GetFloat();
+    }
+    if (item.HasMember("worldd") && item["worldd"].IsInt()) {
+        m_worldD = item["worldd"].GetInt();
+    }
+    //
+    if(!m_pSceneTree){
+        create(m_worldW,m_worldH,m_worldD);
+    }
 }
