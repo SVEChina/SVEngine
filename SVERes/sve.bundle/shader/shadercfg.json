@@ -104,6 +104,11 @@
      "vs": "normal2d",
      "fs": "normal",
      "programme": "normal2d"
+     },
+     {
+     "vs": "screennor",
+     "fs": "rgba",
+     "programme": "rgba"
      }
   ]
 }

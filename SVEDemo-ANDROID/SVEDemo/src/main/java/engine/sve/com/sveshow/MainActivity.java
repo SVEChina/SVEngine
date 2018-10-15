@@ -41,24 +41,24 @@ public class MainActivity extends AppCompatActivity {
 
                 mSVEngine=SVEEngine.getinstance();
 
-                mSVEngine.init( Environment.getExternalStorageDirectory().getPath() + "/show/res/sve.bundle/", 720, 1280,1280,720);
+                mSVEngine.init( Environment.getExternalStorageDirectory().getPath() + "/show/res/sve.bundle/sve.bundle/", 720, 1280,1280,720);
                 mSVEngine.resume();
 
-                //mSVEngine.openFaceBeauty(1);
-                // mSVEngine.updateFilter(SVEEngine.FILTER_TYPE.SVI_EBEAUTY_FILTER,95);
-//        AssetManager asm = getAssets();
-//        InputStream inputStream = null;
-//        try {
-//            inputStream = asm.open("sve-icon.png");
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        Drawable drawble =Drawable.createFromStream(inputStream, null);
-//        Bitmap bitmapwatermark = ((BitmapDrawable) drawble).getBitmap();
-//        ByteBuffer buffer=ByteBuffer.allocateDirect(bitmapwatermark.getWidth()*bitmapwatermark.getHeight()*4);
-//        bitmapwatermark.copyPixelsToBuffer(buffer);
-//        mSVEngine.createWatermark(buffer,bitmapwatermark.getWidth(),bitmapwatermark.getHeight());
+                mSVEngine.openFaceBeauty(1);
+                 mSVEngine.updateFilter(SVEEngine.FILTER_TYPE.SVI_EBEAUTY_FILTER,95);
+        AssetManager asm = getAssets();
+        InputStream inputStream = null;
+        try {
+            inputStream = asm.open("sve-icon.png");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Drawable drawble =Drawable.createFromStream(inputStream, null);
+        Bitmap bitmapwatermark = ((BitmapDrawable) drawble).getBitmap();
+        ByteBuffer buffer=ByteBuffer.allocateDirect(bitmapwatermark.getWidth()*bitmapwatermark.getHeight()*4);
+        bitmapwatermark.copyPixelsToBuffer(buffer);
+        mSVEngine.createWatermark(buffer,bitmapwatermark.getWidth(),bitmapwatermark.getHeight());
 
 
                 // mSVEngine.startGame("/mnt/sdcard/showres/libao");

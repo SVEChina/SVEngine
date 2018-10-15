@@ -487,6 +487,7 @@ void SVRendererGL::svBindFrameBuffer(u32 _id) {
 
 void SVRendererGL::svBindClearColor(u32 _id) {
     glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void SVRendererGL::svBindColorBuffer(u32 _id) {

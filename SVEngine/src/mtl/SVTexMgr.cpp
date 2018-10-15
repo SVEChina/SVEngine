@@ -80,14 +80,19 @@ SVTexturePtr SVTexMgr::getTexture(cptr8 _name, bool _create, bool _enableMipMap)
 
 //同步创建纹理
 SVTexturePtr SVTexMgr::getTextureSync(cptr8 _name, bool _create, bool _enableMipMap) {
+    SVTexturePtr t_tex = nullptr;
+    m_texLock->lock();
     TEXPOOL::Iterator it = mTexpool.find(_name);
     if( it!=mTexpool.end() ) {
-        return it->data;
+        t_tex = it->data;
     }
-    if (_create) {
-        return _createTexture(_name, true, _enableMipMap);
+    m_texLock->unlock();
+    if(!t_tex) {
+        if (_create) {
+            t_tex = _createTexture(_name, true, _enableMipMap);
+        }
     }
-    return nullptr;
+    return t_tex;
 }
 
 SVTexturePtr SVTexMgr::createUnctrlTextureWithTexID(s32 _texId, s32 _width, s32 _height, s32 _informat, s32 _dataformat, bool _enableMipMap){

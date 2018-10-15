@@ -8,6 +8,7 @@
 #include "mtl/SVTexMgr.h"
 #include "node/SVSpriteNode.h"
 #include "node/SVScene.h"
+#include "mtl/SVTexture.h"
 #include "basesys/SVSceneMgr.h"
 
 
@@ -23,14 +24,15 @@ SVWatermark::~SVWatermark(){
 }
 
 void SVWatermark::createNode(void* _rgba,int _width,int _height){
-//    m_sprite =MakeSharedPtr<SVSpriteNode>(mApp,200,200);
-//    m_sprite->setPosition(0.0,0.0,0.0);
-//    m_sprite->setRSType(RST_BACKGROUND);
-//    m_sprite->setTexture(mApp->getTexMgr()->createUnctrlTextureWithData(_width,  _height, GL_RGBA, GL_RGBA,_rgba,false));
-//    SVScenePtr t_scene = mApp->getSceneMgr()->getScene();
-//    if( t_scene ) {
-//        t_scene->addNode(m_sprite);
-//    }
+    m_sprite =MakeSharedPtr<SVSpriteNode>(mApp,200,200);
+    m_sprite->setPosition(0.0,0.0,0.0);
+    m_sprite->setRSType(RST_ANIMATE);
+    SVTexturePtr t_tex=mApp->getTexMgr()->createUnctrlTextureWithData(_width,  _height, GL_RGBA, GL_RGBA,_rgba,false);
+    m_sprite->setTexture(t_tex->getname());
+    SVScenePtr t_scene = mApp->getSceneMgr()->getScene();
+    if( t_scene ) {
+        t_scene->addNode(m_sprite);
+    }
 }
 
 void SVWatermark::clearNode(){
