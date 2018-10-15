@@ -9,19 +9,22 @@
 #define SV_2DFACEMASK_ST_NODE_H
 
 #include "SV2DFaceMaskNode.h"
-//sensetime
-class SVSTPointExt {
-public:
-    static void st_foreHeadPointExtWithFaceLandMark(f32 *faceLandMark, s32 &markIndex);
-    
-    static void st_lipsPointExtWithFaceLandMark(f32 *faceLandMark, s32 &markIndex);
-    
-    static void st_faceOutlinePointExtWithFaceLandMark(f32 *faceLandMark, s32 &markIndex);
-};
+
 
 namespace sv {
     
     namespace node{
+        
+        //sensetime
+        class SVSTPointExt {
+        public:
+            static void st_foreHeadPointExtWithFaceLandMark(f32 *faceLandMark, s32 &markIndex);
+            
+            static void st_lipsPointExtWithFaceLandMark(f32 *faceLandMark, s32 &markIndex);
+            
+            static void st_faceOutlinePointExtWithFaceLandMark(f32 *faceLandMark, s32 &markIndex);
+        };
+        
         class SV2DFaceMaskSTNode : public SV2DFaceMaskNode {
         public:
             SV2DFaceMaskSTNode(SVInst *_app);
@@ -31,9 +34,14 @@ namespace sv {
             void update(f32 dt);
             
             void render();
+            
         protected:
             void _updateVerts();
             
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
         
     }//!namespace node

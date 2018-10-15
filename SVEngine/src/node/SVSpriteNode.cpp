@@ -25,6 +25,7 @@ SVSpriteNode::SVSpriteNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVSpriteNode";
     m_inTexType = E_TEX_END;
+    m_pTexName = "default";
     m_rsType = RST_ANIMATE;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_canSelect = false;
@@ -71,13 +72,9 @@ void SVSpriteNode::setMaterial(SVMtlCorePtr _mtl){
 }
 
 void SVSpriteNode::setTexture(cptr8 _path){
-    if (m_pTex) {
-        if (strcmp(m_pTex->getname(), _path) != 0) {
-            m_pTex = nullptr;
-        }
-    }
-    if (m_pTex == nullptr) {
-        m_pTex = mApp->getTexMgr()->getTextureSync(_path,true);
+    if(m_pTexName!=_path) {
+        m_pTexName = _path;
+        m_pTex = mApp->getTexMgr()->getTextureSync(m_pTexName.c_str(),true);     
     }
 }
 
@@ -85,11 +82,7 @@ cptr8 SVSpriteNode::getTexturePath(){
     if (m_pTex) {
         return m_pTex->getname();
     }
-    return "";
-}
-
-void SVSpriteNode::setTexture(SVTexturePtr _tex){
-    m_pTex = _tex;
+    return m_pTexName.c_str();
 }
 
 void SVSpriteNode::setTexture(SVTEXTYPE _textype){
@@ -153,28 +146,23 @@ void SVSpriteNode::render() {
 void SVSpriteNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
     RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
     _toJsonData(_allocator, locationObj);
-    //
-    if(m_pTex){
-        m_pTexName = m_pTex->getname();
-    }
-    //
-    locationObj.AddMember("file", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
     locationObj.AddMember("spriteW", m_width, _allocator);
     locationObj.AddMember("spriteH", m_height, _allocator);
+    locationObj.AddMember("file", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
     locationObj.AddMember("textype", s32(m_inTexType), _allocator);
     _objValue.AddMember("SVSpriteNode", locationObj, _allocator);
 }
 
 void SVSpriteNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     _fromJsonData(item);
-    if (item.HasMember("file") && item["file"].IsString()) {
-        m_pTexName = item["file"].GetString();
-    }
     if (item.HasMember("spriteW") && item["spriteW"].IsInt()) {
         m_width = item["spriteW"].GetInt();
     }
     if (item.HasMember("spriteH") && item["spriteH"].IsInt()) {
         m_height = item["spriteH"].GetInt();
+    }
+    if (item.HasMember("file") && item["file"].IsString()) {
+        m_pTexName = item["file"].GetString();
     }
     if (item.HasMember("textype") && item["textype"].IsInt()) {
         m_inTexType = SVTEXTYPE(item["textype"].GetInt());
