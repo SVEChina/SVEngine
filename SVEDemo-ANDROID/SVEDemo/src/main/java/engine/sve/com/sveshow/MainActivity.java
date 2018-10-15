@@ -1,5 +1,7 @@
 package engine.sve.com.sveshow;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
@@ -8,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.TextureView;
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private int m_width;
     private int m_height;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
