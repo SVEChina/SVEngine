@@ -7,6 +7,7 @@
 
 
 #include "app/SVInst.h"
+#include "filter/SVFilterExtDef.h"
 
 
 using namespace sv;
@@ -33,6 +34,7 @@ public:
     void createInStream(SVString _name,int _type,int _format,int _w,int _h,int _angle);
     void pushStreamData(SVString _name,char* _srcPtr,int _w,int _h,int _pixelFormat,int _angle);
     void createOutTexture(SVString _name,int _format,int _type,int _w,int _h,int _angle);
+    void createWatermark(void* rgba,int  width, int height);
     void openFaceBeauty(int lows);
     void touchPos(float _x,float _y);
     void destoryInStream(SVString _name);
@@ -42,6 +44,7 @@ public:
 private:
     SVInst  *m_pApp;
     ANativeWindow *m_pWindows;
+    SVWatermarkPtr m_watermark;
     SVString m_path;
 };
 

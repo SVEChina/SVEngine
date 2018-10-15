@@ -27,6 +27,6 @@ namespace sv {
 
 }//!namespace sv
 
-
+DECLARE_SHAREPTR(SVWatermark);
 
 #endif //SV_FILTEREXTDEF_H

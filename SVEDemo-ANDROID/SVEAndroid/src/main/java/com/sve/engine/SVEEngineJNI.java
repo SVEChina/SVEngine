@@ -7,6 +7,7 @@ import android.opengl.EGLContext;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
 
@@ -129,6 +130,10 @@ public class SVEEngineJNI {
 
     }
 
+    public void createWatermark(ByteBuffer buffer,int width,int height){
+        createWatermarkNative(mSVEAddress,buffer,width,height);
+    }
+
     public  void closeFaceBeauty() {
         closeFaceBeautyNative(mSVEAddress);
     }
@@ -193,5 +198,7 @@ public class SVEEngineJNI {
     public static native int getTexIdNative(long _nativeAddress);
 
     public static native void touchPosNative(long _nativeAddress,float _x,float _y);
+
+    public static native void createWatermarkNative(long _nativeAddress, Buffer _buffer,int width,int height);
 
 }

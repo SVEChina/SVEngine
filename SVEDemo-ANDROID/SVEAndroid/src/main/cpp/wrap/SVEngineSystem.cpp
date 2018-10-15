@@ -4,7 +4,7 @@
 
 
 #include "SVEngineSystem.h"
-
+#include "filter/SVWatermark.h"
 #include "operate/SVOpRender.h"
 #include "operate/SVOpCreate.h"
 #include "operate/SVOpDestroy.h"
@@ -18,8 +18,8 @@
 #include "basesys/SVStreamOut.h"
 #include "event/SVOpEvent.h"
 #include "event/SVEventMgr.h"
-#include "filter/SVFilterExtDef.h"
 #include "filter/SVOpFaceBeautyExt.h"
+
 
 
 SVEngineSystem::SVEngineSystem(){
@@ -82,6 +82,13 @@ void SVEngineSystem::createOutTexture(SVString _name,int _format,int _type,int _
     SVOpCreateTextureCameraPtr t_op=MakeSharedPtr<SVOpCreateTextureCamera>(t_app,_format,_w,_h,_angle);
     t_op->setCallBack(nullptr, "");
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
+}
+
+void SVEngineSystem::createWatermark(void* rgba,int  width, int height){
+    if(m_pApp){
+        m_watermark=MakeSharedPtr<SVWatermark>(m_pApp);
+        m_watermark->createNode(rgba,width,height);
+    }
 }
 
 void SVEngineSystem::destoryInStream(SVString _name){
@@ -174,7 +181,6 @@ void SVEngineSystem::destoryRenderTarget(){
     SVOpDestroyRenderTargetPtr t_op = MakeSharedPtr<SVOpDestroyRenderTarget>(t_app);
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
-
 
 //创建场景
 void SVEngineSystem::createScene(cb_func_op _cb,char* _msg){

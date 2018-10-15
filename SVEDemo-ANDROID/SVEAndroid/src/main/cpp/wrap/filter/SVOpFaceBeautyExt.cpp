@@ -19,6 +19,9 @@
 #include "event/SVEvent.h"
 #include "event/SVOpEvent.h"
 #include "base/SVDataSwap.h"
+#include "rendercore/SVRenderMgr.h"
+#include "rendercore/renderer/SVRendererBase.h"
+#include "node/SVScene.h"
 
 
 //设置美颜滤镜
@@ -49,3 +52,6 @@ void SVOpFaceBeautyExt::_process(f32 _dt) {
         }
     }
 }
+
+
+

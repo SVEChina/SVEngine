@@ -219,3 +219,11 @@ Java_com_sve_engine_SVEEngineJNI_updateFilterNative(JNIEnv *env, jobject instanc
     app->updateFilter(_type, _smooth);
 }
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_sve_engine_SVEEngineJNI_createWatermarkNative(JNIEnv *env,  jobject instance, jlong _nativeAddress,
+                                                 jobject _buffer, jint width, jint height) {
+    void *t_buf_point = env->GetDirectBufferAddress(_buffer);
+    SVEngineSystem *app = reinterpret_cast<SVEngineSystem *>(_nativeAddress);
+    app->createWatermark(t_buf_point,width,height);
+}

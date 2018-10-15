@@ -118,6 +118,10 @@ JNIEXPORT void JNICALL
 Java_com_sve_engine_SVEEngineJNI_removeOnePacketNative(JNIEnv *env,  jobject instance,
                                                        jlong _nativeAddress, jint _value);
 
+JNIEXPORT void JNICALL
+Java_com_sve_engine_SVEEngineJNI_createWatermarkNative(JNIEnv *env, jobject instance, jlong _nativeAddress,
+                                                 jobject _buffer, jint width, jint height);
+
 #ifdef __cplusplus
 }
 #endif

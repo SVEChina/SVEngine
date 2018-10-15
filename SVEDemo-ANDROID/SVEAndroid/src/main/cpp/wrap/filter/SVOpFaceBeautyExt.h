@@ -23,7 +23,6 @@ namespace sv {
         s32 m_lows;
     };
 
-
 }//!namespace sv
 
 
