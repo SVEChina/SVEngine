@@ -62,27 +62,27 @@ public class FileUtils {
         this.callback = callback;
     }
 
-   public static void deleteAllFiles(File root) {
-       File files[] = root.listFiles();
-       if (files != null)
-           for (File f : files) {
-               if (f.isDirectory()) { // 判断是否为文件夹
-                   deleteAllFiles(f);
-                   try {
-                       f.delete();
-                   } catch (Exception e) {
-                   }
-               } else {
-                   if (f.exists()) { // 判断是否存在
-                       deleteAllFiles(f);
-                       try {
-                           f.delete();
-                       } catch (Exception e) {
-                       }
-                   }
-               }
-           }
-   }
+    public static void deleteAllFiles(File root) {
+        File files[] = root.listFiles();
+        if (files != null)
+            for (File f : files) {
+                if (f.isDirectory()) { // 判断是否为文件夹
+                    deleteAllFiles(f);
+                    try {
+                        f.delete();
+                    } catch (Exception e) {
+                    }
+                } else {
+                    if (f.exists()) { // 判断是否存在
+                        deleteAllFiles(f);
+                        try {
+                            f.delete();
+                        } catch (Exception e) {
+                        }
+                    }
+                }
+            }
+    }
 
 
     private void copyAssetsToDst(Context context, String srcPath, String dstPath) {

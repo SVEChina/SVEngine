@@ -26,8 +26,8 @@ SVWatermark::~SVWatermark(){
 }
 
 void SVWatermark::createNode(void* _rgba,int _width,int _height){
-    m_sprite =MakeSharedPtr<SVSpriteNode>(mApp,200,200);
-    m_sprite->setPosition(0.0,0.0,0.0);
+    m_sprite =MakeSharedPtr<SVSpriteNode>(mApp,_width,_height);
+    m_sprite->setPosition(-200.0,-500.0,0.0);
     m_sprite->setRSType(RST_ANIMATE);
     SVTexturePtr t_tex=mApp->getTexMgr()->createUnctrlTextureWithData(_width,  _height, GL_RGBA, GL_RGBA,_rgba,false);
     m_sprite->setTexture(t_tex->getname());

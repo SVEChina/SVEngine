@@ -36,18 +36,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_main);
-        mImageView=findViewById(R.id.svimageId);
-        bitmap=Bitmap.createBitmap(768,1280, Bitmap.Config.ARGB_8888);
+        mImageView = findViewById(R.id.svimageId);
+        bitmap = Bitmap.createBitmap(768, 1280, Bitmap.Config.ARGB_8888);
         TextureView mTextureView = (TextureView) findViewById(R.id.textureView1);
         mTextureView.setOpaque(false);
 
-                mSVEngine=SVEEngine.getinstance();
+        mSVEngine = SVEEngine.getinstance();
 
-                mSVEngine.init( Environment.getExternalStorageDirectory().getPath() + "/sve/res/", 720, 1280,1280,720);
-                mSVEngine.resume();
+        mSVEngine.init(Environment.getExternalStorageDirectory().getPath() + "/sve/res/", 720, 1280, 1280, 720);
+        mSVEngine.resume();
 
-                mSVEngine.openFaceBeauty(1);
-                 mSVEngine.updateFilter(SVEEngine.FILTER_TYPE.SVI_EBEAUTY_FILTER,95);
+        mSVEngine.openFaceBeauty(1);
+        mSVEngine.updateFilter(SVEEngine.FILTER_TYPE.SVI_EBEAUTY_FILTER, 95);
         AssetManager asm = getAssets();
         InputStream inputStream = null;
         try {
@@ -56,14 +56,12 @@ public class MainActivity extends AppCompatActivity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Drawable drawble =Drawable.createFromStream(inputStream, null);
+        Drawable drawble = Drawable.createFromStream(inputStream, null);
         Bitmap bitmapwatermark = ((BitmapDrawable) drawble).getBitmap();
-        ByteBuffer buffer=ByteBuffer.allocateDirect(bitmapwatermark.getWidth()*bitmapwatermark.getHeight()*4);
+        ByteBuffer buffer = ByteBuffer.allocateDirect(bitmapwatermark.getWidth() * bitmapwatermark.getHeight() * 4);
         bitmapwatermark.copyPixelsToBuffer(buffer);
-        mSVEngine.createWatermark(buffer,bitmapwatermark.getWidth(),bitmapwatermark.getHeight());
+        mSVEngine.createWatermark(buffer, bitmapwatermark.getWidth(), bitmapwatermark.getHeight());
 
-
-                // mSVEngine.startGame("/mnt/sdcard/showres/libao");
 //                mSVEngine.updateFilter(SVEEngine.FILTER_TYPE.SVI_EBEAUTY_FILTER,95);
 //                mSVEngine.updateFilter(SVEEngine.FILTER_TYPE.SVI_ACUTANCE_FILTER,0);
 //                mSVEngine.updateFilter(SVEEngine.FILTER_TYPE.SVI_WHITENING_FILTER,0);
@@ -73,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
         mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(final SurfaceTexture surface, int width, int height) {
-                m_width=width;
-                m_height=height;
+                m_width = width;
+                m_height = height;
                 mSVEngine.setSurfaceTextureDraw(surface);
                 mSVEngine.setCallBackImagBuffer(new SVEEngine.onSVImageBufferCallBack() {
                     @Override
                     public void onSVBufferCallBack(ByteBuffer _data, int width, int height, int stride) {
-                       bitmap.copyPixelsFromBuffer(_data);
-                       mImageView.setImageBitmap(bitmap);
+                        bitmap.copyPixelsFromBuffer(_data);
+                        mImageView.setImageBitmap(bitmap);
                     }
                 });
             }
@@ -103,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 
 
     private boolean isFront = true;
@@ -140,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int mCameraWidth, mCameraHeight;
 
-private boolean flagEx=false;
+    private boolean flagEx = false;
     private Camera.PreviewCallback mPreviewCallback = new Camera.PreviewCallback() {
         @Override
         public void onPreviewFrame(byte[] data, Camera camera) {
@@ -148,28 +145,28 @@ private boolean flagEx=false;
             Camera.Size tSize = param.getPreviewSize();
             mCameraHeight = tSize.height;
             mCameraWidth = tSize.width;
-            if(mSVEngine!=null) {
+            if (mSVEngine != null) {
                 mSVEngine.pushSteam(data, 0, mCameraWidth, mCameraHeight, isFront, 90);
-                mSVEngine.drawTex(0,-(m_width*mCameraWidth/mCameraHeight-m_height)/2,m_width,m_width*mCameraWidth/mCameraHeight);
+                mSVEngine.drawTex(0, -(m_width * mCameraWidth / mCameraHeight - m_height) / 2, m_width, m_width * mCameraWidth / mCameraHeight);
             }
-            int linght=0;
-            for(int i=0;i<50;i++){
-                for(int j=0;j<50;j++){
-int index=(mCameraWidth*(mCameraHeight/2-25+i)-mCameraWidth/2-25+j);
-                    linght =linght+(data[index]+128);
+            int linght = 0;
+            for (int i = 0; i < 50; i++) {
+                for (int j = 0; j < 50; j++) {
+                    int index = (mCameraWidth * (mCameraHeight / 2 - 25 + i) - mCameraWidth / 2 - 25 + j);
+                    linght = linght + (data[index] + 128);
                 }
             }
-            linght/=2500;
+            linght /= 2500;
 
 
-            System.out.println("light "+linght);
-            if(!flagEx) {
+            System.out.println("light " + linght);
+            if (!flagEx) {
                 if (linght < 120) {
                     realCamera.setExposureCompensation(-3);
                 } else if (linght > 150) {
                     realCamera.setExposureCompensation(3);
                 }
-                flagEx=true;
+                flagEx = true;
             }
             camera.addCallbackBuffer(data);
         }
@@ -178,7 +175,7 @@ int index=(mCameraWidth*(mCameraHeight/2-25+i)-mCameraWidth/2-25+j);
     @Override
     protected void onResume() {
         super.onResume();
-        if(mSVEngine!=null) {
+        if (mSVEngine != null) {
             mSVEngine.resume();
         }
         openCamera(isFront);//开启前置摄像头
