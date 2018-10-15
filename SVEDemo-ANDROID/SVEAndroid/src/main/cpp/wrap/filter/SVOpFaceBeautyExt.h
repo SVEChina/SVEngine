@@ -16,12 +16,24 @@ namespace sv {
     class SVOpFaceBeautyExt : public SVOpBase {
     public:
         SVOpFaceBeautyExt(SVInst* _app,cptr8 _scenename,cptr8 _filter, int _lows);
+        ~SVOpFaceBeautyExt();
     protected:
         void _process(f32 _dt);
         SVString m_scenename;
         SVString m_filter;
         s32 m_lows;
     };
+
+    class SVOpWatermarkExt : public SVOpBase {
+    public:
+        SVOpWatermarkExt(SVInst *_app, SVNodePtr _node);
+        ~SVOpWatermarkExt();
+    protected:
+        void _process(f32 _dt);
+
+        SVNodePtr m_node;
+    };
+
 
 }//!namespace sv
 

@@ -24,6 +24,7 @@ namespace sv {
     }//!namespace logic
 
     DECLARE_SHAREPTR(SVOpFaceBeautyExt);
+    DECLARE_SHAREPTR(SVOpWatermarkExt);
 
 }//!namespace sv
 

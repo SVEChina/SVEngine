@@ -10,8 +10,10 @@
 #include "node/SVScene.h"
 #include "mtl/SVTexture.h"
 #include "basesys/SVSceneMgr.h"
-
-
+#include "work/SVThreadPool.h"
+#include "work/SVThreadMain.h"
+#include "SVOpFaceBeautyExt.h"
+#include "SVFilterExtDef.h"
 
 
 SVWatermark::SVWatermark(SVInst *_app)
@@ -29,10 +31,8 @@ void SVWatermark::createNode(void* _rgba,int _width,int _height){
     m_sprite->setRSType(RST_ANIMATE);
     SVTexturePtr t_tex=mApp->getTexMgr()->createUnctrlTextureWithData(_width,  _height, GL_RGBA, GL_RGBA,_rgba,false);
     m_sprite->setTexture(t_tex->getname());
-    SVScenePtr t_scene = mApp->getSceneMgr()->getScene();
-    if( t_scene ) {
-        t_scene->addNode(m_sprite);
-    }
+    SVOpWatermarkExtPtr t_op = MakeSharedPtr<SVOpWatermarkExt>(mApp,m_sprite);
+    mApp->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
 
 void SVWatermark::clearNode(){
