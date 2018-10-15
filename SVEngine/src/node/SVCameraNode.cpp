@@ -13,7 +13,6 @@ SVCameraNode::SVCameraNode(SVInst *_app)
 : SVNode(_app) {
     ntype = "SVCameraNode";
     m_lockTarget = false;
-    m_fboPoolDirty = true;
     m_fovy = 60.0f;
     m_mat_proj.setIdentity();
     m_mat_view.setIdentity();
@@ -31,20 +30,16 @@ void SVCameraNode::update(f32 _dt) {
     if (m_dirty) {
         //更新本地矩阵
         m_dirty = false;
-        m_fboPoolDirty = true;
         updateProjMat();
         updateCameraMat();
     }
-    if (m_fboPoolDirty) {
-        m_fboPoolDirty = false;
-        for (s32 i = 0; i < m_fbobjectPool.size(); i++) {
-            SVFboObjectPtr t_fbo = m_fbobjectPool[i];
-            t_fbo->m_mat_proj = m_mat_proj;
-            t_fbo->m_mat_view = m_mat_view;
-            t_fbo->m_mat_vp = m_mat_vp;
-        }
+    //
+    for (s32 i = 0; i < m_fbobjectPool.size(); i++) {
+        SVFboObjectPtr t_fbo = m_fbobjectPool[i];
+        t_fbo->setLink(true);
+        t_fbo->setViewMat(m_mat_view);
+        t_fbo->setProjMat(m_mat_proj);
     }
-
 }
 
 void SVCameraNode::active() {
@@ -149,7 +144,6 @@ FMat4& SVCameraNode::getVPMatObj(){
 
 void SVCameraNode::updateProjMat() {
     m_mat_proj = perspective(m_fovy,m_width/m_height, m_p_zn, m_p_zf);
-    //m_mat_proj.buildProjectionMatrixPerspectiveFovRH();
     m_mat_vp =m_mat_proj*m_mat_view;
 }
 
@@ -169,7 +163,11 @@ void SVCameraNode::updateViewProj() {
 
 void SVCameraNode::addLinkFboObject(SVFboObjectPtr _fbo){
     if (_fbo) {
-        m_fboPoolDirty = true;
+        for(s32 i=0;i<m_fbobjectPool.size();i++) {
+            if(m_fbobjectPool[i] == _fbo) {
+                return ;
+            }
+        }
         m_fbobjectPool.append(_fbo);
     }
 }
@@ -193,17 +191,6 @@ bool SVCameraNode::removeLinkFboObject(SVFboObjectPtr _fbo){
         for (s32 i = 0; i < m_fbobjectPool.size(); i++) {
             if (m_fbobjectPool[i] == _fbo) {
                 m_fbobjectPool.removeForce(i);
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-bool SVCameraNode::hasLinkFboObject(SVFboObjectPtr _fbo){
-    if (_fbo) {
-        for (s32 i = 0; i < m_fbobjectPool.size(); i++) {
-            if (m_fbobjectPool[i] == _fbo) {
                 return true;
             }
         }

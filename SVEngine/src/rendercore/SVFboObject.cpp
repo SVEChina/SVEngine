@@ -22,7 +22,8 @@
 //
 
 SVFboObject::SVFboObject(SVInst *_app)
-:SVRObjBase(_app){
+:SVRObjBase(_app)
+,m_link(false){
 }
 
 SVFboObject::~SVFboObject() {
@@ -66,15 +67,18 @@ void SVFboObject::refresh() {
     }
 }
 
+void SVFboObject::setLink(bool _link) {
+    m_link = _link;
+}
+
 void SVFboObject::bind() {
     SVRResGLFBOPtr t_tmp = std::dynamic_pointer_cast<SVRResGLFBO>(m_objFBOPtr);
     if (t_tmp) {
         t_tmp->bind();
-        SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
-        if (t_camera && t_camera->hasLinkFboObject(THIS_TO_SHAREPTR(SVFboObject))) {
-            mApp->m_pGlobalParam->addToViewStack(m_mat_view);
-            mApp->m_pGlobalParam->addToProjStack(m_mat_proj);
-            mApp->m_pGlobalParam->addToVPStack(m_mat_vp);
+        if(m_link){
+            mApp->getRenderMgr()->pushViewMat(m_mat_view);
+            mApp->getRenderMgr()->pushProjMat(m_mat_proj);
+            mApp->getRenderMgr()->pushVPMat(m_mat_vp);
         }
     }
 }
@@ -90,11 +94,10 @@ void SVFboObject::unbind() {
     SVRResGLFBOPtr t_tmp = std::dynamic_pointer_cast<SVRResGLFBO>(m_objFBOPtr);
     if (t_tmp) {
         t_tmp->unbind();
-        SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
-        if (t_camera && t_camera->hasLinkFboObject(THIS_TO_SHAREPTR(SVFboObject))) {
-            mApp->m_pGlobalParam->removeViewMat();
-            mApp->m_pGlobalParam->removeProjMat();
-            mApp->m_pGlobalParam->removeVPMat();
+        if(m_link){
+            mApp->getRenderMgr()->popViewMat();
+            mApp->getRenderMgr()->popProjMat();
+            mApp->getRenderMgr()->popVPMat();
         }
     }
 }
@@ -137,6 +140,16 @@ bool SVFboObject::hasStencil(){
         return t_tmp->hasStencil();
     }
     return 0;
+}
+
+void SVFboObject::setProjMat(FMat4 _mat) {
+    m_mat_proj = _mat;
+    m_mat_vp = m_mat_proj*m_mat_view;
+}
+
+void SVFboObject::setViewMat(FMat4 _view) {
+    m_mat_view = _view;
+    m_mat_vp = m_mat_proj*m_mat_view;
 }
 
 //

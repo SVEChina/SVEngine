@@ -12,7 +12,8 @@
 #include "../base/SVGBase.h"
 #include "../base/SVMap.h"
 #include "../base/SVPreDeclare.h"
-
+#include "../base/SVMat4d.h"
+#include "../base/SVStack.h"
 namespace sv {
     
     class SVRenderMgr : public SVGBase {
@@ -48,7 +49,20 @@ namespace sv {
         void setRenderTarget(cptr8 _name,SVRenderTargetPtr _rt);
         
         SVRenderTargetPtr getRenderTarget(cptr8 _name);
-        
+        //
+        void refreshDefMat(FMat4 _viewMat, FMat4 _projMat, FMat4 _vpMat);
+        //
+        void pushProjMat(FMat4 _mat);
+        FMat4 getProjMat();
+        void popProjMat();
+        //
+        void pushViewMat(FMat4 _mat);
+        FMat4 getViewMat();
+        void popViewMat();
+        //
+        void pushVPMat(FMat4 _mat);
+        FMat4 getVPMat();
+        void popVPMat();
     protected:
         //渲染场景
         SVRenderScenePtr m_pRenderScene;
@@ -62,6 +76,11 @@ namespace sv {
         //渲染目标Map
         typedef SVMap<SVString,SVRenderTargetPtr> TARGETPOOL;
         TARGETPOOL m_targetPool;
+        //
+        typedef SVStack<FMat4,50> MAT4STACK;//注意：栈最大支持的矩阵个数为50个
+        MAT4STACK m_stack_proj;
+        MAT4STACK m_stack_view;
+        MAT4STACK m_stack_vp;
         
     };//!namespace logic
 

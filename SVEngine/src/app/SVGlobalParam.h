@@ -51,27 +51,7 @@ namespace sv {
         FMat4 m_mat_ui;
         //
         SVRandom m_random;
-        //
-        void updateMainMat(FMat4 _projMat, FMat4 _viewMat, FMat4 _vpMat);
-        //
-        void addToProjStack(FMat4 _mat);
-        FMat4 *getProjMat();
-        bool removeProjMat();
-        //
-        void addToViewStack(FMat4 _mat);
-        FMat4 *getViewMat();
-        bool removeViewMat();
-        //
-        void addToVPStack(FMat4 _mat);
-        FMat4 *getVPMat();
-        bool removeVPMat();
-        //
-    protected:
-        typedef SVArray<FMat4*> MAT4STACK;
-        MAT4STACK m_stack_proj;
-        MAT4STACK m_stack_view;
-        MAT4STACK m_stack_vp;
-        
+
     public:
         FVec4 diffuse_color;    //漫反射颜色
         f32 diffuse_scale;      //满反射颜色缩放值

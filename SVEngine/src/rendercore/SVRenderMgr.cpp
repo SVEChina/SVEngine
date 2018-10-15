@@ -32,6 +32,18 @@ SVRenderMgr::~SVRenderMgr() {
 }
 
 void SVRenderMgr::init() {
+    //添加默认矩阵到矩阵栈
+    FMat4 t_defVMat;
+    t_defVMat.setIdentity();
+    m_stack_view.push(t_defVMat);
+    //
+    FMat4 t_defPMat;
+    t_defPMat.setIdentity();
+    m_stack_proj.push(t_defPMat);
+    //
+    FMat4 t_defVPMat;
+    t_defVPMat.setIdentity();
+    m_stack_vp.push(t_defVPMat);
 }
 
 void SVRenderMgr::destroy() {
@@ -140,6 +152,9 @@ void SVRenderMgr::clear() {
         m_pRenderScene = nullptr;
     }
     m_targetPool.clear();
+    m_stack_proj.destroy();
+    m_stack_view.destroy();
+    m_stack_vp.destroy();
     m_renderLock->unlock();
 }
 
@@ -148,4 +163,48 @@ void SVRenderMgr::recycleRes() {
     if( m_pRenderer ) {
         m_pRenderer->clearRes();
     }
+}
+
+void SVRenderMgr::refreshDefMat(FMat4 _viewMat, FMat4 _projMat, FMat4 _vpMat){
+    if ((m_stack_view.size() > 0) && (m_stack_proj.size() > 0) && (m_stack_vp.size() > 0)) {
+        m_stack_view.get(0).set(_viewMat.get());
+        m_stack_proj.get(0).set(_projMat.get());
+        m_stack_vp.get(0).set(_vpMat.get());
+    }
+}
+
+void SVRenderMgr::pushProjMat(FMat4 _mat){
+    FMat4 mat4 = _mat;
+    m_stack_proj.push(mat4);
+}
+FMat4 SVRenderMgr::getProjMat(){
+    FMat4 mat4Proj = m_stack_proj.top();
+    return mat4Proj;
+}
+void SVRenderMgr::popProjMat(){
+    m_stack_proj.pop();
+}
+//
+void SVRenderMgr::pushViewMat(FMat4 _mat){
+    FMat4 mat4 = _mat;
+    m_stack_view.push(mat4);
+}
+FMat4 SVRenderMgr::getViewMat(){
+    FMat4 mat4View = m_stack_view.top();;
+    return mat4View;
+}
+void SVRenderMgr::popViewMat(){
+    m_stack_view.pop();
+}
+//
+void SVRenderMgr::pushVPMat(FMat4 _mat){
+    FMat4 mat4 = _mat;
+    m_stack_vp.push(mat4);
+}
+FMat4 SVRenderMgr::getVPMat(){
+    FMat4 mat4VP = m_stack_vp.top();;
+    return mat4VP;
+}
+void SVRenderMgr::popVPMat(){
+    m_stack_vp.pop();
 }

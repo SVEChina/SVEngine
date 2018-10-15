@@ -9,6 +9,9 @@
 #include "../basesys/SVBasicSys.h"
 #include "../node/SVCameraNode.h"
 #include "../base/SVLock.h"
+#include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRenderTexture.h"
 
 SVCameraMgr::SVCameraMgr(SVInst *_app)
 :SVSysBase(_app) {
@@ -21,7 +24,6 @@ SVCameraMgr::~SVCameraMgr() {
 }
 
 void SVCameraMgr::init() {
-    //相机
     m_mainCamera = MakeSharedPtr<SVCameraNode>(mApp);
 }
 
@@ -34,7 +36,13 @@ void SVCameraMgr::destroy() {
 void SVCameraMgr::update(f32 dt) {
     if(m_mainCamera){
         m_mainCamera->update(dt);
-        mApp->m_pGlobalParam->updateMainMat(m_mainCamera->getProjectMatObj(), m_mainCamera->getViewMatObj(), m_mainCamera->getVPMatObj());
+        //
+        SVRendererBasePtr t_renderer = mApp->getRenderer();
+        if(t_renderer && t_renderer->getRenderTexture() ) {
+            m_mainCamera->addLinkFboObject( t_renderer->getRenderTexture() );
+        }
+        //这不知道要写到哪，先写这了. 晓帆
+        mApp->getRenderMgr()->refreshDefMat(m_mainCamera->getViewMatObj(), m_mainCamera->getViewMatObj(), m_mainCamera->getVPMatObj());
     }
     m_cameraLock->lock();
     CAMERAPOOL::Iterator it = m_camerPool.begin();
@@ -84,7 +92,6 @@ SVCameraNodePtr SVCameraMgr::getCamera(cptr8 _name){
     }
     return nullptr;
 }
-
 
 bool SVCameraMgr::hasCamera(cptr8 _name) {
     CAMERAPOOL::Iterator it = m_camerPool.find(SVString(_name));
