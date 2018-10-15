@@ -110,10 +110,6 @@ void SVBackGroundNode::setTexture(SVTEXTYPE _textype) {
     }
 }
 
-SVTexturePtr SVBackGroundNode::getOutTex(){
-    return nullptr;
-}
-
 SVDeformImageMovePtr SVBackGroundNode::getDeform(){
     return m_pDeform;
 }
@@ -177,9 +173,9 @@ void SVBackGroundNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_all
     RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
     _toJsonData(_allocator, locationObj);
     //sprite的属性 文件名 宽 高 纹理类型
-    locationObj.AddMember("file", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
     locationObj.AddMember("spriteW", m_width, _allocator);
     locationObj.AddMember("spriteH", m_height, _allocator);
+    locationObj.AddMember("texname", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
     locationObj.AddMember("textype", s32(m_inTexType), _allocator);
     locationObj.AddMember("useTextype", s32(m_useTexType), _allocator);
     //是否开了形变算法
@@ -193,9 +189,7 @@ void SVBackGroundNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_all
 
 void SVBackGroundNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     _fromJsonData(item);
-    if (item.HasMember("file") && item["file"].IsString()) {
-        m_pTexName = item["file"].GetString();
-    }
+    
     if (item.HasMember("spriteW") && item["spriteW"].IsInt()) {
         m_width = item["spriteW"].GetInt();
     }
@@ -204,6 +198,9 @@ void SVBackGroundNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     }
     if (item.HasMember("textype") && item["textype"].IsInt()) {
         m_inTexType = SVTEXTYPE(item["textype"].GetInt());
+    }
+    if (item.HasMember("texname") && item["texname"].IsString()) {
+        m_pTexName = item["texname"].GetString();
     }
     if (item.HasMember("useTextype") && item["useTextype"].IsInt()) {
         m_useTexType = SVTEXTYPE(item["useTextype"].GetInt());
