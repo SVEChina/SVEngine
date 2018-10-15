@@ -517,22 +517,14 @@ void SVSpine::setAlpha(f32 _alpha){
     m_alpha = _alpha;
 }
 
-//cptr8 SVSpine::getActiveAct() {
-//    return m_activeAct.c_str();
-//}
-//
-//void SVSpine::setActiveAct(cptr8 actname) {
-//    m_activeAct = actname;
-//}
+//序列化接口
+void SVSpine::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue) {
+    
+}
 
-//spTrackEntry *SVSpine::addAnimationForTrack(s32 trackIndex, cptr8 name, bool loop, s32 delay) {
-//    spAnimation* animation = spSkeletonData_findAnimation(m_pSkeleton->data, name);
-//    if (!animation) {
-//        printf("Spine: Animation not found: %s",name);
-//        return 0;
-//    }
-//    return spAnimationState_addAnimation(m_pSpineAniState, trackIndex, animation, loop, delay);
-//}
+void SVSpine::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
+    
+}
 
 
 

@@ -149,6 +149,7 @@ void SVSpriteNode::render() {
     SVNode::render();
 }
 
+//序列化
 void SVSpriteNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
     RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
     _toJsonData(_allocator, locationObj);

@@ -374,3 +374,50 @@ void SVSpineNode::_fixBoundingBox(){
         m_aabbBox = t_new_box;
     }
 }
+
+//序列化
+void SVSpineNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    _toJsonData(_allocator, locationObj);
+    //
+    locationObj.AddMember("aniname", RAPIDJSON_NAMESPACE::StringRef(m_cur_aniname.c_str()), _allocator);
+    locationObj.AddMember("loop", m_loop, _allocator);
+    bool m_hasSpine = false;
+    if(m_spine){
+        m_hasSpine = true;
+    }
+    locationObj.AddMember("spine", m_hasSpine, _allocator);
+    if(m_spine){
+        //有spine
+        SVString t_atlas = m_spine->m_spine_atlas;
+        SVString t_json = m_spine->m_spine_json;
+        locationObj.AddMember("ske_atlas", RAPIDJSON_NAMESPACE::StringRef(t_atlas.c_str()), _allocator);
+        locationObj.AddMember("ske_json", RAPIDJSON_NAMESPACE::StringRef(t_json.c_str()), _allocator);
+        _objValue.AddMember("SVSpineNode", locationObj, _allocator);
+    }
+}
+
+void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    _fromJsonData(item);
+    if (item.HasMember("aniname") && item["aniname"].IsString()) {
+        m_cur_aniname = item["aniname"].GetString();
+    }
+    if (item.HasMember("loop") && item["loop"].IsBool()) {
+        m_loop = item["loop"].GetBool();
+    }
+    bool m_hasSpine = false;
+    if (item.HasMember("spine") && item["spine"].IsBool()) {
+        m_hasSpine = item["spine"].GetBool();
+    }
+    if(m_hasSpine){
+        //有spine
+        SVString t_atlas;
+        SVString t_json;
+        if (item.HasMember("ske_atlas") && item["ske_atlas"].IsString()) {
+            t_atlas = item["ske_atlas"].GetString();
+        }
+        if (item.HasMember("ske_json") && item["ske_json"].IsString()) {
+            t_json = item["ske_json"].GetString();
+        }
+    }
+}

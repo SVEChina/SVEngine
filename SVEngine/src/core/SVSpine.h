@@ -159,8 +159,15 @@ namespace sv {
             
             typedef SVArray<SpineMeshDataPtr> SPINEDATAPOOL;
             SPINEDATAPOOL m_spineDataPool;
+            
         protected:
             f32 m_alpha;
+            
+        public:
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
         
     }//!namespace util
