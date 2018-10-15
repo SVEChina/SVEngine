@@ -10,6 +10,7 @@
 
 #include "SVRenderTexture.h"
 #include "SVRenderStream.h"
+#include "../base/SVStack.h"
 
 namespace sv {
     
@@ -32,7 +33,6 @@ namespace sv {
             void clearRenderCmd();
             
             bool isSuspend();
-            
             
         protected:
             SVString m_name;

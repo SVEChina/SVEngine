@@ -165,3 +165,17 @@ SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _form
 void SVRendererBase::destroySVTex(SVTEXTYPE _type) {
     m_svTex[_type] = nullptr;
 }
+
+//视口
+void SVRendererBase::svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h) {
+    VPParam t_pm;
+    t_pm.m_x = _x;
+    t_pm.m_y = _y;
+    t_pm.m_width = _w;
+    t_pm.m_height = _h;
+    m_vpStack.push(t_pm);
+}
+//退出视口
+void SVRendererBase::svPopViewPort() {
+    m_vpStack.pop();
+}

@@ -878,34 +878,31 @@ void SVRResGLFBO::bind() {
         m_dirty = false;
         refresh();
     }
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(t_rendererGL) {
-        t_rendererGL->svBindFrameBuffer(m_fboID);
-        t_rendererGL->svViewPort(0,0,m_width,m_height);
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
+        t_renderer->svBindFrameBuffer(m_fboID);
+        t_renderer->svPushViewPort(0,0,m_width,m_height);
     }
 }
 
 void  SVRResGLFBO::clear(){
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(t_rendererGL) {
-        t_rendererGL->svBindClearColor(m_fboID);
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
+        t_renderer->svBindClearColor(m_fboID);
     }
 }
 
 void SVRResGLFBO::unbind() {
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(t_rendererGL) {
-        t_rendererGL->svBindFrameBuffer(m_lastFboID);
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
+        t_renderer->svBindFrameBuffer(m_lastFboID);
     }
     m_lastFboID = 0;
 }
 
 //
 SVRResGLOutFBO::SVRResGLOutFBO(SVInst *_app,u32 _fboid)
-        :SVRResGLFBO(_app){
+:SVRResGLFBO(_app){
     m_fboID = _fboid;
 }
 
@@ -1204,9 +1201,8 @@ void SVResGLRenderMesh::setVertexData(SVDataSwapPtr _data){
 }
 
 void SVResGLRenderMesh::render() {
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(!t_rendererGL) {
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(!t_renderer) {
         return ;
     }
     if(!m_bVisible)
@@ -1223,8 +1219,8 @@ void SVResGLRenderMesh::render() {
         //vbo
         if(m_indexID>0) {
             //因为索引这块可能大于65536 所以需要分批渲染 by fyz
-            t_rendererGL->svBindIndexBuffer(m_indexID);
-            t_rendererGL->svBindVertexBuffer(m_vboID);
+            t_renderer->svBindIndexBuffer(m_indexID);
+            t_renderer->svBindVertexBuffer(m_vboID);
             //索引模式
             if(m_dirty){
                 m_dirty = false;
@@ -1234,10 +1230,10 @@ void SVResGLRenderMesh::render() {
             _updateVertDsp();
             glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
             //
-            t_rendererGL->svBindVertexBuffer(0);
-            t_rendererGL->svBindIndexBuffer(0);
+            t_renderer->svBindVertexBuffer(0);
+            t_renderer->svBindIndexBuffer(0);
         }else{
-            t_rendererGL->svBindVertexBuffer(m_vboID);
+            t_renderer->svBindVertexBuffer(m_vboID);
             //非索引模式
             if(m_dirty){
                 m_dirty = false;
@@ -1246,55 +1242,51 @@ void SVResGLRenderMesh::render() {
             }
             _updateVertDsp();
             glDrawArrays(m_drawmethod, 0, m_pointNum);
-            t_rendererGL->svBindVertexBuffer(0);
+            t_renderer->svBindVertexBuffer(0);
         }
     }
 }
 
 void SVResGLRenderMesh::_updateVertDsp() {
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(t_rendererGL) {
-        t_rendererGL->svUpdateVertexFormate(m_vftype);
+     SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
+        t_renderer->svUpdateVertexFormate(m_vftype);
     }
 }
 
 void SVResGLRenderMesh::_bindVerts(){
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(t_rendererGL) {
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
         if(m_indexID>0){
-            t_rendererGL->svBindIndexBuffer(m_indexID);
+            t_renderer->svBindIndexBuffer(m_indexID);
         }else{
-            t_rendererGL->svBindIndexBuffer(0);
+            t_renderer->svBindIndexBuffer(0);
         }
 
         if(m_vboID>0){
-            t_rendererGL->svBindVertexBuffer(m_vboID);
+            t_renderer->svBindVertexBuffer(m_vboID);
         }else{
-            t_rendererGL->svBindVertexBuffer(0);
+            t_renderer->svBindVertexBuffer(0);
         }
     }
 }
 
 void SVResGLRenderMesh::_unbindVerts(){
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(t_rendererGL) {
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
         if(m_indexID>0){
-            t_rendererGL->svBindIndexBuffer(0);
+            t_renderer->svBindIndexBuffer(0);
         }
         if(m_vboID>0){
-            t_rendererGL->svBindVertexBuffer(0);
+            t_renderer->svBindVertexBuffer(0);
         }
     }
 }
 
 void SVResGLRenderMesh::_updateVertex() {
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(m_pDataVertex && t_rendererGL){
-        t_rendererGL->svBindVertexBuffer(m_vboID);
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(m_pDataVertex && t_renderer){
+        t_renderer->svBindVertexBuffer(m_vboID);
         if(m_verbufferNeedResize){
             m_verbufferNeedResize = false;
             if (m_vboID > 0) {
@@ -1315,10 +1307,9 @@ void SVResGLRenderMesh::_updateVertex() {
 }
 
 void SVResGLRenderMesh::_updateIndex() {
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(m_pDataIndex && t_rendererGL){
-        t_rendererGL->svBindIndexBuffer(m_indexID);
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(m_pDataIndex && t_renderer){
+        t_renderer->svBindIndexBuffer(m_indexID);
         if(m_indbufferNeedResize){
             m_indbufferNeedResize= false;
             if (m_indexID > 0) {

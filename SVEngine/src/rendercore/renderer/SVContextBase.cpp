@@ -22,25 +22,21 @@ SVContextBase::~SVContextBase() {
 
 bool SVContextBase::activeRenderTarget(SVRenderTargetPtr _target){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(t_rendererGL && _target) {
-        t_rendererGL->svBindFrameBuffer(_target->getFboID());
-        t_rendererGL->svViewPort(0, 0,_target->getWidth(),_target->getHeight());
+    if(t_renderer && _target) {
+        t_renderer->svBindFrameBuffer(_target->getFboID());
+        t_renderer->svPushViewPort(0, 0,_target->getWidth(),_target->getHeight());
         glClearColor(0.0,0.0,0.0,0.0);
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
         return true;
     }
-//    else {
-//        t_rendererGL->svBindFrameBuffer(0);
-//    }
     return false;
 }
 
 void SVContextBase::swapRenderTarget(SVRenderTargetPtr _target){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
-    SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
-    if(t_rendererGL && _target){
-        t_rendererGL->svBindFrameBuffer(_target->getFboID());
+    if(t_renderer && _target){
+        t_renderer->svPopViewPort();
+        t_renderer->svBindFrameBuffer(_target->getFboID());
         glBindRenderbuffer(GL_RENDERBUFFER,_target->getColorID());
     }
 }

@@ -11,6 +11,7 @@
 #include "../SVRenderDef.h"
 #include "../../base/SVGBase.h"
 #include "../../base/SVArray.h"
+#include "../../base/SVStack.h"
 #include "../../core/SVVertDef.h"
 #include "../../mtl/SVMtlParamBase.h"
 
@@ -18,6 +19,13 @@ namespace sv {
     
     namespace render{
         
+        //
+        struct VPParam{
+            u32 m_x;
+            u32 m_y;
+            u32 m_width;
+            u32 m_height;
+        };
         //渲染器
         
         class SVRendererBase: public SVGBase {
@@ -71,6 +79,9 @@ namespace sv {
             SVLockPtr m_resLock;
             //渲染状态
             SVRenderStatePtr m_pRState;
+            //渲染VP
+            SVStack<VPParam,10> m_vpStack;  //viewport堆栈
+            
         public:
             //renderder interface
             //提交纹理
@@ -136,7 +147,9 @@ namespace sv {
             //顶点格式更新
             virtual void svUpdateVertexFormate(VFTYPE _vf){}
             //视口
-            virtual void svViewPort(u32 _x,u32 _y,u32 _w,u32 _h){}
+            virtual void svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h);
+            //退出视口
+            virtual void svPopViewPort();
         };
     
     }//!namespace render

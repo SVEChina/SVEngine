@@ -516,18 +516,14 @@ void SVRendererGL::svBindIndexBuffer(u32 _id) {
 }
 
 //视口
-void SVRendererGL::svViewPort(u32 _x,u32 _y,u32 _w,u32 _h) {
-    SVRenderStateGLPtr m_pRStateGL = std::dynamic_pointer_cast<SVRenderStateGL>(m_pRState);
-    if((m_pRStateGL->m_view_x!=_x) ||
-       (m_pRStateGL->m_view_y!=_y) ||
-       (m_pRStateGL->m_view_w!=_w) ||
-       (m_pRStateGL->m_view_h!=_h) ) {
-        m_pRStateGL->m_view_x = _x;
-        m_pRStateGL->m_view_y = _y;
-        m_pRStateGL->m_view_w = _w;
-        m_pRStateGL->m_view_h = _h;
-        glViewport(_x, _y, _w, _h);
-    }
+void SVRendererGL::svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h) {
+    SVRendererBase::svPushViewPort(_x,_y,_w,_h);
+    glViewport(_x, _y, _w, _h);
+}
+
+void SVRendererGL::svPopViewPort() {
+    VPParam t_vp = m_vpStack.pop();
+    glViewport(t_vp.m_x, t_vp.m_y, t_vp.m_width, t_vp.m_height);
 }
 
 void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf) {
@@ -593,7 +589,5 @@ void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf) {
             t_off += 4 * sizeof(f32);
         }
     }
-    
 }
-
 

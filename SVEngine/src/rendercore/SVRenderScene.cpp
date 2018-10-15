@@ -9,6 +9,7 @@
 #include "SVRenderCmd.h"
 #include "SVRenderMgr.h"
 #include "SVRenderPipline.h"
+#include "renderer/SVRendererBase.h"
 #include "../app/SVInst.h"
 #include "../base/SVLock.h"
 #include <sys/time.h>

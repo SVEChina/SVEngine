@@ -103,7 +103,9 @@ namespace sv {
             void svUpdateVertexFormate(VFTYPE _vf);
             
             //视口
-            void svViewPort(u32 _x,u32 _y,u32 _w,u32 _h);
+            void svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h);
+            
+            void svPopViewPort();
             
         protected:
             s32 m_glVersion;
