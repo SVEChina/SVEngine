@@ -77,7 +77,7 @@ void SVSceneMgr::update(f32 dt) {
 }
 
 void SVSceneMgr::_adapt(f32 _dt) {
-    SVRendererBasePtr t_renderer = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
     if( m_pMainScene && t_renderer ) {
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if ( t_rs && false == t_rs->isSuspend() ) {

@@ -125,7 +125,7 @@ SVDeformImageMovePtr SVBackGroundNode::getDeform(){
 }
 
 bool SVBackGroundNode::enableDeform(SVTEXTYPE _textype) {
-    SVTexturePtr t_tex = mApp->getRenderMgr()->getRenderer()->getSVTex(_textype);
+    SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(_textype);
     if(t_tex){
         return false;
     }
@@ -136,7 +136,7 @@ bool SVBackGroundNode::enableDeform(SVTEXTYPE _textype) {
                 m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
             }
             SVTexturePtr m_texout =
-            mApp->getRenderMgr()->getRenderer()->createSVTex(_textype,
+            mApp->getRenderer()->createSVTex(_textype,
                                                              m_pTex->getwidth(),
                                                              m_pTex->getheight(),
                                                              GL_RGBA);
@@ -145,13 +145,13 @@ bool SVBackGroundNode::enableDeform(SVTEXTYPE _textype) {
             return true;
         }
     }else{
-        SVTexturePtr t_innerTex = mApp->getRenderMgr()->getRenderer()->getSVTex(m_inTexType);
+        SVTexturePtr t_innerTex = mApp->getRenderer()->getSVTex(m_inTexType);
         if(t_innerTex){
             if(!m_pDeform){
                 m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
             }
             SVTexturePtr m_texout =
-            mApp->getRenderMgr()->getRenderer()->createSVTex(_textype,
+            mApp->getRenderer()->createSVTex(_textype,
                                                              t_innerTex->getwidth(),
                                                              t_innerTex->getheight(),
                                                              GL_RGBA);
@@ -166,7 +166,7 @@ bool SVBackGroundNode::enableDeform(SVTEXTYPE _textype) {
 void SVBackGroundNode::disableDeform() {
     if(m_pDeform){
         m_pDeform = nullptr;
-        mApp->getRenderMgr()->getRenderer()->destroySVTex(m_useTexType);
+        mApp->getRenderer()->destroySVTex(m_useTexType);
         m_useTexType = E_TEX_END;;
     }
 }

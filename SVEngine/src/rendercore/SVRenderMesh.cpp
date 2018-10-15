@@ -53,7 +53,7 @@ void SVRenderMesh::_resetMeshConf(){
 
 void SVRenderMesh::create(SVRendererBasePtr _renderer){
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -229,7 +229,7 @@ SVRenderMeshDvid::~SVRenderMeshDvid() {
 
 void SVRenderMeshDvid::create(SVRendererBasePtr _renderer){
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,

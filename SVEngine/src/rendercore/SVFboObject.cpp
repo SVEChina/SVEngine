@@ -31,7 +31,7 @@ SVFboObject::~SVFboObject() {
 
 void SVFboObject::create(SVRendererBasePtr _renderer){
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -165,7 +165,7 @@ SVOutFboObject::~SVOutFboObject() {
 void SVOutFboObject::create(SVRendererBasePtr _renderer){
     //外部设置的FBO 直接使用外部的就好
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,

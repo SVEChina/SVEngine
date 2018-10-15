@@ -37,7 +37,7 @@ int SVRenderTarget::getColorID() {
 
 void SVRenderTarget::create(SVRendererBasePtr _renderer) {
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -78,7 +78,7 @@ SVRenderTargetDefault::~SVRenderTargetDefault() {
 
 void SVRenderTargetDefault::create(SVRendererBasePtr _renderer) {
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -123,7 +123,7 @@ SVRenderTargetOut::~SVRenderTargetOut() {
 
 void SVRenderTargetOut::create(SVRendererBasePtr _renderer) {
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -167,7 +167,7 @@ SVRenderTargetOutTexture::~SVRenderTargetOutTexture() {
 void SVRenderTargetOutTexture::create(SVRendererBasePtr _renderer) {
     SVRenderTarget::create(_renderer);
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderMgr()->getRenderer();
+    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
