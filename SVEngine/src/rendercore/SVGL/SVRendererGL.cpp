@@ -522,8 +522,11 @@ void SVRendererGL::svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h) {
 }
 
 void SVRendererGL::svPopViewPort() {
-    VPParam t_vp = m_vpStack.pop();
-    glViewport(t_vp.m_x, t_vp.m_y, t_vp.m_width, t_vp.m_height);
+    m_vpStack.pop();
+    if(m_vpStack.size()>0) {
+        VPParam t_vp = m_vpStack.top();
+        glViewport(t_vp.m_x, t_vp.m_y, t_vp.m_width, t_vp.m_height);
+    }
 }
 
 void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf) {
