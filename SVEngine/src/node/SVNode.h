@@ -88,11 +88,7 @@ namespace sv {
             FVec3& getRotation();
             
             FVec3& getScale();
-            
-            void setUI(bool _ui){ m_isUI = _ui; }
-            
-            bool isUI(){ return m_isUI; }
-            
+
             void setAABB(SVBoundBox& _aabb);
             
             SVBoundBox& getAABB();
@@ -128,34 +124,31 @@ namespace sv {
             //渲染
             virtual void render();
             //
-            SVString ntype;       //节点类型
-            SVString m_name;
-            s32 uid;             //唯一ID
-            s32 m_personID;
-            s32 m_iZOrder;
-            bool m_canSelect;
-            bool m_beSelect;
-            bool m_canProcEvent;
-            bool m_visible;
-            bool m_dirty;
-            RENDERSTREAMTYPE m_rsType;    //渲染流类型
+            SVString ntype;         //节点类型
+            SVString m_name;        //唯一名称
+            s32 uid;                //唯一ID
+            s32 m_personID;         //角色ID
+            s32 m_iZOrder;          //Z值
+            bool m_canSelect;       //是否可以选择
+            bool m_canProcEvent;    //是否能处理事件
+            bool m_visible;         //是否可见
+            bool m_drawBox;         //是否渲染包围盒
+            RENDERSTREAMTYPE m_rsType;      //渲染流类型
+            FVec3 m_postion;        //位置
+            FVec3 m_rotation;       //旋转
+            FVec3 m_scale;          //缩放
+            FVec3 m_offpos;         //偏移
+            s32 m_bindIndex;        //绑定索引
             //
+            bool m_dirty;
+            bool m_beSelect;        //是否被选择
+            SVBoundBox m_aabbBox;   //AABB包围盒
+            SVBoundBox m_aabbBox_sw;//AABB世界包围盒
             FMat4 m_localMat;       //本地矩阵
             FMat4 m_absolutMat;     //绝对世界矩阵
             FMat4 m_iabsolutMat;    //逆绝对世界矩阵
-            
-            FVec3 m_postion;    //位置
-            FVec3 m_rotation;   //度
-            FVec3 m_scale;      //缩放
-            
-            SVBoundBox m_aabbBox;    //AABB包围盒
-            SVBoundBox m_aabbBox_sw; //AABB世界包围盒
-            bool m_drawBox;         //是否渲染包围盒
-            
             SVMtlCorePtr m_pMtl;    //材质
-            
-            bool m_isUI;
-            
+
         public:
             //节点模块
             void addChild(SVNodePtr node);
@@ -185,6 +178,20 @@ namespace sv {
             //排序
             void _sort_child();
             bool m_needsort;
+            
+            //序列化接口
+        public:
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+            
+        protected:
+            virtual void _toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                             RAPIDJSON_NAMESPACE::Value &locationObj);
+            
+            virtual void _fromJsonData(RAPIDJSON_NAMESPACE::Value &item);
+
         };
         
     }//!namespace node

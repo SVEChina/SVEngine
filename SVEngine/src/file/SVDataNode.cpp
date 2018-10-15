@@ -284,55 +284,54 @@ void SVDataNodeSpine::refreshOut(SVSpineNodePtr _spineNode){
 
 SVDataNodeDeform::SVDataNodeDeform(SVInst *_app)
 : SVDataNode(_app){
-    
 }
 
 SVDataNodeDeform::~SVDataNodeDeform(){
-    
 }
 
 void SVDataNodeDeform::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
-    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
-    RAPIDJSON_NAMESPACE::Value locationArray(RAPIDJSON_NAMESPACE::kArrayType);
-    SVMap<u32,V2>::Iterator it= m_pointMap.begin();
-    while (it!=m_pointMap.end()) {
-        u32 t_postion=it->key;
-        V2 t_point=it->data;
-        RAPIDJSON_NAMESPACE::Value pointObj(RAPIDJSON_NAMESPACE::kObjectType);
-        pointObj.AddMember("index", t_postion , _allocator);
-        pointObj.AddMember("x", t_point.x , _allocator);
-        pointObj.AddMember("y", t_point.y , _allocator);
-        locationArray.PushBack(pointObj,_allocator );
-    }
-    locationObj.AddMember("pointMove", locationArray, _allocator);
-    _objValue.AddMember("sv_deform", locationObj, _allocator);
+//    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+//    RAPIDJSON_NAMESPACE::Value locationArray(RAPIDJSON_NAMESPACE::kArrayType);
+//    SVMap<u32,V2>::Iterator it= m_pointMap.begin();
+//    while (it!=m_pointMap.end()) {
+//        u32 t_postion=it->key;
+//        V2 t_point=it->data;
+//        RAPIDJSON_NAMESPACE::Value pointObj(RAPIDJSON_NAMESPACE::kObjectType);
+//        pointObj.AddMember("index", t_postion , _allocator);
+//        pointObj.AddMember("x", t_point.x , _allocator);
+//        pointObj.AddMember("y", t_point.y , _allocator);
+//        locationArray.PushBack(pointObj,_allocator );
+//    }
+//    locationObj.AddMember("pointMove", locationArray, _allocator);
+//    _objValue.AddMember("sv_deform", locationObj, _allocator);
 }
 
 void SVDataNodeDeform::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
-    m_pointMap.clear();
-    if (item.HasMember("pointMove") && item["pointMove"].IsArray()) {
-        RAPIDJSON_NAMESPACE::Value locationArray=item["pointMove"].GetArray();
-        for(int i=0;i<locationArray.Size();i++){
-            RAPIDJSON_NAMESPACE::Value obj=locationArray[i].GetObject();
-            u32 t_postion=0;
-            V2  t_point;
-            if (obj.HasMember("index") && obj["index"].IsInt()) {
-                 t_postion = obj["index"].GetInt();
-            }
-            if (obj.HasMember("x") && obj["x"].IsFloat()) {
-                t_point.x = obj["x"].GetFloat();
-            }
-            if (obj.HasMember("y") && obj["y"].IsFloat()) {
-                t_point.y = obj["y"].GetFloat();
-            }
-            m_pointMap.append(t_postion,t_point);
-        }
-    }
+//    m_pointMap.clear();
+//    if (item.HasMember("pointMove") && item["pointMove"].IsArray()) {
+//        RAPIDJSON_NAMESPACE::Value locationArray=item["pointMove"].GetArray();
+//        for(int i=0;i<locationArray.Size();i++){
+//            RAPIDJSON_NAMESPACE::Value obj=locationArray[i].GetObject();
+//            u32 t_postion=0;
+//            V2  t_point;
+//            if (obj.HasMember("index") && obj["index"].IsInt()) {
+//                 t_postion = obj["index"].GetInt();
+//            }
+//            if (obj.HasMember("x") && obj["x"].IsFloat()) {
+//                t_point.x = obj["x"].GetFloat();
+//            }
+//            if (obj.HasMember("y") && obj["y"].IsFloat()) {
+//                t_point.y = obj["y"].GetFloat();
+//            }
+//            m_pointMap.append(t_postion,t_point);
+//        }
+//    }
 }
 
 SVNodePtr SVDataNodeDeform::toNode(){
     return nullptr;
 }
+
 //
 SVDataNodeFilter::SVDataNodeFilter(SVInst *_app)
 : SVDataNode(_app){

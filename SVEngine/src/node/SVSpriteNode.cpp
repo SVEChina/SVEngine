@@ -148,3 +148,34 @@ void SVSpriteNode::render() {
     }
     SVNode::render();
 }
+
+void SVSpriteNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    _toJsonData(_allocator, locationObj);
+    //
+    if(m_pTex){
+        m_pTexName = m_pTex->getname();
+    }
+    //
+    locationObj.AddMember("file", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
+    locationObj.AddMember("spriteW", m_width, _allocator);
+    locationObj.AddMember("spriteH", m_height, _allocator);
+    locationObj.AddMember("textype", s32(m_inTexType), _allocator);
+    _objValue.AddMember("SVSpriteNode", locationObj, _allocator);
+}
+
+void SVSpriteNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    _fromJsonData(item);
+    if (item.HasMember("file") && item["file"].IsString()) {
+        m_pTexName = item["file"].GetString();
+    }
+    if (item.HasMember("spriteW") && item["spriteW"].IsInt()) {
+        m_width = item["spriteW"].GetInt();
+    }
+    if (item.HasMember("spriteH") && item["spriteH"].IsInt()) {
+        m_height = item["spriteH"].GetInt();
+    }
+    if (item.HasMember("textype") && item["textype"].IsInt()) {
+        m_inTexType = SVTEXTYPE(item["textype"].GetInt());
+    }
+}

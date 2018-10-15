@@ -104,21 +104,25 @@ namespace sv {
             bool     m_loop;
         };
         
-        class SVDataNodeDeform : public SVDataNode{
+        //带变脸的背景节点
+        class SVDataNodeDeform : public SVDataNode {
         public:
             SVDataNodeDeform(SVInst *_app);
             
             ~SVDataNodeDeform();
             
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
             
             virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
             
             virtual SVNodePtr toNode();
+            
         protected:
-            SVMap<u32, V2> m_pointMap;
+            
         };
         
+        //
         class  SVDataNodeFilter : public SVDataNode{
         public:
             SVDataNodeFilter(SVInst *_app);

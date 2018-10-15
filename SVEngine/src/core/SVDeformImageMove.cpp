@@ -213,57 +213,59 @@ s32 SVDeformImageMove::getHeight(){
     return m_tt_h;
 }
 
-void  SVDeformImageMove::setTagPoint(u32 _postion,V2 _point){
-    m_pointMap.append(_postion, _point);
+void SVDeformImageMove::setDeformSwitch(bool _swith){
+    is_swith=_swith;
 }
 
 V2 SVDeformImageMove::MSL(V2 point){
     if(m_pIUMP) {
-        FVec2 t_xy=m_pIUMP->MLS(FVec2(point.x,point.y));
+        FVec2 t_xy = m_pIUMP->MLS(FVec2(point.x,point.y));
         V2 xy;
-        xy.x=t_xy.x;
-        xy.y=t_xy.y;
+        xy.x = t_xy.x;
+        xy.y = t_xy.y;
         return xy;
     }
     V2 xy;
-    xy.x=0;
-    xy.y=0;
+    xy.x = 0;
+    xy.y = 0;
     return xy;
 }
-void SVDeformImageMove::setDeformSwitch(bool _swith){
-    is_swith=_swith;
+
+void SVDeformImageMove::setTagPoint(u32 _postion,V2 _point){
+    m_pointMap.append(_postion, _point);
 }
 
 void SVDeformImageMove::pointMove(V2 *t_data){
     V2 t_outlinePoints[106];
     for(s32 i  = 0 ; i < 106 ; i++){
-        t_outlinePoints[i].x   = t_data[i].x;
+        t_outlinePoints[i].x = t_data[i].x;
         if(m_flip){
-            t_outlinePoints[i].y =  t_data[i].y;
+            t_outlinePoints[i].y = t_data[i].y;
         }else{
             t_outlinePoints[i].y = m_tt_h-t_data[i].y;
         }
     }
-    FVec2 eyer=FVec2(t_outlinePoints[77].x,t_outlinePoints[77].y);
-    FVec2 eyel=FVec2(t_outlinePoints[74].x,t_outlinePoints[74].y);
+    FVec2 eyer = FVec2(t_outlinePoints[77].x,t_outlinePoints[77].y);
+    FVec2 eyel = FVec2(t_outlinePoints[74].x,t_outlinePoints[74].y);
     
-    f32 leng=getDistanceFrom(eyer,eyel);
-    f32 _smooth=(leng/240.0);
+    f32 leng = getDistanceFrom(eyer,eyel);
+    f32 _smooth = (leng/240.0);
     f32 t_inversedStandardLength = 1.0 / leng;
-    FVec2 t_eyel=eyer-eyel;
+    FVec2 t_eyel = eyer-eyel;
     f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
     m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
     m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
     FVec2 t_rangleV2(t_outlinePoints[46].x,t_outlinePoints[46].y);
-    SVMap<u32,V2>::Iterator it=m_pointMap.begin();
+    //迭代偏移值
+    SVMap<u32,V2>::Iterator it = m_pointMap.begin();
     while (it!=m_pointMap.end()) {
-        u32 t_postion=it->key;
-        V2 t_point=it->data;
+        u32 t_postion = it->key;
+        V2 t_point = it->data;
         m_pIUMP->setControl(FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y));
-        FVec2 point_v= FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y);
-        point_v=rotateBy(-angle,point_v,t_rangleV2);
-        point_v= FVec2(point_v.x+t_point.x*_smooth,point_v.y+t_point.y*_smooth);
-        point_v=rotateBy(angle,point_v,t_rangleV2);
+        FVec2 point_v = FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y);
+        point_v = rotateBy(-angle,point_v,t_rangleV2);
+        point_v = FVec2(point_v.x+t_point.x*_smooth,point_v.y+t_point.y*_smooth);
+        point_v = rotateBy(angle,point_v,t_rangleV2);
         m_pIUMP->setTargetControl(point_v);
         it++;
     }
@@ -286,10 +288,43 @@ void SVDeformImageMove::pointMove(V2 *t_data){
     _refreshScreenRectMesh(m_pointScreen, t_targetData);
 }
 
+//serial 序列化接口
+void SVDeformImageMove::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                               RAPIDJSON_NAMESPACE::Value &_objValue){
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    RAPIDJSON_NAMESPACE::Value locationArray(RAPIDJSON_NAMESPACE::kArrayType);
+    SVMap<u32,V2>::Iterator it= m_pointMap.begin();
+    while (it!=m_pointMap.end()) {
+        u32 t_postion=it->key;
+        V2 t_point=it->data;
+        RAPIDJSON_NAMESPACE::Value pointObj(RAPIDJSON_NAMESPACE::kObjectType);
+        pointObj.AddMember("index", t_postion , _allocator);
+        pointObj.AddMember("x", t_point.x , _allocator);
+        pointObj.AddMember("y", t_point.y , _allocator);
+        locationArray.PushBack(pointObj,_allocator );
+    }
+    locationObj.AddMember("pointMove", locationArray, _allocator);
+    _objValue.AddMember("sv_deform", locationObj, _allocator);
+}
 
-//            SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
-//            if(m_dataPoint){
-//            }else if( t_person && t_person->getExist()){
-//                V2 *t_data = (V2*)t_person->getFaceDataOriginal();
-//                pointMove(t_data);
-//            }
+void SVDeformImageMove::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    m_pointMap.clear();
+    if (item.HasMember("pointMove") && item["pointMove"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value locationArray=item["pointMove"].GetArray();
+        for(int i=0;i<locationArray.Size();i++){
+            RAPIDJSON_NAMESPACE::Value obj=locationArray[i].GetObject();
+            u32 t_postion=0;
+            V2  t_point;
+            if (obj.HasMember("index") && obj["index"].IsInt()) {
+                t_postion = obj["index"].GetInt();
+            }
+            if (obj.HasMember("x") && obj["x"].IsFloat()) {
+                t_point.x = obj["x"].GetFloat();
+            }
+            if (obj.HasMember("y") && obj["y"].IsFloat()) {
+                t_point.y = obj["y"].GetFloat();
+            }
+            m_pointMap.append(t_postion,t_point);
+        }
+    }
+}

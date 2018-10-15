@@ -17,6 +17,7 @@
 namespace sv {
     
     namespace util{
+        
         //deform imagemove 算法
         class SVDeformImageMove : public SVGBase {
         public:
@@ -46,7 +47,16 @@ namespace sv {
             
             void setDeformSwitch(bool _swith);
             
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+            
         protected:
+            void _refreshScreenRectMesh(V2 *t_data,V2 *t_targetData);
+            
+            void _initPoint();
+            
             SVTexturePtr m_pTexBg;
             SVMtlCorePtr m_pMtlBg;
             SVRenderMeshPtr m_pMeshBg;
@@ -55,25 +65,20 @@ namespace sv {
             
             SVImageUsingMovePtr m_pIUMP;
             
-            V2 m_pointScreen[2400];//30*80
+            V2 m_pointScreen[2400];     //30*80
             
-            SVMap<u32, V2> m_pointMap;
+            SVMap<u32, V2> m_pointMap;  //人脸偏移值
+            
             V2 *m_dataPoint;
             s32 m_wPointCount;
             s32 m_hPointCont;
-
-            bool m_flip;
             
-            void _refreshScreenRectMesh(V2 *t_data,V2 *t_targetData);
-            
-            void _initPoint();
-            
-        protected:
             typedef SVArray<SVPassPtr> PASSPOOL;
             PASSPOOL m_passPool;
             //
             SVRenderTexturePtr m_fbo;
             bool is_swith;
+            bool m_flip;
         };
 
     }//!namespace util

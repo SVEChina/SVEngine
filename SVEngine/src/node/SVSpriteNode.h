@@ -13,6 +13,7 @@
 namespace sv {
     
     namespace node{
+        
         class SVSpriteNode : public SVNode {
         public:
             SVSpriteNode(SVInst *_app);
@@ -50,10 +51,16 @@ namespace sv {
             f32 m_height;
             f32 m_texcoordX;
             f32 m_texcoordY;
+            SVString m_pTexName;
+            SVTEXTYPE m_inTexType;
+            SVTexturePtr m_pTex;
             SVRenderMeshPtr m_pMesh;
             SVRenderObjectPtr m_pRenderObj;
-            SVTexturePtr m_pTex;
-            SVTEXTYPE m_inTexType;
+            
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
 
     }//!namespace node
