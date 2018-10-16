@@ -289,28 +289,28 @@ void SVDeformImageMove::pointMove(V2 *t_data){
 }
 
 //serial 序列化接口
-void SVDeformImageMove::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+void SVDeformImageMove::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_aloc,
                                RAPIDJSON_NAMESPACE::Value &_objValue){
-    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
-    RAPIDJSON_NAMESPACE::Value locationArray(RAPIDJSON_NAMESPACE::kArrayType);
+    RAPIDJSON_NAMESPACE::Value t_obj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    RAPIDJSON_NAMESPACE::Value t_array(RAPIDJSON_NAMESPACE::kArrayType);
     SVMap<u32,V2>::Iterator it= m_pointMap.begin();
     while (it!=m_pointMap.end()) {
         u32 t_postion=it->key;
         V2 t_point=it->data;
-        RAPIDJSON_NAMESPACE::Value pointObj(RAPIDJSON_NAMESPACE::kObjectType);
-        pointObj.AddMember("index", t_postion , _allocator);
-        pointObj.AddMember("x", t_point.x , _allocator);
-        pointObj.AddMember("y", t_point.y , _allocator);
-        locationArray.PushBack(pointObj,_allocator );
+        RAPIDJSON_NAMESPACE::Value t_cell(RAPIDJSON_NAMESPACE::kObjectType);
+        t_cell.AddMember("index", t_postion , _aloc);
+        t_cell.AddMember("x", t_point.x , _aloc);
+        t_cell.AddMember("y", t_point.y , _aloc);
+        t_array.PushBack(t_cell,_aloc);
     }
-    locationObj.AddMember("pointMove", locationArray, _allocator);
-    _objValue.AddMember("sv_deform", locationObj, _allocator);
+    t_obj.AddMember("ptoff", t_array, _aloc);
+    _objValue.AddMember("sv_deform", t_obj, _aloc);
 }
 
 void SVDeformImageMove::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     m_pointMap.clear();
-    if (item.HasMember("pointMove") && item["pointMove"].IsArray()) {
-        RAPIDJSON_NAMESPACE::Value locationArray=item["pointMove"].GetArray();
+    if (item.HasMember("ptoff") && item["ptoff"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value locationArray=item["ptoff"].GetArray();
         for(int i=0;i<locationArray.Size();i++){
             RAPIDJSON_NAMESPACE::Value obj=locationArray[i].GetObject();
             u32 t_postion=0;
