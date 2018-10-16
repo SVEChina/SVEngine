@@ -323,4 +323,8 @@ public class SVEEngine {
         m_SVEJni.closeFaceBeauty();
     }
 
+    public void createWatermark(ByteBuffer buffer,int width,int height){
+        m_SVEJni.createWatermark(buffer,width,height);
+    }
+
 }

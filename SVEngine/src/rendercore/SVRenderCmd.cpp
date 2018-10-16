@@ -149,12 +149,14 @@ void SVRenderCmdPass::setTexture(SVTexturePtr _tex) {
 }
 
 void SVRenderCmdPass::render() {
-    if(m_fbo && m_tex && m_pMtl && m_pMesh ) {
+    if(m_fbo && m_tex ) {
         m_fbo->setTexture(m_tex);
         m_fbo->bind();
         m_fbo->clear();
-        if (m_pMtl->submitMtl()) {
-            m_pMesh->render();
+        if(m_pMtl && m_pMesh) {
+            if (m_pMtl->submitMtl()) {
+                m_pMesh->render();
+            }
         }
         m_fbo->unbind();
     }

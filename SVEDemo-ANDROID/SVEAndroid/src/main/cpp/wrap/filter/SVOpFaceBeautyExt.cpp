@@ -19,6 +19,9 @@
 #include "event/SVEvent.h"
 #include "event/SVOpEvent.h"
 #include "base/SVDataSwap.h"
+#include "rendercore/SVRenderMgr.h"
+#include "rendercore/renderer/SVRendererBase.h"
+#include "node/SVScene.h"
 
 
 //设置美颜滤镜
@@ -27,6 +30,11 @@ SVOpFaceBeautyExt::SVOpFaceBeautyExt(SVInst* _app,cptr8 _scenename,cptr8 _filter
     m_scenename = _scenename;
     m_filter = _filter;
     m_lows=_lows;
+}
+SVOpFaceBeautyExt::~SVOpFaceBeautyExt(){
+    m_scenename = nullptr;
+    m_filter = nullptr;
+    m_lows=0.0f;
 }
 
 void SVOpFaceBeautyExt::_process(f32 _dt) {
@@ -49,3 +57,25 @@ void SVOpFaceBeautyExt::_process(f32 _dt) {
         }
     }
 }
+
+
+SVOpWatermarkExt::SVOpWatermarkExt(SVInst *_app, SVNodePtr _node)
+        :SVOpBase(_app) {
+    m_node=_node;
+}
+
+SVOpWatermarkExt::~SVOpWatermarkExt(){
+    if(m_node){
+        m_node= nullptr;
+    }
+}
+
+void SVOpWatermarkExt::_process(f32 _dt){
+    SVScenePtr t_scene = mApp->getSceneMgr()->getScene();
+    if( t_scene ) {
+        t_scene->addNode(m_node);
+    }
+}
+
+
+

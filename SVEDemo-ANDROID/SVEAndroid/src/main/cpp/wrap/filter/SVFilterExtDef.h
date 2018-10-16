@@ -24,9 +24,10 @@ namespace sv {
     }//!namespace logic
 
     DECLARE_SHAREPTR(SVOpFaceBeautyExt);
+    DECLARE_SHAREPTR(SVOpWatermarkExt);
 
 }//!namespace sv
 
-
+DECLARE_SHAREPTR(SVWatermark);
 
 #endif //SV_FILTEREXTDEF_H
