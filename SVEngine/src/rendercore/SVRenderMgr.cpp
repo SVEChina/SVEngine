@@ -57,7 +57,7 @@ void SVRenderMgr::swapData(){
         //准备的cache推送到流中
         for(s32 i=0;i<m_RStreamCache->m_cmdArray.size();i++){
             m_RStreamCache->m_cmdArray[i]->setRenderer(m_pRenderer);
-            m_pRenderScene->pushRenderCmd(RST_BEGIN,m_RStreamCache->m_cmdArray[i]);
+            m_pRenderScene->pushCacheCmd(RST_BEGIN,m_RStreamCache->m_cmdArray[i]);
         }
         m_RStreamCache->clearSVRenderCmd();
         //交换管线
@@ -124,6 +124,8 @@ void SVRenderMgr::render(){
                 m_pRenderScene->render();
                 m_pRenderer->resetState();
                 t_context->swapRenderTarget( t_rt );   //交换场景
+            }else{
+                m_pRenderScene->clearRenderCmd();
             }
             m_pRenderer->removeUnuseRes();  //资源释放
             _clearMatStack();

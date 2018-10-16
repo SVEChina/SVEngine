@@ -41,6 +41,5 @@ void SVRenderPipline::pushRenderCmd(RENDERSTREAMTYPE _rst, SVRenderCmdPtr _rcmd)
 void SVRenderPipline::clearRenderCmd(){
     for (s32 i = RST_BEGIN; i <= RST_END; i++) {
         m_rstream_vec[i]->clearSVRenderCmd();
-        m_rstream_vec[i] = nullptr;
     }
 }
