@@ -32,6 +32,10 @@ namespace sv {
             
             void clearRenderCmd();
             
+            void pushCacheCmd(RENDERSTREAMTYPE _rst, SVRenderCmdPtr _rcmd);
+            
+            void clearCacheCmd();
+            
             bool isSuspend();
             
         protected:
@@ -42,6 +46,8 @@ namespace sv {
             SVRenderPiplinePtr m_writePipline; //写管线
             
             SVRenderPiplinePtr m_readPipline;  //读管线
+            
+            SVRenderPiplinePtr m_cachePipline;  //缓存管线
         };
         
     }//!namespace render
