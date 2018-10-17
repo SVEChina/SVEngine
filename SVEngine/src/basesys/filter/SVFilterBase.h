@@ -50,9 +50,6 @@ namespace sv {
             SVMtlCorePtr m_mtl;
             SVString m_name;
             SVFILTERFUNCTYPE m_type;
-            
-         
-            
         };
         
     };//!namespace logic

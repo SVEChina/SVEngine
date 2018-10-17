@@ -1,5 +1,5 @@
 //
-//  SVLookUpFilter.hpp
+//  SVFilterLUT.hpp
 //  SVEngine
 //
 //  Created by 徐子昱 on 2018/9/25.
@@ -15,11 +15,11 @@ namespace sv {
     
     namespace logic {
         
-        class SVLookUpFilter : public SVFilterBase {
+        class SVFilterLUT : public SVFilterBase {
         public:
-            SVLookUpFilter(SVInst *_app);
+            SVFilterLUT(SVInst *_app);
             
-            ~SVLookUpFilter();
+            ~SVFilterLUT();
             
             virtual bool create();
             
@@ -27,17 +27,17 @@ namespace sv {
             
             virtual void update(f32 dt);
             
+            void setLUTTex(SVTexturePtr _looktex);
+            
+            SVTexturePtr getLUTTex();
+            
             virtual void setFilterParam(f32 _smooth,SVFILTERITEMTYPE _type);
             
             virtual f32 getFilterParam(SVFILTERITEMTYPE _type);
-            
-            bool create(SVTexturePtr _looktex,SVTexturePtr _bgtex,SVTexturePtr _outTex);
-            
+
         protected:
-            SVMtlCorePtr m_lkMtl;
-            SVMtlCorePtr m_mtl_back;
-            SVTexturePtr m_tex01;
-            SVTexturePtr m_tex02;
+            SVTexturePtr m_texLUT;
+            bool m_dirtyLUT;
         };
         
     };//!namespace logic

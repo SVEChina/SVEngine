@@ -105,6 +105,7 @@ enum SVTEXTYPE {
     E_TEX_HELP5,
     E_TEX_HELP6,
     E_TEX_HELP7,
+    E_TEX_FILTER_LUT_OUT,
     E_TEX_END = 32
 };
 

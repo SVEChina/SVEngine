@@ -70,14 +70,13 @@ SVFilterLookUpTableAdjust::SVFilterLookUpTableAdjust(SVInst *_app)
 }
 
 SVFilterLookUpTableAdjust::~SVFilterLookUpTableAdjust(){
-    
 }
 
 bool SVFilterLookUpTableAdjust::create(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
-   
+    
     SVTexturePtr inTex= mApp->getTexMgr()->getTextureSync("svres/lookup.png", true);
     m_outTex=mApp->getTexMgr()->createUnctrlTexture(inTex->getwidth(), inTex->getheight(), GL_RGBA,  GL_RGBA);
     SVTexturePtr tex01=mApp->getTexMgr()->createUnctrlTexture(inTex->getwidth(), inTex->getheight(), GL_RGBA,  GL_RGBA);

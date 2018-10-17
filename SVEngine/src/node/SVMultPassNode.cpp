@@ -52,7 +52,7 @@ void SVMultPassNode::update(f32 dt) {
 
 void SVMultPassNode::render() {
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    if (t_rs && false  == t_rs->isSuspend() ) {
+    if (t_rs && false  == t_rs->isSuspend() && m_visible ) {
         for(s32 i=0;i<m_passPool.size();i++){
             if(m_passPool[i]->m_pMtl){
                 SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
@@ -80,6 +80,12 @@ void SVMultPassNode::addPass(SVPassPtr _pass) {
     if(_pass){
         m_passPool.append(_pass);
     }
+}
+
+SVPassPtr SVMultPassNode::getPass(s32 _index) {
+    if(_index>=0 && _index<m_passPool.size())
+        return m_passPool[_index];
+    return nullptr;
 }
 
 void SVMultPassNode::clearPass() {
