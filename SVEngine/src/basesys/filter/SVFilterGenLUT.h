@@ -59,6 +59,9 @@ namespace sv {
                 m_hhredShift=0.0f;
                 m_hhgreenShift=0.0f;
                 m_hhblueShift=0.0f;
+                
+                m_shadow=0.0;
+                m_Highlight=0.0;
             }
             
             f32 m_brightness;
