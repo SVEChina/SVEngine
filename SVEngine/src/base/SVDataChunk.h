@@ -2,7 +2,7 @@
 // SVDataChunk.h
 // SVEngine
 // Copyright 2017-2020
-// yizhou Fu
+// yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
 #ifndef SV_DATACHUNK_H

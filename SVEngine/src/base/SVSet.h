@@ -6,7 +6,9 @@
 namespace sv {
     
     namespace util {
-        //
+        struct SetData {
+            
+        };
         template <class Key> class SVSet : public SVCoreTree<Key,SetData> {
         public:
             SVSet() {
@@ -27,10 +29,6 @@ namespace sv {
                     append(it->key);
                 }
             }
-        };
-        
-        //
-        struct SetData {
         };
         
     }//!namespace util

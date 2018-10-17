@@ -21,6 +21,46 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		022C1B342175EFD300FA5884 /* SVBMFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */; };
+		022C1B352175EFD300FA5884 /* SVBMFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */; };
+		022C1B362175EFD300FA5884 /* SVBMFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */; };
+		022C1B372175EFD400FA5884 /* SVBMFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */; };
+		022C1B382175EFD400FA5884 /* SVBMFontLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B332175EFD300FA5884 /* SVBMFontLoader.h */; };
+		022C1B392175EFD400FA5884 /* SVBMFontLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B332175EFD300FA5884 /* SVBMFontLoader.h */; };
+		022C1B3A2175EFD400FA5884 /* SVBMFontLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B332175EFD300FA5884 /* SVBMFontLoader.h */; };
+		022C1B3B2175EFD400FA5884 /* SVBMFontLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B332175EFD300FA5884 /* SVBMFontLoader.h */; };
+		022C1B3E2176044D00FA5884 /* SVBMFontConf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B3C2176044D00FA5884 /* SVBMFontConf.cpp */; };
+		022C1B3F2176044D00FA5884 /* SVBMFontConf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B3C2176044D00FA5884 /* SVBMFontConf.cpp */; };
+		022C1B402176044D00FA5884 /* SVBMFontConf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B3C2176044D00FA5884 /* SVBMFontConf.cpp */; };
+		022C1B412176044D00FA5884 /* SVBMFontConf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B3C2176044D00FA5884 /* SVBMFontConf.cpp */; };
+		022C1B422176044D00FA5884 /* SVBMFontConf.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B3D2176044D00FA5884 /* SVBMFontConf.h */; };
+		022C1B432176044D00FA5884 /* SVBMFontConf.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B3D2176044D00FA5884 /* SVBMFontConf.h */; };
+		022C1B442176044D00FA5884 /* SVBMFontConf.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B3D2176044D00FA5884 /* SVBMFontConf.h */; };
+		022C1B452176044D00FA5884 /* SVBMFontConf.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B3D2176044D00FA5884 /* SVBMFontConf.h */; };
+		022C1B4A217705C500FA5884 /* SVFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B48217705C400FA5884 /* SVFont.cpp */; };
+		022C1B4B217705C500FA5884 /* SVFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B48217705C400FA5884 /* SVFont.cpp */; };
+		022C1B4C217705C500FA5884 /* SVFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B48217705C400FA5884 /* SVFont.cpp */; };
+		022C1B4D217705C500FA5884 /* SVFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B48217705C400FA5884 /* SVFont.cpp */; };
+		022C1B4E217705C500FA5884 /* SVFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B49217705C400FA5884 /* SVFont.h */; };
+		022C1B4F217705C500FA5884 /* SVFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B49217705C400FA5884 /* SVFont.h */; };
+		022C1B50217705C500FA5884 /* SVFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B49217705C400FA5884 /* SVFont.h */; };
+		022C1B51217705C500FA5884 /* SVFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B49217705C400FA5884 /* SVFont.h */; };
+		022C1B542177110700FA5884 /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B522177110600FA5884 /* SVBMFont.cpp */; };
+		022C1B552177110700FA5884 /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B522177110600FA5884 /* SVBMFont.cpp */; };
+		022C1B562177110700FA5884 /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B522177110600FA5884 /* SVBMFont.cpp */; };
+		022C1B572177110700FA5884 /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B522177110600FA5884 /* SVBMFont.cpp */; };
+		022C1B582177110700FA5884 /* SVBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B532177110600FA5884 /* SVBMFont.h */; };
+		022C1B592177110700FA5884 /* SVBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B532177110600FA5884 /* SVBMFont.h */; };
+		022C1B5A2177110700FA5884 /* SVBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B532177110600FA5884 /* SVBMFont.h */; };
+		022C1B5B2177110700FA5884 /* SVBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B532177110600FA5884 /* SVBMFont.h */; };
+		022C1B5E2177139C00FA5884 /* SVFontConf.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B5C2177139B00FA5884 /* SVFontConf.h */; };
+		022C1B5F2177139C00FA5884 /* SVFontConf.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B5C2177139B00FA5884 /* SVFontConf.h */; };
+		022C1B602177139C00FA5884 /* SVFontConf.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B5C2177139B00FA5884 /* SVFontConf.h */; };
+		022C1B612177139C00FA5884 /* SVFontConf.h in Headers */ = {isa = PBXBuildFile; fileRef = 022C1B5C2177139B00FA5884 /* SVFontConf.h */; };
+		022C1B622177139C00FA5884 /* SVFontConf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B5D2177139B00FA5884 /* SVFontConf.cpp */; };
+		022C1B632177139C00FA5884 /* SVFontConf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B5D2177139B00FA5884 /* SVFontConf.cpp */; };
+		022C1B642177139C00FA5884 /* SVFontConf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B5D2177139B00FA5884 /* SVFontConf.cpp */; };
+		022C1B652177139C00FA5884 /* SVFontConf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B5D2177139B00FA5884 /* SVFontConf.cpp */; };
 		5CF0ABAC20BB367A009E673E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF0ABAB20BB367A009E673E /* CoreGraphics.framework */; };
 		5F7D5FE6215F407700803BCF /* SVDetectMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */; };
 		5F7D5FE7215F407700803BCF /* SVDetectMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */; };
@@ -2487,6 +2527,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBMFontLoader.cpp; sourceTree = "<group>"; };
+		022C1B332175EFD300FA5884 /* SVBMFontLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFontLoader.h; sourceTree = "<group>"; };
+		022C1B3C2176044D00FA5884 /* SVBMFontConf.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBMFontConf.cpp; sourceTree = "<group>"; };
+		022C1B3D2176044D00FA5884 /* SVBMFontConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFontConf.h; sourceTree = "<group>"; };
+		022C1B48217705C400FA5884 /* SVFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFont.cpp; sourceTree = "<group>"; };
+		022C1B49217705C400FA5884 /* SVFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFont.h; sourceTree = "<group>"; };
+		022C1B522177110600FA5884 /* SVBMFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBMFont.cpp; sourceTree = "<group>"; };
+		022C1B532177110600FA5884 /* SVBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFont.h; sourceTree = "<group>"; };
+		022C1B5C2177139B00FA5884 /* SVFontConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFontConf.h; sourceTree = "<group>"; };
+		022C1B5D2177139B00FA5884 /* SVFontConf.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFontConf.cpp; sourceTree = "<group>"; };
 		023574B020E514F500F29FB8 /* libsve_s_mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsve_s_mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		02357A1920EB563400F29FB8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		5CF0ABAB20BB367A009E673E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
@@ -3361,6 +3411,12 @@
 				5F7D5DE4215F407700803BCF /* SVPngLoader.h */,
 				5F7D5DD2215F407700803BCF /* SVPngWriter.cpp */,
 				5F7D5DDE215F407700803BCF /* SVPngWriter.h */,
+				022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */,
+				022C1B332175EFD300FA5884 /* SVBMFontLoader.h */,
+				022C1B48217705C400FA5884 /* SVFont.cpp */,
+				022C1B49217705C400FA5884 /* SVFont.h */,
+				022C1B522177110600FA5884 /* SVBMFont.cpp */,
+				022C1B532177110600FA5884 /* SVBMFont.h */,
 			);
 			path = file;
 			sourceTree = "<group>";
@@ -3970,6 +4026,10 @@
 				5F7D5F97215F407700803BCF /* SVCoreTree.spu.h */,
 				5F7D5FA1215F407700803BCF /* SVDataChunk.cpp */,
 				5F7D5FC0215F407700803BCF /* SVDataChunk.h */,
+				022C1B5D2177139B00FA5884 /* SVFontConf.cpp */,
+				022C1B5C2177139B00FA5884 /* SVFontConf.h */,
+				022C1B3C2176044D00FA5884 /* SVBMFontConf.cpp */,
+				022C1B3D2176044D00FA5884 /* SVBMFontConf.h */,
 				5F7D5FCD215F407700803BCF /* SVDataSwap.cpp */,
 				5F7D5FBB215F407700803BCF /* SVDataSwap.h */,
 				5F7D5FD3215F407700803BCF /* SVDatatDef.h */,
@@ -4104,6 +4164,7 @@
 				5F7D694B215F407900803BCF /* SVHalf.h in Headers */,
 				5F7D64C5215F407800803BCF /* SVKeyFrame.h in Headers */,
 				5F7D680B215F407900803BCF /* SVNodeVisit.h in Headers */,
+				022C1B51217705C500FA5884 /* SVFont.h in Headers */,
 				5F7D6165215F407700803BCF /* SVInst.h in Headers */,
 				5F7D676B215F407900803BCF /* SVBitFontNode.h in Headers */,
 				5F7D6065215F407700803BCF /* SVTransGPU.h in Headers */,
@@ -4125,6 +4186,7 @@
 				5F7D689F215F407900803BCF /* SVModify.h in Headers */,
 				5F7D6405215F407800803BCF /* document.h in Headers */,
 				5F7D662B215F407800803BCF /* SVRenderObject.h in Headers */,
+				022C1B5B2177110700FA5884 /* SVBMFont.h in Headers */,
 				5F7D61B9215F407700803BCF /* SVParseAnimate.h in Headers */,
 				5F7D698F215F407900803BCF /* SVBounds.h in Headers */,
 				5F7D6547215F407800803BCF /* SVOpLoadBase.h in Headers */,
@@ -4308,6 +4370,7 @@
 				5F7D6131215F407700803BCF /* SVMesh.h in Headers */,
 				5F7D65DB215F407800803BCF /* SVRenderScene.h in Headers */,
 				5F7D696B215F407900803BCF /* SVSet.h in Headers */,
+				022C1B612177139C00FA5884 /* SVFontConf.h in Headers */,
 				5F7D6089215F407700803BCF /* SVLogicDeclare.h in Headers */,
 				5F7D6401215F407800803BCF /* rapidjson.h in Headers */,
 				5F7D691B215F407900803BCF /* SVArray.h in Headers */,
@@ -4316,6 +4379,7 @@
 				5F7D67B3215F407900803BCF /* SVTransTexNode.h in Headers */,
 				5F7D60A1215F407700803BCF /* SVFilterBase.h in Headers */,
 				5F7D6843215F407900803BCF /* SVEventDeclare.h in Headers */,
+				022C1B452176044D00FA5884 /* SVBMFontConf.h in Headers */,
 				5F7D68DB215F407900803BCF /* SVLock.h in Headers */,
 				5F7D63DD215F407800803BCF /* itoa.h in Headers */,
 				5F7D68DF215F407900803BCF /* SVMat3.h in Headers */,
@@ -4382,6 +4446,7 @@
 				5F7D629D215F407800803BCF /* dll.h in Headers */,
 				5F7D62E1215F407800803BCF /* SkeletonBounds.h in Headers */,
 				5F7D63CD215F407800803BCF /* regex.h in Headers */,
+				022C1B3B2175EFD400FA5884 /* SVBMFontLoader.h in Headers */,
 				5F7D6231215F407800803BCF /* pngconf.h in Headers */,
 				5F7D6847215F407900803BCF /* SVEventDef.h in Headers */,
 				5F7D694F215F407900803BCF /* SVUtils.spu.h in Headers */,
@@ -4452,6 +4517,7 @@
 				5F7D6949215F407900803BCF /* SVHalf.h in Headers */,
 				5F7D64C3215F407800803BCF /* SVKeyFrame.h in Headers */,
 				5F7D6809215F407900803BCF /* SVNodeVisit.h in Headers */,
+				022C1B4F217705C500FA5884 /* SVFont.h in Headers */,
 				5F7D6163215F407700803BCF /* SVInst.h in Headers */,
 				5F7D6769215F407900803BCF /* SVBitFontNode.h in Headers */,
 				5F7D6063215F407700803BCF /* SVTransGPU.h in Headers */,
@@ -4473,6 +4539,7 @@
 				5F7D689D215F407900803BCF /* SVModify.h in Headers */,
 				5F7D6403215F407800803BCF /* document.h in Headers */,
 				5F7D6629215F407800803BCF /* SVRenderObject.h in Headers */,
+				022C1B592177110700FA5884 /* SVBMFont.h in Headers */,
 				5F7D61B7215F407700803BCF /* SVParseAnimate.h in Headers */,
 				5F7D698D215F407900803BCF /* SVBounds.h in Headers */,
 				5F7D6545215F407800803BCF /* SVOpLoadBase.h in Headers */,
@@ -4656,6 +4723,7 @@
 				5F7D612F215F407700803BCF /* SVMesh.h in Headers */,
 				5F7D65D9215F407800803BCF /* SVRenderScene.h in Headers */,
 				5F7D6969215F407900803BCF /* SVSet.h in Headers */,
+				022C1B5F2177139C00FA5884 /* SVFontConf.h in Headers */,
 				5F7D6087215F407700803BCF /* SVLogicDeclare.h in Headers */,
 				5F7D63FF215F407800803BCF /* rapidjson.h in Headers */,
 				5F7D6919215F407900803BCF /* SVArray.h in Headers */,
@@ -4664,6 +4732,7 @@
 				5F7D67B1215F407900803BCF /* SVTransTexNode.h in Headers */,
 				5F7D609F215F407700803BCF /* SVFilterBase.h in Headers */,
 				5F7D6841215F407900803BCF /* SVEventDeclare.h in Headers */,
+				022C1B432176044D00FA5884 /* SVBMFontConf.h in Headers */,
 				5F7D68D9215F407900803BCF /* SVLock.h in Headers */,
 				5F7D63DB215F407800803BCF /* itoa.h in Headers */,
 				5F7D68DD215F407900803BCF /* SVMat3.h in Headers */,
@@ -4730,6 +4799,7 @@
 				5F7D629B215F407800803BCF /* dll.h in Headers */,
 				5F7D62DF215F407800803BCF /* SkeletonBounds.h in Headers */,
 				5F7D63CB215F407800803BCF /* regex.h in Headers */,
+				022C1B392175EFD400FA5884 /* SVBMFontLoader.h in Headers */,
 				5F7D622F215F407800803BCF /* pngconf.h in Headers */,
 				5F7D6845215F407900803BCF /* SVEventDef.h in Headers */,
 				5F7D694D215F407900803BCF /* SVUtils.spu.h in Headers */,
@@ -4797,6 +4867,7 @@
 				5F7D6570215F407800803BCF /* SVRenderCmdOut.h in Headers */,
 				5F7D6432215F407800803BCF /* SVModuleBase.h in Headers */,
 				5F7D627A215F407800803BCF /* VertexAttachment.h in Headers */,
+				022C1B582177110700FA5884 /* SVBMFont.h in Headers */,
 				5F7D6920215F407900803BCF /* SVDef.h in Headers */,
 				5F7D62DA215F407800803BCF /* BoundingBoxAttachment.h in Headers */,
 				5F7D6466215F407800803BCF /* SVDivisonFilter.h in Headers */,
@@ -4844,6 +4915,7 @@
 				5F7D6086215F407700803BCF /* SVLogicDeclare.h in Headers */,
 				5F7D6848215F407900803BCF /* aMath.h in Headers */,
 				5F7D6594215F407800803BCF /* SVRendererBase.h in Headers */,
+				022C1B382175EFD400FA5884 /* SVBMFontLoader.h in Headers */,
 				5F7D6016215F407700803BCF /* SVTrans.h in Headers */,
 				5F7D6810215F407900803BCF /* SVEventVideo.h in Headers */,
 				5F7D603A215F407700803BCF /* SVSceneMgr.h in Headers */,
@@ -4965,6 +5037,7 @@
 				5F7D6760215F407900803BCF /* SV3DBox.h in Headers */,
 				5F7D622A215F407800803BCF /* pnglibconf.h in Headers */,
 				5F7D65BC215F407800803BCF /* SVRendererMetal.h in Headers */,
+				022C1B4E217705C500FA5884 /* SVFont.h in Headers */,
 				5F7D6292215F407800803BCF /* Attachment.h in Headers */,
 				5F7D6492215F407800803BCF /* SVActBase.h in Headers */,
 				5F7D63BA215F407800803BCF /* stringbuffer.h in Headers */,
@@ -5016,6 +5089,7 @@
 				5F7D649A215F407800803BCF /* SVActionSys.h in Headers */,
 				5F7D629E215F407800803BCF /* SkeletonJson.h in Headers */,
 				5F7D621E215F407800803BCF /* png.h in Headers */,
+				022C1B422176044D00FA5884 /* SVBMFontConf.h in Headers */,
 				5F7D62E2215F407800803BCF /* Slot.h in Headers */,
 				5F7D61BE215F407700803BCF /* SVParseMask.h in Headers */,
 				5F7D651C215F407800803BCF /* SVOpThread.h in Headers */,
@@ -5112,6 +5186,7 @@
 				5F7D6286215F407800803BCF /* Color.h in Headers */,
 				5F7D68CC215F407900803BCF /* SVColor.h in Headers */,
 				5F7D64DC215F407800803BCF /* SVActDeclare.h in Headers */,
+				022C1B5E2177139C00FA5884 /* SVFontConf.h in Headers */,
 				5F7D6700215F407900803BCF /* SVOpCallback.h in Headers */,
 				5F7D6182215F407700803BCF /* SVParseGame.h in Headers */,
 				5F7D6142215F407700803BCF /* SVImageUsingMove.h in Headers */,
@@ -5150,6 +5225,7 @@
 				5F7D694A215F407900803BCF /* SVHalf.h in Headers */,
 				5F7D64C4215F407800803BCF /* SVKeyFrame.h in Headers */,
 				5F7D680A215F407900803BCF /* SVNodeVisit.h in Headers */,
+				022C1B50217705C500FA5884 /* SVFont.h in Headers */,
 				5F7D6164215F407700803BCF /* SVInst.h in Headers */,
 				5F7D676A215F407900803BCF /* SVBitFontNode.h in Headers */,
 				5F7D6064215F407700803BCF /* SVTransGPU.h in Headers */,
@@ -5171,6 +5247,7 @@
 				5F7D689E215F407900803BCF /* SVModify.h in Headers */,
 				5F7D6404215F407800803BCF /* document.h in Headers */,
 				5F7D662A215F407800803BCF /* SVRenderObject.h in Headers */,
+				022C1B5A2177110700FA5884 /* SVBMFont.h in Headers */,
 				5F7D61B8215F407700803BCF /* SVParseAnimate.h in Headers */,
 				5F7D698E215F407900803BCF /* SVBounds.h in Headers */,
 				5F7D6546215F407800803BCF /* SVOpLoadBase.h in Headers */,
@@ -5354,6 +5431,7 @@
 				5F7D6130215F407700803BCF /* SVMesh.h in Headers */,
 				5F7D65DA215F407800803BCF /* SVRenderScene.h in Headers */,
 				5F7D696A215F407900803BCF /* SVSet.h in Headers */,
+				022C1B602177139C00FA5884 /* SVFontConf.h in Headers */,
 				5F7D6088215F407700803BCF /* SVLogicDeclare.h in Headers */,
 				5F7D6400215F407800803BCF /* rapidjson.h in Headers */,
 				5F7D691A215F407900803BCF /* SVArray.h in Headers */,
@@ -5362,6 +5440,7 @@
 				5F7D67B2215F407900803BCF /* SVTransTexNode.h in Headers */,
 				5F7D60A0215F407700803BCF /* SVFilterBase.h in Headers */,
 				5F7D6842215F407900803BCF /* SVEventDeclare.h in Headers */,
+				022C1B442176044D00FA5884 /* SVBMFontConf.h in Headers */,
 				5F7D68DA215F407900803BCF /* SVLock.h in Headers */,
 				5F7D63DC215F407800803BCF /* itoa.h in Headers */,
 				5F7D68DE215F407900803BCF /* SVMat3.h in Headers */,
@@ -5428,6 +5507,7 @@
 				5F7D629C215F407800803BCF /* dll.h in Headers */,
 				5F7D62E0215F407800803BCF /* SkeletonBounds.h in Headers */,
 				5F7D63CC215F407800803BCF /* regex.h in Headers */,
+				022C1B3A2175EFD400FA5884 /* SVBMFontLoader.h in Headers */,
 				5F7D6230215F407800803BCF /* pngconf.h in Headers */,
 				5F7D6846215F407900803BCF /* SVEventDef.h in Headers */,
 				5F7D694E215F407900803BCF /* SVUtils.spu.h in Headers */,
@@ -5658,6 +5738,7 @@
 				5F7D65C3215F407800803BCF /* SVRenderStateMetal.cpp in Sources */,
 				5F7D61A5215F407700803BCF /* SVParseBitfont.cpp in Sources */,
 				5F7D6491215F407800803BCF /* SVActSequence.cpp in Sources */,
+				022C1B4D217705C500FA5884 /* SVFont.cpp in Sources */,
 				5F7D6021215F407700803BCF /* SVConfig.cpp in Sources */,
 				5F7D6973215F407900803BCF /* SVColor.cpp in Sources */,
 				5F7D611D215F407700803BCF /* SVGeoGen.cpp in Sources */,
@@ -5817,6 +5898,7 @@
 				5F7D68EB215F407900803BCF /* SVLock.cpp in Sources */,
 				5F7D6365215F407800803BCF /* Bone.c in Sources */,
 				5F7D66BF215F407900803BCF /* SVMtlShapeVaried.cpp in Sources */,
+				022C1B572177110700FA5884 /* SVBMFont.cpp in Sources */,
 				5F7D652F215F407800803BCF /* SVOpThread.cpp in Sources */,
 				5F7D610D215F407700803BCF /* SVPass.cpp in Sources */,
 				5F7D633D215F407800803BCF /* BoneData.c in Sources */,
@@ -5842,12 +5924,14 @@
 				5F7D624D215F407800803BCF /* pngrtran.c in Sources */,
 				5F7D6049215F407700803BCF /* SVFontProcess.cpp in Sources */,
 				5F7D66D3215F407900803BCF /* SVMtlNocolor.cpp in Sources */,
+				022C1B652177139C00FA5884 /* SVFontConf.cpp in Sources */,
 				5F7D64BD215F407800803BCF /* SVActionUnit.cpp in Sources */,
 				5F7D64EF215F407800803BCF /* SVKeyFrame.cpp in Sources */,
 				5F7D6305215F407800803BCF /* extension.c in Sources */,
 				5F7D6381215F407800803BCF /* AnimationStateData.c in Sources */,
 				5F7D6045215F407700803BCF /* SVStreamOut.cpp in Sources */,
 				5F7D621D215F407800803BCF /* pngwrite.c in Sources */,
+				022C1B372175EFD400FA5884 /* SVBMFontLoader.cpp in Sources */,
 				5F7D67AB215F407900803BCF /* SVIOSInstreamNode.cpp in Sources */,
 				5F7D6607215F407800803BCF /* SVRenderScene.cpp in Sources */,
 				5F7D62FD215F407800803BCF /* Json.c in Sources */,
@@ -5882,6 +5966,7 @@
 				5F7D6459215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				5F7D620D215F407800803BCF /* pngwio.c in Sources */,
 				5F7D6141215F407700803BCF /* SVImageUsingMove.cpp in Sources */,
+				022C1B412176044D00FA5884 /* SVBMFontConf.cpp in Sources */,
 				5F7D6727215F407900803BCF /* SVTransTexNode.cpp in Sources */,
 				5F7D6967215F407900803BCF /* SVSign.cpp in Sources */,
 				5F7D6391215F407800803BCF /* Triangulator.c in Sources */,
@@ -5965,6 +6050,7 @@
 				5F7D6728215F407900803BCF /* SV3DBox.cpp in Sources */,
 				5F7D6604215F407800803BCF /* SVRenderScene.cpp in Sources */,
 				5F7D64E4215F407800803BCF /* SVTimeLineDeform.cpp in Sources */,
+				022C1B542177110700FA5884 /* SVBMFont.cpp in Sources */,
 				5F7D638A215F407800803BCF /* Color.c in Sources */,
 				5F7D6326215F407800803BCF /* IkConstraint.c in Sources */,
 				5F7D645A215F407800803BCF /* SVGameRun.cpp in Sources */,
@@ -5983,6 +6069,7 @@
 				5F7D64C6215F407800803BCF /* SVTimeLineEvent.cpp in Sources */,
 				5F7D6784215F407900803BCF /* SVDummyNode.cpp in Sources */,
 				5F7D632A215F407800803BCF /* PathConstraint.c in Sources */,
+				022C1B3E2176044D00FA5884 /* SVBMFontConf.cpp in Sources */,
 				5F7D6910215F407900803BCF /* SVMeshData.cpp in Sources */,
 				5F7D644A215F407800803BCF /* SVGameEnd.cpp in Sources */,
 				5F7D6598215F407800803BCF /* SVRendererBase.cpp in Sources */,
@@ -6024,12 +6111,14 @@
 				5F7D6794215F407900803BCF /* SVSpriteNode.cpp in Sources */,
 				5F7D6322215F407800803BCF /* BoundingBoxAttachment.c in Sources */,
 				5F7D6890215F407900803BCF /* SVBase.cpp in Sources */,
+				022C1B622177139C00FA5884 /* SVFontConf.cpp in Sources */,
 				5F7D668C215F407800803BCF /* SVMtlCore.cpp in Sources */,
 				5F7D692C215F407900803BCF /* SVDataSwap.cpp in Sources */,
 				5F7D6684215F407800803BCF /* SVMtlFilterEx.cpp in Sources */,
 				5F7D6382215F407800803BCF /* IkConstraintData.c in Sources */,
 				5F7D68C0215F407900803BCF /* SVGeometry.cpp in Sources */,
 				5F7D6232215F407800803BCF /* pngpread.c in Sources */,
+				022C1B342175EFD300FA5884 /* SVBMFontLoader.cpp in Sources */,
 				5F7D68D0215F407900803BCF /* SVVec4.cpp in Sources */,
 				5F7D6346215F407800803BCF /* EventData.c in Sources */,
 				5F7D6838215F407900803BCF /* SVEventThread.cpp in Sources */,
@@ -6126,6 +6215,7 @@
 				5F7D6116215F407700803BCF /* SVMathHelper.cpp in Sources */,
 				5F7D61D2215F407700803BCF /* SVFileMgr.cpp in Sources */,
 				5F7D60DA215F407700803BCF /* SVSpineListen.cpp in Sources */,
+				022C1B4A217705C500FA5884 /* SVFont.cpp in Sources */,
 				5F7D6850215F407900803BCF /* SVModify.cpp in Sources */,
 				5F7D67E4215F407900803BCF /* SVSpineNode.cpp in Sources */,
 				5F7D633E215F407800803BCF /* SkeletonBounds.c in Sources */,
@@ -6220,6 +6310,7 @@
 				5F7D65C2215F407800803BCF /* SVRenderStateMetal.cpp in Sources */,
 				5F7D61A4215F407700803BCF /* SVParseBitfont.cpp in Sources */,
 				5F7D6490215F407800803BCF /* SVActSequence.cpp in Sources */,
+				022C1B4C217705C500FA5884 /* SVFont.cpp in Sources */,
 				5F7D6020215F407700803BCF /* SVConfig.cpp in Sources */,
 				5F7D6972215F407900803BCF /* SVColor.cpp in Sources */,
 				5F7D611C215F407700803BCF /* SVGeoGen.cpp in Sources */,
@@ -6379,6 +6470,7 @@
 				5F7D68EA215F407900803BCF /* SVLock.cpp in Sources */,
 				5F7D6364215F407800803BCF /* Bone.c in Sources */,
 				5F7D66BE215F407900803BCF /* SVMtlShapeVaried.cpp in Sources */,
+				022C1B562177110700FA5884 /* SVBMFont.cpp in Sources */,
 				5F7D652E215F407800803BCF /* SVOpThread.cpp in Sources */,
 				5F7D610C215F407700803BCF /* SVPass.cpp in Sources */,
 				5F7D633C215F407800803BCF /* BoneData.c in Sources */,
@@ -6404,12 +6496,14 @@
 				5F7D624C215F407800803BCF /* pngrtran.c in Sources */,
 				5F7D6048215F407700803BCF /* SVFontProcess.cpp in Sources */,
 				5F7D66D2215F407900803BCF /* SVMtlNocolor.cpp in Sources */,
+				022C1B642177139C00FA5884 /* SVFontConf.cpp in Sources */,
 				5F7D64BC215F407800803BCF /* SVActionUnit.cpp in Sources */,
 				5F7D64EE215F407800803BCF /* SVKeyFrame.cpp in Sources */,
 				5F7D6304215F407800803BCF /* extension.c in Sources */,
 				5F7D6380215F407800803BCF /* AnimationStateData.c in Sources */,
 				5F7D6044215F407700803BCF /* SVStreamOut.cpp in Sources */,
 				5F7D621C215F407800803BCF /* pngwrite.c in Sources */,
+				022C1B362175EFD300FA5884 /* SVBMFontLoader.cpp in Sources */,
 				5F7D67AA215F407900803BCF /* SVIOSInstreamNode.cpp in Sources */,
 				5F7D6606215F407800803BCF /* SVRenderScene.cpp in Sources */,
 				5F7D62FC215F407800803BCF /* Json.c in Sources */,
@@ -6444,6 +6538,7 @@
 				5F7D6458215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				5F7D620C215F407800803BCF /* pngwio.c in Sources */,
 				5F7D6140215F407700803BCF /* SVImageUsingMove.cpp in Sources */,
+				022C1B402176044D00FA5884 /* SVBMFontConf.cpp in Sources */,
 				5F7D6726215F407900803BCF /* SVTransTexNode.cpp in Sources */,
 				5F7D6966215F407900803BCF /* SVSign.cpp in Sources */,
 				5F7D6390215F407800803BCF /* Triangulator.c in Sources */,
@@ -6500,6 +6595,7 @@
 				5F7D65C1215F407800803BCF /* SVRenderStateMetal.cpp in Sources */,
 				5F7D61A3215F407700803BCF /* SVParseBitfont.cpp in Sources */,
 				5F7D648F215F407800803BCF /* SVActSequence.cpp in Sources */,
+				022C1B4B217705C500FA5884 /* SVFont.cpp in Sources */,
 				5F7D601F215F407700803BCF /* SVConfig.cpp in Sources */,
 				5F7D6971215F407900803BCF /* SVColor.cpp in Sources */,
 				5F7D611B215F407700803BCF /* SVGeoGen.cpp in Sources */,
@@ -6659,6 +6755,7 @@
 				5F7D68E9215F407900803BCF /* SVLock.cpp in Sources */,
 				5F7D6363215F407800803BCF /* Bone.c in Sources */,
 				5F7D66BD215F407900803BCF /* SVMtlShapeVaried.cpp in Sources */,
+				022C1B552177110700FA5884 /* SVBMFont.cpp in Sources */,
 				5F7D652D215F407800803BCF /* SVOpThread.cpp in Sources */,
 				5F7D610B215F407700803BCF /* SVPass.cpp in Sources */,
 				5F7D633B215F407800803BCF /* BoneData.c in Sources */,
@@ -6684,12 +6781,14 @@
 				5F7D624B215F407800803BCF /* pngrtran.c in Sources */,
 				5F7D6047215F407700803BCF /* SVFontProcess.cpp in Sources */,
 				5F7D66D1215F407900803BCF /* SVMtlNocolor.cpp in Sources */,
+				022C1B632177139C00FA5884 /* SVFontConf.cpp in Sources */,
 				5F7D64BB215F407800803BCF /* SVActionUnit.cpp in Sources */,
 				5F7D64ED215F407800803BCF /* SVKeyFrame.cpp in Sources */,
 				5F7D6303215F407800803BCF /* extension.c in Sources */,
 				5F7D637F215F407800803BCF /* AnimationStateData.c in Sources */,
 				5F7D6043215F407700803BCF /* SVStreamOut.cpp in Sources */,
 				5F7D621B215F407800803BCF /* pngwrite.c in Sources */,
+				022C1B352175EFD300FA5884 /* SVBMFontLoader.cpp in Sources */,
 				5F7D67A9215F407900803BCF /* SVIOSInstreamNode.cpp in Sources */,
 				5F7D6605215F407800803BCF /* SVRenderScene.cpp in Sources */,
 				5F7D62FB215F407800803BCF /* Json.c in Sources */,
@@ -6724,6 +6823,7 @@
 				5F7D6457215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				5F7D620B215F407800803BCF /* pngwio.c in Sources */,
 				5F7D613F215F407700803BCF /* SVImageUsingMove.cpp in Sources */,
+				022C1B3F2176044D00FA5884 /* SVBMFontConf.cpp in Sources */,
 				5F7D6725215F407900803BCF /* SVTransTexNode.cpp in Sources */,
 				5F7D6965215F407900803BCF /* SVSign.cpp in Sources */,
 				5F7D638F215F407800803BCF /* Triangulator.c in Sources */,
