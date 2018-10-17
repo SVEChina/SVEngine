@@ -102,12 +102,3 @@ void SVFilterLUT::update(f32 dt){
         }
     }
 }
-
-void SVFilterLUT::setFilterParam(f32 _smooth,SVFILTERITEMTYPE _type){
-    
-}
-
-f32 SVFilterLUT::getFilterParam(SVFILTERITEMTYPE _type){
-    return 0;
-}
-

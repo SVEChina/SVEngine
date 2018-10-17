@@ -194,10 +194,10 @@
 		5F7D608F215F407700803BCF /* SVFilterDef.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D88215F407700803BCF /* SVFilterDef.h */; };
 		5F7D6090215F407700803BCF /* SVFilterDef.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D88215F407700803BCF /* SVFilterDef.h */; };
 		5F7D6091215F407700803BCF /* SVFilterDef.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D88215F407700803BCF /* SVFilterDef.h */; };
-		5F7D6092215F407700803BCF /* SVFilterLookUpTableAdjust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D89215F407700803BCF /* SVFilterLookUpTableAdjust.cpp */; };
-		5F7D6093215F407700803BCF /* SVFilterLookUpTableAdjust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D89215F407700803BCF /* SVFilterLookUpTableAdjust.cpp */; };
-		5F7D6094215F407700803BCF /* SVFilterLookUpTableAdjust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D89215F407700803BCF /* SVFilterLookUpTableAdjust.cpp */; };
-		5F7D6095215F407700803BCF /* SVFilterLookUpTableAdjust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D89215F407700803BCF /* SVFilterLookUpTableAdjust.cpp */; };
+		5F7D6092215F407700803BCF /* SVFilterGenLUT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D89215F407700803BCF /* SVFilterGenLUT.cpp */; };
+		5F7D6093215F407700803BCF /* SVFilterGenLUT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D89215F407700803BCF /* SVFilterGenLUT.cpp */; };
+		5F7D6094215F407700803BCF /* SVFilterGenLUT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D89215F407700803BCF /* SVFilterGenLUT.cpp */; };
+		5F7D6095215F407700803BCF /* SVFilterGenLUT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D89215F407700803BCF /* SVFilterGenLUT.cpp */; };
 		5F7D6096215F407700803BCF /* SVBasedonFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D8A215F407700803BCF /* SVBasedonFilter.cpp */; };
 		5F7D6097215F407700803BCF /* SVBasedonFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D8A215F407700803BCF /* SVBasedonFilter.cpp */; };
 		5F7D6098215F407700803BCF /* SVBasedonFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D8A215F407700803BCF /* SVBasedonFilter.cpp */; };
@@ -234,10 +234,10 @@
 		5F7D60B7215F407700803BCF /* SVFilterBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D92215F407700803BCF /* SVFilterBase.cpp */; };
 		5F7D60B8215F407700803BCF /* SVFilterBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D92215F407700803BCF /* SVFilterBase.cpp */; };
 		5F7D60B9215F407700803BCF /* SVFilterBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D92215F407700803BCF /* SVFilterBase.cpp */; };
-		5F7D60BA215F407700803BCF /* SVFilterLookUpTableAdjust.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D93215F407700803BCF /* SVFilterLookUpTableAdjust.h */; };
-		5F7D60BB215F407700803BCF /* SVFilterLookUpTableAdjust.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D93215F407700803BCF /* SVFilterLookUpTableAdjust.h */; };
-		5F7D60BC215F407700803BCF /* SVFilterLookUpTableAdjust.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D93215F407700803BCF /* SVFilterLookUpTableAdjust.h */; };
-		5F7D60BD215F407700803BCF /* SVFilterLookUpTableAdjust.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D93215F407700803BCF /* SVFilterLookUpTableAdjust.h */; };
+		5F7D60BA215F407700803BCF /* SVFilterGenLUT.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D93215F407700803BCF /* SVFilterGenLUT.h */; };
+		5F7D60BB215F407700803BCF /* SVFilterGenLUT.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D93215F407700803BCF /* SVFilterGenLUT.h */; };
+		5F7D60BC215F407700803BCF /* SVFilterGenLUT.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D93215F407700803BCF /* SVFilterGenLUT.h */; };
+		5F7D60BD215F407700803BCF /* SVFilterGenLUT.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5D93215F407700803BCF /* SVFilterGenLUT.h */; };
 		5F7D60BE215F407700803BCF /* SVRecycleProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D94215F407700803BCF /* SVRecycleProcess.cpp */; };
 		5F7D60BF215F407700803BCF /* SVRecycleProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D94215F407700803BCF /* SVRecycleProcess.cpp */; };
 		5F7D60C0215F407700803BCF /* SVRecycleProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D94215F407700803BCF /* SVRecycleProcess.cpp */; };
@@ -2534,7 +2534,7 @@
 		5F7D5D85215F407700803BCF /* SVLogicDeclare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVLogicDeclare.h; sourceTree = "<group>"; };
 		5F7D5D87215F407700803BCF /* SVRGBToneCurveFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRGBToneCurveFilter.h; sourceTree = "<group>"; };
 		5F7D5D88215F407700803BCF /* SVFilterDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFilterDef.h; sourceTree = "<group>"; };
-		5F7D5D89215F407700803BCF /* SVFilterLookUpTableAdjust.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFilterLookUpTableAdjust.cpp; sourceTree = "<group>"; };
+		5F7D5D89215F407700803BCF /* SVFilterGenLUT.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFilterGenLUT.cpp; sourceTree = "<group>"; };
 		5F7D5D8A215F407700803BCF /* SVBasedonFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBasedonFilter.cpp; sourceTree = "<group>"; };
 		5F7D5D8B215F407700803BCF /* SVFilterLUT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFilterLUT.h; sourceTree = "<group>"; };
 		5F7D5D8C215F407700803BCF /* SVFilterBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFilterBase.h; sourceTree = "<group>"; };
@@ -2544,7 +2544,7 @@
 		5F7D5D90215F407700803BCF /* SVRGBToneCurveFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVRGBToneCurveFilter.cpp; sourceTree = "<group>"; };
 		5F7D5D91215F407700803BCF /* SVRGBToneCurveCore.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVRGBToneCurveCore.cpp; sourceTree = "<group>"; };
 		5F7D5D92215F407700803BCF /* SVFilterBase.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFilterBase.cpp; sourceTree = "<group>"; };
-		5F7D5D93215F407700803BCF /* SVFilterLookUpTableAdjust.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFilterLookUpTableAdjust.h; sourceTree = "<group>"; };
+		5F7D5D93215F407700803BCF /* SVFilterGenLUT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFilterGenLUT.h; sourceTree = "<group>"; };
 		5F7D5D94215F407700803BCF /* SVRecycleProcess.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVRecycleProcess.cpp; sourceTree = "<group>"; };
 		5F7D5D95215F407700803BCF /* SVSysBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSysBase.h; sourceTree = "<group>"; };
 		5F7D5D96215F407700803BCF /* SVStaticData.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVStaticData.cpp; sourceTree = "<group>"; };
@@ -3261,8 +3261,8 @@
 				5F7D5D92215F407700803BCF /* SVFilterBase.cpp */,
 				5F7D5D8C215F407700803BCF /* SVFilterBase.h */,
 				5F7D5D88215F407700803BCF /* SVFilterDef.h */,
-				5F7D5D89215F407700803BCF /* SVFilterLookUpTableAdjust.cpp */,
-				5F7D5D93215F407700803BCF /* SVFilterLookUpTableAdjust.h */,
+				5F7D5D89215F407700803BCF /* SVFilterGenLUT.cpp */,
+				5F7D5D93215F407700803BCF /* SVFilterGenLUT.h */,
 				5F7D5D8E215F407700803BCF /* SVFilterLUT.cpp */,
 				5F7D5D8B215F407700803BCF /* SVFilterLUT.h */,
 				5F7D5D91215F407700803BCF /* SVRGBToneCurveCore.cpp */,
@@ -4208,7 +4208,7 @@
 				5F7D66C7215F407900803BCF /* SVMtlFaceShape.h in Headers */,
 				5F7D63A1215F407800803BCF /* memorystream.h in Headers */,
 				5F7D65BF215F407800803BCF /* SVRendererMetal.h in Headers */,
-				5F7D60BD215F407700803BCF /* SVFilterLookUpTableAdjust.h in Headers */,
+				5F7D60BD215F407700803BCF /* SVFilterGenLUT.h in Headers */,
 				5F7D68E7215F407900803BCF /* SVDataSwap.h in Headers */,
 				5F7D65CB215F407800803BCF /* SVResFBO.h in Headers */,
 				5F7D6587215F407800803BCF /* SVContextBase.h in Headers */,
@@ -4556,7 +4556,7 @@
 				5F7D66C5215F407900803BCF /* SVMtlFaceShape.h in Headers */,
 				5F7D639F215F407800803BCF /* memorystream.h in Headers */,
 				5F7D65BD215F407800803BCF /* SVRendererMetal.h in Headers */,
-				5F7D60BB215F407700803BCF /* SVFilterLookUpTableAdjust.h in Headers */,
+				5F7D60BB215F407700803BCF /* SVFilterGenLUT.h in Headers */,
 				5F7D68E5215F407900803BCF /* SVDataSwap.h in Headers */,
 				5F7D65C9215F407800803BCF /* SVResFBO.h in Headers */,
 				5F7D6585215F407800803BCF /* SVContextBase.h in Headers */,
@@ -4993,7 +4993,7 @@
 				5F7D63AE215F407800803BCF /* encodedstream.h in Headers */,
 				5F7D612A215F407700803BCF /* SVModel.h in Headers */,
 				5F7D6608215F407800803BCF /* SVRenderMgr.h in Headers */,
-				5F7D60BA215F407700803BCF /* SVFilterLookUpTableAdjust.h in Headers */,
+				5F7D60BA215F407700803BCF /* SVFilterGenLUT.h in Headers */,
 				5F7D629A215F407800803BCF /* dll.h in Headers */,
 				5F7D6660215F407800803BCF /* SVTexMgr.h in Headers */,
 				5F7D6296215F407800803BCF /* TransformConstraint.h in Headers */,
@@ -5254,7 +5254,7 @@
 				5F7D66C6215F407900803BCF /* SVMtlFaceShape.h in Headers */,
 				5F7D63A0215F407800803BCF /* memorystream.h in Headers */,
 				5F7D65BE215F407800803BCF /* SVRendererMetal.h in Headers */,
-				5F7D60BC215F407700803BCF /* SVFilterLookUpTableAdjust.h in Headers */,
+				5F7D60BC215F407700803BCF /* SVFilterGenLUT.h in Headers */,
 				5F7D68E6215F407900803BCF /* SVDataSwap.h in Headers */,
 				5F7D65CA215F407800803BCF /* SVResFBO.h in Headers */,
 				5F7D6586215F407800803BCF /* SVContextBase.h in Headers */,
@@ -5853,7 +5853,7 @@
 				5F7D62FD215F407800803BCF /* Json.c in Sources */,
 				5F7D638D215F407800803BCF /* Color.c in Sources */,
 				5F7D614D215F407700803BCF /* SVParticles.cpp in Sources */,
-				5F7D6095215F407700803BCF /* SVFilterLookUpTableAdjust.cpp in Sources */,
+				5F7D6095215F407700803BCF /* SVFilterGenLUT.cpp in Sources */,
 				5F7D6379215F407800803BCF /* VertexAttachment.c in Sources */,
 				5F7D61E9215F407700803BCF /* SVDataBase.cpp in Sources */,
 				5F7D683B215F407900803BCF /* SVEventThread.cpp in Sources */,
@@ -6007,7 +6007,7 @@
 				5F7D6780215F407900803BCF /* SVBGRAInstreamNode.cpp in Sources */,
 				5F7D6978215F407900803BCF /* SVMat3.cpp in Sources */,
 				5F7D6950215F407900803BCF /* SVLockSpin.cpp in Sources */,
-				5F7D6092215F407700803BCF /* SVFilterLookUpTableAdjust.cpp in Sources */,
+				5F7D6092215F407700803BCF /* SVFilterGenLUT.cpp in Sources */,
 				5F7D6152215F407700803BCF /* SVGlobalMgr.cpp in Sources */,
 				5F7D60BE215F407700803BCF /* SVRecycleProcess.cpp in Sources */,
 				5F7D687C215F407900803BCF /* SVDataChunk.cpp in Sources */,
@@ -6415,7 +6415,7 @@
 				5F7D62FC215F407800803BCF /* Json.c in Sources */,
 				5F7D638C215F407800803BCF /* Color.c in Sources */,
 				5F7D614C215F407700803BCF /* SVParticles.cpp in Sources */,
-				5F7D6094215F407700803BCF /* SVFilterLookUpTableAdjust.cpp in Sources */,
+				5F7D6094215F407700803BCF /* SVFilterGenLUT.cpp in Sources */,
 				5F7D6378215F407800803BCF /* VertexAttachment.c in Sources */,
 				5F7D61E8215F407700803BCF /* SVDataBase.cpp in Sources */,
 				5F7D683A215F407900803BCF /* SVEventThread.cpp in Sources */,
@@ -6695,7 +6695,7 @@
 				5F7D62FB215F407800803BCF /* Json.c in Sources */,
 				5F7D638B215F407800803BCF /* Color.c in Sources */,
 				5F7D614B215F407700803BCF /* SVParticles.cpp in Sources */,
-				5F7D6093215F407700803BCF /* SVFilterLookUpTableAdjust.cpp in Sources */,
+				5F7D6093215F407700803BCF /* SVFilterGenLUT.cpp in Sources */,
 				5F7D6377215F407800803BCF /* VertexAttachment.c in Sources */,
 				5F7D61E7215F407700803BCF /* SVDataBase.cpp in Sources */,
 				5F7D6839215F407900803BCF /* SVEventThread.cpp in Sources */,

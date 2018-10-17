@@ -1,12 +1,12 @@
 //
-//  SVFilterLookUpTableAdjust.cpp
+//  SVFilterGenLUT.cpp
 //  SVEngine
 //
 //  Created by 徐子昱 on 2018/9/25.
 //  Copyright © 2018年 李晓帆. All rights reserved.
 //
 
-#include "SVFilterLookUpTableAdjust.h"
+#include "SVFilterGenLUT.h"
 #include "../../core/SVPass.h"
 #include "../../mtl/SVTexMgr.h"
 #include "../../mtl/SVTexture.h"
@@ -17,17 +17,16 @@
 #include "../../rendercore/SVRenderMgr.h"
 
 
-SVFilterLookUpTableAdjust::SVFilterLookUpTableAdjust(SVInst *_app)
+SVFilterGenLUT::SVFilterGenLUT(SVInst *_app)
 :SVFilterBase(_app){
     m_type=SV_FUNC_BRIGHTNESSCONTRAST;
-    m_name="SVFilterLookUpTableAdjust";
+    m_name="SVFilterGenLUT";
     m_BCMtl=nullptr;//brightness contrast
     m_SaturationMtl=nullptr;
     m_colorBalanceMtl=nullptr;
     m_VibranceMtl=nullptr;
     m_hslMtl=nullptr;
     m_shadowHighlightMtl=nullptr;
-    m_outTex=nullptr;
 
     m_saturation=0.0f;
     m_brightness=0.0f;
@@ -69,22 +68,25 @@ SVFilterLookUpTableAdjust::SVFilterLookUpTableAdjust(SVInst *_app)
     m_hhblueShift=0.0f;
 }
 
-SVFilterLookUpTableAdjust::~SVFilterLookUpTableAdjust(){
+SVFilterGenLUT::~SVFilterGenLUT(){
 }
 
-bool SVFilterLookUpTableAdjust::create(){
+bool SVFilterGenLUT::create(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
-    
     SVTexturePtr inTex= mApp->getTexMgr()->getTextureSync("svres/lookup.png", true);
-    m_outTex=mApp->getTexMgr()->createUnctrlTexture(inTex->getwidth(), inTex->getheight(), GL_RGBA,  GL_RGBA);
-    SVTexturePtr tex01=mApp->getTexMgr()->createUnctrlTexture(inTex->getwidth(), inTex->getheight(), GL_RGBA,  GL_RGBA);
-    SVTexturePtr tex02=mApp->getTexMgr()->createUnctrlTexture(inTex->getwidth(), inTex->getheight(), GL_RGBA,  GL_RGBA);
+    //
+    s32 t_w = inTex->getwidth();
+    s32 t_h = inTex->getheight();
+    t_renderer->createSVTex(E_TEX_FILTER_GENLUT_OUT, t_w, t_h, GL_RGBA);
+    t_renderer->createSVTex(E_TEX_FILTER_GENLUT_H1, t_w, t_h, GL_RGBA);
+    t_renderer->createSVTex(E_TEX_FILTER_GENLUT_H2, t_w, t_h, GL_RGBA);
+    
     //增加pass
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
-    m_pPassNode->create(inTex->getwidth(), inTex->getheight());
-    m_pPassNode->setname("SVFilterLookUpTableAdjust");
+    m_pPassNode->create(t_w,t_h);
+    m_pPassNode->setname("SVFilterGenLUT");
     
     //创建材质
     m_BCMtl=MakeSharedPtr<SVMtlBrightnessContrast>(mApp);
@@ -111,55 +113,62 @@ bool SVFilterLookUpTableAdjust::create(){
     SVPassPtr m_pass = MakeSharedPtr<SVPass>();
     m_pass->setMtl(m_BCMtl);
     m_pass->setInTex(0,inTex);
-    m_pass->setOutTex(tex01);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H1);
     m_pPassNode->addPass(m_pass);
     
     m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(m_SaturationMtl);
-    m_pass->setInTex(0,tex01);
-    m_pass->setOutTex(tex02);
+    m_pass->setInTex(0,E_TEX_FILTER_GENLUT_H1);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H2);
     m_pPassNode->addPass(m_pass);
    
     m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(m_VibranceMtl);
-    m_pass->setInTex(0,tex02);
-    m_pass->setOutTex(tex01);
+    m_pass->setInTex(0,E_TEX_FILTER_GENLUT_H2);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H1);
     m_pPassNode->addPass(m_pass);
     
     m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(m_hslMtl);
-    m_pass->setInTex(0, tex01);
-    m_pass->setOutTex(tex02);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H1);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H2);
     m_pPassNode->addPass(m_pass);
     
     m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(m_colorBalanceMtl);
-    m_pass->setInTex(0, tex02);
-    m_pass->setOutTex(tex01);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H2);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H1);
     m_pPassNode->addPass(m_pass);
     
     m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(m_shadowHighlightMtl);
-    m_pass->setInTex(0, tex01);
-    m_pass->setOutTex(tex02);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H1);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H2);
     m_pPassNode->addPass(m_pass);
     
     m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(t_mtl_back);
-    m_pass->setInTex(0,tex02);
-    m_pass->setOutTex(m_outTex);
+    m_pass->setInTex(0,E_TEX_FILTER_GENLUT_H2);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_OUT);
     m_pPassNode->addPass(m_pass);
 
     return true;
 }
 
-void SVFilterLookUpTableAdjust::destroy(){
+void SVFilterGenLUT::destroy(){
+    //
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
+        t_renderer->destroySVTex(E_TEX_FILTER_GENLUT_OUT);
+        t_renderer->destroySVTex(E_TEX_FILTER_GENLUT_H1);
+        t_renderer->destroySVTex(E_TEX_FILTER_GENLUT_H2);
+    }
+    //
     m_BCMtl=nullptr;//brightness contrast
     m_SaturationMtl=nullptr;
     m_colorBalanceMtl=nullptr;
     m_VibranceMtl=nullptr;
     m_hslMtl=nullptr;
-    m_outTex=nullptr;
 
     m_saturation=0.0f;
     m_brightness=0.0f;
@@ -204,7 +213,15 @@ void SVFilterLookUpTableAdjust::destroy(){
     m_Highlight=0.0;
 }
 
-void SVFilterLookUpTableAdjust::update(f32 dt){
+SVTexturePtr SVFilterGenLUT::getOutTex(){
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
+        return t_renderer->getSVTex(E_TEX_FILTER_GENLUT_OUT);
+    }
+    return nullptr;
+}
+
+void SVFilterGenLUT::update(f32 dt){
     m_BCMtl->setBrightness(m_brightness);
     m_BCMtl->setContrast(m_contrast);
     m_SaturationMtl->setSaturation(m_saturation);
@@ -246,4 +263,13 @@ void SVFilterLookUpTableAdjust::update(f32 dt){
     
     m_shadowHighlightMtl->setShadow(m_shadow);
     m_shadowHighlightMtl->setHighlight(m_Highlight);
+}
+
+void SVFilterGenLUT::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                         RAPIDJSON_NAMESPACE::Value &_objValue) {
+ 
+}
+
+void SVFilterGenLUT::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
+
 }

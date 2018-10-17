@@ -30,10 +30,6 @@ namespace sv {
             void setLUTTex(SVTexturePtr _looktex);
             
             SVTexturePtr getLUTTex();
-            
-            virtual void setFilterParam(f32 _smooth,SVFILTERITEMTYPE _type);
-            
-            virtual f32 getFilterParam(SVFILTERITEMTYPE _type);
 
         protected:
             SVTexturePtr m_texLUT;
