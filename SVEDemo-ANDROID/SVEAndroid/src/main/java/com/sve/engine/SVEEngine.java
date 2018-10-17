@@ -24,7 +24,7 @@ public class SVEEngine {
     private SVEImageRead m_imageRead = null;
     private int m_width = 720;
     private int m_height = 1280;
-    private String mName = "camera";
+    private String mName = "sve";
     private onSVImageBufferCallBack mCallBack;
     private SVERenderHelper mRenderHelpe = null;
     private SurfaceTexture mSurfaceTexture = null;
@@ -82,6 +82,7 @@ public class SVEEngine {
         if (mRenderHelpe == null) {
             m_width = _width;
             m_height = _height;
+
             m_imageRead = new SVEImageRead(_width, _height, new onSVImageBufferCallBack() {
                 @Override
                 public void onSVBufferCallBack(ByteBuffer _data, int width, int height, int stride) {

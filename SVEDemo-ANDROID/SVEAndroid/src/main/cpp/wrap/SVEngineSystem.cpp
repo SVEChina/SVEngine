@@ -1,8 +1,6 @@
 //
 // Created by 徐子昱 on 2018/6/28.
 //
-
-
 #include "SVEngineSystem.h"
 #include "filter/SVWatermark.h"
 #include "operate/SVOpRender.h"
@@ -20,14 +18,14 @@
 #include "event/SVEventMgr.h"
 #include "filter/SVOpFaceBeautyExt.h"
 
-
-
 SVEngineSystem::SVEngineSystem(){
 
 }
+
 SVEngineSystem::~SVEngineSystem(){
     delete m_pApp;
 }
+
 //初始化引擎
 void SVEngineSystem::initEngine(){
     m_pApp=new SVInst();
@@ -36,6 +34,7 @@ void SVEngineSystem::initEngine(){
         t_app->init();
     }
 }
+
 //配置surface windows
 void SVEngineSystem::setWindows(ANativeWindow *_windows) {
     m_pWindows=_windows;
@@ -48,6 +47,7 @@ void SVEngineSystem::startEngine(){
         t_app->startSVE();
     }
 }
+
 //关闭引擎
 void SVEngineSystem::stopEngine(){
     SVInst* t_app = (SVInst*)m_pApp;
@@ -55,6 +55,7 @@ void SVEngineSystem::stopEngine(){
         t_app->stopSVE();
     }
 }
+
 //挂起
 void SVEngineSystem::suspend(){
     SVInst* t_app = (SVInst*)m_pApp;
@@ -62,6 +63,7 @@ void SVEngineSystem::suspend(){
         t_app->svSuspend();
     }
 }
+
 //唤醒
 void SVEngineSystem::resume(){
     SVInst* t_app = (SVInst*)m_pApp;
@@ -98,19 +100,20 @@ void SVEngineSystem::destoryInStream(SVString _name){
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 
 }
+
 void SVEngineSystem::destoryOutstream(SVString _name){
     SVInst* t_app = (SVInst*)m_pApp;
     SVOpDestroyTextureOutstreamPtr t_op=MakeSharedPtr<SVOpDestroyTextureOutstream>(t_app,_name.c_str());
     t_op->setCallBack(nullptr, "");
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
+
 int SVEngineSystem::getTexId(){
     SVInst* t_app = (SVInst*)m_pApp;
     SVStreamOutPtr t_streamOut = t_app->m_pGlobalMgr->m_pBasicSys->getStreamOut();
     if(t_streamOut){
         return  t_streamOut->getTexId();
     }
-
     return 0;
 }
 
@@ -143,12 +146,14 @@ void SVEngineSystem::createRenderGL(int glVer,EGLContext  _context,int _w,int _h
     t_op->setGLParam(glVer,_context,(void*)m_pWindows,_w,_h);
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
+
 //销毁渲染器
 void SVEngineSystem::destoryRenderGL(){
     SVInst* t_app = (SVInst*)m_pApp;
     SVOpDestroyRenderderPtr t_op = MakeSharedPtr<SVOpDestroyRenderder>(t_app);
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
+
 //创建渲染环境
 void SVEngineSystem::createRenderTarget(int _fboid,int _colorid,int _w,int _h){
     SVInst* t_app = (SVInst*)m_pApp;
@@ -156,6 +161,7 @@ void SVEngineSystem::createRenderTarget(int _fboid,int _colorid,int _w,int _h){
     t_op->setTargetParam(_w,_h,_fboid,_colorid,true);
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
+
 //渲染到纹理
 void SVEngineSystem::createRenderTextureTarget(int _texId, int _w, int _h) {
     SVInst* t_app = (SVInst*)m_pApp;
@@ -163,12 +169,14 @@ void SVEngineSystem::createRenderTextureTarget(int _texId, int _w, int _h) {
     t_op->setTargetParam(_w,_h,_texId,true);
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
+
 //开启美颜
 void SVEngineSystem::openFaceBeauty(int  _lows) {
     SVInst* t_app = (SVInst*)m_pApp;
     SVOpFaceBeautyExtPtr t_op = MakeSharedPtr< SVOpFaceBeautyExt>(t_app,"","",_lows);
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
+
 void SVEngineSystem::updateFilter(int type, int smooth) {
     SVInst* t_app = (SVInst*)m_pApp;
     SVOpUpdateFilterSmoothPtr t_op = MakeSharedPtr<SVOpUpdateFilterSmooth>(t_app,smooth,type);
@@ -185,13 +193,14 @@ void SVEngineSystem::destoryRenderTarget(){
 //创建场景
 void SVEngineSystem::createScene(cb_func_op _cb,char* _msg){
     SVInst* t_app = (SVInst*)m_pApp;
-    SVOpCreateScenePtr t_op = MakeSharedPtr<SVOpCreateScene>(t_app,"showScene");
+    SVOpCreateScenePtr t_op = MakeSharedPtr<SVOpCreateScene>(t_app,"sveScene");
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
+
 //销毁场景
 void SVEngineSystem::destoryScene(){
     SVInst* t_app = (SVInst*)m_pApp;
-    SVOpDestroyScenePtr t_op = MakeSharedPtr<SVOpDestroyScene>(t_app,"showScene");
+    SVOpDestroyScenePtr t_op = MakeSharedPtr<SVOpDestroyScene>(t_app,"sveScene");
     t_app->m_pTPool->getMainThread()->pushThreadOp(t_op);
 }
 
@@ -203,4 +212,3 @@ void SVEngineSystem::touchPos(float _x, float _y) {
     t_touch->y = _y;
     t_app->getEventMgr()->pushEvent(t_touch);
 }
-

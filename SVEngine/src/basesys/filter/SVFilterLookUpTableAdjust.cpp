@@ -247,5 +247,4 @@ void SVFilterLookUpTableAdjust::update(f32 dt){
     
     m_shadowHighlightMtl->setShadow(m_shadow);
     m_shadowHighlightMtl->setHighlight(m_Highlight);
-    
 }
