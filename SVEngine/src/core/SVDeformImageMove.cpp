@@ -34,6 +34,7 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
 :SVGBase(_app){
     m_pMtlBg  = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_pIUMP    = MakeSharedPtr<SVImageUsingMove>();
+    m_passDeform = nullptr;
     m_pMeshBg = nullptr;
     m_tt_w = 0;
     m_tt_h = 0;
@@ -46,7 +47,7 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
 }
 
 SVDeformImageMove::~SVDeformImageMove(){
-    m_passPool.clear();
+    m_passDeform = nullptr;
     m_pMeshBg = nullptr;
     m_pMtlBg = nullptr;
     m_pIUMP = nullptr;
@@ -72,12 +73,11 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_fbo->setProjMat(t_camera.getProjectMatObj());
         m_fbo->setViewMat(t_camera.getViewMatObj());
         //
-        SVPassPtr t_pass = MakeSharedPtr<SVPass>();
-        t_pass->setMtl(m_pMtlBg);
-        t_pass->setMesh(m_pMeshBg);
-        t_pass->setInTex(0,_intex);
-        t_pass->setOutTex(_texout);
-        m_passPool.append(t_pass);
+        m_passDeform = MakeSharedPtr<SVPass>();
+        m_passDeform->setMtl(m_pMtlBg);
+        m_passDeform->setMesh(m_pMeshBg);
+        m_passDeform->setInTex(0,_intex);
+        m_passDeform->setOutTex(_texout);
     }
 }
 
@@ -168,39 +168,37 @@ void SVDeformImageMove::update(f32 _dt){
     if(!is_swith){
         return;
     }
-    if(m_pMtlBg){
-        m_pMtlBg->setTexcoordFlip(1.0f, 1.0f);
-    }
     //
-    for(s32 i=0;i<m_passPool.size();i++){
-        if(m_passPool[i]->m_pMtl){
-            m_passPool[i]->m_pMtl->update(_dt);
-        }
+    if(m_passDeform && m_passDeform->m_pMtl){
+        m_passDeform->m_pMtl->update(_dt);
     }
 }
 
 void SVDeformImageMove::render(){
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (is_swith && t_rs && false  == t_rs->isSuspend() ) {
-        for(s32 i=0;i<m_passPool.size();i++){
-            if(m_passPool[i]->m_pMtl){
-                SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
-                t_cmd->mTag = "SVBackGroundNode";
-                t_cmd->setFbo(m_fbo);
-                if( m_passPool[i]->m_outTexType == E_TEX_END ) {
-                    t_cmd->setTexture(m_passPool[i]->m_outTex);
-                }else{
-                    SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(m_passPool[i]->m_outTexType);
-                    t_cmd->setTexture(t_tex);
-                }
-                if(m_passPool[i]->m_pMesh){
-                    t_cmd->setMesh(m_passPool[i]->m_pMesh);
-                }else{
-                    t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
-                }
-                t_cmd->setMaterial(m_passPool[i]->m_pMtl);
-                t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);//m_rsType
+        if(m_passDeform->m_pMtl){
+            SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
+            t_cmd->mTag = "SVBackGroundNode";
+            t_cmd->setFbo(m_fbo);
+            //图片翻转这块需要校正一下 by fyz
+            if(m_pMtlBg){
+                m_pMtlBg->setTexcoordFlip(-1.0f, 1.0f);
             }
+            //
+            if( m_passDeform->m_outTexType == E_TEX_END ) {
+                t_cmd->setTexture(m_passDeform->m_outTex);
+            }else{
+                SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(m_passDeform->m_outTexType);
+                t_cmd->setTexture(t_tex);
+            }
+            if(m_passDeform->m_pMesh){
+                t_cmd->setMesh(m_passDeform->m_pMesh);
+            }else{
+                t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
+            }
+            t_cmd->setMaterial(m_passDeform->m_pMtl);
+            t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);//m_rsType
         }
     }
 }
@@ -250,7 +248,6 @@ void SVDeformImageMove::pointMove(V2 *t_data){
     
     f32 leng = getDistanceFrom(eyer,eyel);
     f32 _smooth = (leng/240.0);
-    f32 t_inversedStandardLength = 1.0 / leng;
     FVec2 t_eyel = eyer-eyel;
     f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
     m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));

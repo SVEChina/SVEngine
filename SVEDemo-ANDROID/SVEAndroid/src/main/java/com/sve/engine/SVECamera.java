@@ -155,8 +155,6 @@ public class SVECamera {
 //        previewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
 //                CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
         try {
-            //本人使用的小米手机在设置聚焦区域的时候经常会出异常，看日志发现是框架层的字符串转int的时候出错了，
-            //目测是小米修改了框架层代码导致，在此try掉，对实际聚焦效果没影响
             int value =parameters.getMaxExposureCompensation();
             parameters.setExposureCompensation(0);
         } catch (Exception e) {
@@ -484,9 +482,6 @@ public class SVECamera {
             areas.add(new Camera.Area(new Rect(left, top, right, bottom), 100));
             parameters.setFocusAreas(areas);
             try {
-                //本人使用的小米手机在设置聚焦区域的时候经常会出异常，看日志发现是框架层的字符串转int的时候出错了，
-                //目测是小米修改了框架层代码导致，在此try掉，对实际聚焦效果没影响
-
                 parameters.setExposureCompensation(1);
                 camera.setParameters(parameters);
             } catch (Exception e) {

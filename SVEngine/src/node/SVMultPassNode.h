@@ -31,6 +31,8 @@ namespace sv {
             
             void clearPass();
             
+            SVPassPtr getPass(s32 _index);
+            
         protected:
             typedef SVArray<SVPassPtr> PASSPOOL;
             PASSPOOL m_passPool;

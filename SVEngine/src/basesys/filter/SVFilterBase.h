@@ -13,7 +13,7 @@
 #include "../../base/SVGBase.h"
 #include "../../mtl/SVMtlDeclare.h"
 #include "../../node/SVNodeDeclare.h"
-
+#include "../../third/rapidjson/rapidjson.h"
 
 namespace sv {
     
@@ -50,9 +50,6 @@ namespace sv {
             SVMtlCorePtr m_mtl;
             SVString m_name;
             SVFILTERFUNCTYPE m_type;
-            
-         
-            
         };
         
     };//!namespace logic

@@ -1,5 +1,5 @@
 //
-//  SVFilterLookUpTableAdjust.hpp
+//  SVFilterGenLUT.hpp
 //  SVEngine
 //
 //  Created by 徐子昱 on 2018/9/25.
@@ -8,17 +8,17 @@
 
 #ifndef SV_FILTERLOOKUPTABLEADJUST_H
 #define SV_FILTERLOOKUPTABLEADJUST_H
+
 #include "SVFilterBase.h"
-#include "../../mtl/SVMtlDeclare.h"
-#include "../../node/SVNodeDeclare.h"
 
 namespace sv {
     namespace logic {
-        class SVFilterLookUpTableAdjust : public SVFilterBase {
+        
+        class SVFilterGenLUT : public SVFilterBase {
         public:
-            SVFilterLookUpTableAdjust(SVInst *_app);
+            SVFilterGenLUT(SVInst *_app);
             
-            ~SVFilterLookUpTableAdjust();
+            ~SVFilterGenLUT();
             
             virtual  bool create();
             
@@ -150,9 +150,7 @@ namespace sv {
                 m_Highlight=_highlight;
             }
             
-            inline SVTexturePtr getOutTex(){
-                return m_outTex;
-            }
+            SVTexturePtr getOutTex();
             
         protected:
             SVMtlBrightnessContrastPtr m_BCMtl;//brightness contrast
@@ -161,8 +159,6 @@ namespace sv {
             SVMtlColorBalancePtr m_colorBalanceMtl;
             SVMtlShadowHighlightPtr m_shadowHighlightMtl;
             SVMtlHSLPtr m_hslMtl;
-            
-            SVTexturePtr m_outTex;
             
             f32 m_brightness;
             f32 m_contrast;
@@ -206,10 +202,14 @@ namespace sv {
             f32 m_shadow;
             f32 m_Highlight;
             
+        public:
+            //序列化
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
             
-            
-            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
+        
     };//!namespace logic
 }//!namespace sv
 

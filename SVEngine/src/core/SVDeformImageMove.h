@@ -73,8 +73,7 @@ namespace sv {
             s32 m_wPointCount;
             s32 m_hPointCont;
             
-            typedef SVArray<SVPassPtr> PASSPOOL;
-            PASSPOOL m_passPool;
+            SVPassPtr m_passDeform;
             //
             SVRenderTexturePtr m_fbo;
             bool is_swith;

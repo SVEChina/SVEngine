@@ -31,8 +31,8 @@ namespace sv {
             
             void refreshOut();
             
-            inline SVFilterLookUpTableAdjustPtr getFilter(){
-                return m_lookUpdableFilter;
+            inline SVFilterGenLUTPtr getFilter(){
+                return m_pFilterGenLUT;
             }
             
         protected:
@@ -56,7 +56,7 @@ namespace sv {
             f32 m_hh_bshift;
             f32 m_temperature;
             f32 m_tint;
-            SVFilterLookUpTableAdjustPtr m_lookUpdableFilter;
+            SVFilterGenLUTPtr m_pFilterGenLUT;
         };
         
 

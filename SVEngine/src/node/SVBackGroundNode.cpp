@@ -38,6 +38,8 @@ SVBackGroundNode::SVBackGroundNode(SVInst *_app)
     ntype = "SVDeformNode";
     m_rsType = RST_BACKGROUND;
     m_useTexType = E_TEX_END;
+    m_texcoordX = 1.0f;
+    m_texcoordY = -1.0f;
 }
 
 SVBackGroundNode::~SVBackGroundNode(){
@@ -45,7 +47,7 @@ SVBackGroundNode::~SVBackGroundNode(){
 }
 
 void SVBackGroundNode::update(f32 _dt){
-    if(m_pDeform){
+    if( m_pDeform ){
         SVNode::update(_dt);
         if (m_pRenderObj && m_pMesh) {
             if(m_pMtl){

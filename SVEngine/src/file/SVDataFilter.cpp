@@ -12,11 +12,11 @@
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVPictureProcess.h"
 #include "../basesys/filter/SVBasedonFilter.h"
-#include "../basesys/filter/SVFilterLookUpTableAdjust.h"
+#include "../basesys/filter/SVFilterGenLUT.h"
 
 SVDataFilter::SVDataFilter(SVInst *_app)
 : SVDataBase(_app){
-    m_lookUpdableFilter=MakeSharedPtr<SVFilterLookUpTableAdjust>(mApp);
+    m_pFilterGenLUT=MakeSharedPtr<SVFilterGenLUT>(mApp);
     m_dataType = MODELDATA_FILTER;
     m_beauty_rad = 0.0f;
     m_shadow = 0.0f;
@@ -41,7 +41,7 @@ SVDataFilter::SVDataFilter(SVInst *_app)
 }
 
 SVDataFilter::~SVDataFilter(){
-    m_lookUpdableFilter=nullptr;
+    m_pFilterGenLUT=nullptr;
     m_beauty_rad = 0.0f;
     m_shadow = 0.0f;
     m_constrast = 0.0f;
@@ -116,10 +116,10 @@ SVNodePtr SVDataFilter::toNode(){
     SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
     SVNodePtr t_node;
     if(t_pic){
-        m_lookUpdableFilter->create();
-        t_pic->addFilter(m_lookUpdableFilter);
-        t_pic->openFilter(m_lookUpdableFilter);
-        t_node=m_lookUpdableFilter->getNode();
+        m_pFilterGenLUT->create();
+        t_pic->addFilter(m_pFilterGenLUT);
+        t_pic->openFilter(m_pFilterGenLUT);
+        t_node=m_pFilterGenLUT->getNode();
     }
     return t_node;
 }
