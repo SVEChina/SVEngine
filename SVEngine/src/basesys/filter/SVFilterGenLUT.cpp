@@ -27,45 +27,8 @@ SVFilterGenLUT::SVFilterGenLUT(SVInst *_app)
     m_VibranceMtl=nullptr;
     m_hslMtl=nullptr;
     m_shadowHighlightMtl=nullptr;
-
-    m_saturation=0.0f;
-    m_brightness=0.0f;
-    m_contrast=0.0f;
-    m_vibrance=0.0f;
-    
-    m_HSLSaturationRed=1.0f;
-    m_HSLLightnessRed=1.0f;
-    m_HSLHueRed=0.0f;
-    
-    m_HSLSaturationYellow=1.0f;
-    m_HSLLightnessYellow=1.0f;
-    m_HSLHueYellow=0.0f;
-    
-    m_HSLSaturationGreen=1.0f;
-    m_HSLLightnessGreen=1.0f;
-    m_HSLHueGreen=0.0f;
-    
-    m_HSLSaturationMagenta=1.0f;
-    m_HSLLightnessMagenta=1.0f;
-    m_HSLHueMagenta=0.0f;
-    
-    m_HSLSaturationBlue=1.0f;
-    m_HSLLightnessBlue=1.0f;
-    m_HSLHueBlue=0.0f;
-    
-    m_HSLSaturationCyan=1.0f;
-    m_HSLLightnessCyan=1.0f;
-    m_HSLHueCyan=0.0f;
-    
-    m_redShift=0.0f;
-    m_greenShift=0.0f;
-    m_blueShift=0.0f;
-    m_sdredShift=0.0f;
-    m_sdgreenShift=0.0f;
-    m_sdblueShift=0.0f;
-    m_hhredShift=0.0f;
-    m_hhgreenShift=0.0f;
-    m_hhblueShift=0.0f;
+    //
+    m_genParam.reset();
 }
 
 SVFilterGenLUT::~SVFilterGenLUT(){
@@ -169,48 +132,8 @@ void SVFilterGenLUT::destroy(){
     m_colorBalanceMtl=nullptr;
     m_VibranceMtl=nullptr;
     m_hslMtl=nullptr;
-
-    m_saturation=0.0f;
-    m_brightness=0.0f;
-    m_contrast=0.0f;
-    m_vibrance=0.0f;
-    
-    m_HSLSaturationRed=0.0f;
-    m_HSLLightnessRed=0.0f;
-    m_HSLHueRed=0.0f;
-
-    m_HSLSaturationYellow=0.0f;
-    m_HSLLightnessYellow=0.0f;
-    m_HSLHueYellow=0.0f;
-
-    m_HSLSaturationGreen=0.0f;
-    m_HSLLightnessGreen=0.0f;
-    m_HSLHueGreen=0.0f;
-
-    m_HSLSaturationMagenta=0.0f;
-    m_HSLLightnessMagenta=0.0f;
-    m_HSLHueMagenta=0.0f;
-
-    m_HSLSaturationBlue=0.0f;
-    m_HSLLightnessBlue=0.0f;
-    m_HSLHueBlue=0.0f;
-
-    m_HSLSaturationCyan=0.0f;
-    m_HSLLightnessCyan=0.0f;
-    m_HSLHueCyan=0.0f;
-    
-    m_redShift=0.0f;
-    m_greenShift=0.0f;
-    m_blueShift=0.0f;
-    m_sdredShift=0.0f;
-    m_sdgreenShift=0.0f;
-    m_sdblueShift=0.0f;
-    m_hhredShift=0.0f;
-    m_hhgreenShift=0.0f;
-    m_hhblueShift=0.0f;
-    
-    m_shadow=0.0;
-    m_Highlight=0.0;
+    //
+    m_genParam.reset();
 }
 
 SVTexturePtr SVFilterGenLUT::getOutTex(){
@@ -222,47 +145,47 @@ SVTexturePtr SVFilterGenLUT::getOutTex(){
 }
 
 void SVFilterGenLUT::update(f32 dt){
-    m_BCMtl->setBrightness(m_brightness);
-    m_BCMtl->setContrast(m_contrast);
-    m_SaturationMtl->setSaturation(m_saturation);
-    m_VibranceMtl->setVibrance(m_vibrance);
+    m_BCMtl->setBrightness(m_genParam.m_brightness);
+    m_BCMtl->setContrast(m_genParam.m_contrast);
+    m_SaturationMtl->setSaturation(m_genParam.m_saturation);
+    m_VibranceMtl->setVibrance(m_genParam.m_vibrance);
     
-    m_hslMtl->setSaturationRed(m_HSLSaturationRed);
-    m_hslMtl->setHueRed(m_HSLHueRed);
-    m_hslMtl->setLightnessRed(m_HSLLightnessRed);
+    m_hslMtl->setSaturationRed(m_genParam.m_HSLSaturationRed);
+    m_hslMtl->setHueRed(m_genParam.m_HSLHueRed);
+    m_hslMtl->setLightnessRed(m_genParam.m_HSLLightnessRed);
     
-    m_hslMtl->setSaturationYellow(m_HSLSaturationYellow);
-    m_hslMtl->setHueYellow(m_HSLHueYellow);
-    m_hslMtl->setLightnessYellow(m_HSLLightnessYellow);
+    m_hslMtl->setSaturationYellow(m_genParam.m_HSLSaturationYellow);
+    m_hslMtl->setHueYellow(m_genParam.m_HSLHueYellow);
+    m_hslMtl->setLightnessYellow(m_genParam.m_HSLLightnessYellow);
     
-    m_hslMtl->setSaturationGreen(m_HSLSaturationGreen);
-    m_hslMtl->setHueGreen(m_HSLHueGreen);
-    m_hslMtl->setLightnessGreen(m_HSLLightnessGreen);
+    m_hslMtl->setSaturationGreen(m_genParam.m_HSLSaturationGreen);
+    m_hslMtl->setHueGreen(m_genParam.m_HSLHueGreen);
+    m_hslMtl->setLightnessGreen(m_genParam.m_HSLLightnessGreen);
     
-    m_hslMtl->setSaturationMagenta(m_HSLSaturationMagenta);
-    m_hslMtl->setHueMagenta(m_HSLHueMagenta);
-    m_hslMtl->setLightnessMagenta(m_HSLLightnessMagenta);
+    m_hslMtl->setSaturationMagenta(m_genParam.m_HSLSaturationMagenta);
+    m_hslMtl->setHueMagenta(m_genParam.m_HSLHueMagenta);
+    m_hslMtl->setLightnessMagenta(m_genParam.m_HSLLightnessMagenta);
     
-    m_hslMtl->setSaturationBlue(m_HSLSaturationBlue);
-    m_hslMtl->setHueBlue(m_HSLHueBlue);
-    m_hslMtl->setLightnessBlue(m_HSLLightnessBlue);
+    m_hslMtl->setSaturationBlue(m_genParam.m_HSLSaturationBlue);
+    m_hslMtl->setHueBlue(m_genParam.m_HSLHueBlue);
+    m_hslMtl->setLightnessBlue(m_genParam.m_HSLLightnessBlue);
     
-    m_hslMtl->setSaturationCyan(m_HSLSaturationCyan);
-    m_hslMtl->setHueCyan(m_HSLHueCyan);
-    m_hslMtl->setLightnessCyan(m_HSLLightnessCyan);
+    m_hslMtl->setSaturationCyan(m_genParam.m_HSLSaturationCyan);
+    m_hslMtl->setHueCyan(m_genParam.m_HSLHueCyan);
+    m_hslMtl->setLightnessCyan(m_genParam.m_HSLLightnessCyan);
     
-    m_colorBalanceMtl->setRedShift(m_redShift);
-    m_colorBalanceMtl->setGreenShift(m_greenShift);
-    m_colorBalanceMtl->setBlueShift(m_blueShift);
-    m_colorBalanceMtl->setSDRedShift(m_sdredShift);
-    m_colorBalanceMtl->setSDGreenShift(m_sdgreenShift);
-    m_colorBalanceMtl->setSDBlueShift(m_sdblueShift);
-    m_colorBalanceMtl->setHHRedShift(m_hhredShift);
-    m_colorBalanceMtl->setHHGreenShift(m_hhgreenShift);
-    m_colorBalanceMtl->setHHBlueShift(m_hhblueShift);
+    m_colorBalanceMtl->setRedShift(m_genParam.m_redShift);
+    m_colorBalanceMtl->setGreenShift(m_genParam.m_greenShift);
+    m_colorBalanceMtl->setBlueShift(m_genParam.m_blueShift);
+    m_colorBalanceMtl->setSDRedShift(m_genParam.m_sdredShift);
+    m_colorBalanceMtl->setSDGreenShift(m_genParam.m_sdgreenShift);
+    m_colorBalanceMtl->setSDBlueShift(m_genParam.m_sdblueShift);
+    m_colorBalanceMtl->setHHRedShift(m_genParam.m_hhredShift);
+    m_colorBalanceMtl->setHHGreenShift(m_genParam.m_hhgreenShift);
+    m_colorBalanceMtl->setHHBlueShift(m_genParam.m_hhblueShift);
     
-    m_shadowHighlightMtl->setShadow(m_shadow);
-    m_shadowHighlightMtl->setHighlight(m_Highlight);
+    m_shadowHighlightMtl->setShadow(m_genParam.m_shadow);
+    m_shadowHighlightMtl->setHighlight(m_genParam.m_Highlight);
 }
 
 void SVFilterGenLUT::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,

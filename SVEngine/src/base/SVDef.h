@@ -109,7 +109,7 @@ enum SVTEXTYPE {
     E_TEX_FILTER_GENLUT_OUT,
     E_TEX_FILTER_GENLUT_H1,
     E_TEX_FILTER_GENLUT_H2,
-    E_TEX_END = 32
+    E_TEX_END = 64
 };
 
 //相机图片格式
