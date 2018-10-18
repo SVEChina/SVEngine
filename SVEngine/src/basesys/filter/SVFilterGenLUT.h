@@ -62,6 +62,12 @@ namespace sv {
                 
                 m_shadow=0.0;
                 m_Highlight=0.0;
+                
+                m_gamma=0.0;
+                
+                m_temperature=0.0;
+                
+                m_exposure=0.0;
             }
             
             void copy(SVGenLUTParamPtr _p){
@@ -106,6 +112,13 @@ namespace sv {
                 
                 m_shadow=_p->m_shadow;
                 m_Highlight=_p->m_Highlight;
+                
+                m_gamma=_p->m_gamma;
+                
+                m_temperature=_p->m_temperature;
+                m_tint=_p->m_tint;
+                
+                m_exposure=_p->m_exposure;
             }
             
             f32 m_brightness;
@@ -150,6 +163,12 @@ namespace sv {
             f32 m_shadow;
             f32 m_Highlight;
             
+            f32 m_gamma;
+            
+            f32 m_temperature;
+            f32 m_tint;
+            
+            f32 m_exposure;
         };
         
         class SVFilterGenLUT : public SVFilterBase {
@@ -178,6 +197,22 @@ namespace sv {
             
             inline void setVibrance(f32 _vibrance){
                  m_genParam->m_vibrance=_vibrance;
+            }
+            
+            inline void setGamma(f32 _gamma){
+                m_genParam->m_gamma=_gamma;
+            }
+            
+            inline void setTemperature(f32 _temperature){
+                m_genParam->m_temperature=_temperature;
+            }
+            
+            inline void setTint(f32 _tint){
+                m_genParam->m_tint=_tint;
+            }
+            
+            inline void setExposure(f32 _exposure){
+                m_genParam->m_exposure=_exposure;
             }
             
             inline void setHSLSaturationRed(f32 _saturation){
