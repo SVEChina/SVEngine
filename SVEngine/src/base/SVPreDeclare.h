@@ -123,8 +123,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpRefreshDefMat);
     DECLARE_SHAREPTR(SVOpAppMode);
     
-    DECLARE_SHAREPTR(SVFontConf);
-    DECLARE_SHAREPTR(SVBMFontConf);
+
     //核心实用库
     namespace util {
         DECLARE_SHAREPTR(SpineMeshData);
@@ -139,6 +138,9 @@ namespace sv {
         DECLARE_SHAREPTR(SVPass);
         
         DECLARE_SHAREPTR(SVDeformImageMove);
+        //font
+        DECLARE_SHAREPTR(SVFont);
+        DECLARE_SHAREPTR(SVBMFont);
     }//!namespace util
     
     //
