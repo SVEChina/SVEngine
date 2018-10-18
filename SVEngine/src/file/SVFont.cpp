@@ -6,7 +6,7 @@
 //
 
 #include "SVFont.h"
-#include "../base/SVFontConf.h"
+#include "../core/SVFontConf.h"
 SVFont::SVFont(SVInst *_app)
 :SVGBase(_app) {
 
