@@ -10,6 +10,6 @@ SVBMFontConf::SVBMFontConf(SVInst *_app): SVFontConf(_app) {
 }
 
 SVBMFontConf::~SVBMFontConf() {
-    m_fontDefMap.clear();
+    m_charsMap.clear();
     m_characterSet.clear();
 }

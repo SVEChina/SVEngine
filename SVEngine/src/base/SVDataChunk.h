@@ -25,7 +25,8 @@ namespace sv {
         
         void toString();
         
-        long m_size;
+        u64 m_size;
+        
         c8 *m_data;
     };
     

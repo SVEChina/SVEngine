@@ -9,17 +9,23 @@
 #define SV_BMFONTCONF_H
 
 #include "SVFontConf.h"
-#include "SVRect.h"
-#include "SVMap.h"
-#include "SVSet.h"
+#include "../base/SVRect.h"
+#include "../base/SVMap.h"
+#include "../base/SVSet.h"
 namespace sv {
-    typedef struct _SVBMFontDef {
+    typedef struct _SVBMFontCharInfo {
         u32 charID;
-        SVRect rect;
+        u16 x;
+        u16 y;
+        u16 width;
+        u16 height;
         s16 xOffset;
         s16 yOffset;
         s16 xAdvance;
-    } SVBMFONTDEF;
+        u16 page;
+        u16 chnl;
+        SVArray<s32> kerningPairs;
+    } SVBMFONTCHARINFO;
     
     typedef struct _SVBMFontPadding {
         s32 left;
@@ -34,13 +40,21 @@ namespace sv {
         
         ~SVBMFontConf();
         
-        SVMap<s32, SVBMFONTDEF> m_fontDefMap;
+        SVMap<u32, SVBMFONTCHARINFO> m_charsMap;
         
         SVSet<u32> m_characterSet;
         
-        s32 m_commonHeight;
-        
         s32 m_fontSize;
+        
+        s16 m_fontHeight;
+        
+        s16 m_base;
+        
+        s16 m_scaleW;
+        
+        s16 m_scaleH;
+        
+        s16 m_pages;
     };
     
 }//!namespace sv
