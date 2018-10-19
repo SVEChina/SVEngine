@@ -387,6 +387,13 @@ namespace sv {
             SVDataSwapPtr m_pIndexData;
             SVTexturePtr m_diffuse;
             SVTexturePtr m_atten;
+            
+            //序列化接口
+        public:
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
 
     }//!namespace node
