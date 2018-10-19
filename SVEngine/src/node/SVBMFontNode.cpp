@@ -47,22 +47,47 @@ SVBMFontNode::~SVBMFontNode() {
 
 void SVBMFontNode::update(f32 dt) {
     SVNode::update(dt);
-    
+    if (!m_font) {
+        return;
+    }
+    if (m_textSize == 0) {
+        return;
+    }
+    if (m_textDirty) {
+        m_textDirty = false;
+        _refresh();
+    }
+    if (m_pRenderObj && m_pMesh ) {
+        //材质独立性
+        SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d_c");
+        t_mtl->setBlendEnable(true);
+        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        if (m_texture) {
+            t_mtl->setTexture(0,m_texture);
+            t_mtl->setTexSizeIndex(0, 1.0/m_texture->getwidth(), 1.0/m_texture->getheight());
+        }
+        t_mtl->setModelMatrix(m_absolutMat.get());
+        t_mtl->setTexcoordFlip(1.0, 1.0f);
+        t_mtl->update(dt);
+        m_pRenderObj->setMesh(m_pMesh);
+        m_pRenderObj->setMtl(t_mtl);
+    }
 }
 
 void SVBMFontNode::render() {
-//    if (mApp->m_pGlobalParam->m_curScene && m_visible ){
-//        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-//        if (m_pRenderObj && m_pMesh) {
-//            m_pRenderObj->pushCmd(t_rs, RST_FREETYPE, "SVBMFontNode");
-//        }
-//    }
+    if (mApp->m_pGlobalParam->m_curScene && m_visible ){
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+        if (m_pRenderObj && m_pMesh) {
+            m_pRenderObj->pushCmd(t_rs, RST_FREETYPE, "SVBMFontNode");
+        }
+    }
     SVNode::render();
 }
 
 void SVBMFontNode::setFont(SVBMFontPtr _font){
     if (m_font != _font) {
         m_font = _font;
+        m_textDirty = true;
     }
 }
 
@@ -75,25 +100,103 @@ void SVBMFontNode::setText(cptr8 _text){
 void SVBMFontNode::setFontSize(f32 _w,f32 _h){
     m_fontW = _w;
     m_fontH = _w;
+    m_textDirty = true;
 }
 
 void SVBMFontNode::setSpacing(f32 _spacing){
     m_spacing = _spacing;
+    m_textDirty = true;
 }
 
 void SVBMFontNode::_refresh(){
-    if (!m_font) {
-        return;
+    _refreshTexcoords();
+    //顶点数据
+    V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];
+    //更新每个字符的的纹理坐标
+    for (u32 i = 0; i < m_textSize; ++i) {
+        tVerts[i * 6 + 0].x = (m_fontW + m_spacing)*i;
+        tVerts[i * 6 + 0].y = 0.0f;
+        tVerts[i * 6 + 0].t0x = m_texcoordsTbl[i].lb_x;
+        tVerts[i * 6 + 0].t0y = m_texcoordsTbl[i].lb_y;
+        tVerts[i * 6 + 0].r = 255;
+        tVerts[i * 6 + 0].g = 255;
+        tVerts[i * 6 + 0].b = 255;
+        tVerts[i * 6 + 0].a = 255;
+        //
+        tVerts[i * 6 + 1].x = m_fontW*(i+1) + m_spacing*i;
+        tVerts[i * 6 + 1].y = 0.0f;
+        tVerts[i * 6 + 1].t0x = m_texcoordsTbl[i].rb_x;
+        tVerts[i * 6 + 1].t0y = m_texcoordsTbl[i].rb_y;
+        tVerts[i * 6 + 1].r = 255;
+        tVerts[i * 6 + 1].g = 255;
+        tVerts[i * 6 + 1].b = 255;
+        tVerts[i * 6 + 1].a = 255;
+        //
+        tVerts[i * 6 + 2].x = (m_fontW + m_spacing)*i;
+        tVerts[i * 6 + 2].y = m_fontH;
+        tVerts[i * 6 + 2].t0x = m_texcoordsTbl[i].lt_x;
+        tVerts[i * 6 + 2].t0y = m_texcoordsTbl[i].lt_y;
+        tVerts[i * 6 + 2].r = 255;
+        tVerts[i * 6 + 2].g = 255;
+        tVerts[i * 6 + 2].b = 255;
+        tVerts[i * 6 + 2].a = 255;
+        //
+        tVerts[i * 6 + 3].x = (m_fontW + m_spacing)*i;
+        tVerts[i * 6 + 3].y = m_fontH;
+        tVerts[i * 6 + 3].t0x = m_texcoordsTbl[i].lt_x;
+        tVerts[i * 6 + 3].t0y = m_texcoordsTbl[i].lt_y;
+        tVerts[i * 6 + 3].r = 255;
+        tVerts[i * 6 + 3].g = 255;
+        tVerts[i * 6 + 3].b = 255;
+        tVerts[i * 6 + 3].a = 255;
+        //
+        tVerts[i * 6 + 4].x = m_fontW*(i+1) + m_spacing*i;
+        tVerts[i * 6 + 4].y = 0.0f;
+        tVerts[i * 6 + 4].t0x = m_texcoordsTbl[i].rb_x;
+        tVerts[i * 6 + 4].t0y = m_texcoordsTbl[i].rb_y;
+        tVerts[i * 6 + 4].r = 255;
+        tVerts[i * 6 + 4].g = 255;
+        tVerts[i * 6 + 4].b = 255;
+        tVerts[i * 6 + 4].a = 255;
+        //
+        tVerts[i * 6 + 5].x = m_fontW*(i+1) + m_spacing*i;
+        tVerts[i * 6 + 5].y = m_fontH;
+        tVerts[i * 6 + 5].t0x = m_texcoordsTbl[i].rt_x;
+        tVerts[i * 6 + 5].t0y = m_texcoordsTbl[i].rt_y;
+        tVerts[i * 6 + 5].r = 255;
+        tVerts[i * 6 + 5].g = 255;
+        tVerts[i * 6 + 5].b = 255;
+        tVerts[i * 6 + 5].a = 255;
     }
-    if (m_textDirty) {
-        m_textDirty = false;
-        _refreshTexcoords();
+    //
+    if (m_textSize < SV_BMFONT_MAX_NUM) {
+        for (s32 i = m_textSize; i < SV_BMFONT_MAX_NUM; ++i) {
+            tVerts[i * 6 + 0].x = 0;
+            tVerts[i * 6 + 0].y = 0;
+            tVerts[i * 6 + 1].x = 0;
+            tVerts[i * 6 + 1].y = 0;
+            tVerts[i * 6 + 2].x = 0;
+            tVerts[i * 6 + 2].y = 0;
+            tVerts[i * 6 + 3].x = 0;
+            tVerts[i * 6 + 3].y = 0;
+            tVerts[i * 6 + 4].x = 0;
+            tVerts[i * 6 + 4].y = 0;
+            tVerts[i * 6 + 5].x = 0;
+            tVerts[i * 6 + 5].y = 0;
+        }
     }
+    //
+    m_pRenderVertex->writeData(&tVerts[0], sizeof(V2_C_T0) * m_textSize * 6);
+    m_pMesh->setVertexDataNum(m_textSize * 6);
+    m_pMesh->setVertexData(m_pRenderVertex);
+    m_pMesh->setVertexType(E_VF_V2_C_T0);
+    m_pMesh->setDrawMethod(E_DM_TRIANGLES);
+    m_pMesh->createMesh();
 }
 
 void SVBMFontNode::_genMesh(){
     V2_C_T0 t_Verts[SV_BMFONT_MAX_NUM * 6];
-    for (u32 i = 0; i < SV_BMFONT_MAX_NUM; i++) {
+    for (u32 i = 0; i < SV_BMFONT_MAX_NUM ; i++) {
         t_Verts[i * 6 + 0].x = m_fontW*i;
         t_Verts[i * 6 + 0].y = 0.0f;
         t_Verts[i * 6 + 0].t0x = 0.0f;
@@ -183,11 +286,42 @@ void SVBMFontNode::_refreshTexcoords(){
         
         if( ch.page != page )
         {
-//            render->End();
             page = ch.page;
-//            render->GetGraphics()->SetTexture(pages[page]);
-//            render->Begin(RENDER_QUAD_LIST);
+            m_texture = m_font->m_textures[page];
         }
+        
+//        render->VtxColor(0xFFFFFFFF);
+//        render->VtxData(ch->chnl);
+//        render->VtxTexCoord(u, v);
+//        render->VtxPos(x+ox, y-oy, z);
+//        render->VtxTexCoord(u2, v);
+//        render->VtxPos(x+w+ox, y-oy, z);
+//        render->VtxTexCoord(u2, v2);
+//        render->VtxPos(x+w+ox, y-h-oy, z);
+//        render->VtxTexCoord(u, v2);
+//        render->VtxPos(x+ox, y-h-oy, z);
+        
+//        x += a;
+//        if( charId == ' ' )
+//            x += spacing;
+//
+//        if( n < count )
+//            x += AdjustForKerningPairs(charId, GetTextChar(text,n));
+        //
+        FontTexcoords t_texcoord;
+        t_texcoord.lt_x = u;
+        t_texcoord.lt_y = v;
+        //
+        t_texcoord.rt_x = u2;
+        t_texcoord.rt_y = v;
+        //
+        t_texcoord.lb_x = u;
+        t_texcoord.lb_y = v2;
+        //
+        t_texcoord.rb_x = u2;
+        t_texcoord.rb_y = v2;
+        //
+        m_texcoordsTbl.append(t_texcoord);
     }
 
 }
