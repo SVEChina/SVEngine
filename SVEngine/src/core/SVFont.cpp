@@ -23,28 +23,3 @@ void SVFont::setTextEncoding(SVFONTTEXTENCODING _encoding){
     m_encoding = _encoding;
 }
 
-f32 SVFont::getTextWidth(cptr8 _text, s32 _count){
-    return 0;
-}
-
-s32 SVFont::_getTextLength(cptr8 _text){
-//    if( m_encoding == UTF16 )
-//    {
-//        int textLen = 0;
-//        for(;;)
-//        {
-//            unsigned int len;
-//            int r = acUtility::DecodeUTF16(&text[textLen], &len);
-//            if( r > 0 )
-//                textLen += len;
-//            else if( r < 0 )
-//                textLen++;
-//            else
-//                return textLen;
-//        }
-//    }
-//
-//    // Both UTF8 and standard ASCII strings can use strlen
-//    return (int)strlen(text);
-    return 0;
-}

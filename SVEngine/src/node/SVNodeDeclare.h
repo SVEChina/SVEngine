@@ -26,16 +26,11 @@ namespace sv {
         DECLARE_SHAREPTR(SVScene);
         //node
         DECLARE_SHAREPTR(SVNode);
-        DECLARE_SHAREPTR(SV2DFaceMaskASNode);
-        DECLARE_SHAREPTR(SV2DFaceMaskASNoneMouthNode);
-        DECLARE_SHAREPTR(SV2DFaceMaskASFixLashNode);
-        DECLARE_SHAREPTR(SV2DFaceMaskASNoEyeNode);
-        DECLARE_SHAREPTR(SV2DFaceMaskASMouthFaceOutline);
-        DECLARE_SHAREPTR(SV2DFaceMaskFPNode);
         DECLARE_SHAREPTR(SV2DFaceMaskNode);
         DECLARE_SHAREPTR(SV2DFaceMaskSTNode);
         DECLARE_SHAREPTR(SV3DBox);
         DECLARE_SHAREPTR(SVBitFontNode);
+        DECLARE_SHAREPTR(SVBMFontNode);
         DECLARE_SHAREPTR(SVCameraNode);
         DECLARE_SHAREPTR(SVCoordGridNode);
         DECLARE_SHAREPTR(SVDummyNode);
