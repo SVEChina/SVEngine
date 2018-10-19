@@ -32,7 +32,10 @@
 #include "../basesys/SVPickProcess.h"
 #include "../module/SVModuleDelaySuspend.h"
 #include "../module/SVDivisonFilter.h"
-
+//
+#include "../file/SVBMFontLoader.h"
+#include "../node/SVBMFontNode.h"
+#include "../core/SVBMFont.h"
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
 : SVOpBase(_app) {
@@ -178,14 +181,27 @@ void SVOpCreateTest::_process(f32 dt) {
 //            t_pScene->addNode(t_testBox);
 //        }
 //        //
-        SVParticlesNodePtr t_p_node = MakeSharedPtr<SVParticlesNode>(mApp);
-        t_p_node->testInit();
-        t_pScene->addNode(t_p_node);
+//        SVParticlesNodePtr t_p_node = MakeSharedPtr<SVParticlesNode>(mApp);
+//        t_p_node->testInit();
+//        t_pScene->addNode(t_p_node);
 //        SVFreetypeNodeParam t_ftype_param;
 //        t_ftype_param.m_text = "付一舟Ab1.";
 //        t_ftype_param.m_canSelect = true;
 //        SVNodePtr t_testFreetype = t_ftype_param.genNode(mApp);
 //        t_pScene->addNode(t_testFreetype);
+        
+        //
+        SVBMFontPtr m_font = MakeSharedPtr<SVBMFont>(mApp);
+        SVBMFontLoader t_loder(mApp);
+        t_loder.loadData("svres/myFont.fnt", m_font);
+        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
+        bmNode->setFont(m_font);
+        bmNode->setText("WMAV");
+        bmNode->setSpacing(20);
+        bmNode->setPosition(0, 0, 0);
+//        bmNode->setScale(0.1, 0.1, 1.0);
+        t_pScene->addNode(bmNode);
+        
     }
 }
 

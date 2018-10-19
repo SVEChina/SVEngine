@@ -9,6 +9,7 @@
 #define SV_BMFONT_H
 
 #include "SVFont.h"
+#include "../mtl/SVMtlDeclare.h"
 #include "../base/SVMap.h"
 #include "../base/SVSet.h"
 namespace sv {
@@ -47,8 +48,20 @@ namespace sv {
             s32 getTextChar(cptr8 _text, s32 _pos, s32 *_nextPos = 0);
             
             SVBMFONTCHARINFO getChar(s32 _charID);
+            
+            void setFontInfo(s32 _outlineThickness);
+            
+            void setCommonInfo(s32 _fontHeight, s32 _base, s32 _scaleW, s32 _scaleH, s32 _pages, bool _isPacked);
+            
+            void addChar(s32 _charID, s32 _x, s32 _y, s32 _w, s32 _h, s32 _xoffset, s32 _yoffset, s32 _xadvance, s32 _page, s32 _chnl);
+            
+            void addKerningPair(s32 _first, s32 _second, s32 _amount);
+            
+            void loadPage(s32 _pageID, cptr8 _pageFile, cptr8 _fontFile);
         public:
             SVMap<u32, SVBMFONTCHARINFO> m_charsMap;
+            
+            SVMap<u32, SVTexturePtr> m_textures;
             
             f32 m_scale;
             
@@ -71,6 +84,8 @@ namespace sv {
             s32 _findTextChar(cptr8 _text, s32 _start, s32 _length, s32 _ch);
         protected:
             SVBMFONTCHARINFO m_defChar;
+            s32 m_outlineThickness;
+            bool m_hasOutline;
         };
         
     }//!namespace util
