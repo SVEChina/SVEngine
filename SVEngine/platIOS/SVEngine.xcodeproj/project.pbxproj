@@ -61,6 +61,11 @@
 		0288FA082178A8430089E61C /* SVBMFontNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA022178A8430089E61C /* SVBMFontNode.h */; };
 		0288FA092178A8430089E61C /* SVBMFontNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA022178A8430089E61C /* SVBMFontNode.h */; };
 		0288FA0A2178A8430089E61C /* SVBMFontNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA022178A8430089E61C /* SVBMFontNode.h */; };
+		5CE09B7D2179E04600C8DF25 /* SVFaceBeautyFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CE09B7B2179E04500C8DF25 /* SVFaceBeautyFilter.h */; };
+		5CE09B7E2179E04600C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
+		5CE09B7F2179E04900C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
+		5CE09B802179E04A00C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
+		5CE09B812179E04A00C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
 		5CF0ABAC20BB367A009E673E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF0ABAB20BB367A009E673E /* CoreGraphics.framework */; };
 		5F7D5FE6215F407700803BCF /* SVDetectMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */; };
 		5F7D5FE7215F407700803BCF /* SVDetectMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */; };
@@ -2539,6 +2544,8 @@
 		0288F9F8217896AC0089E61C /* SVUnicode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVUnicode.cpp; sourceTree = "<group>"; };
 		0288FA012178A8430089E61C /* SVBMFontNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBMFontNode.cpp; sourceTree = "<group>"; };
 		0288FA022178A8430089E61C /* SVBMFontNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFontNode.h; sourceTree = "<group>"; };
+		5CE09B7B2179E04500C8DF25 /* SVFaceBeautyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceBeautyFilter.h; sourceTree = "<group>"; };
+		5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = SVFaceBeautyFilter.cpp; sourceTree = "<group>"; };
 		5CF0ABAB20BB367A009E673E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		5F1B7DFB1FD0159C006A5D81 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVDetectMgr.cpp; sourceTree = "<group>"; };
@@ -3306,6 +3313,8 @@
 		5F7D5D86215F407700803BCF /* filter */ = {
 			isa = PBXGroup;
 			children = (
+				5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */,
+				5CE09B7B2179E04500C8DF25 /* SVFaceBeautyFilter.h */,
 				5F7D5D8A215F407700803BCF /* SVBasedonFilter.cpp */,
 				5F7D5D8D215F407700803BCF /* SVBasedonFilter.h */,
 				5F7D5D92215F407700803BCF /* SVFilterBase.cpp */,
@@ -4889,6 +4898,7 @@
 				5F7D6814215F407900803BCF /* SVEvent.h in Headers */,
 				5F7D6066215F407700803BCF /* SVCameraMgr.h in Headers */,
 				5F7D60C2215F407700803BCF /* SVSysBase.h in Headers */,
+				5CE09B7D2179E04600C8DF25 /* SVFaceBeautyFilter.h in Headers */,
 				5F7D66F4215F407900803BCF /* SVMtlAni2D.h in Headers */,
 				5F7D65A0215F407800803BCF /* SVContextOSX.h in Headers */,
 				5F7D6870215F407900803BCF /* SVVec3.h in Headers */,
@@ -5812,6 +5822,7 @@
 				5F7D671B215F407900803BCF /* SVOpCallback.cpp in Sources */,
 				5F7D6567215F407800803BCF /* SVRendererGL.cpp in Sources */,
 				5F7D6255215F407800803BCF /* pngset.c in Sources */,
+				5CE09B812179E04A00C8DF25 /* SVFaceBeautyFilter.cpp in Sources */,
 				5F7D6245215F407800803BCF /* pngget.c in Sources */,
 				5F7D6301215F407800803BCF /* Skeleton.c in Sources */,
 				5F7D659F215F407800803BCF /* SVContextBase.cpp in Sources */,
@@ -6065,6 +6076,7 @@
 				5F7D619E215F407700803BCF /* SVDataFilter.cpp in Sources */,
 				5F7D67A4215F407900803BCF /* SVNodeVisit.cpp in Sources */,
 				5F7D64B2215F407800803BCF /* SVActBase.cpp in Sources */,
+				5CE09B7E2179E04600C8DF25 /* SVFaceBeautyFilter.cpp in Sources */,
 				5F7D6804215F407900803BCF /* SVFaceDetectPointNode.cpp in Sources */,
 				5F7D64C6215F407800803BCF /* SVTimeLineEvent.cpp in Sources */,
 				5F7D6784215F407900803BCF /* SVDummyNode.cpp in Sources */,
@@ -6384,6 +6396,7 @@
 				5F7D671A215F407900803BCF /* SVOpCallback.cpp in Sources */,
 				5F7D6566215F407800803BCF /* SVRendererGL.cpp in Sources */,
 				5F7D6254215F407800803BCF /* pngset.c in Sources */,
+				5CE09B802179E04A00C8DF25 /* SVFaceBeautyFilter.cpp in Sources */,
 				5F7D6244215F407800803BCF /* pngget.c in Sources */,
 				5F7D6300215F407800803BCF /* Skeleton.c in Sources */,
 				5F7D659E215F407800803BCF /* SVContextBase.cpp in Sources */,
@@ -6669,6 +6682,7 @@
 				5F7D6719215F407900803BCF /* SVOpCallback.cpp in Sources */,
 				5F7D6565215F407800803BCF /* SVRendererGL.cpp in Sources */,
 				5F7D6253215F407800803BCF /* pngset.c in Sources */,
+				5CE09B7F2179E04900C8DF25 /* SVFaceBeautyFilter.cpp in Sources */,
 				5F7D6243215F407800803BCF /* pngget.c in Sources */,
 				5F7D62FF215F407800803BCF /* Skeleton.c in Sources */,
 				5F7D659D215F407800803BCF /* SVContextBase.cpp in Sources */,

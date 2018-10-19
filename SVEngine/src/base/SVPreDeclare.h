@@ -192,6 +192,7 @@ namespace sv {
         //filter 部分
         DECLARE_SHAREPTR(SVFilterBase);
         DECLARE_SHAREPTR(SVFilterLUT);
+        DECLARE_SHAREPTR(SVFairDataBlur);
         DECLARE_SHAREPTR(SVGenLUTParam);
         DECLARE_SHAREPTR(SVDataFilter);
         DECLARE_SHAREPTR(SVFilterGenLUT);
