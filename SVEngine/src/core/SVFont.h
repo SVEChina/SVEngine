@@ -27,10 +27,8 @@ namespace sv {
             void init();
             
             void setTextEncoding(SVFONTTEXTENCODING _encoding);
-            
-            f32 getTextWidth(cptr8 _text, s32 _count);
         protected:
-            s32 _getTextLength(cptr8 _text);
+            
         protected:
             SVFONTTEXTENCODING m_encoding;
         };

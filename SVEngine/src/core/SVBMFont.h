@@ -41,14 +41,22 @@ namespace sv {
             ~SVBMFont();
             
             void init();
+            
+            f32 getTextWidth(cptr8 _text, s32 _count);
+            
+            s32 getTextChar(cptr8 _text, s32 _pos, s32 *_nextPos = 0);
+            
+            SVBMFONTCHARINFO getChar(s32 _charID);
         public:
             SVMap<u32, SVBMFONTCHARINFO> m_charsMap;
             
+            f32 m_scale;
+            
             s32 m_fontSize;
             
-            s16 m_fontHeight;
+            s16 m_fontHeight;// total height of the font
             
-            s16 m_base;
+            s16 m_base;// y of base line
             
             s16 m_scaleW;
             
@@ -58,7 +66,11 @@ namespace sv {
             
             SVString m_atlasName;
         protected:
-            
+            s32 _getTextLength(cptr8 _text);
+            f32 _adjustForKerningPairs(s32 _first, s32 _second);
+            s32 _findTextChar(cptr8 _text, s32 _start, s32 _length, s32 _ch);
+        protected:
+            SVBMFONTCHARINFO m_defChar;
         };
         
     }//!namespace util
