@@ -5,8 +5,8 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_BITFONT_H
-#define SV_BITFONT_H
+#ifndef SV_BMFONTNODE_H
+#define SV_BMFONTNODE_H
 
 #include "SVNode.h"
 
@@ -39,9 +39,21 @@ namespace sv {
             
             void setFontSize(f32 _w,f32 _h);
             
+            f32 getFontW();
+            
+            f32 getFontH();
+            
             void setText(cptr8 _text);
             
+            cptr8 getText();
+            
             void setSpacing(f32 _spacing);
+            
+            f32 getSpacing();
+            
+            void setAtcPt(BITFONT_ATCH_PT _type);
+            
+            BITFONT_ATCH_PT getAtcPt();
         private:
             void _genMesh();
             void _refreshTexcoords();
@@ -54,6 +66,7 @@ namespace sv {
             SVBMFontPtr m_font;
             typedef SVArray<FontTexcoords> TEXCOORDTBL;
             TEXCOORDTBL m_texcoordsTbl;
+            BITFONT_ATCH_PT m_atchType;    //布局位置 9个方向
             u32 m_textSize;
             f32 m_fontW;
             f32 m_fontH;
@@ -67,4 +80,4 @@ namespace sv {
 
 
 
-#endif //SV_BITFONT_H
+#endif //SV_BMFONTNODE_H

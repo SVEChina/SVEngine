@@ -11,6 +11,9 @@
 #include "../act/SVActionSys.h"
 #include "../act/SVActionUnit.h"
 #include "../node/SVBitFontNode.h"
+#include "../node/SVBMFontNode.h"
+#include "../core/SVBMFont.h"
+#include "../file/SVBMFontLoader.h"
 #include "../node/SVSpriteNode.h"
 #include "../node/SVFreeTypeNode.h"
 #include "../node/SVNode.h"
@@ -680,6 +683,87 @@ void SVDataNodeMask::refreshOut(SV2DFaceMaskNodePtr _maskNode){
     }
 }
 
+//
+SVDataNodeBMFont::SVDataNodeBMFont(SVInst *_app)
+: SVDataNode(_app){
+    m_renderStreamType = RST_ANIMATE;
+    m_dataType = MODELDATA_BMFONT;
+    m_fontW = 50;
+    m_fontH = 50;
+    m_spacing = 0.0f;
+    m_content = "bmfont";
+}
+
+SVDataNodeBMFont::~SVDataNodeBMFont(){
+    
+}
+
+void SVDataNodeBMFont::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    _toJsonData(_allocator, locationObj);
+    locationObj.AddMember("file", RAPIDJSON_NAMESPACE::StringRef(m_file_name.c_str()), _allocator);
+    locationObj.AddMember("fontW", m_fontW, _allocator);
+    locationObj.AddMember("fontH", m_fontH, _allocator);
+    locationObj.AddMember("spacing", m_spacing, _allocator);
+    locationObj.AddMember("text", RAPIDJSON_NAMESPACE::StringRef(m_content.c_str()), _allocator);
+    _objValue.AddMember("sv_bmfont", locationObj, _allocator);
+}
+
+void SVDataNodeBMFont::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    _fromJsonData(item);
+    if (item.HasMember("file") && item["file"].IsString()) {
+        m_file_name = item["file"].GetString();
+    }
+    if (item.HasMember("fontW") && item["fontW"].IsInt()) {
+        m_fontW = item["fontW"].GetInt();
+    }
+    if (item.HasMember("fontH") && item["fontH"].IsInt()) {
+        m_fontH = item["fontH"].GetInt();
+    }
+    if (item.HasMember("spacing") && item["spacing"].IsFloat()) {
+        m_spacing = item["spacing"].GetFloat();
+    }
+    if (item.HasMember("text") && item["text"].IsString()) {
+        m_content = item["text"].GetString();
+    }
+}
+
+SVNodePtr SVDataNodeBMFont::toNode(){
+    SVBMFontNodePtr t_bmfont_node = MakeSharedPtr<SVBMFontNode>(mApp);
+    _toNodeData(t_bmfont_node);
+    t_bmfont_node->setFontSize(m_fontW, m_fontH);
+    SVString t_resPath = m_root_path +  m_file_name;
+    SVBMFontPtr font = MakeSharedPtr<SVBMFont>(mApp);
+    SVBMFontLoader t_loder(mApp);
+    t_loder.loadData(t_resPath.c_str(), font);
+    t_bmfont_node->setFont(font);
+    t_bmfont_node->setText(m_content.c_str());
+    t_bmfont_node->setSpacing(m_spacing);
+    t_bmfont_node->setAtcPt(ATCH_MC);
+    return t_bmfont_node;
+}
+
+void SVDataNodeBMFont::refreshIn(SVBMFontNodePtr _bmfontNode){
+    SVDataNode::refreshIn(_bmfontNode);
+    if (_bmfontNode) {
+        m_content = _bmfontNode->getText();
+        m_fontW = _bmfontNode->getFontW();
+        m_fontH = _bmfontNode->getFontH();
+        m_spacing = _bmfontNode->getSpacing();
+        m_type = _bmfontNode->getAtcPt();
+    }
+}
+
+void SVDataNodeBMFont::refreshOut(SVBMFontNodePtr _bmfontNode){
+    SVDataNode::refreshOut(_bmfontNode);
+    if (_bmfontNode) {
+        SVString t_resPath = m_root_path +  m_file_name;
+        _bmfontNode->setText(m_content.c_str());
+        _bmfontNode->setFontSize(m_fontW, m_fontH);
+        _bmfontNode->setSpacing(m_spacing);
+        _bmfontNode->setAtcPt(m_type);
+    }
+}
 
 #ifdef CONFIG_IS_LOAD_FREETYPE
 //
