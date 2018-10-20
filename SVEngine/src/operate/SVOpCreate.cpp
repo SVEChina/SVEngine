@@ -193,10 +193,10 @@ void SVOpCreateTest::_process(f32 dt) {
         //
         SVBMFontPtr m_font = MakeSharedPtr<SVBMFont>(mApp);
         SVBMFontLoader t_loder(mApp);
-        t_loder.loadData("svres/myFont.fnt", m_font);
+        t_loder.loadData("svres/testfnt.fnt", m_font);
         SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
         bmNode->setFont(m_font);
-        bmNode->setText("WMAV");
+        bmNode->setText("广个亿土");
         bmNode->setSpacing(20);
         bmNode->setPosition(0, 0, 0);
 //        bmNode->setScale(0.1, 0.1, 1.0);
