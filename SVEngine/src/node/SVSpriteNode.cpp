@@ -62,6 +62,19 @@ void SVSpriteNode::setSpriteSize(f32 _w,f32 _h) {
     m_pMesh = SVGeoGen::genRect(mApp, m_width, m_height, 0, 0, m_width, m_height,m_aabbBox);
 }
 
+void SVSpriteNode::syncTexSize() {
+    if(m_inTexType == E_TEX_END) {
+        m_pTex = mApp->getTexMgr()->getTextureSync(m_pTexName.c_str(),true);
+    }else {
+        m_pTex = mApp->getRenderer()->getSVTex(m_inTexType);
+    }
+    if(m_pTex) {
+        s32 t_w = m_pTex->getwidth();
+        s32 t_h = m_pTex->getheight();
+        setSpriteSize(t_w,t_h);
+    }
+}
+
 void SVSpriteNode::setTexcoord(f32 _x,f32 _y){
     m_texcoordX=_x;
     m_texcoordY=_y;
