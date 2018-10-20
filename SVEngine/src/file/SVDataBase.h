@@ -22,7 +22,8 @@ namespace sv {
             MODELDATA_SPRITE,
             MODELDATA_MASK,
             MODELDATA_FILTER,
-            MODELDATA_DEFORM
+            MODELDATA_DEFORM,
+            MODELDATA_BMFONT
         };
         
         //数据基准类型

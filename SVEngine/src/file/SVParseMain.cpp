@@ -17,6 +17,7 @@
 #include "SVParseMask.h"
 #include "SVParseSprite.h"
 #include "SVParseBitfont.h"
+#include "SVParseBMFont.h"
 #include "../module/SVEffectPackage.h"
 
 SVParseMain::SVParseMain(SVInst *_app)
@@ -26,6 +27,7 @@ SVParseMain::SVParseMain(SVInst *_app)
     _registDictionary("sv_mask", SVParseMask::parseMask);
     _registDictionary("sv_sprite", SVParseSprite::parseSprite);
     _registDictionary("sv_bitfont", SVParseBitfont::parseBitfont);
+    _registDictionary("sv_bmfont", SVParseBMFont::parseBMFont);
 //    _registDictionary("sv_particle", SVParseParticle::parseParticle);
     //////////////!!!!!!!!!!!!!!!!!!
 }
