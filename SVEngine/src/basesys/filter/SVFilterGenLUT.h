@@ -63,9 +63,9 @@ namespace sv {
                 m_shadow=0.0;
                 m_Highlight=0.0;
                 
-                m_gamma=0.0;
+                m_gamma=1.0;
                 
-                m_temperature=0.0;
+                m_temperature=5000.0;
                 
                 m_exposure=0.0;
             }
@@ -333,6 +333,9 @@ namespace sv {
             SVMtlVibrancePtr m_VibranceMtl;
             SVMtlColorBalancePtr m_colorBalanceMtl;
             SVMtlShadowHighlightPtr m_shadowHighlightMtl;
+            SVMtlWhiteBalancePtr m_whiteBalanceMtl;
+            SVMtlGammaPtr m_gammaMtl;
+            SVMtlExposurePtr m_exposureMtl;
             SVMtlHSLPtr m_hslMtl;
             SVGenLUTParamPtr m_genParam;
             

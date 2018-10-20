@@ -241,3 +241,91 @@ void SVMtlHSL::_submitMtl(SVRendererBasePtr _render){
     _render->submitUniformf("m_LightnessCyan", m_LightnessCyan);
 
 }
+
+SVMtlWhiteBalance::SVMtlWhiteBalance(SVInst *_app)
+:SVMtlCore(_app,"WhiteBalance"){
+    m_Temperature = 5000.0f;
+    m_Tint = 0.0f;
+}
+
+SVMtlWhiteBalance::SVMtlWhiteBalance(SVMtlWhiteBalance* _mtl)
+:SVMtlCore(_mtl){
+    m_Temperature = _mtl->m_Temperature;
+    m_Tint = _mtl->m_Tint;
+}
+
+SVMtlWhiteBalance::~SVMtlWhiteBalance(){
+    
+}
+
+SVMtlCorePtr SVMtlWhiteBalance::clone(){
+      return PointerSharedPtr<SVMtlWhiteBalance>(new SVMtlWhiteBalance(this));
+}
+
+void SVMtlWhiteBalance::setTemperature(f32 _smooth){
+    m_Temperature= _smooth < 5000 ? 0.0004 * (_smooth-5000.0) : 0.00006 * (_smooth-5000.0);
+}
+
+void SVMtlWhiteBalance::setTint(f32 _smooth){
+    m_Tint = _smooth;
+}
+
+void SVMtlWhiteBalance::_submitMtl(SVRendererBasePtr _render){
+    SVMtlCore::_submitMtl(_render);
+    _render->submitUniformf("m_temperature", m_Temperature);
+    _render->submitUniformf("m_tint", m_Tint);
+}
+
+SVMtlGamma::SVMtlGamma(SVInst *_app)
+:SVMtlCore(_app,"gamma"){
+    m_Gamma = 1.0f;
+}
+
+SVMtlGamma::SVMtlGamma(SVMtlGamma* _mtl)
+:SVMtlCore(_mtl){
+    m_Gamma=_mtl->m_Gamma;
+}
+
+SVMtlGamma::~SVMtlGamma(){
+    
+}
+
+SVMtlCorePtr SVMtlGamma::clone(){
+     return PointerSharedPtr<SVMtlGamma>(new SVMtlGamma(this));
+}
+
+void SVMtlGamma::setGamma(f32 _smooth){
+    m_Gamma=_smooth;
+}
+
+void SVMtlGamma::_submitMtl(SVRendererBasePtr _render){
+    SVMtlCore::_submitMtl(_render);
+    _render->submitUniformf("m_gamma", m_Gamma);
+}
+
+SVMtlExposure::SVMtlExposure(SVInst *_app)
+:SVMtlCore(_app,"Exposure"){
+    m_Exposure=0.0f;
+}
+
+SVMtlExposure::SVMtlExposure(SVMtlExposure* _mtl)
+:SVMtlCore(_mtl){
+    m_Exposure = _mtl->m_Exposure;
+}
+
+SVMtlExposure::~SVMtlExposure(){
+    m_Exposure = 0.0f;
+}
+
+SVMtlCorePtr SVMtlExposure::clone(){
+    return PointerSharedPtr<SVMtlExposure>(new SVMtlExposure(this));
+}
+
+void SVMtlExposure::setExposure(f32 _smooth){
+    m_Exposure = _smooth;
+}
+
+void SVMtlExposure::_submitMtl(SVRendererBasePtr _render){
+    SVMtlCore::_submitMtl(_render);
+    _render->submitUniformf("m_exposure", m_Exposure);
+}

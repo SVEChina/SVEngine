@@ -261,6 +261,66 @@ namespace sv {
             
         };
         
+        class SVMtlWhiteBalance : public SVMtlCore  {
+        public:
+            
+            SVMtlWhiteBalance(SVInst *_app);
+            
+            SVMtlWhiteBalance(SVMtlWhiteBalance* _mtl);
+            
+            ~SVMtlWhiteBalance();
+            
+            virtual SVMtlCorePtr clone();
+            
+            void setTemperature(f32 _smooth);
+            
+            void setTint(f32 _smooth);
+            
+        protected:
+            virtual void _submitMtl(SVRendererBasePtr _render);
+            //
+            f32 m_Temperature;
+            f32 m_Tint;
+        };
+        
+        class SVMtlGamma : public SVMtlCore  {
+        public:
+            
+            SVMtlGamma(SVInst *_app);
+            
+            SVMtlGamma(SVMtlGamma* _mtl);
+            
+            ~SVMtlGamma();
+            
+            virtual SVMtlCorePtr clone();
+            
+            void setGamma(f32 _smooth);
+            
+        protected:
+            virtual void _submitMtl(SVRendererBasePtr _render);
+            //
+            f32 m_Gamma;
+        };
+        
+        class SVMtlExposure : public SVMtlCore  {
+        public:
+            
+            SVMtlExposure(SVInst *_app);
+            
+            SVMtlExposure(SVMtlExposure* _mtl);
+            
+            ~SVMtlExposure();
+            
+            virtual SVMtlCorePtr clone();
+            
+            void setExposure(f32 _smooth);
+            
+        protected:
+            virtual void _submitMtl(SVRendererBasePtr _render);
+            //
+            f32 m_Exposure;
+        };
+        
     }//!namespace mtl
     
 }//!namespace sv

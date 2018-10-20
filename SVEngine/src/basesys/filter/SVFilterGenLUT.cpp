@@ -27,6 +27,9 @@ SVFilterGenLUT::SVFilterGenLUT(SVInst *_app)
     m_VibranceMtl=nullptr;
     m_hslMtl=nullptr;
     m_shadowHighlightMtl=nullptr;
+    m_whiteBalanceMtl=nullptr;
+    m_gammaMtl=nullptr;
+    m_exposureMtl=nullptr;
     //
     m_genParam = MakeSharedPtr<SVGenLUTParam>();
     m_genParam->reset();
@@ -74,6 +77,15 @@ bool SVFilterGenLUT::create(){
     
     m_shadowHighlightMtl=MakeSharedPtr<SVMtlShadowHighlight>(mApp);
     m_shadowHighlightMtl->setTexcoordFlip(1.0, 1.0);
+    
+    m_whiteBalanceMtl = MakeSharedPtr<SVMtlWhiteBalance>(mApp);
+    m_whiteBalanceMtl->setTexcoordFlip(1.0, 1.0);
+    
+    m_gammaMtl = MakeSharedPtr<SVMtlGamma>(mApp);
+    m_gammaMtl->setTexcoordFlip(1.0, 1.0);
+    
+    m_exposureMtl = MakeSharedPtr<SVMtlExposure>(mApp);
+    m_exposureMtl->setTexcoordFlip(1.0, 1.0);
    
     SVPassPtr m_pass = MakeSharedPtr<SVPass>();
     m_pass->setMtl(m_BCMtl);
@@ -112,8 +124,32 @@ bool SVFilterGenLUT::create(){
     m_pPassNode->addPass(m_pass);
     
     m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(m_shadowHighlightMtl);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H1);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H2);
+    m_pPassNode->addPass(m_pass);
+    
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(m_whiteBalanceMtl);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H2);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H1);
+    m_pPassNode->addPass(m_pass);
+    
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(m_gammaMtl);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H1);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H2);
+    m_pPassNode->addPass(m_pass);
+    
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(m_exposureMtl);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H2);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H1);
+    m_pPassNode->addPass(m_pass);
+
+    m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(t_mtl_back);
-    m_pass->setInTex(0,E_TEX_FILTER_GENLUT_H2);
+    m_pass->setInTex(0,E_TEX_FILTER_GENLUT_H1);
     m_pass->setOutTex(E_TEX_FILTER_GENLUT_OUT);
     m_pPassNode->addPass(m_pass);
 
@@ -134,6 +170,9 @@ void SVFilterGenLUT::destroy(){
     m_colorBalanceMtl=nullptr;
     m_VibranceMtl=nullptr;
     m_hslMtl=nullptr;
+    m_whiteBalanceMtl=nullptr;
+    m_gammaMtl=nullptr;
+    m_exposureMtl=nullptr;
     //
     m_genParam->reset();
 }
@@ -188,6 +227,13 @@ void SVFilterGenLUT::update(f32 dt){
     
     m_shadowHighlightMtl->setShadow(m_genParam->m_shadow);
     m_shadowHighlightMtl->setHighlight(m_genParam->m_Highlight);
+    
+    m_whiteBalanceMtl->setTemperature(m_genParam->m_temperature);
+    m_whiteBalanceMtl->setTint(m_genParam->m_tint);
+    
+    m_gammaMtl->setGamma(m_genParam->m_gamma);
+    
+    m_exposureMtl->setExposure(m_genParam->m_exposure);
 }
 
 void SVFilterGenLUT::refreshFData(SVGenLUTParamPtr _param) {
