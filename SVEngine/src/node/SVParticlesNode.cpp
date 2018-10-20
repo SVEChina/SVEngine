@@ -17,6 +17,7 @@
 //********************************* SVParticlesNode ********************************************
 SVParticlesNode::SVParticlesNode(SVInst *_app)
 :SVNode(_app) {
+    ntype = "SVParticlesNode";
     m_rsType = RST_ANIMATE;
     m_pParticles = MakeSharedPtr<SVParticles>();
     m_pParticlesWorld = MakeSharedPtr<SVParticlesWorld>();
@@ -1177,6 +1178,15 @@ void SVParticlesNode::renderVisualizer() {
 ////                engine.visualizer->renderTriangle3D(position - x - y,position + x - y,position - x + y,color);
 ////                engine.visualizer->renderTriangle3D(position + x + y,position - x + y,position + x - y,color);
 //    }
+}
+
+void SVParticlesNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                             RAPIDJSON_NAMESPACE::Value &_objValue) {
+    
+}
+
+void SVParticlesNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
+    
 }
 
 //********************************* Clone **************************************

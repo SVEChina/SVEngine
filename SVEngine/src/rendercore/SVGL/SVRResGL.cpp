@@ -1234,16 +1234,18 @@ void SVResGLRenderMesh::render() {
             t_renderer->svBindVertexBuffer(0);
             t_renderer->svBindIndexBuffer(0);
         }else{
-            t_renderer->svBindVertexBuffer(m_vboID);
-            //非索引模式
-            if(m_dirty){
-                m_dirty = false;
-                _updateVertex();
-                _updateIndex();
+            if(m_vboID>0) {
+                t_renderer->svBindVertexBuffer(m_vboID);
+                //非索引模式
+                if(m_dirty){
+                    m_dirty = false;
+                    _updateVertex();
+                    _updateIndex();
+                }
+                _updateVertDsp();
+                glDrawArrays(m_drawmethod, 0, m_pointNum);
+                t_renderer->svBindVertexBuffer(0);
             }
-            _updateVertDsp();
-            glDrawArrays(m_drawmethod, 0, m_pointNum);
-            t_renderer->svBindVertexBuffer(0);
         }
     }
 }
