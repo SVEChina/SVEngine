@@ -30,6 +30,7 @@ SVBMFontNode::SVBMFontNode(SVInst *_app)
     m_spacing = 0.0f;
     m_fontW = 60;
     m_fontH = 60;
+    m_alpha = 1.0f;
     m_pRenderVertex = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
@@ -134,6 +135,16 @@ BITFONT_ATCH_PT SVBMFontNode::getAtcPt(){
     return m_atchType;
 }
 
+void SVBMFontNode::setAlpha(f32 _alpha){
+    if (_alpha < 0 || _alpha > 1) {
+        return;
+    }
+    if (m_alpha != _alpha) {
+        m_textDirty = true;
+        m_alpha = _alpha;
+    }
+}
+
 void SVBMFontNode::_refresh(){
     _refreshTexcoords();
     s32 t_Len = m_textSize;
@@ -180,7 +191,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 0].r = 255;
         tVerts[i * 6 + 0].g = 255;
         tVerts[i * 6 + 0].b = 255;
-        tVerts[i * 6 + 0].a = 255;
+        tVerts[i * 6 + 0].a = 255*m_alpha;
         //
         tVerts[i * 6 + 1].x = m_fontW*(i+1) + m_spacing*i - t_offx;
         tVerts[i * 6 + 1].y = -t_offy;
@@ -189,7 +200,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 1].r = 255;
         tVerts[i * 6 + 1].g = 255;
         tVerts[i * 6 + 1].b = 255;
-        tVerts[i * 6 + 1].a = 255;
+        tVerts[i * 6 + 1].a = 255*m_alpha;
         //
         tVerts[i * 6 + 2].x = (m_fontW + m_spacing)*i - t_offx;
         tVerts[i * 6 + 2].y = m_fontH - t_offy;
@@ -198,7 +209,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 2].r = 255;
         tVerts[i * 6 + 2].g = 255;
         tVerts[i * 6 + 2].b = 255;
-        tVerts[i * 6 + 2].a = 255;
+        tVerts[i * 6 + 2].a = 255*m_alpha;
         //
         tVerts[i * 6 + 3].x = (m_fontW + m_spacing)*i - t_offx;
         tVerts[i * 6 + 3].y = m_fontH - t_offy;
@@ -207,7 +218,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 3].r = 255;
         tVerts[i * 6 + 3].g = 255;
         tVerts[i * 6 + 3].b = 255;
-        tVerts[i * 6 + 3].a = 255;
+        tVerts[i * 6 + 3].a = 255*m_alpha;
         //
         tVerts[i * 6 + 4].x = m_fontW*(i+1) + m_spacing*i - t_offx;
         tVerts[i * 6 + 4].y = - t_offy;
@@ -216,7 +227,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 4].r = 255;
         tVerts[i * 6 + 4].g = 255;
         tVerts[i * 6 + 4].b = 255;
-        tVerts[i * 6 + 4].a = 255;
+        tVerts[i * 6 + 4].a = 255*m_alpha;
         //
         tVerts[i * 6 + 5].x = m_fontW*(i+1) + m_spacing*i - t_offx;
         tVerts[i * 6 + 5].y = m_fontH - t_offy;
@@ -225,7 +236,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 5].r = 255;
         tVerts[i * 6 + 5].g = 255;
         tVerts[i * 6 + 5].b = 255;
-        tVerts[i * 6 + 5].a = 255;
+        tVerts[i * 6 + 5].a = 255*m_alpha;
     }
     //
     if (m_textSize < SV_BMFONT_MAX_NUM) {

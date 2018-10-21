@@ -48,7 +48,7 @@ namespace sv {
             s32 getTextChar(cptr8 _text, s32 _pos, s32 *_nextPos = 0);
             
             SVBMFONTCHARINFO getChar(s32 _charID);
-            
+            ////
             void setFontInfo(s32 _outlineThickness);
             
             void setCommonInfo(s32 _fontHeight, s32 _base, s32 _scaleW, s32 _scaleH, s32 _pages, bool _isPacked);
@@ -59,8 +59,6 @@ namespace sv {
             
             void loadPage(s32 _pageID, cptr8 _pageFile, cptr8 _fontFile);
         public:
-            SVMap<u32, SVBMFONTCHARINFO> m_charsMap;
-            
             SVMap<u32, SVTexturePtr> m_textures;
             
             f32 m_scale;
@@ -83,6 +81,7 @@ namespace sv {
             f32 _adjustForKerningPairs(s32 _first, s32 _second);
             s32 _findTextChar(cptr8 _text, s32 _start, s32 _length, s32 _ch);
         protected:
+            SVMap<u32, SVBMFONTCHARINFO> m_charsMap;
             SVBMFONTCHARINFO m_defChar;
             s32 m_outlineThickness;
             bool m_hasOutline;
