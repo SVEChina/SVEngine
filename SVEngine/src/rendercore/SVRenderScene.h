@@ -38,6 +38,12 @@ namespace sv {
             
             bool isSuspend();
             
+            SVRenderPiplinePtr getPiplineRead() { return m_readPipline; }
+            
+            SVRenderPiplinePtr getPiplineWrite(){ return m_writePipline; }
+            
+            SVRenderPiplinePtr getPiplineCache(){ return m_cachePipline; }
+            
         protected:
             SVString m_name;
             

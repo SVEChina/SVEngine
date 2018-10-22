@@ -84,6 +84,8 @@ namespace sv {
             //inner size
             s32 m_inWidth;
             s32 m_inHeight;
+            s32 m_outWidth;
+            s32 m_outHeight;
             
         public:
             //renderder interface

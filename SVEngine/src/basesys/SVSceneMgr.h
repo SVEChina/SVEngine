@@ -32,12 +32,6 @@ namespace sv {
         void update(f32 dt);
         
     protected:
-        void _adapt(f32 dt);
-        
-        s32 m_dstW;
-        
-        s32 m_dstH;
-        
         SVScenePtr m_pMainScene;
         
         SVLockPtr m_sceneLock;

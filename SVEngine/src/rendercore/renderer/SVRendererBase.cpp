@@ -23,7 +23,9 @@ SVRendererBase::SVRendererBase(SVInst* _app)
 ,m_pRenderTex(nullptr)
 ,m_pRState(nullptr)
 ,m_inWidth(256)
-,m_inHeight(256){
+,m_inHeight(256)
+,m_outWidth(256)
+,m_outHeight(256){
     m_resLock = MakeSharedPtr<SVLock>();
     for(s32 i=E_TEX_MAIN ;i<E_TEX_END;i++) {
         m_svTex[i] = nullptr;

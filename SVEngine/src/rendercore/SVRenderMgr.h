@@ -63,10 +63,12 @@ namespace sv {
         void pushVPMat(FMat4 _mat);
         FMat4 getVPMat();
         void popVPMat();
+        
     protected:
         void _pushMatStack();
         void _clearMatStack();
-    protected:
+        void _adapt();
+        s32 m_adaptMode;
         //渲染场景
         SVRenderScenePtr m_pRenderScene;
         //渲染器
