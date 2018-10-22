@@ -241,9 +241,53 @@ void SVFilterGenLUT::refreshFData(SVGenLUTParamPtr _param) {
         m_genParam->copy(_param);
     }
 }
+void SVFilterGenLUT::setLUTData(ptr8  data,u32 size){
+    m_genParam->m_data.allocate(size);
+    m_genParam->m_data.append(data);
+}
 
 void SVFilterGenLUT::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                          RAPIDJSON_NAMESPACE::Value &_objValue) {
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);
+    locationObj.AddMember("saturation",m_genParam->m_saturation, _allocator);
+    locationObj.AddMember("brightness",m_genParam->m_brightness, _allocator);
+    locationObj.AddMember("contrast",m_genParam->m_contrast, _allocator);
+    locationObj.AddMember("vibrance",m_genParam->m_vibrance, _allocator);
+    locationObj.AddMember("HSLSaturationRed",m_genParam->m_HSLSaturationRed, _allocator);
+    locationObj.AddMember("HSLLightnessRed",m_genParam->m_HSLLightnessRed, _allocator);
+    locationObj.AddMember("HSLHueRed",m_genParam->m_HSLHueRed, _allocator);
+    locationObj.AddMember("HSLSaturationYellow",m_genParam->m_HSLSaturationYellow, _allocator);
+    locationObj.AddMember("HSLLightnessYellow",m_genParam->m_HSLLightnessYellow, _allocator);
+    locationObj.AddMember("HSLHueYellow",m_genParam->m_HSLHueYellow, _allocator);
+    locationObj.AddMember("HSLSaturationGreen",m_genParam->m_HSLSaturationGreen, _allocator);
+    locationObj.AddMember("HSLLightnessGreen",m_genParam->m_HSLLightnessGreen, _allocator);
+    locationObj.AddMember("HSLHueGreen",m_genParam->m_HSLHueGreen, _allocator);
+    locationObj.AddMember("HSLSaturationMagenta",m_genParam->m_HSLSaturationMagenta, _allocator);
+    locationObj.AddMember("HSLLightnessMagenta",m_genParam->m_HSLLightnessMagenta, _allocator);
+    locationObj.AddMember("HSLHueMagenta",m_genParam->m_HSLHueMagenta, _allocator);
+    locationObj.AddMember("HSLSaturationBlue",m_genParam->m_HSLSaturationBlue, _allocator);
+    locationObj.AddMember("HSLLightnessBlue",m_genParam->m_HSLLightnessBlue, _allocator);
+    locationObj.AddMember("HSLHueBlue",m_genParam->m_HSLHueBlue, _allocator);
+    locationObj.AddMember("HSLSaturationCyan",m_genParam->m_HSLSaturationCyan, _allocator);
+    locationObj.AddMember("HSLLightnessCyan",m_genParam->m_HSLLightnessCyan, _allocator);
+    locationObj.AddMember("HSLHueCyan",m_genParam->m_HSLHueCyan, _allocator);
+    locationObj.AddMember("redShift",m_genParam->m_redShift, _allocator);
+    locationObj.AddMember("greenShift",m_genParam->m_greenShift, _allocator);
+    locationObj.AddMember("blueShift",m_genParam->m_blueShift, _allocator);
+    locationObj.AddMember("sdredShift",m_genParam->m_sdredShift, _allocator);
+    locationObj.AddMember("sdgreenShift",m_genParam->m_sdgreenShift, _allocator);
+    locationObj.AddMember("sdblueShift",m_genParam->m_sdblueShift, _allocator);
+    locationObj.AddMember("hhredShift",m_genParam->m_hhredShift, _allocator);
+    locationObj.AddMember("hhgreenShift",m_genParam->m_hhgreenShift, _allocator);
+    locationObj.AddMember("hhblueShift",m_genParam->m_hhblueShift, _allocator);
+    locationObj.AddMember("shadow",m_genParam->m_shadow, _allocator);
+    locationObj.AddMember("Highlight",m_genParam->m_Highlight, _allocator);
+    locationObj.AddMember("gamma",m_genParam->m_gamma, _allocator);
+    locationObj.AddMember("temperature",m_genParam->m_temperature, _allocator);
+    locationObj.AddMember("tint",m_genParam->m_tint, _allocator);
+    locationObj.AddMember("exposure",m_genParam->m_exposure, _allocator);
+    locationObj.AddMember("data",RAPIDJSON_NAMESPACE::StringRef(m_genParam->m_data.c_str()), _allocator);
+    _objValue.AddMember("filter", locationObj, _allocator);  //添加object到Document中
  
 }
 

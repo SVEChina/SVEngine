@@ -17,8 +17,74 @@
 #include "../../rendercore/renderer/SVRendererBase.h"
 #include "../../rendercore/SVRenderMgr.h"
 
+
+SVFaceBeautyBase::SVFaceBeautyBase(SVInst *_app)
+: SVFilterBase(_app){
+    m_Param= MakeSharedPtr<SVGenFBParam>();
+    m_Param->reset();
+}
+
+SVFaceBeautyBase::~SVFaceBeautyBase(){
+    
+}
+
+bool SVFaceBeautyBase::create(){
+    return false;
+}
+
+void SVFaceBeautyBase::destroy(){
+    
+}
+
+void SVFaceBeautyBase::update(f32 dt){
+    
+}
+
+void SVFaceBeautyBase::setFilterParam(f32 _smooth,SVFILTERITEMTYPE _type){
+    
+}
+
+f32 SVFaceBeautyBase::getFilterParam(SVFILTERITEMTYPE _type){
+    return 0.0f;
+}
+
+void SVFaceBeautyBase::refreshData(SVGenFBParamPtr _param){
+    if(m_Param&&_param){
+        m_Param->copy(_param);
+    }
+}
+
+void SVFaceBeautyBase::setSmooth(f32 _smooth){
+    m_Param->m_smooth = _smooth;
+}
+
+void SVFaceBeautyBase::setParam01(f32 _smooth){
+       m_Param->m_param01 = _smooth;
+}
+
+void SVFaceBeautyBase::setParam02(f32 _smooth){
+     m_Param->m_param02 = _smooth;
+}
+
+void SVFaceBeautyBase::setParam03(f32 _smooth){
+     m_Param->m_param03 = _smooth;
+}
+
+void SVFaceBeautyBase::setParam04(f32 _smooth){
+     m_Param->m_param04 = _smooth;
+}
+
+void SVFaceBeautyBase::setParam05(f32 _smooth){
+     m_Param->m_param05 = _smooth;
+}
+
+void SVFaceBeautyBase::setParam06(f32 _smooth){
+     m_Param->m_param06 = _smooth;
+}
+
+
 SVFairDataBlur::SVFairDataBlur(SVInst *_app)
-: SVFilterBase(_app) {
+: SVFaceBeautyBase(_app) {
     m_type=SV_FUNC_BEAUTY;
     m_name="SVFairDataBlur";
     m_mtl_a = nullptr;
@@ -28,8 +94,14 @@ SVFairDataBlur::SVFairDataBlur(SVInst *_app)
     m_mtl_e = nullptr;
     m_mtl_back = nullptr;
     m_pPassNode = nullptr;
-    m_smooth=0.0;
-    
+    m_Param->m_smooth=0.0;
+    m_Param->m_param01=2.5;
+    m_Param->m_param02=2.5;
+    m_Param->m_param03=2.5;
+    m_Param->m_param04=2.5;
+    m_Param->m_param05=2.5;
+    m_Param->m_param06=3.5;
+
 }
 
 SVFairDataBlur::~SVFairDataBlur(){
@@ -44,27 +116,27 @@ bool SVFairDataBlur::create() {
     //
     m_mtl_a = MakeSharedPtr<SVMtlCore>(mApp,"blur_fair_01");
     m_mtl_a->setTexcoordFlip(1.0f, 1.0f);
-    m_mtl_a->setTexSizeIndex(0, 0.0, 2.5/t_h);
+    m_mtl_a->setTexSizeIndex(0, 0.0, m_Param->m_param01/t_h);
 
     m_mtl_b =  MakeSharedPtr<SVMtlCore>(mApp,"blur_fair_01");
     m_mtl_b->setTexcoordFlip(1.0f, 1.0f);
-    m_mtl_b->setTexSizeIndex(0,2.5/t_w,0.0);
+    m_mtl_b->setTexSizeIndex(0,m_Param->m_param02/t_w,0.0);
 
     m_mtl_c =  MakeSharedPtr<SVMtlCore>(mApp,"blur_fair_mean");
     m_mtl_c->setTexcoordFlip(1.0f, 1.0f);
-    m_mtl_c->setTexSizeIndex(0,2.5/t_w,2.5/ t_h);
+    m_mtl_c->setTexSizeIndex(0,m_Param->m_param03/t_w,m_Param->m_param03/ t_h);
 
     m_mtl_e = MakeSharedPtr<SVMtlCore>(mApp,"blur_fair_01");
     m_mtl_e->setTexcoordFlip(1.0f, 1.0f);
-    m_mtl_e->setTexSizeIndex(0, 0.0,  2.5/t_h);
+    m_mtl_e->setTexSizeIndex(0, 0.0,  m_Param->m_param04/t_h);
 
     m_mtl_f = MakeSharedPtr<SVMtlCore>(mApp,"blur_fair_01");
     m_mtl_f->setTexcoordFlip(1.0f, 1.0f);
-    m_mtl_f->setTexSizeIndex(0,2.5/t_w,0.0);
+    m_mtl_f->setTexSizeIndex(0,m_Param->m_param05/t_w,0.0);
 
     m_mtl_d = MakeSharedPtr<SVMtlBlurFair>(mApp);
     m_mtl_d->setTexcoordFlip(1.0f, 1.0f);
-    m_mtl_d->setTexSizeIndex(0,3.5/t_w,3.5/t_h);
+    m_mtl_d->setTexSizeIndex(0,m_Param->m_param06/t_w,m_Param->m_param06/t_h);
 
     m_mtl_back = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_mtl_back->setTexcoordFlip(1.0f, 1.0f);
@@ -154,13 +226,13 @@ void SVFairDataBlur::destroy() {
 
 void SVFairDataBlur::setFilterParam(f32 _smooth,SVFILTERITEMTYPE _type){
     if(_type==E_BEATY_FILTER){
-       setSmooth(_smooth/100.0);
+        m_Param->m_smooth=_smooth/100.0f;
     }
 }
 
 f32 SVFairDataBlur::getFilterParam(SVFILTERITEMTYPE _type){
     if(_type==E_BEATY_FILTER){
-        return getSmooth();
+        return m_Param->m_smooth;
     }
     return 0;
 }
@@ -176,7 +248,7 @@ void SVFairDataBlur::update(f32 dt){
    
     if (m_mtl_d) {
         m_mtl_d->setTexcoordFlip(1.0, 1.0);
-        m_mtl_d->setSmooth(m_smooth);
+        m_mtl_d->setSmooth(m_Param->m_smooth);
     }
     
     if (m_mtl_e) {

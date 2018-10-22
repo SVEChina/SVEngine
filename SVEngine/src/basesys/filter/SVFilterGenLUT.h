@@ -119,6 +119,7 @@ namespace sv {
                 m_tint=_p->m_tint;
                 
                 m_exposure=_p->m_exposure;
+                
             }
             
             f32 m_brightness;
@@ -169,6 +170,9 @@ namespace sv {
             f32 m_tint;
             
             f32 m_exposure;
+            
+            SVString m_data;
+            
         };
         
         class SVFilterGenLUT : public SVFilterBase {
@@ -322,6 +326,8 @@ namespace sv {
             inline void setHighlight(f32 _highlight){
                  m_genParam->m_Highlight=_highlight;
             }
+            
+            void setLUTData(ptr8  data,u32 size);
             
             SVTexturePtr getOutTex();
             

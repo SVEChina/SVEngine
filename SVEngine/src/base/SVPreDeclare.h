@@ -193,6 +193,8 @@ namespace sv {
         DECLARE_SHAREPTR(SVFilterBase);
         DECLARE_SHAREPTR(SVFilterLUT);
         DECLARE_SHAREPTR(SVFairDataBlur);
+        DECLARE_SHAREPTR(SVFaceBeautyBase);
+        DECLARE_SHAREPTR(SVGenFBParam);
         DECLARE_SHAREPTR(SVFairLtraLow);
         DECLARE_SHAREPTR(SVGenLUTParam);
         DECLARE_SHAREPTR(SVDataFilter);
