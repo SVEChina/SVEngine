@@ -81,6 +81,11 @@ namespace sv {
             SVRenderStatePtr m_pRState;
             //渲染VP
             SVStack<VPParam,10> m_vpStack;  //viewport堆栈
+            //inner size
+            s32 m_inWidth;
+            s32 m_inHeight;
+            s32 m_outWidth;
+            s32 m_outHeight;
             
         public:
             //renderder interface

@@ -1,12 +1,12 @@
 //
-// SVFaceBeautyShowFilter.h
+// SVFaceBeautyFilter.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_FACEBEAUTYSHOWFILTER_H
-#define SV_FACEBEAUTYSHOWFILTER_H
+#ifndef SV_FACEBEAUTYFILTER_H
+#define SV_FACEBEAUTYFILTER_H
 
 
 #include "SVFilterBase.h"
@@ -156,4 +156,4 @@ namespace sv {
     }
 }
 
-#endif /* SV_FACEBEAUTYSHOWFILTER_H */
+#endif /* SV_FACEBEAUTYFILTER_H */

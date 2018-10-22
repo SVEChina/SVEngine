@@ -10,11 +10,14 @@
 #include "SVRenderCmd.h"
 #include "SVRenderStream.h"
 #include "SVRenderTarget.h"
+#include "SVRenderPipline.h"
 #include "renderer/SVRendererBase.h"
 #include "renderer/SVContextBase.h"
 #include "../mtl/SVTexture.h"
+#include "../mtl/SVMtlCore.h"
 #include "../base/SVLock.h"
 #include "../basesys/SVConfig.h"
+#include "../basesys/SVStaticData.h"
 #include "../app/SVInst.h"
 
 SVRenderMgr::SVRenderMgr(SVInst *_app)
@@ -24,6 +27,7 @@ SVRenderMgr::SVRenderMgr(SVInst *_app)
     m_logicLock = MakeSharedPtr<SVLock>();
     m_pRenderScene = nullptr;
     m_pRenderer = nullptr;
+    m_adaptMode = 0;
 }
 
 SVRenderMgr::~SVRenderMgr() {
@@ -32,7 +36,6 @@ SVRenderMgr::~SVRenderMgr() {
 }
 
 void SVRenderMgr::init() {
- 
 }
 
 void SVRenderMgr::destroy() {
@@ -118,6 +121,7 @@ void SVRenderMgr::render(){
     if(m_pRenderer && m_pRenderScene ){
         SVContextBasePtr t_context = m_pRenderer->getRenderContext();
         if( t_context && t_context->activeContext() ){
+            _adapt();
             _pushMatStack();
             SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
             if( t_context->activeRenderTarget( t_rt ) ){
@@ -132,6 +136,41 @@ void SVRenderMgr::render(){
         }
     }
     m_renderLock->unlock();
+}
+
+void SVRenderMgr::_adapt() {
+    if(m_pRenderer) {
+        if(m_adaptMode == 0) {
+            //形变 填充
+            SVMtlCorePtr t_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "screennor");
+            t_pMtl->setTexture(0,E_TEX_MAIN);    //那第一张纹理
+            t_pMtl->setBlendEnable(false);
+            t_pMtl->setBlendState(GL_ONE,GL_ZERO);
+            bool t_mirror = mApp->getConfig()->mirror;
+            if( !t_mirror ) {
+                t_pMtl->setTexcoordFlip(-1.0f, 1.0f);
+            }else {
+                t_pMtl->setTexcoordFlip(1.0f, 1.0f);
+            }
+            SVRenderCmdAdaptPtr t_cmd = MakeSharedPtr<SVRenderCmdAdapt>();
+            t_cmd->mTag = "adaptscene";
+            t_cmd->setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            t_cmd->setWinSize(mApp->m_pGlobalParam->m_inner_width,mApp->m_pGlobalParam->m_inner_height);
+            t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
+            t_cmd->setMaterial(t_pMtl->clone());
+            m_pRenderScene->getPiplineRead()->pushRenderCmd(RST_ADAPT_SCENE, t_cmd);
+
+        }else if(m_adaptMode == 1) {
+            //非形变 固定
+            
+        }else if(m_adaptMode == 2) {
+            //非形变 固定 内接
+            
+        }else if(m_adaptMode == 3) {
+            //非形变 固定 外接
+            
+        }
+    }
 }
 
 void SVRenderMgr::clear() {

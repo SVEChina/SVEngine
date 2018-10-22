@@ -28,6 +28,8 @@ namespace sv {
             
             void setSpriteSize(f32 _w,f32 _h);
             
+            void syncTexSize();
+            
             void setTexcoord(f32 x,f32 y);
             
             inline f32 getWidth(){ return m_width; }

@@ -61,6 +61,14 @@
 		0288FA082178A8430089E61C /* SVBMFontNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA022178A8430089E61C /* SVBMFontNode.h */; };
 		0288FA092178A8430089E61C /* SVBMFontNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA022178A8430089E61C /* SVBMFontNode.h */; };
 		0288FA0A2178A8430089E61C /* SVBMFontNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA022178A8430089E61C /* SVBMFontNode.h */; };
+		0288FA0D217B04090089E61C /* SVParseBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288FA0B217B04090089E61C /* SVParseBMFont.cpp */; };
+		0288FA0E217B04090089E61C /* SVParseBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288FA0B217B04090089E61C /* SVParseBMFont.cpp */; };
+		0288FA0F217B04090089E61C /* SVParseBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288FA0B217B04090089E61C /* SVParseBMFont.cpp */; };
+		0288FA10217B04090089E61C /* SVParseBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288FA0B217B04090089E61C /* SVParseBMFont.cpp */; };
+		0288FA11217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
+		0288FA12217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
+		0288FA13217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
+		0288FA14217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
 		5CE09B7D2179E04600C8DF25 /* SVFaceBeautyFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CE09B7B2179E04500C8DF25 /* SVFaceBeautyFilter.h */; };
 		5CE09B7E2179E04600C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
 		5CE09B7F2179E04900C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
@@ -2544,6 +2552,8 @@
 		0288F9F8217896AC0089E61C /* SVUnicode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVUnicode.cpp; sourceTree = "<group>"; };
 		0288FA012178A8430089E61C /* SVBMFontNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBMFontNode.cpp; sourceTree = "<group>"; };
 		0288FA022178A8430089E61C /* SVBMFontNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFontNode.h; sourceTree = "<group>"; };
+		0288FA0B217B04090089E61C /* SVParseBMFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseBMFont.cpp; sourceTree = "<group>"; };
+		0288FA0C217B04090089E61C /* SVParseBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseBMFont.h; sourceTree = "<group>"; };
 		5CE09B7B2179E04500C8DF25 /* SVFaceBeautyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceBeautyFilter.h; sourceTree = "<group>"; };
 		5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = SVFaceBeautyFilter.cpp; sourceTree = "<group>"; };
 		5CF0ABAB20BB367A009E673E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
@@ -3411,6 +3421,8 @@
 				5F7D5DD5215F407700803BCF /* SVParseAnimate.h */,
 				5F7D5DD0215F407700803BCF /* SVParseBitfont.cpp */,
 				5F7D5DCA215F407700803BCF /* SVParseBitfont.h */,
+				0288FA0B217B04090089E61C /* SVParseBMFont.cpp */,
+				0288FA0C217B04090089E61C /* SVParseBMFont.h */,
 				5F7D5DD9215F407700803BCF /* SVParseData.cpp */,
 				5F7D5DE5215F407700803BCF /* SVParseData.h */,
 				5F7D5DD4215F407700803BCF /* SVParseDef.h */,
@@ -4378,6 +4390,7 @@
 				5F7D6507215F407800803BCF /* SVOpCreate.h in Headers */,
 				5F7D6115215F407700803BCF /* SVPass.h in Headers */,
 				5F7D6131215F407700803BCF /* SVMesh.h in Headers */,
+				0288FA14217B04090089E61C /* SVParseBMFont.h in Headers */,
 				5F7D65DB215F407800803BCF /* SVRenderScene.h in Headers */,
 				5F7D696B215F407900803BCF /* SVSet.h in Headers */,
 				5F7D6089215F407700803BCF /* SVLogicDeclare.h in Headers */,
@@ -4731,6 +4744,7 @@
 				5F7D6505215F407800803BCF /* SVOpCreate.h in Headers */,
 				5F7D6113215F407700803BCF /* SVPass.h in Headers */,
 				5F7D612F215F407700803BCF /* SVMesh.h in Headers */,
+				0288FA12217B04090089E61C /* SVParseBMFont.h in Headers */,
 				5F7D65D9215F407800803BCF /* SVRenderScene.h in Headers */,
 				5F7D6969215F407900803BCF /* SVSet.h in Headers */,
 				5F7D6087215F407700803BCF /* SVLogicDeclare.h in Headers */,
@@ -4948,6 +4962,7 @@
 				5F7D662C215F407800803BCF /* SVRenderTarget.h in Headers */,
 				5F7D664C215F407800803BCF /* SVThreadMain.h in Headers */,
 				5F7D6654215F407800803BCF /* SVThreadRender.h in Headers */,
+				0288FA11217B04090089E61C /* SVParseBMFont.h in Headers */,
 				5F7D676C215F407900803BCF /* SVFreeTypeNode.h in Headers */,
 				5F7D68D8215F407900803BCF /* SVLock.h in Headers */,
 				5F7D64E0215F407800803BCF /* SVActTime.h in Headers */,
@@ -5440,6 +5455,7 @@
 				5F7D6506215F407800803BCF /* SVOpCreate.h in Headers */,
 				5F7D6114215F407700803BCF /* SVPass.h in Headers */,
 				5F7D6130215F407700803BCF /* SVMesh.h in Headers */,
+				0288FA13217B04090089E61C /* SVParseBMFont.h in Headers */,
 				5F7D65DA215F407800803BCF /* SVRenderScene.h in Headers */,
 				5F7D696A215F407900803BCF /* SVSet.h in Headers */,
 				5F7D6088215F407700803BCF /* SVLogicDeclare.h in Headers */,
@@ -5963,6 +5979,7 @@
 				5F7D6637215F407800803BCF /* SVResFBO.cpp in Sources */,
 				5F7D6235215F407800803BCF /* pngpread.c in Sources */,
 				5F7D6837215F407900803BCF /* SVOpEvent.cpp in Sources */,
+				0288FA10217B04090089E61C /* SVParseBMFont.cpp in Sources */,
 				5F7D665F215F407800803BCF /* SVThreadPool.cpp in Sources */,
 				5F7D632D215F407800803BCF /* PathConstraint.c in Sources */,
 				5F7D61AD215F407700803BCF /* SVPngWriter.cpp in Sources */,
@@ -6249,6 +6266,7 @@
 				5F7D66C0215F407900803BCF /* SVMtlBasedOn.cpp in Sources */,
 				5F7D65FC215F407800803BCF /* SVRenderStateVK.cpp in Sources */,
 				5F7D60EA215F407700803BCF /* SVSpineObjc.cpp in Sources */,
+				0288FA0D217B04090089E61C /* SVParseBMFont.cpp in Sources */,
 				5F7D68E0215F407900803BCF /* SVVec2.cpp in Sources */,
 				5F7D65A4215F407800803BCF /* SVRenderState.cpp in Sources */,
 				5F7D638E215F407800803BCF /* Triangulator.c in Sources */,
@@ -6537,6 +6555,7 @@
 				5F7D6636215F407800803BCF /* SVResFBO.cpp in Sources */,
 				5F7D6234215F407800803BCF /* pngpread.c in Sources */,
 				5F7D6836215F407900803BCF /* SVOpEvent.cpp in Sources */,
+				0288FA0F217B04090089E61C /* SVParseBMFont.cpp in Sources */,
 				5F7D665E215F407800803BCF /* SVThreadPool.cpp in Sources */,
 				5F7D632C215F407800803BCF /* PathConstraint.c in Sources */,
 				5F7D61AC215F407700803BCF /* SVPngWriter.cpp in Sources */,
@@ -6823,6 +6842,7 @@
 				5F7D6635215F407800803BCF /* SVResFBO.cpp in Sources */,
 				5F7D6233215F407800803BCF /* pngpread.c in Sources */,
 				5F7D6835215F407900803BCF /* SVOpEvent.cpp in Sources */,
+				0288FA0E217B04090089E61C /* SVParseBMFont.cpp in Sources */,
 				5F7D665D215F407800803BCF /* SVThreadPool.cpp in Sources */,
 				5F7D632B215F407800803BCF /* PathConstraint.c in Sources */,
 				5F7D61AB215F407700803BCF /* SVPngWriter.cpp in Sources */,

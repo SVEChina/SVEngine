@@ -34,23 +34,27 @@ SVRendererGL::~SVRendererGL(){
 #if defined SV_IOS
 
 void SVRendererGL::init(s32 _ver,void* _context,s32 _w,s32 _h){
-        m_glVersion = _ver;
-        m_pRenderContext = MakeSharedPtr<SVContextIOS>(mApp,_context,_ver);
-        //创建主纹理
-        mApp->m_pGlobalParam->m_inner_width = _w;
-        mApp->m_pGlobalParam->m_inner_height = _h;
-        SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
-        //主FBO
-        m_pRenderTex = MakeSharedPtr<SVRenderTexture>(mApp,
-                                                      t_tex,
-                                                      true,
-                                                      true);
-        mApp->getRenderMgr()->pushRCmdCreate(m_pRenderTex);
+    m_inWidth = _w;
+    m_inHeight = _h;
+    m_glVersion = _ver;
+    m_pRenderContext = MakeSharedPtr<SVContextIOS>(mApp,_context,_ver);
+    //创建主纹理
+    mApp->m_pGlobalParam->m_inner_width = _w;
+    mApp->m_pGlobalParam->m_inner_height = _h;
+    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
+    //主FBO
+    m_pRenderTex = MakeSharedPtr<SVRenderTexture>(mApp,
+                                                  t_tex,
+                                                  true,
+                                                  true);
+    mApp->getRenderMgr()->pushRCmdCreate(m_pRenderTex);
 }
 
 #elif defined SV_ANDROID
 
 void SVRendererGL::init(s32 _ver,void * _windows,void* _context,s32 _w,s32 _h) {
+    m_inWidth = _w;
+    m_inHeight = _h;
     m_glVersion = _ver;
     m_pRenderContext = MakeSharedPtr<SVEGLContext>(mApp, _windows,_context,_ver);
     //创建主纹理
@@ -69,6 +73,8 @@ void SVRendererGL::init(s32 _ver,void * _windows,void* _context,s32 _w,s32 _h) {
 
 #elif defined SV_OSX
 void SVRendererGL::init(s32 _ver,void* _context,void* _pixelFormate,s32 _w,s32 _h) {
+    m_inWidth = _w;
+    m_inHeight = _h;
     m_glVersion = _ver;
     m_pRenderContext = MakeSharedPtr<SVContextOSX>(mApp,_context,_pixelFormate,3);
     //创建主纹理
@@ -97,6 +103,9 @@ void SVRendererGL::destroy(){
 }
 
 void SVRendererGL::resize(s32 _w,s32 _h) {
+    //
+    m_inWidth = _w;
+    m_inHeight = _h;
     //重置size
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
