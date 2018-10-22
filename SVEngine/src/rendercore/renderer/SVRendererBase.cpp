@@ -21,7 +21,9 @@ SVRendererBase::SVRendererBase(SVInst* _app)
 :SVGBase(_app)
 ,m_pRenderContext(nullptr)
 ,m_pRenderTex(nullptr)
-,m_pRState(nullptr){
+,m_pRState(nullptr)
+,m_inWidth(256)
+,m_inHeight(256){
     m_resLock = MakeSharedPtr<SVLock>();
     for(s32 i=E_TEX_MAIN ;i<E_TEX_END;i++) {
         m_svTex[i] = nullptr;
@@ -33,6 +35,8 @@ SVRendererBase::~SVRendererBase(){
 }
 
 void SVRendererBase::init(s32 _ver,void* _windows,void* context,s32 _w,s32 _h){
+    m_inWidth = _w;
+    m_inHeight = _h;
 }
 
 void SVRendererBase::destroy(){
