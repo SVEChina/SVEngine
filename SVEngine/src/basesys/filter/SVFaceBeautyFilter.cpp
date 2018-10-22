@@ -238,25 +238,37 @@ f32 SVFairDataBlur::getFilterParam(SVFILTERITEMTYPE _type){
 }
 
 void SVFairDataBlur::update(f32 dt){
+    s32 t_w =  mApp->m_pGlobalParam->m_inner_width;
+    s32 t_h =  mApp->m_pGlobalParam->m_inner_height;
     if (m_mtl_a) {
         m_mtl_a->setTexcoordFlip(1.0, 1.0);
+        m_mtl_a->setTexSizeIndex(0, 0.0, m_Param->m_param01/t_h);
     }
     
     if (m_mtl_b) {
         m_mtl_b->setTexcoordFlip(1.0, 1.0);
+         m_mtl_b->setTexSizeIndex(0,m_Param->m_param02/t_w,0.0);
     }
-   
+    
+    if(m_mtl_c){
+        m_mtl_c->setTexcoordFlip(1.0, 1.0);
+        m_mtl_c->setTexSizeIndex(0,m_Param->m_param03/t_w,m_Param->m_param03/ t_h);
+    }
+    
     if (m_mtl_d) {
         m_mtl_d->setTexcoordFlip(1.0, 1.0);
+        m_mtl_d->setTexSizeIndex(0,m_Param->m_param06/t_w,m_Param->m_param06/t_h);
         m_mtl_d->setSmooth(m_Param->m_smooth);
     }
     
     if (m_mtl_e) {
         m_mtl_e->setTexcoordFlip(1.0, 1.0);
+        m_mtl_e->setTexSizeIndex(0, 0.0,  m_Param->m_param04/t_h);
     }
     
     if (m_mtl_f) {
         m_mtl_f->setTexcoordFlip(1.0, 1.0);
+        m_mtl_f->setTexSizeIndex(0,m_Param->m_param05/t_w,0.0);
     }
 }
 

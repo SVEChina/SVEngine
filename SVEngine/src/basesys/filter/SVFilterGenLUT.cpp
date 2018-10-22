@@ -242,6 +242,7 @@ void SVFilterGenLUT::refreshFData(SVGenLUTParamPtr _param) {
     }
 }
 void SVFilterGenLUT::setLUTData(ptr8  data,u32 size){
+    m_genParam->m_data.clear();
     m_genParam->m_data.allocate(size);
     m_genParam->m_data.append(data);
 }
