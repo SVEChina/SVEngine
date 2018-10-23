@@ -18,7 +18,8 @@
 #include "../event/SVEvent.h"
 #include "../event/SVOpEvent.h"
 #include "../base/SVDataSwap.h"
-
+#include "../basesys/filter/SVParseLUTFilter.h"
+#include "../basesys/filter/SVFilterLUT.h"
 //设置美颜滤镜
 SVOpSetBeautyFilter::SVOpSetBeautyFilter(SVInst* _app,cptr8 _scenename,cptr8 _filter,s32 _lows)
 :SVOpBase(_app) {
@@ -106,3 +107,30 @@ void SVOpShapeFaceSmoothFilter::_process(f32 _dt) {
     t_event->m_eyeSmooth = m_eye;
     mApp->getEventMgr()->pushEvent(t_event);
 }
+
+SVOpLUTFilterCreate::SVOpLUTFilterCreate(SVInst* _app,cptr8 _scenename,cptr8 _path,s32 resid)
+:SVOpBase(_app){
+     m_path = _path;
+     m_resid = resid;
+}
+
+void SVOpLUTFilterCreate::_process(f32 _dt){
+    SVParseLUTFilter t_filter(mApp);
+    SVFilterLUTPtr t_lutFilter = t_filter.parse(m_path, m_resid);
+    SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
+    if( t_picproc&&t_lutFilter) {
+        t_lutFilter->create();
+        t_picproc->addFilter(t_lutFilter);
+        t_picproc->openFilter(t_lutFilter);
+    }
+}
+
+SVOpLUTFilterDestory::SVOpLUTFilterDestory(SVInst* _app,cptr8 _scenename,s32 resid)
+:SVOpBase(_app){
+    
+}
+
+void SVOpLUTFilterDestory::_process(f32 _dt){
+    
+}
+

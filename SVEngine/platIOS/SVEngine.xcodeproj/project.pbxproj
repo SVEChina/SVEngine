@@ -69,6 +69,14 @@
 		0288FA12217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
 		0288FA13217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
 		0288FA14217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
+		5C29E2BC217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C29E2BA217F004B00F26CB3 /* SVParseLUTFilter.cpp */; };
+		5C29E2BD217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C29E2BA217F004B00F26CB3 /* SVParseLUTFilter.cpp */; };
+		5C29E2BE217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C29E2BA217F004B00F26CB3 /* SVParseLUTFilter.cpp */; };
+		5C29E2BF217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C29E2BA217F004B00F26CB3 /* SVParseLUTFilter.cpp */; };
+		5C29E2C0217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */; };
+		5C29E2C1217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */; };
+		5C29E2C2217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */; };
+		5C29E2C3217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */; };
 		5CE09B7D2179E04600C8DF25 /* SVFaceBeautyFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CE09B7B2179E04500C8DF25 /* SVFaceBeautyFilter.h */; };
 		5CE09B7E2179E04600C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
 		5CE09B7F2179E04900C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
@@ -2554,6 +2562,8 @@
 		0288FA022178A8430089E61C /* SVBMFontNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFontNode.h; sourceTree = "<group>"; };
 		0288FA0B217B04090089E61C /* SVParseBMFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseBMFont.cpp; sourceTree = "<group>"; };
 		0288FA0C217B04090089E61C /* SVParseBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseBMFont.h; sourceTree = "<group>"; };
+		5C29E2BA217F004B00F26CB3 /* SVParseLUTFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; path = SVParseLUTFilter.cpp; sourceTree = "<group>"; };
+		5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVParseLUTFilter.h; sourceTree = "<group>"; };
 		5CE09B7B2179E04500C8DF25 /* SVFaceBeautyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceBeautyFilter.h; sourceTree = "<group>"; };
 		5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = SVFaceBeautyFilter.cpp; sourceTree = "<group>"; };
 		5CF0ABAB20BB367A009E673E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
@@ -3338,6 +3348,8 @@
 				5F7D5D8F215F407700803BCF /* SVRGBToneCurveCore.h */,
 				5F7D5D90215F407700803BCF /* SVRGBToneCurveFilter.cpp */,
 				5F7D5D87215F407700803BCF /* SVRGBToneCurveFilter.h */,
+				5C29E2BA217F004B00F26CB3 /* SVParseLUTFilter.cpp */,
+				5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */,
 			);
 			path = filter;
 			sourceTree = "<group>";
@@ -4242,6 +4254,7 @@
 				5F7D6275215F407800803BCF /* Bone.h in Headers */,
 				5F7D68BF215F407900803BCF /* SVMap.spu.h in Headers */,
 				5F7D664B215F407800803BCF /* SVThreadHelp.h in Headers */,
+				5C29E2C3217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */,
 				5F7D609D215F407700803BCF /* SVFilterLUT.h in Headers */,
 				5F7D6265215F407800803BCF /* SkeletonClipping.h in Headers */,
 				5F7D693F215F407900803BCF /* SVThread.h in Headers */,
@@ -4596,6 +4609,7 @@
 				5F7D6273215F407800803BCF /* Bone.h in Headers */,
 				5F7D68BD215F407900803BCF /* SVMap.spu.h in Headers */,
 				5F7D6649215F407800803BCF /* SVThreadHelp.h in Headers */,
+				5C29E2C1217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */,
 				5F7D609B215F407700803BCF /* SVFilterLUT.h in Headers */,
 				5F7D6263215F407800803BCF /* SkeletonClipping.h in Headers */,
 				5F7D693D215F407900803BCF /* SVThread.h in Headers */,
@@ -5106,6 +5120,7 @@
 				5F7D6750215F407900803BCF /* SVSpriteNode.h in Headers */,
 				5F7D6948215F407900803BCF /* SVHalf.h in Headers */,
 				5F7D62EA215F407800803BCF /* AnimationState.h in Headers */,
+				5C29E2C0217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */,
 				5F7D65D8215F407800803BCF /* SVRenderScene.h in Headers */,
 				5F7D62C6215F407800803BCF /* PathConstraintData.h in Headers */,
 				5F7D6528215F407800803BCF /* SVOpOutCamera.h in Headers */,
@@ -5307,6 +5322,7 @@
 				5F7D6274215F407800803BCF /* Bone.h in Headers */,
 				5F7D68BE215F407900803BCF /* SVMap.spu.h in Headers */,
 				5F7D664A215F407800803BCF /* SVThreadHelp.h in Headers */,
+				5C29E2C2217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */,
 				5F7D609C215F407700803BCF /* SVFilterLUT.h in Headers */,
 				5F7D6264215F407800803BCF /* SkeletonClipping.h in Headers */,
 				5F7D693E215F407900803BCF /* SVThread.h in Headers */,
@@ -6018,6 +6034,7 @@
 				5F7D67E7215F407900803BCF /* SVSpineNode.cpp in Sources */,
 				5F7D6737215F407900803BCF /* SVNode.cpp in Sources */,
 				5F7D65EB215F407800803BCF /* SVRenderMgr.cpp in Sources */,
+				5C29E2BF217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */,
 				5F7D685B215F407900803BCF /* SVQuat.cpp in Sources */,
 				5F7D660F215F407800803BCF /* SVRenderCmdOut.cpp in Sources */,
 				5F7D6241215F407800803BCF /* pngmem.c in Sources */,
@@ -6284,6 +6301,7 @@
 				5F7D667C215F407800803BCF /* SVMtlFace2D.cpp in Sources */,
 				5F7D64BE215F407800803BCF /* SVMovie.cpp in Sources */,
 				5F7D60AE215F407700803BCF /* SVRGBToneCurveFilter.cpp in Sources */,
+				5C29E2BC217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */,
 				5F7D6758215F407900803BCF /* SVFrameOutNode.cpp in Sources */,
 				5F7D6834215F407900803BCF /* SVOpEvent.cpp in Sources */,
 				5F7D610A215F407700803BCF /* SVPass.cpp in Sources */,
@@ -6594,6 +6612,7 @@
 				5F7D67E6215F407900803BCF /* SVSpineNode.cpp in Sources */,
 				5F7D6736215F407900803BCF /* SVNode.cpp in Sources */,
 				5F7D65EA215F407800803BCF /* SVRenderMgr.cpp in Sources */,
+				5C29E2BE217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */,
 				5F7D685A215F407900803BCF /* SVQuat.cpp in Sources */,
 				5F7D660E215F407800803BCF /* SVRenderCmdOut.cpp in Sources */,
 				5F7D6240215F407800803BCF /* pngmem.c in Sources */,
@@ -6881,6 +6900,7 @@
 				5F7D67E5215F407900803BCF /* SVSpineNode.cpp in Sources */,
 				5F7D6735215F407900803BCF /* SVNode.cpp in Sources */,
 				5F7D65E9215F407800803BCF /* SVRenderMgr.cpp in Sources */,
+				5C29E2BD217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */,
 				5F7D6859215F407900803BCF /* SVQuat.cpp in Sources */,
 				5F7D660D215F407800803BCF /* SVRenderCmdOut.cpp in Sources */,
 				5F7D623F215F407800803BCF /* pngmem.c in Sources */,

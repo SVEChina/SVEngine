@@ -22,7 +22,7 @@ namespace sv {
         SVString m_filter;
         s32 m_lows;
     };
-    //设置美颜滤镜
+ 
     class SVOpUpdateFilterSmooth : public SVOpBase {
     public:
         f32 m_smooth;
@@ -60,7 +60,22 @@ namespace sv {
         f32 m_eye;
     };
     
-
+    //设置查找表
+    class SVOpLUTFilterCreate : public SVOpBase{
+    public:
+        SVOpLUTFilterCreate(SVInst* _app,cptr8 _scenename,cptr8 _path,s32 resid);
+    protected:
+        void _process(f32 _dt);
+        SVString m_path;
+        s32 m_resid;
+    };
+    
+    class SVOpLUTFilterDestory : public SVOpBase{
+    public:
+        SVOpLUTFilterDestory(SVInst* _app,cptr8 _scenename,s32 resid);
+    protected:
+        void _process(f32 _dt);
+    };
     
 }//!namespace sv
 

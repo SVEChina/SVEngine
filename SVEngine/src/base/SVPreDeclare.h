@@ -83,6 +83,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpSetBeautyFilter);
     DECLARE_SHAREPTR(SVOpUpdateFilterSmooth);
     DECLARE_SHAREPTR(SVOpShapeFaceSmoothFilter);
+    DECLARE_SHAREPTR(SVOpLUTFilterCreate);
     DECLARE_SHAREPTR(SVOpUpdateBSplineFilter);
     DECLARE_SHAREPTR(SVOpCloseBeautyFilter);
     //
@@ -173,6 +174,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVParseAnimate);
         DECLARE_SHAREPTR(SVParseMain);
         DECLARE_SHAREPTR(SVParseParticle);
+        DECLARE_SHAREPTR(SVParseLUTFilter);
         DECLARE_SHAREPTR(SVParseData);
         DECLARE_SHAREPTR(SVParseMask);
         DECLARE_SHAREPTR(SVParseStamp);

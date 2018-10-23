@@ -1,4 +1,4 @@
-# Install script for directory: /Users/xuziyu/SVEPro/SVEngine/SVEngine/platAndriod/cmake
+# Install script for directory: /Users/xuziyu/SVEPro/sveshow/platANDROID/SVEAndroid/cmake/cmake
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

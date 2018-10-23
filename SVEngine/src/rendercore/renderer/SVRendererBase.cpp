@@ -132,7 +132,7 @@ bool SVRendererBase::hasSVTex(SVTEXTYPE _type) {
     return false;
 }
 
-//创建内置纹理
+//创建内置纹理 有问题后期删掉
 SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate) {
     if (_type >= E_TEX_CAMERA && _type <= E_TEX_OUTSTREAM) {
         SVTexturePtr t_tex = nullptr;
@@ -160,6 +160,41 @@ SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _form
         t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_BGRA);
 #else
         t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_RGBA);
+#endif
+        mApp->getRenderMgr()->pushRCmdCreate(t_tex);
+        m_svTex[_type] = t_tex;
+    }
+    return m_svTex[_type];
+}
+
+//创建内置纹理 有问题后期删掉
+SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate) {
+    if (_type >= E_TEX_CAMERA && _type <= E_TEX_OUTSTREAM) {
+        SVTexturePtr t_tex = nullptr;
+#if defined( SV_IOS )
+        t_tex = MakeSharedPtr<SVTextureIOS>(mApp);
+#else
+        t_tex = MakeSharedPtr<SVTexture>(mApp);
+#endif
+        if(t_tex) {
+            SVString t_str("");
+            t_str.printf("intexture_%d",s32(_type));
+#if defined( SV_IOS )
+            t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate);
+#else
+            t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate);
+#endif
+            mApp->getRenderMgr()->pushRCmdCreate(t_tex);
+            m_svTex[_type] = t_tex;
+        }
+    } else {
+        SVTexturePtr t_tex = MakeSharedPtr<SVTexture>(mApp);;
+        SVString t_str("");
+        t_str.printf("intexture_%d",s32(_type));
+#if defined( SV_IOS )
+        t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate);
+#else
+        t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate);
 #endif
         mApp->getRenderMgr()->pushRCmdCreate(t_tex);
         m_svTex[_type] = t_tex;

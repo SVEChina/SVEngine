@@ -51,6 +51,15 @@ bool SVFilterLUT::create(){
     t_pass1->setOutTex(E_TEX_FILTER_LUT_OUT);
     m_pPassNode->addPass(t_pass1);
     //
+//    SVSpriteNodePtr node=MakeSharedPtr<SVSpriteNode>(mApp,512,512);
+//    node->setTexture(E_TEX_FILTER_LUT);
+//    
+//    SVScenePtr t_sc = mApp->getSceneMgr()->getScene();
+//    if(t_sc){
+//        if(node){
+//            t_sc->addNode(node);
+//        }
+//    }
     SVPassPtr t_pass2 = MakeSharedPtr<SVPass>();
     SVMtlCorePtr t_mtl_back=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     t_mtl_back->setTexcoordFlip(1.0f, 1.0f);
@@ -71,6 +80,7 @@ void SVFilterLUT::destroy(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         t_renderer->destroySVTex(E_TEX_FILTER_LUT_OUT);
+        t_renderer->destroySVTex(E_TEX_FILTER_LUT);
     }
 }
 
@@ -102,3 +112,20 @@ void SVFilterLUT::update(f32 dt){
         }
     }
 }
+
+void SVFilterLUT::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                            RAPIDJSON_NAMESPACE::Value &_objValue) {
+}
+
+void SVFilterLUT::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
+    if (item.HasMember("data") && item["data"].IsString()) {
+        SVRendererBasePtr t_renderer = mApp->getRenderer();
+        if(t_renderer){
+            t_renderer->createSVTex(E_TEX_FILTER_LUT, 512, 512, GL_RGBA,GL_RGBA);
+            SVTexturePtr t_tex=t_renderer->getSVTex(E_TEX_FILTER_LUT);
+            t_tex->setTexData((void*)item["data"].GetString(), item["data"].GetStringLength());
+            setLUTTex(t_tex);
+        }
+    }
+}
+

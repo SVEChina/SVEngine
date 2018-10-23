@@ -244,7 +244,7 @@ void SVFilterGenLUT::refreshFData(SVGenLUTParamPtr _param) {
 void SVFilterGenLUT::setLUTData(ptr8  data,u32 size){
     m_genParam->m_data.clear();
     m_genParam->m_data.allocate(size);
-    m_genParam->m_data.append(data);
+    m_genParam->m_data.append(data,size);
 }
 
 void SVFilterGenLUT::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
@@ -287,8 +287,8 @@ void SVFilterGenLUT::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc
     locationObj.AddMember("temperature",m_genParam->m_temperature, _allocator);
     locationObj.AddMember("tint",m_genParam->m_tint, _allocator);
     locationObj.AddMember("exposure",m_genParam->m_exposure, _allocator);
-    locationObj.AddMember("data",RAPIDJSON_NAMESPACE::StringRef(m_genParam->m_data.c_str()), _allocator);
-    _objValue.AddMember("filter", locationObj, _allocator);  //添加object到Document中
+    locationObj.AddMember("data",RAPIDJSON_NAMESPACE::StringRef(m_genParam->m_data.c_str(),m_genParam->m_data.size()), _allocator);
+    _objValue.AddMember("filterLUT", locationObj, _allocator);  //添加object到Document中
  
 }
 

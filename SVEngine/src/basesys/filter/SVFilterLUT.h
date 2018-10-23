@@ -30,7 +30,11 @@ namespace sv {
             void setLUTTex(SVTexturePtr _looktex);
             
             SVTexturePtr getLUTTex();
-
+            
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                        RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         protected:
             SVTexturePtr m_texLUT;
             bool m_dirtyLUT;
