@@ -66,7 +66,7 @@ namespace sv {
             
             cptr8 getTexturePath();
             
-            virtual void setAlpha(s32 _alpha);
+            virtual void setAlpha(f32 _alpha);
         private:
             void _genMesh();
             void _genTexcoords();
@@ -88,7 +88,7 @@ namespace sv {
             typedef SVArray<FontTexcoords> TEXCOORDTBL;
             TEXCOORDTBL m_texcoordsTbl;
             bool m_fontDirty;
-            s32 m_alpha;
+            f32 m_alpha;
         };
 
         

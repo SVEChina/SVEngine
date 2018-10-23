@@ -33,6 +33,7 @@ SVBMFont::SVBMFont(SVInst *_app)
     m_scaleH = 0;
     m_outlineThickness = 0;
     m_hasOutline = false;
+    m_encoding = UTF8;
 }
 
 SVBMFont::~SVBMFont() {
@@ -204,28 +205,6 @@ void SVBMFont::addKerningPair(s32 _first, s32 _second, s32 _amount){
 }
 
 void SVBMFont::loadPage(s32 _pageID, cptr8 _pageFile, cptr8 _fontFile){
-    std::string str;
-    // Load the texture from the same directory as the font descriptor file
-    // Find the directory
-    str = _fontFile;
-    for( u64 n = 0; (n = str.find('/', n)) != -1; ) str.replace(n, 1, "\\");
-    u64 i = str.rfind('\\');
-    if( i != -1 )
-        str = str.substr(0, i+1);
-    else
-        str = "";
-    
-    // Load the font textures
-//    str += pageFile;
-//    IDirect3DTexture9 *texture = 0;
-//    UINT mipLevels = 0; // 0 = all
-//    HRESULT hr = D3DXCreateTextureFromFileEx(font->render->GetDevice(), str.c_str(),
-//                                             D3DX_DEFAULT, D3DX_DEFAULT, mipLevels, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
-//                                             D3DX_DEFAULT, D3DX_DEFAULT, 0, NULL, NULL, &texture);
-//    if( FAILED(hr) )
-//    {
-//        LOG(("Failed to load font page '%s' (%X)", str.c_str(), hr));
-//    }
     SVString rootFile = _fontFile;
     s32 pos = rootFile.rfind('/');
     rootFile = SVString::substr(rootFile.c_str(), 0, pos);
