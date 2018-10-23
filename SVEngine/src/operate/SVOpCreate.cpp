@@ -191,16 +191,16 @@ void SVOpCreateTest::_process(f32 dt) {
 //        t_pScene->addNode(t_testFreetype);
         
         //
-        SVBMFontPtr m_font = MakeSharedPtr<SVBMFont>(mApp);
-        SVBMFontLoader t_loder(mApp);
-        t_loder.loadData("svres/testfnt.fnt", m_font);
-        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
-        bmNode->setFont(m_font);
-        bmNode->setText("广个亿土");
-        bmNode->setSpacing(20);
-        bmNode->setPosition(0, 0, 0);
-//        bmNode->setScale(0.1, 0.1, 1.0);
-        t_pScene->addNode(bmNode);
+//        SVBMFontPtr m_font = MakeSharedPtr<SVBMFont>(mApp);
+//        SVBMFontLoader t_loder(mApp);
+//        t_loder.loadData("svres/fonttest.fnt", m_font);
+//        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
+//        bmNode->setFont(m_font);
+//        bmNode->setText("丹分化以什");
+//        bmNode->setSpacing(20);
+//        bmNode->setPosition(0, 0, 0);
+////        bmNode->setScale(0.1, 0.1, 1.0);
+//        t_pScene->addNode(bmNode);
         
     }
 }

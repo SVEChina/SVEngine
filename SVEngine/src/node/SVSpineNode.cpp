@@ -153,10 +153,13 @@ void SVSpineNode::update(f32 dt) {
                 }
                 case SP_BLEND_MODE_ADDITIVE:{
                     t_mtl->setBlendState(m_spine->m_preMultAlpha ? GL_ONE : GL_SRC_ALPHA, GL_ONE);
+//                    t_mtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
+                    t_mtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_ADDITIVE);
                     break;
                 }
                 case SP_BLEND_MODE_MULTIPLY:{
                     t_mtl->setBlendState(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+                    t_mtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_MULTIPLY);
                     break;
                 }
                 case SP_BLEND_MODE_SCREEN:{

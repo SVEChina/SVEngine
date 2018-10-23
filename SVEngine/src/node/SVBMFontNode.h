@@ -54,6 +54,8 @@ namespace sv {
             void setAtcPt(BITFONT_ATCH_PT _type);
             
             BITFONT_ATCH_PT getAtcPt();
+            
+            virtual void setAlpha(f32 _alpha);
         private:
             void _genMesh();
             void _refreshTexcoords();
@@ -71,6 +73,7 @@ namespace sv {
             f32 m_fontW;
             f32 m_fontH;
             f32 m_spacing;
+            f32 m_alpha;
             SVString m_text;
             bool m_textDirty;
         };

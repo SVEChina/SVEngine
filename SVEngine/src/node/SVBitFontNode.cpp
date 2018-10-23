@@ -93,7 +93,7 @@ cptr8 SVBitFontNode::getTexturePath(){
     return "";
 }
 
-void SVBitFontNode::setAlpha(s32 _alpha){
+void SVBitFontNode::setAlpha(f32 _alpha){
     if (_alpha < 0 || _alpha > 1) {
         return;
     }

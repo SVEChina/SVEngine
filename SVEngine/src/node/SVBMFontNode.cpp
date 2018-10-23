@@ -30,6 +30,7 @@ SVBMFontNode::SVBMFontNode(SVInst *_app)
     m_spacing = 0.0f;
     m_fontW = 60;
     m_fontH = 60;
+    m_alpha = 1.0f;
     m_pRenderVertex = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
@@ -134,9 +135,19 @@ BITFONT_ATCH_PT SVBMFontNode::getAtcPt(){
     return m_atchType;
 }
 
+void SVBMFontNode::setAlpha(f32 _alpha){
+    if (_alpha < 0 || _alpha > 1) {
+        return;
+    }
+    if (m_alpha != _alpha) {
+        m_textDirty = true;
+        m_alpha = _alpha;
+    }
+}
+
 void SVBMFontNode::_refresh(){
     _refreshTexcoords();
-    s32 t_Len = m_textSize;
+    s32 t_Len = m_texcoordsTbl.size();
     f32 t_total_w = m_fontW*t_Len;
     f32 t_total_h = m_fontH;
     f32 t_offx = 0.0f;
@@ -172,7 +183,7 @@ void SVBMFontNode::_refresh(){
     //顶点数据
     V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];
     //更新每个字符的的纹理坐标
-    for (u32 i = 0; i < m_textSize; ++i) {
+    for (u32 i = 0; i < t_Len; ++i) {
         tVerts[i * 6 + 0].x = (m_fontW + m_spacing)*i - t_offx;
         tVerts[i * 6 + 0].y = -t_offy;
         tVerts[i * 6 + 0].t0x = m_texcoordsTbl[i].lb_x;
@@ -180,7 +191,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 0].r = 255;
         tVerts[i * 6 + 0].g = 255;
         tVerts[i * 6 + 0].b = 255;
-        tVerts[i * 6 + 0].a = 255;
+        tVerts[i * 6 + 0].a = 255*m_alpha;
         //
         tVerts[i * 6 + 1].x = m_fontW*(i+1) + m_spacing*i - t_offx;
         tVerts[i * 6 + 1].y = -t_offy;
@@ -189,7 +200,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 1].r = 255;
         tVerts[i * 6 + 1].g = 255;
         tVerts[i * 6 + 1].b = 255;
-        tVerts[i * 6 + 1].a = 255;
+        tVerts[i * 6 + 1].a = 255*m_alpha;
         //
         tVerts[i * 6 + 2].x = (m_fontW + m_spacing)*i - t_offx;
         tVerts[i * 6 + 2].y = m_fontH - t_offy;
@@ -198,7 +209,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 2].r = 255;
         tVerts[i * 6 + 2].g = 255;
         tVerts[i * 6 + 2].b = 255;
-        tVerts[i * 6 + 2].a = 255;
+        tVerts[i * 6 + 2].a = 255*m_alpha;
         //
         tVerts[i * 6 + 3].x = (m_fontW + m_spacing)*i - t_offx;
         tVerts[i * 6 + 3].y = m_fontH - t_offy;
@@ -207,7 +218,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 3].r = 255;
         tVerts[i * 6 + 3].g = 255;
         tVerts[i * 6 + 3].b = 255;
-        tVerts[i * 6 + 3].a = 255;
+        tVerts[i * 6 + 3].a = 255*m_alpha;
         //
         tVerts[i * 6 + 4].x = m_fontW*(i+1) + m_spacing*i - t_offx;
         tVerts[i * 6 + 4].y = - t_offy;
@@ -216,7 +227,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 4].r = 255;
         tVerts[i * 6 + 4].g = 255;
         tVerts[i * 6 + 4].b = 255;
-        tVerts[i * 6 + 4].a = 255;
+        tVerts[i * 6 + 4].a = 255*m_alpha;
         //
         tVerts[i * 6 + 5].x = m_fontW*(i+1) + m_spacing*i - t_offx;
         tVerts[i * 6 + 5].y = m_fontH - t_offy;
@@ -225,11 +236,11 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 5].r = 255;
         tVerts[i * 6 + 5].g = 255;
         tVerts[i * 6 + 5].b = 255;
-        tVerts[i * 6 + 5].a = 255;
+        tVerts[i * 6 + 5].a = 255*m_alpha;
     }
     //
-    if (m_textSize < SV_BMFONT_MAX_NUM) {
-        for (s32 i = m_textSize; i < SV_BMFONT_MAX_NUM; ++i) {
+    if (t_Len < SV_BMFONT_MAX_NUM) {
+        for (s32 i = t_Len; i < SV_BMFONT_MAX_NUM; ++i) {
             tVerts[i * 6 + 0].x = 0;
             tVerts[i * 6 + 0].y = 0;
             tVerts[i * 6 + 1].x = 0;
@@ -245,8 +256,8 @@ void SVBMFontNode::_refresh(){
         }
     }
     //
-    m_pRenderVertex->writeData(&tVerts[0], sizeof(V2_C_T0) * m_textSize * 6);
-    m_pMesh->setVertexDataNum(m_textSize * 6);
+    m_pRenderVertex->writeData(&tVerts[0], sizeof(V2_C_T0) * t_Len * 6);
+    m_pMesh->setVertexDataNum(t_Len * 6);
     m_pMesh->setVertexData(m_pRenderVertex);
     m_pMesh->setVertexType(E_VF_V2_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
@@ -327,8 +338,6 @@ void SVBMFontNode::_refreshTexcoords(){
     {
         s32 charId = m_font->getTextChar(m_text, n, &n);
         SVBMFont::SVBMFONTCHARINFO ch = m_font->getChar(charId);
-        // Map the center of the texel to the corners
-        // in order to get pixel perfect mapping
         f32 u = (f32(ch.x)+0.5f) / m_font->m_scaleW;
         f32 v = (f32(ch.y)+0.5f) / m_font->m_scaleH;
         f32 u2 = u + f32(ch.width) / m_font->m_scaleW;
