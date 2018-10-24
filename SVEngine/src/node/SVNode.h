@@ -57,11 +57,15 @@ namespace sv {
             
             virtual void setPosition(f32 x, f32 y, f32 z);
             
+            virtual void setOffset(f32 _x, f32 _y, f32 _z);
+            
             virtual void setRotation(f32 x, f32 y, f32 z);
             
             virtual void setScale(f32 x, f32 y, f32 z);
             
             virtual void setPosition(FVec3& _pos);
+            
+            virtual void setOffset(FVec3& _pos);
             
             virtual void setRotation(FVec3& _rot);
             
@@ -84,6 +88,8 @@ namespace sv {
             SVNodePtr getParent();
             
             FVec3& getPosition();
+            
+            FVec3& getOffset();
             
             FVec3& getRotation();
             

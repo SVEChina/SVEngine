@@ -34,6 +34,7 @@ SVNode::SVNode(SVInst *_app)
     m_iZOrder = 0;
     //基础属性
     m_postion.set(0.0f, 0.0f, 0.0f);
+    m_offpos.set(0.0f, 0.0f, 0.0f);
     m_rotation.set(0.0f, 0.0f, 0.0f);
     m_scale.set(1.0f, 1.0f, 1.0f);
     m_localMat.setIdentity();
@@ -103,7 +104,7 @@ void SVNode::update(f32 dt) {
         t_mat_rotX.setRotateX(m_rotation.x);
         t_mat_rotY.setRotateY(m_rotation.y);
         t_mat_rotZ.setRotateZ(m_rotation.z);
-        t_mat_trans.setTranslate( FVec3(m_postion.x,m_postion.y,m_postion.z) );
+        t_mat_trans.setTranslate( FVec3(m_postion.x + m_offpos.x,m_postion.y + m_offpos.y, m_postion.z + m_offpos.z) );
         m_localMat = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
         m_dirty = false;
     }
@@ -279,6 +280,11 @@ void SVNode::setPosition(f32 _x, f32 _y, f32 _z) {
     m_dirty = true;
 }
 
+void SVNode::setOffset(f32 _x, f32 _y, f32 _z){
+    m_postion.set(_x, _y, _z);
+    m_dirty = true;
+}
+
 void SVNode::setRotation(f32 _x, f32 _y, f32 _z) {
     m_rotation.set(_x, _y, _z);
     m_dirty = true;
@@ -294,6 +300,11 @@ void SVNode::setPosition(FVec3& _pos) {
     m_dirty = true;
 }
 
+void SVNode::setOffset(FVec3& _pos) {
+    m_offpos = _pos;
+    m_dirty = true;
+}
+
 void SVNode::setRotation(FVec3& _rot) {
     m_rotation = _rot;
     m_dirty = true;
@@ -306,6 +317,10 @@ void SVNode::setScale(FVec3& _scale) {
 
 FVec3& SVNode::getPosition() {
     return m_postion;
+}
+
+FVec3& SVNode::getOffset() {
+    return m_offpos;
 }
 
 FVec3& SVNode::getRotation() {
