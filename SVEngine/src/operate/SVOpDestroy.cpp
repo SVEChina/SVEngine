@@ -20,9 +20,21 @@ SVOpDestroyEffect::SVOpDestroyEffect(SVInst *_app, cptr8 _name)
 }
 
 void SVOpDestroyEffect::_process(float dt) {
-    SVModuleBasePtr t_module = mApp->getModuleSys()->getModule(m_name.c_str());
+    SVString m_strPath = m_name;
+    s32 t_pos = m_strPath.rfind('.');
+    s32 t_len = m_strPath.size();
+    if (t_pos) {
+        m_strPath = SVString::substr(m_strPath, 0, t_pos);
+    }
+    t_pos = m_strPath.rfind('/');
+    if (t_pos) {
+        t_len = m_strPath.size();
+        m_strPath = SVString::substr(m_strPath, t_pos+1, t_len - t_pos - 1);
+    }
+    
+    SVModuleBasePtr t_module = mApp->getModuleSys()->getModule(m_strPath.c_str());
     if (t_module) {
-        mApp->getModuleSys()->unregist(m_name.c_str());
+        mApp->getModuleSys()->unregist(m_strPath.c_str());
         t_module->close();
         t_module->destroy();
     }
