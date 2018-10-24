@@ -43,3 +43,12 @@ void SVFilterBase::setFilterParam(f32 _smooth,SVFILTERITEMTYPE _type){
 f32 SVFilterBase::getFilterParam(SVFILTERITEMTYPE _type){
     return 0;
 }
+//序列化
+void SVFilterBase::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                    RAPIDJSON_NAMESPACE::Value &_objValue){
+    
+}
+
+void SVFilterBase::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    
+}

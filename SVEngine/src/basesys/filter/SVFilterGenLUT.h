@@ -333,6 +333,10 @@ namespace sv {
             
             void refreshFData(SVGenLUTParamPtr _param);
             
+            SVGenLUTParamPtr getLUTparam(){
+                return m_genParam;
+            }
+            
         protected:
             SVMtlBrightnessContrastPtr m_BCMtl;//brightness contrast
             SVMtlSaturationPtr m_SaturationMtl;

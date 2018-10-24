@@ -34,13 +34,13 @@ namespace sv {
             f32 m_param06;
             
             void reset(){
-                f32 m_smooth = 0.0;
-                f32 m_param01 = 0.0;
-                f32 m_param02 = 0.0;
-                f32 m_param03 = 0.0;
-                f32 m_param04 = 0.0;
-                f32 m_param05 = 0.0;
-                f32 m_param06 = 0.0;
+                 m_smooth = 0.0;
+                 m_param01 = 0.0;
+                 m_param02 = 0.0;
+                 m_param03 = 0.0;
+                 m_param04 = 0.0;
+                 m_param05 = 0.0;
+                 m_param06 = 0.0;
             }
             
             void copy(SVGenFBParamPtr _p){
@@ -75,6 +75,12 @@ namespace sv {
             
             virtual void refreshData(SVGenFBParamPtr _param);
             
+            //序列化
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+            
             void setSmooth(f32 _smooth);
             
             void setParam01(f32 _smooth);
@@ -91,7 +97,7 @@ namespace sv {
             
         protected:
             
-            SVGenFBParamPtr m_Param;
+            SVGenFBParamPtr m_pParam;
             
         };
         
@@ -110,6 +116,12 @@ namespace sv {
             virtual void setFilterParam(f32 _smooth,SVFILTERITEMTYPE _type);
             
             virtual f32 getFilterParam(SVFILTERITEMTYPE _type);
+            
+            //序列化
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
             
             SVMtlCorePtr m_mtl_a;
             SVMtlCorePtr m_mtl_b;

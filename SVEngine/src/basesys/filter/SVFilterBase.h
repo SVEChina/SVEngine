@@ -37,6 +37,12 @@ namespace sv {
             
             virtual f32 getFilterParam(SVFILTERITEMTYPE _type);
             
+            //序列化
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+            
             inline SVString getName(){
                 return m_name;
             }
@@ -44,7 +50,7 @@ namespace sv {
             inline SVFILTERFUNCTYPE getType(){
                 return m_type;
             }
-            
+
         protected:
             SVMultPassNodePtr m_pPassNode;
             SVMtlCorePtr m_mtl;

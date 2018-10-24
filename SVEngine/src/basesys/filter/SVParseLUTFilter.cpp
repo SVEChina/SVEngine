@@ -42,6 +42,7 @@ SVFilterLUTPtr SVParseLUTFilter::parse(cptr8 _path, s32 resid){
         SV_LOG_ERROR("rapidjson error code:%d \n", code);
         return nullptr;
     }
+    
     if (doc.HasMember("version")) {
         RAPIDJSON_NAMESPACE::Value &version = doc["version"];
     }
