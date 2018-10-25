@@ -23,9 +23,9 @@
 SVParseMain::SVParseMain(SVInst *_app)
 :SVGBase(_app) {
     m_app = _app;
-    _registDictionary("sv_spine", SVParseAnimate::parseAnim);
+    _registDictionary("SVSpineNode", SVParseAnimate::parseAnim);
     _registDictionary("sv_mask", SVParseMask::parseMask);
-    _registDictionary("sv_sprite", SVParseSprite::parseSprite);
+    _registDictionary("SVSpriteNode", SVParseSprite::parseSprite);
     _registDictionary("sv_bitfont", SVParseBitfont::parseBitfont);
     _registDictionary("sv_bmfont", SVParseBMFont::parseBMFont);
 //    _registDictionary("sv_particle", SVParseParticle::parseParticle);
