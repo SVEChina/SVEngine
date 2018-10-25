@@ -325,3 +325,7 @@ void SVDeformImageMove::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
         }
     }
 }
+
+void SVDeformImageMove::createPointMesh(){
+    
+}

@@ -287,6 +287,7 @@ void SVFilterGenLUT::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc
     locationObj.AddMember("temperature",m_genParam->m_temperature, _allocator);
     locationObj.AddMember("tint",m_genParam->m_tint, _allocator);
     locationObj.AddMember("exposure",m_genParam->m_exposure, _allocator);
+    locationObj.AddMember("name",RAPIDJSON_NAMESPACE::StringRef(m_genParam->m_name.c_str()), _allocator);
     locationObj.AddMember("data",RAPIDJSON_NAMESPACE::StringRef(m_genParam->m_data.c_str(),m_genParam->m_data.size()), _allocator);
     _objValue.AddMember("filterLUT", locationObj, _allocator);  //添加object到Document中
  

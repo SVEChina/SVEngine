@@ -120,6 +120,8 @@ namespace sv {
                 
                 m_exposure=_p->m_exposure;
                 
+                m_name=_p->m_name;
+                
             }
             
             f32 m_brightness;
@@ -172,6 +174,7 @@ namespace sv {
             f32 m_exposure;
             
             SVString m_data;
+            SVString m_name;
             
         };
         
@@ -325,6 +328,10 @@ namespace sv {
             
             inline void setHighlight(f32 _highlight){
                  m_genParam->m_Highlight=_highlight;
+            }
+            
+            inline void setName(cptr8 _name){
+                m_genParam->m_name=_name;
             }
             
             void setLUTData(ptr8  data,u32 size);

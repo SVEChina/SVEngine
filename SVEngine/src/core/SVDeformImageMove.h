@@ -78,6 +78,9 @@ namespace sv {
             SVRenderTexturePtr m_fbo;
             bool is_swith;
             bool m_flip;
+            
+            SVTexturePtr m_pPointTex;
+            void createPointMesh();
         };
 
     }//!namespace util
