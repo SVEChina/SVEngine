@@ -6,12 +6,12 @@
 //
 
 #include "SVParseSprite.h"
-#include "SVDataNode.h"
+#include "../node/SVSpriteNode.h"
 SVNodePtr
 SVParseSprite::parseSprite(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _resid, cptr8 _path) {
-    SVDataNodeSpritePtr t_spriteData = MakeSharedPtr<SVDataNodeSprite>(_app);
-    t_spriteData->fromJSON(item);
-    t_spriteData->m_root_path = _path;
-    return t_spriteData->toNode();
+    SVSpriteNodePtr t_spriteNode = MakeSharedPtr<SVSpriteNode>(_app);
+    t_spriteNode->m_rootPath = _path;
+    t_spriteNode->fromJSON(item);
+    return t_spriteNode;
 }
 

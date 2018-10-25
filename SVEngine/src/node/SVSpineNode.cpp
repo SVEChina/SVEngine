@@ -384,19 +384,15 @@ void SVSpineNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     _toJsonData(_allocator, locationObj);
     //
     locationObj.AddMember("aniname", RAPIDJSON_NAMESPACE::StringRef(m_cur_aniname.c_str()), _allocator);
-    locationObj.AddMember("loop", m_loop, _allocator);
     bool m_hasSpine = false;
     if(m_spine){
-        m_hasSpine = true;
-    }
-    locationObj.AddMember("spine", m_hasSpine, _allocator);
-    if(m_spine){
         //有spine
-        SVString t_atlas = m_spine->m_spine_atlas;
-        SVString t_json = m_spine->m_spine_json;
-        locationObj.AddMember("ske_atlas", RAPIDJSON_NAMESPACE::StringRef(t_atlas.c_str()), _allocator);
-        locationObj.AddMember("ske_json", RAPIDJSON_NAMESPACE::StringRef(t_json.c_str()), _allocator);
+        m_hasSpine = true;
+        locationObj.AddMember("ske_atlas", RAPIDJSON_NAMESPACE::StringRef(m_spine->m_spine_atlas.c_str()), _allocator);
+        locationObj.AddMember("ske_json", RAPIDJSON_NAMESPACE::StringRef(m_spine->m_spine_json.c_str()), _allocator);
     }
+    locationObj.AddMember("loop", m_loop, _allocator);
+    locationObj.AddMember("spine", m_hasSpine, _allocator);
     _objValue.AddMember("SVSpineNode", locationObj, _allocator);
 }
 
@@ -421,6 +417,14 @@ void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
         }
         if (item.HasMember("ske_json") && item["ske_json"].IsString()) {
             t_json = item["ske_json"].GetString();
+        }
+        SVSpinePtr t_spine = SVSpine::createSpine(mApp, m_rootPath + t_json, m_rootPath + t_atlas, 1.0f);
+        if ( t_spine ) {
+            s32 len = t_atlas.size();
+            s32 pos = t_atlas.rfind('.');
+            SVString t_spineName = SVString::substr(t_atlas.c_str(), 0, pos);
+            t_spine->setSpineName(t_spineName.c_str());
+            setSpine(t_spine);
         }
     }
 }

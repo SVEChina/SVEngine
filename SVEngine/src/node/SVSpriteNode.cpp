@@ -161,7 +161,9 @@ void SVSpriteNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocat
     _toJsonData(_allocator, locationObj);
     locationObj.AddMember("spriteW", m_width, _allocator);
     locationObj.AddMember("spriteH", m_height, _allocator);
-    locationObj.AddMember("file", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
+    s32 pos = m_pTexName.rfind('/');
+    SVString t_textureName = SVString::substr(m_pTexName.c_str(), pos+1);
+    locationObj.AddMember("texture", RAPIDJSON_NAMESPACE::StringRef(t_textureName.c_str()), _allocator);
     locationObj.AddMember("textype", s32(m_inTexType), _allocator);
     _objValue.AddMember("SVSpriteNode", locationObj, _allocator);
 }
@@ -174,8 +176,10 @@ void SVSpriteNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("spriteH") && item["spriteH"].IsInt()) {
         m_height = item["spriteH"].GetInt();
     }
-    if (item.HasMember("file") && item["file"].IsString()) {
-        m_pTexName = item["file"].GetString();
+    if (item.HasMember("texture") && item["texture"].IsString()) {
+        SVString t_textureName = item["texture"].GetString();
+        SVString t_texturePath = m_rootPath + t_textureName;
+        setTexture(t_texturePath.c_str());
     }
     if (item.HasMember("textype") && item["textype"].IsInt()) {
         m_inTexType = SVTEXTYPE(item["textype"].GetInt());
