@@ -46,6 +46,12 @@ namespace sv {
             
             void setMesh(SVRenderMeshPtr _mesh);
             
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+            
+            SVString m_rootPath;
         protected:
             f32 m_width;
             f32 m_height;
@@ -57,11 +63,6 @@ namespace sv {
             SVTexturePtr m_pTex;
             SVRenderMeshPtr m_pMesh;
             SVRenderObjectPtr m_pRenderObj;
-            
-            //序列化接口
-            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
 
     }//!namespace node
