@@ -49,6 +49,7 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_inh=10;
     m_flip = false;
     is_swith = true;
+    m_is_point=false;
 }
 
 SVDeformImageMove::~SVDeformImageMove(){
@@ -220,7 +221,7 @@ void SVDeformImageMove::render(){
                 t_cmd->addMtlMesh(m_passDeform->m_pMtl,mApp->getDataMgr()->m_screenMesh);
             }
             //t_cmd->setMaterial(m_passDeform->m_pMtl);
-            if(m_passPoint->m_pMtl){
+            if(m_passPoint->m_pMtl&&m_is_point){
                  t_cmd->addMtlMesh(m_passPoint->m_pMtl,m_passPoint->m_pMesh);
             }
             t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);//m_rsType

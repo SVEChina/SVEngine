@@ -51,6 +51,10 @@ namespace sv {
             
             void reset();
             
+            void setvisiPoint(bool _ispoint){
+                m_is_point = _ispoint;
+            }
+            
             virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                                 RAPIDJSON_NAMESPACE::Value &_objValue);
             
@@ -83,6 +87,7 @@ namespace sv {
             SVRenderTexturePtr m_fbo;
             bool is_swith;
             bool m_flip;
+            bool m_is_point;
             
             SVTexturePtr m_pPointTex;
             SVRenderMeshPtr m_pMeshPoint;
