@@ -6,14 +6,13 @@
 //
 
 #include "SVParseAnimate.h"
-#include "SVDataNode.h"
+#include "../node/SVSpineNode.h"
 SVNodePtr
 SVParseAnimate::parseAnim(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _resid, cptr8 _path) {
-    
-    SVDataNodeSpinePtr t_spineData = MakeSharedPtr<SVDataNodeSpine>(_app);
-    t_spineData->fromJSON(item);
-    t_spineData->m_root_path = _path;
-    return t_spineData->toNode();
+    SVSpineNodePtr t_spineNode = MakeSharedPtr<SVSpineNode>(_app);
+    t_spineNode->m_rootPath = _path;
+    t_spineNode->fromJSON(item);
+    return t_spineNode;
 }
 
 

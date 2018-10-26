@@ -77,33 +77,6 @@ namespace sv {
             void _toNodeData(SVNodePtr _node);
         };
         
-        class SVDataNodeSpine : public SVDataNode{
-        public:
-            SVDataNodeSpine(SVInst *_app);
-            
-            ~SVDataNodeSpine();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-            void refreshIn(SVSpineNodePtr _spineNode);
-            
-            void refreshOut(SVSpineNodePtr _spineNode);
-            
-            SVString m_root_path;
-            
-            SVString m_name_json;
-            
-            SVString m_name_altas;
-            
-            SVString m_animation;
-            
-            bool     m_loop;
-        };
-        
         //带变脸的背景节点
         class SVDataNodeDeform : public SVDataNode {
         public:
@@ -174,31 +147,6 @@ namespace sv {
             SVString m_content;
             
             BITFONT_ATCH_PT m_type;
-        };
-        
-        class SVDataNodeSprite : public SVDataNode{
-        public:
-            SVDataNodeSprite(SVInst *_app);
-            
-            ~SVDataNodeSprite();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-            void refreshIn(SVSpriteNodePtr _spriteNode);
-            
-            void refreshOut(SVSpriteNodePtr _spriteNode);
-            
-            SVString m_root_path;
-            
-            SVString m_file_name;
-            
-            s32 m_spriteW;
-            
-            s32 m_spriteH;
         };
         
         class SVDataNodeBackGround : public SVDataNode{
