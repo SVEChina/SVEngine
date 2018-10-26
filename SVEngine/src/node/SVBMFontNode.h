@@ -56,6 +56,11 @@ namespace sv {
             BITFONT_ATCH_PT getAtcPt();
             
             virtual void setAlpha(f32 _alpha);
+            
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &_item);
         private:
             void _genMesh();
             void _refreshTexcoords();

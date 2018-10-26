@@ -27,6 +27,8 @@ namespace sv {
             void init();
             
             void setTextEncoding(SVFONTTEXTENCODING _encoding);
+            
+            SVFONTTEXTENCODING getTextEncoding();
         protected:
             
         protected:

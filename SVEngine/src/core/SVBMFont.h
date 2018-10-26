@@ -74,6 +74,8 @@ namespace sv {
             s16 m_scaleH;
             
             s16 m_pages;
+            
+            SVString m_fntName;
         protected:
             s32 _getTextLength(cptr8 _text);
             f32 _adjustForKerningPairs(s32 _first, s32 _second);

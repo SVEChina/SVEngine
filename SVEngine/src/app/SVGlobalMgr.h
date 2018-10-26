@@ -27,6 +27,7 @@ namespace sv {
         virtual void update(f32 dt);
         
         void timeTag(bool _clear,cptr8 _tag);
+        
     public:
         //文件部分
         SVFileMgrPtr m_pFileMgr;
