@@ -23,6 +23,10 @@ SVBMFontLoader::~SVBMFontLoader() {
 }
 
 void SVBMFontLoader::loadData(cptr8 _fontFile, SVBMFontPtr _font) {
+    if (!_font) {
+        return;
+    }
+    _font->m_fntName = _fontFile;
     // Load the font
     SVString t_fullname = mApp->getFileMgr()->getFileFullName(_fontFile);
     if (strcmp(t_fullname.c_str(), "") == 0) return;

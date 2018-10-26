@@ -371,3 +371,41 @@ void SVBMFontNode::_refreshTexcoords(){
     }
 
 }
+
+//序列化接口
+void SVBMFontNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+    _toJsonData(_allocator, _objValue);
+    _objValue.AddMember("fntname", RAPIDJSON_NAMESPACE::StringRef(m_font->m_fntName.c_str()), _allocator);
+    _objValue.AddMember("content", RAPIDJSON_NAMESPACE::StringRef(m_text.c_str()), _allocator);
+    _objValue.AddMember("encode", s32(m_font->getTextEncoding()), _allocator);
+    _objValue.AddMember("fontw", m_fontW, _allocator);
+    _objValue.AddMember("fonth", m_fontH, _allocator);
+    _objValue.AddMember("space", m_fontH, _allocator);
+    _objValue.AddMember("alignment", s32(m_atchType), _allocator);
+    _objValue.AddMember("encode", s32(m_font->getTextEncoding()), _allocator);
+}
+
+void SVBMFontNode::fromJSON(RAPIDJSON_NAMESPACE::Value &_item){
+    _fromJsonData(_item);
+    if (_item.HasMember("fntname") && _item["fntname"].IsString()) {
+        SVString t_textureName = _item["fntname"].GetString();
+    }
+    if (_item.HasMember("content") && _item["content"].IsString()) {
+        m_text = _item["content"].GetString();
+    }
+    if (_item.HasMember("encode") && _item["encode"].IsInt()) {
+        m_font->setTextEncoding(SVFont::SVFONTTEXTENCODING(_item["encode"].GetInt()));
+    }
+    if (_item.HasMember("fontw") && _item["fontw"].IsFloat()) {
+        m_fontW = _item["fontw"].GetFloat();
+    }
+    if (_item.HasMember("fonth") && _item["fonth"].IsFloat()) {
+        m_fontH = _item["fonth"].GetFloat();
+    }
+    if (_item.HasMember("space") && _item["space"].IsFloat()) {
+        m_spacing = _item["space"].GetFloat();
+    }
+    if (_item.HasMember("alignment") && _item["alignment"].IsInt()) {
+        m_atchType = BITFONT_ATCH_PT(_item["alignment"].GetInt());
+    }
+}

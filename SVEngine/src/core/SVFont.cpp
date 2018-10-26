@@ -23,3 +23,6 @@ void SVFont::setTextEncoding(SVFONTTEXTENCODING _encoding){
     m_encoding = _encoding;
 }
 
+SVFont::SVFONTTEXTENCODING SVFont::getTextEncoding(){
+    return m_encoding;
+}
