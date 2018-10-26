@@ -191,15 +191,13 @@ void SVOpCreateTest::_process(f32 dt) {
 //        t_pScene->addNode(t_testFreetype);
         
         //
-//        SVBMFontPtr m_font = MakeSharedPtr<SVBMFont>(mApp);
-//        SVBMFontLoader t_loder(mApp);
-//        t_loder.loadData("svres/fonttest.fnt", m_font);
+//        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
+//        file = [file stringByAppendingPathComponent:@"svres/chineses.fnt"];
+//        SVBMFontPtr m_font = SVBMFont::creatFnt([file UTF8String], mApp);
 //        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
 //        bmNode->setFont(m_font);
 //        bmNode->setText("丹分化以什");
 //        bmNode->setSpacing(20);
-//        bmNode->setPosition(0, 0, 0);
-////        bmNode->setScale(0.1, 0.1, 1.0);
 //        t_pScene->addNode(bmNode);
         
     }
