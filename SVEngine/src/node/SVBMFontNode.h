@@ -55,6 +55,8 @@ namespace sv {
             
             BITFONT_ATCH_PT getAtcPt();
             
+            SVBMFontPtr getFont();
+            
             virtual void setAlpha(f32 _alpha);
             
             //序列化接口

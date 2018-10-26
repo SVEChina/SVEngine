@@ -23,6 +23,7 @@
 //
 SVBMFontNode::SVBMFontNode(SVInst *_app)
 :SVNode(_app) {
+    ntype = "SVBMFontNode";
     m_font = nullptr;
     m_textDirty = true;
     m_textSize = 0;
@@ -126,6 +127,10 @@ f32 SVBMFontNode::getSpacing(){
     return m_spacing;
 }
 
+SVBMFontPtr SVBMFontNode::getFont(){
+    return m_font;
+}
+
 void SVBMFontNode::setAtcPt(BITFONT_ATCH_PT _type){
     m_atchType = _type;
     m_textDirty = true;
@@ -180,6 +185,8 @@ void SVBMFontNode::_refresh(){
         t_offx = t_total_w;
         t_offy = t_total_h;
     }
+    
+    m_aabbBox.clear();
     //顶点数据
     V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];
     //更新每个字符的的纹理坐标
@@ -192,6 +199,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 0].g = 255;
         tVerts[i * 6 + 0].b = 255;
         tVerts[i * 6 + 0].a = 255*m_alpha;
+        m_aabbBox.expand(FVec3(tVerts[i * 6 + 0].x,tVerts[i * 6 + 0].y, 0.0));
         //
         tVerts[i * 6 + 1].x = m_fontW*(i+1) + m_spacing*i - t_offx;
         tVerts[i * 6 + 1].y = -t_offy;
@@ -201,6 +209,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 1].g = 255;
         tVerts[i * 6 + 1].b = 255;
         tVerts[i * 6 + 1].a = 255*m_alpha;
+        m_aabbBox.expand(FVec3(tVerts[i * 6 + 1].x,tVerts[i * 6 + 1].y, 0.0));
         //
         tVerts[i * 6 + 2].x = (m_fontW + m_spacing)*i - t_offx;
         tVerts[i * 6 + 2].y = m_fontH - t_offy;
@@ -210,6 +219,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 2].g = 255;
         tVerts[i * 6 + 2].b = 255;
         tVerts[i * 6 + 2].a = 255*m_alpha;
+        m_aabbBox.expand(FVec3(tVerts[i * 6 + 2].x,tVerts[i * 6 + 2].y, 0.0));
         //
         tVerts[i * 6 + 3].x = (m_fontW + m_spacing)*i - t_offx;
         tVerts[i * 6 + 3].y = m_fontH - t_offy;
@@ -219,6 +229,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 3].g = 255;
         tVerts[i * 6 + 3].b = 255;
         tVerts[i * 6 + 3].a = 255*m_alpha;
+        m_aabbBox.expand(FVec3(tVerts[i * 6 + 3].x,tVerts[i * 6 + 3].y, 0.0));
         //
         tVerts[i * 6 + 4].x = m_fontW*(i+1) + m_spacing*i - t_offx;
         tVerts[i * 6 + 4].y = - t_offy;
@@ -228,6 +239,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 4].g = 255;
         tVerts[i * 6 + 4].b = 255;
         tVerts[i * 6 + 4].a = 255*m_alpha;
+        m_aabbBox.expand(FVec3(tVerts[i * 6 + 4].x,tVerts[i * 6 + 4].y, 0.0));
         //
         tVerts[i * 6 + 5].x = m_fontW*(i+1) + m_spacing*i - t_offx;
         tVerts[i * 6 + 5].y = m_fontH - t_offy;
@@ -237,6 +249,7 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 5].g = 255;
         tVerts[i * 6 + 5].b = 255;
         tVerts[i * 6 + 5].a = 255*m_alpha;
+        m_aabbBox.expand(FVec3(tVerts[i * 6 + 5].x,tVerts[i * 6 + 5].y, 0.0));
     }
     //
     if (t_Len < SV_BMFONT_MAX_NUM) {

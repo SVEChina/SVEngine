@@ -22,6 +22,7 @@
 //
 SVBitFontNode::SVBitFontNode(SVInst *_app)
 :SVNode(_app) {
+    ntype = "SVBitFontNode";
     m_texture = nullptr;
     m_fontDirty = false;
     m_FontWidth = 64.0f;    //物理尺寸宽高

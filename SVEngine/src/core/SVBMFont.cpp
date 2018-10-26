@@ -11,8 +11,15 @@
 #include "../mtl/SVTexture.h"
 #include "../app/SVInst.h"
 #include "../file/SVFileMgr.h"
-#include <iostream>
-#include <string>
+#include "../file/SVBMFontLoader.h"
+
+SVBMFontPtr SVBMFont::creatFnt(cptr8 _filePath, SVInst *_app){
+    SVBMFontPtr font = MakeSharedPtr<SVBMFont>(_app);
+    SVBMFontLoader t_loder(_app);
+    t_loder.loadData(_filePath, font);
+    return font;
+}
+
 SVBMFont::SVBMFont(SVInst *_app)
 :SVFont(_app) {
     m_defChar.charID = 10000000;

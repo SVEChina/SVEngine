@@ -11,8 +11,6 @@
 #include "../mtl/SVTexMgr.h"
 #include "../app/SVInst.h"
 #include "../core/SVBMFont.h"
-#include <string.h>
-#include <stdio.h>
 SVBMFontLoader::SVBMFontLoader(SVInst *_app)
 :SVFileLoader(_app) {
 
@@ -28,7 +26,7 @@ void SVBMFontLoader::loadData(cptr8 _fontFile, SVBMFontPtr _font) {
     }
     _font->m_fntName = _fontFile;
     // Load the font
-    SVString t_fullname = mApp->getFileMgr()->getFileFullName(_fontFile);
+    SVString t_fullname = _fontFile;
     if (strcmp(t_fullname.c_str(), "") == 0) return;
     FILE *f = fopen(t_fullname.c_str(), "rb");
     // Determine format by reading the first bytes of the file
