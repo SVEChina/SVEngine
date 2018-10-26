@@ -49,6 +49,8 @@ namespace sv {
             
             void updatePointMesh( V2* _facepoint);
             
+            void reset();
+            
             virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                                 RAPIDJSON_NAMESPACE::Value &_objValue);
             

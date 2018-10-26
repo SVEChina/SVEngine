@@ -107,7 +107,6 @@ void SVDeformImageMove::updatePointMSL(){
     if(m_dataPoint){
         m_pIUMP->clearContrl();
         pointMove(m_dataPoint);
-        updatePointMesh(m_dataPoint);
     }
 }
 
@@ -360,6 +359,12 @@ void SVDeformImageMove::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
             m_pointMap.append(t_postion,t_point);
         }
     }
+}
+
+void SVDeformImageMove::reset(){
+    m_pointMap.clear();
+    updatePointMSL();
+    updatePointMesh(m_dataPoint);
 }
 
 void SVDeformImageMove::updatePointMesh( V2* _facepoint){
