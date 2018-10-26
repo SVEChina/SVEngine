@@ -32,7 +32,7 @@ SVFaceDetectPointNode::~SVFaceDetectPointNode(){
     m_pMesh = nullptr;
     m_pRenderObj = nullptr;
     m_pMtl = nullptr;
-     m_pTex = mApp->getTexMgr()->getTextureSync("svres/point.png",true);
+    m_pTex =nullptr;
 }
 
 void SVFaceDetectPointNode::setTexture(SVTexturePtr _tex){

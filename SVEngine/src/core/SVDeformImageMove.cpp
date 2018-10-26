@@ -34,14 +34,19 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
 :SVGBase(_app){
     m_pMtlBg  = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_pIUMP    = MakeSharedPtr<SVImageUsingMove>();
+    m_pPointTex = mApp->getTexMgr()->getTextureSync("svres/point.png",true);;
     m_passDeform = nullptr;
+    m_passPoint = nullptr;
     m_pMeshBg = nullptr;
+    m_pMeshPoint = mApp->getRenderMgr()->createMeshRObj();;
     m_tt_w = 0;
     m_tt_h = 0;
     m_dataPoint = nullptr;
     m_fbo = nullptr;
     m_wPointCount = 30;
     m_hPointCont = 80;
+    m_inw=10;
+    m_inh=10;
     m_flip = false;
     is_swith = true;
 }
@@ -78,6 +83,19 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passDeform->setMesh(m_pMeshBg);
         m_passDeform->setInTex(0,_intex);
         m_passDeform->setOutTex(_texout);
+        
+        m_passPoint = MakeSharedPtr<SVPass>();
+        SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d");
+        t_mtl->setBlendEnable(false);
+        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        t_mtl->setTexcoordFlip(1.0, -1.0);
+        t_mtl->setBlendEnable(true);
+        t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+ 
+        m_passPoint->setMtl(t_mtl);
+        m_passPoint->setMesh(m_pMeshPoint);
+        m_passPoint->setInTex(0,m_pPointTex);
+        m_passPoint->setOutTex(_texout);
     }
 }
 
@@ -89,6 +107,7 @@ void SVDeformImageMove::updatePointMSL(){
     if(m_dataPoint){
         m_pIUMP->clearContrl();
         pointMove(m_dataPoint);
+        updatePointMesh(m_dataPoint);
     }
 }
 
@@ -147,7 +166,7 @@ void SVDeformImageMove::_refreshScreenRectMesh(V2 *_data,V2 *_targetData){
             f32 y= _targetData[i].y/m_tt_h;
             f32 t_x= _data[i].x/m_tt_w;
             f32 t_y= _data[i].y/m_tt_h;
-            pVer[i].x = 1.0-x*2.0;
+            pVer[i].x = x*2.0-1.0;
             pVer[i].y = y*2.0-1.0;
             pVer[i].t0x = t_x;
             pVer[i].t0y = t_y;
@@ -172,18 +191,22 @@ void SVDeformImageMove::update(f32 _dt){
     if(m_passDeform && m_passDeform->m_pMtl){
         m_passDeform->m_pMtl->update(_dt);
     }
+    
+    if(m_passPoint && m_passPoint->m_pMtl){
+        m_passPoint->m_pMtl->update(_dt);
+    }
 }
 
 void SVDeformImageMove::render(){
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (is_swith && t_rs && false  == t_rs->isSuspend() ) {
         if(m_passDeform->m_pMtl){
-            SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
+            SVRenderCmdPassCollectionPtr t_cmd = MakeSharedPtr<SVRenderCmdPassCollection>();
             t_cmd->mTag = "SVBackGroundNode";
             t_cmd->setFbo(m_fbo);
             //图片翻转这块需要校正一下 by fyz
             if(m_pMtlBg){
-                m_pMtlBg->setTexcoordFlip(-1.0f, 1.0f);
+                m_pMtlBg->setTexcoordFlip(1.0f, 1.0f);
             }
             //
             if( m_passDeform->m_outTexType == E_TEX_END ) {
@@ -193,13 +216,26 @@ void SVDeformImageMove::render(){
                 t_cmd->setTexture(t_tex);
             }
             if(m_passDeform->m_pMesh){
-                t_cmd->setMesh(m_passDeform->m_pMesh);
+                t_cmd->addMtlMesh(m_passDeform->m_pMtl,m_passDeform->m_pMesh);
             }else{
-                t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
+                t_cmd->addMtlMesh(m_passDeform->m_pMtl,mApp->getDataMgr()->m_screenMesh);
             }
-            t_cmd->setMaterial(m_passDeform->m_pMtl);
+            //t_cmd->setMaterial(m_passDeform->m_pMtl);
+            if(m_passPoint->m_pMtl){
+                 t_cmd->addMtlMesh(m_passPoint->m_pMtl,m_passPoint->m_pMesh);
+            }
             t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);//m_rsType
         }
+//
+//        if(m_passPoint->m_pMtl){
+//            SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
+//            t_cmd->mTag = "SVBackGroundNode";
+//            t_cmd->setFbo(m_fbo);
+//            t_cmd->setTexture(m_passPoint->m_outTex);
+//            t_cmd->setMesh(m_passPoint->m_pMesh);
+//            t_cmd->setMaterial(m_passPoint->m_pMtl);
+//            t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);//m_rsType
+//        }
     }
 }
 
@@ -326,6 +362,50 @@ void SVDeformImageMove::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     }
 }
 
-void SVDeformImageMove::createPointMesh(){
-    
+void SVDeformImageMove::updatePointMesh( V2* _facepoint){
+    V2_T0 verts[636];
+    for(s32 i=0;i<106;i++){
+        f32 _inx=_facepoint[i].x;
+        f32 _iny=_facepoint[i].y;
+        f32 _x=_inx-m_tt_w/2;
+        f32 _y=_iny-m_tt_h/2;
+        //   V2_T0 verts[4];
+        verts[i*6].x = -0.5f * m_inw+_x;
+        verts[i*6].y = -0.5f * m_inh+_y;
+        verts[i*6].t0x = 0.0;
+        verts[i*6].t0y = 0.0;
+        
+        verts[i*6+1].x = 0.5f * m_inw+_x;
+        verts[i*6+1].y = -0.5f * m_inh+_y;
+        verts[i*6+1].t0x = 1.0;
+        verts[i*6+1].t0y = 0.0;
+        
+        verts[i*6+2].x = -0.5f * m_inw+_x;
+        verts[i*6+2].y = 0.5f * m_inh+_y;
+        verts[i*6+2].t0x = 0.0;
+        verts[i*6+2].t0y = 1.0;
+        
+        verts[i*6+3].x = -0.5f * m_inw+_x;
+        verts[i*6+3].y = 0.5f * m_inh+_y;
+        verts[i*6+3].t0x = 0.0;
+        verts[i*6+3].t0y = 1.0;
+        
+        verts[i*6+4].x = 0.5f * m_inw+_x;
+        verts[i*6+4].y = 0.5f * m_inh+_y;
+        verts[i*6+4].t0x = 1.0;
+        verts[i*6+4].t0y = 1.0;
+        
+        verts[i*6+5].x = 0.5f * m_inw+_x;
+        verts[i*6+5].y = -0.5f * m_inh+_y;
+        verts[i*6+5].t0x = 1.0;
+        verts[i*6+5].t0y = 0.0;
+        //
+        SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
+        t_data->writeData(&verts[0], sizeof(V2_T0) * 636);
+        m_pMeshPoint->setVertexDataNum(636);
+        m_pMeshPoint->setVertexData(t_data);
+        m_pMeshPoint->setVertexType(E_VF_V2_T0);
+        m_pMeshPoint->setDrawMethod(E_DM_TRIANGLES);
+        m_pMeshPoint->createMesh();
+    }
 }

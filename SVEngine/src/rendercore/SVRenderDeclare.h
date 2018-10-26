@@ -78,6 +78,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVRenderCmdAABB);
         DECLARE_SHAREPTR(SVRenderCmdNor);
         DECLARE_SHAREPTR(SVRenderCmdPass);
+        DECLARE_SHAREPTR(SVRenderCmdPassCollection);
         DECLARE_SHAREPTR(SVRenderCmdFboBind);
         DECLARE_SHAREPTR(SVRenderCmdClear);
         DECLARE_SHAREPTR(SVRenderCmdAdapt);

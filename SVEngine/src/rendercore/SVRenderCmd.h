@@ -109,7 +109,7 @@ namespace sv {
 
             virtual void render();
             
-            void setFbo(SVRenderTexturePtr _tex);
+            void setFbo(SVRenderTexturePtr _fbo);
             
             void setTexture(SVTexturePtr _tex);
             
@@ -117,6 +117,30 @@ namespace sv {
             SVRenderTexturePtr m_fbo;
             
             SVTexturePtr m_tex;
+        };
+        
+        //多批次渲染命令集合
+        class SVRenderCmdPassCollection : public SVRenderCmdNor {
+        public:
+            SVRenderCmdPassCollection();
+            
+            ~SVRenderCmdPassCollection();
+            
+            virtual void render();
+            
+            void setFbo(SVRenderTexturePtr _fbo);
+            
+            void setTexture(SVTexturePtr _tex);
+            
+            void addMtlMesh(SVMtlCorePtr _mtl , SVRenderMeshPtr _mesh);
+            
+        protected:
+            SVRenderTexturePtr m_fbo;
+            
+            SVTexturePtr m_tex;
+            
+            SVArray<SVMtlCorePtr> m_MtlArray;
+            SVArray<SVRenderMeshPtr> m_MeshArray;
         };
         
         //FBO绑定(推送FBO)

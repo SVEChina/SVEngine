@@ -162,6 +162,51 @@ void SVRenderCmdPass::render() {
     }
 }
 
+SVRenderCmdPassCollection::SVRenderCmdPassCollection(){
+    m_fbo = nullptr;
+    m_tex = nullptr;
+    m_MtlArray.clear();
+    m_MeshArray.clear();
+}
+
+SVRenderCmdPassCollection::~SVRenderCmdPassCollection(){
+    m_fbo = nullptr;
+    m_tex = nullptr;
+    m_MtlArray.clear();
+    m_MeshArray.clear();
+}
+
+void SVRenderCmdPassCollection::render(){
+    if(m_fbo && m_tex ) {
+        m_fbo->setTexture(m_tex);
+        m_fbo->bind();
+        m_fbo->clear();
+        for(int i=0;i<m_MtlArray.size();i++){
+            SVMtlCorePtr t_mtl = m_MtlArray.get(i);
+            SVRenderMeshPtr t_mesh = m_MeshArray.get(i);
+            if(t_mtl && t_mesh) {
+                if (t_mtl->submitMtl()) {
+                    t_mesh->render();
+                }
+            }
+        }
+        m_fbo->unbind();
+    }
+}
+
+void SVRenderCmdPassCollection::setFbo(SVRenderTexturePtr _fbo){
+    m_fbo = _fbo;
+}
+
+void SVRenderCmdPassCollection::setTexture(SVTexturePtr _tex){
+    m_tex = _tex;
+}
+
+void SVRenderCmdPassCollection::addMtlMesh(SVMtlCorePtr _mtl , SVRenderMeshPtr _mesh){
+    m_MtlArray.append(_mtl);
+    m_MeshArray.append(_mesh);
+}
+
 //激活FBO(fbo static)
 SVRenderCmdFboBind::SVRenderCmdFboBind(SVFboObjectPtr _fbo) {
     m_fbo = _fbo;

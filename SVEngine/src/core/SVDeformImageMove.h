@@ -47,6 +47,8 @@ namespace sv {
             
             void setDeformSwitch(bool _swith);
             
+            void updatePointMesh( V2* _facepoint);
+            
             virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                                 RAPIDJSON_NAMESPACE::Value &_objValue);
             
@@ -74,13 +76,17 @@ namespace sv {
             s32 m_hPointCont;
             
             SVPassPtr m_passDeform;
+            SVPassPtr m_passPoint;
             //
             SVRenderTexturePtr m_fbo;
             bool is_swith;
             bool m_flip;
             
             SVTexturePtr m_pPointTex;
-            void createPointMesh();
+            SVRenderMeshPtr m_pMeshPoint;
+            s32 m_inw;
+            s32 m_inh;
+       
         };
 
     }//!namespace util
