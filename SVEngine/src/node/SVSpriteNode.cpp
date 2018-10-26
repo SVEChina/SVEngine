@@ -176,6 +176,7 @@ void SVSpriteNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("spriteH") && item["spriteH"].IsInt()) {
         m_height = item["spriteH"].GetInt();
     }
+    setSpriteSize(m_width, m_height);
     if (item.HasMember("texture") && item["texture"].IsString()) {
         SVString t_textureName = item["texture"].GetString();
         SVString t_texturePath = m_rootPath + t_textureName;
