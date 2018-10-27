@@ -110,7 +110,7 @@ void SVFrameOutRead::update(f32 _dt){
         m_pMtl->setModelMatrix(m_absolutMat.get());
         m_pMtl->setTexture(0,E_TEX_MAIN);    //那第一张纹理
         m_pMtl->setBlendEnable(false);
-        m_pMtl->setTexcoordFlip(1.0f, 1.0f);
+        m_pMtl->setTexcoordFlip(1.0f, -1.0f);
         m_pMtl->update(_dt);
     }
 }
@@ -125,7 +125,7 @@ void SVFrameOutRead::render(){
         t_cmd->setParam(m_fbo,t_out_tex,m_pDataSwap,nullptr);
         t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
         t_cmd->setMaterial(m_pMtl->clone());
-        t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);
+        t_rs->pushRenderCmd(RST_MAGIC_END, t_cmd);
     }
 }
 
