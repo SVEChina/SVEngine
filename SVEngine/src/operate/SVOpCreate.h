@@ -138,42 +138,6 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
-    
-    //加载红心飘游戏资源
-    class SVOpLoadHeartFlutter : public SVOpBase {
-    public:
-        SVOpLoadHeartFlutter(SVInst *_app, cptr8 pStrPath);
-        
-        ~SVOpLoadHeartFlutter();
-        
-    protected:
-        void _process(f32 dt);
-        
-        SVString m_strPath;
-    };
-    //开始红心游戏
-    class SVOpBeginHeartFlutter : public SVOpBase {
-    public:
-        SVOpBeginHeartFlutter(SVInst *_app, cptr8 pStrPath);
-        
-        ~SVOpBeginHeartFlutter();
-        
-    protected:
-        void _process(f32 dt);
-        
-        SVString m_strPath;
-    };
-    
-    //红心消失
-    class SVOpDisappearHeartFlutter : public SVOpBase {
-    public:
-        SVOpDisappearHeartFlutter(SVInst *_app);
-        
-        ~SVOpDisappearHeartFlutter();
-        
-    protected:
-        void _process(f32 dt);
-    };
 }//!namespace sv
 
 
