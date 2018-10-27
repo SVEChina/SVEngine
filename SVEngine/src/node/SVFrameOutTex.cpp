@@ -1,11 +1,11 @@
 //
-// SVTransTexNode.cpp
+// SVFrameOutTex.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVTransTexNode.h"
+#include "SVFrameOutTex.h"
 #include "SVCameraNode.h"
 #include "SVScene.h"
 #include "../basesys/SVSceneMgr.h"
@@ -23,9 +23,9 @@
 #include "../core/SVGeoGen.h"
 
 
-SVTransTexNode::SVTransTexNode(SVInst *_app)
+SVFrameOutTex::SVFrameOutTex(SVInst *_app)
 :SVFrameOutNode(_app){
-    ntype = "SVTransTexNode";
+    ntype = "SVFrameOutTex";
     m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
     m_pMesh = mApp->getDataMgr()->m_screenMesh;
     //
@@ -40,13 +40,13 @@ SVTransTexNode::SVTransTexNode(SVInst *_app)
     }
 }
 
-SVTransTexNode::~SVTransTexNode(){
+SVFrameOutTex::~SVFrameOutTex(){
     m_fbo = nullptr;
     m_pMtl = nullptr;
     m_pMesh= nullptr;
 }
 
-void SVTransTexNode::update(f32 _dt){
+void SVFrameOutTex::update(f32 _dt){
     SVNode::update(_dt);
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(m_pMtl){
@@ -58,19 +58,19 @@ void SVTransTexNode::update(f32 _dt){
     }
 }
 
-s32 SVTransTexNode::getTexId(){
+s32 SVFrameOutTex::getTexId(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVTexturePtr t_out_tex = t_renderer->getSVTex(E_TEX_OUTSTREAM);
     return t_out_tex->getTexID();
 }
 
-void SVTransTexNode::render(){
+void SVFrameOutTex::render(){
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVTexturePtr t_out_tex = t_renderer->getSVTex(E_TEX_OUTSTREAM);
     if (t_rs && false  == t_rs->isSuspend() ) {
                 SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
-                t_cmd->mTag = "SVTransTexNode";
+                t_cmd->mTag = "SVFrameOutTex";
                 t_cmd->setFbo(m_fbo);
                 t_cmd->setTexture(t_out_tex);
                 t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);

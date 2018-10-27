@@ -9,9 +9,9 @@
 #include "../app/SVInst.h"
 #include "../app/SVGlobalMgr.h"
 #include "../base/SVLock.h"
-#include "../node/SVIOSOutstreamNode.h"
+#include "../node/SVFrameOutIOS.h"
 #include "../node/SVScene.h"
-#include "../node/SVTransTexNode.h"
+#include "../node/SVFrameOutTex.h"
 #include "../basesys/SVSceneMgr.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderScene.h"
@@ -62,8 +62,8 @@ void SVStreamOut::openOutStream() {
         
     }else if( m_outMethod == E_OUT_M_IOS) {
 #ifdef SV_IOS
-        m_pFrameOut = MakeSharedPtr<SVIOSOutstreamNode>(mApp);
-        SVIOSOutstreamNodePtr t_streamNode = std::dynamic_pointer_cast<SVIOSOutstreamNode>(m_pFrameOut);
+        m_pFrameOut = MakeSharedPtr<SVFrameOutIOS>(mApp);
+        SVFrameOutIOSPtr t_streamNode = std::dynamic_pointer_cast<SVFrameOutIOS>(m_pFrameOut);
         if( t_streamNode ) {
             t_streamNode->init(m_outFormat,m_outWidth,m_outHeight);
             if (_steamType) {
@@ -73,7 +73,7 @@ void SVStreamOut::openOutStream() {
 #endif
     }else if( m_outMethod == E_OUT_M_ANDRIOD) {
 #ifdef SV_ANDROID
-        m_pFrameOut = MakeSharedPtr<SVTransTexNode>(mApp);
+        m_pFrameOut = MakeSharedPtr<SVFrameOutTex>(mApp);
 #endif
     }
 }
@@ -85,6 +85,37 @@ void SVStreamOut::closeOutStream() {
 
 bool SVStreamOut::isOpen() {
     return false;
+}
+
+s32 SVStreamOut::getOutWidth() {
+    return m_outWidth;
+}
+
+s32 SVStreamOut::getOutHeight() {
+    return m_outHeight;
+}
+
+s32 SVStreamOut::getOutFormat() {
+    return m_outFormat;
+}
+
+void SVStreamOut::lockData() {
+    if(m_pFrameOut) {
+        
+    }
+}
+
+void SVStreamOut::unlockData() {
+    if(m_pFrameOut) {
+        
+    }
+}
+
+void* SVStreamOut::getOutData() {
+    if(m_pFrameOut) {
+        //m_pFrameOut->getData();
+    }
+    return nullptr;
 }
 
 //改变输出流方式
@@ -115,16 +146,14 @@ void SVStreamOut::changeOutMethod(OUTMETHOD _method) {
 
 //
 void SVStreamOut::_refreshOutStream() {
-    
 }
 
 //
-
 void SVStreamOut::createOutStream(cptr8 _name, s32 _type, s32 _format, s32 _steamType) {
     if(_type == 0){
 #ifdef SV_IOS
-        m_pFrameOut = MakeSharedPtr<SVIOSOutstreamNode>(mApp);
-        SVIOSOutstreamNodePtr t_streamNode = std::dynamic_pointer_cast<SVIOSOutstreamNode>(m_pFrameOut);
+        m_pFrameOut = MakeSharedPtr<SVFrameOutIOS>(mApp);
+        SVFrameOutIOSPtr t_streamNode = std::dynamic_pointer_cast<SVFrameOutIOS>(m_pFrameOut);
         if( t_streamNode ) {
             s32 _w = mApp->m_pGlobalParam->m_inner_width;
             s32 _h = mApp->m_pGlobalParam->m_inner_height;
@@ -136,8 +165,8 @@ void SVStreamOut::createOutStream(cptr8 _name, s32 _type, s32 _format, s32 _stea
 #endif
     }else if(_type == 1){
 #ifdef SV_ANDROID
-        m_pFrameOut = MakeSharedPtr<SVTransTexNode>(mApp);
-        SVTransTexNodePtr t_streamNode = std::dynamic_pointer_cast<SVTransTexNode>(m_pFrameOut);
+        m_pFrameOut = MakeSharedPtr<SVFrameOutTex>(mApp);
+        SVFrameOutTexPtr t_streamNode = std::dynamic_pointer_cast<SVFrameOutTex>(m_pFrameOut);
 #endif
     }
 }
@@ -164,7 +193,7 @@ void SVStreamOut::unactive() {
 
 /*************************输出任务***************************/
 s32 SVStreamOut::getTexId(){
-    SVTransTexNodePtr t_streamNode = std::dynamic_pointer_cast<SVTransTexNode>(m_pFrameOut);
+    SVFrameOutTexPtr t_streamNode = std::dynamic_pointer_cast<SVFrameOutTex>(m_pFrameOut);
     if(t_streamNode){
         return  t_streamNode->getTexId();
     }
@@ -176,7 +205,7 @@ void SVStreamOut::setStreamOutCB(cb_out_stream _cb) {
     m_lock->lock();
     m_pOutStreamCB = _cb;
     if( m_outStream && m_pOutStreamCB) {
-        SVIOSOutstreamNodePtr t_streamNode = std::dynamic_pointer_cast<SVIOSOutstreamNode>(m_pFrameOut);
+        SVFrameOutIOSPtr t_streamNode = std::dynamic_pointer_cast<SVFrameOutIOS>(m_pFrameOut);
         t_streamNode->setCallback(m_pOutStreamCB);
     }
     m_lock->unlock();

@@ -1,23 +1,25 @@
 //
-// SVTransTexNode.h
+// SVFrameOutTex.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_TRANSTEXNODE_H
-#define SV_TRANSTEXNODE_H
+#ifndef SV_FRAMEOUT_TEX_H
+#define SV_FRAMEOUT_TEX_H
 
 #include "SVFrameOutNode.h"
 
 namespace sv {
 
     namespace node {
-        class SVTransTexNode : public SVFrameOutNode {
+        
+        //
+        class SVFrameOutTex : public SVFrameOutNode {
         public:
-            SVTransTexNode(SVInst *_app);
+            SVFrameOutTex(SVInst *_app);
 
-            virtual ~SVTransTexNode();
+            virtual ~SVFrameOutTex();
 
             void update(f32 dt);
 
@@ -34,4 +36,4 @@ namespace sv {
 }
 
 
-#endif //ANDROID_SVTRANSTEXNODE_H
+#endif //SV_FRAMEOUT_TEX_H

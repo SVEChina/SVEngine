@@ -36,3 +36,15 @@ void SVFrameOutNode::render() {
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
 }
+
+void SVFrameOutNode::lockData() {
+    
+}
+
+void SVFrameOutNode::unlockData() {
+    
+}
+
+void* SVFrameOutNode::getData() {
+    return m_pData;
+}

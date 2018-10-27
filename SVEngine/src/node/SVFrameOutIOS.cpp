@@ -1,11 +1,11 @@
 //
-// SVIOSOutstreamNode.cpp
+// SVFrameOutIOS.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVIOSOutstreamNode.h"
+#include "SVFrameOutIOS.h"
 #include "../app/SVInst.h"
 #include "../app/SVGlobalMgr.h"
 #include "../basesys/SVStaticData.h"
@@ -22,22 +22,22 @@
 #include "../basesys/SVConfig.h"
 #ifdef SV_IOS
 
-SVIOSOutstreamNode::SVIOSOutstreamNode(SVInst *_app)
+SVFrameOutIOS::SVFrameOutIOS(SVInst *_app)
 :SVFrameOutNode(_app){
-    ntype = "SVIOSOutstreamNode";
+    ntype = "SVFrameOutIOS";
     m_dataswap = nullptr;
     m_outStreamFbo = nullptr;
     m_pMtl = nullptr;
     m_rsType = RST_DATATRANS;
 }
 
-SVIOSOutstreamNode::~SVIOSOutstreamNode() {
+SVFrameOutIOS::~SVFrameOutIOS() {
     m_dataswap = nullptr;
     m_outStreamFbo = nullptr;
     m_pMtl = nullptr;
 }
 
-void SVIOSOutstreamNode::init(SV_OUTSTEAMFORMATE _outformate,s32 _w,s32 _h) {
+void SVFrameOutIOS::init(SV_OUTSTEAMFORMATE _outformate,s32 _w,s32 _h) {
     //创建输出纹理
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if( t_renderer ) {
@@ -64,7 +64,7 @@ void SVIOSOutstreamNode::init(SV_OUTSTEAMFORMATE _outformate,s32 _w,s32 _h) {
     m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "rgba");
 }
 
-void SVIOSOutstreamNode::destroy(){
+void SVFrameOutIOS::destroy(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if( t_renderer ) {
         t_renderer->destroySVTex(E_TEX_OUTSTREAM);
@@ -73,11 +73,11 @@ void SVIOSOutstreamNode::destroy(){
     m_pMtl = nullptr;
 }
 
-void SVIOSOutstreamNode::setCallback(cb_out_stream _cb) {
+void SVFrameOutIOS::setCallback(cb_out_stream _cb) {
     m_pOutStreamCB = _cb;
 }
 
-void SVIOSOutstreamNode::update(f32 _dt) {
+void SVFrameOutIOS::update(f32 _dt) {
     SVNode::update(_dt);
      SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(m_pMtl && t_renderer){
@@ -93,19 +93,31 @@ void SVIOSOutstreamNode::update(f32 _dt) {
     }
 }
 
-void SVIOSOutstreamNode::render() {
+void SVFrameOutIOS::render() {
     //输出到目标纹理 然后读取数据
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if( t_renderer && t_rs) {
         SVTexturePtr t_out_tex = t_renderer->getSVTex(E_TEX_OUTSTREAM);
         SVRenderCmdStreamOutIOSPtr t_cmd = MakeSharedPtr<SVRenderCmdStreamOutIOS>(mApp);
-        t_cmd->mTag = "SVIOSOutstreamNode";
+        t_cmd->mTag = "SVFrameOutIOS";
         t_cmd->setParam(m_outStreamFbo,t_out_tex,m_dataswap,m_pOutStreamCB);
         t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
         t_cmd->setMaterial(m_pMtl);
         t_rs->pushRenderCmd(m_rsType, t_cmd);
     }
+}
+
+void SVFrameOutIOS::lockData() {
+    
+}
+
+void SVFrameOutIOS::unlockData() {
+    
+}
+
+void* SVFrameOutIOS::getData() {
+    return nullptr;
 }
 
 #endif //ios 

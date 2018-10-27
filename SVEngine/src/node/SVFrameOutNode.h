@@ -29,6 +29,12 @@ namespace sv {
             
             void render();
             
+            virtual void lockData();
+            
+            virtual void unlockData();
+            
+            virtual void* getData();
+            
         protected:
             void* m_pData;
         };
