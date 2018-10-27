@@ -29,7 +29,7 @@ SVStreamOut::SVStreamOut(SVInst *_app)
 #elif SV_ANDROID
     m_outMethod = E_OUT_M_ANDRIOD;
 #else
-     m_outMethod = E_OUT_M_NULL;
+     m_outMethod = E_OUT_M_READPIEXL;
 #endif
     m_outWidth = 0;
     m_outHeight = 0;
@@ -57,6 +57,7 @@ bool SVStreamOut::openOutStream() {
     //根据当前类型 打开输出流
     if( m_outMethod == E_OUT_M_NULL) {
         SV_LOG_INFO("please set outstream type! \n");
+        return false;
     }else if( m_outMethod == E_OUT_M_READPIEXL) {
         SVFrameOutReadPtr t_streamNode = MakeSharedPtr<SVFrameOutRead>(mApp);
         if(t_streamNode) {

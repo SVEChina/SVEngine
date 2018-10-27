@@ -68,17 +68,17 @@ void SVFrameOutRead::destroy(){
 void SVFrameOutRead::setFormat(SV_OUTSTEAMFORMATE _fromate) {
     m_outFormat = _fromate;
     if(m_outFormat == SV_OUT_STEAM_RGB2YUVNV12) {
-        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
+        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgb2yuvnv12");
     }else if(m_outFormat == SV_OUT_STEAM_RGBA) {
         m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
     }else if(m_outFormat == SV_OUT_STEAM_RGB2YUVNV21) {
-        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
+        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgb2yuvnv21");
     }else if(m_outFormat == SV_OUT_STEAM_RGB2YUVYV12) {
-        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
+        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgb2yuvyv12");
     }else if(m_outFormat == SV_OUT_STEAM_RGB2YUVI420) {
-        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
+        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgb2yuvi420");
     }else if(m_outFormat == SV_OUT_STEAM_BGRA) {
-        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
+        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"bgra");
     }
     _resize();
 }
@@ -87,22 +87,16 @@ void SVFrameOutRead::_resize() {
     if(m_pDataSwap) {
         s32 t_size = m_width*m_height;
         if(m_outFormat == SV_OUT_STEAM_RGB2YUVNV12) {
-            m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
             t_size *=1.5;
         }else if(m_outFormat == SV_OUT_STEAM_RGBA) {
-            m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
             t_size *=4;
         }else if(m_outFormat == SV_OUT_STEAM_RGB2YUVNV21) {
-            m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
             t_size *=1.5;
         }else if(m_outFormat == SV_OUT_STEAM_RGB2YUVYV12) {
-            m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
             t_size *=1.5;
         }else if(m_outFormat == SV_OUT_STEAM_RGB2YUVI420) {
-            m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
             t_size *=1.5;
         }else if(m_outFormat == SV_OUT_STEAM_BGRA) {
-            m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"bgra");
             t_size *=4;
         }
         m_pDataSwap->resize(t_size);
