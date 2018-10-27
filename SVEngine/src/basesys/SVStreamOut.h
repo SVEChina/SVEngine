@@ -33,7 +33,7 @@ namespace sv {
             ~SVStreamOut();
             
             //打开输出流
-            void openOutStream();
+            bool openOutStream();
             
             //关闭输出输出流
             void closeOutStream();

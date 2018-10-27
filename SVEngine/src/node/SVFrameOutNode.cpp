@@ -25,6 +25,13 @@ SVFrameOutNode::SVFrameOutNode(SVInst *_app)
 }
 
 SVFrameOutNode::~SVFrameOutNode() {
+}
+
+void SVFrameOutNode::create(s32 _width,s32 _height) {
+    
+}
+
+void SVFrameOutNode::destroy() {
     
 }
 

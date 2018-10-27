@@ -23,11 +23,15 @@ namespace sv {
         public:
             SVFrameOutNode(SVInst *_app);
             
-            ~SVFrameOutNode();
+            virtual ~SVFrameOutNode();
             
-            void update(f32 _dt);
+            virtual void create(s32 _width,s32 _height);
             
-            void render();
+            virtual void destroy();
+            
+            virtual void update(f32 _dt);
+            
+            virtual void render();
             
             virtual void lockData();
             
