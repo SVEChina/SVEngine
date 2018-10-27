@@ -19,8 +19,13 @@ namespace sv {
         DECLARE_SHAREPTR(SVTransGPU);
         //
         DECLARE_SHAREPTR(StreamInCore);
-
+        //
+        
     }//!namespace logic
+    
+    //
+    DECLARE_SHAREPTR(SVOutMission);
+    DECLARE_SHAREPTR(SVOutMissionNor);
 
 }//!namespace sv
 

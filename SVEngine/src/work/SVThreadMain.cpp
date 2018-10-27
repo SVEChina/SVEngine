@@ -9,6 +9,7 @@
 #include "../app/SVInst.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../basesys/SVSceneMgr.h"
+#include "../basesys/SVBasicSys.h"
 
 SVThreadMain::SVThreadMain(SVInst *_app)
 : SVThreadWork(_app,"SVThreadMain")
@@ -27,12 +28,13 @@ void SVThreadMain::_innerUpdate(){
     mApp->getRenderMgr()->swapData();
     //渲染
     mApp->getRenderMgr()->render();
+    //输出
+    mApp->getBasicSys()->output();
 }
 
 void SVThreadMain::_innerDestroy(){
 //    //回收GL资源
 //    mApp->getRenderMgr()->recycleRes();
-    //
     SVThreadWork::_innerDestroy();
 }
 

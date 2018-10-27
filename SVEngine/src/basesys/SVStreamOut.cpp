@@ -6,6 +6,7 @@
 //
 
 #include "SVStreamOut.h"
+#include "out/SVOutMission.h"
 #include "../app/SVInst.h"
 #include "../app/SVGlobalMgr.h"
 #include "../base/SVLock.h"
@@ -17,14 +18,17 @@
 #include "../rendercore/SVRenderScene.h"
 #include "../rendercore/SVRenderCmdOut.h"
 
+
 SVStreamOut::SVStreamOut(SVInst *_app)
 :SVProcess(_app){
     m_lock = MakeSharedPtr<SVLock>();
+    m_missionlock = MakeSharedPtr<SVLock>();
     m_outStream = nullptr;
 }
 
 SVStreamOut::~SVStreamOut() {
     m_lock = nullptr;
+    m_missionlock = nullptr;
     m_outStream = nullptr;
 }
 
@@ -67,8 +71,13 @@ void SVStreamOut::unactive() {
     }
 }
 
-void SVStreamOut::update(f32 _dt) {
-    
+//输出
+void SVStreamOut::output() {
+    m_missionlock->lock();
+    for(s32 i=0; i<m_mission.size(); i++) {
+        m_mission[i]->output();
+    }
+    m_missionlock->unlock();
 }
 
 s32 SVStreamOut::getTexId(){
@@ -91,4 +100,40 @@ void SVStreamOut::setStreamOutCB(cb_out_stream _cb) {
     }
     m_lock->unlock();
 #endif
+}
+
+//
+void SVStreamOut::addOutMission(SVOutMissionPtr _mission) {
+    m_missionlock->lock();
+    for(s32 i=0; i<m_mission.size(); i++) {
+        SVString t_name = m_mission[i]->getMissionName();
+        if( t_name == _mission->getMissionName() ) {
+            m_mission.remove(i);
+            goto addOutMission_end;
+        }
+    }
+    //
+    m_mission.append(_mission);
+    //
+    addOutMission_end:
+    m_missionlock->unlock();
+}
+
+void SVStreamOut::delOutMission(cptr8 _name) {
+    m_missionlock->lock();
+    for(s32 i=0; i<m_mission.size(); i++) {
+        SVString t_name = m_mission[i]->getMissionName();
+        if( t_name == _name ) {
+            m_mission.remove(i);
+            goto delOutMission_end;
+        }
+    }
+delOutMission_end:
+    m_missionlock->unlock();
+}
+
+void SVStreamOut::clearAllMission() {
+    m_missionlock->lock();
+    m_mission.clear();
+    m_missionlock->unlock();
 }

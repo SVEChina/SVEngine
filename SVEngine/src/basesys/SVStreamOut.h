@@ -33,7 +33,7 @@ namespace sv {
             
             void setStreamOutCB(cb_out_stream _cb);
             
-            void update(f32 _dt);
+            void output();
             
         protected:
             SVFrameOutNodePtr m_outStream;
@@ -41,6 +41,18 @@ namespace sv {
             cb_out_stream m_pOutStreamCB;
             
             SVLockPtr m_lock;
+            
+        public:
+            void addOutMission(SVOutMissionPtr _mission);
+            
+            void delOutMission(cptr8 _name);
+            
+            void clearAllMission();
+            
+        protected:
+            SVLockPtr m_missionlock;
+            typedef SVArray<SVOutMissionPtr> MISSIONPOOL;
+            MISSIONPOOL m_mission;
         };
         
     }//!namespace logic
