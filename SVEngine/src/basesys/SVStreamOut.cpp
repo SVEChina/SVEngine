@@ -6,7 +6,6 @@
 //
 
 #include "SVStreamOut.h"
-#include "out/SVOutMission.h"
 #include "../app/SVInst.h"
 #include "../app/SVGlobalMgr.h"
 #include "../base/SVLock.h"
@@ -74,8 +73,14 @@ void SVStreamOut::unactive() {
 //输出
 void SVStreamOut::output() {
     m_missionlock->lock();
-    for(s32 i=0; i<m_mission.size(); i++) {
+    for(s32 i=0; i<m_mission.size();) {
         m_mission[i]->output();
+        if( m_mission[i]->isEnd() ) {
+            m_mission[i]->sendEnd();
+            m_mission.removeForce(i);
+        }else{
+            i++;
+        }
     }
     m_missionlock->unlock();
 }

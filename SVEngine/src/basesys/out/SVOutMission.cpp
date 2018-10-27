@@ -23,7 +23,13 @@ cptr8 SVOutMission::getMissionName() {
 
 void SVOutMission::output(){
     if(m_pOutStreamStateCB) {
-        (*m_pOutStreamStateCB)(1);
+        (*m_pOutStreamStateCB)(E_MS_RUN);
+    }
+}
+
+void SVOutMission::sendEnd() {
+    if(m_pOutStreamStateCB) {
+        (*m_pOutStreamStateCB)(E_MS_END);
     }
 }
 

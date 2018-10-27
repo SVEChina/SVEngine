@@ -10,6 +10,7 @@
 
 #include "SVProcess.h"
 #include "../node/SVNodeDeclare.h"
+#include "out/SVOutMission.h"
 
 namespace sv {
 

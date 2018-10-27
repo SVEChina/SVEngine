@@ -15,6 +15,11 @@
 
 namespace sv{
     
+    enum MISSIONSTATE{
+        E_MS_RUN = 0,
+        E_MS_END
+    };
+    
     class SVOutMission : public SVEventProc {
     public:
         SVOutMission(SVInst* _app,cptr8 _name);
@@ -24,6 +29,8 @@ namespace sv{
         virtual void output();
         
         virtual bool isEnd();
+        
+        void sendEnd();
         
         void setStateCallback(cb_outstream_state _cb) { m_pOutStreamStateCB = _cb; }
         

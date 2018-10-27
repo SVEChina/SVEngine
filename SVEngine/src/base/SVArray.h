@@ -462,45 +462,6 @@ namespace sv {
                 removeFast(it - begin());
             }
             
-//            //冒泡排序算法
-//            sv_inline void sort_by_mp(sv_compare _func) {
-//                if(length>1) {
-//                    //至少有2个元素
-//                    s32 t_num = length-1;
-//                    for(s32 j=0;j<t_num;j++) {
-//                        for(s32 i=0;i<t_num;i++) {
-//                            if((*_func)( (void*)(data[i]), (void*)(data[i+1])) ) {
-//                                //交换
-//                                Type* tmp_data = data[i];
-//                                data[i] = data[i+1];
-//                                data[i+1] = tmp_data;
-//                            }
-//                        }
-//                        t_num--;
-//                    }
-//                }
-//            }
-//
-//            //冒泡排序算法
-//            sv_inline void sort_by_mp(sv_compare_share _func) {
-//                if(length>1) {
-//                    //至少有2个元素
-//                    s32 t_num = length-1;
-//                    for(s32 j=0;j<t_num;j++) {
-//                        for(s32 i=0;i<t_num;i++) {
-//                            if((*_func)(data[i],data[i+1])) {
-//                                //交换
-//                                Type* tmp_data = data[i];
-//                                data[i] = data[i+1];
-//                                data[i+1] = tmp_data;
-//                            }
-//                        }
-//                        t_num--;
-//                    }
-//                }
-//            }
-            
-            
         protected:
             enum {
                 DYNAMIC_FLAG = (Counter)(1 << (sizeof(Counter) * 8 - 1)),
