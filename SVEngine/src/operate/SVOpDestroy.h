@@ -20,22 +20,7 @@ namespace sv {
         
         SVString m_name;
     };
-    //
-    class SVOpDestroyRedPacket : public SVOpBase {
-    public:
-        SVOpDestroyRedPacket(SVInst *_app);
-        
-    protected:
-        void _process(f32 dt);
-    };
-    //
-    class SVOpDestroyHeartFlutter : public SVOpBase {
-    public:
-        SVOpDestroyHeartFlutter(SVInst *_app);
-        
-    protected:
-        void _process(f32 dt);
-    };
+
     //
     class SVOpDestroyDivision : public SVOpBase {
     public:
