@@ -18,6 +18,23 @@ namespace sv {
     
     namespace util{
         
+        class SVParamDeform{
+        public:
+            SVParamDeform();
+            ~SVParamDeform();
+            void reset(){
+                m_pointMap.clear();
+            }
+            void copy(SVParamDeformPtr _param){
+                m_pointMap=_param->m_pointMap;
+            }
+            
+            void addTagPoint(u32 _postion,V2 _point){
+                m_pointMap.append(_postion, _point);
+            }
+            SVMap<u32, V2> m_pointMap;
+        };
+        
         //deform imagemove 算法
         class SVDeformImageMove : public SVGBase {
         public:
@@ -30,6 +47,10 @@ namespace sv {
             void update(f32 dt);
             
             void render();
+            
+            void setParam(SVParamDeformPtr _param){
+                m_param->copy(_param);
+            }
             
             void setTagPoint(u32 _postion,V2 _point);
             
@@ -74,8 +95,8 @@ namespace sv {
             SVImageUsingMovePtr m_pIUMP;
             
             V2 m_pointScreen[2400];     //30*80
-            
-            SVMap<u32, V2> m_pointMap;  //人脸偏移值
+            SVParamDeformPtr m_param;
+              //人脸偏移值
             
             V2 *m_dataPoint;
             s32 m_wPointCount;

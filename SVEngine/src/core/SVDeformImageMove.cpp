@@ -30,11 +30,21 @@
 #include "../base/SVVec2.h"
 #include "../node/SVCameraNode.h"
 
+SVParamDeform::SVParamDeform(){
+    
+}
+
+SVParamDeform::~SVParamDeform(){
+    
+}
+
 SVDeformImageMove::SVDeformImageMove(SVInst *_app)
 :SVGBase(_app){
     m_pMtlBg  = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_pIUMP    = MakeSharedPtr<SVImageUsingMove>();
     m_pPointTex = mApp->getTexMgr()->getTextureSync("svres/point.png",true);;
+    m_param=MakeSharedPtr<SVParamDeform>();
+    m_param->reset();
     m_passDeform = nullptr;
     m_passPoint = nullptr;
     m_pMeshBg = nullptr;
@@ -50,10 +60,12 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_flip = false;
     is_swith = true;
     m_is_point=false;
+    
 }
 
 SVDeformImageMove::~SVDeformImageMove(){
     m_passDeform = nullptr;
+    m_param=nullptr;
     m_pMeshBg = nullptr;
     m_pMtlBg = nullptr;
     m_pIUMP = nullptr;
@@ -266,7 +278,7 @@ V2 SVDeformImageMove::MSL(V2 point){
 }
 
 void SVDeformImageMove::setTagPoint(u32 _postion,V2 _point){
-    m_pointMap.append(_postion, _point);
+    m_param->m_pointMap.append(_postion, _point);
 }
 
 void SVDeformImageMove::pointMove(V2 *t_data){
@@ -290,8 +302,8 @@ void SVDeformImageMove::pointMove(V2 *t_data){
     m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
     FVec2 t_rangleV2(t_outlinePoints[46].x,t_outlinePoints[46].y);
     //迭代偏移值
-    SVMap<u32,V2>::Iterator it = m_pointMap.begin();
-    while (it!=m_pointMap.end()) {
+    SVMap<u32,V2>::Iterator it = m_param->m_pointMap.begin();
+    while (it!=m_param->m_pointMap.end()) {
         u32 t_postion = it->key;
         V2 t_point = it->data;
         m_pIUMP->setControl(FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y));
@@ -326,8 +338,8 @@ void SVDeformImageMove::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_al
                                RAPIDJSON_NAMESPACE::Value &_objValue){
     RAPIDJSON_NAMESPACE::Value t_obj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
     RAPIDJSON_NAMESPACE::Value t_array(RAPIDJSON_NAMESPACE::kArrayType);
-    SVMap<u32,V2>::Iterator it= m_pointMap.begin();
-    while (it!=m_pointMap.end()) {
+    SVMap<u32,V2>::Iterator it= m_param->m_pointMap.begin();
+    while (it!=m_param->m_pointMap.end()) {
         u32 t_postion=it->key;
         V2 t_point=it->data;
         RAPIDJSON_NAMESPACE::Value t_cell(RAPIDJSON_NAMESPACE::kObjectType);
@@ -341,7 +353,7 @@ void SVDeformImageMove::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_al
 }
 
 void SVDeformImageMove::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
-    m_pointMap.clear();
+    m_param->reset();
     if (item.HasMember("ptoff") && item["ptoff"].IsArray()) {
         RAPIDJSON_NAMESPACE::Value locationArray=item["ptoff"].GetArray();
         for(int i=0;i<locationArray.Size();i++){
@@ -357,13 +369,13 @@ void SVDeformImageMove::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
             if (obj.HasMember("y") && obj["y"].IsFloat()) {
                 t_point.y = obj["y"].GetFloat();
             }
-            m_pointMap.append(t_postion,t_point);
+            m_param->m_pointMap.append(t_postion,t_point);
         }
     }
 }
 
 void SVDeformImageMove::reset(){
-    m_pointMap.clear();
+    m_param->reset();
     updatePointMSL();
     updatePointMesh(m_dataPoint);
 }
