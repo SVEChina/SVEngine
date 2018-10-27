@@ -90,7 +90,6 @@ void SVIOSOutstreamNode::update(f32 _dt) {
         }else{
             m_pMtl->setTexcoordFlip(-1.0f, -1.0f);
         }
-        
     }
 }
 

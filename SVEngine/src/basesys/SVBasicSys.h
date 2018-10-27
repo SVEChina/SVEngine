@@ -24,6 +24,8 @@ namespace sv{
         
         void update(f32 dt);
         
+        void output();
+        
         //回收模块
         SVRecycleProcessPtr getRecycleModule();
         //拾取模块

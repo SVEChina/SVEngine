@@ -72,10 +72,6 @@ void SVBasicSys::update(f32 dt) {
     if(m_pStreamIn){
         m_pStreamIn->update(dt);
     }
-    //输出流系统更新
-    if(m_pStreamOut){
-        m_pStreamOut->update(dt);
-    }
     //相片处理更新
     if(m_pPicProc){
         m_pPicProc->update(dt);
@@ -83,6 +79,14 @@ void SVBasicSys::update(f32 dt) {
     //回收系统
     if (m_pRecycleModule) {
         m_pRecycleModule->update(dt);
+    }
+}
+
+//
+void SVBasicSys::output() {
+    //输出流系统更新
+    if(m_pStreamOut){
+        m_pStreamOut->output();
     }
 }
 

@@ -157,6 +157,8 @@ typedef void (*cb_func_op)(cptr8 _info);
 typedef void (*cb_func_game)(s32 _type,cptr8 _info);
 //输出回调
 typedef void (*cb_out_stream)(s32 _w,s32 _h,s32 _formate,void* _pdata,long _timtap);
+//输出状态
+typedef void (*cb_outstream_state)(s32 _state);
 
 //最大同时支持的视频解析线程数目
 #define SV_MAX_VIDEOLOAD_NUM 6
