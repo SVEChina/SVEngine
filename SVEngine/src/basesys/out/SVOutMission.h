@@ -8,8 +8,8 @@
 #ifndef SV_OUTMISSION_H
 #define SV_OUTMISSION_H
 
-#include "../event/SVEventProc.h"
-#include "SVLogicDeclare.h"
+#include "../../event/SVEventProc.h"
+#include "../SVLogicDeclare.h"
 
 //输出任务
 
