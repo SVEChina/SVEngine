@@ -29,6 +29,9 @@
 #include "../mtl/SVTexMgr.h"
 #include "../base/SVVec2.h"
 #include "../node/SVCameraNode.h"
+#include "../detect/SVDetectMgr.h"
+#include "../detect/SVDetectST.h"
+
 
 SVParamDeform::SVParamDeform(){
     
@@ -199,6 +202,13 @@ void SVDeformImageMove::update(f32 _dt){
     if(!is_swith){
         return;
     }
+    SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
+  
+    if( t_person && t_person->getExist()){
+        V2 *t_data = (V2*)t_person->getFaceDataOriginal();
+        m_pIUMP->clearContrl();
+        pointMove(t_data);
+    }
     //
     if(m_passDeform && m_passDeform->m_pMtl){
         m_passDeform->m_pMtl->update(_dt);
@@ -347,6 +357,7 @@ void SVDeformImageMove::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_al
         t_cell.AddMember("x", t_point.x , _aloc);
         t_cell.AddMember("y", t_point.y , _aloc);
         t_array.PushBack(t_cell,_aloc);
+        it++;
     }
     t_obj.AddMember("ptoff", t_array, _aloc);
     _objValue.AddMember("sv_deform", t_obj, _aloc);
