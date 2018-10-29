@@ -33,7 +33,7 @@ namespace sv {
             ~SVStreamOut();
             
             //打开输出流
-            void openOutStream();
+            bool openOutStream();
             
             //关闭输出输出流
             void closeOutStream();
@@ -49,8 +49,8 @@ namespace sv {
             
             void setOutFormat(SV_OUTSTEAMFORMATE _format);
             
-            //
-            void createOutStream(cptr8 _name, s32 _type, s32 _format, s32 _steamType = 0);//加了个StreamType 当为0的时候正常读取输出流数据，当为1的时候只读取美颜完之前的数据
+            //加了个StreamType 当为0的时候正常读取输出流数据，当为1的时候只读取美颜完之前的数据
+            void createOutStream(cptr8 _name, s32 _type, s32 _format, s32 _steamType = 0);
             
             void destroyOutStream();
             
@@ -64,8 +64,19 @@ namespace sv {
             
             void output();
             
-        protected:
+            s32 getOutWidth();
             
+            s32 getOutHeight();
+            
+            s32 getOutFormat();
+            
+            void lockData();
+            
+            void* getOutData();
+            
+            void unlockData();
+            
+        protected:
             void _refreshOutStream();
             
             OUTMETHOD m_outMethod;

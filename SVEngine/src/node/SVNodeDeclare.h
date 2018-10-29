@@ -40,9 +40,10 @@ namespace sv {
         DECLARE_SHAREPTR(SVGameWrapNode);
         DECLARE_SHAREPTR(SVIOSInstreamNode);
 #ifdef SV_IOS
-        DECLARE_SHAREPTR(SVIOSOutstreamNode);
+        DECLARE_SHAREPTR(SVFrameOutIOS);
 #endif
-        DECLARE_SHAREPTR(SVTransTexNode);
+        DECLARE_SHAREPTR(SVFrameOutTex);
+        DECLARE_SHAREPTR(SVFrameOutRead);
         DECLARE_SHAREPTR(SVModelNode);
         DECLARE_SHAREPTR(SVParticleNode);
         DECLARE_SHAREPTR(SVSkyDomeNode);

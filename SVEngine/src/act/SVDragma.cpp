@@ -10,14 +10,59 @@
 #include "SVTimeLine.h"
 #include "SVTimeLineDeform.h"
 #include "SVTimeLineMtl.h"
+#include "SVTimeLineEvent.h"
 
 SVDragma::SVDragma(SVInst* _app)
 :SVActBase(_app){
     m_uid = mApp->m_IDPool.applyUID();
+    m_timeLinePool.resize(E_TL_T_MAX);
+    for(s32 i=0;i<E_TL_T_MAX;i++) {
+        m_timeLinePool[i] = nullptr;
+    }
 }
 
 SVDragma::~SVDragma() {
+    for(s32 i=0;i<E_TL_T_MAX;i++) {
+        m_timeLinePool[i] = nullptr;
+    }
     mApp->m_IDPool.returnUID(m_uid);
+}
+
+//一个不创建
+void SVDragma::create() {
+}
+
+//
+void SVDragma::create(TIMELINETYPE _type) {
+    if(_type == E_TL_T_MAX) {
+        //全创建
+        m_timeLinePool[E_TL_T_BASE] = MakeSharedPtr<SVTimeLine>(mApp);
+        m_timeLinePool[E_TL_T_DEFORM] = MakeSharedPtr<SVTimeLineDeform>(mApp);
+        m_timeLinePool[E_TL_T_MTL] = MakeSharedPtr<SVTimeLineMtl>(mApp);
+        m_timeLinePool[E_TL_T_EVENT] = MakeSharedPtr<SVTimeLineEvent>(mApp);
+    } else {
+        if(_type == E_TL_T_BASE) {
+            m_timeLinePool[_type] = MakeSharedPtr<SVTimeLine>(mApp);
+        }else if(_type == E_TL_T_DEFORM) {
+            m_timeLinePool[_type] = MakeSharedPtr<SVTimeLineDeform>(mApp);
+        }else if(_type == E_TL_T_MTL) {
+            m_timeLinePool[_type] = MakeSharedPtr<SVTimeLineMtl>(mApp);
+        }else if(_type == E_TL_T_EVENT) {
+            m_timeLinePool[_type] = MakeSharedPtr<SVTimeLineEvent>(mApp);
+        }
+    }
+}
+
+//
+void SVDragma::destroy() {
+    m_timeLinePool.destroy();
+}
+
+SVTimeLinePtr SVDragma::getTimeLine(s32 _type) {
+    if(_type>=0 && _type<E_TL_T_MAX) {
+        return m_timeLinePool[_type];
+    }
+    return nullptr;
 }
 
 void SVDragma::enter(SVNodePtr _nodePtr){

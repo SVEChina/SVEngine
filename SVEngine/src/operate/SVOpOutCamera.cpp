@@ -65,7 +65,6 @@ void SVOpCreateIOSOutstream::_process(f32 _dt) {
     SVStreamOutPtr t_streamout = mApp->getBasicSys()->getStreamOut();
     if( t_streamout ) {
         t_streamout->createOutStream(m_name.c_str(), 0, m_formate, m_streamType);
-//        t_streamout->active();
     }
 #endif
 }

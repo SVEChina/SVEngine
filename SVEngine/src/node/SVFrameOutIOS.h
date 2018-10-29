@@ -1,12 +1,12 @@
 //
-// SVIOSOutstreamNode.h
+// SVFrameOutIOS.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_IOSOUTSTREAM_NODE_H
-#define SV_IOSOUTSTREAM_NODE_H
+#ifndef SV_FRAMEOUT_IOS_H
+#define SV_FRAMEOUT_IOS_H
 
 #include "SVFrameOutNode.h"
 
@@ -19,11 +19,11 @@ namespace sv {
     
     namespace node{
         
-        class SVIOSOutstreamNode : public SVFrameOutNode {
+        class SVFrameOutIOS : public SVFrameOutNode {
         public:
-            SVIOSOutstreamNode(SVInst *_app);
+            SVFrameOutIOS(SVInst *_app);
             
-            virtual ~SVIOSOutstreamNode();
+            virtual ~SVFrameOutIOS();
             
             void init(SV_OUTSTEAMFORMATE _outformate,s32 _w,s32 _h);
             
@@ -34,6 +34,12 @@ namespace sv {
             void update(f32 dt);
             
             void render();
+            
+            virtual void lockData();
+            
+            virtual void unlockData();
+            
+            virtual void* getData();
             
         protected:
             SVRenderTexturePtr m_outStreamFbo;
@@ -48,4 +54,4 @@ namespace sv {
 
 #endif  //ios 
 
-#endif //SV_IOSOUT_H
+#endif //SV_FRAMEOUT_IOS_H

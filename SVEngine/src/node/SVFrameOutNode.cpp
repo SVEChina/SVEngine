@@ -25,6 +25,13 @@ SVFrameOutNode::SVFrameOutNode(SVInst *_app)
 }
 
 SVFrameOutNode::~SVFrameOutNode() {
+}
+
+void SVFrameOutNode::create(s32 _width,s32 _height) {
+    
+}
+
+void SVFrameOutNode::destroy() {
     
 }
 
@@ -35,4 +42,16 @@ void SVFrameOutNode::update(float _dt) {
 void SVFrameOutNode::render() {
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
+}
+
+void SVFrameOutNode::lockData() {
+    
+}
+
+void SVFrameOutNode::unlockData() {
+    
+}
+
+void* SVFrameOutNode::getData() {
+    return m_pData;
 }
