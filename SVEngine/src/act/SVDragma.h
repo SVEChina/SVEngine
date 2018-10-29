@@ -24,6 +24,12 @@ namespace sv {
             
             ~SVDragma();
 
+            void create();
+            
+            void create(TIMELINETYPE _type);
+            
+            void destroy();
+            
             inline u32 getUID(){ return m_uid; }
             
             void run(SVNodePtr _nodePtr, f32 dt);  //循环action
@@ -33,6 +39,8 @@ namespace sv {
             void exit(SVNodePtr _nodePtr);    //退出action
             
             bool isEnd();
+            
+            SVTimeLinePtr getTimeLine(s32 _type);
             
         public:
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);

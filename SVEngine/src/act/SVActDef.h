@@ -15,10 +15,11 @@
 typedef sv::logic::SVActBase *(*act_new_func)();
 
 enum TIMELINETYPE{
-    E_TL_T_BASE,
+    E_TL_T_BASE = 0,
     E_TL_T_DEFORM,  //POS,ROT,SCALE
     E_TL_T_MTL,     //材质
-    E_TL_T_EVENT    //事件
+    E_TL_T_EVENT,   //事件
+    E_TL_T_MAX
 };
 
 enum MOVSTATE{
