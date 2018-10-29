@@ -74,9 +74,6 @@ bool SVStreamOut::openOutStream() {
         SVFrameOutIOSPtr t_streamNode = MakeSharedPtr<SVFrameOutIOS>(mApp);
         if( t_streamNode ) {
             t_streamNode->init(m_outFormat,m_outWidth,m_outHeight);
-            if (_steamType) {
-                t_streamNode->setRSType(RST_MASK2D);
-            }
         }
         m_pFrameOut = t_streamNode;
 #endif
@@ -224,7 +221,7 @@ void SVStreamOut::setStreamOutCB(cb_out_stream _cb) {
 #ifdef SV_IOS
     m_lock->lock();
     m_pOutStreamCB = _cb;
-    if( m_outStream && m_pOutStreamCB) {
+    if( m_pFrameOut && m_pOutStreamCB) {
         SVFrameOutIOSPtr t_streamNode = std::dynamic_pointer_cast<SVFrameOutIOS>(m_pFrameOut);
         t_streamNode->setCallback(m_pOutStreamCB);
     }
