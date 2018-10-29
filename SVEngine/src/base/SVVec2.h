@@ -258,12 +258,13 @@ namespace sv {
             degrees *=  DEGTORAD64;
             const f64 cs = cos(degrees);
             const f64 sn = sin(degrees);
-            
-            v0.x -= v1.x;
-            v0.y -= v1.y;
-            
-            v0.x= (v0.x * cs - v0.y * sn);
-            v0.y= (v0.y * sn + v0.y * cs);
+            f32 t_x=v0.x;
+            f32 t_y=v0.y;
+            t_x -= v1.x;
+            t_y -= v1.y;
+           
+            v0.x= (t_x * cs - t_y * sn);
+            v0.y= (t_x * sn + t_y * cs);
             
             v0.x += v1.x;
             v0.y += v1.y;

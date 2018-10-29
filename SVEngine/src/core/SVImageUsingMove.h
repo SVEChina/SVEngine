@@ -26,7 +26,7 @@ namespace sv {
             
             SVArray<FVec2> m_targetArray;
             
-            SVArray<f64>  m_weightArray;
+            SVArray<f32>  m_weightArray;
             
             FVec2 MLS(const FVec2& t);
             
@@ -35,6 +35,8 @@ namespace sv {
             void setControl(FVec2 _v);
             
             void setTargetControl(FVec2 _v);
+        protected:
+             SVLockPtr m_lock;
         };
         
     }//!namespace util
