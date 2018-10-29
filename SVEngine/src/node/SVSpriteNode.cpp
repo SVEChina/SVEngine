@@ -185,4 +185,5 @@ void SVSpriteNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("textype") && item["textype"].IsInt()) {
         m_inTexType = SVTEXTYPE(item["textype"].GetInt());
     }
+    m_dirty = true;
 }
