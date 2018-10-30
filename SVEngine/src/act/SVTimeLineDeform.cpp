@@ -8,11 +8,12 @@
 
 #include "SVTimeLineDeform.h"
 
-SVTimeLineDeform::SVTimeLineDeform(SVInst* _app,f32 _time)
-:SVTimeLine(_app,_time){
+SVTimeLineDeform::SVTimeLineDeform(SVInst* _app,f32 _time,s32 _rate)
+:SVTimeLine(_app,_time,_rate){
     m_type = E_TL_T_DEFORM;
-    m_startKey = MakeSharedPtr<SVKeyDeform>(mApp,0.0f);
-    m_endKey = MakeSharedPtr<SVKeyDeform>(mApp,_time);
+    m_startKey = MakeSharedPtr<SVKeyDeform>(mApp,0);
+    u32 t_maxFrame = SVTimeLine::maxFrame(_time,_rate);
+    m_endKey = MakeSharedPtr<SVKeyDeform>(mApp,t_maxFrame);
 }
 
 SVTimeLineDeform::~SVTimeLineDeform() {

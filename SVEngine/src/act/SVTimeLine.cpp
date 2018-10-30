@@ -10,13 +10,23 @@
 #include "SVKeyFrame.h"
 #include "../base/SVUtils.h"
 
-SVTimeLine::SVTimeLine(SVInst* _app,f32 _time)
+u32 SVTimeLine::maxFrame(f32 _time,s32 _rate) {
+    u32 t_value = u32(_time*_rate);
+//    if(_time*_rate - t_value > 0) {
+//        t_value += 1;
+//    }
+    return t_value;
+}
+
+SVTimeLine::SVTimeLine(SVInst* _app,f32 _time,s32 _rate)
 :SVGBase(_app){
     m_type = E_TL_T_BASE;
     m_accTime = 0.0f;
     m_totalTime = _time;
-    m_startKey = MakeSharedPtr<SVKeyFrame>(mApp,0.0f);
-    m_endKey = MakeSharedPtr<SVKeyFrame>(mApp,_time);
+    m_startKey = MakeSharedPtr<SVKeyFrame>(mApp,0);
+    //
+    u32 t_maxFrame = SVTimeLine::maxFrame(_time,_rate);
+    m_endKey = MakeSharedPtr<SVKeyFrame>(mApp,t_maxFrame);
     m_keyLock = MakeSharedPtr<SVLock>();
 }
 

@@ -20,10 +20,13 @@ namespace sv {
         
         class SVTimeLine : public SVGBase {
         public:
-            SVTimeLine(SVInst* _app,f32 _time);
+            static u32 maxFrame(f32 _time,s32 _rate);
+            
+        public:
+            SVTimeLine(SVInst* _app,f32 _time,s32 _rate);
             
             ~SVTimeLine();
-            
+  
             TIMELINETYPE getType();
             
             void enter(SVNodePtr _nodePtr);

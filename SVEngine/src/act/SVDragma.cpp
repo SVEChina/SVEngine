@@ -37,19 +37,19 @@ void SVDragma::create(TIMELINETYPE _type) {
     f32 t_ttTime = 30.0f;
     if(_type == E_TL_T_MAX) {
         //全创建
-        m_timeLinePool[0] = MakeSharedPtr<SVTimeLine>(mApp,t_ttTime);
-        m_timeLinePool[1] = MakeSharedPtr<SVTimeLineDeform>(mApp,t_ttTime);
-        m_timeLinePool[2] = MakeSharedPtr<SVTimeLineMtl>(mApp,t_ttTime);
-        m_timeLinePool[3] = MakeSharedPtr<SVTimeLineEvent>(mApp,t_ttTime);
+        m_timeLinePool[0] = MakeSharedPtr<SVTimeLine>(mApp,t_ttTime,24);
+        m_timeLinePool[1] = MakeSharedPtr<SVTimeLineDeform>(mApp,t_ttTime,24);
+        m_timeLinePool[2] = MakeSharedPtr<SVTimeLineMtl>(mApp,t_ttTime,24);
+        m_timeLinePool[3] = MakeSharedPtr<SVTimeLineEvent>(mApp,t_ttTime,24);
     } else {
         if(_type == E_TL_T_BASE) {
-            m_timeLinePool[0] = MakeSharedPtr<SVTimeLine>(mApp,t_ttTime);
+            m_timeLinePool[0] = MakeSharedPtr<SVTimeLine>(mApp,t_ttTime,24);
         }else if(_type == E_TL_T_DEFORM) {
-            m_timeLinePool[1] = MakeSharedPtr<SVTimeLineDeform>(mApp,t_ttTime);
+            m_timeLinePool[1] = MakeSharedPtr<SVTimeLineDeform>(mApp,t_ttTime,24);
         }else if(_type == E_TL_T_MTL) {
-            m_timeLinePool[2] = MakeSharedPtr<SVTimeLineMtl>(mApp,t_ttTime);
+            m_timeLinePool[2] = MakeSharedPtr<SVTimeLineMtl>(mApp,t_ttTime,24);
         }else if(_type == E_TL_T_EVENT) {
-            m_timeLinePool[3] = MakeSharedPtr<SVTimeLineEvent>(mApp,t_ttTime);
+            m_timeLinePool[3] = MakeSharedPtr<SVTimeLineEvent>(mApp,t_ttTime,24);
         }
     }
 }

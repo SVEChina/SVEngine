@@ -17,7 +17,7 @@ namespace sv {
         
         class SVTimeLineDeform : public SVTimeLine {
         public:
-            SVTimeLineDeform(SVInst* _app,f32 _time);
+            SVTimeLineDeform(SVInst* _app,f32 _time,s32 _rate);
             
             ~SVTimeLineDeform();
             

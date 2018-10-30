@@ -8,11 +8,12 @@
 
 #include "SVTimeLineEvent.h"
 
-SVTimeLineEvent::SVTimeLineEvent(SVInst* _app,f32 _time)
-:SVTimeLine(_app,_time){
+SVTimeLineEvent::SVTimeLineEvent(SVInst* _app,f32 _time,s32 _rate)
+:SVTimeLine(_app,_time,_rate){
     m_type = E_TL_T_EVENT;
-    m_startKey = MakeSharedPtr<SVKeyEvent>(mApp,0.0f);
-    m_endKey = MakeSharedPtr<SVKeyEvent>(mApp,_time);
+    m_startKey = MakeSharedPtr<SVKeyEvent>(mApp,0);
+    u32 t_maxFrame = SVTimeLine::maxFrame(_time,_rate);
+    m_endKey = MakeSharedPtr<SVKeyEvent>(mApp,t_maxFrame);
 }
 
 SVTimeLineEvent::~SVTimeLineEvent() {
