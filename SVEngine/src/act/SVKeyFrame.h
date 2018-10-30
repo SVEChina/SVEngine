@@ -23,13 +23,15 @@ namespace sv {
         
         class SVKeyFrame : public SVGBase {
         public:
-            SVKeyFrame(SVInst* _app,f32 _time);
+            SVKeyFrame(SVInst* _app,u32 _index);
             
             ~SVKeyFrame();
-            
-            f32 m_time;
-            
+
             inline u32 getUID(){ return m_uid; }
+            
+            void setIndex(u32 _index);
+            
+            u32 getIndex();
             
         public:
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc,
@@ -38,9 +40,11 @@ namespace sv {
             void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
             
         protected:
+            
             u32 m_uid;
             
-        protected:
+            u32 m_index; //key索引
+            
             void _toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc,
                         RAPIDJSON_NAMESPACE::Value &_obj);
             
@@ -50,7 +54,7 @@ namespace sv {
         //
         class SVKeyDeform : public SVKeyFrame {
         public:
-            SVKeyDeform(SVInst* _app,f32 _time);
+            SVKeyDeform(SVInst* _app,u32 _index);
             
             ~SVKeyDeform();
             
@@ -68,7 +72,7 @@ namespace sv {
         //
         class SVKeyMtl : public SVKeyFrame {
         public:
-            SVKeyMtl(SVInst* _app,f32 _time);
+            SVKeyMtl(SVInst* _app,u32 _index);
             
             ~SVKeyMtl();
             
@@ -83,7 +87,7 @@ namespace sv {
         //
         class SVKeyEvent : public SVKeyFrame {
         public:
-            SVKeyEvent(SVInst* _app,f32 _time);
+            SVKeyEvent(SVInst* _app,u32 _index);
             
             ~SVKeyEvent();
             

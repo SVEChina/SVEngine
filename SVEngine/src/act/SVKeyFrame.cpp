@@ -8,14 +8,22 @@
 
 #include "SVKeyFrame.h"
 
-SVKeyFrame::SVKeyFrame(SVInst* _app,f32 _time)
+SVKeyFrame::SVKeyFrame(SVInst* _app,u32 _index)
 :SVGBase(_app){
     m_uid = mApp->m_IDPool.applyUID();
-    m_time = _time;
+    m_index = _index;
 }
 
 SVKeyFrame::~SVKeyFrame(){
     mApp->m_IDPool.returnUID(m_uid);
+}
+
+void SVKeyFrame::setIndex(u32 _index) {
+    m_index = _index;
+}
+
+u32 SVKeyFrame::getIndex() {
+    return m_index;
 }
 
 void SVKeyFrame::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc,
@@ -31,7 +39,7 @@ void SVKeyFrame::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 void SVKeyFrame::_toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc,
                          RAPIDJSON_NAMESPACE::Value &_obj) {
     _obj.AddMember("uid", m_uid, _alloc);
-    _obj.AddMember("time", m_time, _alloc);
+    _obj.AddMember("index", m_index, _alloc);
 }
 
 void SVKeyFrame::_fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
@@ -40,8 +48,8 @@ void SVKeyFrame::_fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 }
 
 //形变帧
-SVKeyDeform::SVKeyDeform(SVInst* _app,f32 _time)
-:SVKeyFrame(_app,_time){
+SVKeyDeform::SVKeyDeform(SVInst* _app,u32 _index)
+:SVKeyFrame(_app,_index){
 }
 
 SVKeyDeform::~SVKeyDeform(){
@@ -59,8 +67,8 @@ void SVKeyDeform::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
 }
 
 //材质帧
-SVKeyMtl::SVKeyMtl(SVInst* _app,f32 _time)
-:SVKeyFrame(_app,_time){
+SVKeyMtl::SVKeyMtl(SVInst* _app,u32 _index)
+:SVKeyFrame(_app,_index){
     m_mtl = nullptr;
 }
 
@@ -80,8 +88,8 @@ void SVKeyMtl::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
 }
 
 //事件Key
-SVKeyEvent::SVKeyEvent(SVInst* _app,f32 _time)
-:SVKeyFrame(_app,_time){
+SVKeyEvent::SVKeyEvent(SVInst* _app,u32 _index)
+:SVKeyFrame(_app,_index){
 }
 
 SVKeyEvent::~SVKeyEvent() {

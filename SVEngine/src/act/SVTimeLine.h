@@ -38,6 +38,8 @@ namespace sv {
             
             SVKeyFramePtr getKeyFrame(s32 _uid);
             
+            void refreshKey();
+            
             void setTotalTime(f32 _t);
             
             void setCurTime(f32 _t);

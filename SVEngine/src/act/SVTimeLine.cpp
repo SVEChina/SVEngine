@@ -8,6 +8,7 @@
 
 #include "SVTimeLine.h"
 #include "SVKeyFrame.h"
+#include "../base/SVUtils.h"
 
 SVTimeLine::SVTimeLine(SVInst* _app,f32 _time)
 :SVGBase(_app){
@@ -47,22 +48,34 @@ void SVTimeLine::setCurTime(f32 _t) {
     m_accTime = _t;
 }
 
-//冒牌排序
+//key索引排序
 void SVTimeLine::_refreshKey() {
-//    s32 t_num = m_keyPool.size();
-//    s32 t_times = t_num - 1;
-//    for(s32 i = 0;i<t_times;i++) {
-//        for(s32 j=0;j<t_times;j++) {
-//            SVKeyFramePtr t1 = m_keyPool[j];
-//            SVKeyFramePtr t2 = m_keyPool[j+1];
-//            if(t1->m_time>t2->m_time) {
-//                SVKeyFramePtr tmp = m_keyPool[j];
-//                m_keyPool[j] = m_keyPool[j+1];
-//                m_keyPool[j+1] = tmp;
-//            }
-//        }
-//        t_times--;
-//    }
+    SVArray<SVKeyFramePtr>::Iterator it1 = m_keyPool.begin();
+    SVArray<SVKeyFramePtr>::Iterator it2 = m_keyPool.end();
+    bool _inc = true;
+    if(_inc) {
+        struct KeyTimeCompareInc {
+            inline s32 operator()(SVKeyFramePtr f1,SVKeyFramePtr f2) const {
+                return (f1->getIndex() < f2->getIndex() );
+            }
+        };
+        KeyTimeCompareInc t_compare;
+        quickSort(it1,it2,t_compare);
+    } else {
+        struct KeyTimeCompareDec {
+            inline s32 operator()(SVKeyFramePtr f1,SVKeyFramePtr f2) const {
+                return (f1->getIndex() > f2->getIndex() );
+            }
+        };
+        KeyTimeCompareDec t_compare;
+        quickSort(it1,it2,t_compare);
+    }
+}
+
+void SVTimeLine::refreshKey() {
+    m_keyLock->lock();
+    _refreshKey();
+    m_keyLock->unlock();
 }
 
 void SVTimeLine::addKey(SVKeyFramePtr _key) {
