@@ -38,13 +38,17 @@ namespace sv {
             
             bool isEnd(){ return false; }
             
-            inline MOVSTATE getMovState() { return m_state; }
+            MOVSTATE getMovState() { return m_state; }
             
-            inline void setTotalTime(f32 _time){ m_totalTime = _time; }
+            void setTotalTime(f32 _time);
             
-            inline f32 getTotalTime(){ return m_totalTime; }
+            f32 getTotalTime();
             
-            //
+            void setCurTime(f32 _time);
+            
+            f32 getCurTime();
+            
+            //剧本相关
             void addDragma(SVDragmaPtr _dragma);
             
             void delDragma(SVDragmaPtr _dragma);
@@ -77,7 +81,10 @@ namespace sv {
             
             typedef SVArray<SVDragmaPtr> DragmaPool;
             DragmaPool m_dragmaPool;
-        };
+            
+            SVLockPtr m_dragmaLock;
+            
+        };//class SVMovie
         
     }//!namespace logic
     

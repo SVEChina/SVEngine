@@ -20,7 +20,7 @@ namespace sv {
         
         class SVTimeLine : public SVGBase {
         public:
-            SVTimeLine(SVInst* _app);
+            SVTimeLine(SVInst* _app,f32 _time);
             
             ~SVTimeLine();
             
@@ -38,20 +38,33 @@ namespace sv {
             
             SVKeyFramePtr getKeyFrame(s32 _uid);
             
-            void refreshKey();
+            void setTotalTime(f32 _t);
+            
+            void setCurTime(f32 _t);
             
         public:
-            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                        RAPIDJSON_NAMESPACE::Value &_objValue);
             
             void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
             
         protected:
+            void _refreshKey();
+            //
             TIMELINETYPE m_type;
-            
+            //
+            SVLockPtr m_keyLock;
+            //中间帧
             typedef SVArray<SVKeyFramePtr> KEYPOOL;
             KEYPOOL m_keyPool;
-            
+            //开始帧
+            SVKeyFramePtr m_startKey;
+            //结束帧
+            SVKeyFramePtr m_endKey;
+            //累计时间
             f32 m_accTime;
+            //
+            f32 m_totalTime;
         };
         
     }//!namespace logic

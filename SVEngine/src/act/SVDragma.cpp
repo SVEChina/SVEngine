@@ -34,21 +34,22 @@ void SVDragma::create() {
 
 //
 void SVDragma::create(TIMELINETYPE _type) {
+    f32 t_ttTime = 30.0f;
     if(_type == E_TL_T_MAX) {
         //全创建
-        m_timeLinePool[E_TL_T_BASE] = MakeSharedPtr<SVTimeLine>(mApp);
-        m_timeLinePool[E_TL_T_DEFORM] = MakeSharedPtr<SVTimeLineDeform>(mApp);
-        m_timeLinePool[E_TL_T_MTL] = MakeSharedPtr<SVTimeLineMtl>(mApp);
-        m_timeLinePool[E_TL_T_EVENT] = MakeSharedPtr<SVTimeLineEvent>(mApp);
+        m_timeLinePool[0] = MakeSharedPtr<SVTimeLine>(mApp,t_ttTime);
+        m_timeLinePool[1] = MakeSharedPtr<SVTimeLineDeform>(mApp,t_ttTime);
+        m_timeLinePool[2] = MakeSharedPtr<SVTimeLineMtl>(mApp,t_ttTime);
+        m_timeLinePool[3] = MakeSharedPtr<SVTimeLineEvent>(mApp,t_ttTime);
     } else {
         if(_type == E_TL_T_BASE) {
-            m_timeLinePool[_type] = MakeSharedPtr<SVTimeLine>(mApp);
+            m_timeLinePool[0] = MakeSharedPtr<SVTimeLine>(mApp,t_ttTime);
         }else if(_type == E_TL_T_DEFORM) {
-            m_timeLinePool[_type] = MakeSharedPtr<SVTimeLineDeform>(mApp);
+            m_timeLinePool[1] = MakeSharedPtr<SVTimeLineDeform>(mApp,t_ttTime);
         }else if(_type == E_TL_T_MTL) {
-            m_timeLinePool[_type] = MakeSharedPtr<SVTimeLineMtl>(mApp);
+            m_timeLinePool[2] = MakeSharedPtr<SVTimeLineMtl>(mApp,t_ttTime);
         }else if(_type == E_TL_T_EVENT) {
-            m_timeLinePool[_type] = MakeSharedPtr<SVTimeLineEvent>(mApp);
+            m_timeLinePool[3] = MakeSharedPtr<SVTimeLineEvent>(mApp,t_ttTime);
         }
     }
 }
@@ -103,6 +104,22 @@ bool SVDragma::isEnd() {
 //        }
 //    }
     return false;
+}
+
+void SVDragma::setTotalTime(f32 _t) {
+    for(s32 i=0;i<E_TL_T_MAX;i++) {
+        if( m_timeLinePool[i]  ) {
+            m_timeLinePool[i]->setTotalTime(_t);
+        }
+    }
+}
+
+void SVDragma::setCurTime(f32 _t) {
+    for(s32 i=0;i<E_TL_T_MAX;i++) {
+        if( m_timeLinePool[i]  ) {
+            m_timeLinePool[i]->setCurTime(_t);
+        }
+    }
 }
 
 void SVDragma::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){

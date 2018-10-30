@@ -17,7 +17,7 @@ namespace sv {
         
         class SVTimeLineEvent : public SVTimeLine {
         public:
-            SVTimeLineEvent(SVInst* _app);
+            SVTimeLineEvent(SVInst* _app,f32 _time);
             
             ~SVTimeLineEvent();
             

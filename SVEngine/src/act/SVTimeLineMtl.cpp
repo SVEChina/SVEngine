@@ -8,9 +8,11 @@
 
 #include "SVTimeLineMtl.h"
 
-SVTimeLineMtl::SVTimeLineMtl(SVInst* _app)
-:SVTimeLine(_app){
+SVTimeLineMtl::SVTimeLineMtl(SVInst* _app,f32 _time)
+:SVTimeLine(_app,_time){
     m_type = E_TL_T_MTL;
+    m_startKey = MakeSharedPtr<SVKeyMtl>(mApp,0.0f);
+    m_endKey = MakeSharedPtr<SVKeyMtl>(mApp,_time);
 }
 
 SVTimeLineMtl::~SVTimeLineMtl() {

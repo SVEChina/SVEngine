@@ -42,6 +42,10 @@ namespace sv {
             
             SVTimeLinePtr getTimeLine(s32 _type);
             
+            void setTotalTime(f32 _t);
+            
+            void setCurTime(f32 _t);
+            
         public:
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             

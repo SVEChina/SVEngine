@@ -8,9 +8,11 @@
 
 #include "SVTimeLineDeform.h"
 
-SVTimeLineDeform::SVTimeLineDeform(SVInst* _app)
-:SVTimeLine(_app){
+SVTimeLineDeform::SVTimeLineDeform(SVInst* _app,f32 _time)
+:SVTimeLine(_app,_time){
     m_type = E_TL_T_DEFORM;
+    m_startKey = MakeSharedPtr<SVKeyDeform>(mApp,0.0f);
+    m_endKey = MakeSharedPtr<SVKeyDeform>(mApp,_time);
 }
 
 SVTimeLineDeform::~SVTimeLineDeform() {
