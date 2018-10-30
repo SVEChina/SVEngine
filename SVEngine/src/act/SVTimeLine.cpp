@@ -118,6 +118,14 @@ SVKeyFramePtr SVTimeLine::getKeyFrame(s32 _uid) {
     return nullptr;
 }
 
+SVKeyFramePtr SVTimeLine::getBeginKey() {
+    return m_startKey;
+}
+
+SVKeyFramePtr SVTimeLine::getEndKey() {
+    return m_endKey;
+}
+
 //
 void SVTimeLine::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                         RAPIDJSON_NAMESPACE::Value &_objValue){

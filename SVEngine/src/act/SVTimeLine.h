@@ -43,6 +43,10 @@ namespace sv {
             
             void refreshKey();
             
+            SVKeyFramePtr getBeginKey();
+            
+            SVKeyFramePtr getEndKey();
+            
             void setTotalTime(f32 _t);
             
             void setCurTime(f32 _t);

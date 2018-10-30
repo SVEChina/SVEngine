@@ -24,9 +24,9 @@ namespace sv {
             
             ~SVDragma();
 
-            void create();
+            void create(f32 _time,u32 _rate);
             
-            void create(TIMELINETYPE _type);
+            void create(TIMELINETYPE _type,f32 _time,u32 _rate);
             
             void destroy();
             
