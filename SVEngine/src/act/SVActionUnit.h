@@ -22,21 +22,22 @@ namespace sv{
             
             ~SVActionUnit();
             
-            void init();
+            virtual void init();
             
-            void destroy();
+            virtual void destroy();
             
-            void enter();
+            virtual void enter();
             
-            void exit();
+            virtual void exit();
             
-            void update(f32 _dt);
+            virtual void update(f32 _dt);
             
             void setAct(SVActBasePtr _actPtr);
             
             void setNode(SVNodePtr _nodePtr);
             
-            bool isEnd();
+            virtual bool isEnd();
+            
         protected:
             bool m_isEnd;
             SVActBasePtr m_actPtr;

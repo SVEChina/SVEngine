@@ -20,11 +20,9 @@ SVActionUnit::~SVActionUnit() {
 }
 
 void SVActionUnit::init() {
-   
 }
 
 void SVActionUnit::destroy() {
-    
 }
 
 void SVActionUnit::enter(){
@@ -41,14 +39,12 @@ void SVActionUnit::exit(){
 }
 
 void SVActionUnit::update(f32 _dt) {
-    
     if (m_actPtr && m_nodePtr) {
         if(m_actPtr->isEnd()){
             m_isEnd = true;
         }
         m_actPtr->run(m_nodePtr, _dt);
     }
-
 }
 
 void SVActionUnit::setAct(SVActBasePtr _actPtr){

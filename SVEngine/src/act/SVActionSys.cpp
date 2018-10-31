@@ -27,9 +27,12 @@ void SVActionSys::destroy() {
 
 void SVActionSys::update(f32 _dt) {
     m_lock->lock();
-    for(s32 i=0;i<m_aniUnitPool.size();i++){
-        if(m_aniUnitPool[i]){
+    for(s32 i=0;i<m_aniUnitPool.size();){
+        if( m_aniUnitPool[i]->isEnd() ){
+            m_aniUnitPool.removeForce(i);
+        } else {
             m_aniUnitPool[i]->update(_dt);
+            i++;
         }
     }
     m_lock->unlock();

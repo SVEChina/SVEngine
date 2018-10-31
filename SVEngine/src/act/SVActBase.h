@@ -39,6 +39,7 @@ namespace sv {
             virtual bool isEnd();
             
             virtual void reset();
+            
         protected:
             bool m_isEnd;
             
