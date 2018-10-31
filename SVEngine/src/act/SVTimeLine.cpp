@@ -48,6 +48,10 @@ void SVTimeLine::exit(SVNodePtr _nodePtr) {
 
 void SVTimeLine::update(SVNodePtr _nodePtr,f32 _dt) {
     m_accTime += _dt;
+    //计算key的差值
+    m_keyLock->lock();
+    //_refreshKey();
+    m_keyLock->unlock();
 }
 
 void SVTimeLine::setTotalTime(f32 _t) {

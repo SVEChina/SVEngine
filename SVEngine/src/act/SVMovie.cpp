@@ -34,14 +34,33 @@ void SVMovie::destroy() {
 }
 
 void SVMovie::enter(){
+    m_dragmaLock->lock();
+    m_accTime = 0.0f;
+    for(s32 i=0;i<m_dragmaPool.size();i++){
+        m_dragmaPool[i]->enter();
+    }
+    m_dragmaLock->unlock();
 }
 
 void SVMovie::exit(){
+    m_dragmaLock->lock();
+    m_accTime = 0.0f;
+    for(s32 i=0;i<m_dragmaPool.size();i++){
+        m_dragmaPool[i]->exit();
+    }
+    m_dragmaLock->unlock();
 }
 
 void SVMovie::update(f32 _dt) {
     if(m_state == E_MV_ST_PLAY) {
+        //
+        m_accTime += _dt;
         //走更新
+        m_dragmaLock->lock();
+        for(s32 i=0;i<m_dragmaPool.size();i++){
+            m_dragmaPool[i]->update(_dt);
+        }
+        m_dragmaLock->unlock();
     }
 }
 
