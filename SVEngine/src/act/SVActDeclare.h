@@ -14,7 +14,11 @@
 namespace sv {
     //
     namespace logic {
-        //act部分        
+        //
+        DECLARE_SHAREPTR(SVAniBase);
+        DECLARE_SHAREPTR(SVActionSys);
+        DECLARE_SHAREPTR(SVActionUnit);
+        //act部分
         DECLARE_SHAREPTR(SVActBase);
         DECLARE_SHAREPTR(SVActDeform);
         DECLARE_SHAREPTR(SVActMove);
@@ -35,8 +39,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVActCircle);
         DECLARE_SHAREPTR(SVActSequence);
         DECLARE_SHAREPTR(SVActTime);
-        DECLARE_SHAREPTR(SVActionSys);
-        DECLARE_SHAREPTR(SVActionUnit);
+       
         
         //MOVIE
         DECLARE_SHAREPTR(SVMovie);

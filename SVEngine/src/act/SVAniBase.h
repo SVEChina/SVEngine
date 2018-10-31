@@ -1,12 +1,12 @@
 //
-// SVActionUnit.h
+// SVAniBase.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_ACTIONUNIT_H
-#define SV_ACTIONUNIT_H
+#ifndef SV_ANIBASE_H
+#define SV_ANIBASE_H
 
 #include "../base/SVGBase.h"
 #include "SVActDef.h"
@@ -16,11 +16,11 @@ namespace sv{
     
     namespace logic {
         
-        class SVActionUnit : public SVGBase {
+        class SVAniBase : public SVGBase {
         public:
-            SVActionUnit(SVInst* _app);
+            SVAniBase(SVInst* _app);
             
-            ~SVActionUnit();
+            ~SVAniBase();
             
             virtual void init();
             
@@ -33,16 +33,7 @@ namespace sv{
             virtual bool isEnd();
             
             virtual void update(f32 _dt);
-            
-            void setAct(SVActBasePtr _actPtr);
-            
-            void setNode(SVNodePtr _nodePtr);
-            
-            
-        protected:
-            bool m_isEnd;
-            SVActBasePtr m_actPtr;
-            SVNodePtr m_nodePtr;
+
         };
         
     }//!namespace logic
@@ -52,4 +43,4 @@ namespace sv{
 
 
 
-#endif //SV_ACTIONUNIT_H
+#endif //SV_ANIBASE_H

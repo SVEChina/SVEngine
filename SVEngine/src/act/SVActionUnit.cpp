@@ -47,6 +47,10 @@ void SVActionUnit::update(f32 _dt) {
     }
 }
 
+bool SVActionUnit::isEnd(){
+    return m_isEnd;
+}
+
 void SVActionUnit::setAct(SVActBasePtr _actPtr){
     if (m_actPtr != _actPtr) {
         m_actPtr = _actPtr;
@@ -57,8 +61,4 @@ void SVActionUnit::setNode(SVNodePtr _nodePtr){
     if (m_nodePtr != _nodePtr) {
         m_nodePtr = _nodePtr;
     }
-}
-
-bool SVActionUnit::isEnd(){
-    return m_isEnd;
 }

@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-#include "../base/SVGBase.h"
+#include "SVActionUnit.h"
 #include "SVActDef.h"
 
 namespace sv {
@@ -20,11 +20,23 @@ namespace sv {
         
         //电影和剧本的关系
         
-        class SVMovie : public SVGBase {
+        class SVMovie : public SVActionUnit {
         public:
             SVMovie(SVInst* _app);
             
             ~SVMovie();
+            
+            virtual void init();
+            
+            virtual void destroy();
+            
+            virtual void enter();
+            
+            virtual void exit();
+            
+            virtual bool isEnd();
+            
+            virtual void update(f32 _dt);
             
             void play();
             
@@ -35,8 +47,6 @@ namespace sv {
             bool isLoop();
             
             void setLoop(bool _loop);
-            
-            bool isEnd(){ return false; }
             
             MOVSTATE getMovState() { return m_state; }
             

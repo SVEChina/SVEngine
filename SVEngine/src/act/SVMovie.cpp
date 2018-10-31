@@ -11,9 +11,10 @@
 #include "SVTimeLine.h"
 #include "SVTimeLineDeform.h"
 #include "SVTimeLineMtl.h"
+#include "SVActionSys.h"
 
 SVMovie::SVMovie(SVInst* _app)
-:SVGBase(_app)
+:SVActionUnit(_app)
 ,m_loop(false)
 ,m_accTime(0)
 ,m_totalTime(30.0f){
@@ -26,17 +27,50 @@ SVMovie::~SVMovie() {
     m_dragmaLock = nullptr;
 }
 
+void SVMovie::init() {
+    SVActionUnit::init();
+}
+
+void SVMovie::destroy() {
+    SVActionUnit::destroy();
+}
+
+void SVMovie::enter(){
+    SVActionUnit::enter();
+}
+
+void SVMovie::exit(){
+    SVActionUnit::enter();
+}
+
+void SVMovie::update(f32 _dt) {
+    if(m_state == E_MV_ST_PLAY) {
+        //走更新
+    }
+    SVActionUnit::update(_dt);
+}
+
+bool SVMovie::isEnd(){
+    return false;
+}
+
 void SVMovie::play() {
     m_state = E_MV_ST_PLAY;
+    //推送到action中
+    mApp->getActionSys()->addActionUnit(THIS_TO_SHAREPTR(SVMovie));
 }
 
 void SVMovie::pause() {
     m_state = E_MV_ST_PAUSE;
+    //推送到action中
+    
 }
 
 void SVMovie::stop() {
+    //推出到action中
     if(m_state == E_MV_ST_PLAY || m_state == E_MV_ST_PAUSE){
         m_state = E_MV_ST_READY;
+        mApp->getActionSys()->removeActionUnit(THIS_TO_SHAREPTR(SVMovie));
     }
 }
 

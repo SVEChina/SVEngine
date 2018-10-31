@@ -2563,6 +2563,14 @@
 		5F7D698D215F407900803BCF /* SVBounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5FE5215F407700803BCF /* SVBounds.h */; };
 		5F7D698E215F407900803BCF /* SVBounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5FE5215F407700803BCF /* SVBounds.h */; };
 		5F7D698F215F407900803BCF /* SVBounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5FE5215F407700803BCF /* SVBounds.h */; };
+		5FAB9DD82189AC6700B05ED5 /* SVAniBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */; };
+		5FAB9DD92189AC6700B05ED5 /* SVAniBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */; };
+		5FAB9DDA2189AC6700B05ED5 /* SVAniBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */; };
+		5FAB9DDB2189AC6700B05ED5 /* SVAniBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */; };
+		5FAB9DDC2189AC6700B05ED5 /* SVAniBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */; };
+		5FAB9DDD2189AC6700B05ED5 /* SVAniBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */; };
+		5FAB9DDE2189AC6700B05ED5 /* SVAniBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */; };
+		5FAB9DDF2189AC6700B05ED5 /* SVAniBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */; };
 		5FBA206B216DFF7000A6868E /* SVUIMovieNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA2069216DFF6F00A6868E /* SVUIMovieNode.h */; };
 		5FBA206C216DFF7000A6868E /* SVUIMovieNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA206A216DFF6F00A6868E /* SVUIMovieNode.cpp */; };
 		5FBA206F216E02AA00A6868E /* SVUIPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA206D216E02A900A6868E /* SVUIPanel.cpp */; };
@@ -3212,6 +3220,8 @@
 		5F7D5FE3215F407700803BCF /* SVMat2.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMat2.cpp; sourceTree = "<group>"; };
 		5F7D5FE4215F407700803BCF /* SVObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVObject.h; sourceTree = "<group>"; };
 		5F7D5FE5215F407700803BCF /* SVBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBounds.h; sourceTree = "<group>"; };
+		5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVAniBase.cpp; sourceTree = "<group>"; };
+		5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAniBase.h; sourceTree = "<group>"; };
 		5FBA2069216DFF6F00A6868E /* SVUIMovieNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUIMovieNode.h; sourceTree = "<group>"; };
 		5FBA206A216DFF6F00A6868E /* SVUIMovieNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVUIMovieNode.cpp; sourceTree = "<group>"; };
 		5FBA206D216E02A900A6868E /* SVUIPanel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVUIPanel.cpp; sourceTree = "<group>"; };
@@ -3773,6 +3783,8 @@
 				5F7D5E94215F407700803BCF /* SVActSequence.h */,
 				5F7D5EB3215F407700803BCF /* SVActTime.cpp */,
 				5F7D5EAE215F407700803BCF /* SVActTime.h */,
+				5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */,
+				5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */,
 				5F7D5E96215F407700803BCF /* SVDragma.cpp */,
 				5F7D5EB4215F407700803BCF /* SVDragma.h */,
 				5F7D5EB1215F407700803BCF /* SVKeyFrame.cpp */,
@@ -4294,6 +4306,7 @@
 				5F7D66FB215F407900803BCF /* SVMtlSkinModel.h in Headers */,
 				5F7D670F215F407900803BCF /* SVCallbackBase.h in Headers */,
 				5F7D641D215F407800803BCF /* pointer.h in Headers */,
+				5FAB9DDF2189AC6700B05ED5 /* SVAniBase.h in Headers */,
 				5F7D62AD215F407800803BCF /* Skeleton.h in Headers */,
 				5F7D6275215F407800803BCF /* Bone.h in Headers */,
 				5F7D68BF215F407900803BCF /* SVMap.spu.h in Headers */,
@@ -4652,6 +4665,7 @@
 				5F7D66F9215F407900803BCF /* SVMtlSkinModel.h in Headers */,
 				5F7D670D215F407900803BCF /* SVCallbackBase.h in Headers */,
 				5F7D641B215F407800803BCF /* pointer.h in Headers */,
+				5FAB9DDD2189AC6700B05ED5 /* SVAniBase.h in Headers */,
 				5F7D62AB215F407800803BCF /* Skeleton.h in Headers */,
 				5F7D6273215F407800803BCF /* Bone.h in Headers */,
 				5F7D68BD215F407900803BCF /* SVMap.spu.h in Headers */,
@@ -4972,6 +4986,7 @@
 				5F7D617A215F407700803BCF /* SVFileLoader.h in Headers */,
 				5F7D6800215F407900803BCF /* SVMultPassNode.h in Headers */,
 				5F7D61F2215F407700803BCF /* SVPngLoader.h in Headers */,
+				5FAB9DDC2189AC6700B05ED5 /* SVAniBase.h in Headers */,
 				5F7D65DC215F407800803BCF /* SVFboObject.h in Headers */,
 				5F44286521843C5900AF4A5B /* SVOutMissionNor.h in Headers */,
 				5F7D6844215F407900803BCF /* SVEventDef.h in Headers */,
@@ -5371,6 +5386,7 @@
 				5F7D66FA215F407900803BCF /* SVMtlSkinModel.h in Headers */,
 				5F7D670E215F407900803BCF /* SVCallbackBase.h in Headers */,
 				5F7D641C215F407800803BCF /* pointer.h in Headers */,
+				5FAB9DDE2189AC6700B05ED5 /* SVAniBase.h in Headers */,
 				5F7D62AC215F407800803BCF /* Skeleton.h in Headers */,
 				5F7D6274215F407800803BCF /* Bone.h in Headers */,
 				5F7D68BE215F407900803BCF /* SVMap.spu.h in Headers */,
@@ -5945,6 +5961,7 @@
 				5F7D615D215F407700803BCF /* SVGlobalParam.cpp in Sources */,
 				5F7D6205215F407700803BCF /* pngrio.c in Sources */,
 				5F7D6345215F407800803BCF /* Slot.c in Sources */,
+				5FAB9DDB2189AC6700B05ED5 /* SVAniBase.cpp in Sources */,
 				5F7D64DB215F407800803BCF /* SVActMtl.cpp in Sources */,
 				5F7D64FF215F407800803BCF /* SVOpCreate.cpp in Sources */,
 				5F7D6713215F407900803BCF /* SVCallbackBase.cpp in Sources */,
@@ -6224,6 +6241,7 @@
 				5F7D68C0215F407900803BCF /* SVGeometry.cpp in Sources */,
 				5F7D6232215F407800803BCF /* pngpread.c in Sources */,
 				022C1B342175EFD300FA5884 /* SVBMFontLoader.cpp in Sources */,
+				5FAB9DD82189AC6700B05ED5 /* SVAniBase.cpp in Sources */,
 				5F7D68D0215F407900803BCF /* SVVec4.cpp in Sources */,
 				5F7D6346215F407800803BCF /* EventData.c in Sources */,
 				5F7D6838215F407900803BCF /* SVEventThread.cpp in Sources */,
@@ -6529,6 +6547,7 @@
 				5F7D615C215F407700803BCF /* SVGlobalParam.cpp in Sources */,
 				5F7D6204215F407700803BCF /* pngrio.c in Sources */,
 				5F7D6344215F407800803BCF /* Slot.c in Sources */,
+				5FAB9DDA2189AC6700B05ED5 /* SVAniBase.cpp in Sources */,
 				5F7D64DA215F407800803BCF /* SVActMtl.cpp in Sources */,
 				5F7D64FE215F407800803BCF /* SVOpCreate.cpp in Sources */,
 				5F7D6712215F407900803BCF /* SVCallbackBase.cpp in Sources */,
@@ -6820,6 +6839,7 @@
 				5F7D615B215F407700803BCF /* SVGlobalParam.cpp in Sources */,
 				5F7D6203215F407700803BCF /* pngrio.c in Sources */,
 				5F7D6343215F407800803BCF /* Slot.c in Sources */,
+				5FAB9DD92189AC6700B05ED5 /* SVAniBase.cpp in Sources */,
 				5F7D64D9215F407800803BCF /* SVActMtl.cpp in Sources */,
 				5F7D64FD215F407800803BCF /* SVOpCreate.cpp in Sources */,
 				5F7D6711215F407900803BCF /* SVCallbackBase.cpp in Sources */,
