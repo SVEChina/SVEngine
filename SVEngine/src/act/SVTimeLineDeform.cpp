@@ -32,4 +32,13 @@ void SVTimeLineDeform::update(SVNodePtr _nodePtr,f32 _dt) {
     //插值
 }
 
+//
+SVKeyFramePtr SVTimeLineDeform::_lerpKey() {
+    return nullptr;
+}
+
+void SVTimeLineDeform::_execkey(SVNodePtr _node,SVKeyFramePtr _key) {
+    
+}
+
 

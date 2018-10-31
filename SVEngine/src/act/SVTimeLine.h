@@ -51,6 +51,9 @@ namespace sv {
             
             void setCurTime(f32 _t);
             
+            //刷新节点
+            void refreshNode(SVNodePtr _nodePtr);
+            
         public:
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                         RAPIDJSON_NAMESPACE::Value &_objValue);
@@ -58,7 +61,12 @@ namespace sv {
             void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
             
         protected:
+            //
             void _refreshKey();
+            //
+            virtual SVKeyFramePtr _lerpKey();
+            //
+            virtual void _execkey(SVNodePtr _node,SVKeyFramePtr _key);
             //
             TIMELINETYPE m_type;
             //

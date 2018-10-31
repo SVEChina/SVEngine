@@ -50,7 +50,13 @@ void SVTimeLine::update(SVNodePtr _nodePtr,f32 _dt) {
     m_accTime += _dt;
     //计算key的差值
     m_keyLock->lock();
-    //_refreshKey();
+    //
+    SVKeyFramePtr t_key = _lerpKey();
+    if(t_key) {
+        //进行刷新操作
+        _execkey(_nodePtr,t_key);
+    }
+    //
     m_keyLock->unlock();
 }
 
@@ -60,6 +66,23 @@ void SVTimeLine::setTotalTime(f32 _t) {
 
 void SVTimeLine::setCurTime(f32 _t) {
     m_accTime = _t;
+}
+
+void SVTimeLine::refreshNode(SVNodePtr _nodePtr) {
+    SVKeyFramePtr t_key = _lerpKey();
+    if(t_key) {
+        //进行刷新操作
+        _execkey(_nodePtr,t_key);
+    }
+}
+
+//
+SVKeyFramePtr SVTimeLine::_lerpKey() {
+    return nullptr;
+}
+
+void SVTimeLine::_execkey(SVNodePtr _node,SVKeyFramePtr _key) {
+    
 }
 
 //key索引排序
