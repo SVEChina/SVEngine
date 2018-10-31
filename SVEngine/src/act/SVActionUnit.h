@@ -8,15 +8,14 @@
 #ifndef SV_ACTIONUNIT_H
 #define SV_ACTIONUNIT_H
 
-#include "../base/SVGBase.h"
-#include "SVActDef.h"
+#include "SVAniBase.h"
 #include "../node/SVNodeDeclare.h"
 
 namespace sv{
     
     namespace logic {
         
-        class SVActionUnit : public SVGBase {
+        class SVActionUnit : public SVAniBase {
         public:
             SVActionUnit(SVInst* _app);
             

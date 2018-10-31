@@ -26,18 +26,19 @@ namespace sv{
             
             void update(f32 _dt);
             
-            bool hasActionUnit(SVActionUnitPtr _actUnit);
+            bool hasActionUnit(SVAniBasePtr _actUnit);
             
-            void addActionUnit(SVActionUnitPtr _actUnit);
+            void addActionUnit(SVAniBasePtr _actUnit);
             
-            bool removeActionUnit(SVActionUnitPtr _actUnit);
+            bool removeActionUnit(SVAniBasePtr _actUnit);
             
             void clearActionUnits();
             
         protected:
             SVLockPtr m_lock;
-            typedef SVArray<SVActionUnitPtr> ANIUNITPOOL;
-            ANIUNITPOOL m_aniUnitPool;
+            //
+            typedef SVArray<SVAniBasePtr> SVANIPOOL;
+            SVANIPOOL m_aniPool;
         };
     }//!namespace logic
     

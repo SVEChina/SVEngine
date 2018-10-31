@@ -18,7 +18,7 @@ namespace sv {
     namespace logic {
         
         //SVDragma 节点和时间轴的关系
-        class SVDragma : public SVActBase {
+        class SVDragma : public SVGBase {
         public:
             SVDragma(SVInst* _app);
             

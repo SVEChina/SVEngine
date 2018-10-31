@@ -13,7 +13,7 @@
 #include "SVTimeLineEvent.h"
 
 SVDragma::SVDragma(SVInst* _app)
-:SVActBase(_app){
+:SVGBase(_app){
     m_uid = mApp->m_IDPool.applyUID();
     m_timeLinePool.resize(E_TL_T_MAX);
     for(s32 i=0;i<E_TL_T_MAX;i++) {

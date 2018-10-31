@@ -14,7 +14,7 @@
 #include "SVActionSys.h"
 
 SVMovie::SVMovie(SVInst* _app)
-:SVActionUnit(_app)
+:SVAniBase(_app)
 ,m_loop(false)
 ,m_accTime(0)
 ,m_totalTime(30.0f){
@@ -28,26 +28,21 @@ SVMovie::~SVMovie() {
 }
 
 void SVMovie::init() {
-    SVActionUnit::init();
 }
 
 void SVMovie::destroy() {
-    SVActionUnit::destroy();
 }
 
 void SVMovie::enter(){
-    SVActionUnit::enter();
 }
 
 void SVMovie::exit(){
-    SVActionUnit::enter();
 }
 
 void SVMovie::update(f32 _dt) {
     if(m_state == E_MV_ST_PLAY) {
         //走更新
     }
-    SVActionUnit::update(_dt);
 }
 
 bool SVMovie::isEnd(){

@@ -7,8 +7,9 @@
 
 #include "SVActionUnit.h"
 #include "../act/SVActBase.h"
+
 SVActionUnit::SVActionUnit(SVInst *_app)
-:SVGBase(_app) {
+:SVAniBase(_app) {
     m_actPtr = nullptr;
     m_nodePtr = nullptr;
     m_isEnd = false;

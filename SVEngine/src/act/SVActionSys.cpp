@@ -27,32 +27,32 @@ void SVActionSys::destroy() {
 
 void SVActionSys::update(f32 _dt) {
     m_lock->lock();
-    for(s32 i=0;i<m_aniUnitPool.size();){
-        if( m_aniUnitPool[i]->isEnd() ){
-            m_aniUnitPool.removeForce(i);
+    for(s32 i=0;i<m_aniPool.size();){
+        if( m_aniPool[i]->isEnd() ){
+            m_aniPool.removeForce(i);
         } else {
-            m_aniUnitPool[i]->update(_dt);
+            m_aniPool[i]->update(_dt);
             i++;
         }
     }
     m_lock->unlock();
 }
 
-void SVActionSys::addActionUnit(SVActionUnitPtr _actUnit){
+void SVActionSys::addActionUnit(SVAniBasePtr _actUnit){
     if ( _actUnit && !hasActionUnit(_actUnit) ){
         m_lock->lock();
-        m_aniUnitPool.append(_actUnit);
+        m_aniPool.append(_actUnit);
         m_lock->unlock();
     }
 }
 
-bool SVActionSys::removeActionUnit(SVActionUnitPtr _actUnit){
+bool SVActionSys::removeActionUnit(SVAniBasePtr _actUnit){
     bool t_ret = false;
     m_lock->lock();
-    for (s32 i = 0; i < m_aniUnitPool.size(); i++) {
-        SVActionUnitPtr t_aniUnit = m_aniUnitPool[i];
+    for (s32 i = 0; i < m_aniPool.size(); i++) {
+        SVAniBasePtr t_aniUnit = m_aniPool[i];
         if ( t_aniUnit == _actUnit) {
-            m_aniUnitPool.removeForce(i);
+            m_aniPool.removeForce(i);
             t_aniUnit = nullptr;
             t_ret = true;
             break;
@@ -64,19 +64,19 @@ bool SVActionSys::removeActionUnit(SVActionUnitPtr _actUnit){
 
 void SVActionSys::clearActionUnits() {
     m_lock->lock();
-    for (s32 i = 0; i < m_aniUnitPool.size(); i++) {
-        SVActionUnitPtr t_aniUnit = m_aniUnitPool[i];
+    for (s32 i = 0; i < m_aniPool.size(); i++) {
+        SVAniBasePtr t_aniUnit = m_aniPool[i];
         t_aniUnit->destroy();
     }
-    m_aniUnitPool.destroy();
+    m_aniPool.destroy();
     m_lock->unlock();
 }
 
-bool SVActionSys::hasActionUnit(SVActionUnitPtr _actUnit) {
+bool SVActionSys::hasActionUnit(SVAniBasePtr _actUnit) {
     bool t_ret = false;
     m_lock->lock();
-    for (s32 i = 0; i < m_aniUnitPool.size(); i++) {
-        if (m_aniUnitPool[i] == _actUnit) {
+    for (s32 i = 0; i < m_aniPool.size(); i++) {
+        if (m_aniPool[i] == _actUnit) {
             t_ret = true;
             break;
         }

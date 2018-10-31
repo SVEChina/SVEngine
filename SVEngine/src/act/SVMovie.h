@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-#include "SVActionUnit.h"
+#include "SVAniBase.h"
 #include "SVActDef.h"
 
 namespace sv {
@@ -20,7 +20,7 @@ namespace sv {
         
         //电影和剧本的关系
         
-        class SVMovie : public SVActionUnit {
+        class SVMovie : public SVAniBase {
         public:
             SVMovie(SVInst* _app);
             

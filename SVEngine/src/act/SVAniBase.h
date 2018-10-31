@@ -10,7 +10,6 @@
 
 #include "../base/SVGBase.h"
 #include "SVActDef.h"
-#include "../node/SVNodeDeclare.h"
 
 namespace sv{
     
