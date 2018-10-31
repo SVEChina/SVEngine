@@ -426,6 +426,21 @@ namespace sv {
             return ret.normalize();
         }
         
+        // Vector angles and slerps.
+        template <typename T, typename T1>
+        sv_inline FVec4 slerp(const FVec4& a, const FVec4& b, T1 u) {
+            FVec4 an = normalize(a), bn = normalize(b);
+            f32 d = dot(an, bn);
+            if (d < 0) {
+                bn = -bn;
+                d  = -d;
+            }
+            if (d > 0.9995f) return normalize(an + u * (bn - an));
+            f32 th = acosf(clamp(d, -1.0f, 1.0f));
+            if (!th) return an;
+            return an * (sinf(th * (1 - u)) / sinf(th)) + bn * (sinf(th * u) / sinf(th));
+        }
+        
         //
         FVec4 min(const FVec4 &v0,const FVec4 &v1);
         
@@ -436,6 +451,7 @@ namespace sv {
         FVec4 saturate(const FVec4 &v);
         
         FVec4 lerp(const FVec4 &v0,const FVec4 &v1,f32 k);
+        
         
         //****************************** DVec4 ********************************************
         //
