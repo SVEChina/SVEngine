@@ -41,7 +41,7 @@ SVFaceShapeNode::~SVFaceShapeNode(){
 }
 
 void SVFaceShapeNode::init(){
-    enter();
+    startListen();
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return ;
@@ -50,6 +50,7 @@ void SVFaceShapeNode::init(){
                                            t_tex,
                                            false,
                                            false);
+    SVTexturePtr t_texmain = t_renderer->getSVTex(E_TEX_MAIN);
     mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
     SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     t_mtl->setTexcoordFlip(1.0f, 1.0f);
@@ -58,7 +59,7 @@ void SVFaceShapeNode::init(){
     t_pass1->setMtl(m_pMtl);
     m_pMtl->setTexcoordFlip(1.0f, -1.0f);
     t_pass1->setMesh(m_pMesh);
-    t_pass1->setInTex(0, E_TEX_MAIN);
+    t_pass1->setInTex(0, t_texmain);
     t_pass1->setOutTex(t_tex);
     addPass(t_pass1);
     
@@ -66,7 +67,7 @@ void SVFaceShapeNode::init(){
     t_pass2->setMtl(t_mtl);
     t_pass2->setInTex(0, t_tex);
     t_pass2->setMesh(mApp->getDataMgr()->m_screenMesh);
-    t_pass2->setOutTex(E_TEX_MAIN);
+    t_pass2->setOutTex(t_texmain);
     addPass(t_pass2);
 }
 
@@ -81,7 +82,7 @@ void SVFaceShapeNode::clearPass() {
 }
 
 void SVFaceShapeNode::destroy(){
-    exit();
+    stopListen();
     clearPass();
 }
 

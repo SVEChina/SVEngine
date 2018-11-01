@@ -24,6 +24,7 @@ namespace sv {
             ~SVParamDeform();
             void reset(){
                 m_pointMap.clear();
+                m_areaPoint.clear();
             }
             void copy(SVParamDeformPtr _param){
                 m_pointMap=_param->m_pointMap;
@@ -33,6 +34,8 @@ namespace sv {
                 m_pointMap.append(_postion, _point);
             }
             SVMap<u32, V2> m_pointMap;
+            SVMap<SVString,SVMap<u32, V2>> m_areaPoint;
+            
         };
         
         //deform imagemove 算法
@@ -58,6 +61,14 @@ namespace sv {
             
             void setPoint(V2 *_data);
             
+            inline void setFlip(bool _flip){
+                m_flip=_flip;
+            }
+            
+            inline void setIsDetect(bool _isdetect){
+                is_detect=_isdetect;
+            }
+            
             s32 getWidth();
             
             s32 getHeight();
@@ -82,6 +93,11 @@ namespace sv {
             virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
             
         protected:
+            
+            void _updateControl(V2 *t_data);
+            
+            void _updateMesh();
+            
             void _refreshScreenRectMesh(V2 *t_data,V2 *t_targetData);
             
             void _initPoint();
@@ -94,7 +110,7 @@ namespace sv {
             
             SVImageUsingMovePtr m_pIUMP;
             
-            V2 m_pointScreen[2400];     //30*80
+            V2 m_pointScreen[39*64];     //31*81
             SVParamDeformPtr m_param;
               //人脸偏移值
             
@@ -109,6 +125,7 @@ namespace sv {
             bool is_swith;
             bool m_flip;
             bool m_is_point;
+            bool is_detect;
             
             SVTexturePtr m_pPointTex;
             SVRenderMeshPtr m_pMeshPoint;
