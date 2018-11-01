@@ -8,9 +8,12 @@
 
 #include "SVTimeLineDeform.h"
 
-SVTimeLineDeform::SVTimeLineDeform(SVInst* _app)
-:SVTimeLine(_app){
+SVTimeLineDeform::SVTimeLineDeform(SVInst* _app,f32 _time,s32 _rate)
+:SVTimeLine(_app,_time,_rate){
     m_type = E_TL_T_DEFORM;
+    m_startKey = MakeSharedPtr<SVKeyDeform>(mApp,0);
+    u32 t_maxFrame = SVTimeLine::maxFrame(_time,_rate);
+    m_endKey = MakeSharedPtr<SVKeyDeform>(mApp,t_maxFrame);
 }
 
 SVTimeLineDeform::~SVTimeLineDeform() {
@@ -27,6 +30,15 @@ void SVTimeLineDeform::exit(SVNodePtr _nodePtr) {
 void SVTimeLineDeform::update(SVNodePtr _nodePtr,f32 _dt) {
     SVTimeLine::update(_nodePtr,_dt);
     //插值
+}
+
+//
+SVKeyFramePtr SVTimeLineDeform::_lerpKey() {
+    return nullptr;
+}
+
+void SVTimeLineDeform::_execkey(SVNodePtr _node,SVKeyFramePtr _key) {
+    
 }
 
 

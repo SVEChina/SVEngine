@@ -17,7 +17,7 @@ namespace sv {
         
         class SVTimeLineMtl : public SVTimeLine {
         public:
-            SVTimeLineMtl(SVInst* _app);
+            SVTimeLineMtl(SVInst* _app,f32 _time,s32 _rate);
             
             ~SVTimeLineMtl();
             
@@ -26,6 +26,11 @@ namespace sv {
             void exit(SVNodePtr _nodePtr);
             
             void update(SVNodePtr _nodePtr,f32 _dt);
+            
+        protected:
+            SVKeyFramePtr _lerpKey() ;
+            
+            void _execkey(SVNodePtr _node,SVKeyFramePtr _key) ;
         };
         
     }//!namespace logic

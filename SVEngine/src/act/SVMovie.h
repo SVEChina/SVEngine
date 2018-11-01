@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-#include "../base/SVGBase.h"
+#include "SVAniBase.h"
 #include "SVActDef.h"
 
 namespace sv {
@@ -20,11 +20,23 @@ namespace sv {
         
         //电影和剧本的关系
         
-        class SVMovie : public SVGBase {
+        class SVMovie : public SVAniBase {
         public:
             SVMovie(SVInst* _app);
             
             ~SVMovie();
+            
+            virtual void init();
+            
+            virtual void destroy();
+            
+            virtual void enter();
+            
+            virtual void exit();
+            
+            virtual bool isEnd();
+            
+            virtual void update(f32 _dt);
             
             void play();
             
@@ -36,15 +48,17 @@ namespace sv {
             
             void setLoop(bool _loop);
             
-            bool isEnd(){ return false; }
+            MOVSTATE getMovState() { return m_state; }
             
-            inline MOVSTATE getMovState() { return m_state; }
+            void setTotalTime(f32 _time);
             
-            inline void setTotalTime(f32 _time){ m_totalTime = _time; }
+            f32 getTotalTime();
             
-            inline f32 getTotalTime(){ return m_totalTime; }
+            void setCurTime(f32 _time);
             
-            //
+            f32 getCurTime();
+            
+            //剧本相关
             void addDragma(SVDragmaPtr _dragma);
             
             void delDragma(SVDragmaPtr _dragma);
@@ -77,7 +91,10 @@ namespace sv {
             
             typedef SVArray<SVDragmaPtr> DragmaPool;
             DragmaPool m_dragmaPool;
-        };
+            
+            SVLockPtr m_dragmaLock;
+            
+        };//class SVMovie
         
     }//!namespace logic
     

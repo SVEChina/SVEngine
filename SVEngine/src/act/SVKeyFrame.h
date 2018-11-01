@@ -12,6 +12,7 @@
 #include <stdio.h>
 
 #include "../base/SVGBase.h"
+#include "../third/rapidjson/rapidjson.h"
 #include "SVActDeclare.h"
 #include "../base/SVVec3.h"
 #include "../mtl/SVMtlCore.h"
@@ -22,49 +23,78 @@ namespace sv {
         
         class SVKeyFrame : public SVGBase {
         public:
-            SVKeyFrame(SVInst* _app);
+            SVKeyFrame(SVInst* _app,u32 _index);
             
             ~SVKeyFrame();
-            
-            f32 m_time;
-            
+
             inline u32 getUID(){ return m_uid; }
             
-        protected:
-            u32 m_uid;
+            void setIndex(u32 _index);
+            
+            u32 getIndex();
             
         public:
-            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc,
+                        RAPIDJSON_NAMESPACE::Value &_obj);
             
             void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+            
+        protected:
+            
+            u32 m_uid;
+            
+            u32 m_index; //key索引
+            
+            void _toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc,
+                        RAPIDJSON_NAMESPACE::Value &_obj);
+            
+            void _fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
         
         //
         class SVKeyDeform : public SVKeyFrame {
         public:
-            SVKeyDeform(SVInst* _app);
+            SVKeyDeform(SVInst* _app,u32 _index);
             
             ~SVKeyDeform();
             
             FVec3 m_pos;
             FVec3 m_rot;
             FVec3 m_scale;
+            
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc,
+                        RAPIDJSON_NAMESPACE::Value &_obj);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
+        
+        
         //
         class SVKeyMtl : public SVKeyFrame {
         public:
-            SVKeyMtl(SVInst* _app);
+            SVKeyMtl(SVInst* _app,u32 _index);
             
             ~SVKeyMtl();
             
             SVMtlCorePtr m_mtl;
+            
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc,
+                        RAPIDJSON_NAMESPACE::Value &_obj);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
+        
         //
         class SVKeyEvent : public SVKeyFrame {
         public:
-            SVKeyEvent(SVInst* _app);
+            SVKeyEvent(SVInst* _app,u32 _index);
             
             ~SVKeyEvent();
+            
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc,
+                        RAPIDJSON_NAMESPACE::Value &_obj);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
         
     }//!namespace logic

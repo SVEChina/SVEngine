@@ -383,6 +383,29 @@ namespace sv {
             FVec3 ret;
             return reflect(ret,v0,v1);
         }
+        // Orthogonal vectors.
+        sv_inline FVec3 orthogonal(FVec3 &ret, const FVec3& v) {
+            if (fabs(v.x) > fabs(v.z)) {
+                ret.x = -v.y;
+                ret.y = -v.x;
+                ret.z = 0.0f;
+            }else{
+                ret.x = 0.0f;
+                ret.y = -v.z;
+                ret.z = v.y;
+            }
+            return ret;
+        }
+        
+        sv_inline FVec3 orthonormalize(const FVec3& _a, const FVec3& _b) {
+            return normalize(_a - _b * dot(_a, _b));
+        }
+        
+        // Vector angles and slerps.
+        template <typename T>
+        sv_inline T angle(const FVec3& a, const FVec3& b) {
+            return acos(clamp(dot(normalize(a), normalize(b)), -1.0f, 1.0f));
+        }
         
         //
         FVec3 min(const FVec3 &v0,const FVec3 &v1);
