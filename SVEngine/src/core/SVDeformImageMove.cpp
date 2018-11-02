@@ -31,6 +31,7 @@
 #include "../node/SVCameraNode.h"
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectST.h"
+#include "../core/SVMathHelper.h"
 
 
 SVParamDeform::SVParamDeform(){
@@ -56,13 +57,14 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_tt_h = 0;
     m_dataPoint = nullptr;
     m_fbo = nullptr;
-    m_wPointCount = 30;
-    m_hPointCont = 80;
+    m_wPointCount =39;
+    m_hPointCont = 64;
     m_inw=10;
     m_inh=10;
     m_flip = false;
     is_swith = true;
     m_is_point=false;
+    is_detect=false;
     
 }
 
@@ -80,7 +82,7 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
     if(t_renderer && _intex && _texout){
         m_tt_w = _intex->getwidth();
         m_tt_h = _intex->getheight();
-        m_flip=true;
+       
         _initPoint();
         m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,
                                                _texout,
@@ -131,12 +133,12 @@ void SVDeformImageMove::_initPoint(){
         m_pMeshBg = mApp->getRenderMgr()->createMeshRObj();
     }
     //索引数据
-    u16 m_dataIndex[14400];//30*80*2*3
+    u16 m_dataIndex[39*64*2*3];//41*81*2*3
     //
     s32 iWidthPoint = m_wPointCount , iHeightPoint = m_hPointCont;
     s32 iDataCount = iWidthPoint * iHeightPoint;
-    s32 iWidthRect  = iWidthPoint - 1;
-    s32 iHeightRect = iHeightPoint - 1;
+    s32 iWidthRect  = iWidthPoint-1 ;
+    s32 iHeightRect = iHeightPoint-1;
     f32 fWidthDelta =  m_tt_w / iWidthRect;
     f32 fHeightDelta = m_tt_h / iHeightRect;
     s32 iDataIndex = 0;
@@ -202,12 +204,17 @@ void SVDeformImageMove::update(f32 _dt){
     if(!is_swith){
         return;
     }
-    SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
-  
-    if( t_person && t_person->getExist()){
-        V2 *t_data = (V2*)t_person->getFaceDataOriginal();
+ 
+    if(is_detect){
         m_pIUMP->clearContrl();
-        pointMove(t_data);
+        for(int i=1;i<=4;i++){
+            SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(i);
+            if( t_person && t_person->getExist()){
+                V2 *t_data = (V2*)t_person->getFaceDataOriginal();
+                _updateControl(t_data);
+            }
+        }
+        _updateMesh();
     }
     //
     if(m_passDeform && m_passDeform->m_pMtl){
@@ -228,7 +235,11 @@ void SVDeformImageMove::render(){
             t_cmd->setFbo(m_fbo);
             //图片翻转这块需要校正一下 by fyz
             if(m_pMtlBg){
-                m_pMtlBg->setTexcoordFlip(1.0f, 1.0f);
+                if(m_flip){
+                    m_pMtlBg->setTexcoordFlip(1.0f, -1.0f);
+                }else{
+                    m_pMtlBg->setTexcoordFlip(1.0f, 1.0f);
+                }
             }
             //
             if( m_passDeform->m_outTexType == E_TEX_END ) {
@@ -246,7 +257,7 @@ void SVDeformImageMove::render(){
             if(m_passPoint->m_pMtl&&m_is_point){
                  t_cmd->addMtlMesh(m_passPoint->m_pMtl,m_passPoint->m_pMesh);
             }
-            t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);//m_rsType
+            t_rs->pushRenderCmd(RST_BACKGROUND, t_cmd);//m_rsType
         }
 //
 //        if(m_passPoint->m_pMtl){
@@ -295,11 +306,7 @@ void SVDeformImageMove::pointMove(V2 *t_data){
     V2 t_outlinePoints[106];
     for(s32 i  = 0 ; i < 106 ; i++){
         t_outlinePoints[i].x = t_data[i].x;
-        if(m_flip){
-            t_outlinePoints[i].y = t_data[i].y;
-        }else{
-            t_outlinePoints[i].y = m_tt_h-t_data[i].y;
-        }
+        t_outlinePoints[i].y = t_data[i].y;
     }
     FVec2 eyer = FVec2(t_outlinePoints[77].x,t_outlinePoints[77].y);
     FVec2 eyel = FVec2(t_outlinePoints[74].x,t_outlinePoints[74].y);
@@ -310,13 +317,18 @@ void SVDeformImageMove::pointMove(V2 *t_data){
     f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
     m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
     m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
+    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
+    m_pIUMP->setTargetControl(FVec2(m_tt_w,m_tt_h));
+    m_pIUMP->setControl(FVec2(m_tt_w,0.0));
+    m_pIUMP->setTargetControl(FVec2(m_tt_w,0.0));
+    
     FVec2 t_rangleV2(t_outlinePoints[46].x,t_outlinePoints[46].y);
     //迭代偏移值
     SVMap<u32,V2>::Iterator it = m_param->m_pointMap.begin();
     while (it!=m_param->m_pointMap.end()) {
         u32 t_postion = it->key;
         V2 t_point = it->data;
-        m_pIUMP->setControl(FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y));
+        m_pIUMP->setControl(FVec2(t_outlinePoints[t_postion].x+1,t_outlinePoints[t_postion].y+1));
         FVec2 point_v = FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y);
         point_v = rotateBy(-angle,point_v,t_rangleV2);
         point_v = FVec2(point_v.x+t_point.x*_smooth,point_v.y+t_point.y*_smooth);
@@ -324,7 +336,68 @@ void SVDeformImageMove::pointMove(V2 *t_data){
         m_pIUMP->setTargetControl(point_v);
         it++;
     }
+
+    
+    
     //
+    V2 t_targetData[m_wPointCount*m_hPointCont];
+    for(s32 i=0;i< m_wPointCount*m_hPointCont;i++){
+        if(m_pointScreen[i].x == 0.0
+           ||m_pointScreen[i].x == m_tt_w
+           ||m_pointScreen[i].y == 0.0
+           ||m_pointScreen[i].y == m_tt_h){
+            t_targetData[i].x = m_pointScreen[i].x;
+            t_targetData[i].y = m_pointScreen[i].y;
+        }else{
+            FVec2 t_xy=m_pIUMP->MLS(FVec2(m_pointScreen[i].x,m_pointScreen[i].y));
+            t_targetData[i].x=t_xy.x;
+            t_targetData[i].y=t_xy.y;
+        }
+    }
+    //
+    _refreshScreenRectMesh(m_pointScreen, t_targetData);
+}
+
+void SVDeformImageMove::_updateControl(V2 *t_data){
+    V2 t_outlinePoints[106];
+    for(s32 i  = 0 ; i < 106 ; i++){
+        t_outlinePoints[i].x = t_data[i].x;
+        t_outlinePoints[i].y = t_data[i].y;
+    }
+    FVec2 eyer = FVec2(t_outlinePoints[77].x,t_outlinePoints[77].y);
+    FVec2 eyel = FVec2(t_outlinePoints[74].x,t_outlinePoints[74].y);
+    
+    f32 leng = getDistanceFrom(eyer,eyel);
+    f32 _smooth = (leng/240.0);
+    FVec2 t_eyel = eyer-eyel;
+    f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
+    m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
+    m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
+    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
+    m_pIUMP->setTargetControl(FVec2(m_tt_w,m_tt_h));
+    m_pIUMP->setControl(FVec2(m_tt_w,0.0));
+    m_pIUMP->setTargetControl(FVec2(m_tt_w,0.0));
+    FVec2 t_rangleV2(t_outlinePoints[46].x,t_outlinePoints[46].y);
+    //迭代偏移值
+    SVMap<u32,V2>::Iterator it = m_param->m_pointMap.begin();
+    while (it!=m_param->m_pointMap.end()) {
+        u32 t_postion = it->key;
+        V2 t_point = it->data;
+        m_pIUMP->setControl(FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y));
+       // if(t_point.x!=0.0&&t_point.y!=0.0){
+            FVec2 point_v = FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y);
+            point_v = rotateBy(-angle,point_v,t_rangleV2);
+            point_v = FVec2(point_v.x+t_point.x*_smooth,point_v.y+t_point.y*_smooth);
+            point_v = rotateBy(angle,point_v,t_rangleV2);
+            m_pIUMP->setTargetControl(point_v);
+        //}
+        it++;
+    }
+
+}
+
+void SVDeformImageMove::_updateMesh(){
+    
     V2 t_targetData[m_wPointCount*m_hPointCont];
     for(s32 i=0;i< m_wPointCount*m_hPointCont;i++){
         if(m_pointScreen[i].x == 0.0
@@ -429,12 +502,12 @@ void SVDeformImageMove::updatePointMesh( V2* _facepoint){
         verts[i*6+5].t0x = 1.0;
         verts[i*6+5].t0y = 0.0;
         //
-        SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
-        t_data->writeData(&verts[0], sizeof(V2_T0) * 636);
-        m_pMeshPoint->setVertexDataNum(636);
-        m_pMeshPoint->setVertexData(t_data);
-        m_pMeshPoint->setVertexType(E_VF_V2_T0);
-        m_pMeshPoint->setDrawMethod(E_DM_TRIANGLES);
-        m_pMeshPoint->createMesh();
     }
+    SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
+    t_data->writeData(&verts[0], sizeof(V2_T0) * 636);
+    m_pMeshPoint->setVertexDataNum(636);
+    m_pMeshPoint->setVertexData(t_data);
+    m_pMeshPoint->setVertexType(E_VF_V2_T0);
+    m_pMeshPoint->setDrawMethod(E_DM_TRIANGLES);
+    m_pMeshPoint->createMesh();
 }

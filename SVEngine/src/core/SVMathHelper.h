@@ -22,6 +22,8 @@ public:
     static V2 translateToLeft(s32 x, s32 y, f32 roll, f32 len);
 
     static V2 translateToRight(s32 x, s32 y, f32 roll, f32 len);
+    
+    static void createNormalCurve(V2 *originpoint, int origincount, int step, SVArray<V2> &outcurve);
 
     static void createCurve(V2 *originpoint, s32 origincount, s32 step, SVArray<V2>& outcurve);
 

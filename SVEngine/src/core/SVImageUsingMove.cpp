@@ -43,30 +43,36 @@ FVec2 SVImageUsingMove::MLS(const FVec2& t){
     
     FVec2 t_fv;
     m_weightArray.clear();
-    f32 A[2][2],B[2][2],M[2][2];
+    f64 A[2][2],B[2][2],M[2][2];
     //初始化
-    memset(A,0.0,sizeof(f32)*4);
-    memset(B,0.0,sizeof(f32)*4);
-    memset(M,0.0,sizeof(f32)*4);
+    for(int i=0;i<2;i++){
+        for(int j=0;j<2;j++){
+            A[i][j]=0;
+            B[i][j]=0;
+            M[i][j]=0;
+        }
+    }
+
     //
-    SVArray<FVec2>::Iterator iter= m_controlArray.begin();
+    //SVArray<FVec2>::Iterator iter= m_controlArray.begin();
     //计算各个控制顶点的权重，也就是计算点t到各个顶点的距离1/sqr(d)
-    while(iter!=m_controlArray.end()){
+    SVArray<FVec2>::Iterator  iter_control=m_controlArray.begin();
+    while(iter_control!=m_controlArray.end()){
         f64 temp;
-        if(iter->x!=t.x|| iter->y!=t.x) {
-            temp=1.0/((iter->x-t.x)*(iter->x-t.x)+(iter->y-t.y)*(iter->y-t.y));
+        if((s32)iter_control->x!=(s32)t.x|| (s32)iter_control->y!=(s32)t.y) {
+            temp=1.0/((iter_control->x-t.x)*(iter_control->x-t.x)+(iter_control->y-t.y)*(iter_control->y-t.y));
         } else {
-            temp=1; //如果t为控制顶点，那么需要把该控制顶点的权重设置为无穷大
+            temp=1.0; //如果t为控制顶点，那么需要把该控制顶点的权重设置为无穷大
         }
         m_weightArray.append(temp);
-        iter++;
+        iter_control++;
     }
-    SVArray<f32>::Iterator iter_w=m_weightArray.begin();
+    SVArray<f64>::Iterator iter_w=m_weightArray.begin();
     SVArray<FVec2>::Iterator iter_target=m_targetArray.begin();
     //target为目标图像的控制点的位置，我们的目标是找到t在q中的对应位置
-    SVArray<FVec2>::Iterator  iter_control=m_controlArray.begin();
+   iter_control=m_controlArray.begin();
     FVec2 pc,qc;
-    f32 px=0,py=0,qx=0,qy=0,tw=0;
+    f64 px=0,py=0,qx=0,qy=0,tw=0;
     while(iter_w!=m_weightArray.end()){
         px+=(*iter_w)*(iter_control->x);//所有控制顶点p的加权位置
         py+=(*iter_w)*(iter_control->y);
@@ -85,13 +91,13 @@ FVec2 SVImageUsingMove::MLS(const FVec2& t){
     iter_w=m_weightArray.begin();
     iter_target=m_targetArray.begin();
     //
-    while(iter!=m_controlArray.end()){
-        f32 P[2]={(f32)(iter_control->x-pc.x),(f32)(iter_control->y-pc.y)};
-        f32 PT[2][1];
+    while(iter_control!=m_controlArray.end()){
+        f64 P[2]={iter_control->x-pc.x,iter_control->y-pc.y};
+        f64 PT[2][1];
         PT[0][0]=iter_control->x-pc.x;
         PT[1][0]=iter_control->y-pc.y;
-        f32 Q[2]={iter_target->x-qc.x,iter_target->y-qc.y};
-        f32 T[2][2];
+        f64 Q[2]={iter_target->x-qc.x,iter_target->y-qc.y};
+        f64 T[2][2];
 
         T[0][0]=PT[0][0]*P[0];
         T[0][1]=PT[0][0]*P[1];
@@ -120,14 +126,14 @@ FVec2 SVImageUsingMove::MLS(const FVec2& t){
         iter_target++;
     }
 
-    f32 det=A[0][0]*A[1][1]-A[0][1]*A[1][0];
+    f64 det=A[0][0]*A[1][1]-A[0][1]*A[1][0];
     if(det<0.0000001){
         t_fv.x=t.x+qc.x-pc.x;
         t_fv.y=t.y+qc.y-pc.y;
         m_lock->unlock();
         return t_fv;
     }
-    f32 t_temp1,t_temp2,t_temp3,t_temp4;
+    f64 t_temp1,t_temp2,t_temp3,t_temp4;
     t_temp1 = A[1][1]/det;
     t_temp2 = -A[0][1]/det;
     t_temp3 = -A[1][0]/det;
@@ -142,13 +148,13 @@ FVec2 SVImageUsingMove::MLS(const FVec2& t){
     M[1][0] = A[1][0]*B[0][0]+A[1][1]*B[1][0];
     M[1][1] = A[1][0]*B[0][1]+A[1][1]*B[1][1];
     //
-    f32 V[2] = {t.x-pc.x,t.y-pc.y};
-    f32 R[2][1];
+    f64 V[2] = {t.x-pc.x,t.y-pc.y};
+    f64 R[2][1];
     //
     R[0][0] = V[0]*M[0][0]+V[1]*M[1][0];//lv（x）总计算公式
     R[1][0] = V[0]*M[0][1]+V[1]*M[1][1];
-    t_fv.x  = R[0][0]+qc.x;
-    t_fv.y  = R[1][0]+qc.y;
+    t_fv.x  = (s32)(R[0][0]+qc.x);
+    t_fv.y  = (s32)(R[1][0]+qc.y);
     m_lock->unlock();
     return t_fv;
 }

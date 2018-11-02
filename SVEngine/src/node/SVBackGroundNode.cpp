@@ -199,7 +199,7 @@ void SVBackGroundNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
         m_height = item["spriteH"].GetInt();
     }
     if (item.HasMember("textype") && item["textype"].IsInt()) {
-        m_inTexType = SVTEXTYPE(item["textype"].GetInt());
+       // m_inTexType = SVTEXTYPE(item["textype"].GetInt());
     }
     if (item.HasMember("texname") && item["texname"].IsString()) {
         m_pTexName = item["texname"].GetString();
@@ -217,6 +217,7 @@ void SVBackGroundNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
             disableDeform();
         }
         m_pDeform = MakeSharedPtr<SVDeformImageMove>(mApp);
-        m_pDeform->fromJSON(item);
+        m_pDeform->fromJSON(item["sv_deform"]);
+        enableDeform(m_useTexType);
     }
 }

@@ -26,7 +26,7 @@ namespace sv {
             
             SVArray<FVec2> m_targetArray;
             
-            SVArray<f32>  m_weightArray;
+            SVArray<f64>  m_weightArray;
             
             FVec2 MLS(const FVec2& t);
             
