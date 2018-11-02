@@ -66,6 +66,12 @@ namespace sv {
             //
             virtual SVKeyFramePtr _lerpKey();
             //
+            s32 _getCurKeyIndex();
+            //
+            virtual SVKeyFramePtr _preKey();
+            //
+            virtual SVKeyFramePtr _nxtKey();
+            //
             virtual void _execkey(SVNodePtr _node,SVKeyFramePtr _key);
             //
             TIMELINETYPE m_type;
@@ -80,6 +86,8 @@ namespace sv {
             SVKeyFramePtr m_endKey;
             //累计时间
             f32 m_accTime;
+            //
+            s32 m_rate;
             //
             f32 m_totalTime;
         };
