@@ -48,7 +48,7 @@ void SVShaderMgr::loadAllShader() {
     //
     RAPIDJSON_NAMESPACE::Value &shader = doc["shader"];
     if (shader.IsArray()) {
-        for (size_t i = 0; i < shader.Size(); ++i) {
+        for (s32 i = 0; i < shader.Size(); ++i) {
             RAPIDJSON_NAMESPACE::Value &shaderitem = shader[i];
             assert(shaderitem.IsObject());
             SVString t_vs_fname;
