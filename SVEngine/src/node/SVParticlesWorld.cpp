@@ -15,25 +15,25 @@ SVParticlesWorld::~SVParticlesWorld() {
 void SVParticlesWorld::setEmitterEnabled(s32 enable) {
     if(!m_particleNode)
         return ;
-    for(u32 i = 0; i < m_particleNode->getChildNum(); i++) {
-        SVNodePtr t_node = m_particleNode->getChild(i);
-        if(strcmp( t_node->getType(), "SVParticlesNode") == 0) {
-            SVParticlesNodePtr p = std::static_pointer_cast<SVParticlesNode>(t_node);
-            if(p->getEmitterType() == EMITTER_RANDOM) {
-                continue;
-            }
-            if(p->getEmitterType() == EMITTER_SPARK) {
-                continue;
-            }
-            if(p->getEmitterSync() == 0) {
-                 continue;
-            }
-            if(p->isEmitterShift()) {
-                continue;
-            }
-            p->setEmitterEnabled(enable);
-        }
-    }
+//    for(u32 i = 0; i < m_particleNode->getChildNum(); i++) {
+//        SVNodePtr t_node = m_particleNode->getChild(i);
+//        if(strcmp( t_node->getType(), "SVParticlesNode") == 0) {
+//            SVParticlesNodePtr p = std::static_pointer_cast<SVParticlesNode>(t_node);
+//            if(p->getEmitterType() == s32(EMITTER_RANDOM) ) {
+//                continue;
+//            }
+//            if(p->getEmitterType() == s32(EMITTER_SPARK) ) {
+//                continue;
+//            }
+//            if(p->getEmitterSync() == 0) {
+//                 continue;
+//            }
+//            if(p->isEmitterShift()) {
+//                continue;
+//            }
+//            p->setEmitterEnabled(enable);
+//        }
+//    }
 }
 
 s32 SVParticlesWorld::getFields(SVArray<WorldField> &fields) {

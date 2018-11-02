@@ -27,10 +27,7 @@ namespace sv {
             
             void update(SVNodePtr _nodePtr,f32 _dt);
             
-        protected:
-            SVKeyFramePtr _lerpKey() ;
-            
-            void _execkey(SVNodePtr _node,SVKeyFramePtr _key) ;
+
         };
         
     }//!namespace logic

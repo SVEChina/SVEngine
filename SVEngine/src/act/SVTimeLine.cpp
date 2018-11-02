@@ -139,6 +139,10 @@ void SVTimeLine::refreshKey() {
     m_keyLock->unlock();
 }
 
+bool SVTimeLine::insertkey(s32 _index) {
+    return false;
+}
+
 void SVTimeLine::addKey(SVKeyFramePtr _key) {
     m_keyLock->lock();
     if(_key){

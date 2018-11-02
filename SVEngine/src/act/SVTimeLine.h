@@ -35,9 +35,11 @@ namespace sv {
             
             void update(SVNodePtr _nodePtr,f32 _dt);
             
-            void addKey(SVKeyFramePtr _key);
+            virtual bool insertkey(s32 _index);
             
-            void removeKey(s32 _uid);
+            virtual void addKey(SVKeyFramePtr _key);
+            
+            virtual void removeKey(s32 _uid);
             
             SVKeyFramePtr getKeyFrame(s32 _uid);
             

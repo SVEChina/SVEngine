@@ -16,6 +16,8 @@
 #include "../base/SVRandom.h"
 #include "../base/SVBounds.h"
 #include "../core/SVVertDef.h"
+#include "../third/rapidjson/rapidjson.h"
+#include "../third/rapidjson/document.h"
 
 namespace sv {
     
@@ -209,7 +211,7 @@ namespace sv {
             // render particles
             virtual s32 render(const FMat4 &modelview,const FVec3 &camera);
             
-            // world interaction
+            //世界
             void setWorld(SVParticlesWorldBasePtr _world);
             
             SVParticlesWorldBasePtr getWorld();
@@ -217,16 +219,15 @@ namespace sv {
         public:
             //数据
             V3_PARTICLE* pVertex;
-            u32 m_vertexBufNum;
             
-        public:
+            u32 m_vertexBufNum;
+
+            //
             s32 getParticleNum();
             
             // random seed
             void setSeed(u32 seed);
-            
             u32 getSeed() const;
-            
 
             // particles type
             void setType(s32 type);
@@ -490,15 +491,34 @@ namespace sv {
             }
             
             // contact points
-            sv_inline s32 getNumContacts() const { return old_contacts.size(); }
-            sv_inline void *getContactData(s32 num) const { return old_contacts[num].data; }
-            sv_inline const FVec3 &getContactPoint(s32 num) const { return old_contacts[num].point; }
-            sv_inline const FVec3 &getContactNormal(s32 num) const { return old_contacts[num].normal; }
-            sv_inline const FVec3 &getContactVelocity(s32 num) const { return old_contacts[num].velocity; }
+            sv_inline s32 getNumContacts() const {
+                return old_contacts.size();
+            }
+            
+            sv_inline void *getContactData(s32 num) const {
+                return old_contacts[num].data;
+            }
+            
+            sv_inline const FVec3 &getContactPoint(s32 num) const {
+                return old_contacts[num].point;
+            }
+            
+            sv_inline const FVec3 &getContactNormal(s32 num) const {
+                return old_contacts[num].normal;
+            }
+            
+            sv_inline const FVec3 &getContactVelocity(s32 num) const {
+                return old_contacts[num].velocity;
+            }
             
             // bounds
-            sv_inline const SVBoundBox &getSVBoundBox() const { return bound_box; }
-            sv_inline const SVBoundSphere &getSVBoundSphere() const { return bound_sphere; }
+            sv_inline const SVBoundBox &getSVBoundBox() const {
+                return bound_box;
+            }
+            
+            sv_inline const SVBoundSphere &getSVBoundSphere() const {
+                return bound_sphere;
+            }
             
         protected:
             // update particles
@@ -615,6 +635,13 @@ namespace sv {
             SVBoundBox bound_box;                        // bounds
             SVBoundSphere bound_sphere;
             SVBoundBox particles_bound_box;
+            
+        public:
+            //序列化接口
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
         
     }//namespace util
