@@ -86,6 +86,9 @@ s32 SVTimeLine::_getCurKeyIndex() {
     return s32(m_accTime*m_rate);   //算前置帧
 }
 
+f32 SVTimeLine::indexToTime(u32 _index){
+    return _index*1.0f/m_rate;
+}
 //
 SVKeyFramePtr SVTimeLine::_preKey() {
     if(m_keyPool.size() == 0) {

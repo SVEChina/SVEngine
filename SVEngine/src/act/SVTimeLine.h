@@ -68,6 +68,8 @@ namespace sv {
             //
             s32 _getCurKeyIndex();
             //
+            f32 indexToTime(u32 _index);
+            //
             virtual SVKeyFramePtr _preKey();
             //
             virtual SVKeyFramePtr _nxtKey();
