@@ -4,8 +4,6 @@
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
-
-
 #ifndef SVglTF_h
 #define SVglTF_h
 #include "../base/SVGBase.h"
@@ -26,25 +24,6 @@
 #ifndef SVGLTF_QUADS_AS_TRIANGLES
 #define SVGLTF_QUADS_AS_TRIANGLES 1
 #endif
-
-// -----------------------------------------------------------------------------
-// INCLUDES
-// -----------------------------------------------------------------------------
-
-#include <algorithm>  // for std::upper_bound
-#include <array>
-#include <atomic>
-#include <cctype>
-#include <cfloat>
-#include <chrono>
-#include <cmath>
-#include <cstdint>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <functional>  // for std::hash
-#include <string>
-#include <vector>
 namespace sv {
     namespace util{
 #define SVGLTF_MODE_POINTS (0)
@@ -175,12 +154,14 @@ namespace sv {
             /// Return the color of a material
             /// Returned value is only valid if the parameter represent a texture from a
             /// material
-            ColorValue ColorFactor() const {
-                return {
-                    {// this agregate intialize the std::array object, and uses C++11 RVO.
-                        number_array[0], number_array[1], number_array[2],
-                        (number_array.size() > 3 ? number_array[3] : 1.0)}};
-            }
+//            ColorValue ColorFactor() const {
+//                return {
+//                    {// this agregate intialize the std::array object, and uses C++11 RVO.
+//                        number_array[0], number_array[1], number_array[2],
+//                        (number_array.size() > 3 ? number_array[3] : 1.0)}
+//
+//                    };
+//            }
             
             bool operator==(const Parameter &) const;
         };
@@ -453,8 +434,7 @@ namespace sv {
         
         struct Buffer {
             SVString name;
-//            SVArray<u8> data;
-            SVString data;
+            SVDataSwapPtr data;
             SVString uri;  // considered as required here but not in the spec (need to clarify)
             
             bool operator==(const Buffer &) const;
@@ -487,7 +467,25 @@ namespace sv {
         class Model {
         public:
             Model() {}
-            ~Model() {}
+            ~Model() {
+                accessors.destroy();
+                animations.destroy();
+                buffers.destroy();
+                bufferViews.destroy();
+                materials.destroy();
+                meshes.destroy();
+                nodes.destroy();
+                textures.destroy();
+                images.destroy();
+                skins.destroy();
+                samplers.destroy();
+                cameras.destroy();
+                scenes.destroy();
+                lights.destroy();
+                extensionsUsed.destroy();
+                extensionsRequired.destroy();
+                defaultScene = -1;
+            }
             bool operator==(const Model &) const;
             
             SVArray<Accessor> accessors;
@@ -520,68 +518,7 @@ namespace sv {
             
             ~SVGLTF();
             
-            ///
-            /// Loads glTF ASCII asset from a file.
-            /// Set warning message to `warn` for example it fails to load asserts.
-            /// Returns false and set error string to `err` if there's an error.
-            ///
-            bool loadFromFile(Model *_model,
-                                   cptr8 _filename);
-            
-            ///
-            /// Loads glTF ASCII asset from string(memory).
-            /// `length` = strlen(str);
-            /// Set warning message to `warn` for example it fails to load asserts.
-            /// Returns false and set error string to `err` if there's an error.
-            ///
-//            bool LoadASCIIFromString(Model *model, std::string *err, std::string *warn,
-//                                     const char *str, const unsigned int length,
-//                                     const std::string &base_dir,
-//                                     unsigned int check_sections = REQUIRE_ALL);
-            
-            ///
-            /// Loads glTF binary asset from a file.
-            /// Set warning message to `warn` for example it fails to load asserts.
-            /// Returns false and set error string to `err` if there's an error.
-            ///
-//            bool LoadBinaryFromFile(Model *model, std::string *err, std::string *warn,
-//                                    const std::string &filename,
-//                                    unsigned int check_sections = REQUIRE_ALL);
-            
-            ///
-            /// Loads glTF binary asset from memory.
-            /// `length` = strlen(str);
-            /// Set warning message to `warn` for example it fails to load asserts.
-            /// Returns false and set error string to `err` if there's an error.
-            ///
-//            bool LoadBinaryFromMemory(Model *model, std::string *err, std::string *warn,
-//                                      const unsigned char *bytes,
-//                                      const unsigned int length,
-//                                      const std::string &base_dir = "",
-//                                      unsigned int check_sections = REQUIRE_ALL);
-            
-            ///
-            /// Write glTF to file.
-            ///
-//            bool WriteGltfSceneToFile(Model *model, const std::string &filename,
-//                                      bool embedImages,
-//                                      bool embedBuffers,
-//                                      bool prettyPrint /*, bool writeBinary*/);
-            
-            ///
-            /// Set callback to use for loading image data
-            ///
-//            void SetImageLoader(LoadImageDataFunction LoadImageData, void *user_data);
-            
-            ///
-            /// Set callback to use for writing image data
-            ///
-//            void SetImageWriter(WriteImageDataFunction WriteImageData, void *user_data);
-            
-            ///
-            /// Set callbacks to use for filesystem (fs) access and their user data
-            ///
-//            void SetFsCallbacks(FsCallbacks callbacks);
+            bool loadFromFile(Model *_model, cptr8 _filename);
             
         protected:
             cptr8 _base64_encode(unsigned char const *s, unsigned int len);
@@ -590,14 +527,14 @@ namespace sv {
             
             bool _parseAsset(Asset *_asset , RAPIDJSON_NAMESPACE::Value &_item);
             
-            bool _parseBuffer(Buffer *_buffer, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir, bool _is_binary = false, const unsigned char *bin_data = nullptr, s64 bin_size = 0);
+            bool _parseBuffer(Buffer *_buffer, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir);
             
             bool _isDataURI(cptr8 _inData);
             
             bool _decodeDataURI(SVString &_outData, SVString &_mime_type,
                                cptr8 _inData, s64 _reqBytes, bool _checkSize);
             
-            bool _loadExternalFile(SVString &_outData, cptr8 _filename, cptr8 _basedir, bool _required, s64 _reqBytes, bool _checkSize);
+            bool _loadExternalFile(SVDataSwapPtr _dataOut, cptr8 _filename, s64 _reqBytes);
             
             bool _parseBufferView(BufferView *_bufferView, RAPIDJSON_NAMESPACE::Value &_item);
             
@@ -624,19 +561,6 @@ namespace sv {
             bool _parseSkin(Skin *_skin, RAPIDJSON_NAMESPACE::Value &_item);
             
             bool _parseSampler(Sampler *_sampler, RAPIDJSON_NAMESPACE::Value &_item);
-            ///
-            /// Loads glTF asset from string(memory).
-            /// `length` = strlen(str);
-            /// Set warning message to `warn` for example it fails to load asserts
-            /// Returns false and set error string to `err` if there's an error.
-            ///
-            bool LoadFromString(Model *model, std::string *err, std::string *warn,
-                                const char *str, const unsigned int length,
-                                const std::string &base_dir, unsigned int check_sections);
-            
-            const unsigned char *bin_data_;
-            size_t bin_size_;
-            bool is_binary_;
         };
     } // util
 }  // namespace sv
