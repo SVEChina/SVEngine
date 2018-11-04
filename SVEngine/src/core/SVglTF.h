@@ -17,6 +17,8 @@
 #include "../base/SVArray.h"
 #include "../base/SVMap.h"
 #include "../base/SVBounds.h"
+#include "../base/SVPreDeclare.h"
+#include "../mtl/SVMtlDeclare.h"
 #ifndef SVGLTF_EMBREE
 #define SVGLTF_EMBREE 1
 #endif
@@ -224,7 +226,7 @@ namespace sv {
             s32 width;
             s32 height;
             s32 component;
-            SVArray<u8> image;
+            SVTexturePtr texture;
             s32 bufferView;        // (required if no uri)
             SVString mimeType;     // (required if no uri) ["image/jpeg", "image/png", "image/bmp", "image/gif"]
             SVString uri;          // (required if no mimeType)
@@ -434,7 +436,7 @@ namespace sv {
         
         struct Buffer {
             SVString name;
-            SVDataSwapPtr data;
+            SVDataSwapPtr data = MakeSharedPtr<SVDataSwap>();
             SVString uri;  // considered as required here but not in the spec (need to clarify)
             
             bool operator==(const Buffer &) const;
@@ -550,7 +552,7 @@ namespace sv {
             
             bool _parseParameterProperty(Parameter *_param, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _prop);
             
-//            bool _parseImage(Image *_image, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir,LoadImageDataFunction *LoadImageData = nullptr, void *load_image_user_data = nullptr)
+            bool _parseImage(Image *_image, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir);
             
             bool _parseTexture(Texture *_texture, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir);
             

@@ -9,6 +9,8 @@
 #include "../file/SVParseDef.h"
 #include "../base/SVDataChunk.h"
 #include "../file/SVFileMgr.h"
+#include "../mtl/SVTexMgr.h"
+#include "../mtl/SVTexture.h"
 #include "../app/SVInst.h"
 #include "../base/SVDataSwap.h"
 SVGLTF::SVGLTF(SVInst *_app)
@@ -283,43 +285,19 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                     SV_LOG_ERROR("SVglTF Error :'images' does not contain an JSON object.");
                     return false;
                 }
-//                Image image;
-//                if (!ParseImage(&image, err, warn, it.value(), base_dir, &fs,
-//                                &this->LoadImageData, load_image_user_data_)) {
-//                    return false;
-//                }
-//
-//                if (image.bufferView != -1) {
-//                    // Load image from the buffer view.
-//                    if (size_t(image.bufferView) >= model->bufferViews.size()) {
-//                        if (err) {
-//                            std::stringstream ss;
-//                            ss << "bufferView \"" << image.bufferView
-//                            << "\" not found in the scene." << std::endl;
-//                            (*err) += ss.str();
-//                        }
-//                        return false;
-//                    }
-//
-//                    const BufferView &bufferView =
-//                    model->bufferViews[size_t(image.bufferView)];
-//                    const Buffer &buffer = model->buffers[size_t(bufferView.buffer)];
-//
-//                    if (*LoadImageData == nullptr) {
-//                        if (err) {
-//                            (*err) += "No LoadImageData callback specified.\n";
-//                        }
-//                        return false;
-//                    }
-//                    bool ret = LoadImageData(&image, err, warn, image.width, image.height,
-//                                             &buffer.data[bufferView.byteOffset],
-//                                             static_cast<int>(bufferView.byteLength),
-//                                             load_image_user_data_);
-//                    if (!ret) {
-//                        return false;
-//                    }
+                Image image;
+                if (!_parseImage(&image, t_image, _filename)) {
+                    return false;
+                }
+                if (image.bufferView != -1) {
+                    // Load image from the buffer view.
+                    
+                    // not supporte now!!!!!
+                    SV_LOG_ERROR("SVglTF Error :read image from buffer does not supporte now.");
+                    return false;
                 }
             }
+        }
     }
         
     // 12. Parse Texture
@@ -465,11 +443,12 @@ bool SVGLTF::_parseBuffer(Buffer *_buffer, RAPIDJSON_NAMESPACE::Value &_item, cp
     s64 bytes = s64(byteLength);
     if (_isDataURI((_buffer->uri).c_str())) {
         //nothing, maybe will..
+        return false;
     }else{
         // External .bin file.
         SVString t_baseDir = _basedir;
         s32 t_pos = t_baseDir.rfind('/');
-        SVString t_bufferUri = SVString::substr(t_baseDir.c_str(), 0, t_pos - 1) + _buffer->uri;
+        SVString t_bufferUri = SVString::substr(t_baseDir.c_str(), 0, t_pos+1) + _buffer->uri;
         if (!_loadExternalFile(_buffer->data, t_bufferUri.c_str(), bytes)) {
             return false;
         }
@@ -1020,21 +999,97 @@ bool SVGLTF::_loadExternalFile(SVDataSwapPtr _dataOut, cptr8 _filename, s64 _req
     SVDataChunk tDataStream;
     bool tflag = mApp->m_pGlobalMgr->m_pFileMgr->loadFileContentStr(&tDataStream, _filename);
     if (!tflag){
-        SV_LOG_ERROR("SVglTF :load ExternalFile failed\n");
+        SV_LOG_ERROR("SVglTF Error:load ExternalFile failed\n");
         return false;
     }
     SV_LOG_INFO("SVglTF :ExternalFile filedata %s\n", tDataStream.m_data);
     if (!tDataStream.m_data) {
-        SV_LOG_ERROR("SVglTF :ExternalFile data stream is null");
+        SV_LOG_ERROR("SVglTF Error:ExternalFile data stream is null");
         return false;
     }
     
-    if (tDataStream.m_size != _reqBytes) {
-        SV_LOG_ERROR("SVglTF :ExternalFile File size mismatch requestedBytes");
+    //SVDataChunk 空间多申请了一个字节
+    if ((tDataStream.m_size - 1) != _reqBytes) {
+        SV_LOG_ERROR("SVglTF Error:ExternalFile File size mismatch requestedBytes");
         return false;
     }
-    
     _dataOut->writeData(tDataStream.m_data, tDataStream.m_size);
+    return true;
+}
+
+bool SVGLTF::_parseImage(Image *_image, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir){
+    // A glTF image must either reference a bufferView or an image uri
+    bool hasBufferView = false;
+    if (_item.HasMember("bufferView")) {
+        hasBufferView = true;
+    }
+    
+    bool hasURI = false;
+    if (_item.HasMember("uri")) {
+        hasURI = true;
+    }
+    
+    if (hasBufferView && hasURI) {
+        SV_LOG_ERROR("SVglTF Error:Only one of `bufferView` or `uri` should be defined, but both are defined for Image.\n");
+        return false;
+    }
+    
+    if (!hasBufferView && !hasURI) {
+        SV_LOG_ERROR("SVglTF Error:Neither required `bufferView` nor `uri` defined for Image.\n");
+        return false;
+    }
+    
+    if (_item.HasMember("name") && _item["name"].IsString()) {
+        _image->name = _item["name"].GetString();
+    }
+//    ParseExtensionsProperty(&image->extensions, err, o);
+    
+    if (hasBufferView) {
+        f64 bufferView = -1;
+        if (_item.HasMember("bufferView") && _item["bufferView"].IsNumber()) {
+            bufferView = _item["bufferView"].GetDouble();
+        }
+        SVString mime_type;
+        if (_item.HasMember("mimeType") && _item["mimeType"].IsString()) {
+            mime_type = _item["mimeType"].GetString();
+        }
+        
+        f64 width = 0.0;
+        if (_item.HasMember("width") && _item["width"].IsNumber()) {
+            width = _item["width"].GetDouble();
+        }
+        
+        f64 height = 0.0;
+        if (_item.HasMember("height") && _item["height"].IsNumber()) {
+            height = _item["height"].GetDouble();
+        }
+        _image->bufferView = s32(bufferView);
+        _image->mimeType = mime_type;
+        _image->width = s32(width);
+        _image->height = s32(height);
+        return true;
+    }
+    
+    // Parse URI & Load image data.
+    SVString uri;
+    if (_item.HasMember("uri") && _item["uri"].IsString()) {
+        uri = _item["uri"].GetString();
+    }
+    if (uri.size() == 0) {
+        SV_LOG_ERROR("SVglTF Error:Failed to load external 'uri' for image parameter\n");
+        return false;
+    }
+
+    if (_isDataURI(uri)) {
+        //nothing, maybe will..
+        return false;
+    } else {
+        _image->uri = uri;
+        SVString t_baseDir = _basedir;
+        s32 t_pos = t_baseDir.rfind('/');
+        SVString t_imageUri = SVString::substr(t_baseDir.c_str(), 0, t_pos + 1) + uri;
+        _image->texture = mApp->getTexMgr()->getTextureSync(t_imageUri, true);
+    }
     return true;
 }
 
