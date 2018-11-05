@@ -24,13 +24,13 @@ SVStreamOut::SVStreamOut(SVInst *_app)
     m_lock = MakeSharedPtr<SVLock>();
     m_missionlock = MakeSharedPtr<SVLock>();
     m_pFrameOut = nullptr;
-#ifdef SV_IOS
+#if defined(SV_IOS)
     m_outMethod = E_OUT_M_IOS;
-#elif SV_ANDROID
+#elif defined(SV_ANDROID)
     m_outMethod = E_OUT_M_ANDRIOD;
 #else
      m_outMethod = E_OUT_M_READPIEXL;
-#endif
+#endif;
     m_outWidth = 0;
     m_outHeight = 0;
     m_outFormat = SV_OUT_STEAM_RGB2YUVI420;

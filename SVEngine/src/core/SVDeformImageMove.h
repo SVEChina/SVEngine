@@ -28,13 +28,14 @@ namespace sv {
             }
             void copy(SVParamDeformPtr _param){
                 m_pointMap=_param->m_pointMap;
+                m_areaPoint=_param->m_areaPoint;
             }
             
             void addTagPoint(u32 _postion,V2 _point){
                 m_pointMap.append(_postion, _point);
             }
             SVMap<u32, V2> m_pointMap;
-            SVMap<SVString,SVMap<u32, V2>> m_areaPoint;
+            SVMap<u32,V2> m_areaPoint;
             
         };
         
@@ -56,6 +57,8 @@ namespace sv {
             }
             
             void setTagPoint(u32 _postion,V2 _point);
+            
+            void setTagAreaPoint(u32 _postion,V2 _point);
             
             void pointMove(V2 *_data);
             
@@ -110,7 +113,7 @@ namespace sv {
             
             SVImageUsingMovePtr m_pIUMP;
             
-            V2 m_pointScreen[39*64];     //31*81
+            V2 m_pointScreen[51*64];     //31*81
             SVParamDeformPtr m_param;
               //人脸偏移值
             

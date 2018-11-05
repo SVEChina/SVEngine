@@ -57,7 +57,7 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_tt_h = 0;
     m_dataPoint = nullptr;
     m_fbo = nullptr;
-    m_wPointCount =39;
+    m_wPointCount =51;
     m_hPointCont = 64;
     m_inw=10;
     m_inh=10;
@@ -133,7 +133,7 @@ void SVDeformImageMove::_initPoint(){
         m_pMeshBg = mApp->getRenderMgr()->createMeshRObj();
     }
     //索引数据
-    u16 m_dataIndex[39*64*2*3];//41*81*2*3
+    u16 m_dataIndex[51*64*2*3];//41*81*2*3
     //
     s32 iWidthPoint = m_wPointCount , iHeightPoint = m_hPointCont;
     s32 iDataCount = iWidthPoint * iHeightPoint;
@@ -179,10 +179,10 @@ void SVDeformImageMove::_refreshScreenRectMesh(V2 *_data,V2 *_targetData){
         //渲染数据
         V2_C_T0 pVer[m_wPointCount*m_hPointCont];
         for (s32 i = 0; i < m_wPointCount*m_hPointCont ; ++i){
-            f32 x= _targetData[i].x/m_tt_w;
-            f32 y= _targetData[i].y/m_tt_h;
-            f32 t_x= _data[i].x/m_tt_w;
-            f32 t_y= _data[i].y/m_tt_h;
+            f32 x= _data[i].x/m_tt_w;
+            f32 y= _data[i].y/m_tt_h;
+            f32 t_x= _targetData[i].x/m_tt_w;
+            f32 t_y= _targetData[i].y/m_tt_h;
             pVer[i].x = x*2.0-1.0;
             pVer[i].y = y*2.0-1.0;
             pVer[i].t0x = t_x;
@@ -302,6 +302,10 @@ void SVDeformImageMove::setTagPoint(u32 _postion,V2 _point){
     m_param->m_pointMap.append(_postion, _point);
 }
 
+void SVDeformImageMove::setTagAreaPoint(u32 _postion,V2 _point){
+    m_param->m_areaPoint.append(_postion, _point);
+}
+
 void SVDeformImageMove::pointMove(V2 *t_data){
     V2 t_outlinePoints[106];
     for(s32 i  = 0 ; i < 106 ; i++){
@@ -384,16 +388,15 @@ void SVDeformImageMove::_updateControl(V2 *t_data){
         u32 t_postion = it->key;
         V2 t_point = it->data;
         m_pIUMP->setControl(FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y));
-       // if(t_point.x!=0.0&&t_point.y!=0.0){
+      //  if(t_point.x!=0.0&&t_point.y!=0.0){
             FVec2 point_v = FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y);
             point_v = rotateBy(-angle,point_v,t_rangleV2);
-            point_v = FVec2(point_v.x+t_point.x*_smooth,point_v.y+t_point.y*_smooth);
+            point_v = FVec2(point_v.x-t_point.x*_smooth,point_v.y-t_point.y*_smooth);
             point_v = rotateBy(angle,point_v,t_rangleV2);
             m_pIUMP->setTargetControl(point_v);
         //}
         it++;
     }
-
 }
 
 void SVDeformImageMove::_updateMesh(){
