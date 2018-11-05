@@ -286,14 +286,12 @@ namespace sv {
             SVString name;
             s64 byteOffset;
             bool normalized;    // optinal.
-            s32 componentType;  // (required) One of TINYGLTF_COMPONENT_TYPE_***
+            s32 componentType;  // (required) One of SVGLTF_COMPONENT_TYPE_***
             s64 count;       // required
-            s32 type;           // (required) One of TINYGLTF_TYPE_***   ..
+            s32 type;           // (required) One of SVGLTF_TYPE_***   ..
             
             SVArray<f64> minValues;  // optional
             SVArray<f64> maxValues;  // optional
-            
-            // TODO(syoyo): "sparse"
             
             ///
             /// Utility function to compute byteStride for a given bufferView object.

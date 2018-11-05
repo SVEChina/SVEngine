@@ -20,6 +20,7 @@
 #include "../mtl/SVTexture.h"
 #include "../basesys/SVConfig.h"
 #include "../rendercore/renderer/SVRendererBase.h"
+#include <typeinfo.h>
 //
 SVGLTFModelNode::SVGLTFModelNode(SVInst *_app)
 :SVNode(_app) {
@@ -28,7 +29,7 @@ SVGLTFModelNode::SVGLTFModelNode(SVInst *_app)
 }
 
 SVGLTFModelNode::~SVGLTFModelNode() {
-    clearModel();
+    destroyModel();
     
 }
 
@@ -37,7 +38,7 @@ void SVGLTFModelNode::setModel(Model *_model) {
         return;
     }
     if (m_model) {
-        clearModel();
+        destroyModel();
         
     }
     m_model = _model;
@@ -63,13 +64,205 @@ Model* SVGLTFModelNode::getModel() {
     return m_model;
 }
 
-void SVGLTFModelNode::clearModel() {
+void SVGLTFModelNode::destroyModel() {
     if (m_model) {
         delete m_model;
         m_model = nullptr;
     }
 }
 
+void SVGLTFModelNode::_loadData(){
+    if (!m_model) {
+        return;
+    }
+    for (s32 i = 0; i<m_model->meshes.size(); i++) {
+        Mesh mesh = m_model->meshes[i];
+        
+        for (s32 j = 0; j<mesh.primitives.size(); j++) {
+            Primitive meshPrimitive = mesh.primitives[i];
+            
+            Accessor indicesAccessor = m_model->accessors[meshPrimitive.indices];
+            
+            BufferView bufferView = m_model->bufferViews[indicesAccessor.bufferView];
+            
+            Buffer buffer = m_model->buffers[bufferView.buffer];
+            
+            s32 byteStride = indicesAccessor.ByteStride(bufferView);
+            
+            s64 count = indicesAccessor.count;
+            
+//            std::type_info& t0 = typeid(c8);
+            // index
+            switch (indicesAccessor.componentType) {
+                case SVGLTF_COMPONENT_TYPE_BYTE:{
+                    c8 *dataAddress = (c8 *)buffer.data->getData() + bufferView.byteOffset +indicesAccessor.byteOffset;
+//                    addressTypeName = typeid(dataAddress).name();
+//                    indicesArrayPtr =
+//                    std::unique_ptr<intArray<char> >(new intArray<char>(
+//                                                                        arrayAdapter<char>(dataAddress, count, byteStride)));
+                    break;
+                    
+                }case SVGLTF_COMPONENT_TYPE_UNSIGNED_BYTE:
+//                    indicesArrayPtr = std::unique_ptr<intArray<unsigned char> >(
+//                                                                                new intArray<unsigned char>(arrayAdapter<unsigned char>(
+//                                                                                                                                        dataAddress, count, byteStride)));
+                    break;
+                    
+                case SVGLTF_COMPONENT_TYPE_SHORT:
+//                    indicesArrayPtr =
+//                    std::unique_ptr<intArray<short> >(new intArray<short>(
+//                                                                          arrayAdapter<short>(dataAddress, count, byteStride)));
+                    break;
+                    
+                case SVGLTF_COMPONENT_TYPE_UNSIGNED_SHORT:
+//                    indicesArrayPtr = std::unique_ptr<intArray<unsigned short> >(
+//                                                                                 new intArray<unsigned short>(arrayAdapter<unsigned short>(
+//                                                                                                                                           dataAddress, count, byteStride)));
+                    break;
+                    
+                case SVGLTF_COMPONENT_TYPE_INT:
+//                    indicesArrayPtr = std::unique_ptr<intArray<int> >(new intArray<int>(
+//                                                                                        arrayAdapter<int>(dataAddress, count, byteStride)));
+                    break;
+                    
+                case SVGLTF_COMPONENT_TYPE_UNSIGNED_INT:
+//                    indicesArrayPtr = std::unique_ptr<intArray<unsigned int> >(
+//                                                                               new intArray<unsigned int>(arrayAdapter<unsigned int>(
+//                                                                                                                                     dataAddress, count, byteStride)));
+                    break;
+                default:
+                    break;
+            }
+//            const auto &indices = dataAddress;
+//
+//            if (indicesArrayPtr) {
+//                std::cout << "indices: ";
+//                for (size_t i(0); i < indicesArrayPtr->size(); ++i) {
+//                    std::cout << indices[i] << " ";
+//                    loadedMesh.faces.push_back(indices[i]);
+//                }
+//                std::cout << '\n';
+//            }
+//
+//            switch (meshPrimitive.mode) {
+//                    // We re-arrange the indices so that it describe a simple list of
+//                    // triangles
+//                case TINYGLTF_MODE_TRIANGLE_FAN:
+//                    if (!convertedToTriangleList) {
+//                        std::cout << "TRIANGLE_FAN\n";
+//                        // This only has to be done once per primitive
+//                        convertedToTriangleList = true;
+//
+//                        // We steal the guts of the vector
+//                        auto triangleFan = std::move(loadedMesh.faces);
+//                        loadedMesh.faces.clear();
+//
+//                        // Push back the indices that describe just one triangle one by one
+//                        for (size_t i{2}; i < triangleFan.size(); ++i) {
+//                            loadedMesh.faces.push_back(triangleFan[0]);
+//                            loadedMesh.faces.push_back(triangleFan[i - 1]);
+//                            loadedMesh.faces.push_back(triangleFan[i]);
+//                        }
+//                    }
+//                case TINYGLTF_MODE_TRIANGLE_STRIP:
+//                    if (!convertedToTriangleList) {
+//                        std::cout << "TRIANGLE_STRIP\n";
+//                        // This only has to be done once per primitive
+//                        convertedToTriangleList = true;
+//
+//                        auto triangleStrip = std::move(loadedMesh.faces);
+//                        loadedMesh.faces.clear();
+//
+//                        for (size_t i{2}; i < triangleStrip.size(); ++i) {
+//                            loadedMesh.faces.push_back(triangleStrip[i - 2]);
+//                            loadedMesh.faces.push_back(triangleStrip[i - 1]);
+//                            loadedMesh.faces.push_back(triangleStrip[i]);
+//                        }
+//                    }
+//                case TINYGLTF_MODE_TRIANGLES:  // this is the simpliest case to handle
+//
+//                {
+//                    std::cout << "TRIANGLES\n";
+//
+//                    for (const auto &attribute : meshPrimitive.attributes) {
+//                        const auto attribAccessor = model.accessors[attribute.second];
+//                        const auto &bufferView =
+//                        model.bufferViews[attribAccessor.bufferView];
+//                        const auto &buffer = model.buffers[bufferView.buffer];
+//                        const auto dataPtr = buffer.data.data() + bufferView.byteOffset +
+//                        attribAccessor.byteOffset;
+//                        const auto byte_stride = attribAccessor.ByteStride(bufferView);
+//                        const auto count = attribAccessor.count;
+//
+//                        std::cout << "current attribute has count " << count
+//                        << " and stride " << byte_stride << " bytes\n";
+//
+//                        std::cout << "attribute string is : " << attribute.first << '\n';
+//                        if (attribute.first == "POSITION") {
+//                            std::cout << "found position attribute\n";
+//
+//                            // get the position min/max for computing the boundingbox
+//                            pMin.x = attribAccessor.minValues[0];
+//                            pMin.y = attribAccessor.minValues[1];
+//                            pMin.z = attribAccessor.minValues[2];
+//                            pMax.x = attribAccessor.maxValues[0];
+//                            pMax.y = attribAccessor.maxValues[1];
+//                            pMax.z = attribAccessor.maxValues[2];
+//
+//                            switch (attribAccessor.type) {
+//                                case TINYGLTF_TYPE_VEC3: {
+//                                    switch (attribAccessor.componentType) {
+//                                        case TINYGLTF_COMPONENT_TYPE_FLOAT:
+//                                            std::cout << "Type is FLOAT\n";
+//                                            // 3D vector of float
+//                                            v3fArray positions(
+//                                                               arrayAdapter<v3f>(dataPtr, count, byte_stride));
+//
+//                                            std::cout << "positions's size : " << positions.size()
+//                                            << '\n';
+//
+//                                            for (size_t i{0}; i < positions.size(); ++i) {
+//                                                const auto v = positions[i];
+//                                                std::cout << "positions[" << i << "]: (" << v.x << ", "
+//                                                << v.y << ", " << v.z << ")\n";
+//
+//                                                loadedMesh.vertices.push_back(v.x * scale);
+//                                                loadedMesh.vertices.push_back(v.y * scale);
+//                                                loadedMesh.vertices.push_back(v.z * scale);
+//                                            }
+//                                    }
+//                                    break;
+//                                case TINYGLTF_COMPONENT_TYPE_DOUBLE: {
+//                                    std::cout << "Type is DOUBLE\n";
+//                                    switch (attribAccessor.type) {
+//                                        case TINYGLTF_TYPE_VEC3: {
+//                                            v3dArray positions(
+//                                                               arrayAdapter<v3d>(dataPtr, count, byte_stride));
+//                                            for (size_t i{0}; i < positions.size(); ++i) {
+//                                                const auto v = positions[i];
+//                                                std::cout << "positions[" << i << "]: (" << v.x
+//                                                << ", " << v.y << ", " << v.z << ")\n";
+//
+//                                                loadedMesh.vertices.push_back(v.x * scale);
+//                                                loadedMesh.vertices.push_back(v.y * scale);
+//                                                loadedMesh.vertices.push_back(v.z * scale);
+//                                            }
+//                                        } break;
+//                                        default:
+//                                            // TODO Handle error
+//                                            break;
+//                                    }
+//                                    break;
+//                                default:
+//                                    break;
+//                                }
+//                                } break;
+//                            }
+//                        }
+            
+        }
+    }
+}
 
 void SVGLTFModelNode::update(f32 dt) {
     

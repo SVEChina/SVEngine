@@ -29,9 +29,11 @@ namespace sv {
             
             Model* getModel();
             
-            void clearModel();
+            void destroyModel();
             
         protected:
+            void _loadData();
+            
             Model *m_model;
             
         public:
