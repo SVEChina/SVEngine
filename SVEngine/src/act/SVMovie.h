@@ -63,12 +63,18 @@ namespace sv {
             
             void delDragma(SVDragmaPtr _dragma);
             
+            void clearDragma();
+            
+            //通过uid删除
             void delDragmaByUID(u32 _uid);
             
+            //通过索引删除
             void delDragmaByIndex(u32 _index);
             
+            //
             SVDragmaPtr getDragmaByUID(u32 _uid);
             
+            //
             SVDragmaPtr getDragmaByIndex(u32 _index);
             
             s32 getDragmaNum();

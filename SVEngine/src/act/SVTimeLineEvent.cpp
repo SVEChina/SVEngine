@@ -31,12 +31,3 @@ void SVTimeLineEvent::update(SVNodePtr _nodePtr,f32 _dt) {
     SVTimeLine::update(_nodePtr,_dt);
 }
 
-SVKeyFramePtr SVTimeLineEvent::_lerpKey()  {
-    return nullptr;
-}
-
-void SVTimeLineEvent::_execkey(SVNodePtr _node,SVKeyFramePtr _key)  {
-    
-}
-
-

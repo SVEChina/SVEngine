@@ -2619,6 +2619,16 @@ f32 SVParticles::getDeflectorRoughness(s32 num) const {
 
 //********************************* Save/restore state *********************************************\
 
+//序列化接口
+void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                          RAPIDJSON_NAMESPACE::Value &_objValue) {
+     
+}
+
+void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
+    
+}
+
 ///*
 // */
 //s32 SVParticles::saveState(const Stream &stream) const {

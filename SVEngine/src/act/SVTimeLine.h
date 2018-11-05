@@ -35,9 +35,11 @@ namespace sv {
             
             void update(SVNodePtr _nodePtr,f32 _dt);
             
-            void addKey(SVKeyFramePtr _key);
+            virtual bool insertkey(s32 _index);
             
-            void removeKey(s32 _uid);
+            virtual void addKey(SVKeyFramePtr _key);
+            
+            virtual void removeKey(s32 _uid);
             
             SVKeyFramePtr getKeyFrame(s32 _uid);
             
@@ -66,6 +68,14 @@ namespace sv {
             //
             virtual SVKeyFramePtr _lerpKey();
             //
+            s32 _getCurKeyIndex();
+            //
+            f32 indexToTime(u32 _index);
+            //
+            virtual SVKeyFramePtr _preKey();
+            //
+            virtual SVKeyFramePtr _nxtKey();
+            //
             virtual void _execkey(SVNodePtr _node,SVKeyFramePtr _key);
             //
             TIMELINETYPE m_type;
@@ -80,6 +90,8 @@ namespace sv {
             SVKeyFramePtr m_endKey;
             //累计时间
             f32 m_accTime;
+            //
+            s32 m_rate;
             //
             f32 m_totalTime;
         };

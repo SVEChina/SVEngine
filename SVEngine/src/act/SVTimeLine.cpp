@@ -23,6 +23,7 @@ SVTimeLine::SVTimeLine(SVInst* _app,f32 _time,s32 _rate)
     m_type = E_TL_T_BASE;
     m_accTime = 0.0f;
     m_totalTime = _time;
+    m_rate = _rate;
     m_startKey = MakeSharedPtr<SVKeyFrame>(mApp,0);
     //
     u32 t_maxFrame = SVTimeLine::maxFrame(_time,_rate);
@@ -81,6 +82,29 @@ SVKeyFramePtr SVTimeLine::_lerpKey() {
     return nullptr;
 }
 
+s32 SVTimeLine::_getCurKeyIndex() {
+    return s32(m_accTime*m_rate);   //算前置帧
+}
+
+f32 SVTimeLine::indexToTime(u32 _index){
+    return _index*1.0f/m_rate;
+}
+//
+SVKeyFramePtr SVTimeLine::_preKey() {
+    if(m_keyPool.size() == 0) {
+        return m_startKey;
+    }
+    return nullptr;
+}
+
+//
+SVKeyFramePtr SVTimeLine::_nxtKey() {
+    if(m_keyPool.size() == 0) {
+        return m_endKey;
+    }
+    return nullptr;
+}
+
 void SVTimeLine::_execkey(SVNodePtr _node,SVKeyFramePtr _key) {
     
 }
@@ -113,6 +137,10 @@ void SVTimeLine::refreshKey() {
     m_keyLock->lock();
     _refreshKey();
     m_keyLock->unlock();
+}
+
+bool SVTimeLine::insertkey(s32 _index) {
+    return false;
 }
 
 void SVTimeLine::addKey(SVKeyFramePtr _key) {

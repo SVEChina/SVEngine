@@ -18,6 +18,7 @@
 SVParticlesNode::SVParticlesNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVParticlesNode";
+    m_drawBox = true;
     m_rsType = RST_ANIMATE;
     m_pParticles = MakeSharedPtr<SVParticles>();
     m_pParticlesWorld = MakeSharedPtr<SVParticlesWorld>();
@@ -58,31 +59,31 @@ SVParticlesNode::~SVParticlesNode() {
 void SVParticlesNode::testInit() {
     if( m_pParticles) {
         //设置粒子类型
-        setParticlesType(5);
+        m_pParticles->setType(5);
         //开启发射器
-        setEmitterEnabled(1);
+        m_pParticles->setEmitterEnabled(1);
         //发射器类型
-        setEmitterType(1);
+        m_pParticles->setEmitterType(1);
         //发射器尺寸
-        setEmitterSize(FVec3(10.0f,1.0f,1.0f));
+        m_pParticles->setEmitterSize(FVec3(10.0f,1.0f,1.0f));
         //发射器连续
-        setEmitterContinuous(1);
+        m_pParticles->setEmitterContinuous(1);
         //发射器速度
         setEmitterVelocity(FVec3(0.0f,100.0f,0.0f));
         //
-        setEmitterSpread(FVec3(0.0f,10.0f,0.0f));
+         m_pParticles->setEmitterSpread(FVec3(0.0f,10.0f,0.0f));
         //发射器方向
-        setEmitterDirection(FVec3(0.0f,1.0f,0.0f));
+         m_pParticles->setEmitterDirection(FVec3(0.0f,1.0f,0.0f));
         //设置增长
-        setGrowth(10.0f, 5.0f);
+        m_pParticles->setGrowth(10.0f, 5.0f);
         //重力速度
-        setGravity(FVec3(20.0f,-50.0f,0.0f));
+        m_pParticles->setGravity(FVec3(20.0f,-50.0f,0.0f));
         //
-        setVelocity(50.0,10.0);
+        m_pParticles->setVelocity(50.0,10.0);
         //
-        setRadius(8.0f,5.0f);
+        m_pParticles->setRadius(8.0f,5.0f);
         //
-        setLife(5.0f,3.0f);
+        m_pParticles->setLife(5.0f,3.0f);
     }
 }
 
@@ -94,19 +95,12 @@ static f32 kk_angle = 0.0f;
 
 void SVParticlesNode::update(f32 ifps) {
     SVNode::update(ifps);
-//    //
-//    f32 t_x = cos( DEG2RAD*kk_angle ) * 100;
-//    f32 t_y = sin( DEG2RAD*kk_angle ) * 100;
-//    setPosition(t_x, t_y, 0.0f);
-//    //
-//    kk_angle += 1.0f;
-//    if(kk_angle>360.0f) {
-//        kk_angle -= 360.0f;
-//    }
     //更新矩阵
     update_transform();
     //粒子系统更新
     m_pParticles->update(ifps);
+    //
+    m_aabbBox = bound_box;
 //    //contact points
 //    if(m_pParticles->getNumContacts()) {
 //        // childs interaction
@@ -212,7 +206,7 @@ void SVParticlesNode::render() {
     // SVParticles transformation
     m_mtl_particle->m_p_transform = modelview * translate(world_offset);
     // SVParticles radius
-    m_mtl_particle->m_p_radius = getRadiusMean();
+    m_mtl_particle->m_p_radius = m_pParticles->getRadiusMean();
     // SVParticles fade
     m_mtl_particle->m_p_fade = fade * fade;
     //设置纹理
@@ -262,18 +256,15 @@ void SVParticlesNode::render() {
         m_pRenderObj->setMtl(m_mtl_particle);
         m_pRenderObj->pushCmd(t_rs, m_rsType, "SVParticlesNode");
     }
+    //渲染虚拟的东西
+    renderVisualizer();
+    //
     SVNode::render();
-    return;
 }
 
 //************************************ Transformation **************************************
 const FVec3 &SVParticlesNode::getWorldOffset() const {
     return world_offset;
-}
-
-void SVParticlesNode::update_position() {
-    //    update_world_sector_center();
-    //    update_world_trigger_center();
 }
 
 //这个函数是用来更新发射器和粒子的变换矩阵
@@ -323,130 +314,8 @@ void SVParticlesNode::update_transform() {
     m_pParticles->setEmitterTransform(FMat4(transform));
 }
 
-//******************************* Parameters ******************************************
-
-void SVParticlesNode::setSeed(u32 seed) const {
-    m_pParticles->setSeed(seed);
-}
-
-u32 SVParticlesNode::getSeed() const {
-    return m_pParticles->getSeed();
-}
-
-void SVParticlesNode::setParticlesType(s32 type) const {
-    m_pParticles->setType(type);
-}
-
-s32 SVParticlesNode::getParticlesType() const {
-    return m_pParticles->getType();
-}
-
-void SVParticlesNode::setWarming(s32 warning) const {
-    m_pParticles->setWarming(warning);
-}
-
-s32 SVParticlesNode::getWarming() const {
-    return m_pParticles->getWarming();
-}
-
-void SVParticlesNode::setDepthSort(s32 depth_sort) const {
-    m_pParticles->setDepthSort(depth_sort);
-}
-
-s32 SVParticlesNode::getDepthSort() const {
-    return m_pParticles->getDepthSort();
-}
-
-void SVParticlesNode::setVariationX(s32 variation) const {
-    m_pParticles->setVariationX(variation);
-}
-
-s32 SVParticlesNode::getVariationX() const {
-    return m_pParticles->getVariationX();
-}
-
-void SVParticlesNode::setVariationY(s32 variation) const {
-    m_pParticles->setVariationY(variation);
-}
-
-s32 SVParticlesNode::getVariationY() const {
-    return m_pParticles->getVariationY();
-}
-
-void SVParticlesNode::setTextureAtlas(s32 atlas) const {
-    m_pParticles->setTextureAtlas(atlas);
-}
-
-s32 SVParticlesNode::getTextureAtlas() const {
-    return m_pParticles->getTextureAtlas();
-}
-
-void SVParticlesNode::setIntersection(s32 intersection) const {
-    m_pParticles->setIntersection(intersection);
-}
-
-s32 SVParticlesNode::getIntersection() const {
-    return m_pParticles->getIntersection();
-}
-
-void SVParticlesNode::setCollision(s32 collision) const {
-    m_pParticles->setCollision(collision);
-}
-
-s32 SVParticlesNode::getCollision() const {
-    return m_pParticles->getCollision();
-}
-
-void SVParticlesNode::setCulling(s32 culling) const {
-    m_pParticles->setCulling(culling);
-}
-
-s32 SVParticlesNode::getCulling() const {
-    return m_pParticles->getCulling();
-}
-
-void SVParticlesNode::setSpawnRate(f32 spawn) const {
-    m_pParticles->setSpawnRate(spawn);
-}
-
-f32 SVParticlesNode::getSpawnRate() const {
-    return m_pParticles->getSpawnRate();
-}
-
-void SVParticlesNode::setSpawnScale(f32 scale) const {
-    m_pParticles->setSpawnScale(scale);
-}
-
-f32 SVParticlesNode::getSpawnScale() const {
-    return m_pParticles->getSpawnScale();
-}
-
-void SVParticlesNode::setSpawnThreshold(f32 threshold) const {
-    m_pParticles->setSpawnThreshold(threshold);
-}
-
-f32 SVParticlesNode::getSpawnThreshold() const {
-    return m_pParticles->getSpawnThreshold();
-}
-
-void SVParticlesNode::clearParticles() const {
-    m_pParticles->clear();
-}
-
-s32 SVParticlesNode::getNumParticles() const {
-    return m_pParticles->getNumParticles();
-}
-
-f32 SVParticlesNode::getParticleRadius(s32 num) const {
-    return m_pParticles->getParticleRadius(num);
-}
-
 FVec3 SVParticlesNode::getParticlePosition(s32 num) const {
     return world_offset + FVec3(m_pParticles->getParticlePosition(num));
-}
-
-const FVec3 &SVParticlesNode::getParticleVelocity(s32 num) const {
-    return m_pParticles->getParticleVelocity(num);
 }
 
 void SVParticlesNode::getParticleTransforms(SVArray<FMat4> &transforms) const {
@@ -477,149 +346,13 @@ s32 SVParticlesNode::getPhysicalMask() const {
     return physical_mask;
 }
 
-void SVParticlesNode::setPhysicalMass(f32 mass) const {
-    m_pParticles->setWorldMass(mass);
-}
-
-f32 SVParticlesNode::getPhysicalMass() const {
-    return m_pParticles->getWorldMass();
-}
-
-void SVParticlesNode::setLengthStretch(f32 stretch) const {
-    m_pParticles->setLengthStretch(stretch);
-}
-
-f32 SVParticlesNode::getLengthStretch() const {
-    return m_pParticles->getLengthStretch();
-}
-
-void SVParticlesNode::setLinearDamping(f32 damping) const {
-    m_pParticles->setLinearDamping(damping);
-}
-
-f32 SVParticlesNode::getLinearDamping() const {
-    return m_pParticles->getLinearDamping();
-}
-
-void SVParticlesNode::setAngularDamping(f32 damping) const {
-    m_pParticles->setAngularDamping(damping);
-}
-
-f32 SVParticlesNode::getAngularDamping() const {
-    return m_pParticles->getAngularDamping();
-}
-
-void SVParticlesNode::setGrowthDamping(f32 damping) const {
-    m_pParticles->setGrowthDamping(damping);
-}
-
-f32 SVParticlesNode::getGrowthDamping() const {
-    return m_pParticles->getGrowthDamping();
-}
-
-void SVParticlesNode::setRestitution(f32 restitution) const {
-    m_pParticles->setRestitution(restitution);
-}
-
-f32 SVParticlesNode::getRestitution() const {
-    return m_pParticles->getRestitution();
-}
-
-void SVParticlesNode::setRoughness(f32 roughness) const {
-    m_pParticles->setRoughness(roughness);
-}
-
-f32 SVParticlesNode::getRoughness() const {
-    return m_pParticles->getRoughness();
-}
-
 //************************************** Emitter *****************************
-void SVParticlesNode::setEmitterType(s32 type) const {
-    m_pParticles->setEmitterType(type);
-}
-
-s32 SVParticlesNode::getEmitterType() const {
-    return m_pParticles->getEmitterType();
-}
-
-void SVParticlesNode::setEmitterEnabled(s32 enable) const {
-    m_pParticles->setEmitterEnabled(enable);
-}
-
-s32 SVParticlesNode::isEmitterEnabled() const {
-    return m_pParticles->isEmitterEnabled();
-}
-
-void SVParticlesNode::setEmitterBased(s32 based) const {
-    m_pParticles->setEmitterBased(based);
-}
-
-s32 SVParticlesNode::isEmitterBased() const {
-    return m_pParticles->isEmitterBased();
-}
-
-void SVParticlesNode::setEmitterShift(s32 shift) const {
-    m_pParticles->setEmitterShift(shift);
-}
-
-s32 SVParticlesNode::isEmitterShift() const {
-    return m_pParticles->isEmitterShift();
-}
-
-void SVParticlesNode::setEmitterContinuous(s32 continuous) const {
-    m_pParticles->setEmitterContinuous(continuous);
-}
-
-s32 SVParticlesNode::isEmitterContinuous() const {
-    return m_pParticles->isEmitterContinuous();
-}
-
-void SVParticlesNode::setEmitterSequence(s32 sequence) const {
-    m_pParticles->setEmitterSequence(sequence);
-}
-
-s32 SVParticlesNode::getEmitterSequence() const {
-    return m_pParticles->getEmitterSequence();
-}
-
-void SVParticlesNode::setEmitterLimit(s32 limit) const {
-    m_pParticles->setEmitterLimit(limit);
-}
-
-s32 SVParticlesNode::getEmitterLimit() const {
-    return m_pParticles->getEmitterLimit();
-}
-
 void SVParticlesNode::setEmitterSync(s32 sync) {
     emitter_sync = sync;
 }
 
 s32 SVParticlesNode::getEmitterSync() const {
     return emitter_sync;
-}
-
-void SVParticlesNode::setEmitterSize(const FVec3 &size) const {
-    m_pParticles->setEmitterSize(size);
-}
-
-const FVec3 &SVParticlesNode::getEmitterSize() const {
-    return m_pParticles->getEmitterSize();
-}
-
-void SVParticlesNode::setEmitterDirection(const FVec3 &direction) const {
-    m_pParticles->setEmitterDirection(direction);
-}
-
-const FVec3 &SVParticlesNode::getEmitterDirection() const {
-    return m_pParticles->getEmitterDirection();
-}
-
-void SVParticlesNode::setEmitterSpread(const FVec3 &spread) const {
-    m_pParticles->setEmitterSpread(spread);
-}
-
-const FVec3 &SVParticlesNode::getEmitterSpread() const {
-    return m_pParticles->getEmitterSpread();
 }
 
 void SVParticlesNode::setEmitterVelocity(const FVec3 &velocity) {
@@ -634,146 +367,9 @@ void SVParticlesNode::addEmitterSpark(const FVec3 &point,const FVec3 &normal,con
     return m_pParticles->addEmitterSpark(FVec3(point - world_offset),normal,velocity);
 }
 
-//********************************** Dynamic ******************************
-void SVParticlesNode::setDelay(f32 mean,f32 spread) const {
-    m_pParticles->setDelay(mean,spread);
-}
-
-f32 SVParticlesNode::getDelayMean() const {
-    return m_pParticles->getDelayMean();
-}
-
-f32 SVParticlesNode::getDelaySpread() const {
-    return m_pParticles->getDelaySpread();
-}
-
-void SVParticlesNode::setPeriod(f32 mean,f32 spread) const {
-    m_pParticles->setPeriod(mean,spread);
-}
-
-f32 SVParticlesNode::getPeriodMean() const {
-    return m_pParticles->getPeriodMean();
-}
-
-f32 SVParticlesNode::getPeriodSpread() const {
-    return m_pParticles->getPeriodSpread();
-}
-
-void SVParticlesNode::setDuration(f32 mean,f32 spread) const {
-    m_pParticles->setDuration(mean,spread);
-}
-
-f32 SVParticlesNode::getDurationMean() const {
-    return m_pParticles->getDurationMean();
-}
-
-f32 SVParticlesNode::getDurationSpread() const {
-    return m_pParticles->getDurationSpread();
-}
-
-void SVParticlesNode::setLife(f32 mean,f32 spread) const {
-    m_pParticles->setLife(mean,spread);
-}
-
-f32 SVParticlesNode::getLifeMean() const {
-    return m_pParticles->getLifeMean();
-}
-
-f32 SVParticlesNode::getLifeSpread() const {
-    return m_pParticles->getLifeSpread();
-}
-
-void SVParticlesNode::setVelocity(f32 mean,f32 spread) const {
-    m_pParticles->setVelocity(mean,spread);
-}
-
-f32 SVParticlesNode::getVelocityMean() const {
-    return m_pParticles->getVelocityMean();
-}
-
-f32 SVParticlesNode::getVelocitySpread() const {
-    return m_pParticles->getVelocitySpread();
-}
-
-void SVParticlesNode::setAngle(f32 mean,f32 spread) const {
-    m_pParticles->setAngle(mean,spread);
-}
-
-f32 SVParticlesNode::getAngleMean() const {
-    return m_pParticles->getAngleMean();
-}
-
-f32 SVParticlesNode::getAngleSpread() const {
-    return m_pParticles->getAngleSpread();
-}
-
-void SVParticlesNode::setRotation(f32 mean,f32 spread) const {
-    m_pParticles->setRotation(mean,spread);
-}
-
-f32 SVParticlesNode::getRotationMean() const {
-    return m_pParticles->getRotationMean();
-}
-
-f32 SVParticlesNode::getRotationSpread() const {
-    return m_pParticles->getRotationSpread();
-}
-
-void SVParticlesNode::setRadius(f32 mean,f32 spread) const {
-    m_pParticles->setRadius(mean,spread);
-}
-
-f32 SVParticlesNode::getRadiusMean() const {
-    return m_pParticles->getRadiusMean();
-}
-
-f32 SVParticlesNode::getRadiusSpread() const {
-    return m_pParticles->getRadiusSpread();
-}
-
-void SVParticlesNode::setGrowth(f32 mean,f32 spread) const {
-    m_pParticles->setGrowth(mean,spread);
-}
-
-f32 SVParticlesNode::getGrowthMean() const {
-    return m_pParticles->getGrowthMean();
-}
-
-f32 SVParticlesNode::getGrowthSpread() const {
-    return m_pParticles->getGrowthSpread();
-}
-
 //********************************** Forces ************************************
-void SVParticlesNode::setGravity(const FVec3 &gravity) const {
-    m_pParticles->setGravity(gravity);
-}
-
-const FVec3 &SVParticlesNode::getGravity() const {
-    return m_pParticles->getGravity();
-}
-
-s32 SVParticlesNode::addForce() const {
-    return m_pParticles->addForce();
-}
-
-void SVParticlesNode::removeForce(s32 num) const {
-    m_pParticles->removeForce(num);
-}
-
-s32 SVParticlesNode::getNumForces() const {
-    return m_pParticles->getNumForces();
-}
-
-void SVParticlesNode::setForceAttached(s32 num,s32 attached) const {
-    m_pParticles->setForceAttached(num,attached);
-}
-
-s32 SVParticlesNode::isForceAttached(s32 num) const {
-    return m_pParticles->isForceAttached(num);
-}
-
 void SVParticlesNode::setForceTransform(s32 num,const FMat4 &transform) const {
-    if(isForceAttached(num)) {
+    if(m_pParticles->isForceAttached(num)) {
         m_pParticles->setForceTransform(num,FMat4(transform));
     } else {
          m_pParticles->setForceTransform(num,FMat4(translate(-world_offset) * transform));
@@ -781,67 +377,15 @@ void SVParticlesNode::setForceTransform(s32 num,const FMat4 &transform) const {
 }
 
 FMat4 SVParticlesNode::getForceTransform(s32 num) const {
-    if(isForceAttached(num)) {
+    if(m_pParticles->isForceAttached(num)) {
         return FMat4(m_pParticles->getForceTransform(num));
     }
     return translate(world_offset) * FMat4(m_pParticles->getForceTransform(num));
 }
 
-void SVParticlesNode::setForceRadius(s32 num,f32 radius) const {
-    m_pParticles->setForceRadius(num,radius);
-}
-
-f32 SVParticlesNode::getForceRadius(s32 num) const {
-    return m_pParticles->getForceRadius(num);
-}
-
-void SVParticlesNode::setForceAttenuation(s32 num,f32 attenuation) const {
-    m_pParticles->setForceAttenuation(num,attenuation);
-}
-
-f32 SVParticlesNode::getForceAttenuation(s32 num) const {
-    return m_pParticles->getForceAttenuation(num);
-}
-
-void SVParticlesNode::setForceAttractor(s32 num,f32 attractor) const {
-    m_pParticles->setForceAttractor(num,attractor);
-}
-
-f32 SVParticlesNode::getForceAttractor(s32 num) const {
-    return m_pParticles->getForceAttractor(num);
-}
-
-void SVParticlesNode::setForceRotator(s32 num,f32 rotation) const {
-    m_pParticles->setForceRotator(num,rotation);
-}
-
-f32 SVParticlesNode::getForceRotator(s32 num) const {
-    return m_pParticles->getForceRotator(num);
-}
-
 //****************************** Noises********************************************
-s32 SVParticlesNode::addNoise() const {
-    return m_pParticles->addNoise();
-}
-
-void SVParticlesNode::removeNoise(s32 num) const {
-    m_pParticles->removeNoise(num);
-}
-
-s32 SVParticlesNode::getNumNoises() const {
-    return m_pParticles->getNumNoises();
-}
-
-void SVParticlesNode::setNoiseAttached(s32 num,s32 attached) const {
-    m_pParticles->setNoiseAttached(num,attached);
-}
-
-s32 SVParticlesNode::isNoiseAttached(s32 num) const {
-    return m_pParticles->isNoiseAttached(num);
-}
-
 void SVParticlesNode::setNoiseTransform(s32 num,const FMat4 &transform) const {
-    if(isNoiseAttached(num)) {
+    if(m_pParticles->isNoiseAttached(num)) {
         m_pParticles->setNoiseTransform(num,FMat4(transform));
     } else {
         m_pParticles->setNoiseTransform(num,FMat4(translate(-world_offset) * transform));
@@ -849,58 +393,10 @@ void SVParticlesNode::setNoiseTransform(s32 num,const FMat4 &transform) const {
 }
 
 FMat4 SVParticlesNode::getNoiseTransform(s32 num) const {
-    if(isNoiseAttached(num)) {
+    if(m_pParticles->isNoiseAttached(num)) {
         return FMat4(m_pParticles->getNoiseTransform(num));
     }
     return translate(world_offset) * FMat4(m_pParticles->getNoiseTransform(num));
-}
-
-void SVParticlesNode::setNoiseOffset(s32 num,const FVec3 &offset) const {
-    m_pParticles->setNoiseOffset(num,offset);
-}
-
-const FVec3 &SVParticlesNode::getNoiseOffset(s32 num) const {
-    return m_pParticles->getNoiseOffset(num);
-}
-
-void SVParticlesNode::setNoiseStep(s32 num,const FVec3 &step) const {
-    m_pParticles->setNoiseStep(num,step);
-}
-
-const FVec3 &SVParticlesNode::getNoiseStep(s32 num) const {
-    return m_pParticles->getNoiseStep(num);
-}
-
-void SVParticlesNode::setNoiseForce(s32 num,f32 damping) const {
-    m_pParticles->setNoiseForce(num,damping);
-}
-
-f32 SVParticlesNode::getNoiseForce(s32 num) const {
-    return m_pParticles->getNoiseForce(num);
-}
-
-void SVParticlesNode::setNoiseScale(s32 num,f32 scale) const {
-    m_pParticles->setNoiseScale(num,scale);
-}
-
-f32 SVParticlesNode::getNoiseScale(s32 num) const {
-    return m_pParticles->getNoiseScale(num);
-}
-
-void SVParticlesNode::setNoiseFrequency(s32 num,s32 frequency) const {
-    m_pParticles->setNoiseFrequency(num,frequency);
-}
-
-s32 SVParticlesNode::getNoiseFrequency(s32 num) const {
-    return m_pParticles->getNoiseFrequency(num);
-}
-
-void SVParticlesNode::setNoiseSize(s32 num,s32 size) const {
-    m_pParticles->setNoiseSize(num,size);
-}
-
-s32 SVParticlesNode::getNoiseSize(s32 num) const {
-    return m_pParticles->getNoiseSize(num);
 }
 
 //        Image *SVParticlesNode::getNoiseImage(s32 num) const {
@@ -908,36 +404,8 @@ s32 SVParticlesNode::getNoiseSize(s32 num) const {
 //        }
 
 //********************************* Deflectors *********************************
-s32 SVParticlesNode::addDeflector() const {
-    return m_pParticles->addDeflector();
-}
-
-void SVParticlesNode::removeDeflector(s32 num) const {
-    m_pParticles->removeDeflector(num);
-}
-
-s32 SVParticlesNode::getNumDeflectors() const {
-    return m_pParticles->getNumDeflectors();
-}
-
-void SVParticlesNode::setDeflectorType(s32 num,s32 type) const {
-    m_pParticles->setDeflectorType(num,type);
-}
-
-s32 SVParticlesNode::getDeflectorType(s32 num) const {
-    return m_pParticles->getDeflectorType(num);
-}
-
-void SVParticlesNode::setDeflectorAttached(s32 num,s32 attached) const {
-    m_pParticles->setDeflectorAttached(num,attached);
-}
-
-s32 SVParticlesNode::isDeflectorAttached(s32 num) const {
-    return m_pParticles->isDeflectorAttached(num);
-}
-
 void SVParticlesNode::setDeflectorTransform(s32 num,const FMat4 &transform) const {
-    if(isDeflectorAttached(num)) {
+    if(m_pParticles->isDeflectorAttached(num)) {
         m_pParticles->setDeflectorTransform(num,FMat4(transform));
     } else {
         m_pParticles->setDeflectorTransform(num,FMat4(translate(-world_offset) * transform));
@@ -945,91 +413,14 @@ void SVParticlesNode::setDeflectorTransform(s32 num,const FMat4 &transform) cons
 }
 
 FMat4 SVParticlesNode::getDeflectorTransform(s32 num) const {
-    if(isDeflectorAttached(num)) {
+    if(m_pParticles->isDeflectorAttached(num)) {
         return FMat4(m_pParticles->getDeflectorTransform(num));
     }
     return translate(world_offset) * FMat4(m_pParticles->getDeflectorTransform(num));
 }
 
-void SVParticlesNode::setDeflectorSize(s32 num,const FVec3 &size) const {
-    m_pParticles->setDeflectorSize(num,size);
-}
-
-const FVec3 &SVParticlesNode::getDeflectorSize(s32 num) const {
-    return m_pParticles->getDeflectorSize(num);
-}
-
-void SVParticlesNode::setDeflectorRestitution(s32 num,f32 restitution) const {
-    m_pParticles->setDeflectorRestitution(num,restitution);
-}
-
-f32 SVParticlesNode::getDeflectorRestitution(s32 num) const {
-    return m_pParticles->getDeflectorRestitution(num);
-}
-
-void SVParticlesNode::setDeflectorRoughness(s32 num,f32 roughness) const {
-    m_pParticles->setDeflectorRoughness(num,roughness);
-}
-
-f32 SVParticlesNode::getDeflectorRoughness(s32 num) const {
-    return m_pParticles->getDeflectorRoughness(num);
-}
-
-//********************************* Contact points ******************************
-s32 SVParticlesNode::getNumContacts() const {
-    return m_pParticles->getNumContacts();
-}
-
-FVec3 SVParticlesNode::getContactPoint(s32 num) const {
-    return FVec3(m_pParticles->getContactPoint(num)) + world_offset;
-}
-
-const FVec3 &SVParticlesNode::getContactNormal(s32 num) const {
-    return m_pParticles->getContactNormal(num);
-}
-
-const FVec3 &SVParticlesNode::getContactVelocity(s32 num) const {
-    return m_pParticles->getContactVelocity(num);
-}
-
-//        Object *SVParticlesNode::getContactObject(s32 num) const {
-//            return static_cast<Object*>(m_pParticles->getContactData(num));
-//        }
-
-//**********************************  Surfaces ***************************
-s32 SVParticlesNode::get_num_surfaces() const {
-    return NUM_SURFACES;
-}
-
-cptr8 SVParticlesNode::getSurfaceName(s32 surface) const {
-    assert(surface >= 0 && surface < NUM_SURFACES && "SVParticlesNode::getSurfaceName(): bad surface number");
-    if(surface == SURFACE_PARTICLES) {
-        return "SVParticles";
-    }
-    return nullptr;
-}
-
-s32 SVParticlesNode::getSequence(const FVec3 &camera,s32 surface) {
-    return m_pParticles->getEmitterSequence();
-}
-
-f32 SVParticlesNode::getTransparentDistance(const FVec3 &camera,s32 surface) {
-//            if(m_pParticles->getEmitterSequence()) {
-//                Node *node = this;
-//                while(node->getParent()) {
-//                    node = node->getParent();
-//                }
-//                if(node->getType() == NODE_DUMMY) {
-//                    return (f32)length(node->getWorldTransform().getColumn3(3) - camera);
-//                }
-//                return (f32)node->getWorldSVBoundBox().distanceValid(camera);
-//            }
-//            return (f32)getWorldSVBoundBox().distanceValid(camera);
-    return 0;
-}
-
+//******************************* Contact points ******************************
 s32 SVParticlesNode::getRandomPoint(FVec3 &ret_point,FVec3 &ret_normal,FVec3 &ret_velocity,s32 surface) {
-    assert(surface >= 0 && surface < NUM_SURFACES && "SVParticlesNode::getRandomPoint(): bad surface number");
     s32 num_particles = m_pParticles->getNumParticles();
     if(num_particles) {
         s32 num = mApp->m_pGlobalParam->getRandomInt(0,num_particles);
@@ -1043,20 +434,14 @@ s32 SVParticlesNode::getRandomPoint(FVec3 &ret_point,FVec3 &ret_normal,FVec3 &re
 }
 
 s32 SVParticlesNode::getNumTriangles(s32 surface) const {
-    assert(surface >= 0 && surface < NUM_SURFACES && "SVParticlesNode::getNumTriangles(): bad surface number");
-    if(surface == SURFACE_PARTICLES) {
-         return num_triangles;
-    }
-    return 0;
+    return num_triangles;
 }
 
 const SVBoundBox &SVParticlesNode::getSVBoundBox(s32 surface) const {
-    assert(surface >= 0 && surface < NUM_SURFACES && "SVParticlesNode::getSVBoundBox(): bad surface number");
     return bound_box;
 }
 
 const SVBoundSphere &SVParticlesNode::getSVBoundSphere(s32 surface) const {
-    assert(surface >= 0 && surface < NUM_SURFACES && "SVParticlesNode::getSVBoundSphere(): bad surface number");
     return bound_sphere;
 }
 
@@ -1069,115 +454,8 @@ const SVBoundSphere &SVParticlesNode::getSVBoundSphere() const {
     return bound_sphere;
 }
 
-//        WorldSVBoundBox SVParticlesNode::get_world_bound_box() const {
-//            const SVBoundBox &bb = m_pParticles->getSVBoundBox();
-//            FVec3 min = world_offset + FVec3(bb.getMin());
-//            FVec3 max = world_offset + FVec3(bb.getMax());
-//            return WorldSVBoundBox(min,max);
-//        }
-//
-//        WorldSVBoundSphere SVParticlesNode::get_world_bound_sphere() const {
-//            const SVBoundSphere &bs = m_pParticles->getSVBoundSphere();
-//            FVec3 center = world_offset + FVec3(bs.getCenter());
-//            f32 radius = bs.getRadius();
-//            return WorldSVBoundSphere(center,radius);
-//        }
-s32 SVParticlesNode::hasQuery() const {
-    return 1;
-}
-
-//********************************** Visualizer *********************************
-void SVParticlesNode::renderHandler() {
-    //engine.visualizer->renderBoxHandler(this,FVec3(1.0f / 3.0f),vec4_one);
-}
-
 void SVParticlesNode::renderVisualizer() {
-//    const FMat4 &transform = FMat4_identity;//getWorldTransform();
-//    // emitter
-//    const FVec3 &size = getEmitterSize();
-//    if(getEmitterType() == SVParticles::EMITTER_SPHERE) {
-//        //engine.visualizer->renderSphere(size.x,transform,vec4_one);
-//    } else if(getEmitterType() == SVParticles::EMITTER_CYLINDER) {
-//        //engine.visualizer->renderCylinder(size.x,size.y,transform,vec4_one);
-//    } else if(getEmitterType() == SVParticles::EMITTER_BOX) {
-//        //engine.visualizer->renderBox(size,transform,vec4_one);
-//    }
-//    // directional force
-//    FVec3 position = transform.getColumn3(3);
-//    //engine.visualizer->renderVector(position,position + FVec3(getGravity()),FVec4(1.0f,0.0f,0.0f,1.0f));
-//    // forces
-//    for(s32 i = 0; i < getNumForces(); i++) {
-//        FMat4 transform = getForceTransform(i);
-//        if(isForceAttached(i)) {
-//            //transform = getWorldTransform() * transform;
-//        }
-//        f32 radius = getForceRadius(i);
-//        f32 attractor = getForceAttractor(i);
-//        FVec3 position = transform.getColumn3(3);
-//        FVec3 x = transform.getColumn3(0) * radius;
-//        FVec3 y = transform.getColumn3(1) * radius;
-//        FVec3 z = transform.getColumn3(2) * radius;
-//        if(attractor > 0.0f) {
-//            FVec4 color = FVec4(0.0f,0.0f,1.0f,1.0f);
-////                    engine.visualizer->renderVector(position,position + x,color);
-////                    engine.visualizer->renderVector(position,position - x,color);
-////                    engine.visualizer->renderVector(position,position + y,color);
-////                    engine.visualizer->renderVector(position,position - y,color);
-////                    engine.visualizer->renderVector(position,position + z,color);
-////                    engine.visualizer->renderVector(position,position - z,color);
-////                    engine.visualizer->renderSphere(radius,transform,color);
-//        } else {
-//            FVec4 color = FVec4(1.0f,0.0f,0.0f,1.0f);
-////                    engine.visualizer->renderVector(position + x,position,color);
-////                    engine.visualizer->renderVector(position - x,position,color);
-////                    engine.visualizer->renderVector(position + y,position,color);
-////                    engine.visualizer->renderVector(position - y,position,color);
-////                    engine.visualizer->renderVector(position + z,position,color);
-////                    engine.visualizer->renderVector(position - z,position,color);
-////                    engine.visualizer->renderSphere(radius,transform,color);
-//        }
-//    }
-//
-//    // noises
-//    for(s32 i = 0; i < getNumNoises(); i++) {
-////                FMat4 transform = getNoiseTransform(i);
-////                if(isNoiseAttached(i)) {
-////                    transform = getWorldTransform() * transform;
-////                }
-////                const FVec3 &step = getNoiseStep(i);
-////                engine.visualizer->renderBox(step,transform,FVec4(0.0f,1.0f,1.0f,1.0f));
-//    }
-//
-//    // deflectors
-//    for(s32 i = 0; i < getNumDeflectors(); i++) {
-////                FMat4 transform = getDeflectorTransform(i);
-////                if(isDeflectorAttached(i)){
-////                    transform = getWorldTransform() * transform;
-////                }
-////                const FVec3 &size = getDeflectorSize(i);
-////                FVec3 position = transform.getColumn3(3);
-////                FVec3 x = transform.getColumn3(0) * size.x;
-////                FVec3 y = transform.getColumn3(1) * size.y;
-////                FVec3 z = transform.getColumn3(2);
-////
-////                FVec4 color;
-////                if(getDeflectorType(i) == SVParticles::DEFLECTOR_REFLECTOR) {
-////                    color = FVec4(0.0f,0.0f,1.0f,1.0f);
-////                }else if(getDeflectorType(i) == SVParticles::DEFLECTOR_CLIPPER) {
-////                    color = FVec4(1.0f,0.0f,0.0f,1.0f);
-////                } else {
-////                    assert(0 && "SVParticlesNode::renderVisualizer(): unknown deflector type");
-////                }
-////                engine.visualizer->renderDirection(position,FVec3(z),color);
-////                engine.visualizer->renderLine3D(position - x - y,position - x + y,color);
-////                engine.visualizer->renderLine3D(position + x - y,position + x + y,color);
-////                engine.visualizer->renderLine3D(position - x - y,position + x - y,color);
-////                engine.visualizer->renderLine3D(position - x + y,position + x + y,color);
-////
-////                color.w = 0.25f;
-////                engine.visualizer->renderTriangle3D(position - x - y,position + x - y,position - x + y,color);
-////                engine.visualizer->renderTriangle3D(position + x + y,position - x + y,position + x - y,color);
-//    }
+    
 }
 
 void SVParticlesNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
@@ -1318,7 +596,6 @@ void SVParticlesNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //    FVec3 velocity = getEmitterVelocity();
 //    if(xml->isChild("emitter_velocity")) xml->getChild("emitter_velocity")->getFloatArrayData(velocity,3);
 //    setEmitterVelocity(velocity);
-//
 //    // dynamic
 //    if(xml->isChild("delay_mean") && xml->isChild("delay_spread")) {
 //        setDelay(xml->getChild("delay_mean")->getFloatData(),xml->getChild("delay_spread")->getFloatData());

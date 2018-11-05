@@ -146,10 +146,21 @@ void SVMovie::delDragma(SVDragmaPtr _dragma) {
     m_dragmaLock->unlock();
 }
 
+void SVMovie::clearDragma() {
+    m_dragmaLock->lock();
+    m_accTime = 0.0f;
+    for(s32 i=0;i<m_dragmaPool.size();i++){
+        m_dragmaPool[i]->exit();
+    }
+    m_dragmaPool.destroy();
+    m_dragmaLock->unlock();
+}
+
 void SVMovie::delDragmaByUID(u32 _uid) {
     m_dragmaLock->lock();
     for(s32 i=0;i<m_dragmaPool.size();i++){
         if( m_dragmaPool[i]->getUID() == _uid ) {
+            m_dragmaPool[i]->exit();
             m_dragmaPool.removeForce(i);
             return ;
         }
@@ -161,6 +172,7 @@ void SVMovie::delDragmaByIndex(u32 _index) {
     m_dragmaLock->lock();
     if(_index<0 || _index>=m_dragmaPool.size())
         return ;
+    m_dragmaPool[_index]->exit();
     m_dragmaPool.removeForce(_index);
     m_dragmaLock->unlock();
 }

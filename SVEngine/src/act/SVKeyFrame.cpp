@@ -84,7 +84,6 @@ void SVKeyMtl::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc,
 }
 
 void SVKeyMtl::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
-    
 }
 
 //事件Key
