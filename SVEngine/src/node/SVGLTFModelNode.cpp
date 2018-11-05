@@ -20,7 +20,6 @@
 #include "../mtl/SVTexture.h"
 #include "../basesys/SVConfig.h"
 #include "../rendercore/renderer/SVRendererBase.h"
-#include <typeinfo.h>
 //
 SVGLTFModelNode::SVGLTFModelNode(SVInst *_app)
 :SVNode(_app) {
