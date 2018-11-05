@@ -9,9 +9,12 @@
 #include "../file/SVParseDef.h"
 #include "../base/SVDataChunk.h"
 #include "../file/SVFileMgr.h"
+#include "../mtl/SVTexMgr.h"
+#include "../mtl/SVTexture.h"
 #include "../app/SVInst.h"
+#include "../base/SVDataSwap.h"
 SVGLTF::SVGLTF(SVInst *_app)
-:SVGBase(_app), bin_data_(nullptr), bin_size_(0), is_binary_(false) {
+:SVGBase(_app) {
     
 }
 
@@ -20,7 +23,6 @@ SVGLTF::~SVGLTF() {
 }
 
 bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
-    // convert json
     SVDataChunk tDataStream;
     bool tflag = mApp->m_pGlobalMgr->m_pFileMgr->loadFileContentStr(&tDataStream, _filename);
     if (!tflag)
@@ -122,8 +124,7 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_bufferItem = t_buffers[i];
                 if (t_bufferItem.IsObject()) {
                     Buffer buffer;
-                    if (!_parseBuffer(&buffer, t_bufferItem, nullptr,
-                                     is_binary_, bin_data_, bin_size_)) {
+                    if (!_parseBuffer(&buffer, t_bufferItem, _filename)) {
                         return false;
                     }
                     _model->buffers.append(buffer);
@@ -138,7 +139,7 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
     // 4. Parse BufferView
     {
         if (doc.HasMember("bufferViews") && doc["bufferViews"].IsArray()) {
-            RAPIDJSON_NAMESPACE::Value &t_bufferViews = doc["buffers"];
+            RAPIDJSON_NAMESPACE::Value &t_bufferViews = doc["bufferViews"];
             for (s32 i = 0; i<t_bufferViews.Size(); i++) {
                 RAPIDJSON_NAMESPACE::Value &t_bufferViewItem = t_bufferViews[i];
                 if (!t_bufferViewItem.IsObject()) {
@@ -284,43 +285,19 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                     SV_LOG_ERROR("SVglTF Error :'images' does not contain an JSON object.");
                     return false;
                 }
-//                Image image;
-//                if (!ParseImage(&image, err, warn, it.value(), base_dir, &fs,
-//                                &this->LoadImageData, load_image_user_data_)) {
-//                    return false;
-//                }
-//
-//                if (image.bufferView != -1) {
-//                    // Load image from the buffer view.
-//                    if (size_t(image.bufferView) >= model->bufferViews.size()) {
-//                        if (err) {
-//                            std::stringstream ss;
-//                            ss << "bufferView \"" << image.bufferView
-//                            << "\" not found in the scene." << std::endl;
-//                            (*err) += ss.str();
-//                        }
-//                        return false;
-//                    }
-//
-//                    const BufferView &bufferView =
-//                    model->bufferViews[size_t(image.bufferView)];
-//                    const Buffer &buffer = model->buffers[size_t(bufferView.buffer)];
-//
-//                    if (*LoadImageData == nullptr) {
-//                        if (err) {
-//                            (*err) += "No LoadImageData callback specified.\n";
-//                        }
-//                        return false;
-//                    }
-//                    bool ret = LoadImageData(&image, err, warn, image.width, image.height,
-//                                             &buffer.data[bufferView.byteOffset],
-//                                             static_cast<int>(bufferView.byteLength),
-//                                             load_image_user_data_);
-//                    if (!ret) {
-//                        return false;
-//                    }
+                Image image;
+                if (!_parseImage(&image, t_image, _filename)) {
+                    return false;
+                }
+                if (image.bufferView != -1) {
+                    // Load image from the buffer view.
+                    
+                    // not supporte now!!!!!
+                    SV_LOG_ERROR("SVglTF Error :read image from buffer does not supporte now.");
+                    return false;
                 }
             }
+        }
     }
         
     // 12. Parse Texture
@@ -435,11 +412,11 @@ bool SVGLTF::_parseAsset(Asset *_asset , RAPIDJSON_NAMESPACE::Value &_item){
     return true;
 }
 
-bool SVGLTF::_parseBuffer(Buffer *_buffer, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir, bool _is_binary, const unsigned char *bin_data, s64 bin_size){
+bool SVGLTF::_parseBuffer(Buffer *_buffer, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir){
     
-    u64 byteLength;
-    if (_item.HasMember("byteLength") && _item["byteLength"].IsUint64()) {
-        byteLength = _item["byteLength"].GetUint64();
+    f64 byteLength;
+    if (_item.HasMember("byteLength") && _item["byteLength"].IsNumber()) {
+        byteLength = _item["byteLength"].GetDouble();
     }else{
         return false;
     }
@@ -451,23 +428,32 @@ bool SVGLTF::_parseBuffer(Buffer *_buffer, RAPIDJSON_NAMESPACE::Value &_item, cp
         return false;
     }
     
-    if (_is_binary) {
-        
-    }else{
-        if (_isDataURI((_buffer->uri).c_str())) {
-            SVString mime_type;
-//            if (!_decodeDataURI(_buffer->data, mime_type, (buffer->uri).c_str(), bytes, true)) {
-//                SV_LOG_ERROR("SVglTF :Error Failed to decode 'uri'.");
-//                return false;
-//            }
-        }else{
-            // Assume external .bin file.
-//            if (!LoadExternalFile(&buffer->data, err, /* warn */ nullptr, buffer->uri,
-//                                  basedir, true, bytes, true, fs)) {
-//                return false;
-//            }
+    if (_buffer->uri.size() == 0) {
+        SV_LOG_ERROR("SVglTF Error :'uri' is missing from non binary glTF file buffer.\n");
+        return false;
+    }
+    
+    if (_item.HasMember("type") && _item["type"].IsString()) {
+        SVString ty = _item["type"].GetString();
+        if (strcmp(ty.c_str(), "arraybuffer") == 0) {
+            // buffer.type = "arraybuffer";
         }
     }
+    
+    s64 bytes = s64(byteLength);
+    if (_isDataURI((_buffer->uri).c_str())) {
+        //nothing, maybe will..
+        return false;
+    }else{
+        // External .bin file.
+        SVString t_baseDir = _basedir;
+        s32 t_pos = t_baseDir.rfind('/');
+        SVString t_bufferUri = SVString::substr(t_baseDir.c_str(), 0, t_pos+1) + _buffer->uri;
+        if (!_loadExternalFile(_buffer->data, t_bufferUri.c_str(), bytes)) {
+            return false;
+        }
+    }
+    
     return true;
 }
 
@@ -492,12 +478,12 @@ bool SVGLTF::_parseBufferView(BufferView *_bufferView, RAPIDJSON_NAMESPACE::Valu
     if (!_item.HasMember("byteStride")) {
         byteStride = 0;
     }else{
-        byteStrideValue = _item["byteLength"].GetDouble();
-        byteStride = static_cast<s64>(byteStrideValue);
+        byteStrideValue = _item["byteStride"].GetDouble();
+        byteStride = s64(byteStrideValue);
     }
     
     if ((byteStride > 252) || ((byteStride % 4) != 0)) {
-        SV_LOG_ERROR("Invalid `byteStride' value. `byteStride' must be the multiple of");
+        SV_LOG_ERROR("SVGLTF Error:Invalid 'byteStride' value. `byteStride' must be the multiple of");
         return false;
     }
     
@@ -505,7 +491,7 @@ bool SVGLTF::_parseBufferView(BufferView *_bufferView, RAPIDJSON_NAMESPACE::Valu
     if (_item.HasMember("target") && _item["target"].IsNumber()) {
         target = _item["target"].GetDouble();
     }
-    s32 targetValue = static_cast<s32>(target);
+    s32 targetValue = s32(target);
     if ((targetValue == SVGLTF_TARGET_ARRAY_BUFFER) ||
         (targetValue == SVGLTF_TARGET_ELEMENT_ARRAY_BUFFER)) {
         // OK
@@ -517,10 +503,10 @@ bool SVGLTF::_parseBufferView(BufferView *_bufferView, RAPIDJSON_NAMESPACE::Valu
     if (_item.HasMember("name") && _item["name"].IsString()) {
         _bufferView->name = _item["name"].GetString();
     }
-    _bufferView->buffer = static_cast<s32>(buffer);
-    _bufferView->byteOffset = static_cast<s64>(byteOffset);
-    _bufferView->byteLength = static_cast<s64>(byteLength);
-    _bufferView->byteStride = static_cast<s64>(byteStride);
+    _bufferView->buffer = s32(buffer);
+    _bufferView->byteOffset = s64(byteOffset);
+    _bufferView->byteLength = s64(byteLength);
+    _bufferView->byteStride = s64(byteStride);
     
     return true;
 }
@@ -665,7 +651,7 @@ bool SVGLTF::_parsePrimitive(Primitive *_primitive, RAPIDJSON_NAMESPACE::Value &
     if (_item.HasMember("material") && _item["material"].IsNumber()) {
         material = _item["material"].GetDouble();
     }
-    _primitive->material = static_cast<s32>(material);
+    _primitive->material = s32(material);
     
     f64 mode = static_cast<f64>(SVGLTF_MODE_TRIANGLES);
     if (_item.HasMember("mode") && _item["mode"].IsNumber()) {
@@ -680,7 +666,7 @@ bool SVGLTF::_parsePrimitive(Primitive *_primitive, RAPIDJSON_NAMESPACE::Value &
     }
     _primitive->indices = static_cast<s32>(indices);
     
-    if (_item.HasMember("attributes") && _item["attributes"].IsArray()) {
+    if (_item.HasMember("attributes") && _item["attributes"].IsObject()) {
         RAPIDJSON_NAMESPACE::Value &t_attributes = _item["attributes"];
         for(auto iter = t_attributes.MemberBegin(); iter != t_attributes.MemberEnd(); ++iter){
             SVMap<SVString, s32> t_attribuesMap;
@@ -780,15 +766,13 @@ bool SVGLTF::_parseMaterial(Material *_material, RAPIDJSON_NAMESPACE::Value &_it
         if (strcmp(key, "pbrMetallicRoughness") == 0) {
             RAPIDJSON_NAMESPACE::Value &itemVal = iter->value;
             for (auto iterVal = itemVal.MemberBegin(); iterVal != itemVal.MemberEnd(); ++iterVal) {
-                RAPIDJSON_NAMESPACE::Value &tt_itemVal = iterVal->value;
                 Parameter param;
-                if (_parseParameterProperty(&param, tt_itemVal, (iterVal->name).GetString())) {
+                if (_parseParameterProperty(&param, itemVal, (iterVal->name).GetString())) {
                     _material->values.append((iterVal->name).GetString(), param);
                 }
             }
         }else if (strcmp(key, "extensions") == 0 || strcmp(key, "extras") == 0) {
-            // done later, skip, otherwise poorly parsed contents will be saved in the
-            // parametermap and serialized again later
+            
         } else {
             Parameter param;
             if (_parseParameterProperty(&param, _item, key)) {
@@ -803,11 +787,6 @@ bool SVGLTF::_parseMaterial(Material *_material, RAPIDJSON_NAMESPACE::Value &_it
 }
 
 bool SVGLTF::_parseParameterProperty(Parameter *_param, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _prop){
-    // A parameter value can either be a string or an array of either a boolean or
-    // a number. Booleans of any kind aren't supported here. Granted, it
-    // complicates the Parameter structure and breaks it semantically in the sense
-    // that the client probably works off the assumption that if the string is
-    // empty the vector is used, etc. Would a tagged union work?
     if (_item.HasMember(_prop) && _item[_prop].IsString()) {
         _param->string_value = _item[_prop].GetString();
         return true;
@@ -834,6 +813,7 @@ bool SVGLTF::_parseParameterProperty(Parameter *_param, RAPIDJSON_NAMESPACE::Val
                 _param->json_double_value.append(key, iter->value.GetDouble());
             }
         }
+        return true;
     }
     
     if (_item.HasMember(_prop) && _item[_prop].IsBool()) {
@@ -938,10 +918,10 @@ bool SVGLTF::_parseAnimationChannel(AnimationChannel *_channel, RAPIDJSON_NAMESP
     if (_item.HasMember("target") && _item["target"].IsObject()) {
         RAPIDJSON_NAMESPACE::Value &t_targetItem = _item["target"];
         if (t_targetItem.HasMember("node") && t_targetItem["node"].IsNumber()) {
-            samplerIndex = _item["node"].GetDouble();
+            samplerIndex = t_targetItem["node"].GetDouble();
         }
         if (t_targetItem.HasMember("path") && t_targetItem["path"].IsString()) {
-            _channel->target_path = _item["path"].GetString();
+            _channel->target_path = t_targetItem["path"].GetString();
         }
     }
     
@@ -1015,49 +995,101 @@ bool SVGLTF::_parseSampler(Sampler *_sampler, RAPIDJSON_NAMESPACE::Value &_item)
     return true;
 }
 
-bool SVGLTF::_loadExternalFile(SVString &_outData, cptr8 _filename, cptr8 _basedir, bool _required, s64 _reqBytes, bool _checkSize){
+bool SVGLTF::_loadExternalFile(SVDataSwapPtr _dataOut, cptr8 _filename, s64 _reqBytes){
+    SVDataChunk tDataStream;
+    bool tflag = mApp->m_pGlobalMgr->m_pFileMgr->loadFileContentStr(&tDataStream, _filename);
+    if (!tflag){
+        SV_LOG_ERROR("SVglTF Error:load ExternalFile failed\n");
+        return false;
+    }
+    SV_LOG_INFO("SVglTF :ExternalFile filedata %s\n", tDataStream.m_data);
+    if (!tDataStream.m_data) {
+        SV_LOG_ERROR("SVglTF Error:ExternalFile data stream is null");
+        return false;
+    }
+    
+    //SVDataChunk 空间多申请了一个字节
+    if ((tDataStream.m_size - 1) != _reqBytes) {
+        SV_LOG_ERROR("SVglTF Error:ExternalFile File size mismatch requestedBytes");
+        return false;
+    }
+    _dataOut->writeData(tDataStream.m_data, tDataStream.m_size);
+    return true;
+}
 
-//    std::vector<std::string> paths;
-//    paths.push_back(_basedir);
-//    paths.push_back(".");
-//
-//
-//    std::vector<unsigned char> buf;
-//    std::string fileReadErr;
-//    bool fileRead =
-//    fs->ReadWholeFile(&buf, &fileReadErr, filepath, fs->user_data);
-//    if (!fileRead) {
-//        if (failMsgOut) {
-//            (*failMsgOut) +=
-//            "File read error : " + filepath + " : " + fileReadErr + "\n";
-//        }
-//        return false;
-//    }
-//
-//    size_t sz = buf.size();
-//    if (sz == 0) {
-//        if (failMsgOut) {
-//            (*failMsgOut) += "File is empty : " + filepath + "\n";
-//        }
-//        return false;
-//    }
-//
-//    if (checkSize) {
-//        if (reqBytes == sz) {
-//            out->swap(buf);
-//            return true;
-//        } else {
-//            std::stringstream ss;
-//            ss << "File size mismatch : " << filepath << ", requestedBytes "
-//            << reqBytes << ", but got " << sz << std::endl;
-//            if (failMsgOut) {
-//                (*failMsgOut) += ss.str();
-//            }
-//            return false;
-//        }
-//    }
-//
-//    out->swap(buf);
+bool SVGLTF::_parseImage(Image *_image, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir){
+    // A glTF image must either reference a bufferView or an image uri
+    bool hasBufferView = false;
+    if (_item.HasMember("bufferView")) {
+        hasBufferView = true;
+    }
+    
+    bool hasURI = false;
+    if (_item.HasMember("uri")) {
+        hasURI = true;
+    }
+    
+    if (hasBufferView && hasURI) {
+        SV_LOG_ERROR("SVglTF Error:Only one of `bufferView` or `uri` should be defined, but both are defined for Image.\n");
+        return false;
+    }
+    
+    if (!hasBufferView && !hasURI) {
+        SV_LOG_ERROR("SVglTF Error:Neither required `bufferView` nor `uri` defined for Image.\n");
+        return false;
+    }
+    
+    if (_item.HasMember("name") && _item["name"].IsString()) {
+        _image->name = _item["name"].GetString();
+    }
+//    ParseExtensionsProperty(&image->extensions, err, o);
+    
+    if (hasBufferView) {
+        f64 bufferView = -1;
+        if (_item.HasMember("bufferView") && _item["bufferView"].IsNumber()) {
+            bufferView = _item["bufferView"].GetDouble();
+        }
+        SVString mime_type;
+        if (_item.HasMember("mimeType") && _item["mimeType"].IsString()) {
+            mime_type = _item["mimeType"].GetString();
+        }
+        
+        f64 width = 0.0;
+        if (_item.HasMember("width") && _item["width"].IsNumber()) {
+            width = _item["width"].GetDouble();
+        }
+        
+        f64 height = 0.0;
+        if (_item.HasMember("height") && _item["height"].IsNumber()) {
+            height = _item["height"].GetDouble();
+        }
+        _image->bufferView = s32(bufferView);
+        _image->mimeType = mime_type;
+        _image->width = s32(width);
+        _image->height = s32(height);
+        return true;
+    }
+    
+    // Parse URI & Load image data.
+    SVString uri;
+    if (_item.HasMember("uri") && _item["uri"].IsString()) {
+        uri = _item["uri"].GetString();
+    }
+    if (uri.size() == 0) {
+        SV_LOG_ERROR("SVglTF Error:Failed to load external 'uri' for image parameter\n");
+        return false;
+    }
+
+    if (_isDataURI(uri)) {
+        //nothing, maybe will..
+        return false;
+    } else {
+        _image->uri = uri;
+        SVString t_baseDir = _basedir;
+        s32 t_pos = t_baseDir.rfind('/');
+        SVString t_imageUri = SVString::substr(t_baseDir.c_str(), 0, t_pos + 1) + uri;
+        _image->texture = mApp->getTexMgr()->getTextureSync(t_imageUri, true);
+    }
     return true;
 }
 
@@ -1229,7 +1261,7 @@ cptr8 SVGLTF::_base64_decode(SVString const &encoded_string){
     int j = 0;
     int in_ = 0;
     unsigned char char_array_4[4], char_array_3[3];
-    std::string ret;
+    SVString ret;
     
     while (in_len-- && (encoded_string[in_] != '=') &&
            is_base64(encoded_string[in_])) {
