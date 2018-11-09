@@ -39,7 +39,7 @@ void SV3DBox::randomInit(){
     //
     f32 t_x = rand()%600 - 360.0f;
     f32 t_y = rand()%1000 - 640.0f;
-    f32 t_z = rand()%500;
+    f32 t_z = rand()%1000 - 500.0f;
     setPosition(t_x, t_y, -t_z);
     //
     f32 t_rotx = rand()%360;
@@ -54,7 +54,7 @@ void SV3DBox::randomInit(){
     m_color.setColor(t_r, t_g, t_b, t_a);
 
     //m_drawBox
-    //m_drawBox = true;
+    m_drawBox = true;
     m_canSelect = true;
 }
 
@@ -78,7 +78,7 @@ void SV3DBox::render() {
     if (mApp->m_pGlobalParam->m_curScene && m_visible ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj) {
-            m_pRenderObj->pushCmd(t_rs, RST_DEBUG_INNER, "SV3DBox");
+            m_pRenderObj->pushCmd(t_rs, RST_ANIMATE, "SV3DBox");
         }
     }
     SVNode::render();

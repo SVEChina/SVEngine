@@ -106,12 +106,12 @@ namespace sv {
     //创建一个yuv相机
     class SVOpCreateYUVInstream : public SVOpBase {
     public:
-        SVOpCreateYUVInstream(SVInst* _app,cptr8 _name,s32 _format,s32 _w,s32 _h,f32 _angle);
+        SVOpCreateYUVInstream(SVInst* _app,cptr8 _name,PICFORMATE _format,s32 _w,s32 _h,f32 _angle);
         
         void _process(f32 _dt);
         
     protected:
-        s32 m_formate;
+        PICFORMATE m_formate;
         s32 m_width;
         s32 m_height;
         f32 m_angle;

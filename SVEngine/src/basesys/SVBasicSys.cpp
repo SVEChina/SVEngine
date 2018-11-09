@@ -12,6 +12,7 @@
 #include "SVStreamIn.h"
 #include "SVStreamOut.h"
 #include "SVPictureProcess.h"
+#include "SVSensorProcess.h"
 
 SVBasicSys::SVBasicSys(SVInst *_app)
 :SVSysBase(_app) {
@@ -45,6 +46,10 @@ void SVBasicSys::init() {
     //
     m_pPicProc = MakeSharedPtr<SVPictureProcess>(mApp);
     m_pPicProc->init();
+    //
+    m_pSensorModule = MakeSharedPtr<SVSensorProcess>(mApp);
+    m_pSensorModule->startListen();
+    m_pSensorModule->startSensor();
 }
 
 void SVBasicSys::destroy() {
@@ -65,6 +70,10 @@ void SVBasicSys::destroy() {
         m_pPicProc->destroy();
         m_pPicProc = nullptr;
     }
+    
+    if (m_pSensorModule) {
+        m_pSensorModule->stopListen();
+    }
 }
 
 void SVBasicSys::update(f32 dt) {
@@ -79,6 +88,9 @@ void SVBasicSys::update(f32 dt) {
     //回收系统
     if (m_pRecycleModule) {
         m_pRecycleModule->update(dt);
+    }
+    if (m_pSensorModule) {
+        m_pSensorModule->update(dt);
     }
 }
 
@@ -114,3 +126,6 @@ SVPictureProcessPtr SVBasicSys::getPicProc() {
     return m_pPicProc;
 }
 
+SVSensorProcessPtr SVBasicSys::getSensorModule(){
+    return m_pSensorModule;
+}

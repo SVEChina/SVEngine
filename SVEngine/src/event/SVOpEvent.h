@@ -20,6 +20,14 @@ namespace sv {
         s32 y;
     };
     
+    class SVAnchorPointEvent : public SVEvent {
+    public:
+        SVAnchorPointEvent();
+        f32 x;
+        f32 y;
+        f32 z;
+    };
+    
     //
     class SVPickEvent : public SVEvent {
     public:
@@ -34,6 +42,32 @@ namespace sv {
         f32 yaw;
         f32 pitch;
         f32 roll;
+    };
+    
+    class SVDeviceAccelerometerEvent : public SVEvent {
+    public:
+        SVDeviceAccelerometerEvent();
+        f32 x;
+        f32 y;
+        f32 z;
+    };
+    
+    class SVCameraMatrixEvent : public SVEvent {
+    public:
+        SVCameraMatrixEvent();
+        
+        ~SVCameraMatrixEvent();
+        
+        SVDataSwapPtr m_matData;
+    };
+    
+    class SVProjectMatrixEvent : public SVEvent {
+    public:
+        SVProjectMatrixEvent();
+        
+        ~SVProjectMatrixEvent();
+        
+        SVDataSwapPtr m_matData;
     };
     
     class SVReactEvent : public SVEvent {

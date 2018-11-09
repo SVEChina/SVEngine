@@ -115,6 +115,8 @@ void SVTree4::visit(SVVisitorBasePtr _visitor){
 
 bool SVTree4::_isIn(SVNodePtr _node) {
     FVec3 t_pos = _node->getPosition();
+    //这块z先改为了0！！！！！！！！！！！！
+    t_pos.z = 0;
     //在内部(以1，2，3，4)现象为顺序
     if( m_treeBox.inside(t_pos) ){
         return true;

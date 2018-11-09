@@ -141,7 +141,7 @@ void SVOpDestroyAndoidCamera::_process(f32 _dt) {
 }
 
 //创建YUV
-SVOpCreateYUVInstream::SVOpCreateYUVInstream(SVInst *_app, cptr8 _name, s32 _format, s32 _w, s32 _h,
+SVOpCreateYUVInstream::SVOpCreateYUVInstream(SVInst *_app, cptr8 _name, PICFORMATE _format, s32 _w, s32 _h,
                                              f32 _angle)
         : SVOpBase(_app) {
     m_formate = _format;
@@ -154,7 +154,7 @@ SVOpCreateYUVInstream::SVOpCreateYUVInstream(SVInst *_app, cptr8 _name, s32 _for
 void SVOpCreateYUVInstream::_process(f32 _dt) {
     SVStreamInPtr t_cam_stream = mApp->getBasicSys()->getStreamIn();
     if (t_cam_stream) {
-        t_cam_stream->createInStream(m_name.c_str(), 1,SV_PF_NV21, m_width, m_height, m_angle,true);
+        t_cam_stream->createInStream(m_name.c_str(), 1, m_formate, m_width, m_height, m_angle,true);
         t_cam_stream->active(m_name.c_str());
     }
 }

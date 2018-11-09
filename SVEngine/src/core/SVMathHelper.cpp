@@ -8,7 +8,8 @@
 #include <math.h>
 #include <cstdlib>
 #include "SVMathHelper.h"
-
+#define MAXREPT  4//积分迭代次数
+#define f(x) sqrt(10*x-x*x)
 f32 SVMathHelper::vec2Length(f32 _x1, f32 _y1, f32 _x2, f32 _y2) {
     return sqrtf((_x1 - _x2) * (_x1 - _x2) + (_y1 - _y2) * (_y1 - _y2));
 }
@@ -216,4 +217,64 @@ f32 SVMathHelper::fit_size(f32 srcw, f32 srch, f32 dstw, f32 dsth, s32 type) {
         }
     }
     return t_s_factor;
+}
+
+f64 SVMathHelper::rombergIntegration(f64 _low, f64 _high, f64 _e){
+    f64 T1,T2,S1,S2,C1,C2,R1,R2,h;
+    s32 m = 1;
+    s32 n = 1;
+    s32 k;
+    h= _high - _low;
+    T1=0.5*h*(f(_high)+f(_low));
+    while(m<=MAXREPT)
+    {
+        double sum=0.0;
+        for(k=0;k<n;k++)
+        {
+            double x=_low+(k+0.5)*h;
+            sum=sum+f(x);
+        }
+        n=n*2;
+        h=h*0.5;
+        T2=0.5*(T1+2*h*sum);
+        S1=(4*T2-T1)/3;
+        if(m==1)
+        {
+            T1=T2;
+            ++m;
+            continue;
+        }
+        S2=(4*T2-T1)/3;
+        C1=(16*S2-S1)/15;
+        if(m==2)
+        {
+            S1=S2;
+            T1=T2;
+            ++m;
+            continue;
+        }
+        S2=(4*T2-T1)/3;
+        C2=(16*S2-S1)/15;
+        if(m==3)
+        {
+            R1=(64*C2-C1)/63;
+            C1=C2;
+            S1=S2;
+            T1=T2;
+            ++m;
+            continue;
+        }
+        if(m>=4)
+        {
+            R2=(64*C2-C1)/63;
+            if(fabs(R2-R1)<_e)
+                break;
+            R1=R2;
+            C1=C2;
+            S1=S2;
+            T1=T2;
+            ++m;
+        }
+    }
+    return R2;
 }

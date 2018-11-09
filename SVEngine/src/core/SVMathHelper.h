@@ -10,7 +10,7 @@
 
 #include "SVVertDef.h"
 #include "../base/SVArray.h"
-
+#define EPS 1e-8
 class SVMathHelper{
 public:
     static f32 vec2Length(f32 _x1, f32 _x2, f32 _y1, f32 _y2);
@@ -32,6 +32,8 @@ public:
     static f32 fit_size(f32 srcw, f32 srch, f32 dstw, f32 dsth, s32 type);
 
     static f32 getDistanceFromPointToLine();
+    //龙贝格积分
+    static f64 rombergIntegration(f64 _low, f64 _high, f64 _e = EPS);
 };
 
 
