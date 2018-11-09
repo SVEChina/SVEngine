@@ -6,10 +6,16 @@
 //
 
 #include "SVOpEvent.h"
-
+#include "../base/SVDataSwap.h"
 SVTouchEvent::SVTouchEvent() {
     x = 0;
     y = 0;
+}
+
+SVAnchorPointEvent::SVAnchorPointEvent() {
+    x = 0;
+    y = 0;
+    z = 0;
 }
 
 SVPickEvent::SVPickEvent() {
@@ -20,6 +26,28 @@ SVCameraOrenEvent::SVCameraOrenEvent() {
     yaw = 0;
     pitch = 0;
     roll = 0;
+}
+
+SVDeviceAccelerometerEvent::SVDeviceAccelerometerEvent() {
+    x = 0;
+    y = 0;
+    z = 0;
+}
+
+SVCameraMatrixEvent::SVCameraMatrixEvent() {
+    m_matData = MakeSharedPtr<SVDataSwap>();
+}
+
+SVCameraMatrixEvent::~SVCameraMatrixEvent(){
+    m_matData = nullptr;
+}
+
+SVProjectMatrixEvent::SVProjectMatrixEvent() {
+    m_matData = MakeSharedPtr<SVDataSwap>();
+}
+
+SVProjectMatrixEvent::~SVProjectMatrixEvent(){
+    m_matData = nullptr;
 }
 
 SVReactEvent::SVReactEvent(){

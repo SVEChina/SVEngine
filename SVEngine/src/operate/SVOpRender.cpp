@@ -207,6 +207,6 @@ SVOpRefreshDefMat::SVOpRefreshDefMat(SVInst *_app, FMat4 _viewMat, FMat4 _projMa
 void SVOpRefreshDefMat::_process(f32 dt){
     SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
     if (mainCamera) {
-        mApp->getRenderMgr()->refreshDefMat(mainCamera->getViewMatObj(), mainCamera->getViewMatObj(), mainCamera->getVPMatObj());
+        mApp->getRenderMgr()->refreshDefMat(mainCamera->getViewMatObj(), mainCamera->getProjectMatObj(), mainCamera->getVPMatObj());
     }
 }

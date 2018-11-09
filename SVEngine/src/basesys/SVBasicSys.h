@@ -38,6 +38,8 @@ namespace sv{
         SVStreamOutPtr getStreamOut();
         //图片处理
         SVPictureProcessPtr getPicProc();
+        //传感器数据处理 
+        SVSensorProcessPtr getSensorModule();
         
     protected:
         
@@ -53,6 +55,7 @@ namespace sv{
 
         SVFontProcessPtr m_pFontModule;
 
+        SVSensorProcessPtr m_pSensorModule;
     };
 }//!namespace sv
 
