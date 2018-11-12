@@ -196,20 +196,13 @@ void SVCameraNode::ctrlZoom(f32 _dis) {
     f32 t_min_dis = m_p_zn + 1.0f;
     f32 t_max_dis = m_p_zf - 1.0f;
     f32 t_real_dis = (m_postion-m_targetEx).length();
-    if(_dis>0) {
-        //推进
-        if(_dis>t_min_dis) {
-            m_postion = m_targetEx - m_direction*t_min_dis;
-        } else {
-            m_postion = m_targetEx - m_direction*(t_real_dis-_dis);
-        }
-    }else {
-        //拉远
-        if(fabs(_dis)>t_max_dis) {
-            m_postion = m_targetEx - m_direction*t_max_dis;
-        }else{
-            m_postion = m_targetEx - m_direction*(t_real_dis-_dis);
-        }
+    f32 t_vir_dis = t_real_dis-_dis;
+    if(t_vir_dis<t_min_dis) {
+        m_postion = m_targetEx - m_direction*t_min_dis;//推进
+    } else if(t_vir_dis>t_max_dis) {
+         m_postion = m_targetEx - m_direction*t_max_dis;//拉远
+    } else {
+        m_postion = m_targetEx - m_direction*t_vir_dis;
     }
     updateCameraMat();
 }
