@@ -94,7 +94,7 @@ void SVParticlesNode::testInit() {
         //发射器速度
         setEmitterVelocity(FVec3(0.0f,100.0f,0.0f));
         //
-         m_pParticles->setEmitterSpread(FVec3(0.0f,10.0f,0.0f));
+         m_pParticles->setEmitterSpread(FVec3(10.0f,10.0f,10.0f));
         //发射器方向
          m_pParticles->setEmitterDirection(FVec3(0.0f,1.0f,0.0f));
         //设置增长
@@ -102,9 +102,9 @@ void SVParticlesNode::testInit() {
         //重力速度
         m_pParticles->setGravity(FVec3(0.0f,-20.0f,0.0f));
         //
-        m_pParticles->setVelocity(50.0,10.0);
+        m_pParticles->setVelocity(80.0,10.0);
         //
-        m_pParticles->setRadius(8.0f,5.0f);
+        m_pParticles->setRadius(8.0f,10.0f);
         //
         m_pParticles->setLife(5.0f,3.0f);
     }
