@@ -208,13 +208,32 @@ void SVCameraNode::ctrlZoom(f32 _dis) {
 }
 
 //航向xoz
-void SVCameraNode::ctrlYaw(f32 _angle) {
+void SVCameraNode::ctrlAngle(f32 _yaw,f32 _pitch) {
+    f32 t_real_dis = (m_postion-m_targetEx).length();
+    //xoz度数
+    f32 t_old_yaw = acos(m_direction.x);
+    t_old_yaw *= RAD2DEG;
+    if(m_direction.z<0) {
+        t_old_yaw = 360.0f - t_old_yaw;
+    }
+    SV_LOG_INFO("invalue %f yaw angle %f \n",_yaw,t_old_yaw);
+    t_old_yaw +=_yaw;
+    SV_LOG_INFO("new yaw angle %f \n",t_old_yaw);
+    t_old_yaw = t_old_yaw*DEG2RAD;
+    m_direction.x = cos(t_old_yaw);
+    m_direction.z = sin(t_old_yaw);
     
-}
-
-//俯仰y
-void SVCameraNode::ctrlPitch(f32 _angle) {
+    //y度数
+    f32 t_old_pitch = asin(m_direction.y);
+    t_old_pitch *= RAD2DEG;
+    t_old_pitch +=_pitch;
+    t_old_pitch = min(89.9f,max(t_old_pitch, -89.9f));//clamp(t_old_yaw, -89.5, 89.5);
+    m_direction.y = sin(t_old_pitch*DEG2RAD);
     
+    //归一化化后在计算
+    m_direction.normalize();
+    m_postion = m_targetEx - m_direction*t_real_dis;
+    updateCameraMat();
 }
 
 //前进 后退

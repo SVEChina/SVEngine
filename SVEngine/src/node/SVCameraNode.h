@@ -78,11 +78,7 @@ namespace sv {
             //推进，推远
             void ctrlZoom(f32 _dis);
             
-            //航向xoz
-            void ctrlYaw(f32 _angle);
-            
-            //俯仰y
-            void ctrlPitch(f32 _angle);
+            void ctrlAngle(f32 _yaw,f32 _pitch);
             
             //前进 后退
             void ctrlForward(f32 _dis);
