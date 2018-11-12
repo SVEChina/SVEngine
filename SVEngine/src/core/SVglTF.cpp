@@ -22,16 +22,16 @@ SVGLTF::~SVGLTF() {
     
 }
 
-bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
+GLTFModelPtr SVGLTF::loadFromFile(cptr8 _filename){
     SVDataChunk tDataStream;
     bool tflag = mApp->m_pGlobalMgr->m_pFileMgr->loadFileContentStr(&tDataStream, _filename);
     if (!tflag)
-        return false;
+        return nullptr;
     SV_LOG_INFO("SVglTF :load glTF JSON sucess\n");
     SV_LOG_INFO("SVglTF :filedata %s\n", tDataStream.m_data);
     if (!tDataStream.m_data) {
         SV_LOG_ERROR("SVglTF :data stream is null");
-        return false;
+        return nullptr;
     }
     
     RAPIDJSON_NAMESPACE::Document doc;
@@ -39,44 +39,44 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
     if (doc.HasParseError()) {
         RAPIDJSON_NAMESPACE::ParseErrorCode code = doc.GetParseError();
         SV_LOG_ERROR("SVglTF :rapidjson error code:%d \n", code);
-        return false;
+        return nullptr;
     }
     
     if (doc.HasMember("scenes") && doc["scenes"].IsArray()) {
         //OK
     }else{
         SV_LOG_ERROR("SVglTF :%s scenes object not found in .gltf or not an array type \n", _filename);
-        return false;
+        return nullptr;
     }
     
     if (doc.HasMember("nodes") && doc["nodes"].IsArray()) {
         //OK
     }else{
         SV_LOG_ERROR("SVglTF :%s nodes object not found in .gltf or not an array type \n", _filename);
-        return false;
+        return nullptr;
     }
     
     if (doc.HasMember("accessors") && doc["accessors"].IsArray()) {
         //OK
     }else{
         SV_LOG_ERROR("SVglTF :%s accessors object not found in .gltf or not an array type \n", _filename);
-        return false;
+        return nullptr;
     }
     
     if (doc.HasMember("buffers") && doc["buffers"].IsArray()) {
         //OK
     }else{
         SV_LOG_ERROR("SVglTF :%s buffers object not found in .gltf or not an array type \n", _filename);
-        return false;
+        return nullptr;
     }
     
     if (doc.HasMember("bufferViews") && doc["bufferViews"].IsArray()) {
         //OK
     }else{
         SV_LOG_ERROR("SVglTF :%s bufferViews object not found in .gltf or not an array type \n", _filename);
-        return false;
+        return nullptr;
     }
-    
+    GLTFModelPtr _model = MakeSharedPtr<GLTFModel>();
     _model->buffers.clear();
     _model->bufferViews.clear();
     _model->accessors.clear();
@@ -125,12 +125,12 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 if (t_bufferItem.IsObject()) {
                     Buffer buffer;
                     if (!_parseBuffer(&buffer, t_bufferItem, _filename)) {
-                        return false;
+                        return nullptr;
                     }
                     _model->buffers.append(buffer);
                 }else{
                     SV_LOG_ERROR("SVglTF Error: 'buffers' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
             }
         }
@@ -144,11 +144,11 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_bufferViewItem = t_bufferViews[i];
                 if (!t_bufferViewItem.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error: 'bufferViews' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                 BufferView bufferView;
                 if (!_parseBufferView(&bufferView, t_bufferViewItem)) {
-                    return false;
+                    return nullptr;
                 }
                 _model->bufferViews.append(bufferView);
             }
@@ -163,11 +163,11 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_accessorItem = t_accessors[i];
                 if (!t_accessorItem.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error: `accessors' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                 Accessor accessor;
                 if (!_parseAccessor(&accessor, t_accessorItem)) {
-                    return false;
+                    return nullptr;
                 }
                 _model->accessors.append(accessor);
             }
@@ -182,11 +182,11 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_meshItem = t_meshes[i];
                 if (!t_meshItem.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error:`meshes' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                 Mesh mesh;
                 if (!_parseMesh(&mesh, t_meshItem)) {
-                    return false;
+                    return nullptr;
                 }
                 _model->meshes.append(mesh);
             }
@@ -201,11 +201,11 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_nodeItem = t_nodes[i];
                 if (!t_nodeItem.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error:`nodes' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                 Node node;
                 if (!_parseNode(&node, t_nodeItem)) {
-                    return false;
+                    return nullptr;
                 }
                 _model->nodes.append(node);
             }
@@ -220,7 +220,7 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_sceneItem = t_scenes[i];
                 if (!t_sceneItem.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error :`scenes' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                 SVArray<s32> nodesIds;
                 if (t_sceneItem.HasMember("nodes") && t_sceneItem["nodes"].IsArray()) {
@@ -259,7 +259,7 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_material = t_materials[i];
                 if (!t_material.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error :'materials' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                 Material material;
                 if (t_material.HasMember("name") && t_material["name"].IsString()) {
@@ -267,7 +267,7 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 }
                 
                 if (!_parseMaterial(&material, t_material)) {
-                    return false;
+                    return nullptr;
                 }
                 _model->materials.append(material);
                 
@@ -283,18 +283,18 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_image = t_images[i];
                 if (!t_image.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error :'images' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                 Image image;
                 if (!_parseImage(&image, t_image, _filename)) {
-                    return false;
+                    return nullptr;
                 }
                 if (image.bufferView != -1) {
                     // Load image from the buffer view.
                     
                     // not supporte now!!!!!
                     SV_LOG_ERROR("SVglTF Error :read image from buffer does not supporte now.");
-                    return false;
+                    return nullptr;
                 }
             }
         }
@@ -308,11 +308,11 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_textureItem = t_textures[i];
                 if (!t_textureItem.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error :'textures' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                     Texture texture;
                     if (!_parseTexture(&texture, t_textureItem, _filename)) {
-                        return false;
+                        return nullptr;
                     }
                     _model->textures.append(texture);
             }
@@ -327,11 +327,11 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_animationItem = t_animations[i];
                 if (!t_animationItem.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error :'animations' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                 Animation animation;
                 if (!_parseAnimation(&animation, t_animationItem)) {
-                    return false;
+                    return nullptr;
                 }
                 _model->animations.append(animation);
             }
@@ -346,11 +346,11 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_skinItem = t_skins[i];
                 if (!t_skinItem.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error :'skins' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                 Skin skin;
                 if (!_parseSkin(&skin, t_skinItem)) {
-                    return false;
+                    return nullptr;
                 }
                 _model->skins.append(skin);
             }
@@ -365,11 +365,11 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
                 RAPIDJSON_NAMESPACE::Value &t_samplerItem = t_samplers[i];
                 if (!t_samplerItem.IsObject()) {
                     SV_LOG_ERROR("SVglTF Error :'samplers' does not contain an JSON object.");
-                    return false;
+                    return nullptr;
                 }
                 Sampler sampler;
                 if (!_parseSampler(&sampler, t_samplerItem)) {
-                    return false;
+                    return nullptr;
                 }
                 _model->samplers.append(sampler);
             }
@@ -396,7 +396,7 @@ bool SVGLTF::loadFromFile(Model *_model, cptr8 _filename){
 //        }
     }
     
-    return true;
+    return _model;
 }
 
 bool SVGLTF::_parseAsset(Asset *_asset , RAPIDJSON_NAMESPACE::Value &_item){
@@ -465,12 +465,12 @@ bool SVGLTF::_parseBufferView(BufferView *_bufferView, RAPIDJSON_NAMESPACE::Valu
     
     f64 byteOffset = 0.0;
     if (_item.HasMember("byteOffset") && _item["byteOffset"].IsNumber()) {
-        buffer = _item["byteOffset"].GetDouble();
+        byteOffset = _item["byteOffset"].GetDouble();
     }
     
     f64 byteLength = 1.0;
     if (_item.HasMember("byteLength") && _item["byteLength"].IsNumber()) {
-        buffer = _item["byteLength"].GetDouble();
+        byteLength = _item["byteLength"].GetDouble();
     }
     
     s64 byteStride = 0;
@@ -1299,4 +1299,20 @@ cptr8 SVGLTF::_base64_decode(SVString const &encoded_string){
     }
     
     return ret.c_str();
+}
+
+ModelMeshData::ModelMeshData(){
+    m_indexCount    = 0;
+    m_vertexCount   = 0;
+    m_pRenderVertex = nullptr;
+    m_pRenderIndex  = nullptr;
+    m_pTex = nullptr;
+}
+
+ModelMeshData::~ModelMeshData(){
+    m_indexCount    = 0;
+    m_vertexCount   = 0;
+    m_pRenderVertex = nullptr;
+    m_pRenderIndex  = nullptr;
+    m_pTex = nullptr;
 }
