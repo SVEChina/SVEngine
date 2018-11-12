@@ -12,7 +12,6 @@
 SVCameraNode::SVCameraNode(SVInst *_app)
 : SVNode(_app) {
     ntype = "SVCameraNode";
-    m_lockTarget = false;
     m_fovy = 60.0f;
     m_mat_proj.setIdentity();
     m_mat_view.setIdentity();
@@ -90,7 +89,7 @@ void SVCameraNode::setZ(f32 _near, f32 _far) {
 
 void SVCameraNode::setPosition(FVec3& _pos){
     SVNode::setPosition(_pos);
-    updateCameraMat(false);
+    updateCameraMat();
 }
 
 void SVCameraNode::setTarget(f32 _x, f32 _y, f32 _z) {
@@ -101,17 +100,13 @@ void SVCameraNode::setTarget(f32 _x, f32 _y, f32 _z) {
 void SVCameraNode::setDirection(f32 _x, f32 _y, f32 _z) {
     m_direction.set(_x, _y, _z);
     m_direction.normalize();
-    updateCameraMat(false);
+    updateCameraMat();
 }
 
 void SVCameraNode::setUp(f32 _x, f32 _y, f32 _z) {
     m_upEx.set(_x, _y, _z);
     m_upEx.normalize();
     updateCameraMat();
-}
-
-void SVCameraNode::setLockTarget(bool _enable){
-    m_lockTarget = _enable;
 }
 
 FVec3& SVCameraNode::getDirection(){
@@ -147,10 +142,7 @@ void SVCameraNode::updateProjMat() {
     m_mat_vp =m_mat_proj*m_mat_view;
 }
 
-void SVCameraNode::updateCameraMat(bool _bUpdateDir) {
-    if(!m_lockTarget){
-        m_targetEx = m_postion + m_direction*100.0f;
-    }
+void SVCameraNode::updateCameraMat() {
     m_mat_view = lookAt(FVec3(m_postion.x,m_postion.y,m_postion.z),
                         FVec3(m_targetEx.x,m_targetEx.y,m_targetEx.z),
                         FVec3(m_upEx.x,m_upEx.y,m_upEx.z) );
@@ -196,4 +188,58 @@ bool SVCameraNode::removeLinkFboObject(SVFboObjectPtr _fbo){
         }
     }
     return false;
+}
+
+
+//推进，推远
+void SVCameraNode::ctrlZoom(f32 _dis) {
+    f32 t_min_dis = m_p_zn + 1.0f;
+    f32 t_max_dis = m_p_zf - 1.0f;
+    f32 t_real_dis = (m_postion-m_targetEx).length();
+    if(_dis>0) {
+        //推进
+        if(_dis>t_min_dis) {
+            m_postion = m_targetEx - m_direction*t_min_dis;
+        } else {
+            m_postion = m_targetEx - m_direction*(t_real_dis-_dis);
+        }
+    }else {
+        //拉远
+        if(fabs(_dis)>t_max_dis) {
+            m_postion = m_targetEx - m_direction*t_max_dis;
+        }else{
+            m_postion = m_targetEx - m_direction*(t_real_dis-_dis);
+        }
+    }
+    updateCameraMat();
+}
+
+//航向xoz
+void SVCameraNode::ctrlYaw(f32 _angle) {
+    
+}
+
+//俯仰y
+void SVCameraNode::ctrlPitch(f32 _angle) {
+    
+}
+
+//前进 后退
+void SVCameraNode::ctrlForward(f32 _dis) {
+    
+}
+
+//平移左右
+void SVCameraNode::ctrlMoveLR(f32 _dis) {
+    
+}
+
+//平移前后
+void SVCameraNode::ctrlMoveFB(f32 _dis) {
+    
+}
+
+//重制
+void SVCameraNode::reset() {
+    
 }

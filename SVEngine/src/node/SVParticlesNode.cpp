@@ -56,16 +56,39 @@ SVParticlesNode::~SVParticlesNode() {
     m_mtl_particle = nullptr;
 }
 
+//// 粒子类型
+//enum PARTICLETYPE {
+//    TYPE_BILLBOARD = 0,
+//    TYPE_FLAT,
+//    TYPE_POINT,
+//    TYPE_LENGTH,
+//    TYPE_RANDOM,
+//    TYPE_ROUTE,
+//    TYPE_CHAIN,
+//    NUM_TYPES,
+//};
+
+//// 粒子发射器类型
+//enum EMITTERTYPE {
+//    EMITTER_POINT = 0,
+//    EMITTER_SPHERE,
+//    EMITTER_CYLINDER,
+//    EMITTER_BOX,
+//    EMITTER_RANDOM,
+//    EMITTER_SPARK,
+//    NUM_EMITTERS,
+//};
+
 void SVParticlesNode::testInit() {
     if( m_pParticles) {
         //设置粒子类型
-        m_pParticles->setType(5);
+        m_pParticles->setType(0);
         //开启发射器
         m_pParticles->setEmitterEnabled(1);
         //发射器类型
-        m_pParticles->setEmitterType(1);
+        m_pParticles->setEmitterType(0);
         //发射器尺寸
-        m_pParticles->setEmitterSize(FVec3(10.0f,1.0f,1.0f));
+        m_pParticles->setEmitterSize(FVec3(100.0f,1.0f,100.0f));
         //发射器连续
         m_pParticles->setEmitterContinuous(1);
         //发射器速度
@@ -77,7 +100,7 @@ void SVParticlesNode::testInit() {
         //设置增长
         m_pParticles->setGrowth(10.0f, 5.0f);
         //重力速度
-        m_pParticles->setGravity(FVec3(20.0f,-50.0f,0.0f));
+        m_pParticles->setGravity(FVec3(0.0f,-20.0f,0.0f));
         //
         m_pParticles->setVelocity(50.0,10.0);
         //
@@ -90,8 +113,6 @@ void SVParticlesNode::testInit() {
 SVParticlesPtr SVParticlesNode::getParticles() {
     return m_pParticles;
 }
-
-static f32 kk_angle = 0.0f;
 
 void SVParticlesNode::update(f32 ifps) {
     SVNode::update(ifps);

@@ -132,10 +132,8 @@ void SVRenderMesh::setIndexData(SVDataSwapPtr _data,s32 _num){
 }
 
 void SVRenderMesh::setVertexDataNum(s32 _vertexNum){
-    if (m_renderMeshData.pointNum != _vertexNum) {
-        m_renderMeshData.pointNum = _vertexNum;
-        m_renderMeshData.dirty = true;
-    }
+    m_renderMeshData.pointNum = _vertexNum;
+    m_renderMeshData.dirty = true;
 }
 
 void SVRenderMesh::setVertexData(SVDataSwapPtr _data){
@@ -269,10 +267,10 @@ void SVRenderMeshDvid::setIndexData(SVDataSwapPtr _data,s32 _num){
 }
 
 void SVRenderMeshDvid::setVertexDataNum(s32 _vertexNum){
-    if (m_renderMeshDvidData.pointNum != _vertexNum) {
+    //if (m_renderMeshDvidData.pointNum != _vertexNum) {
         m_renderMeshDvidData.pointNum = _vertexNum;
         m_renderMeshDvidData.dirty = true;
-    }
+    //}
 }
 
 void SVRenderMeshDvid::setVertex2Data(SVDataSwapPtr _pdata){

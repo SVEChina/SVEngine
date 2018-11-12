@@ -1872,9 +1872,10 @@ SVParticlesWorldBasePtr SVParticles::getWorld() {
 }
 
 void SVParticles::setType(s32 t) {
-	assert(t >= 0 && t < NUM_TYPES && "SVParticles::setType(): bad particle type");
-	type = t;
-	update_bounds();
+    if(t>=0 && t<NUM_TYPES) {
+        type = t;
+        update_bounds();
+    }
 }
 
 s32 SVParticles::getType() const {
@@ -2036,8 +2037,9 @@ void SVParticles::updateEmitter() {
 }
 
 void SVParticles::setEmitterType(s32 type) {
-	assert(type >= 0 && type < NUM_EMITTERS && "SVParticles::setEmitterType(): bad emitter type");
-	emitter_type = type;
+    if(type>=0 && type<NUM_EMITTERS) {
+       emitter_type = type;
+    }
 }
 
 s32 SVParticles::getEmitterType() const {

@@ -38,8 +38,6 @@ namespace sv {
             
             void setUp(f32 _x, f32 _y, f32 _z);
             
-            void setLockTarget(bool _enable);
-            
             FVec3& getDirection();
             
             f32 *getProjectMat();
@@ -56,7 +54,7 @@ namespace sv {
             
             void updateProjMat();
             
-            void updateCameraMat(bool _bUpdateDir = true);
+            void updateCameraMat();
             
             void updateViewProj();
             
@@ -75,13 +73,34 @@ namespace sv {
             void active();
             
             void unactive();
+        
+        public:
+            //推进，推远
+            void ctrlZoom(f32 _dis);
+            
+            //航向xoz
+            void ctrlYaw(f32 _angle);
+            
+            //俯仰y
+            void ctrlPitch(f32 _angle);
+            
+            //前进 后退
+            void ctrlForward(f32 _dis);
+            
+            //平移左右
+            void ctrlMoveLR(f32 _dis);
+            
+            //平移前后
+            void ctrlMoveFB(f32 _dis);
+            
+            //重制
+            void reset();
             
         protected:
             void _removeUnuseLinkFboObject();
 
             SVLockPtr m_resLock;
             bool m_active;
-            bool m_lockTarget;
             
             FVec3 m_targetEx;
             FVec3 m_upEx;
