@@ -127,6 +127,8 @@ namespace sv {
 
     //核心实用库
     namespace util {
+        DECLARE_SHAREPTR(ModelMeshData);
+        DECLARE_SHAREPTR(GLTFModel);
         DECLARE_SHAREPTR(SpineMeshData);
         DECLARE_SHAREPTR(SVSpine);
         DECLARE_SHAREPTR(SVParticlesWorldBase);

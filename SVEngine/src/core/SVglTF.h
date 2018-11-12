@@ -19,6 +19,7 @@
 #include "../base/SVBounds.h"
 #include "../base/SVPreDeclare.h"
 #include "../mtl/SVMtlDeclare.h"
+#include "../core/SVVertDef.h"
 #ifndef SVGLTF_EMBREE
 #define SVGLTF_EMBREE 1
 #endif
@@ -292,14 +293,8 @@ namespace sv {
             
             SVArray<f64> minValues;  // optional
             SVArray<f64> maxValues;  // optional
-            
-            ///
-            /// Utility function to compute byteStride for a given bufferView object.
-            /// Returns -1 upon invalid glTF value or parameter configuration.
-            ///
             s32 ByteStride(const BufferView &bufferViewObject) const {
                 if (bufferViewObject.byteStride == 0) {
-                    // Assume data is tightly packed.
                     s32 componentSizeInBytes =
                     _getComponentSizeInBytes(static_cast<u32>(componentType));
                     if (componentSizeInBytes <= 0) {
@@ -313,8 +308,6 @@ namespace sv {
                     
                     return componentSizeInBytes * typeSizeInBytes;
                 } else {
-                    // Check if byteStride is a mulple of the size of the accessor's component
-                    // type.
                     s32 componentSizeInBytes =
                     _getComponentSizeInBytes(static_cast<u32>(componentType));
                     if (componentSizeInBytes <= 0) {
@@ -370,14 +363,10 @@ namespace sv {
         };
         
         struct Primitive {
-            SVMap<SVString, s32> attributes;  // (required) A dictionary object of
-            // integer, where each integer
-            // is the index of the accessor
-            // containing an attribute.
-            s32 material;  // The index of the material to apply to this primitive
-            // when rendering.
+            SVMap<SVString, s32> attributes;
+            s32 material;
             s32 indices;   // The index of the accessor that contains the indices.
-            s32 mode;      // one of TINYGLTF_MODE_***
+            s32 mode;
             SVArray<SVMap<SVString, s32>> targets;  // array of morph targets,
             // where each target is a dict with attribues in ["POSITION, "NORMAL",
             // "TANGENT"] pointing
@@ -464,10 +453,10 @@ namespace sv {
             bool operator==(const Light &) const;
         };
         
-        class Model {
+        class GLTFModel {
         public:
-            Model() {}
-            ~Model() {
+            GLTFModel() {}
+            ~GLTFModel() {
                 accessors.destroy();
                 animations.destroy();
                 buffers.destroy();
@@ -486,7 +475,7 @@ namespace sv {
                 extensionsRequired.destroy();
                 defaultScene = -1;
             }
-            bool operator==(const Model &) const;
+            bool operator==(const GLTFModel &) const;
             
             SVArray<Accessor> accessors;
             SVArray<Animation> animations;
@@ -518,7 +507,7 @@ namespace sv {
             
             ~SVGLTF();
             
-            bool loadFromFile(Model *_model, cptr8 _filename);
+            GLTFModelPtr loadFromFile(cptr8 _filename);
             
         protected:
             cptr8 _base64_encode(unsigned char const *s, unsigned int len);
@@ -561,6 +550,16 @@ namespace sv {
             bool _parseSkin(Skin *_skin, RAPIDJSON_NAMESPACE::Value &_item);
             
             bool _parseSampler(Sampler *_sampler, RAPIDJSON_NAMESPACE::Value &_item);
+        };
+        class ModelMeshData :public SVObject{
+        public:
+            ModelMeshData();
+            ~ModelMeshData();
+            s32                     m_indexCount;
+            s32                     m_vertexCount;
+            SVDataSwapPtr           m_pRenderVertex;
+            SVDataSwapPtr           m_pRenderIndex;
+            SVTexturePtr            m_pTex;
         };
     } // util
 }  // namespace sv

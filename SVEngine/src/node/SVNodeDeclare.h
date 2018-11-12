@@ -53,7 +53,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVFacePointNode);
         DECLARE_SHAREPTR(SVFaceDetectPointNode);
         DECLARE_SHAREPTR(SVFaceShapeNode);
-
+        DECLARE_SHAREPTR(SVGLTFModelNode);
         DECLARE_SHAREPTR(SVShapeVariedNode);
 
         DECLARE_SHAREPTR(SVParticlesWorld);

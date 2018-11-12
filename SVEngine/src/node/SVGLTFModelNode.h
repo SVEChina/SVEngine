@@ -25,17 +25,18 @@ namespace sv {
             
             void render();
             
-            void setModel(Model *_model);
+            void setModel(GLTFModelPtr _model);
             
-            Model* getModel();
+            GLTFModelPtr getModel();
             
             void destroyModel();
             
         protected:
             void _loadData();
             
-            Model *m_model;
+            GLTFModelPtr m_model;
             
+            SVArray<ModelMeshDataPtr>  m_renderMeshData;
         public:
             //序列化接口
 //            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
