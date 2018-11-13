@@ -53,6 +53,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVFacePointNode);
         DECLARE_SHAREPTR(SVFaceDetectPointNode);
         DECLARE_SHAREPTR(SVFaceShapeNode);
+        DECLARE_SHAREPTR(SVBezierNode);
 
         DECLARE_SHAREPTR(SVShapeVariedNode);
 

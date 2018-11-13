@@ -20,6 +20,8 @@ namespace sv {
         public:
             SVBackGroundNode(SVInst *_app);
             
+            SVBackGroundNode(SVInst *_app,f32 _w,f32 _h);
+            
             virtual ~SVBackGroundNode();
             
             void update(f32 dt);
