@@ -21,6 +21,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		020B7794219A82560043E97E /* SVMtl3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 020B7792219A82550043E97E /* SVMtl3D.h */; };
+		020B7795219A82560043E97E /* SVMtl3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 020B7792219A82550043E97E /* SVMtl3D.h */; };
+		020B7796219A82560043E97E /* SVMtl3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 020B7792219A82550043E97E /* SVMtl3D.h */; };
+		020B7797219A82560043E97E /* SVMtl3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 020B7792219A82550043E97E /* SVMtl3D.h */; };
+		020B7798219A82560043E97E /* SVMtl3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020B7793219A82560043E97E /* SVMtl3D.cpp */; };
+		020B7799219A82560043E97E /* SVMtl3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020B7793219A82560043E97E /* SVMtl3D.cpp */; };
+		020B779A219A82560043E97E /* SVMtl3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020B7793219A82560043E97E /* SVMtl3D.cpp */; };
+		020B779B219A82560043E97E /* SVMtl3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020B7793219A82560043E97E /* SVMtl3D.cpp */; };
 		022C1B342175EFD300FA5884 /* SVBMFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */; };
 		022C1B352175EFD300FA5884 /* SVBMFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */; };
 		022C1B362175EFD300FA5884 /* SVBMFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */; };
@@ -2628,6 +2636,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		020B7792219A82550043E97E /* SVMtl3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtl3D.h; sourceTree = "<group>"; };
+		020B7793219A82560043E97E /* SVMtl3D.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtl3D.cpp; sourceTree = "<group>"; };
 		022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBMFontLoader.cpp; sourceTree = "<group>"; };
 		022C1B332175EFD300FA5884 /* SVBMFontLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFontLoader.h; sourceTree = "<group>"; };
 		023574B020E514F500F29FB8 /* libsve_s_mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsve_s_mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4019,6 +4029,8 @@
 				5F7D5F18215F407700803BCF /* SVGLModify.h */,
 				5F7D5F1C215F407700803BCF /* SVMtlAni2D.cpp */,
 				5F7D5F3B215F407700803BCF /* SVMtlAni2D.h */,
+				020B7793219A82560043E97E /* SVMtl3D.cpp */,
+				020B7792219A82550043E97E /* SVMtl3D.h */,
 				5F7D5F2E215F407700803BCF /* SVMtlBasedOn.cpp */,
 				5F7D5F2C215F407700803BCF /* SVMtlBasedOn.h */,
 				5F7D5F37215F407700803BCF /* SVMtlBeauty.cpp */,
@@ -4514,6 +4526,7 @@
 				5F7D6465215F407800803BCF /* SVModuleDef.h in Headers */,
 				5F7D6527215F407800803BCF /* SVOpParse.h in Headers */,
 				5F7D60C5215F407700803BCF /* SVSysBase.h in Headers */,
+				020B7797219A82560043E97E /* SVMtl3D.h in Headers */,
 				5F7D63FD215F407800803BCF /* filewritestream.h in Headers */,
 				5F7D62C5215F407800803BCF /* Array.h in Headers */,
 				5F7D6563215F407800803BCF /* SVRenderStateGL.h in Headers */,
@@ -4879,6 +4892,7 @@
 				5F7D6463215F407800803BCF /* SVModuleDef.h in Headers */,
 				5F7D6525215F407800803BCF /* SVOpParse.h in Headers */,
 				5F7D60C3215F407700803BCF /* SVSysBase.h in Headers */,
+				020B7795219A82560043E97E /* SVMtl3D.h in Headers */,
 				5F7D63FB215F407800803BCF /* filewritestream.h in Headers */,
 				5F7D62C3215F407800803BCF /* Array.h in Headers */,
 				5F7D6561215F407800803BCF /* SVRenderStateGL.h in Headers */,
@@ -5100,6 +5114,7 @@
 				5F7D67E8215F407900803BCF /* SVShapeVariedNode.h in Headers */,
 				5F7D605E215F407700803BCF /* SVPickProcess.h in Headers */,
 				5F7D6988215F407900803BCF /* SVObject.h in Headers */,
+				020B7794219A82560043E97E /* SVMtl3D.h in Headers */,
 				5F7D684C215F407900803BCF /* SVSem.h in Headers */,
 				5F7D6282215F407800803BCF /* ClippingAttachment.h in Headers */,
 				5F7D67CC215F407900803BCF /* SVFacePointNode.h in Headers */,
@@ -5612,6 +5627,7 @@
 				5F7D6464215F407800803BCF /* SVModuleDef.h in Headers */,
 				5F7D6526215F407800803BCF /* SVOpParse.h in Headers */,
 				5F7D60C4215F407700803BCF /* SVSysBase.h in Headers */,
+				020B7796219A82560043E97E /* SVMtl3D.h in Headers */,
 				5F7D63FC215F407800803BCF /* filewritestream.h in Headers */,
 				5F7D62C4215F407800803BCF /* Array.h in Headers */,
 				5F7D6562215F407800803BCF /* SVRenderStateGL.h in Headers */,
@@ -6209,6 +6225,7 @@
 				5F7D6399215F407800803BCF /* RegionAttachment.c in Sources */,
 				5F7D645D215F407800803BCF /* SVGameRun.cpp in Sources */,
 				5F7D67E7215F407900803BCF /* SVSpineNode.cpp in Sources */,
+				020B779B219A82560043E97E /* SVMtl3D.cpp in Sources */,
 				5F7D6737215F407900803BCF /* SVNode.cpp in Sources */,
 				5F7D65EB215F407800803BCF /* SVRenderMgr.cpp in Sources */,
 				5C29E2BF217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */,
@@ -6300,6 +6317,7 @@
 				5F7D6598215F407800803BCF /* SVRendererBase.cpp in Sources */,
 				5F7D6302215F407800803BCF /* extension.c in Sources */,
 				5F7D606A215F407700803BCF /* SVTransCPU.cpp in Sources */,
+				020B7798219A82560043E97E /* SVMtl3D.cpp in Sources */,
 				5CA05D4F21873E8100D1C033 /* SVParseBackground.cpp in Sources */,
 				5F7D64D8215F407800803BCF /* SVActMtl.cpp in Sources */,
 				5F7D64EC215F407800803BCF /* SVKeyFrame.cpp in Sources */,
@@ -6807,6 +6825,7 @@
 				5F7D6398215F407800803BCF /* RegionAttachment.c in Sources */,
 				5F7D645C215F407800803BCF /* SVGameRun.cpp in Sources */,
 				5F7D67E6215F407900803BCF /* SVSpineNode.cpp in Sources */,
+				020B779A219A82560043E97E /* SVMtl3D.cpp in Sources */,
 				5F7D6736215F407900803BCF /* SVNode.cpp in Sources */,
 				5F7D65EA215F407800803BCF /* SVRenderMgr.cpp in Sources */,
 				5C29E2BE217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */,
@@ -7105,6 +7124,7 @@
 				5F7D6397215F407800803BCF /* RegionAttachment.c in Sources */,
 				5F7D645B215F407800803BCF /* SVGameRun.cpp in Sources */,
 				5F7D67E5215F407900803BCF /* SVSpineNode.cpp in Sources */,
+				020B7799219A82560043E97E /* SVMtl3D.cpp in Sources */,
 				5F7D6735215F407900803BCF /* SVNode.cpp in Sources */,
 				5F7D65E9215F407800803BCF /* SVRenderMgr.cpp in Sources */,
 				5C29E2BD217F004B00F26CB3 /* SVParseLUTFilter.cpp in Sources */,
