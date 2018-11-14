@@ -37,6 +37,8 @@ namespace sv {
             GLTFModelPtr m_model;
             
             SVArray<ModelMeshDataPtr>  m_renderMeshData;
+            
+            SVMultMeshMtlRenderObjectPtr m_pRObj;
         public:
             //序列化接口
 //            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);

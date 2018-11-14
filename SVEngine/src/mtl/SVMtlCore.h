@@ -31,7 +31,12 @@ namespace sv {
         //
         class SVMtlCore : public SVGBase {
         public:
- 
+            enum SVMTLBLENDMODE{
+                SV_MTL_BLENDMODE_NORMAL = 0,
+                SV_MTL_BLENDMODE_ADDITIVE,
+                SV_MTL_BLENDMODE_MULTIPLY,
+                SV_MTL_BLENDMODE_SCREEN
+            };
             SVMtlCore(SVInst *_app, cptr8 _shader);
             
             SVMtlCore(SVMtlCore* _mtl);
