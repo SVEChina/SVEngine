@@ -39,6 +39,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVFreeTypeNode);
         DECLARE_SHAREPTR(SVGameWrapNode);
         DECLARE_SHAREPTR(SVIOSInstreamNode);
+        DECLARE_SHAREPTR(SVGLTFModelNode);
 #ifdef SV_IOS
         DECLARE_SHAREPTR(SVFrameOutIOS);
 #endif
@@ -53,7 +54,8 @@ namespace sv {
         DECLARE_SHAREPTR(SVFacePointNode);
         DECLARE_SHAREPTR(SVFaceDetectPointNode);
         DECLARE_SHAREPTR(SVFaceShapeNode);
-        DECLARE_SHAREPTR(SVGLTFModelNode);
+        DECLARE_SHAREPTR(SVBezierNode);
+
         DECLARE_SHAREPTR(SVShapeVariedNode);
 
         DECLARE_SHAREPTR(SVParticlesWorld);
