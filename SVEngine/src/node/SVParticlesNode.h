@@ -68,17 +68,10 @@ namespace sv {
             
             // surface info
             virtual s32 getNumTriangles(s32 surface) const;
-            
-            // surface bounds
-            virtual const SVBoundBox &getSVBoundBox(s32 surface) const;
-            
-            //
-            virtual const SVBoundSphere &getSVBoundSphere(s32 surface) const;
-            
+
             // bounds
             virtual const SVBoundBox &getSVBoundBox() const;
-            //
-            virtual const SVBoundSphere &getSVBoundSphere() const;
+
             //
             virtual void renderVisualizer();
             
@@ -106,9 +99,7 @@ namespace sv {
             
             s32 num_triangles;                        // number of triangles
             
-            SVBoundBox bound_box;                     // bounding box
-            
-            SVBoundSphere bound_sphere;               // bounding sphere
+            SVBoundBox bound_box;                     // 发射器包围盒就可以了
             //
             SVMtlParticleAniPtr m_mtl_particle;
             SVRenderMeshPtr m_pMesh;

@@ -462,7 +462,7 @@ void SVParticles::spawn_particle(Particle &p,f32 k,f32 ifps) {
 	if(emitter_type == EMITTER_POINT) {
         // 点发射器
         if(emitter_continuous) {
-            //连续
+            //连续 插值
             lerp(p.position,old_emitter_transform.getColumn3(3),emitter_transform.getColumn3(3),k);
         }else{
             //非连续
@@ -478,7 +478,7 @@ void SVParticles::spawn_particle(Particle &p,f32 k,f32 ifps) {
                 break;
             }
 		}
-		p.position *= emitter_size.x;   //发射器尺寸
+		p.position *= emitter_size.x;   //发射器尺寸 x代表半径
         if(emitter_continuous) {
             //连续
             lerp(p.position,old_emitter_transform * p.position,emitter_transform * p.position,k);
@@ -487,7 +487,9 @@ void SVParticles::spawn_particle(Particle &p,f32 k,f32 ifps) {
             p.position = emitter_transform * p.position;
         }
 	} else if(emitter_type == EMITTER_CYLINDER) {
-        // 环形发射器
+        // 圆柱发射器
+        // emitter_size.x 半径
+        // emitter_size.y 高度
 		while(1) {
 			p.position.x = random.getFloat(-1.0f,1.0f);
 			p.position.y = random.getFloat(-1.0f,1.0f);
@@ -1077,7 +1079,7 @@ void SVParticles::update_bounds() {
 	min -= FVec3(radius);
 	max += FVec3(radius);
 	// particles bounds
-	if(m_particles.size()) {
+	if( m_particles.size()>0 ) {
 		min = ::min(min,particles_bound_box.getMin());
 		max = ::max(max,particles_bound_box.getMax());
 	} else {
@@ -1112,7 +1114,7 @@ void SVParticles::update_bounds() {
 		min = ::min(min,s.point);
 		max = ::max(max,s.point);
 	}
-	// 最大粒子半径
+	// 最大粒子半径 （半径值+生长值+速率）
 	radius = radius_mean + radius_spread + ::max(growth_mean + growth_spread,0.0f) * life + (velocity_mean + velocity_spread) * PARTICLES_IFPS * 2.0f;
 	min -= FVec3(radius);
 	max += FVec3(radius);
