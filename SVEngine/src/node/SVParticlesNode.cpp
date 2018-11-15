@@ -42,7 +42,7 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     m_pIndexData = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_atten = mApp->getTexMgr()->getTexture("svres/textures/particles_base_attenuation.png",true);
-    m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_xuehua_00.png",true);//particles_base_diffuse.png 
+    m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_huaban_00.png",true);//particles_base_diffuse.png 
 }
 
 SVParticlesNode::~SVParticlesNode() {
