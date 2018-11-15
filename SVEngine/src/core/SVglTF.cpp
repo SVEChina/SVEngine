@@ -296,6 +296,7 @@ GLTFModelPtr SVGLTF::loadFromFile(cptr8 _filename){
                     SV_LOG_ERROR("SVglTF Error :read image from buffer does not supporte now.");
                     return nullptr;
                 }
+                _model->images.append(image);
             }
         }
     }
@@ -752,8 +753,6 @@ bool SVGLTF::_parseNode(Node *_node, RAPIDJSON_NAMESPACE::Value &_item){
             _node->children.append(t_childrenItem.GetInt());
         }
     }
-    
-//    ParseExtensionsProperty(&node->extensions, err, o);
     return true;
 }
 
