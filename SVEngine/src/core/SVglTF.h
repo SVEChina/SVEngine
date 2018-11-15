@@ -555,11 +555,12 @@ namespace sv {
         public:
             ModelMeshData();
             ~ModelMeshData();
-            s32                     m_indexCount;
-            s32                     m_vertexCount;
             SVDataSwapPtr           m_pRenderVertex;
             SVDataSwapPtr           m_pRenderIndex;
             SVTexturePtr            m_pTex;
+            FMat4                   m_localMat;
+            s32                     m_indexCount;
+            s32                     m_vertexCount;
         };
     } // util
 }  // namespace sv

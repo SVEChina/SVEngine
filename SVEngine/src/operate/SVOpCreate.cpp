@@ -36,6 +36,8 @@
 #include "../file/SVBMFontLoader.h"
 #include "../node/SVBMFontNode.h"
 #include "../core/SVBMFont.h"
+#include "../core/SVglTF.h"
+#include "../node/SVGLTFModelNode.h"
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
 : SVOpBase(_app) {
@@ -174,21 +176,21 @@ void SVOpCreateTest::_process(f32 dt) {
     //创建逻辑场景
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
-        //创建测试盒子®
-        for(s32 i=0;i<50;i++){
-            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-            t_testBox->randomInit();
-            t_pScene->addNode(t_testBox);
-        }
-#ifdef SV_IOS
-        SVSpriteNodePtr spriteNode = MakeSharedPtr<SVSpriteNode>(mApp);
-        spriteNode->setPosition(0, 0, 1000);
-        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
-        file = [file stringByAppendingPathComponent:@"svres/HollowKnight.png"];
-        spriteNode->setTexture([file UTF8String]);
-        spriteNode->setSpriteSize(500, 500);
-        t_pScene->addNode(spriteNode);
-#endif
+//        //创建测试盒子®
+//        for(s32 i=0;i<50;i++){
+//            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+//            t_testBox->randomInit();
+//            t_pScene->addNode(t_testBox);
+//        }
+//#ifdef SV_IOS
+//        SVSpriteNodePtr spriteNode = MakeSharedPtr<SVSpriteNode>(mApp);
+//        spriteNode->setPosition(0, 0, 1000);
+//        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
+//        file = [file stringByAppendingPathComponent:@"svres/HollowKnight.png"];
+//        spriteNode->setTexture([file UTF8String]);
+//        spriteNode->setSpriteSize(500, 500);
+//        t_pScene->addNode(spriteNode);
+//#endif
 //        //
 //        SVParticlesNodePtr t_p_node = MakeSharedPtr<SVParticlesNode>(mApp);
 //        t_p_node->testInit();
@@ -208,6 +210,21 @@ void SVOpCreateTest::_process(f32 dt) {
 //        bmNode->setText("丹分化以什");
 //        bmNode->setSpacing(20);
 //        t_pScene->addNode(bmNode);
+        
+//#ifdef SV_IOS
+        NSString *t_resPath = [[NSBundle mainBundle]pathForResource:@"sve" ofType:@"bundle"];
+        t_resPath = [t_resPath stringByAppendingPathComponent:@"svres/x-wing/scene.gltf"];
+        SVGLTF glTFLoader(mApp);
+        GLTFModelPtr t_model =  glTFLoader.loadFromFile([t_resPath UTF8String]);
+        if (t_model) {
+            SVGLTFModelNodePtr t_node3d = MakeSharedPtr<SVGLTFModelNode>(mApp);
+            t_node3d->setPosition(0, 0, 0);
+            t_node3d->setRotation(45, 45, 0);
+            t_node3d->setScale(10.0, 10.0, 10.0);
+            t_node3d->setModel(t_model);
+            t_pScene->addNode(t_node3d);
+        }
+//#endif
         
     }
 }
