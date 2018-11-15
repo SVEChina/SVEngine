@@ -19,6 +19,7 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVParticlesNode";
     m_drawBox = true;
+    m_canSelect = true;
     m_rsType = RST_ANIMATE;
     m_pParticles = MakeSharedPtr<SVParticles>();
     m_pParticlesWorld = MakeSharedPtr<SVParticlesWorld>();
@@ -30,7 +31,6 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     world_offset = Vec3_zero;
     num_triangles = 0;
     bound_box = m_pParticles->getSVBoundBox();
-    bound_sphere = m_pParticles->getSVBoundSphere();
     //
     m_mtl_particle = MakeSharedPtr<SVMtlParticleAni>(mApp);
     m_pMesh = _app->getRenderMgr()->createMeshRObj();
@@ -48,7 +48,6 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
 SVParticlesNode::~SVParticlesNode() {
     m_pParticlesWorld = nullptr;
     m_pParticles = nullptr;
-    //
     m_pRenderObj = nullptr;
     m_pIndexData = nullptr;
     m_pVertData = nullptr;
@@ -82,31 +81,31 @@ SVParticlesNode::~SVParticlesNode() {
 void SVParticlesNode::testInit() {
     if( m_pParticles) {
         //设置粒子类型
-        m_pParticles->setType(0);
+        m_pParticles->setType(2);
         //开启发射器
         m_pParticles->setEmitterEnabled(1);
         //发射器类型
         m_pParticles->setEmitterType(0);
         //发射器尺寸
-        m_pParticles->setEmitterSize(FVec3(100.0f,1.0f,100.0f));
+        m_pParticles->setEmitterSize(FVec3(100.0f,100.0f,100.0f));
         //发射器连续
         m_pParticles->setEmitterContinuous(1);
         //发射器速度
-        setEmitterVelocity(FVec3(0.0f,100.0f,0.0f));
+        setEmitterVelocity(FVec3(0.0f,0.0f,0.0f));
         //
-         m_pParticles->setEmitterSpread(FVec3(10.0f,10.0f,10.0f));
+        m_pParticles->setEmitterSpread(FVec3(0.0f,0.0f,0.0f));
         //发射器方向
-         m_pParticles->setEmitterDirection(FVec3(0.0f,1.0f,0.0f));
+        m_pParticles->setEmitterDirection(FVec3(0.0f,1.0f,0.0f));
         //设置增长
-        m_pParticles->setGrowth(10.0f, 5.0f);
+        m_pParticles->setGrowth(10.0f, 0.0f);
         //重力速度
-        m_pParticles->setGravity(FVec3(0.0f,-20.0f,0.0f));
+        m_pParticles->setGravity(FVec3(0.0f,0.0f,0.0f));
         //
-        m_pParticles->setVelocity(80.0,10.0);
+        m_pParticles->setVelocity(100.0,0.0);
         //
-        m_pParticles->setRadius(8.0f,10.0f);
+        m_pParticles->setRadius(5.0f,0.0f);
         //
-        m_pParticles->setLife(5.0f,3.0f);
+        m_pParticles->setLife(6.0f,0.0f);
     }
 }
 
@@ -114,14 +113,21 @@ SVParticlesPtr SVParticlesNode::getParticles() {
     return m_pParticles;
 }
 
+//    EMITTER_POINT = 0,
+//    EMITTER_SPHERE,
+//    EMITTER_CYLINDER,
+//    EMITTER_BOX,
+//    EMITTER_RANDOM,
+//    EMITTER_SPARK,
+
 void SVParticlesNode::update(f32 ifps) {
     SVNode::update(ifps);
     //更新矩阵
     update_transform();
     //粒子系统更新
     m_pParticles->update(ifps);
-    //
-    m_aabbBox = bound_box;
+    //强制设置一个基础包围盒
+    m_aabbBox.set(FVec3(-10.0f,-10.0f,-10.0f), FVec3(10.0f,10.0f,10.0f));
 //    //contact points
 //    if(m_pParticles->getNumContacts()) {
 //        // childs interaction
@@ -205,7 +211,6 @@ void SVParticlesNode::update(f32 ifps) {
 //    //    // update bounds
 //    //    FMat4 transform = FMat4(getIWorldTransform() * translate(world_offset));
 //    //    bound_box = transform * SVParticles->getSVBoundBox();
-//    //    bound_sphere = transform * SVParticles->getSVBoundSphere();
 }
 
 void SVParticlesNode::render() {
@@ -215,7 +220,7 @@ void SVParticlesNode::render() {
     if(!t_camera)
         return ;
     const FVec3 &camera_position = t_camera->getPosition();
-    const FMat4 &modelview = m_absolutMat*t_camera->getViewMatObj();//renderer->getModelview();
+    const FMat4 &modelview = t_camera->getViewMatObj();// m_absolutMat*t_camera->getViewMatObj(); 粒子发射出来就是world 所以就不需要乘节点的矩阵了
     // level of detail
     f32 distance = (camera_position - m_postion).length();
     f32 t_max_dis = 1000.0f;
@@ -236,7 +241,7 @@ void SVParticlesNode::render() {
     //设置环境光
     m_mtl_particle->m_ambient_color = FVec4(1.0f,1.0f,1.0f,1.0f);
     //设置漫反色
-    m_mtl_particle->m_diffuse_color = FVec4(1.0f,1.0f,0.0f,1.0f);
+    m_mtl_particle->m_diffuse_color = FVec4(1.0f,0.0f,0.0f,1.0f);
     //设置融合
     m_mtl_particle->setBlendEnable(true);
     m_mtl_particle->setBlendState(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
@@ -290,16 +295,15 @@ const FVec3 &SVParticlesNode::getWorldOffset() const {
 
 //这个函数是用来更新发射器和粒子的变换矩阵
 void SVParticlesNode::update_transform() {
-    // emitter velocity
+    // 发射器速度
     if(emitter_velocity != Vec3_zero) {
         m_pParticles->setEmitterVelocity(emitter_velocity);
     } else {
         //getworldVelocity 如果粒子本身没有速度方向，就设置为这个世界的速度方向(这个世界是物理属性的)
-        //
         emitter_velocity = FVec3(0.0f,1.0f,0.0f);
         m_pParticles->setEmitterVelocity(emitter_velocity);
     }
-    // 放射器偏移
+    // 发射器偏移
     if(m_pParticles->getNumParticles() == 0) {
         FVec3 old_world_offset = world_offset;
         if(m_pParticles->isEmitterShift() == 0){
@@ -322,12 +326,12 @@ void SVParticlesNode::update_transform() {
                 if(m_pParticles->isDeflectorAttached(i)) {
                     continue;
                 }
-                //偏导矩阵
+                //偏导，变流矩阵
                 m_pParticles->setDeflectorTransform(i,transform * m_pParticles->getDeflectorTransform(i));
             }
         }
     }
-    //设置发射器矩阵
+    //设置发射器矩阵 粒子的位置 实际上就是发射器的位置
     FMat4 transform = getAbsoluteMat();
     transform.m03 -= world_offset.x;
     transform.m13 -= world_offset.y;
@@ -458,25 +462,27 @@ s32 SVParticlesNode::getNumTriangles(s32 surface) const {
     return num_triangles;
 }
 
-const SVBoundBox &SVParticlesNode::getSVBoundBox(s32 surface) const {
-    return bound_box;
-}
-
-const SVBoundSphere &SVParticlesNode::getSVBoundSphere(s32 surface) const {
-    return bound_sphere;
-}
-
 //********************************* Bounds *******************************
 const SVBoundBox &SVParticlesNode::getSVBoundBox() const {
     return bound_box;
 }
 
-const SVBoundSphere &SVParticlesNode::getSVBoundSphere() const {
-    return bound_sphere;
-}
-
 void SVParticlesNode::renderVisualizer() {
-    
+    //    //渲染发射器范围
+    //    s32 t_emit_type = m_pParticles->getEmitterType();
+    //    if(t_emit_type == EMITTER_POINT) {
+    //
+    //    }else if(t_emit_type == EMITTER_SPHERE) {
+    //
+    //    }else if(t_emit_type == EMITTER_CYLINDER) {
+    //
+    //    }else if(t_emit_type == EMITTER_BOX) {
+    //
+    //    }else if(t_emit_type == EMITTER_RANDOM) {
+    //
+    //    }else if(t_emit_type == EMITTER_SPARK) {
+    //
+    //    }
 }
 
 void SVParticlesNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
