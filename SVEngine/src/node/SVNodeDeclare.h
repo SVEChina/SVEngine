@@ -46,7 +46,6 @@ namespace sv {
         DECLARE_SHAREPTR(SVFrameOutTex);
         DECLARE_SHAREPTR(SVFrameOutRead);
         DECLARE_SHAREPTR(SVModelNode);
-        DECLARE_SHAREPTR(SVParticleNode);
         DECLARE_SHAREPTR(SVSkyDomeNode);
         DECLARE_SHAREPTR(SVSpineNode);
         DECLARE_SHAREPTR(SVSpriteNode);
