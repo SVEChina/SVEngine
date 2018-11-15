@@ -42,7 +42,7 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     m_pIndexData = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_atten = mApp->getTexMgr()->getTexture("svres/textures/particles_base_attenuation.png",true);
-    m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/particles_base_diffuse.png",true);
+    m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_huaban_00.png",true);//particles_base_diffuse.png 
 }
 
 SVParticlesNode::~SVParticlesNode() {
@@ -80,8 +80,10 @@ SVParticlesNode::~SVParticlesNode() {
 
 void SVParticlesNode::testInit() {
     if( m_pParticles) {
+        //
+        m_pParticles->setSpawnRate(200);
         //设置粒子类型
-        m_pParticles->setType(2);
+        m_pParticles->setType(0);
         //开启发射器
         m_pParticles->setEmitterEnabled(1);
         //发射器类型
@@ -93,19 +95,19 @@ void SVParticlesNode::testInit() {
         //发射器速度
         setEmitterVelocity(FVec3(0.0f,0.0f,0.0f));
         //
-        m_pParticles->setEmitterSpread(FVec3(0.0f,0.0f,0.0f));
+        m_pParticles->setEmitterSpread(FVec3(0.3f,0.0f,0.3f));
         //发射器方向
         m_pParticles->setEmitterDirection(FVec3(0.0f,1.0f,0.0f));
         //设置增长
-        m_pParticles->setGrowth(10.0f, 0.0f);
+        m_pParticles->setGrowth(2.0f, 0.0f);
         //重力速度
-        m_pParticles->setGravity(FVec3(0.0f,0.0f,0.0f));
+        m_pParticles->setGravity(FVec3(0.0f,-50.0f,0.0f));
         //
-        m_pParticles->setVelocity(100.0,0.0);
+        m_pParticles->setVelocity(200.0,0.0);
         //
         m_pParticles->setRadius(5.0f,0.0f);
         //
-        m_pParticles->setLife(6.0f,0.0f);
+        m_pParticles->setLife(10.0f,2.0f);
     }
 }
 
@@ -234,14 +236,14 @@ void SVParticlesNode::render() {
     // SVParticles radius
     m_mtl_particle->m_p_radius = m_pParticles->getRadiusMean();
     // SVParticles fade
-    m_mtl_particle->m_p_fade = fade * fade;
+    m_mtl_particle->m_p_fade = 0.0f;//fade * fade;
     //设置纹理
     m_mtl_particle->setTexture(0,m_diffuse);
     m_mtl_particle->setTexture(1,m_atten);
     //设置环境光
     m_mtl_particle->m_ambient_color = FVec4(1.0f,1.0f,1.0f,1.0f);
     //设置漫反色
-    m_mtl_particle->m_diffuse_color = FVec4(1.0f,0.0f,0.0f,1.0f);
+    m_mtl_particle->m_diffuse_color = FVec4(1.0f,1.0f,1.0f,1.0f);
     //设置融合
     m_mtl_particle->setBlendEnable(true);
     m_mtl_particle->setBlendState(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
@@ -483,6 +485,22 @@ void SVParticlesNode::renderVisualizer() {
     //    }else if(t_emit_type == EMITTER_SPARK) {
     //
     //    }
+}
+
+void SVParticlesNode::testRandomPos(){
+    f32 t_sc = 1.0 + rand()%300*0.01f;
+    t_sc = 1.0f;
+    setScale(t_sc, t_sc, t_sc);
+    //
+    f32 t_x = rand()%600 - 360.0f;
+    f32 t_y = rand()%1000 - 640.0f;
+    f32 t_z = rand()%1000 - 500.0f;
+    setPosition(t_x, 500, -t_z);
+    //
+//    f32 t_rotx = rand()%360;
+//    f32 t_roty = rand()%360;
+//    f32 t_rotz = rand()%360;
+//    setRotation(t_rotx, t_roty, t_rotz);
 }
 
 void SVParticlesNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,

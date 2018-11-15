@@ -1306,6 +1306,7 @@ ModelMeshData::ModelMeshData(){
     m_pRenderVertex = nullptr;
     m_pRenderIndex  = nullptr;
     m_pTex = nullptr;
+    m_globalTransform.setIdentity();
 }
 
 ModelMeshData::~ModelMeshData(){

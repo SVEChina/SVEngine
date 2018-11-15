@@ -558,7 +558,7 @@ namespace sv {
             SVDataSwapPtr           m_pRenderVertex;
             SVDataSwapPtr           m_pRenderIndex;
             SVTexturePtr            m_pTex;
-            FMat4                   m_localMat;
+            FMat4                   m_globalTransform;
             s32                     m_indexCount;
             s32                     m_vertexCount;
         };
