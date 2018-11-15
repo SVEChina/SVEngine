@@ -34,6 +34,10 @@ namespace sv {
         protected:
             void _loadData();
             
+            void _refreshModelMatrix();
+            
+            void _refreshModelNode(Node _node, FMat4 _mat4);
+            
             GLTFModelPtr m_model;
             
             SVArray<ModelMeshDataPtr>  m_renderMeshData;
