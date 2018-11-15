@@ -42,6 +42,8 @@ namespace sv {
             
             SVArray<ModelMeshDataPtr>  m_renderMeshData;
             
+            SVArray<ModelMeshDataPtr>  m_readyRenderMeshData;
+            
             SVMultMeshMtlRenderObjectPtr m_pRObj;
         public:
             //序列化接口
