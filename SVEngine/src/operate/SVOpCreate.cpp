@@ -211,7 +211,7 @@ void SVOpCreateTest::_process(f32 dt) {
 //        bmNode->setSpacing(20);
 //        t_pScene->addNode(bmNode);
         
-//#ifdef SV_IOS
+#ifdef SV_IOS
         NSString *t_resPath = [[NSBundle mainBundle]pathForResource:@"sve" ofType:@"bundle"];
         t_resPath = [t_resPath stringByAppendingPathComponent:@"svres/x-wing/scene.gltf"];
         SVGLTF glTFLoader(mApp);
@@ -224,7 +224,7 @@ void SVOpCreateTest::_process(f32 dt) {
             t_node3d->setModel(t_model);
             t_pScene->addNode(t_node3d);
         }
-//#endif
+#endif
         
     }
 }
