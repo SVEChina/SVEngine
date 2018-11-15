@@ -42,7 +42,7 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     m_pIndexData = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_atten = mApp->getTexMgr()->getTexture("svres/textures/particles_base_attenuation.png",true);
-    m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/particles_base_diffuse.png",true);
+    m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_xuehua_00.png",true);//particles_base_diffuse.png 
 }
 
 SVParticlesNode::~SVParticlesNode() {
@@ -243,7 +243,7 @@ void SVParticlesNode::render() {
     //设置环境光
     m_mtl_particle->m_ambient_color = FVec4(1.0f,1.0f,1.0f,1.0f);
     //设置漫反色
-    m_mtl_particle->m_diffuse_color = FVec4(1.0f,0.0f,0.0f,1.0f);
+    m_mtl_particle->m_diffuse_color = FVec4(1.0f,1.0f,1.0f,1.0f);
     //设置融合
     m_mtl_particle->setBlendEnable(true);
     m_mtl_particle->setBlendState(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
