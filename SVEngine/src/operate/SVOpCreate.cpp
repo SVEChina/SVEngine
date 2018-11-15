@@ -176,7 +176,7 @@ void SVOpCreateTest::_process(f32 dt) {
     //创建逻辑场景
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
-//        //创建测试盒子®
+        //创建测试盒子®
 //        for(s32 i=0;i<50;i++){
 //            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
 //            t_testBox->randomInit();
@@ -212,19 +212,29 @@ void SVOpCreateTest::_process(f32 dt) {
 //        t_pScene->addNode(bmNode);
         
 //#ifdef SV_IOS
-        NSString *t_resPath = [[NSBundle mainBundle]pathForResource:@"sve" ofType:@"bundle"];
-        t_resPath = [t_resPath stringByAppendingPathComponent:@"svres/x-wing/scene.gltf"];
-        SVGLTF glTFLoader(mApp);
-        GLTFModelPtr t_model =  glTFLoader.loadFromFile([t_resPath UTF8String]);
-        if (t_model) {
-            SVGLTFModelNodePtr t_node3d = MakeSharedPtr<SVGLTFModelNode>(mApp);
-            t_node3d->setPosition(0, 0, 0);
-            t_node3d->setRotation(45, 45, 0);
-            t_node3d->setScale(10.0, 10.0, 10.0);
-            t_node3d->setModel(t_model);
-            t_pScene->addNode(t_node3d);
-        }
+//        NSString *t_resPath = [[NSBundle mainBundle]pathForResource:@"sve" ofType:@"bundle"];
+//        t_resPath = [t_resPath stringByAppendingPathComponent:@"svres/x-wing/scene.gltf"];
+//        SVGLTF glTFLoader(mApp);
+//        GLTFModelPtr t_model =  glTFLoader.loadFromFile([t_resPath UTF8String]);
+//        if (t_model) {
+//            SVGLTFModelNodePtr t_node3d = MakeSharedPtr<SVGLTFModelNode>(mApp);
+//            t_node3d->setPosition(0, 0, 0);
+//            t_node3d->setRotation(45, 45, 0);
+//            t_node3d->setScale(10.0, 10.0, 10.0);
+//            t_node3d->setModel(t_model);
+//            t_pScene->addNode(t_node3d);
+//        }
 //#endif
+        
+        //测试粒子
+        for (s32 i = 0; i<30; i++) {
+            SVParticlesNodePtr t_particle_node = MakeSharedPtr<SVParticlesNode>(mApp);
+//            t_particle_node->setPosition(0, 0, 500);
+            t_particle_node->testInit();
+            t_particle_node->testRandomPos();
+            t_pScene->addNode(t_particle_node);
+        }
+        
         
     }
 }

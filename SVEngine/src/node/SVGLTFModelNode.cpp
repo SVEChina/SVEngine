@@ -347,6 +347,7 @@ void SVGLTFModelNode::_refreshModelMatrix(){
     if (!m_model) {
         return;
     }
+    m_readyRenderMeshData.clear();
     SVArray<s32> sceneNodes = m_model->scenes[m_model->defaultScene].nodes;
     for (s32 i = 0; i<sceneNodes.size(); i++) {
         s32 nodeIndex = sceneNodes[i];
@@ -384,13 +385,14 @@ void SVGLTFModelNode::_refreshModelNode(Node _node, FMat4 _mat4){
     }else{
         nodeMat = matT * matR *matS;
     }
-    FMat4 mat = _mat4 * nodeMat;
+    FMat4 mat = nodeMat * _mat4;
     if (_node.mesh >= 0) {
         if (_node.mesh == 0) {
             int a = 0;
         }
         ModelMeshDataPtr meshData = m_renderMeshData[_node.mesh];
         meshData->m_localMat = FMat4(mat);
+        m_readyRenderMeshData.append(meshData);
     }
     
     for (s32 i = 0; i<_node.children.size(); i++) {
@@ -408,7 +410,7 @@ void SVGLTFModelNode::update(f32 dt) {
         //更新模型
         _refreshModelMatrix();
         m_pRObj->clearMesh();
-        for (s32 i = 0; i<m_renderMeshData.size(); i++) {
+        for (s32 i = 0; i<m_readyRenderMeshData.size(); i++) {
             ModelMeshDataPtr meshData = m_renderMeshData[i];
             SVRenderMeshPtr renderMesh = MakeSharedPtr<SVRenderMesh>(mApp);
             renderMesh->setDrawMethod(E_DM_TRIANGLES);

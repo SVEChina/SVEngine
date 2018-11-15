@@ -487,6 +487,22 @@ void SVParticlesNode::renderVisualizer() {
     //    }
 }
 
+void SVParticlesNode::testRandomPos(){
+    f32 t_sc = 1.0 + rand()%300*0.01f;
+    t_sc = 1.0f;
+    setScale(t_sc, t_sc, t_sc);
+    //
+    f32 t_x = rand()%600 - 360.0f;
+    f32 t_y = rand()%1000 - 640.0f;
+    f32 t_z = rand()%1000 - 500.0f;
+    setPosition(t_x, t_y, -t_z);
+    //
+//    f32 t_rotx = rand()%360;
+//    f32 t_roty = rand()%360;
+//    f32 t_rotz = rand()%360;
+//    setRotation(t_rotx, t_roty, t_rotz);
+}
+
 void SVParticlesNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                              RAPIDJSON_NAMESPACE::Value &_objValue) {
     
