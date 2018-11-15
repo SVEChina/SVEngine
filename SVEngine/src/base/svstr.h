@@ -130,6 +130,8 @@ namespace sv {
             static f32 atof(cptr8 str);
             static f64 atod(cptr8 str);
             
+            static SVString itoa(s32 value, c8* result, s32 base);
+            
             static SVStringStack<> memory(size_t memory);
             
             static SVStringStack<> lower(cptr8 str);
