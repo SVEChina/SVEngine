@@ -71,7 +71,6 @@ void SVGLTFModelNode::_loadData(){
         Mesh mesh = m_model->meshes[i];
         for (s32 j = 0; j<mesh.primitives.size(); j++) {
             ModelMeshDataPtr modelMesh = MakeSharedPtr<ModelMeshData>();
-            modelMesh->m_localMat.setIdentity();
             m_renderMeshData.append(modelMesh);
             Primitive meshPrimitive = mesh.primitives[j];
             Accessor indicesAccessor = m_model->accessors[meshPrimitive.indices];
@@ -354,51 +353,50 @@ void SVGLTFModelNode::_refreshModelMatrix(){
         Node node = m_model->nodes[nodeIndex];
         FMat4 mat;
         mat.setIdentity();
-        _refreshModelNode(node, mat);
+        _refreshMeshGlobalMat(node, mat);
     }
 }
 
-void SVGLTFModelNode::_refreshModelNode(Node _node, FMat4 _mat4){
-    FMat4 nodeMat;
-    nodeMat.setIdentity();
-    
+void SVGLTFModelNode::_refreshMeshGlobalMat(Node _node, FMat4 _mat4){
+    FMat4 localTransform;
+    localTransform.setIdentity();
+    //translate
     FMat4 matT;
     matT.setIdentity();
     if (_node.translation.size() > 0) {
         matT.setTranslate(FVec3(_node.translation[0], _node.translation[1], _node.translation[2]));
     }
-    
+
+    //rotation
     FMat4 matR;
     matR.setIdentity();
     if (_node.rotation.size() > 0) {
-        matR.set(SVQuat(_node.rotation[0], _node.rotation[1], _node.rotation[2], _node.rotation[3]));
+        matR.set(SVQuat(FVec4(_node.rotation[0], _node.rotation[1], _node.rotation[2], _node.rotation[3])));
     }
-    
+    //scale
     FMat4 matS;
     matS.setIdentity();
     if (_node.scale.size() > 0) {
         matS.setScale(FVec3(_node.scale[0], _node.scale[1], _node.scale[2]));
     }
+    localTransform = matT * matR * matS;
     
+    //matrix
     if (_node.matrix.size() > 0) {
-        nodeMat.set(&_node.matrix[0]);
-    }else{
-        nodeMat = matT * matR *matS;
+        localTransform.set(&_node.matrix[0]);
     }
-    FMat4 mat = nodeMat * _mat4;
+    
+    FMat4 mat = _mat4 * localTransform;
     if (_node.mesh >= 0) {
-        if (_node.mesh == 0) {
-            int a = 0;
-        }
         ModelMeshDataPtr meshData = m_renderMeshData[_node.mesh];
-        meshData->m_localMat = FMat4(mat);
+        meshData->m_globalTransform = mat;
         m_readyRenderMeshData.append(meshData);
     }
     
     for (s32 i = 0; i<_node.children.size(); i++) {
         s32 childIndex = _node.children[i];
         Node node = m_model->nodes[childIndex];
-        _refreshModelNode(node, mat);
+        _refreshMeshGlobalMat(node, mat);
     }
 }
 
@@ -411,7 +409,7 @@ void SVGLTFModelNode::update(f32 dt) {
         _refreshModelMatrix();
         m_pRObj->clearMesh();
         for (s32 i = 0; i<m_readyRenderMeshData.size(); i++) {
-            ModelMeshDataPtr meshData = m_renderMeshData[i];
+            ModelMeshDataPtr meshData = m_readyRenderMeshData[i];
             SVRenderMeshPtr renderMesh = MakeSharedPtr<SVRenderMesh>(mApp);
             renderMesh->setDrawMethod(E_DM_TRIANGLES);
             renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
@@ -423,7 +421,7 @@ void SVGLTFModelNode::update(f32 dt) {
             renderMesh->createMesh();
             
             SVMtl3DPtr t_mtl = MakeSharedPtr<SVMtl3D>(mApp);
-            FMat4 matrix =  m_absolutMat * meshData->m_localMat;
+            FMat4 matrix =  m_absolutMat * meshData->m_globalTransform;
             t_mtl->setModelMatrix(matrix.get());
             t_mtl->setTexture(0,meshData->m_pTex);
             t_mtl->setBlendEnable(true);

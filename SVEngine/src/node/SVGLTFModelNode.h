@@ -36,7 +36,7 @@ namespace sv {
             
             void _refreshModelMatrix();
             
-            void _refreshModelNode(Node _node, FMat4 _mat4);
+            void _refreshMeshGlobalMat(Node _node, FMat4 _mat4);
             
             GLTFModelPtr m_model;
             

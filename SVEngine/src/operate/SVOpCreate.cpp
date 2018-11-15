@@ -227,7 +227,7 @@ void SVOpCreateTest::_process(f32 dt) {
 //#endif
         
         //测试粒子
-        for (s32 i = 0; i<30; i++) {
+        for (s32 i = 0; i<3; i++) {
             SVParticlesNodePtr t_particle_node = MakeSharedPtr<SVParticlesNode>(mApp);
 //            t_particle_node->setPosition(0, 0, 500);
             t_particle_node->testInit();
