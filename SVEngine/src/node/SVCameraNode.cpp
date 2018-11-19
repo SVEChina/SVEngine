@@ -17,6 +17,9 @@ SVCameraNode::SVCameraNode(SVInst *_app)
     m_mat_view.setIdentity();
     m_mat_vp.setIdentity();
     m_resLock = MakeSharedPtr<SVLock>();
+    //
+    m_angle_yaw = 0.0f;
+    m_angle_pitch = 0.0f;
 }
 
 SVCameraNode::~SVCameraNode() {
@@ -73,6 +76,12 @@ void SVCameraNode::resetCamera(f32 w, f32 h, f32 fovy) {
     //
     updateProjMat();
     updateCameraMat();
+    //计算角度
+    m_angle_yaw = acos(m_direction.x)*RAD2DEG;
+    if(m_direction.z<0) {
+        m_angle_yaw = 360.0f - m_angle_yaw;
+    }
+    m_angle_pitch = asin(m_direction.y)*RAD2DEG;
 }
 
 void SVCameraNode::setProjectParam(f32 _znear, f32 _zfar, f32 _fovy, f32 _aspect) {
@@ -209,26 +218,18 @@ void SVCameraNode::ctrlZoom(f32 _dis) {
 
 //航向xoz
 void SVCameraNode::ctrlAngle(f32 _yaw,f32 _pitch) {
+    //
+    m_angle_yaw += _yaw;
+    s32 t_temp_int = s32(m_angle_yaw/360);
+    m_angle_yaw -= t_temp_int*360.0f;
+    //
+    m_angle_pitch += _pitch;
+    m_angle_pitch = min(89.9f,max(m_angle_pitch, -89.9f));
+    //
     f32 t_real_dis = (m_postion-m_targetEx).length();
-    //xoz度数
-    f32 t_old_yaw = acos(m_direction.x);
-    t_old_yaw *= RAD2DEG;
-    if(m_direction.z<0) {
-        t_old_yaw = 360.0f - t_old_yaw;
-    }
-    SV_LOG_INFO("invalue %f yaw angle %f \n",_yaw,t_old_yaw);
-    t_old_yaw +=_yaw;
-    SV_LOG_INFO("new yaw angle %f \n",t_old_yaw);
-    t_old_yaw = t_old_yaw*DEG2RAD;
-    m_direction.x = cos(t_old_yaw);
-    m_direction.z = sin(t_old_yaw);
-    
-    //y度数
-    f32 t_old_pitch = asin(m_direction.y);
-    t_old_pitch *= RAD2DEG;
-    t_old_pitch +=_pitch;
-    t_old_pitch = min(89.9f,max(t_old_pitch, -89.9f));//clamp(t_old_yaw, -89.5, 89.5);
-    m_direction.y = sin(t_old_pitch*DEG2RAD);
+    m_direction.x = cos(m_angle_yaw*DEG2RAD);
+    m_direction.z = sin(m_angle_yaw*DEG2RAD);
+    m_direction.y = sin(m_angle_pitch*DEG2RAD);
     
     //归一化化后在计算
     m_direction.normalize();

@@ -108,6 +108,9 @@ namespace sv {
             
             typedef SVArray<SVFboObjectPtr> FBOBJECTPOOL;
             FBOBJECTPOOL m_fbobjectPool;
+            
+            f32 m_angle_yaw;
+            f32 m_angle_pitch;
         };
 
         
