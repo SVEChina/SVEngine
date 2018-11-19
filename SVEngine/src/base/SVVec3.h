@@ -14,7 +14,7 @@ namespace sv {
          \******************************************************************************/
         
         //
-        ATTRIBUTE_ALIGNED16(struct) FVec3 {
+        SVE_ALIGNED16(struct) FVec3 {
             
             sv_inline FVec3() {
             }
@@ -422,7 +422,7 @@ namespace sv {
          \******************************************************************************/
         
         //
-        ATTRIBUTE_ALIGNED16(struct) DVec3 {
+        SVE_ALIGNED16(struct) DVec3 {
             
             sv_inline DVec3() { }
             sv_inline DVec3(const DVec3 &v) : x(v.x), y(v.y), z(v.z), w(0.0) { }
@@ -719,7 +719,7 @@ namespace sv {
          \******************************************************************************/
         
         //
-        ATTRIBUTE_ALIGNED8(struct) HVec3 {
+        SVE_ALIGNED8(struct) HVec3 {
             
             sv_inline HVec3() { }
             sv_inline HVec3(const HVec3 &v) : x(v.x), y(v.y), z(v.z) { }
@@ -767,7 +767,7 @@ namespace sv {
          \******************************************************************************/
         
         //
-        ATTRIBUTE_ALIGNED16(struct) IVec3 {
+        SVE_ALIGNED16(struct) IVec3 {
             
             sv_inline IVec3() { }
             sv_inline IVec3(s32 x,s32 y,s32 z) : x(x), y(y), z(z), w(0) { }

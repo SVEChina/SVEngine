@@ -113,21 +113,21 @@
 //
 #if defined(USE_SSE) || defined(USE_ALTIVEC) || defined(USE_NEON)
 	#ifdef _WIN32
-		#define ATTRIBUTE_ALIGNED4(NAME) __declspec(align(4)) NAME
-		#define ATTRIBUTE_ALIGNED8(NAME) __declspec(align(8)) NAME
-		#define ATTRIBUTE_ALIGNED16(NAME) __declspec(align(16)) NAME
-		#define ATTRIBUTE_ALIGNED128(NAME) __declspec(align(128)) NAME
+		#define SVE_ALIGNED4(NAME) __declspec(align(4)) NAME
+		#define SVE_ALIGNED8(NAME) __declspec(align(8)) NAME
+		#define SVE_ALIGNED16(NAME) __declspec(align(16)) NAME
+		#define SVE_ALIGNED128(NAME) __declspec(align(128)) NAME
 	#else
-		#define ATTRIBUTE_ALIGNED4(NAME) NAME __attribute__ ((aligned(4)))
-		#define ATTRIBUTE_ALIGNED8(NAME) NAME __attribute__ ((aligned(8)))
-		#define ATTRIBUTE_ALIGNED16(NAME) NAME __attribute__ ((aligned(16)))
-		#define ATTRIBUTE_ALIGNED128(NAME) NAME __attribute__ ((aligned(128)))
+		#define SVE_ALIGNED4(NAME) NAME __attribute__ ((aligned(4)))
+		#define SVE_ALIGNED8(NAME) NAME __attribute__ ((aligned(8)))
+		#define SVE_ALIGNED16(NAME) NAME __attribute__ ((aligned(16)))
+		#define SVE_ALIGNED128(NAME) NAME __attribute__ ((aligned(128)))
 	#endif
 #else
-	#define ATTRIBUTE_ALIGNED4(NAME) NAME
-	#define ATTRIBUTE_ALIGNED8(NAME) NAME
-	#define ATTRIBUTE_ALIGNED16(NAME) NAME
-	#define ATTRIBUTE_ALIGNED128(NAME) NAME
+	#define SVE_ALIGNED4(NAME) NAME
+	#define SVE_ALIGNED8(NAME) NAME
+	#define SVE_ALIGNED16(NAME) NAME
+	#define SVE_ALIGNED128(NAME) NAME
 #endif
 
 //

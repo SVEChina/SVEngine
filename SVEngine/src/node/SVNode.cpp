@@ -310,6 +310,13 @@ void SVNode::setRotation(FVec3& _rot) {
     m_dirty = true;
 }
 
+void SVNode::setQuat(SVQuat& _quat) {
+    m_rotation.x = _quat.getAngle(FVec3(1.0f,0.0f,0.0f));
+    m_rotation.y = _quat.getAngle(FVec3(0.0f,1.0f,0.0f));
+    m_rotation.z = _quat.getAngle(FVec3(0.0f,0.0f,1.0f));
+    m_dirty = true;
+}
+
 void SVNode::setScale(FVec3& _scale) {
     m_scale = _scale;
     m_dirty = true;
@@ -325,6 +332,11 @@ FVec3& SVNode::getOffset() {
 
 FVec3& SVNode::getRotation() {
     return m_rotation;
+}
+
+SVQuat SVNode::getQuat() {
+    SVQuat t_quat(m_rotation.x,m_rotation.y,m_rotation.z);
+    return t_quat;
 }
 
 FVec3& SVNode::getScale() {

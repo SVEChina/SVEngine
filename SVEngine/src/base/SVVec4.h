@@ -8,7 +8,7 @@ namespace sv {
     namespace util {
 
         //****************************** FVec4 ********************************************
-        ATTRIBUTE_ALIGNED16(struct) FVec4 {
+        SVE_ALIGNED16(struct) FVec4 {
             sv_inline FVec4() {
             }
             
@@ -455,7 +455,7 @@ namespace sv {
         
         //****************************** DVec4 ********************************************
         //
-        ATTRIBUTE_ALIGNED16(struct) DVec4 {
+        SVE_ALIGNED16(struct) DVec4 {
             
             sv_inline DVec4() {
             }
@@ -839,7 +839,7 @@ namespace sv {
         DVec4 lerp(const DVec4 &v0,const DVec4 &v1,f64 k);
         
         //****************************** HVec4 ********************************************
-        ATTRIBUTE_ALIGNED8(struct) HVec4 {
+        SVE_ALIGNED8(struct) HVec4 {
             
             sv_inline HVec4() { }
             
@@ -940,7 +940,7 @@ namespace sv {
         
         //**********************************IVec4(int)*****************************************
         //
-        ATTRIBUTE_ALIGNED16(struct) IVec4 {
+        SVE_ALIGNED16(struct) IVec4 {
             
             sv_inline IVec4() {
             }

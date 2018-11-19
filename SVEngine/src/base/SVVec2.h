@@ -24,7 +24,7 @@ namespace sv {
         
         //******************************** FVec2***********************************
         //
-        ATTRIBUTE_ALIGNED8(struct) FVec2 {
+        SVE_ALIGNED8(struct) FVec2 {
             
             sv_inline FVec2() { }
             sv_inline FVec2(const FVec2 &v) : x(v.x), y(v.y) { }
@@ -285,7 +285,7 @@ namespace sv {
          \******************************************************************************/
         
         //
-        ATTRIBUTE_ALIGNED16(struct) DVec2 {
+        SVE_ALIGNED16(struct) DVec2 {
             
             sv_inline DVec2() { }
             sv_inline DVec2(f64 x,f64 y) : x(x), y(y) { }
@@ -525,7 +525,7 @@ namespace sv {
          \******************************************************************************/
         
         //
-        ATTRIBUTE_ALIGNED4(struct) HVec2 {
+        SVE_ALIGNED4(struct) HVec2 {
             
             sv_inline HVec2() { }
             sv_inline HVec2(const HVec2 &v) : x(v.x), y(v.y) { }
@@ -572,7 +572,7 @@ namespace sv {
          \******************************************************************************/
         
         //
-        ATTRIBUTE_ALIGNED8(struct) IVec2 {
+        SVE_ALIGNED8(struct) IVec2 {
             
             sv_inline IVec2() { }
             sv_inline IVec2(const IVec2 &v) : x(v.x), y(v.y) { }

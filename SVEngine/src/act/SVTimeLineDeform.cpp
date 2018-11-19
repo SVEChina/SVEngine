@@ -32,8 +32,23 @@ void SVTimeLineDeform::exit(SVNodePtr _nodePtr) {
 }
 
 void SVTimeLineDeform::_execkey(SVNodePtr _nodePtr,f32 _dt) {
-    SVKeyFramePtr t_key1 = nullptr;//_preKey();
-    SVKeyFramePtr t_key2 = nullptr;//_nxtKey();
+    //
+    SVKeyFramePtr t_key1 = nullptr;
+    SVKeyFramePtr t_key2 = nullptr;
+    //
+    for(s32 i=0;i<m_keyPool.size();i++) {
+        s32 t_index = m_keyPool[i]->getIndex();
+        f32 t_keytime = 1.0f*t_index/m_rate;
+        if(t_keytime>m_accTime) {
+            t_key2 = m_keyPool[i];
+            if(i == 0){
+                t_key1 = t_key2;
+            }else{
+                t_key2 = m_keyPool[i-1];
+            }
+            break;
+        }
+    }
     if(t_key1 && t_key2) {
         if(t_key1 == t_key2) {
             SVKeyDeformPtr tt_key1 = std::dynamic_pointer_cast<SVKeyDeform>(t_key1);

@@ -150,7 +150,9 @@ namespace sv {
             axis.y = y * ilength;
             axis.z = z * ilength;
             angle = Math::acos(clamp(w,-1.0f,1.0f)) * RAD2DEG * 2.0f;
-            if(angle > 180.0f) angle -= 360.0f;
+            if(angle > 180.0f) {
+                angle -= 360.0f;
+            }
         }
 
         //
@@ -168,9 +170,15 @@ namespace sv {
             f32 wx2 = w * x2;
             f32 wy2 = w * y2;
             f32 wz2 = w * z2;
-            ret.m00 = 1.0f - yy2 - zz2; ret.m01 = xy2 - wz2;        ret.m02 = zx2 + wy2;
-            ret.m10 = xy2 + wz2;        ret.m11 = 1.0f - xx2 - zz2; ret.m12 = yz2 - wx2;
-            ret.m20 = zx2 - wy2;        ret.m21 = yz2 + wx2;        ret.m22 = 1.0f - xx2 - yy2;
+            ret.m00 = 1.0f - yy2 - zz2;
+            ret.m01 = xy2 - wz2;
+            ret.m02 = zx2 + wy2;
+            ret.m10 = xy2 + wz2;
+            ret.m11 = 1.0f - xx2 - zz2;
+            ret.m12 = yz2 - wx2;
+            ret.m20 = zx2 - wy2;
+            ret.m21 = yz2 + wx2;
+            ret.m22 = 1.0f - xx2 - yy2;
             return ret;
         }
 
@@ -190,7 +198,9 @@ namespace sv {
             } else {
                 get(v0,angle);
             }
-            if(dot(v0,axis) < 0.0f) angle = -angle;
+            if(dot(v0,axis) < 0.0f){
+                angle = -angle;
+            }
             return angle;
         }
 
