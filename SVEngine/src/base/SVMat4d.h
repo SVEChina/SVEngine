@@ -14,7 +14,7 @@ namespace sv {
          \******************************************************************************/
         
         //
-        ATTRIBUTE_ALIGNED16(struct) DMat4 {
+        SVE_ALIGNED16(struct) DMat4 {
             
             sv_inline DMat4() { }
             DMat4(const DMat4 &m);

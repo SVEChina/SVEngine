@@ -40,9 +40,9 @@
 #define ASSERT_ALIGNED8(VALUE) assert(IS_ALIGNED8(VALUE))
 #define ASSERT_ALIGNED16(VALUE) assert(IS_ALIGNED16(VALUE))
 #define ASSERT_ALIGNED128(VALUE) assert(IS_ALIGNED128(VALUE))
-#define ATTRIBUTE_ALIGNED4(NAME) NAME __attribute__ ((aligned(4)))
-#define ATTRIBUTE_ALIGNED8(NAME) NAME __attribute__ ((aligned(8)))
-#define ATTRIBUTE_ALIGNED16(NAME) NAME __attribute__ ((aligned(16)))
-#define ATTRIBUTE_ALIGNED128(NAME) NAME __attribute__ ((aligned(128)))
+#define SVE_ALIGNED4(NAME) NAME __attribute__ ((aligned(4)))
+#define SVE_ALIGNED8(NAME) NAME __attribute__ ((aligned(8)))
+#define SVE_ALIGNED16(NAME) NAME __attribute__ ((aligned(16)))
+#define SVE_ALIGNED128(NAME) NAME __attribute__ ((aligned(128)))
 
 #endif /* __BASE_SPU_H__ */

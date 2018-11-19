@@ -7,16 +7,21 @@
 //
 
 #include "SVTimeLineDeform.h"
+#include "../base/SVQuat.h"
 
 SVTimeLineDeform::SVTimeLineDeform(SVInst* _app,f32 _time,s32 _rate)
 :SVTimeLine(_app,_time,_rate){
     m_type = E_TL_T_DEFORM;
-    m_startKey = MakeSharedPtr<SVKeyDeform>(mApp,0);
-    u32 t_maxFrame = SVTimeLine::maxFrame(_time,_rate);
-    m_endKey = MakeSharedPtr<SVKeyDeform>(mApp,t_maxFrame);
 }
 
 SVTimeLineDeform::~SVTimeLineDeform() {
+}
+
+void SVTimeLineDeform::initKey() {
+    SVKeyDeformPtr m_startKey = MakeSharedPtr<SVKeyDeform>(mApp,0);
+    m_keyPool.append(m_startKey);
+    SVKeyDeformPtr m_endKey = MakeSharedPtr<SVKeyDeform>(mApp,m_maxFrame);
+    m_keyPool.append(m_endKey);
 }
 
 void SVTimeLineDeform::enter(SVNodePtr _nodePtr) {
@@ -27,13 +32,24 @@ void SVTimeLineDeform::exit(SVNodePtr _nodePtr) {
     SVTimeLine::exit(_nodePtr);
 }
 
-void SVTimeLineDeform::update(SVNodePtr _nodePtr,f32 _dt) {
-    m_accTime += _dt;
-    //计算key的差值
-    m_keyLock->lock();
-    //插值
-    SVKeyFramePtr t_key1 = _preKey();
-    SVKeyFramePtr t_key2 = _nxtKey();
+void SVTimeLineDeform::_execkey(SVNodePtr _nodePtr,f32 _dt) {
+    //
+    SVKeyFramePtr t_key1 = nullptr;
+    SVKeyFramePtr t_key2 = nullptr;
+    //
+    for(s32 i=0;i<m_keyPool.size();i++) {
+        s32 t_index = m_keyPool[i]->getIndex();
+        f32 t_keytime = 1.0f*t_index/m_rate;
+        if(t_keytime>m_accTime) {
+            t_key2 = m_keyPool[i];
+            if(i == 0){
+                t_key1 = t_key2;
+            }else{
+                t_key2 = m_keyPool[i-1];
+            }
+            break;
+        }
+    }
     if(t_key1 && t_key2) {
         if(t_key1 == t_key2) {
             SVKeyDeformPtr tt_key1 = std::dynamic_pointer_cast<SVKeyDeform>(t_key1);
@@ -47,15 +63,17 @@ void SVTimeLineDeform::update(SVNodePtr _nodePtr,f32 _dt) {
             //进行刷新操作
             SVKeyDeformPtr tt_key1 = std::dynamic_pointer_cast<SVKeyDeform>(t_key1);
             SVKeyDeformPtr tt_key2 = std::dynamic_pointer_cast<SVKeyDeform>(t_key2);
+            //位移插值
             FVec3 t_pos = tt_key1->m_pos * (1.0f-t_lerp) + tt_key2->m_pos;
             _nodePtr->setPosition(t_pos);
-            //需要用到四元数插值
-            //FVec3 t_rot = tt_key1->m_rot * (1.0f-t_lerp) + tt_key2->m_rot;
-            //_nodePtr->setRotation(t_rot);
+            //四元数旋转插值
+            SVQuat t_qt1(tt_key1->m_rot.x,tt_key1->m_rot.y,tt_key1->m_rot.z);
+            SVQuat t_qt2(tt_key2->m_rot.x,tt_key2->m_rot.y,tt_key2->m_rot.z);
+            SVQuat t_qt = slerp(t_qt1,t_qt2,t_lerp);
+            _nodePtr->setQuat(t_qt);
+            //缩放插值
             FVec3 t_scale = tt_key1->m_scale * (1.0f-t_lerp) + tt_key2->m_scale;
             _nodePtr->setScale(t_scale);
         }
     }
-    m_keyLock->unlock();
 }
-

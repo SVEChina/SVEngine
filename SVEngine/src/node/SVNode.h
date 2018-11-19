@@ -14,6 +14,7 @@
 #include "../core/SVVertDef.h"
 #include "../base/SVMat4d.h"
 #include "../base/SVVec3.h"
+#include "../base/SVQuat.h"
 #include "../base/SVBounds.h"
 #include "../base/SVPreDeclare.h"
 #include "../event/SVEventProc.h"
@@ -61,6 +62,8 @@ namespace sv {
             
             virtual void setRotation(f32 x, f32 y, f32 z);
             
+            virtual void setQuat(SVQuat& _quat);
+            
             virtual void setScale(f32 x, f32 y, f32 z);
             
             virtual void setPosition(FVec3& _pos);
@@ -95,6 +98,8 @@ namespace sv {
             
             FVec3& getScale();
 
+            SVQuat getQuat();
+            
             void setAABB(SVBoundBox& _aabb);
             
             SVBoundBox& getAABB();

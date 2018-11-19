@@ -20,7 +20,7 @@ namespace sv {
         \******************************************************************************/
         
         //
-        ATTRIBUTE_ALIGNED16(struct) FMat2 {
+        SVE_ALIGNED16(struct) FMat2 {
             
             sv_inline FMat2() { }
             FMat2(const FMat2 &m);

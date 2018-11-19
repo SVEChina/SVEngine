@@ -15,29 +15,70 @@ namespace sv {
          \******************************************************************************/
         
         //
-        ATTRIBUTE_ALIGNED16(struct) SVQuat {
+        SVE_ALIGNED16(struct) SVQuat {
             
-            sv_inline SVQuat() { }
+            sv_inline SVQuat() {
+            }
+            
             SVQuat(const FVec3 &axis,f32 angle);
+            
             SVQuat(f32 x,f32 y,f32 z,f32 angle);
+            
             SVQuat(f32 angle_x,f32 angle_y,f32 angle_z);
-            explicit sv_inline SVQuat(const f32 *q) : x(q[0]), y(q[1]), z(q[2]), w(q[3]) { }
-            explicit sv_inline SVQuat(const FVec3 &v) : x(v.x), y(v.y), z(v.z), w(0.0f) { }
-            explicit sv_inline SVQuat(const FVec4 &v) : x(v.x), y(v.y), z(v.z), w(v.w) { }
+            
+            explicit sv_inline SVQuat(const f32 *q)
+            : x(q[0])
+            , y(q[1])
+            , z(q[2])
+            , w(q[3]) {
+            }
+            
+            explicit sv_inline SVQuat(const FVec3 &v)
+            : x(v.x)
+            , y(v.y)
+            , z(v.z)
+            , w(0.0f) {
+            }
+            
+            explicit sv_inline SVQuat(const FVec4 &v)
+            : x(v.x)
+            , y(v.y)
+            , z(v.z)
+            , w(v.w) {
+            }
+            
             explicit SVQuat(const FMat3 &m);
             explicit SVQuat(const FMat4 &m);
             explicit SVQuat(const DMat4 &m);
 #ifdef USE_SSE
-            sv_inline SVQuat(const SVQuat &q) : vec(q.vec) { }
-            explicit sv_inline SVQuat(__m128 vec) : vec(vec) { }
+            sv_inline SVQuat(const SVQuat &q)
+            : vec(q.vec) {
+            }
+            
+            explicit sv_inline SVQuat(__m128 vec)
+            : vec(vec) {
+            }
 #elif USE_ALTIVEC
-            sv_inline SVQuat(const SVQuat &q) : vec(q.vec) { }
-            explicit sv_inline SVQuat(vec_float4 vec) : vec(vec) { }
+            sv_inline SVQuat(const SVQuat &q)
+            : vec(q.vec) {
+            }
+            explicit sv_inline SVQuat(vec_float4 vec)
+            : vec(vec) {
+            }
 #elif USE_NEON
-            sv_inline SVQuat(const SVQuat &q) : vec(q.vec) { }
-            explicit sv_inline SVQuat(float32x4_t vec) : vec(vec) { }
+            sv_inline SVQuat(const SVQuat &q)
+            : vec(q.vec) {
+            }
+            explicit sv_inline SVQuat(float32x4_t vec)
+            : vec(vec) {
+            }
 #else
-            sv_inline SVQuat(const SVQuat &q) : x(q.x), y(q.y), z(q.z), w(q.w) { }
+            sv_inline SVQuat(const SVQuat &q)
+            : x(q.x)
+            , y(q.y)
+            , z(q.z)
+            , w(q.w) {
+            }
 #endif
             
             sv_inline SVQuat &operator=(const SVQuat &q) {
@@ -50,14 +91,21 @@ namespace sv {
             }
             
             SVQuat operator-() const;
+            
             SVQuat &operator*=(f32 v);
+            
             SVQuat &operator*=(const SVQuat &q);
+            
             SVQuat &operator+=(const SVQuat &q);
+            
             SVQuat &operator-=(const SVQuat &q);
             
             sv_inline operator f32*() { return q; }
+            
             sv_inline operator const f32*() const { return q; }
+            
             sv_inline operator void*() { return q; }
+            
             sv_inline operator const void*() const { return q; }
             
             sv_inline f32 &operator[](s32 i) {
@@ -79,15 +127,29 @@ namespace sv {
             void get(FVec3 &axis,f32 &angle) const;
             
             sv_inline void set(const f32 *q) {
-                x = q[0]; y = q[1]; z = q[2]; w = q[3];
+                x = q[0];
+                y = q[1];
+                z = q[2];
+                w = q[3];
             }
+            
             sv_inline void get(f32 *q) const {
-                q[0] = x; q[1] = y; q[2] = z; q[3] = w;
+                q[0] = x;
+                q[1] = y;
+                q[2] = z;
+                q[3] = w;
             }
-            sv_inline f32 *get() { return q; }
-            sv_inline const f32 *get() const { return q; }
+            
+            sv_inline f32 *get() {
+                return q;
+            }
+            
+            sv_inline const f32 *get() const {
+                return q;
+            }
             
             FMat3 getMat3() const;
+            
             f32 getAngle(const FVec3 &axis) const;
             
             sv_inline SVQuat &normalize() {
@@ -95,6 +157,7 @@ namespace sv {
                 x *= ilength; y *= ilength; z *= ilength; w *= ilength;
                 return *this;
             }
+            
             sv_inline SVQuat &normalizeFast() {
                 f32 ilength = Math::rsqrtFast(x * x + y * y + z * z + w * w);
                 x *= ilength; y *= ilength; z *= ilength; w *= ilength;
@@ -119,7 +182,6 @@ namespace sv {
         //
         extern const SVQuat quat_identity;
         
-        //
         s32 operator==(const SVQuat &q0,const SVQuat &q1);
         s32 operator!=(const SVQuat &q0,const SVQuat &q1);
         SVQuat operator*(const SVQuat &q,f32 v);

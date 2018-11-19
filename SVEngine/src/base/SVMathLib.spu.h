@@ -654,7 +654,7 @@ namespace sv {
         \******************************************************************************/
 
         //
-        ATTRIBUTE_ALIGNED16(struct) FVec3 {
+        SVE_ALIGNED16(struct) FVec3 {
             
             sv_inline FVec3() { }
             sv_inline FVec3(const FVec3 &v) : vec(v.vec) { }
@@ -864,7 +864,7 @@ namespace sv {
         \******************************************************************************/
 
         //
-        ATTRIBUTE_ALIGNED16(struct) FVec4 {
+        SVE_ALIGNED16(struct) FVec4 {
             
             sv_inline FVec4() { }
             sv_inline FVec4(const FVec4 &v) : vec(v.vec) { }
@@ -1093,7 +1093,7 @@ namespace sv {
         \******************************************************************************/
 
         //
-        ATTRIBUTE_ALIGNED16(struct) FMat3 {
+        SVE_ALIGNED16(struct) FMat3 {
             
             sv_inline FMat3() { }
             FMat3(const FMat3 &m);
@@ -1249,7 +1249,7 @@ namespace sv {
         \******************************************************************************/
 
         //
-        ATTRIBUTE_ALIGNED16(struct) FMat4 {
+        SVE_ALIGNED16(struct) FMat4 {
             
             sv_inline FMat4() { }
             FMat4(const FMat4 &m);
@@ -1665,7 +1665,7 @@ namespace sv {
         \******************************************************************************/
 
         //
-        ATTRIBUTE_ALIGNED16(struct) quat {
+        SVE_ALIGNED16(struct) quat {
             
             sv_inline quat() : x(0.0f), y(0.0f), z(0.0f), w(1.0f) { }
             sv_inline quat(const quat &q) : x(q.x), y(q.y), z(q.z), w(q.w) { }

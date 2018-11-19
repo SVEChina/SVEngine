@@ -21,11 +21,15 @@ namespace sv {
             
             ~SVTimeLineDeform();
             
+            void initKey();
+            
             void enter(SVNodePtr _nodePtr);
             
             void exit(SVNodePtr _nodePtr);
             
-            void update(SVNodePtr _nodePtr,f32 _dt);
+        protected:
+            void _execkey(SVNodePtr _nodePtr,f32 _dt);
+            
         };
         
     }//!namespace logic

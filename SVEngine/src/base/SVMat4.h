@@ -11,7 +11,7 @@ namespace sv {
         struct SVQuat;
         
         //************** FMat4 ************************
-        ATTRIBUTE_ALIGNED16(struct) FMat4 {
+        SVE_ALIGNED16(struct) FMat4 {
             sv_inline FMat4() {
             }
             

@@ -11,12 +11,16 @@
 SVTimeLineMtl::SVTimeLineMtl(SVInst* _app,f32 _time,s32 _rate)
 :SVTimeLine(_app,_time,_rate){
     m_type = E_TL_T_MTL;
-    m_startKey = MakeSharedPtr<SVKeyMtl>(mApp,0);
-    u32 t_maxFrame = SVTimeLine::maxFrame(_time,_rate);
-    m_endKey = MakeSharedPtr<SVKeyMtl>(mApp,t_maxFrame);
 }
 
 SVTimeLineMtl::~SVTimeLineMtl() {
+}
+
+void SVTimeLineMtl::initKey() {
+    SVKeyMtlPtr m_startKey = MakeSharedPtr<SVKeyMtl>(mApp,0);
+    m_keyPool.append(m_startKey);
+    SVKeyMtlPtr m_endKey = MakeSharedPtr<SVKeyMtl>(mApp,m_maxFrame);
+    m_keyPool.append(m_endKey);
 }
 
 void SVTimeLineMtl::enter(SVNodePtr _nodePtr) {

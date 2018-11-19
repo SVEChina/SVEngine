@@ -157,7 +157,7 @@ namespace sv {
 
             ASSERT_ALIGNED16(dest);
             #if defined(USE_SSE) || defined(USE_ALTIVEC)
-                ATTRIBUTE_ALIGNED16(u32 data[4]);
+                SVE_ALIGNED16(u32 data[4]);
                 data[0] = src;
                 data[1] = src;
                 data[2] = src;
