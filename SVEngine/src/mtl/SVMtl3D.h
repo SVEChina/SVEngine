@@ -27,6 +27,11 @@ namespace sv {
             virtual void reset();
             
             virtual SVMtlCorePtr clone();
+            
+            void _submitMtl(SVRendererBasePtr _render);
+        public:
+            FVec4 m_ambient_color;
+            f32   m_ambientStrength;
         };
 
     }//!namespace mtl
