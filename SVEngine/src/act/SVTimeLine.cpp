@@ -55,6 +55,9 @@ void SVTimeLine::exit(SVNodePtr _nodePtr) {
 
 void SVTimeLine::update(SVNodePtr _nodePtr,f32 _dt) {
     m_accTime += _dt;
+    if(m_accTime>m_totalTime){
+        m_accTime = m_totalTime;
+    }
     m_keyLock->lock();
     _execkey(_nodePtr,_dt);
     m_keyLock->unlock();
