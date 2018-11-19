@@ -45,6 +45,10 @@ namespace sv {
             SVArray<ModelMeshDataPtr>  m_readyRenderMeshData;
             
             SVMultMeshMtlRenderObjectPtr m_pRObj;
+            
+            bool m_isFirstBoundingBox;
+            
+            SVBoundBox m_boundingBox;
         public:
             //序列化接口
 //            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
