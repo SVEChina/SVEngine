@@ -11,12 +11,16 @@
 SVTimeLineDeform::SVTimeLineDeform(SVInst* _app,f32 _time,s32 _rate)
 :SVTimeLine(_app,_time,_rate){
     m_type = E_TL_T_DEFORM;
-    m_startKey = MakeSharedPtr<SVKeyDeform>(mApp,0);
-    u32 t_maxFrame = SVTimeLine::maxFrame(_time,_rate);
-    m_endKey = MakeSharedPtr<SVKeyDeform>(mApp,t_maxFrame);
 }
 
 SVTimeLineDeform::~SVTimeLineDeform() {
+}
+
+void SVTimeLineDeform::initKey() {
+    SVKeyDeformPtr m_startKey = MakeSharedPtr<SVKeyDeform>(mApp,0);
+    m_keyPool.append(m_startKey);
+    SVKeyDeformPtr m_endKey = MakeSharedPtr<SVKeyDeform>(mApp,m_maxFrame);
+    m_keyPool.append(m_endKey);
 }
 
 void SVTimeLineDeform::enter(SVNodePtr _nodePtr) {
@@ -27,13 +31,9 @@ void SVTimeLineDeform::exit(SVNodePtr _nodePtr) {
     SVTimeLine::exit(_nodePtr);
 }
 
-void SVTimeLineDeform::update(SVNodePtr _nodePtr,f32 _dt) {
-    m_accTime += _dt;
-    //计算key的差值
-    m_keyLock->lock();
-    //插值
-    SVKeyFramePtr t_key1 = _preKey();
-    SVKeyFramePtr t_key2 = _nxtKey();
+void SVTimeLineDeform::_execkey(SVNodePtr _nodePtr,f32 _dt) {
+    SVKeyFramePtr t_key1 = nullptr;//_preKey();
+    SVKeyFramePtr t_key2 = nullptr;//_nxtKey();
     if(t_key1 && t_key2) {
         if(t_key1 == t_key2) {
             SVKeyDeformPtr tt_key1 = std::dynamic_pointer_cast<SVKeyDeform>(t_key1);
@@ -56,6 +56,4 @@ void SVTimeLineDeform::update(SVNodePtr _nodePtr,f32 _dt) {
             _nodePtr->setScale(t_scale);
         }
     }
-    m_keyLock->unlock();
 }
-

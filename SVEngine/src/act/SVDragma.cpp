@@ -44,15 +44,23 @@ void SVDragma::create(TIMELINETYPE _type,f32 _time,u32 _rate) {
         m_timeLinePool[1] = MakeSharedPtr<SVTimeLineDeform>(mApp,_time,_rate);
         m_timeLinePool[2] = MakeSharedPtr<SVTimeLineMtl>(mApp,_time,_rate);
         m_timeLinePool[3] = MakeSharedPtr<SVTimeLineEvent>(mApp,_time,_rate);
+        m_timeLinePool[0]->initKey();
+        m_timeLinePool[1]->initKey();
+        m_timeLinePool[2]->initKey();
+        m_timeLinePool[3]->initKey();
     } else {
         if(_type == E_TL_T_BASE) {
             m_timeLinePool[0] = MakeSharedPtr<SVTimeLine>(mApp,_time,_rate);
+            m_timeLinePool[0]->initKey();
         }else if(_type == E_TL_T_DEFORM) {
             m_timeLinePool[1] = MakeSharedPtr<SVTimeLineDeform>(mApp,_time,_rate);
+            m_timeLinePool[1]->initKey();
         }else if(_type == E_TL_T_MTL) {
             m_timeLinePool[2] = MakeSharedPtr<SVTimeLineMtl>(mApp,_time,_rate);
+            m_timeLinePool[2]->initKey();
         }else if(_type == E_TL_T_EVENT) {
             m_timeLinePool[3] = MakeSharedPtr<SVTimeLineEvent>(mApp,_time,_rate);
+            m_timeLinePool[3]->initKey();
         }
     }
 }

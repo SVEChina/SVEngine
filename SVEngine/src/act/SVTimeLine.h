@@ -26,6 +26,8 @@ namespace sv {
             SVTimeLine(SVInst* _app,f32 _time,s32 _rate);
             
             ~SVTimeLine();
+            
+            virtual void initKey();
   
             TIMELINETYPE getType();
             
@@ -35,13 +37,13 @@ namespace sv {
             
             void update(SVNodePtr _nodePtr,f32 _dt);
             
-            virtual bool insertkey(s32 _index);
-            
             virtual void addKey(SVKeyFramePtr _key);
             
-            virtual void removeKey(s32 _uid);
+            virtual void removeKey(s32 _index);
             
-            SVKeyFramePtr getKeyFrame(s32 _uid);
+            SVKeyFramePtr getKeyFrame(s32 _index);
+            
+            bool checkKey(s32 _index);
             
             void refreshKey();
             
@@ -52,6 +54,8 @@ namespace sv {
             void setTotalTime(f32 _t);
             
             void setCurTime(f32 _t);
+            
+            void setRate(s32 _rate);
             
             //刷新节点
             void refreshNode(SVNodePtr _nodePtr);
@@ -72,11 +76,7 @@ namespace sv {
             //
             f32 indexToTime(u32 _index);
             //
-            virtual SVKeyFramePtr _preKey();
-            //
-            virtual SVKeyFramePtr _nxtKey();
-            //
-            virtual void _execkey(SVNodePtr _node,SVKeyFramePtr _key);
+            virtual void _execkey(SVNodePtr _nodePtr,f32 _dt);
             //
             TIMELINETYPE m_type;
             //
@@ -84,16 +84,14 @@ namespace sv {
             //中间帧
             typedef SVArray<SVKeyFramePtr> KEYPOOL;
             KEYPOOL m_keyPool;
-            //开始帧
-            SVKeyFramePtr m_startKey;
-            //结束帧
-            SVKeyFramePtr m_endKey;
             //累计时间
             f32 m_accTime;
             //
             s32 m_rate;
             //
             f32 m_totalTime;
+            //
+            u32 m_maxFrame;
         };
         
     }//!namespace logic

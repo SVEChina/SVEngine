@@ -21,12 +21,14 @@ namespace sv {
             
             ~SVTimeLineEvent();
             
+            void initKey();
+            
             void enter(SVNodePtr _nodePtr);
             
             void exit(SVNodePtr _nodePtr);
             
             void update(SVNodePtr _nodePtr,f32 _dt);
-            
+
         };
         
     }//!namespace logic

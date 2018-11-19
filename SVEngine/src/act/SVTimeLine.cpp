@@ -24,15 +24,21 @@ SVTimeLine::SVTimeLine(SVInst* _app,f32 _time,s32 _rate)
     m_accTime = 0.0f;
     m_totalTime = _time;
     m_rate = _rate;
-    m_startKey = MakeSharedPtr<SVKeyFrame>(mApp,0);
-    //
-    u32 t_maxFrame = SVTimeLine::maxFrame(_time,_rate);
-    m_endKey = MakeSharedPtr<SVKeyFrame>(mApp,t_maxFrame);
+    m_maxFrame = SVTimeLine::maxFrame(m_totalTime,m_rate);
     m_keyLock = MakeSharedPtr<SVLock>();
+
 }
 
 SVTimeLine::~SVTimeLine() {
+    m_keyPool.destroy();
     m_keyLock = nullptr;
+}
+
+void SVTimeLine::initKey() {
+    SVKeyFramePtr m_startKey = MakeSharedPtr<SVKeyFrame>(mApp,0);
+    m_keyPool.append(m_startKey);
+    SVKeyFramePtr m_endKey = MakeSharedPtr<SVKeyFrame>(mApp,m_maxFrame);
+    m_keyPool.append(m_endKey);
 }
 
 TIMELINETYPE SVTimeLine::getType() {
@@ -49,35 +55,29 @@ void SVTimeLine::exit(SVNodePtr _nodePtr) {
 
 void SVTimeLine::update(SVNodePtr _nodePtr,f32 _dt) {
     m_accTime += _dt;
-    //计算key的差值
     m_keyLock->lock();
-    //
-    SVKeyFramePtr t_key = _lerpKey();
-    if(t_key) {
-        //进行刷新操作
-        _execkey(_nodePtr,t_key);
-    }
-    //
+    _execkey(_nodePtr,_dt);
     m_keyLock->unlock();
 }
 
 void SVTimeLine::setTotalTime(f32 _t) {
     m_totalTime = _t;
+    m_maxFrame = SVTimeLine::maxFrame(m_totalTime,m_rate);
 }
 
 void SVTimeLine::setCurTime(f32 _t) {
     m_accTime = _t;
 }
 
-void SVTimeLine::refreshNode(SVNodePtr _nodePtr) {
-    SVKeyFramePtr t_key = _lerpKey();
-    if(t_key) {
-        //进行刷新操作
-        _execkey(_nodePtr,t_key);
-    }
+void SVTimeLine::setRate(s32 _rate) {
+    m_rate = _rate;
+    m_maxFrame = SVTimeLine::maxFrame(m_totalTime,m_rate);
 }
 
-//
+void SVTimeLine::refreshNode(SVNodePtr _nodePtr) {
+    _execkey(_nodePtr,0.0f);
+}
+
 SVKeyFramePtr SVTimeLine::_lerpKey() {
     return nullptr;
 }
@@ -89,24 +89,8 @@ s32 SVTimeLine::_getCurKeyIndex() {
 f32 SVTimeLine::indexToTime(u32 _index){
     return _index*1.0f/m_rate;
 }
-//
-SVKeyFramePtr SVTimeLine::_preKey() {
-    if(m_keyPool.size() == 0) {
-        return m_startKey;
-    }
-    return nullptr;
-}
 
-//
-SVKeyFramePtr SVTimeLine::_nxtKey() {
-    if(m_keyPool.size() == 0) {
-        return m_endKey;
-    }
-    return nullptr;
-}
-
-void SVTimeLine::_execkey(SVNodePtr _node,SVKeyFramePtr _key) {
-    
+void SVTimeLine::_execkey(SVNodePtr _nodePtr,f32 _dt) {
 }
 
 //key索引排序
@@ -139,10 +123,6 @@ void SVTimeLine::refreshKey() {
     m_keyLock->unlock();
 }
 
-bool SVTimeLine::insertkey(s32 _index) {
-    return false;
-}
-
 void SVTimeLine::addKey(SVKeyFramePtr _key) {
     m_keyLock->lock();
     if(_key){
@@ -152,33 +132,41 @@ void SVTimeLine::addKey(SVKeyFramePtr _key) {
     m_keyLock->unlock();
 }
 
-void SVTimeLine::removeKey(s32 _uid) {
+void SVTimeLine::removeKey(s32 _index) {
     m_keyLock->lock();
     for(s32 i=0;i<m_keyPool.size();i++) {
-        if(m_keyPool[i]->getUID() == _uid) {
-            m_keyPool.remove(_uid);
-            m_keyPool.reserve(m_keyPool.size());
+        if(m_keyPool[i]->getIndex() == _index) {
+            m_keyPool.removeForce(i);
             break;
         }
     }
     m_keyLock->unlock();
 }
 
-SVKeyFramePtr SVTimeLine::getKeyFrame(s32 _uid) {
+SVKeyFramePtr SVTimeLine::getKeyFrame(s32 _index) {
     for(s32 i=0;i<m_keyPool.size();i++) {
-        if(m_keyPool[i]->getUID() == _uid) {
+        if(m_keyPool[i]->getIndex() == _index) {
             return m_keyPool[i];
         }
     }
     return nullptr;
 }
 
+bool SVTimeLine::checkKey(s32 _index) {
+    SVKeyFramePtr t_key = getKeyFrame(_index);
+    if(t_key) {
+        return true;
+    }
+    return false;
+}
+
 SVKeyFramePtr SVTimeLine::getBeginKey() {
-    return m_startKey;
+    return m_keyPool[0];
 }
 
 SVKeyFramePtr SVTimeLine::getEndKey() {
-    return m_endKey;
+    s32 i = m_keyPool.size();
+    return m_keyPool[i-1];
 }
 
 //
