@@ -679,16 +679,16 @@ bool SVGLTF::_parsePrimitive(Primitive *_primitive, RAPIDJSON_NAMESPACE::Value &
     }
     
     // Look for morph targets
-    if (_item.HasMember("targets") && _item["targets"].IsArray()) {
-        RAPIDJSON_NAMESPACE::Value &t_targets = _item["targets"];
-        for(auto iter = t_targets.MemberBegin(); iter != t_targets.MemberEnd(); ++iter){
-            SVMap<SVString, s32> targetAttribues;
-            cptr8 key = (iter->name).GetString();
-            RAPIDJSON_NAMESPACE::Value &value = iter->value;
-            targetAttribues.append(SVString(key), value.GetInt());
-            _primitive->targets.append(targetAttribues);
-        }
-    }
+//    if (_item.HasMember("targets") && _item["targets"].IsArray()) {
+//        RAPIDJSON_NAMESPACE::Value &t_targets = _item["targets"];
+//        for(auto iter = t_targets.MemberBegin(); iter != t_targets.MemberEnd(); ++iter){
+//            SVMap<SVString, s32> targetAttribues;
+//            cptr8 key = (iter->name).GetString();
+//            RAPIDJSON_NAMESPACE::Value &value = iter->value;
+//            targetAttribues.append(SVString(key), value.GetInt());
+//            _primitive->targets.append(targetAttribues);
+//        }
+//    }
     return true;
 }
 
