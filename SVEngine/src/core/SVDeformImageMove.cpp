@@ -341,8 +341,6 @@ void SVDeformImageMove::pointMove(V2 *t_data){
         it++;
     }
 
-    
-    
     //
     V2 t_targetData[m_wPointCount*m_hPointCont];
     for(s32 i=0;i< m_wPointCount*m_hPointCont;i++){
@@ -359,7 +357,7 @@ void SVDeformImageMove::pointMove(V2 *t_data){
         }
     }
     //
-    _refreshScreenRectMesh(m_pointScreen, t_targetData);
+    _refreshScreenRectMesh(t_targetData, m_pointScreen);
 }
 
 void SVDeformImageMove::_updateControl(V2 *t_data){
@@ -391,7 +389,7 @@ void SVDeformImageMove::_updateControl(V2 *t_data){
       //  if(t_point.x!=0.0&&t_point.y!=0.0){
             FVec2 point_v = FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y);
             point_v = rotateBy(-angle,point_v,t_rangleV2);
-            point_v = FVec2(point_v.x-t_point.x*_smooth,point_v.y-t_point.y*_smooth);
+            point_v = FVec2(point_v.x+t_point.x*_smooth,point_v.y+t_point.y*_smooth);
             point_v = rotateBy(angle,point_v,t_rangleV2);
             m_pIUMP->setTargetControl(point_v);
         //}
@@ -416,7 +414,7 @@ void SVDeformImageMove::_updateMesh(){
         }
     }
     //
-    _refreshScreenRectMesh(m_pointScreen, t_targetData);
+    _refreshScreenRectMesh(t_targetData,m_pointScreen );
 }
 
 //serial 序列化接口
