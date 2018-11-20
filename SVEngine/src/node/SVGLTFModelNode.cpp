@@ -454,14 +454,21 @@ void SVGLTFModelNode::update(f32 dt) {
             renderMesh->setVertexDataNum(meshData->m_vertexCount);
             renderMesh->createMesh();
             //material
-            SVMtl3DPtr t_mtl = MakeSharedPtr<SVMtl3D>(mApp);
+            SVMtl3DPtr t_mtl = nullptr;
+            if (meshData->m_pTex) {
+                t_mtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d");
+                t_mtl->setTexture(0,meshData->m_pTex);
+            }else{
+                t_mtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d_notex");
+            }
             FMat4 matrix =  m_absolutMat * meshData->m_globalTransform;
             t_mtl->setModelMatrix(matrix.get());
-            t_mtl->setTexture(0,meshData->m_pTex);
             t_mtl->setBlendEnable(true);
             t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
             t_mtl->m_ambientStrength = 0.8f;
-            t_mtl->m_ambient_color.set(0.68f, 0.68f, 0.68f, 1.0f);
+            t_mtl->m_ambient_color.set(0.8f, 0.8f, 0.8f, 1.0f);
+            t_mtl->setDiffuseLightPos(0, FVec3(1000 ,1000, 500));
+            t_mtl->setDiffuseLightColor(0, FVec3(0.9, 0.4, 0.6));
             m_pRObj->addRenderObj(renderMesh,t_mtl);
         }
     }else{

@@ -18,7 +18,7 @@ namespace sv {
         
         class SVMtl3D : public SVMtlCore {
         public:
-            SVMtl3D(SVInst *_app);
+            SVMtl3D(SVInst *_app, cptr8 _shader);
             
             SVMtl3D(SVMtl3D *_mtl);
             
@@ -27,11 +27,17 @@ namespace sv {
             virtual void reset();
             
             virtual SVMtlCorePtr clone();
+            //最多支持8个反射光源，channel 最大为7
+            void setDiffuseLightPos(u32 _channel, FVec3 _lightPos);
             
+            void setDiffuseLightColor(u32 _channel, FVec3 _lightColor);
+        protected:
             void _submitMtl(SVRendererBasePtr _render);
         public:
             FVec4 m_ambient_color;
             f32   m_ambientStrength;
+            SVArray<f32> m_diffuseLightPosPool;
+            SVArray<f32> m_diffuseLightColorPool;
         };
 
     }//!namespace mtl
