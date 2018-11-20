@@ -65,9 +65,7 @@ void SVGLTFModelNode::_loadData(){
     if (!m_model) {
         return;
     }
-    m_isFirstBoundingBox = true;
     m_renderMeshData.clear();
-    m_boundingBox.clear();
     for (s32 i = 0; i<m_model->meshes.size(); i++) {
         Mesh mesh = m_model->meshes[i];
         for (s32 j = 0; j<mesh.primitives.size(); j++) {
@@ -78,17 +76,26 @@ void SVGLTFModelNode::_loadData(){
             Accessor indicesAccessor = m_model->accessors[meshPrimitive.indices];
             BufferView bufferView = m_model->bufferViews[indicesAccessor.bufferView];
             Buffer buffer = m_model->buffers[bufferView.buffer];
-            //texture
+            //basetexture
             s32 materialID = meshPrimitive.material;
             Material material = m_model->materials[materialID];
             ParameterMap values = material.values;
-            ParameterMap::Iterator itValue = values.find("baseColorTexture");
-            if( itValue!=values.end() ) {
-                Parameter parameter = itValue->data;
+            ParameterMap::Iterator baseTexValue = values.find("baseColorTexture");
+            if( baseTexValue!=values.end() ) {
+                Parameter parameter = baseTexValue->data;
                 s32 textureIndex = parameter.TextureIndex();
                 Texture texture = m_model->textures[textureIndex];
                 Image image = m_model->images[texture.source];
                 modelMesh->m_pTex = image.texture;
+            }
+            //basecolor
+            FVec4 color;
+            color.set(1.0f, 1.0f, 1.0f, 1.0f);
+            ParameterMap::Iterator baseColorValue = values.find("baseColorFactor");
+            if( baseColorValue!=values.end() ) {
+                Parameter parameter = baseColorValue->data;
+                SVArray<f64> colorFactor = parameter.number_array;
+                color.set(colorFactor[0], colorFactor[1], colorFactor[2], colorFactor[3]);
             }
             // index
             s32 byteStride = indicesAccessor.ByteStride(bufferView);
@@ -322,15 +329,19 @@ void SVGLTFModelNode::_loadData(){
                         }
                         primitiveIt++;
                     }
-                    SVArray<V3_T0> renderVertexData;
+                    SVArray<V3_N_C_T0> renderVertexData;
                     for (s32 vi = 0; vi <t_postions.size(); vi++) {
-                        V3_T0 vertexPt;
+                        V3_N_C_T0 vertexPt;
                         vertexPt.x = t_postions[vi].x;
                         vertexPt.y = t_postions[vi].y;
                         vertexPt.z = t_postions[vi].z;
-//                        vertexPt.nx = t_normals[vi].x;
-//                        vertexPt.ny = t_normals[vi].y;
-//                        vertexPt.nz = t_normals[vi].z;
+                        vertexPt.r = (u8)(color.x*255);
+                        vertexPt.g = (u8)(color.y*255);
+                        vertexPt.b = (u8)(color.z*255);
+                        vertexPt.a = (u8)(color.w*255);
+                        vertexPt.nx = t_normals[vi].x;
+                        vertexPt.ny = t_normals[vi].y;
+                        vertexPt.nz = t_normals[vi].z;
                         if (vi < t_texcoord0s.size()) {
                             vertexPt.t0x = t_texcoord0s[vi].x;
                             vertexPt.t0y = t_texcoord0s[vi].y;
@@ -338,7 +349,7 @@ void SVGLTFModelNode::_loadData(){
                         renderVertexData.append(vertexPt);
                     }
                     SVDataSwapPtr vertexData = MakeSharedPtr<SVDataSwap>();
-                    s32 t_len = (s32) (sizeof(V3_T0) * renderVertexData.size());
+                    s32 t_len = (s32) (sizeof(V3_N_C_T0) * renderVertexData.size());
                     vertexData->writeData(renderVertexData.get(), t_len);
                     modelMesh->m_vertexCount = renderVertexData.size();
                     modelMesh->m_pRenderVertex = vertexData;
@@ -437,18 +448,27 @@ void SVGLTFModelNode::update(f32 dt) {
             renderMesh->setDrawMethod(E_DM_TRIANGLES);
             renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
             renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
-            renderMesh->setVertexType(E_VF_V3_T0);
+            renderMesh->setVertexType(E_VF_V3_N_C_T0);
             renderMesh->setIndexData(meshData->m_pRenderIndex, meshData->m_indexCount);
             renderMesh->setVertexData(meshData->m_pRenderVertex);
             renderMesh->setVertexDataNum(meshData->m_vertexCount);
             renderMesh->createMesh();
             //material
-            SVMtl3DPtr t_mtl = MakeSharedPtr<SVMtl3D>(mApp);
+            SVMtl3DPtr t_mtl = nullptr;
+            if (meshData->m_pTex) {
+                t_mtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d");
+                t_mtl->setTexture(0,meshData->m_pTex);
+            }else{
+                t_mtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d_notex");
+            }
             FMat4 matrix =  m_absolutMat * meshData->m_globalTransform;
             t_mtl->setModelMatrix(matrix.get());
-            t_mtl->setTexture(0,meshData->m_pTex);
             t_mtl->setBlendEnable(true);
             t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            t_mtl->m_ambientStrength = 0.8f;
+            t_mtl->m_ambient_color.set(0.8f, 0.8f, 0.8f, 1.0f);
+            t_mtl->setDiffuseLightPos(0, FVec3(1000 ,1000, 500));
+            t_mtl->setDiffuseLightColor(0, FVec3(0.8, 0.8, 0.8));
             m_pRObj->addRenderObj(renderMesh,t_mtl);
         }
     }else{

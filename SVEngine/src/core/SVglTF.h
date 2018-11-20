@@ -154,18 +154,6 @@ namespace sv {
             /// material
             f64 Factor() const { return number_value; }
             
-            /// Return the color of a material
-            /// Returned value is only valid if the parameter represent a texture from a
-            /// material
-//            ColorValue ColorFactor() const {
-//                return {
-//                    {// this agregate intialize the std::array object, and uses C++11 RVO.
-//                        number_array[0], number_array[1], number_array[2],
-//                        (number_array.size() > 3 ? number_array[3] : 1.0)}
-//
-//                    };
-//            }
-            
             bool operator==(const Parameter &) const;
         };
         
