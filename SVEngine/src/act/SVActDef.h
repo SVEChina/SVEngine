@@ -23,7 +23,7 @@ enum TIMELINETYPE{
 };
 
 enum MOVSTATE{
-    E_MV_ST_NULL,
+    E_MV_ST_NULL = 0,
     E_MV_ST_READY,
     E_MV_ST_PAUSE,
     E_MV_ST_PLAY
