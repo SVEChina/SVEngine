@@ -331,3 +331,8 @@ void SVMtlCore::setBlendEnable(bool _bBlendEnable){
     m_LogicParamBlend.enable = _bBlendEnable;
     m_LogicMtlFlag0 |= MTL_F0_BLEND;
 }
+
+void SVMtlCore::setDepthEnable(bool _bDepthEnable){
+    m_LogicParamDepth.enable = _bDepthEnable;
+    m_LogicMtlFlag0 |= MTL_F0_DEPTH;
+}

@@ -67,6 +67,8 @@ namespace sv {
             
             void setBlendEnable(bool _bBlendEnable);
             
+            void setDepthEnable(bool _bDepthEnable);
+            
             void setBlendState(s32 _src , s32 _dst);
             
             void reloadShader(cptr8 _shader);

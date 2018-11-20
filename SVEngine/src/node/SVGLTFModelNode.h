@@ -32,17 +32,7 @@ namespace sv {
             void destroyModel();
             
         protected:
-            void _loadData();
-            
-            void _refreshModelMatrix();
-            
-            void _refreshMeshGlobalMat(Node _node, FMat4 _mat4);
-            
             GLTFModelPtr m_model;
-            
-            SVArray<ModelMeshDataPtr>  m_renderMeshData;
-            
-            SVArray<ModelMeshDataPtr>  m_readyRenderMeshData;
             
             SVMultMeshMtlRenderObjectPtr m_pRObj;
         public:

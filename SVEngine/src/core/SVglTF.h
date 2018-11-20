@@ -462,6 +462,7 @@ namespace sv {
                 extensionsUsed.destroy();
                 extensionsRequired.destroy();
                 defaultScene = -1;
+                m_renderMeshData.destroy();
             }
             bool operator==(const GLTFModel &) const;
             
@@ -483,9 +484,9 @@ namespace sv {
             s32 defaultScene;
             SVArray<SVString> extensionsUsed;
             SVArray<SVString> extensionsRequired;
-            
             Asset asset;
         
+            SVArray<ModelMeshDataPtr>  m_renderMeshData;
         };
         
         class SVGLTF : public SVGBase{
@@ -496,7 +497,6 @@ namespace sv {
             ~SVGLTF();
             
             GLTFModelPtr loadFromFile(cptr8 _filename);
-            
         protected:
             cptr8 _base64_encode(unsigned char const *s, unsigned int len);
             
@@ -538,6 +538,12 @@ namespace sv {
             bool _parseSkin(Skin *_skin, RAPIDJSON_NAMESPACE::Value &_item);
             
             bool _parseSampler(Sampler *_sampler, RAPIDJSON_NAMESPACE::Value &_item);
+            
+            void _loadMeshData(GLTFModelPtr _model);
+            
+            void _refreshModelMatrix(GLTFModelPtr _model);
+            
+            void _refreshMeshGlobalMat(GLTFModelPtr _model, Node _node, FMat4 _mat4);
         };
         class ModelMeshData :public SVObject{
         public:
