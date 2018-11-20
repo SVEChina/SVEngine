@@ -17,7 +17,8 @@ SVMovie::SVMovie(SVInst* _app)
 :SVAniBase(_app)
 ,m_loop(false)
 ,m_accTime(0)
-,m_totalTime(30.0f){
+,m_totalTime(30.0f)
+,m_rate(30){
     m_name = "sv_movie";
     m_state = E_MV_ST_NULL;
     m_dragmaLock = MakeSharedPtr<SVLock>();
@@ -120,6 +121,10 @@ void SVMovie::setCurTime(f32 _time){
 
 f32 SVMovie::getCurTime(){
     return m_accTime;
+}
+
+void SVMovie::setRate(s32 _rate) {
+    m_rate = _rate;
 }
 
 //
