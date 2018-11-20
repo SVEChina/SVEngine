@@ -66,8 +66,6 @@ void SVGLTFModelNode::update(f32 dt) {
         m_canSelect = true;
         //
         m_aabbBox.clear();
-        //更新模型
-//        _refreshModelMatrix();
         m_pRObj->clearMesh();
         for (s32 i = 0; i<m_model->m_renderMeshData.size(); i++) {
             ModelMeshDataPtr meshData = m_model->m_renderMeshData[i];
@@ -98,10 +96,8 @@ void SVGLTFModelNode::update(f32 dt) {
             t_mtl->setModelMatrix(matrix.get());
             t_mtl->setBlendEnable(true);
             t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-            t_mtl->m_ambientStrength = 1.0f;
-            t_mtl->m_ambient_color.set(0.8f, 0.8f, 0.8f, 1.0f);
-            t_mtl->setDiffuseLightPos(0, FVec3(1000 ,1000, 500));
-            t_mtl->setDiffuseLightColor(0, FVec3(0.9, 0.9, 0.9));
+            t_mtl->setAmbientLight(1.0f, FVec3(0.6f, 0.6f, 0.6f));
+            t_mtl->setDiffuseLight(0, FVec3(800 ,800, 500), FVec3(0.78, 0.78, 0.78));
             m_pRObj->addRenderObj(renderMesh,t_mtl);
         }
     }else{

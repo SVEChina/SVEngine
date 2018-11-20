@@ -28,13 +28,12 @@ namespace sv {
             
             virtual SVMtlCorePtr clone();
             //最多支持8个反射光源，channel 最大为7
-            void setDiffuseLightPos(u32 _channel, FVec3 _lightPos);
+            void setDiffuseLight(u32 _channel, FVec3 _lightPos, FVec3 _lightColor);
             
-            void setDiffuseLightColor(u32 _channel, FVec3 _lightColor);
+            void setAmbientLight(f32 _strength, FVec3 _ambientColor);
         protected:
             void _submitMtl(SVRendererBasePtr _render);
-        public:
-            FVec4 m_ambient_color;
+            FVec3 m_ambient_color;
             f32   m_ambientStrength;
             SVArray<f32> m_diffuseLightPosPool;
             SVArray<f32> m_diffuseLightColorPool;
