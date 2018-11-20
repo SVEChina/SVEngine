@@ -11,8 +11,6 @@
 const u32 MAX_DIFFUSE_LIFHT = 8;
 SVMtl3D::SVMtl3D(SVInst *_app, cptr8 _shader)
 :SVMtlCore(_app, _shader) {
-    m_LogicParamDepth.enable = true;
-    m_LogicParamBlend.enable = true;
     m_LogicParamBlend.srcParam = GL_ONE;
     m_LogicParamBlend.dstParam = GL_ONE_MINUS_SRC_ALPHA;
     m_ambientStrength = 1.0f;
@@ -27,10 +25,6 @@ SVMtl3D::SVMtl3D(SVInst *_app, cptr8 _shader)
 
 SVMtl3D::SVMtl3D(SVMtl3D *_mtl)
 :SVMtlCore(_mtl){
-    m_LogicParamDepth.enable = _mtl->m_LogicParamDepth.enable;
-    m_LogicParamBlend.enable = _mtl->m_LogicParamBlend.enable;
-    m_LogicParamBlend.srcParam = _mtl->m_LogicParamBlend.srcParam;
-    m_LogicParamBlend.dstParam = _mtl->m_LogicParamBlend.dstParam;
     m_ambientStrength = _mtl->m_ambientStrength;
     m_ambient_color = _mtl->m_ambient_color;
     m_diffuseLightPosPool = _mtl->m_diffuseLightPosPool;
