@@ -357,29 +357,33 @@ SVRenderMeshPtr SVGeoGen::createNetGrid(SVInst* _app,s32 _num,f32 _unit) {
     //渲染数据
     s32 t_line_num = 2*(_num*2 + 1);
     s32 iDataCount = t_line_num*2;
-    V2 pVer[iDataCount];
+    V3 pVer[iDataCount];
     for(s32 j=0;j<=1;j++) {
         s32 t_base = j*2*(_num*2 + 1);
         for(s32 i=-_num;i<=_num;i++) {
             if(j == 0) {
                 //横向
                 pVer[t_base + (i+_num)*2 ].x = -_num*_unit;
-                pVer[t_base + (i+_num)*2 ].y = i*_unit;
+                pVer[t_base + (i+_num)*2 ].y = 0.0f;
+                pVer[t_base + (i+_num)*2 ].z = i*_unit;
                 pVer[t_base + (i+_num)*2 + 1].x = _num*_unit;
-                pVer[t_base + (i+_num)*2 + 1].y = i*_unit;
+                pVer[t_base + (i+_num)*2 + 1].y = 0.0f;
+                pVer[t_base + (i+_num)*2 + 1].z = i*_unit;
             } else {
                 //纵向
                 pVer[t_base + (i+_num)*2 ].x = i*_unit;
-                pVer[t_base + (i+_num)*2 ].y = -_num*_unit;
+                pVer[t_base + (i+_num)*2 ].y = 0.0f;
+                pVer[t_base + (i+_num)*2 ].z =  -_num*_unit;
                 pVer[t_base + (i+_num)*2 + 1].x = i*_unit;
-                pVer[t_base + (i+_num)*2 + 1].y = _num*_unit;
+                pVer[t_base + (i+_num)*2 + 1].y = 0.0f;
+                pVer[t_base + (i+_num)*2 + 1].z = _num*_unit;
             }
         }
     }
     //
-    pRenderMesh->setVertexType(E_VF_V2);
+    pRenderMesh->setVertexType(E_VF_V3);
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
-    t_data->writeData(pVer, sizeof(V2) * iDataCount);
+    t_data->writeData(pVer, sizeof(V3) * iDataCount);
     pRenderMesh->setVertexDataNum(iDataCount);
     pRenderMesh->setVertexData(t_data);
     pRenderMesh->setDrawMethod(E_DM_LINES);
