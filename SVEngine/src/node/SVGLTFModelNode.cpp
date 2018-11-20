@@ -468,7 +468,7 @@ void SVGLTFModelNode::update(f32 dt) {
             t_mtl->m_ambientStrength = 0.8f;
             t_mtl->m_ambient_color.set(0.8f, 0.8f, 0.8f, 1.0f);
             t_mtl->setDiffuseLightPos(0, FVec3(1000 ,1000, 500));
-            t_mtl->setDiffuseLightColor(0, FVec3(0.9, 0.4, 0.6));
+            t_mtl->setDiffuseLightColor(0, FVec3(0.8, 0.8, 0.8));
             m_pRObj->addRenderObj(renderMesh,t_mtl);
         }
     }else{
