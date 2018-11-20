@@ -64,8 +64,8 @@ void SVCoordGridNode::render(){
         //
         SVRenderObjInst::pushLineCmd(t_rs,
                                      m_rsType,
-                                     FVec3(0.0f,-50.0f*m_unit,0.0f),
-                                     FVec3(0.0f,50.0f*m_unit,0.0f),
+                                     FVec3(0.0f,0.0f,-50.0f*m_unit),
+                                     FVec3(0.0f,0.0f,50.0f*m_unit),
                                      t_mtl,
                                      "sv_coord_axis");
     }
