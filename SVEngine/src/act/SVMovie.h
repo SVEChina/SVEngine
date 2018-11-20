@@ -58,6 +58,10 @@ namespace sv {
             
             f32 getCurTime();
             
+            void setRate(s32 _rate);
+
+            s32 getRate(){ return m_rate; }
+            
             //剧本相关
             void addDragma(SVDragmaPtr _dragma);
             
@@ -94,6 +98,8 @@ namespace sv {
             f32 m_totalTime;
             
             MOVSTATE m_state;
+            
+            s32 m_rate;
             
             typedef SVArray<SVDragmaPtr> DragmaPool;
             DragmaPool m_dragmaPool;
