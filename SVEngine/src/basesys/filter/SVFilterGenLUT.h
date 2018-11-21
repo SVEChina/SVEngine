@@ -122,6 +122,8 @@ namespace sv {
                 
                 m_name=_p->m_name;
                 
+                m_data=_p->m_data;
+                
             }
             
             f32 m_brightness;
