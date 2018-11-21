@@ -54,9 +54,7 @@ void SVMovie::exit(){
 
 void SVMovie::update(f32 _dt) {
     if(m_state == E_MV_ST_PLAY) {
-        //
         m_accTime += _dt;
-        //走更新
         m_dragmaLock->lock();
         for(s32 i=0;i<m_dragmaPool.size();i++){
             m_dragmaPool[i]->update(_dt);
@@ -66,19 +64,28 @@ void SVMovie::update(f32 _dt) {
 }
 
 bool SVMovie::isEnd(){
+    if(m_accTime>m_totalTime) {
+        if(m_loop) {
+            m_accTime = 0.0f;
+            //重置
+            exit();
+            enter();
+            return false;
+        }
+        return true;
+    }
     return false;
 }
 
 void SVMovie::play() {
     m_state = E_MV_ST_PLAY;
-    //推送到action中
+    enter();
     mApp->getActionSys()->addActionUnit(THIS_TO_SHAREPTR(SVMovie));
 }
 
 void SVMovie::pause() {
     m_state = E_MV_ST_PAUSE;
     //推送到action中
-    
 }
 
 void SVMovie::stop() {
@@ -86,6 +93,7 @@ void SVMovie::stop() {
     if(m_state == E_MV_ST_PLAY || m_state == E_MV_ST_PAUSE){
         m_state = E_MV_ST_READY;
         mApp->getActionSys()->removeActionUnit(THIS_TO_SHAREPTR(SVMovie));
+        exit();
     }
 }
 
