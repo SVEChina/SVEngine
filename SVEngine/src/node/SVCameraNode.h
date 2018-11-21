@@ -24,7 +24,7 @@ namespace sv {
             
             void resetDefaultCamera();
             
-            void resetCamera(f32 w, f32 h, f32 fovy = 120.0f);
+            void resetCamera(f32 w, f32 h, f32 fovy = 60.0f);
             
             void setProjectParam(f32 _znear, f32 _zfar, f32 _fovy, f32 _aspect);
             

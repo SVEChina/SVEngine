@@ -176,12 +176,12 @@ void SVOpCreateTest::_process(f32 dt) {
     //创建逻辑场景
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
-//        //创建测试盒子®
-//        for(s32 i=0;i<50;i++){
-//            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-//            t_testBox->randomInit();
-//            t_pScene->addNode(t_testBox);
-//        }
+        //创建测试盒子®
+        for(s32 i=0;i<50;i++){
+            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+            t_testBox->randomInit();
+            t_pScene->addNode(t_testBox);
+        }
 //#ifdef SV_IOS
 //        SVSpriteNodePtr spriteNode = MakeSharedPtr<SVSpriteNode>(mApp);
 //        spriteNode->setPosition(0, 0, 1000);
