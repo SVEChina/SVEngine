@@ -38,6 +38,8 @@ namespace sv {
             
             void setUp(f32 _x, f32 _y, f32 _z);
             
+            void setPose(f32 _x, f32 _y, f32 _z);
+            
             FVec3& getDirection();
             
             f32 *getProjectMat();

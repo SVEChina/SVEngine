@@ -59,8 +59,10 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
     }
     if (_event->eventType == SV_EVENT_TYPE::EVN_T_CAMERA_OREN){
         SVCameraOrenEventPtr oren = std::dynamic_pointer_cast<SVCameraOrenEvent>(_event);
-//        SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-//        mainCamera->setDirection(oren->pitch, oren->yaw, oren->roll);
+        SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
+        mainCamera->setPose(oren->roll, oren->pitch, oren->yaw);
+//        printf("xiaofan rotation x:%f y:%f z:%f\n",oren->pitch, oren->yaw, oren->roll);
+//        mainCamera->setDirection(oren->pitch*180/3.14, oren->yaw*180/3.14, oren->roll*180/3.14);
         
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_CAMERA_MATRIX){
         SVCameraMatrixEventPtr cameraMatrix = std::dynamic_pointer_cast<SVCameraMatrixEvent>(_event);

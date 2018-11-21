@@ -103,6 +103,7 @@ void SVGLTFModelNode::update(f32 dt) {
     }else{
         m_visible = false;
     }
+    
 }
 
 void SVGLTFModelNode::render() {

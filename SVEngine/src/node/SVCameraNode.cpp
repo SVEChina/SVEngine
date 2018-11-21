@@ -118,6 +118,26 @@ void SVCameraNode::setUp(f32 _x, f32 _y, f32 _z) {
     updateCameraMat();
 }
 
+void SVCameraNode::setPose(f32 _x, f32 _y, f32 _z){
+    FMat4 rotMatX;
+    rotMatX.setIdentity();
+    rotMatX.setRotateX(_x);
+    FMat4 rotMatY;
+    rotMatY.setIdentity();
+    rotMatY.setRotateY(_y);
+    FMat4 rotMatZ;
+    rotMatZ.setIdentity();
+    rotMatZ.setRotateZ(_z);
+    FMat4 rotMat;
+    rotMat.setIdentity();
+    rotMat = rotMatZ * rotMatY * rotMatX;
+    rotMat = inverse(rotMat);
+    resetDefaultCamera();
+    m_mat_view = rotMat*m_mat_view;
+    updateViewProj();
+//    t_mat_rotZ*t_mat_rotY*t_mat_rotX
+}
+
 FVec3& SVCameraNode::getDirection(){
     return m_direction;
 }
