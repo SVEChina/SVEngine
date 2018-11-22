@@ -31,10 +31,23 @@ namespace sv {
             
             void destroyModel();
             
+            void setLight(s32 _channel, FVec3 _lightPos, FVec3 _lightColor);
+            
+            f32 getLightChannel();
+            
+            FVec3 getLightPos();
+            
+            FVec3 getLightColor();
         protected:
             GLTFModelPtr m_model;
             
             SVMultMeshMtlRenderObjectPtr m_pRObj;
+            
+            f32 m_lightChannel;
+            
+            FVec3 m_lightPos;
+            
+            FVec3 m_lightColor;
         public:
             //序列化接口
 //            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
