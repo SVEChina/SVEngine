@@ -102,6 +102,13 @@ void SVSpriteNode::setTexture(SVTEXTYPE _textype){
     m_inTexType = _textype;
 }
 
+void SVSpriteNode::setTexture(SVTexturePtr _tex){
+    if (m_pTex) {
+        m_pTex = nullptr;
+    }
+    m_pTex = _tex;
+}
+
 void SVSpriteNode::setMesh(SVRenderMeshPtr _mesh){
     if (_mesh) {
         m_pMesh = _mesh;

@@ -44,6 +44,8 @@ namespace sv {
             
             virtual void setTexture(SVTEXTYPE _textype);
             
+            virtual void setTexture(SVTexturePtr _tex);
+            
             void setMesh(SVRenderMeshPtr _mesh);
             
             //序列化接口
