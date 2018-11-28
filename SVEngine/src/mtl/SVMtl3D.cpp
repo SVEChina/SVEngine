@@ -55,9 +55,33 @@ void SVMtl3D::setDiffuseLight(u32 _channel, FVec3 _lightPos, FVec3 _lightColor){
     m_diffuseLightColorPool[3*_channel + 2] = _lightColor.z;
 }
 
+FVec3 SVMtl3D::getDiffuseLightColor(u32 _channel){
+    FVec3 lightColor;
+    lightColor.x = m_diffuseLightColorPool[3*_channel + 0];
+    lightColor.y = m_diffuseLightColorPool[3*_channel + 1];
+    lightColor.z = m_diffuseLightColorPool[3*_channel + 2];
+    return lightColor;
+}
+
+FVec3 SVMtl3D::getDiffuseLightPos(u32 _channel){
+    FVec3 lightPos;
+    lightPos.x = m_diffuseLightPosPool[3*_channel + 0];
+    lightPos.y = m_diffuseLightPosPool[3*_channel + 1];
+    lightPos.z = m_diffuseLightPosPool[3*_channel + 2];
+    return lightPos;
+}
+
 void SVMtl3D::setAmbientLight(f32 _strength, FVec3 _ambientColor){
     m_ambientStrength = _strength;
     m_ambient_color = _ambientColor;
+}
+
+f32 SVMtl3D::getAmbientLightStrength(){
+    return m_ambientStrength;
+}
+
+FVec3 SVMtl3D::getAmbientLightColor(){
+    return m_ambient_color;
 }
 
 void SVMtl3D::_submitMtl(SVRendererBasePtr _render){
