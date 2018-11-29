@@ -29,6 +29,7 @@
 #include "../mtl/SVTexMgr.h"
 #include "../base/SVVec2.h"
 #include "../node/SVCameraNode.h"
+#include "../node/SVNode.h"
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectST.h"
 #include "../core/SVMathHelper.h"
@@ -92,9 +93,11 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         //设置该fbo的矩阵关系
         SVCameraNode t_camera(mApp);
         t_camera.resetCamera(m_tt_w, m_tt_h,120.0f);
+        
         m_fbo->setLink(true);
         m_fbo->setProjMat(t_camera.getProjectMatObj());
         m_fbo->setViewMat(t_camera.getViewMatObj());
+       
         //
         m_passDeform = MakeSharedPtr<SVPass>();
         m_passDeform->setMtl(m_pMtlBg);
@@ -105,11 +108,11 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passPoint = MakeSharedPtr<SVPass>();
         SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dcolor");
         t_mtl->setBlendEnable(false);
-        //t_mtl->setModelMatrix(m_absolutMat.get());
+        t_mtl->setModelMatrix(t_camera.getAbsoluteMat());
         t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         t_mtl->setTexcoordFlip(1.0, -1.0);
         t_mtl->setBlendEnable(true);
-       // t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
  
         m_passPoint->setMtl(t_mtl);
         m_passPoint->setMesh(m_pMeshPoint);
