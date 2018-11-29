@@ -91,40 +91,40 @@ FVec2 SVImageUsingMove::MLS(const FVec2& t){
     iter_w=m_weightArray.begin();
     iter_target=m_targetArray.begin();
     //
-    while(iter_control!=m_controlArray.end()){
-        f64 P[2]={iter_control->x-pc.x,iter_control->y-pc.y};
-        f64 PT[2][1];
-        PT[0][0]=iter_control->x-pc.x;
-        PT[1][0]=iter_control->y-pc.y;
-        f64 Q[2]={iter_target->x-qc.x,iter_target->y-qc.y};
-        f64 T[2][2];
-
-        T[0][0]=PT[0][0]*P[0];
-        T[0][1]=PT[0][0]*P[1];
-        T[1][0]=PT[1][0]*P[0];
-        T[1][1]=PT[1][0]*P[1];
-
-        for(s32 i=0;i<2;i++) {
-            for(s32 j=0;j<2;j++){
-                A[i][j]+=(*iter_w)*T[i][j];
-            }
-        }
-        
-        T[0][0]=PT[0][0]*Q[0];
-        T[0][1]=PT[0][0]*Q[1];
-        T[1][0]=PT[1][0]*Q[0];
-        T[1][1]=PT[1][0]*Q[1];
-
-        for(s32 i=0;i<2;i++) {
-            for(s32 j=0;j<2;j++){
-                B[i][j]+=(*iter_w)*T[i][j];
-            }
-        }
-        
-        iter_control++;
-        iter_w++;
-        iter_target++;
-    }
+//    while(iter_control!=m_controlArray.end()){
+//        f64 P[2]={iter_control->x-pc.x,iter_control->y-pc.y};
+//        f64 PT[2][1];
+//        PT[0][0]=iter_control->x-pc.x;
+//        PT[1][0]=iter_control->y-pc.y;
+//        f64 Q[2]={iter_target->x-qc.x,iter_target->y-qc.y};
+//        f64 T[2][2];
+//
+//        T[0][0]=PT[0][0]*P[0];
+//        T[0][1]=PT[0][0]*P[1];
+//        T[1][0]=PT[1][0]*P[0];
+//        T[1][1]=PT[1][0]*P[1];
+//
+//        for(s32 i=0;i<2;i++) {
+//            for(s32 j=0;j<2;j++){
+//                A[i][j]+=(*iter_w)*T[i][j];
+//            }
+//        }
+//        
+//        T[0][0]=PT[0][0]*Q[0];
+//        T[0][1]=PT[0][0]*Q[1];
+//        T[1][0]=PT[1][0]*Q[0];
+//        T[1][1]=PT[1][0]*Q[1];
+//
+//        for(s32 i=0;i<2;i++) {
+//            for(s32 j=0;j<2;j++){
+//                B[i][j]+=(*iter_w)*T[i][j];
+//            }
+//        }
+//        
+//        iter_control++;
+//        iter_w++;
+//        iter_target++;
+//    }
 
     f64 det=A[0][0]*A[1][1]-A[0][1]*A[1][0];
     if(det<0.0000001){

@@ -103,12 +103,13 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passDeform->setOutTex(_texout);
         
         m_passPoint = MakeSharedPtr<SVPass>();
-        SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d");
+        SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dcolor");
         t_mtl->setBlendEnable(false);
+        //t_mtl->setModelMatrix(m_absolutMat.get());
         t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         t_mtl->setTexcoordFlip(1.0, -1.0);
         t_mtl->setBlendEnable(true);
-        t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+       // t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
  
         m_passPoint->setMtl(t_mtl);
         m_passPoint->setMesh(m_pMeshPoint);
@@ -466,7 +467,7 @@ void SVDeformImageMove::reset(){
 }
 
 void SVDeformImageMove::updatePointMesh( V2* _facepoint){
-    V2_T0 verts[636];
+    V2_C_T0 verts[636];
     for(s32 i=0;i<106;i++){
         f32 _inx=_facepoint[i].x;
         f32 _iny=_facepoint[i].y;
@@ -477,38 +478,62 @@ void SVDeformImageMove::updatePointMesh( V2* _facepoint){
         verts[i*6].y = -0.5f * m_inh+_y;
         verts[i*6].t0x = 0.0;
         verts[i*6].t0y = 0.0;
+        verts[i*6].r = 255;
+        verts[i*6].g = 255;
+        verts[i*6].b = 255;
+        verts[i*6].a = 255;
         
         verts[i*6+1].x = 0.5f * m_inw+_x;
         verts[i*6+1].y = -0.5f * m_inh+_y;
         verts[i*6+1].t0x = 1.0;
         verts[i*6+1].t0y = 0.0;
+        verts[i*6+1].r = 255;
+        verts[i*6+1].g = 255;
+        verts[i*6+1].b = 255;
+        verts[i*6+1].a = 255;
         
         verts[i*6+2].x = -0.5f * m_inw+_x;
         verts[i*6+2].y = 0.5f * m_inh+_y;
         verts[i*6+2].t0x = 0.0;
         verts[i*6+2].t0y = 1.0;
+        verts[i*6+2].r = 255;
+        verts[i*6+2].g = 255;
+        verts[i*6+2].b = 255;
+        verts[i*6+2].a = 255;
         
         verts[i*6+3].x = -0.5f * m_inw+_x;
         verts[i*6+3].y = 0.5f * m_inh+_y;
         verts[i*6+3].t0x = 0.0;
         verts[i*6+3].t0y = 1.0;
+        verts[i*6+3].r = 255;
+        verts[i*6+3].g = 255;
+        verts[i*6+3].b = 255;
+        verts[i*6+3].a = 255;
         
         verts[i*6+4].x = 0.5f * m_inw+_x;
         verts[i*6+4].y = 0.5f * m_inh+_y;
         verts[i*6+4].t0x = 1.0;
         verts[i*6+4].t0y = 1.0;
+        verts[i*6+4].r = 255;
+        verts[i*6+4].g = 255;
+        verts[i*6+4].b = 255;
+        verts[i*6+4].a = 255;
         
         verts[i*6+5].x = 0.5f * m_inw+_x;
         verts[i*6+5].y = -0.5f * m_inh+_y;
         verts[i*6+5].t0x = 1.0;
         verts[i*6+5].t0y = 0.0;
+        verts[i*6+5].r = 255;
+        verts[i*6+5].g = 255;
+        verts[i*6+5].b = 255;
+        verts[i*6+5].a = 255;
         //
     }
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
-    t_data->writeData(&verts[0], sizeof(V2_T0) * 636);
+    t_data->writeData(&verts[0], sizeof(V2_C_T0) * 636);
     m_pMeshPoint->setVertexDataNum(636);
     m_pMeshPoint->setVertexData(t_data);
-    m_pMeshPoint->setVertexType(E_VF_V2_T0);
+    m_pMeshPoint->setVertexType(E_VF_V2_C_T0);
     m_pMeshPoint->setDrawMethod(E_DM_TRIANGLES);
     m_pMeshPoint->createMesh();
 }
