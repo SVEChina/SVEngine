@@ -84,6 +84,10 @@ void SVSpriteNode::setMaterial(SVMtlCorePtr _mtl){
     m_pMtl = _mtl;
 }
 
+SVMtlCorePtr SVSpriteNode::getMaterial(){
+    return m_pMtl;
+}
+
 void SVSpriteNode::setTexture(cptr8 _path){
     if(m_pTexName!=_path) {
         m_pTexName = _path;
@@ -100,6 +104,13 @@ cptr8 SVSpriteNode::getTexturePath(){
 
 void SVSpriteNode::setTexture(SVTEXTYPE _textype){
     m_inTexType = _textype;
+}
+
+void SVSpriteNode::setTexture(SVTexturePtr _tex){
+    if (m_pTex) {
+        m_pTex = nullptr;
+    }
+    m_pTex = _tex;
 }
 
 void SVSpriteNode::setMesh(SVRenderMeshPtr _mesh){

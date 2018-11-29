@@ -11,7 +11,7 @@
 
 #include "SVMtlCore.h"
 
-//2D动画材质
+//3D材质
 namespace sv {
     
     namespace mtl{
@@ -30,7 +30,15 @@ namespace sv {
             //最多支持8个反射光源，channel 最大为7
             void setDiffuseLight(u32 _channel, FVec3 _lightPos, FVec3 _lightColor);
             
+            FVec3 getDiffuseLightColor(u32 _channel);
+            
+            FVec3 getDiffuseLightPos(u32 _channel);
+            
             void setAmbientLight(f32 _strength, FVec3 _ambientColor);
+            
+            f32 getAmbientLightStrength();
+            
+            FVec3 getAmbientLightColor();
         protected:
             void _submitMtl(SVRendererBasePtr _render);
             FVec3 m_ambient_color;

@@ -38,11 +38,15 @@ namespace sv {
             
             void setMaterial(SVMtlCorePtr _mtl);
             
+            SVMtlCorePtr getMaterial();
+            
             cptr8 getTexturePath();
             
             virtual void setTexture(cptr8 _path);
             
             virtual void setTexture(SVTEXTYPE _textype);
+            
+            virtual void setTexture(SVTexturePtr _tex);
             
             void setMesh(SVRenderMeshPtr _mesh);
             

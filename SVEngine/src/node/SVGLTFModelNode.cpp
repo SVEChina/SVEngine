@@ -26,9 +26,6 @@ SVGLTFModelNode::SVGLTFModelNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVGLTFModelNode";
     m_model = nullptr;
-    m_lightChannel = 0;
-    m_lightPos = FVec3(0.0f, 0.0f, 0.0f);
-    m_lightColor = FVec3(0.0f, 0.0f, 0.0f);
 }
 
 SVGLTFModelNode::~SVGLTFModelNode() {
@@ -99,9 +96,9 @@ void SVGLTFModelNode::update(f32 dt) {
             t_mtl->setModelMatrix(matrix.get());
             t_mtl->setBlendEnable(true);
             t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-            t_mtl->setAmbientLight(1.0f, FVec3(0.6f, 0.6f, 0.6f));
-            t_mtl->setDiffuseLight(m_lightChannel, m_lightPos, m_lightColor);
+            t_mtl->setDiffuseLight(0, FVec3(0, 800, 500), FVec3(0.8, 0.8, 0.8));
             m_pRObj->addRenderObj(renderMesh,t_mtl);
+            m_pMtl = t_mtl;
         }
     }else{
         m_visible = false;
@@ -121,22 +118,8 @@ void SVGLTFModelNode::render() {
     SVNode::render();
 }
 
-void SVGLTFModelNode::setLight(s32 _channel, FVec3 _lightPos, FVec3 _lightColor){
-    m_lightChannel = _channel;
-    m_lightPos = _lightPos;
-    m_lightColor = _lightColor;
-}
-
-f32 SVGLTFModelNode::getLightChannel(){
-    return m_lightChannel;
-}
-
-FVec3 SVGLTFModelNode::getLightPos(){
-    return m_lightPos;
-}
-
-FVec3 SVGLTFModelNode::getLightColor(){
-    return m_lightColor;
+SVMtlCorePtr SVGLTFModelNode::getMaterial(){
+    return m_pMtl;
 }
 
 /*
