@@ -476,60 +476,76 @@ void SVDeformImageMove::updatePointMesh( V2* _facepoint){
         f32 _iny=_facepoint[i].y;
         f32 _x=_inx-m_tt_w/2;
         f32 _y=_iny-m_tt_h/2;
+        u8 t_r=255;
+        u8 t_g=255;
+        u8 t_b=255;
+        u8 t_a=255;
+        SVMap<u32,V2>::Iterator it= m_param->m_pointMap.begin();
+        while (it!=m_param->m_pointMap.end()) {
+            u32 t_postion=it->key;
+            V2 t_point=it->data;
+            if(i==t_postion&&(t_point.x!=0.0||t_point.y!=0.0)){
+                t_r=255;
+                t_g=0;
+                t_b=0;
+                t_a=255;
+            }
+            it++;
+        }
         //   V2_T0 verts[4];
         verts[i*6].x = -0.5f * m_inw+_x;
         verts[i*6].y = -0.5f * m_inh+_y;
         verts[i*6].t0x = 0.0;
         verts[i*6].t0y = 0.0;
-        verts[i*6].r = 255;
-        verts[i*6].g = 255;
-        verts[i*6].b = 255;
-        verts[i*6].a = 255;
+        verts[i*6].r = t_r;
+        verts[i*6].g = t_g;
+        verts[i*6].b = t_b;
+        verts[i*6].a = t_a;
         
         verts[i*6+1].x = 0.5f * m_inw+_x;
         verts[i*6+1].y = -0.5f * m_inh+_y;
         verts[i*6+1].t0x = 1.0;
         verts[i*6+1].t0y = 0.0;
-        verts[i*6+1].r = 255;
-        verts[i*6+1].g = 255;
-        verts[i*6+1].b = 255;
-        verts[i*6+1].a = 255;
+        verts[i*6+1].r = t_r;
+        verts[i*6+1].g = t_g;
+        verts[i*6+1].b = t_b;
+        verts[i*6+1].a = t_a;
         
         verts[i*6+2].x = -0.5f * m_inw+_x;
         verts[i*6+2].y = 0.5f * m_inh+_y;
         verts[i*6+2].t0x = 0.0;
         verts[i*6+2].t0y = 1.0;
-        verts[i*6+2].r = 255;
-        verts[i*6+2].g = 255;
-        verts[i*6+2].b = 255;
-        verts[i*6+2].a = 255;
+        verts[i*6+2].r = t_r;
+        verts[i*6+2].g = t_g;
+        verts[i*6+2].b = t_b;
+        verts[i*6+2].a = t_a;
         
         verts[i*6+3].x = -0.5f * m_inw+_x;
         verts[i*6+3].y = 0.5f * m_inh+_y;
         verts[i*6+3].t0x = 0.0;
         verts[i*6+3].t0y = 1.0;
-        verts[i*6+3].r = 255;
-        verts[i*6+3].g = 255;
-        verts[i*6+3].b = 255;
-        verts[i*6+3].a = 255;
+        verts[i*6+3].r = t_r;
+        verts[i*6+3].g = t_g;
+        verts[i*6+3].b = t_b;
+        verts[i*6+3].a = t_a;
         
         verts[i*6+4].x = 0.5f * m_inw+_x;
         verts[i*6+4].y = 0.5f * m_inh+_y;
         verts[i*6+4].t0x = 1.0;
         verts[i*6+4].t0y = 1.0;
-        verts[i*6+4].r = 255;
-        verts[i*6+4].g = 255;
-        verts[i*6+4].b = 255;
-        verts[i*6+4].a = 255;
+        verts[i*6+4].r = t_r;
+        verts[i*6+4].g = t_g;
+        verts[i*6+4].b = t_b;
+        verts[i*6+4].a = t_a;
         
         verts[i*6+5].x = 0.5f * m_inw+_x;
         verts[i*6+5].y = -0.5f * m_inh+_y;
         verts[i*6+5].t0x = 1.0;
         verts[i*6+5].t0y = 0.0;
-        verts[i*6+5].r = 255;
-        verts[i*6+5].g = 255;
-        verts[i*6+5].b = 255;
-        verts[i*6+5].a = 255;
+        verts[i*6+5].r = t_r;
+        verts[i*6+5].g = t_g;
+        verts[i*6+5].b = t_b;
+        verts[i*6+5].a = t_a;
         //
     }
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
