@@ -39,7 +39,6 @@ void SVGLTFModelNode::setModel(GLTFModelPtr _model) {
     }
     if (m_model) {
         destroyModel();
-        
     }
     m_model = _model;
     if(!m_pRObj){
@@ -90,7 +89,6 @@ void SVGLTFModelNode::update(f32 dt) {
             }else{
                 t_mtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d_notex");
             }
-            t_mtl->setBlendEnable(true);
             t_mtl->setDepthEnable(true);
             FMat4 matrix =  m_absolutMat * meshData->m_globalTransform;
             t_mtl->setModelMatrix(matrix.get());
@@ -98,12 +96,10 @@ void SVGLTFModelNode::update(f32 dt) {
             t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
             t_mtl->setDiffuseLight(0, FVec3(0, 800, 500), FVec3(0.8, 0.8, 0.8));
             m_pRObj->addRenderObj(renderMesh,t_mtl);
-            m_pMtl = t_mtl;
         }
     }else{
         m_visible = false;
     }
-    
 }
 
 void SVGLTFModelNode::render() {
