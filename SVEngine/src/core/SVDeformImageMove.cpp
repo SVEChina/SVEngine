@@ -29,6 +29,7 @@
 #include "../mtl/SVTexMgr.h"
 #include "../base/SVVec2.h"
 #include "../node/SVCameraNode.h"
+#include "../node/SVNode.h"
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectST.h"
 #include "../core/SVMathHelper.h"
@@ -92,9 +93,11 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         //设置该fbo的矩阵关系
         SVCameraNode t_camera(mApp);
         t_camera.resetCamera(m_tt_w, m_tt_h,120.0f);
+        
         m_fbo->setLink(true);
         m_fbo->setProjMat(t_camera.getProjectMatObj());
         m_fbo->setViewMat(t_camera.getViewMatObj());
+       
         //
         m_passDeform = MakeSharedPtr<SVPass>();
         m_passDeform->setMtl(m_pMtlBg);
@@ -103,8 +106,9 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passDeform->setOutTex(_texout);
         
         m_passPoint = MakeSharedPtr<SVPass>();
-        SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d");
+        SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dcolor");
         t_mtl->setBlendEnable(false);
+        t_mtl->setModelMatrix(t_camera.getAbsoluteMat());
         t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         t_mtl->setTexcoordFlip(1.0, -1.0);
         t_mtl->setBlendEnable(true);
@@ -466,49 +470,89 @@ void SVDeformImageMove::reset(){
 }
 
 void SVDeformImageMove::updatePointMesh( V2* _facepoint){
-    V2_T0 verts[636];
+    V2_C_T0 verts[636];
     for(s32 i=0;i<106;i++){
         f32 _inx=_facepoint[i].x;
         f32 _iny=_facepoint[i].y;
         f32 _x=_inx-m_tt_w/2;
         f32 _y=_iny-m_tt_h/2;
+        u8 t_r=255;
+        u8 t_g=255;
+        u8 t_b=255;
+        u8 t_a=255;
+        SVMap<u32,V2>::Iterator it= m_param->m_pointMap.begin();
+        while (it!=m_param->m_pointMap.end()) {
+            u32 t_postion=it->key;
+            V2 t_point=it->data;
+            if(i==t_postion&&(t_point.x!=0.0||t_point.y!=0.0)){
+                t_r=255;
+                t_g=0;
+                t_b=0;
+                t_a=255;
+            }
+            it++;
+        }
         //   V2_T0 verts[4];
         verts[i*6].x = -0.5f * m_inw+_x;
         verts[i*6].y = -0.5f * m_inh+_y;
         verts[i*6].t0x = 0.0;
         verts[i*6].t0y = 0.0;
+        verts[i*6].r = t_r;
+        verts[i*6].g = t_g;
+        verts[i*6].b = t_b;
+        verts[i*6].a = t_a;
         
         verts[i*6+1].x = 0.5f * m_inw+_x;
         verts[i*6+1].y = -0.5f * m_inh+_y;
         verts[i*6+1].t0x = 1.0;
         verts[i*6+1].t0y = 0.0;
+        verts[i*6+1].r = t_r;
+        verts[i*6+1].g = t_g;
+        verts[i*6+1].b = t_b;
+        verts[i*6+1].a = t_a;
         
         verts[i*6+2].x = -0.5f * m_inw+_x;
         verts[i*6+2].y = 0.5f * m_inh+_y;
         verts[i*6+2].t0x = 0.0;
         verts[i*6+2].t0y = 1.0;
+        verts[i*6+2].r = t_r;
+        verts[i*6+2].g = t_g;
+        verts[i*6+2].b = t_b;
+        verts[i*6+2].a = t_a;
         
         verts[i*6+3].x = -0.5f * m_inw+_x;
         verts[i*6+3].y = 0.5f * m_inh+_y;
         verts[i*6+3].t0x = 0.0;
         verts[i*6+3].t0y = 1.0;
+        verts[i*6+3].r = t_r;
+        verts[i*6+3].g = t_g;
+        verts[i*6+3].b = t_b;
+        verts[i*6+3].a = t_a;
         
         verts[i*6+4].x = 0.5f * m_inw+_x;
         verts[i*6+4].y = 0.5f * m_inh+_y;
         verts[i*6+4].t0x = 1.0;
         verts[i*6+4].t0y = 1.0;
+        verts[i*6+4].r = t_r;
+        verts[i*6+4].g = t_g;
+        verts[i*6+4].b = t_b;
+        verts[i*6+4].a = t_a;
         
         verts[i*6+5].x = 0.5f * m_inw+_x;
         verts[i*6+5].y = -0.5f * m_inh+_y;
         verts[i*6+5].t0x = 1.0;
         verts[i*6+5].t0y = 0.0;
+        verts[i*6+5].r = t_r;
+        verts[i*6+5].g = t_g;
+        verts[i*6+5].b = t_b;
+        verts[i*6+5].a = t_a;
         //
     }
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
-    t_data->writeData(&verts[0], sizeof(V2_T0) * 636);
+    t_data->writeData(&verts[0], sizeof(V2_C_T0) * 636);
     m_pMeshPoint->setVertexDataNum(636);
     m_pMeshPoint->setVertexData(t_data);
-    m_pMeshPoint->setVertexType(E_VF_V2_T0);
+    m_pMeshPoint->setVertexType(E_VF_V2_C_T0);
     m_pMeshPoint->setDrawMethod(E_DM_TRIANGLES);
     m_pMeshPoint->createMesh();
 }
