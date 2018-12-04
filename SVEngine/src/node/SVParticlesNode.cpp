@@ -505,11 +505,26 @@ void SVParticlesNode::testRandomPos(){
 
 void SVParticlesNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                              RAPIDJSON_NAMESPACE::Value &_objValue) {
-    
+    //粒子节点属性
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    //节点属性部分
+    RAPIDJSON_NAMESPACE::Value nodeObj(RAPIDJSON_NAMESPACE::kObjectType);
+    _toJsonData(_allocator, nodeObj);
+    locationObj.AddMember("node", nodeObj, _allocator);
+    //粒子属性部分
+    if(m_pParticles){
+        m_pParticles->toJSON(_allocator,locationObj);
+    }
+    _objValue.AddMember("SVParticlesNode", locationObj, _allocator);
 }
 
 void SVParticlesNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
-    
+    if (item.HasMember("node") && item["node"].IsObject()) {
+        _fromJsonData(item["node"]);
+    }
+    if(m_pParticles){
+        m_pParticles->fromJSON(item);
+    }
 }
 
 //********************************* Clone **************************************

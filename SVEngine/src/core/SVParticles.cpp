@@ -1280,10 +1280,9 @@ void SVParticles::create_billboard_particles(V3_PARTICLE *vertex,const FMat4 &mo
 			mul(dyc,dy,c);
 			mul(dys,dy,s);
 		#endif
-		
+		//
 		const u16 *orientation = orientations[p.orientation];
 		u32 color = (65535 - Math::round(p.life * p.ilife)) << 16;
-		
 		// v[0].xyz = p.position - dxc + dys
 		// v[1].xyz = p.position - dxs - dyc
 		// v[2].xyz = p.position + dxc - dys
@@ -1478,7 +1477,6 @@ void SVParticles::create_point_particles(V3_PARTICLE *vertex,const FMat4 &modelv
 		
 		const u16 *orientation = orientations[p.orientation];
 		u32 color = (65535 - Math::round(p.life * p.ilife)) << 16;
-		
 		// v[0].xyz = p.position - dx - dy
 		// v[1].xyz = p.position + dx - dy
 		// v[2].xyz = p.position + dx + dy
@@ -2306,7 +2304,6 @@ f32 SVParticles::getGrowthSpread() const {
 }
 
 //*********************************** Forces *******************************************
-
 void SVParticles::setGravity(const FVec3 &g) {
 	gravity = g;
 	update_bounds();
@@ -2539,7 +2536,6 @@ s32 SVParticles::getNoiseSize(s32 num) const {
 //}
 
 //************************************ Deflectors ******************************************
-
 s32 SVParticles::addDeflector() {
     Deflector &d = deflectors.append();
     d.transform = FMat4_identity;
@@ -2552,8 +2548,9 @@ s32 SVParticles::addDeflector() {
 }
 
 void SVParticles::removeDeflector(s32 num) {
-    assert(num >= 0 && num < deflectors.size() && "SVParticles::removeDeflector(): bad deflector number");
-    deflectors.removeForce(num);
+    if(num >= 0 && num < deflectors.size()) {
+        deflectors.removeForce(num);
+    }
 }
 
 s32 SVParticles::getNumDeflectors() const {
@@ -2561,9 +2558,11 @@ s32 SVParticles::getNumDeflectors() const {
 }
 
 void SVParticles::setDeflectorType(s32 num,s32 type) {
-	assert(num >= 0 && num < deflectors.size() && "SVParticles::setDeflectorType(): bad deflector number");
-	assert(type >= DEFLECTOR_REFLECTOR && type <= DEFLECTOR_CLIPPER && "SVParticles::setDeflectorType(): bad deflector type");
-	deflectors[num].type = type;
+    if(num >= 0 && num < deflectors.size()) {
+        if(type >= DEFLECTOR_REFLECTOR && type <= DEFLECTOR_CLIPPER) {
+            deflectors[num].type = type;
+        }
+    }
 }
 
 s32 SVParticles::getDeflectorType(s32 num) const {
@@ -2626,11 +2625,116 @@ f32 SVParticles::getDeflectorRoughness(s32 num) const {
 //序列化接口
 void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                           RAPIDJSON_NAMESPACE::Value &_objValue) {
-     
+
+    RAPIDJSON_NAMESPACE::Value baseObj(RAPIDJSON_NAMESPACE::kObjectType);
+    baseObj.AddMember("base_type", type, _allocator);
+    baseObj.AddMember("base_warm", warming, _allocator);
+    baseObj.AddMember("base_depthsort", depth_sort, _allocator);
+    baseObj.AddMember("base_varx", variation_x, _allocator);
+    baseObj.AddMember("base_vary", variation_y, _allocator);
+    baseObj.AddMember("base_atlas", texture_atlas, _allocator);
+    baseObj.AddMember("base_intersection", intersection, _allocator);
+    baseObj.AddMember("base_collision", collision, _allocator);
+    baseObj.AddMember("base_culling", culling, _allocator);
+    baseObj.AddMember("base_spawn_rate", spawn_rate, _allocator);
+    baseObj.AddMember("base_spawn_scale", spawn_scale, _allocator);
+    baseObj.AddMember("base_spawn_threshold", spawn_threshold, _allocator);
+    baseObj.AddMember("base_delay", delay_time, _allocator);
+    baseObj.AddMember("base_period", period_time, _allocator);
+    baseObj.AddMember("base_duration", duration_time, _allocator);
+    _objValue.AddMember("base", baseObj, _allocator);
+    //
+    RAPIDJSON_NAMESPACE::Value dynObj(RAPIDJSON_NAMESPACE::kObjectType);
+    dynObj.AddMember("dyn_delay_mean", delay_mean, _allocator);
+    dynObj.AddMember("dyn_delay_spread", delay_spread, _allocator);
+    dynObj.AddMember("dyn_period_mean", period_mean, _allocator);
+    dynObj.AddMember("dyn_period_spread", period_spread, _allocator);
+    dynObj.AddMember("dyn_duration_mean", duration_mean, _allocator);
+    dynObj.AddMember("dyn_duration_spread", duration_spread, _allocator);
+    dynObj.AddMember("dyn_life_mean", life_mean, _allocator);
+    dynObj.AddMember("dyn_life_spread", life_spread, _allocator);
+    dynObj.AddMember("dyn_velocity_mean", velocity_mean, _allocator);
+    dynObj.AddMember("dyn_velocity_spread", velocity_spread, _allocator);
+    dynObj.AddMember("dyn_angle_mean", angle_mean, _allocator);
+    dynObj.AddMember("dyn_angle_spread", angle_spread, _allocator);
+    dynObj.AddMember("dyn_rotation_mean", rotation_mean, _allocator);
+    dynObj.AddMember("dyn_rotation_spread", rotation_spread, _allocator);
+    dynObj.AddMember("dyn_radius_mean", radius_mean, _allocator);
+    dynObj.AddMember("dyn_radius_spread", radius_spread, _allocator);
+    dynObj.AddMember("dyn_growth_mean", growth_mean, _allocator);
+    dynObj.AddMember("dyn_growth_spread", growth_spread, _allocator);
+    _objValue.AddMember("dyn", dynObj, _allocator);
+    //
+    RAPIDJSON_NAMESPACE::Value phyObj(RAPIDJSON_NAMESPACE::kObjectType);
+    phyObj.AddMember("phy_grave_x", gravity.x, _allocator);
+    phyObj.AddMember("phy_grave_y", gravity.y, _allocator);
+    phyObj.AddMember("phy_grave_z", gravity.z, _allocator);
+    phyObj.AddMember("phy_mass", world_mass, _allocator);
+    phyObj.AddMember("phy_imass", world_imass, _allocator);
+    phyObj.AddMember("phy_stretch", length_stretch, _allocator);
+    phyObj.AddMember("phy_linear_damp", linear_damping, _allocator);
+    phyObj.AddMember("phy_angular_damp", angular_damping, _allocator);
+    phyObj.AddMember("phy_grow_damp", growth_damping, _allocator);
+    phyObj.AddMember("phy_restitution", restitution, _allocator);
+    phyObj.AddMember("phy_rouughness", roughness, _allocator);
+    _objValue.AddMember("phy", phyObj, _allocator);
+    //
+    RAPIDJSON_NAMESPACE::Value emitObj(RAPIDJSON_NAMESPACE::kObjectType);
+    emitObj.AddMember("emit_type", emitter_type, _allocator);
+    emitObj.AddMember("emit_enable", emitter_enabled, _allocator);
+    emitObj.AddMember("emit_base", emitter_based, _allocator);
+    emitObj.AddMember("emit_shift", emitter_shift, _allocator);
+    emitObj.AddMember("emit_continuous", emitter_continuous, _allocator);
+    emitObj.AddMember("emit_seq", emitter_sequence, _allocator);
+    emitObj.AddMember("emit_limit", emitter_limit, _allocator);
+    emitObj.AddMember("emit_size_x", emitter_size.x, _allocator);
+    emitObj.AddMember("emit_size_y", emitter_size.y, _allocator);
+    emitObj.AddMember("emit_size_z", emitter_size.z, _allocator);
+    emitObj.AddMember("emit_dir_x", emitter_direction.x, _allocator);
+    emitObj.AddMember("emit_dir_y", emitter_direction.y, _allocator);
+    emitObj.AddMember("emit_dir_z", emitter_direction.z, _allocator);
+    emitObj.AddMember("emit_spread_x", emitter_spread.x, _allocator);
+    emitObj.AddMember("emit_spread_y", emitter_spread.y, _allocator);
+    emitObj.AddMember("emit_spread_z", emitter_spread.z, _allocator);
+    emitObj.AddMember("emit_velocity_x", emitter_velocity.x, _allocator);
+    emitObj.AddMember("emit_velocity_y", emitter_velocity.y, _allocator);
+    emitObj.AddMember("emit_velocity_z", emitter_velocity.z, _allocator);
+    _objValue.AddMember("emit", emitObj, _allocator);
 }
 
 void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
-    
+    if (item.HasMember("base") && item["base"].IsObject()) {
+        RAPIDJSON_NAMESPACE::Value baseobj = item["base"].GetObject();
+        ///baseobj["base_type"].GetChar();
+        //baseobj["base_type"].GetInt();
+//        baseObj.AddMember("base_type", type, _allocator);
+//        baseObj.AddMember("base_warm", warming, _allocator);
+//        baseObj.AddMember("base_depthsort", depth_sort, _allocator);
+//        baseObj.AddMember("base_varx", variation_x, _allocator);
+//        baseObj.AddMember("base_vary", variation_y, _allocator);
+//        baseObj.AddMember("base_atlas", texture_atlas, _allocator);
+//        baseObj.AddMember("base_intersection", intersection, _allocator);
+//        baseObj.AddMember("base_collision", collision, _allocator);
+//        baseObj.AddMember("base_culling", culling, _allocator);
+//        baseObj.AddMember("base_spawn_rate", spawn_rate, _allocator);
+//        baseObj.AddMember("base_spawn_scale", spawn_scale, _allocator);
+//        baseObj.AddMember("base_spawn_threshold", spawn_threshold, _allocator);
+//        baseObj.AddMember("base_delay", delay_time, _allocator);
+//        baseObj.AddMember("base_period", period_time, _allocator);
+//        baseObj.AddMember("base_duration", duration_time, _allocator);
+    }
+    if (item.HasMember("dyn") && item["dyn"].IsObject()) {
+        RAPIDJSON_NAMESPACE::Value dynobj = item["dyn"].GetObject();
+        //m_cur_aniname = item["aniname"].GetString();
+    }
+    if (item.HasMember("phy") && item["phy"].IsObject()) {
+        RAPIDJSON_NAMESPACE::Value phyobj = item["phy"].GetObject();
+        //m_cur_aniname = item["aniname"].GetString();
+    }
+    if (item.HasMember("emit") && item["emit"].IsObject()) {
+        RAPIDJSON_NAMESPACE::Value emitobj = item["emit"].GetObject();
+        //m_cur_aniname = item["aniname"].GetString();
+    }
 }
 
 ///*
