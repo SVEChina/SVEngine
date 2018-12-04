@@ -236,7 +236,6 @@ GLTFModelPtr SVGLTF::loadFromFile(cptr8 _filename){
                     scene.name = t_sceneItem["name"].GetString();
                 }
                 scene.nodes = nodesIds;
-//                ParseExtensionsProperty(&scene.extensions, err, o);
                 _model->scenes.append(scene);
                 
             }
@@ -645,8 +644,6 @@ bool SVGLTF::_parseMesh(Mesh *_mesh, RAPIDJSON_NAMESPACE::Value &_item){
             _mesh->weights.append(t_weightItem.GetDouble());
         }
     }
-    
-//    ParseExtensionsProperty(&mesh->extensions, err, o);
     return true;
 }
 
@@ -682,16 +679,16 @@ bool SVGLTF::_parsePrimitive(Primitive *_primitive, RAPIDJSON_NAMESPACE::Value &
     }
     
     // Look for morph targets
-//    if (_item.HasMember("targets") && _item["targets"].IsArray()) {
-//        RAPIDJSON_NAMESPACE::Value &t_targets = _item["targets"];
-//        for(auto iter = t_targets.MemberBegin(); iter != t_targets.MemberEnd(); ++iter){
-//            SVMap<SVString, s32> targetAttribues;
-//            cptr8 key = (iter->name).GetString();
-//            RAPIDJSON_NAMESPACE::Value &value = iter->value;
-//            targetAttribues.append(SVString(key), value.GetInt());
-//            _primitive->targets.append(targetAttribues);
-//        }
-//    }
+    if (_item.HasMember("targets") && _item["targets"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &t_targets = _item["targets"];
+        for(auto iter = t_targets.MemberBegin(); iter != t_targets.MemberEnd(); ++iter){
+            SVMap<SVString, s32> targetAttribues;
+            cptr8 key = (iter->name).GetString();
+            RAPIDJSON_NAMESPACE::Value &value = iter->value;
+            targetAttribues.append(SVString(key), value.GetInt());
+            _primitive->targets.append(targetAttribues);
+        }
+    }
     return true;
 }
 
@@ -782,9 +779,6 @@ bool SVGLTF::_parseMaterial(Material *_material, RAPIDJSON_NAMESPACE::Value &_it
             }
         }
     }
-
-//    ParseExtensionsProperty(&material->extensions, err, o);
-    
     return true;
 }
 
@@ -827,25 +821,19 @@ bool SVGLTF::_parseParameterProperty(Parameter *_param, RAPIDJSON_NAMESPACE::Val
 
 
 bool SVGLTF::_parseTexture(Texture *_texture, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir) {
-    
     f64 sampler = -1.0;
     f64 source = -1.0;
     if (_item.HasMember("sampler") && _item["sampler"].IsNumber()) {
         sampler = _item["sampler"].GetDouble();
     }
-    
     if (_item.HasMember("source") && _item["source"].IsNumber()) {
         source = _item["source"].GetDouble();
     }
-    
     _texture->sampler = s32(sampler);
     _texture->source = s32(source);
-    
-//    ParseExtensionsProperty(&texture->extensions, err, o);
     if (_item.HasMember("name") && _item["name"].IsString()) {
         _texture->name = _item["name"].GetString();
     }
-    
     return true;
 }
 
@@ -895,7 +883,6 @@ bool SVGLTF::_parseAnimation(Animation *_animation, RAPIDJSON_NAMESPACE::Value &
                 
                 sampler.input = s32(inputIndex);
                 sampler.output = s32(outputIndex);
-//                ParseExtrasProperty(&(sampler.extras), s);
                 _animation->samplers.append(sampler);
             }
         }
@@ -904,9 +891,6 @@ bool SVGLTF::_parseAnimation(Animation *_animation, RAPIDJSON_NAMESPACE::Value &
     if (_item.HasMember("name") && _item["name"].IsString()) {
         _animation->name = _item["name"].GetString();
     }
-    
-//    ParseExtrasProperty(&(animation->extras), o);
-    
     return true;
 }
 
@@ -929,8 +913,6 @@ bool SVGLTF::_parseAnimationChannel(AnimationChannel *_channel, RAPIDJSON_NAMESP
     
     _channel->sampler = s32(samplerIndex);
     _channel->target_node = s32(targetIndex);
-    
-//    ParseExtrasProperty(&(channel->extras), o);
     return true;
 }
 
@@ -991,9 +973,6 @@ bool SVGLTF::_parseSampler(Sampler *_sampler, RAPIDJSON_NAMESPACE::Value &_item)
     _sampler->magFilter = s32(magFilter);
     _sampler->wrapS = s32(wrapS);
     _sampler->wrapT = s32(wrapT);
-    
-//    ParseExtrasProperty(&(sampler->extras), o);
-    
     return true;
 }
 
@@ -1044,7 +1023,6 @@ bool SVGLTF::_parseImage(Image *_image, RAPIDJSON_NAMESPACE::Value &_item, cptr8
     if (_item.HasMember("name") && _item["name"].IsString()) {
         _image->name = _item["name"].GetString();
     }
-//    ParseExtensionsProperty(&image->extensions, err, o);
     
     if (hasBufferView) {
         f64 bufferView = -1;
