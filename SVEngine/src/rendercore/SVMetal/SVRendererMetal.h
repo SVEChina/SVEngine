@@ -9,6 +9,7 @@
 #define SV_RENDERER_METAL_H
 
 #include "../renderer/SVRendererBase.h"
+#include "SVMetalDevice.h"
 
 namespace sv {
     
@@ -48,7 +49,8 @@ namespace sv {
             void returnProgramme(u32 _id);
             
         protected:
-            
+            SVMetalDevice* m_pMetalDevice;
+            //MTLDevice* m_pDevice;
         };
         
     }//!namespace render
