@@ -3558,6 +3558,13 @@
 			path = out;
 			sourceTree = "<group>";
 		};
+		5F481CC521B6A93D008C733C /* SVGL30 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SVGL30;
+			sourceTree = "<group>";
+		};
 		5F59C39A1F7B975000944A01 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -4117,6 +4124,7 @@
 				5F7D5EF6215F407700803BCF /* SVFboObject.cpp */,
 				5F7D5EF2215F407700803BCF /* SVFboObject.h */,
 				5F7D5ECD215F407700803BCF /* SVGL */,
+				5F481CC521B6A93D008C733C /* SVGL30 */,
 				5F7D5EE8215F407700803BCF /* SVMetal */,
 				5F7D5F05215F407700803BCF /* SVRenderCmd.cpp */,
 				5F7D5ED7215F407700803BCF /* SVRenderCmd.h */,
