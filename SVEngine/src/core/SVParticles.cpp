@@ -2620,8 +2620,6 @@ f32 SVParticles::getDeflectorRoughness(s32 num) const {
 	return deflectors[num].roughness;
 }
 
-//********************************* Save/restore state *********************************************\
-
 //序列化接口
 void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                           RAPIDJSON_NAMESPACE::Value &_objValue) {
@@ -2680,135 +2678,147 @@ void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     _objValue.AddMember("phy", phyObj, _allocator);
     //
     RAPIDJSON_NAMESPACE::Value emitObj(RAPIDJSON_NAMESPACE::kObjectType);
-    emitObj.AddMember("emit_type", emitter_type, _allocator);
-    emitObj.AddMember("emit_enable", emitter_enabled, _allocator);
-    emitObj.AddMember("emit_base", emitter_based, _allocator);
-    emitObj.AddMember("emit_shift", emitter_shift, _allocator);
-    emitObj.AddMember("emit_continuous", emitter_continuous, _allocator);
-    emitObj.AddMember("emit_seq", emitter_sequence, _allocator);
-    emitObj.AddMember("emit_limit", emitter_limit, _allocator);
-    emitObj.AddMember("emit_size_x", emitter_size.x, _allocator);
-    emitObj.AddMember("emit_size_y", emitter_size.y, _allocator);
-    emitObj.AddMember("emit_size_z", emitter_size.z, _allocator);
-    emitObj.AddMember("emit_dir_x", emitter_direction.x, _allocator);
-    emitObj.AddMember("emit_dir_y", emitter_direction.y, _allocator);
-    emitObj.AddMember("emit_dir_z", emitter_direction.z, _allocator);
-    emitObj.AddMember("emit_spread_x", emitter_spread.x, _allocator);
-    emitObj.AddMember("emit_spread_y", emitter_spread.y, _allocator);
-    emitObj.AddMember("emit_spread_z", emitter_spread.z, _allocator);
-    emitObj.AddMember("emit_velocity_x", emitter_velocity.x, _allocator);
-    emitObj.AddMember("emit_velocity_y", emitter_velocity.y, _allocator);
-    emitObj.AddMember("emit_velocity_z", emitter_velocity.z, _allocator);
+    emitObj.AddMember("emitter_type", emitter_type, _allocator);
+    emitObj.AddMember("emitter_enabled", emitter_enabled, _allocator);
+    emitObj.AddMember("emitter_based", emitter_based, _allocator);
+    emitObj.AddMember("emitter_shift", emitter_shift, _allocator);
+    emitObj.AddMember("emitter_continuous", emitter_continuous, _allocator);
+    emitObj.AddMember("emitter_sequence", emitter_sequence, _allocator);
+    emitObj.AddMember("emitter_limit", emitter_limit, _allocator);
+    emitObj.AddMember("emitter_size_x", emitter_size.x, _allocator);
+    emitObj.AddMember("emitter_size_y", emitter_size.y, _allocator);
+    emitObj.AddMember("emitter_size_z", emitter_size.z, _allocator);
+    emitObj.AddMember("emitter_direction_x", emitter_direction.x, _allocator);
+    emitObj.AddMember("emitter_direction_y", emitter_direction.y, _allocator);
+    emitObj.AddMember("emitter_direction_z", emitter_direction.z, _allocator);
+    emitObj.AddMember("emitter_spread_x", emitter_spread.x, _allocator);
+    emitObj.AddMember("emitter_spread_y", emitter_spread.y, _allocator);
+    emitObj.AddMember("emitter_spread_z", emitter_spread.z, _allocator);
+    emitObj.AddMember("emitter_velocity_x", emitter_velocity.x, _allocator);
+    emitObj.AddMember("emitter_velocity_y", emitter_velocity.y, _allocator);
+    emitObj.AddMember("emitter_velocity_z", emitter_velocity.z, _allocator);
     _objValue.AddMember("emit", emitObj, _allocator);
 }
 
 void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
     if (item.HasMember("base") && item["base"].IsObject()) {
         RAPIDJSON_NAMESPACE::Value baseobj = item["base"].GetObject();
-        ///baseobj["base_type"].GetChar();
-        //baseobj["base_type"].GetInt();
-//        baseObj.AddMember("base_type", type, _allocator);
-//        baseObj.AddMember("base_warm", warming, _allocator);
-//        baseObj.AddMember("base_depthsort", depth_sort, _allocator);
-//        baseObj.AddMember("base_varx", variation_x, _allocator);
-//        baseObj.AddMember("base_vary", variation_y, _allocator);
-//        baseObj.AddMember("base_atlas", texture_atlas, _allocator);
-//        baseObj.AddMember("base_intersection", intersection, _allocator);
-//        baseObj.AddMember("base_collision", collision, _allocator);
-//        baseObj.AddMember("base_culling", culling, _allocator);
-//        baseObj.AddMember("base_spawn_rate", spawn_rate, _allocator);
-//        baseObj.AddMember("base_spawn_scale", spawn_scale, _allocator);
-//        baseObj.AddMember("base_spawn_threshold", spawn_threshold, _allocator);
-//        baseObj.AddMember("base_delay", delay_time, _allocator);
-//        baseObj.AddMember("base_period", period_time, _allocator);
-//        baseObj.AddMember("base_duration", duration_time, _allocator);
+        setType( baseobj["base_type"].GetInt() );
+        warming = baseobj["base_warm"].GetInt();
+        depth_sort = baseobj["base_depthsort"].GetInt();
+        variation_x = baseobj["base_varx"].GetInt();
+        variation_y = baseobj["base_vary"].GetInt();
+        texture_atlas = baseobj["base_atlas"].GetInt();
+        intersection = baseobj["base_intersection"].GetInt();
+        collision = baseobj["base_collision"].GetInt();
+        culling = baseobj["base_culling"].GetInt();
+        spawn_rate = baseobj["base_spawn_rate"].GetFloat();
+        spawn_scale = baseobj["base_spawn_scale"].GetFloat();
+        spawn_threshold = baseobj["base_spawn_threshold"].GetFloat();
+        delay_time = baseobj["base_delay"].GetFloat();
+        period_time = baseobj["base_period"].GetFloat();
+        duration_time = baseobj["base_duration"].GetFloat();
+//        //
+//        setWarming(warming);
+//        setDepthSort(depth_sort);
+//        setVariationX(variation_x);
+//        setVariationY(variation_y);
+//        setTextureAtlas(texture_atlas);
+//        setIntersection(intersection);
+//        setCollision(collision);
+//        setCulling(culling);
+//        setSpawnRate(spawn_rate);
+//        setSpawnScale(spawn_scale);
+//        setSpawnThreshold(spawn_threshold);
     }
+    //
     if (item.HasMember("dyn") && item["dyn"].IsObject()) {
-        RAPIDJSON_NAMESPACE::Value dynobj = item["dyn"].GetObject();
-        //m_cur_aniname = item["aniname"].GetString();
+        RAPIDJSON_NAMESPACE::Value dynObj = item["dyn"].GetObject();
+        delay_mean = dynObj["dyn_delay_mean"].GetFloat();
+        delay_spread = dynObj["dyn_delay_spread"].GetFloat();
+        period_mean = dynObj["dyn_period_mean"].GetFloat();
+        period_spread = dynObj["dyn_period_spread"].GetFloat();
+        duration_mean = dynObj["dyn_duration_mean"].GetFloat();
+        duration_spread = dynObj["dyn_duration_spread"].GetFloat();
+        life_mean = dynObj["dyn_life_mean"].GetFloat();
+        life_spread = dynObj["dyn_life_spread"].GetFloat();
+        velocity_mean = dynObj["dyn_velocity_mean"].GetFloat();
+        velocity_spread = dynObj["dyn_velocity_spread"].GetFloat();
+        angle_mean = dynObj["dyn_angle_mean"].GetFloat();
+        angle_spread = dynObj["dyn_angle_spread"].GetFloat();
+        rotation_mean = dynObj["dyn_rotation_mean"].GetFloat();
+        rotation_spread = dynObj["dyn_rotation_spread"].GetFloat();
+        rotation_mean = dynObj["dyn_radius_mean"].GetFloat();
+        radius_mean = dynObj["dyn_radius_spread"].GetFloat();
+        growth_mean = dynObj["dyn_growth_mean"].GetFloat();
+        growth_spread = dynObj["dyn_growth_spread"].GetFloat();
     }
+    //
     if (item.HasMember("phy") && item["phy"].IsObject()) {
         RAPIDJSON_NAMESPACE::Value phyobj = item["phy"].GetObject();
-        //m_cur_aniname = item["aniname"].GetString();
+        gravity.x = phyobj["phy_grave_x"].GetFloat();
+        gravity.y = phyobj["phy_grave_y"].GetFloat();
+        gravity.z = phyobj["phy_grave_z"].GetFloat();
+        world_mass = phyobj["phy_mass"].GetFloat();
+        world_imass = phyobj["phy_imass"].GetFloat();
+        length_stretch = phyobj["phy_stretch"].GetFloat();
+        linear_damping = phyobj["phy_linear_damp"].GetFloat();
+        angular_damping = phyobj["phy_angular_damp"].GetFloat();
+        growth_damping = phyobj["phy_grow_damp"].GetFloat();
+        restitution = phyobj["phy_restitution"].GetFloat();
+        roughness = phyobj["phy_rouughness"].GetFloat();
+//        setWorldMass(world_mass);
+//        setLengthStretch(length_stretch);
+//        setLinearDamping(linear_damping);
+//        setAngularDamping(angular_damping);
+//        setGrowthDamping(growth_damping);
+//        setRestitution(restitution);
+//        setRoughness(roughness);
     }
+    //
     if (item.HasMember("emit") && item["emit"].IsObject()) {
         RAPIDJSON_NAMESPACE::Value emitobj = item["emit"].GetObject();
-        //m_cur_aniname = item["aniname"].GetString();
+        emitter_type = emitobj["emitter_type"].GetInt();
+        emitter_enabled = emitobj["emitter_enabled"].GetInt();
+        emitter_based = emitobj["emitter_based"].GetInt();
+        emitter_shift = emitobj["emitter_shift"].GetInt();
+        emitter_continuous = emitobj["emitter_continuous"].GetInt();
+        emitter_sequence = emitobj["emitter_sequence"].GetFloat();
+        emitter_limit = emitobj["emitter_limit"].GetFloat();
+        emitter_size.x = emitobj["emitter_size_x"].GetFloat();
+        emitter_size.y = emitobj["emitter_size_y"].GetFloat();
+        emitter_size.z = emitobj["emitter_size_x"].GetFloat();
+        emitter_direction.x = emitobj["emitter_direction_x"].GetFloat();
+        emitter_direction.y = emitobj["emitter_direction_y"].GetFloat();
+        emitter_direction.z = emitobj["emitter_direction_z"].GetFloat();
+        emitter_spread.x = emitobj["emitter_spread_x"].GetFloat();
+        emitter_spread.y = emitobj["emitter_spread_y"].GetFloat();
+        emitter_spread.z = emitobj["emitter_spread_z"].GetFloat();
+        emitter_velocity.x = emitobj["emitter_velocity_x"].GetFloat();
+        emitter_velocity.y = emitobj["emitter_velocity_y"].GetFloat();
+        emitter_velocity.z = emitobj["emitter_velocity_z"].GetFloat();
+//        //
+//        setEmitterType(emitter_type);
+//        setEmitterBased(emitter_based);
+//        setEmitterShift(emitter_shift);
+//        setEmitterContinuous(emitter_continuous);
+//        setEmitterSequence(emitter_sequence);
+//        setEmitterLimit(emitter_limit);
     }
 }
 
 ///*
 // */
 //s32 SVParticles::saveState(const Stream &stream) const {
-//
 //    // random seed
 //    stream.writeUInt(getSeed());
-//
 //    // frame number
 //    stream.writeInt(frame);
-//
 //    // update
 //    stream.writeFloat(spawn_count);
-//    stream.writeFloat(delay_time);
-//    stream.writeFloat(period_time);
-//    stream.writeFloat(duration_time);
-//
-//    // type
-//    stream.writeUChar(getType());
-//    stream.writeUChar(getWarming());
-//    stream.writeUChar(getDepthSort());
-//    stream.writeUChar(getVariationX());
-//    stream.writeUChar(getVariationY());
-//    stream.writeUChar(getTextureAtlas());
-//    stream.writeUChar(getIntersection());
-//    stream.writeUChar(getCollision());
-//    stream.writeUChar(getCulling());
-//    stream.writeFloat(getSpawnRate());
-//    stream.writeFloat(getSpawnScale());
-//    stream.writeFloat(getSpawnThreshold());
-//    stream.writeFloat(getWorldMass());
-//    stream.writeFloat(getLengthStretch());
-//    stream.writeFloat(getLinearDamping());
-//    stream.writeFloat(getAngularDamping());
-//    stream.writeFloat(getGrowthDamping());
-//    stream.writeFloat(getRestitution());
-//    stream.writeFloat(getRoughness());
-//
 //    // emitter
-//    stream.writeUChar(getEmitterType());
-//    stream.writeUChar(isEmitterEnabled());
-//    stream.writeUChar(isEmitterBased());
-//    stream.writeUChar(isEmitterShift());
-//    stream.writeUChar(isEmitterContinuous());
-//    stream.writeInt(getEmitterSequence());
-//    stream.writeInt(getEmitterLimit());
-//    stream.writeFloatArray(getEmitterSize(),3);
-//    stream.writeFloatArray(getEmitterDirection(),3);
-//    stream.writeFloatArray(getEmitterSpread(),3);
-//    stream.writeFloatArray(getEmitterVelocity(),3);
 //    stream.writeFloatArray(getEmitterTransform(),16);
 //    stream.writeFloatArray(old_emitter_transform,16);
-//
-//    // dynamic
-//    stream.writeFloat(getDelayMean());
-//    stream.writeFloat(getDelaySpread());
-//    stream.writeFloat(getPeriodMean());
-//    stream.writeFloat(getPeriodSpread());
-//    stream.writeFloat(getDurationMean());
-//    stream.writeFloat(getDurationSpread());
-//    stream.writeFloat(getLifeMean());
-//    stream.writeFloat(getLifeSpread());
-//    stream.writeFloat(getVelocityMean());
-//    stream.writeFloat(getVelocitySpread());
-//    stream.writeFloat(getAngleMean());
-//    stream.writeFloat(getAngleSpread());
-//    stream.writeFloat(getRotationMean());
-//    stream.writeFloat(getRotationSpread());
-//    stream.writeFloat(getRadiusMean());
-//    stream.writeFloat(getRadiusSpread());
-//    stream.writeFloat(getGrowthMean());
-//    stream.writeFloat(getGrowthSpread());
-//
 //    // forces
 //    stream.writeFloatArray(getGravity(),3);
 //    stream.writeInt(getNumForces());
@@ -2820,7 +2830,6 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //        stream.writeFloat(getForceAttractor(i));
 //        stream.writeFloat(getForceRotator(i));
 //    }
-//
 //    // noises
 //    stream.writeInt(getNumNoises());
 //    for(s32 i = 0; i < getNumNoises(); i++) {
@@ -2833,7 +2842,6 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //        stream.writeInt(getNoiseFrequency(i));
 //        stream.writeInt(getNoiseSize(i));
 //    }
-//
 //    // deflectors
 //    stream.writeInt(getNumDeflectors());
 //    for(s32 i = 0; i < getNumDeflectors(); i++) {
@@ -2844,7 +2852,6 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //        stream.writeFloat(getDeflectorRestitution(i));
 //        stream.writeFloat(getDeflectorRoughness(i));
 //    }
-//
 //    // particles
 //    stream.writeInt(particles.size());
 //    for(s32 i = 0; i < particles.size(); i++) {
@@ -2880,69 +2887,10 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //
 //    // update
 //    spawn_count = stream.readFloat();
-//    delay_time = stream.readFloat();
-//    period_time = stream.readFloat();
-//    duration_time = stream.readFloat();
-//
 //    // type
-//    setType(stream.readUChar());
-//    setWarming(stream.readUChar());
-//    setDepthSort(stream.readUChar());
-//    setVariationX(stream.readUChar());
-//    setVariationY(stream.readUChar());
-//    setTextureAtlas(stream.readUChar());
-//    setIntersection(stream.readUChar());
-//    setCollision(stream.readUChar());
-//    setCulling(stream.readUChar());
-//    setSpawnRate(stream.readFloat());
-//    setSpawnScale(stream.readFloat());
-//    setSpawnThreshold(stream.readFloat());
-//    setWorldMass(stream.readFloat());
-//    setLengthStretch(stream.readFloat());
-//    setLinearDamping(stream.readFloat());
-//    setAngularDamping(stream.readFloat());
-//    setGrowthDamping(stream.readFloat());
-//    setRestitution(stream.readFloat());
-//    setRoughness(stream.readFloat());
-//
 //    // emitter
-//    setEmitterType(stream.readUChar());
-//    emitter_enabled = stream.readUChar();
-//    setEmitterBased(stream.readUChar());
-//    setEmitterShift(stream.readUChar());
-//    setEmitterContinuous(stream.readUChar());
-//    setEmitterSequence(stream.readInt());
-//    setEmitterLimit(stream.readInt());
-//    stream.readFloatArray(emitter_size,3);
-//    stream.readFloatArray(emitter_direction,3);
-//    stream.readFloatArray(emitter_spread,3);
-//    stream.readFloatArray(emitter_velocity,3);
 //    stream.readFloatArray(emitter_transform,16);
 //    stream.readFloatArray(old_emitter_transform,16);
-//
-//    // dynamic
-//    delay_mean = stream.readFloat();
-//    delay_spread = stream.readFloat();
-//    period_mean = stream.readFloat();
-//    period_spread = stream.readFloat();
-//    duration_mean = stream.readFloat();
-//    duration_spread = stream.readFloat();
-//    life_mean = stream.readFloat();
-//    life_spread = stream.readFloat();
-//    velocity_mean = stream.readFloat();
-//    velocity_spread = stream.readFloat();
-//    angle_mean = stream.readFloat();
-//    angle_spread = stream.readFloat();
-//    rotation_mean = stream.readFloat();
-//    rotation_spread = stream.readFloat();
-//    radius_mean = stream.readFloat();
-//    radius_spread = stream.readFloat();
-//    growth_mean = stream.readFloat();
-//    growth_spread = stream.readFloat();
-//
-//    // gravity
-//    stream.readFloatArray(gravity,3);
-//
 //    // forces
 //    forces.resize(stream.readInt());
 //    for(s32 i = 0; i < getNumForces(); i++) {
