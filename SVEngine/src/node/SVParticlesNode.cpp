@@ -94,8 +94,8 @@ void SVParticlesNode::testInit() {
         m_pParticles->setEmitterContinuous(1);
         //发射器速度
         setEmitterVelocity(FVec3(0.0f,0.0f,0.0f));
-        //
-        m_pParticles->setEmitterSpread(FVec3(0.3f,0.0f,0.3f));
+        //发射繁衍
+        m_pParticles->setEmitterSpread(FVec3(0.3f,0.3f,0.0f));
         //发射器方向
         m_pParticles->setEmitterDirection(FVec3(0.0f,1.0f,0.0f));
         //设置增长
