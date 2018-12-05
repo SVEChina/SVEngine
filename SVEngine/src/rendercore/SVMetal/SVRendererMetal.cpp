@@ -11,10 +11,11 @@
 
 SVRendererMetal::SVRendererMetal(SVInst* _app)
 :SVRendererBase(_app){
-    
+    m_pMetalDevice = [[SVMetalDevice alloc] init];
 }
 
 SVRendererMetal::~SVRendererMetal(){
+    m_pMetalDevice = nil;
 }
 
 //纹理资源
