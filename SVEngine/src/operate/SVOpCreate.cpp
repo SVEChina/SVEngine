@@ -38,6 +38,8 @@
 #include "../core/SVBMFont.h"
 #include "../core/SVglTF.h"
 #include "../node/SVGLTFModelNode.h"
+#include "../module/SVEffectPackage.h"
+#include "../act/SVTexAttachment.h"
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
 : SVOpBase(_app) {
@@ -125,20 +127,46 @@ SVOpCreateEffcet::~SVOpCreateEffcet() {
 }
 
 void SVOpCreateEffcet::_process(f32 dt) {
-    s32 t_pos = m_strPath.rfind('.');
-    s32 t_len = m_strPath.size();
-    SVString t_ext = SVString::substr(m_strPath, 0, t_pos);
-    t_pos = t_ext.rfind('/');
-    t_len = t_ext.size();
-    SVString t_name = SVString::substr(t_ext, t_pos+1, t_len - t_pos - 1);
-    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name);
+    s32 len = m_strPath.size();
+    s32 pos = m_strPath.rfind('/');
+    SVString t_moduleName = SVString::substr(m_strPath.c_str(), pos+1, len - pos - 1);
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_moduleName.c_str());
     if (t_modulePtr == nullptr) {
         SVParseMain t_parssMain(mApp);
         t_modulePtr = t_parssMain.parse(m_strPath.c_str(),123);
         if (t_modulePtr) {
             t_modulePtr->setOpCallBack(m_pCB);
             t_modulePtr->open();
-            mApp->getModuleSys()->regist(t_modulePtr, t_name.c_str());
+            mApp->getModuleSys()->regist(t_modulePtr, t_moduleName.c_str());
+        }
+    }
+}
+
+
+SVOpTexAttachment::SVOpTexAttachment(SVInst *_app, cptr8 _strPath, s32 _channel, cptr8 _data, s32 _width, s32 _height):SVOpBase(_app){
+    m_strPath = _strPath;
+    m_data = _data;
+    m_width = _width;
+    m_height = _height;
+    m_channel = _channel;
+}
+
+SVOpTexAttachment::~SVOpTexAttachment(){
+    
+}
+
+void SVOpTexAttachment::_process(f32 dt) {
+    s32 len = m_strPath.size();
+    s32 pos = m_strPath.rfind('/');
+    SVString t_moduleName = SVString::substr(m_strPath.c_str(), pos+1, len - pos - 1);
+    SVModuleBasePtr t_module = mApp->getModuleSys()->getModule(t_moduleName.c_str());
+    if (t_module) {
+        SVEffectPackagePtr t_effect = std::dynamic_pointer_cast<SVEffectPackage>(t_module);
+        if (t_effect) {
+            SVTexAttachmentPtr t_attachment = t_effect->getTexAttachment(m_channel);
+            if (t_attachment) {
+                t_attachment->setAttachmentTex(m_channel, m_data, m_width, m_height);
+            }
         }
     }
 }

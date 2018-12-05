@@ -58,6 +58,19 @@ namespace sv {
             NodeArray m_nodearray;
         };
         
+        //获取系统中spineName为特定值的所有spine节点
+        class SVVisitorNodeName : public SVVisitorBase {
+            typedef SVArray<SVNodePtr> NODESET;
+        public:
+            SVVisitorNodeName(cptr8 nodeName);
+            
+            virtual bool visit(SVNodePtr _node);
+            
+        public:
+            NODESET m_nodeSet;
+            SVString m_nodeName;
+        };
+        
     }//!namespace node
     
 }//!namespace sv

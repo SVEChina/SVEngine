@@ -47,3 +47,15 @@ bool SVVisitCollectAllNode::visit(SVNodePtr _node) {
     m_nodearray.append(_node);
     return true;
 }
+
+
+SVVisitorNodeName::SVVisitorNodeName(cptr8 _nodeName)
+:m_nodeName(_nodeName) {
+}
+
+bool SVVisitorNodeName::visit(SVNodePtr _node) {
+    if (strcmp(_node->getname(), m_nodeName.c_str())  == 0) {
+        m_nodeSet.append(_node);
+    }
+    return true;
+}

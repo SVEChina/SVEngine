@@ -20,6 +20,7 @@
 #include "SVParseBitfont.h"
 #include "SVParseBMFont.h"
 #include "SVParseBackground.h"
+#include "SVParseTexAttachment.h"
 #include "../module/SVEffectPackage.h"
 
 SVParseMain::SVParseMain(SVInst *_app)
@@ -103,6 +104,16 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
             }
         }
     }
+    //parse tex attachment
+    if (doc.HasMember("TexAttachment") && doc["TexAttachment"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &attachments = doc["TexAttachment"];
+        for (s32 i = 0; i<attachments.Size(); i++) {
+            RAPIDJSON_NAMESPACE::Value &attachment = attachments[i];
+            SVTexAttachmentPtr t_texAttachment = SVParseTexAttachment::parseTexAttachmet(mApp, attachment, 102, t_path.get());
+            t_bundle->addAttachment(t_texAttachment);
+        }
+    }
+    
     SV_LOG_ERROR("SVParseMain::parse end\n");
     return t_bundle;
 }
