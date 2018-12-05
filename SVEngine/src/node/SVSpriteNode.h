@@ -61,12 +61,14 @@ namespace sv {
             f32 m_height;
             f32 m_texcoordX;
             f32 m_texcoordY;
-            SVString m_pTexName;
+            SVString m_pTexPath;
             SVTEXTYPE m_inTexType;
             //运行时属性
             SVTexturePtr m_pTex;
             SVRenderMeshPtr m_pMesh;
             SVRenderObjectPtr m_pRenderObj;
+        private:
+            SVString m_pTexName;
         };
 
     }//!namespace node

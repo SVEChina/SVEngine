@@ -186,7 +186,7 @@ void SVBackGroundNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_all
     //sprite的属性 文件名 宽 高 纹理类型
     locationObj.AddMember("spriteW", m_width, _allocator);
     locationObj.AddMember("spriteH", m_height, _allocator);
-    locationObj.AddMember("texname", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
+    locationObj.AddMember("texname", RAPIDJSON_NAMESPACE::StringRef(m_pTexPath.c_str()), _allocator);
     locationObj.AddMember("textype", s32(m_inTexType), _allocator);
     locationObj.AddMember("useTextype", s32(m_useTexType), _allocator);
     //是否开了形变算法
@@ -211,7 +211,7 @@ void SVBackGroundNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
        // m_inTexType = SVTEXTYPE(item["textype"].GetInt());
     }
     if (item.HasMember("texname") && item["texname"].IsString()) {
-        m_pTexName = item["texname"].GetString();
+        m_pTexPath = item["texname"].GetString();
     }
     if (item.HasMember("useTextype") && item["useTextype"].IsInt()) {
         m_useTexType = SVTEXTYPE(item["useTextype"].GetInt());

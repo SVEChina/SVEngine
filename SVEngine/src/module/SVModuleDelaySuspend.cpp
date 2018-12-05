@@ -18,6 +18,7 @@ SVModuleDelaySuspend::~SVModuleDelaySuspend() {
 }
 
 void SVModuleDelaySuspend::init() {
+    
 }
 
 void SVModuleDelaySuspend::destroy() {
