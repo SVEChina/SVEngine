@@ -490,6 +490,7 @@ namespace sv {
             bool m_bVisible;
             bool m_verbufferNeedResize;
             bool m_indbufferNeedResize;
+            bool m_useVAO;
         };
 
 
