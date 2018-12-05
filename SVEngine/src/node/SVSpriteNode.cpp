@@ -25,7 +25,7 @@ SVSpriteNode::SVSpriteNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVSpriteNode";
     m_inTexType = E_TEX_END;
-    m_pTexName = "default";
+    m_pTexPath = "default";
     m_rsType = RST_ANIMATE;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_canSelect = false;
@@ -64,7 +64,7 @@ void SVSpriteNode::setSpriteSize(f32 _w,f32 _h) {
 
 void SVSpriteNode::syncTexSize() {
     if(m_inTexType == E_TEX_END) {
-        m_pTex = mApp->getTexMgr()->getTextureSync(m_pTexName.c_str(),true);
+        m_pTex = mApp->getTexMgr()->getTextureSync(m_pTexPath.c_str(),true);
     }else {
         m_pTex = mApp->getRenderer()->getSVTex(m_inTexType);
     }
@@ -89,9 +89,9 @@ SVMtlCorePtr SVSpriteNode::getMaterial(){
 }
 
 void SVSpriteNode::setTexture(cptr8 _path){
-    if(m_pTexName!=_path) {
-        m_pTexName = _path;
-        m_pTex = mApp->getTexMgr()->getTextureSync(m_pTexName.c_str(),true);     
+    if(m_pTexPath!=_path) {
+        m_pTexPath = _path;
+        m_pTex = mApp->getTexMgr()->getTextureSync(m_pTexPath.c_str(),true);
     }
 }
 
@@ -99,7 +99,7 @@ cptr8 SVSpriteNode::getTexturePath(){
     if (m_pTex) {
         return m_pTex->getname();
     }
-    return m_pTexName.c_str();
+    return m_pTexPath.c_str();
 }
 
 void SVSpriteNode::setTexture(SVTEXTYPE _textype){
@@ -172,20 +172,20 @@ void SVSpriteNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocat
     _toJsonData(_allocator, locationObj);
     locationObj.AddMember("spriteW", m_width, _allocator);
     locationObj.AddMember("spriteH", m_height, _allocator);
-    s32 pos = m_pTexName.rfind('/');
-    SVString t_textureName = SVString::substr(m_pTexName.c_str(), pos+1);
-    locationObj.AddMember("texture", RAPIDJSON_NAMESPACE::StringRef(t_textureName.c_str()), _allocator);
+    s32 pos = m_pTexPath.rfind('/');
+    m_pTexName = SVString::substr(m_pTexPath.c_str(), pos+1);
+    locationObj.AddMember("texture", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
     locationObj.AddMember("textype", s32(m_inTexType), _allocator);
     _objValue.AddMember("SVSpriteNode", locationObj, _allocator);
 }
 
 void SVSpriteNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     _fromJsonData(item);
-    if (item.HasMember("spriteW") && item["spriteW"].IsInt()) {
-        m_width = item["spriteW"].GetInt();
+    if (item.HasMember("spriteW") && item["spriteW"].IsFloat()) {
+        m_width = item["spriteW"].GetFloat();
     }
-    if (item.HasMember("spriteH") && item["spriteH"].IsInt()) {
-        m_height = item["spriteH"].GetInt();
+    if (item.HasMember("spriteH") && item["spriteH"].IsFloat()) {
+        m_height = item["spriteH"].GetFloat();
     }
     setSpriteSize(m_width, m_height);
     if (item.HasMember("texture") && item["texture"].IsString()) {
