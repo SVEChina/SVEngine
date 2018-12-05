@@ -1125,6 +1125,7 @@ void SVResGLRenderMesh::_reset(){
     m_renderDirty = true;
     m_verbufferNeedResize = false;
     m_indbufferNeedResize = false;
+    m_useVAO = false;
 }
 
 void SVResGLRenderMesh::create(SVRendererBasePtr _renderer){
@@ -1135,6 +1136,7 @@ void SVResGLRenderMesh::create(SVRendererBasePtr _renderer){
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_pDataIndex->getSize(), m_pDataIndex->getData(),m_indexPoolType);
         m_pDataIndex = nullptr;
     }
+    //
     if(m_pDataVertex){
         glGenBuffers(1, &m_vboID);
         glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
@@ -1208,8 +1210,8 @@ void SVResGLRenderMesh::render() {
     }
     if(!m_bVisible)
         return ;
-    if(m_vaoID>0) {
-        //vao
+    if(m_useVAO) {
+        //使用vao
         if(m_indexID>0) {
             //索引模式
         }else{
@@ -1217,30 +1219,39 @@ void SVResGLRenderMesh::render() {
             glDrawArrays(m_drawmethod, 0, m_pointNum);
         }
     }else{
-        //vbo
-        if(m_indexID>0) {
-            //因为索引这块可能大于65536 所以需要分批渲染 by fyz
-            t_renderer->svBindIndexBuffer(m_indexID);
-            t_renderer->svBindVertexBuffer(m_vboID);
-            //索引模式
-            if(m_dirty){
-                m_dirty = false;
-                _updateVertex();
-                _updateIndex();
+        //使用vbo
+        //创建相关的对象
+        if( m_pDataIndex){
+            if(m_indexID<=0) {
+                glGenBuffers(1, &m_indexID);
             }
-            _updateVertDsp();
-            glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
-            //
-            t_renderer->svBindVertexBuffer(0);
-            t_renderer->svBindIndexBuffer(0);
-        }else{
-            if(m_vboID>0) {
+        }
+        if(m_pDataVertex){
+            if(m_vboID<=0) {
+                glGenBuffers(1, &m_vboID);
+            }
+        }
+        if(m_vboID>0) {
+            if(m_indexID>0) {
+                //索引绘制
+                //因为索引这块可能大于65536 所以需要分批渲染 by fyz
+                t_renderer->svBindIndexBuffer(m_indexID);
                 t_renderer->svBindVertexBuffer(m_vboID);
-                //非索引模式
                 if(m_dirty){
                     m_dirty = false;
                     _updateVertex();
                     _updateIndex();
+                }
+                _updateVertDsp();
+                glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
+                t_renderer->svBindVertexBuffer(0);
+                t_renderer->svBindIndexBuffer(0);
+            } else {
+                //非索引绘制
+                t_renderer->svBindVertexBuffer(m_vboID);
+                if(m_dirty){
+                    m_dirty = false;
+                    _updateVertex();
                 }
                 _updateVertDsp();
                 glDrawArrays(m_drawmethod, 0, m_pointNum);
