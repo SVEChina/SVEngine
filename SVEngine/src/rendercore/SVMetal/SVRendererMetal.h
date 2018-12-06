@@ -10,9 +10,6 @@
 
 #include "../renderer/SVRendererBase.h"
 #include "SVMetalDevice.h"
-
-
-
 namespace sv {
     
     namespace render{
