@@ -113,7 +113,12 @@ const NSString *cellID = @"MainCollectionCell";
 }
 
 - (void)changeToShow{
-    
+    UIView* t_targetView = [SWUISys getInst].pMainVC.view;
+    for(UIView *t_view in [t_targetView subviews]){
+        [t_view removeFromSuperview];
+    }
+    [self removeFromSuperview];
+    [t_targetView addSubview:self];
 }
 
 #pragma mark ---- UICollectionViewDataSource
@@ -205,6 +210,23 @@ const NSString *cellID = @"MainCollectionCell";
 }
 
 - (void)btnAction:(UIButton *)btn{
-    
+    switch (btn.tag) {
+        case 101:{
+            break;
+        }
+        case 102:{
+            [self showCameraView];
+            break;
+        }
+        case 103:{
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)showCameraView{
+    [[SWUISys getInst].pMainVC.pSVView changeToShow];
 }
 @end

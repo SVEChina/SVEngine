@@ -48,14 +48,14 @@
     //计算真实的大小
     float t_real_w = t_svout_w*[SWLogicSys getInst].pSWState.svAdaptRate;
     float t_real_h = t_svout_h*[SWLogicSys getInst].pSWState.svAdaptRate;
-    //创建相机窗口
-//    self.pSVView = [[SWSVView alloc] initWithFrame: CGRectMake(0, 0, t_dpi_w ,t_dpi_h )];
-//    [self.pSVView createGLView: [[SWLogicSys getInst] getGLContext]];
-//    self.view.backgroundColor = [UIColor redColor];
-//    [self.view addSubview:self.pSVView];
-    //创建主UI
+    //创建主UI并加入主视图
     self.pMainView = [[SWMainUI alloc] initWithFrame: _rc];
     [self.view addSubview:self.pMainView];
+    
+    //创建相机窗口
+    self.pSVView = [[SWSVView alloc] initWithFrame: CGRectMake(0, 0, t_dpi_w ,t_dpi_h )];
+    [self.pSVView createGLView: [[SWLogicSys getInst] getGLContext]];
+    self.view.backgroundColor = [UIColor redColor];
 }
 
 - (void)dealloc{

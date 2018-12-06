@@ -22,7 +22,7 @@
 #import "src/work/SVThreadHelp.h"
 @interface SWSVView() {
     CAEAGLLayer* m_layer;
-    NSTimer *m_timer;
+    UIButton   * m_backBtn;
 }
 
 @property (nonatomic,strong)UIImageView *focusView;
@@ -35,6 +35,7 @@
     if (self) {
         self.multipleTouchEnabled = false;
         self.userInteractionEnabled = YES;
+ 
     }
     return self;
 }
@@ -82,6 +83,12 @@
     }
     [self insertSubview:[self focusView] atIndex:1];
     [self active];
+    //
+    m_backBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, 20, 60, 60)];
+    [m_backBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [m_backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [m_backBtn addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:m_backBtn];
 }
 
 -(void)destroyGLView:(EAGLContext*)_GLContext{
@@ -175,25 +182,11 @@
     CGPoint point = [pTouch locationInView:self];
     NSUInteger tapCount = [pTouch tapCount];
     [self focusGesture:point];
-    //对触摸次数判断
-    if (tapCount == 1){
-//        //在0.2秒内只触摸一次视为单击
-//        [self performSelector:@selector(singleTouch:) withObject:nil afterDelay:0.2];
-    }
-    else if(tapCount == 2){
-//        //取消单击响应，若无此方法则双击看做是：单击事件和双击事件
-//        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTouch:) object:nil];
-//        //确定为双击事件
-//        [self doubleTouch:nil];
-    }
-
     //修正坐标
     //扩大后的尺寸
 
     //映射到背景分辨率上，左下角要是（0， 0）
     CGPoint n_p = CGPointMake(point.x/_m_layer_scale_x, [SWLogicSys getInst].pSWState.svOutH - point.y/_m_layer_scale_y);
-//    [[SWLogicSys getInst].pSVI pushTouchX:n_p.x Y:n_p.y State:1];
-    [self endComputeTime];
 
     if ([[SWBasicSys getInst].m_pDataSrc isKindOfClass:[SWDataSourceARCamera class]]) {
         SWDataSourceARCamera *t_arCamera = (SWDataSourceARCamera *)[SWBasicSys getInst].m_pDataSrc;
@@ -218,49 +211,16 @@
 
 }
 
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    [super touchesEnded:touches withEvent:event];
-    UITouch * pTouch = [touches anyObject];
-    CGPoint point = [pTouch locationInView:self];
-    //映射到背景分辨率上，左下角要是（0， 0）
-    CGPoint n_p = CGPointMake(point.x/_m_layer_scale_x, [SWLogicSys getInst].pSWState.svOutH - point.y/_m_layer_scale_y);
-//    [[SWLogicSys getInst].pSVI pushTouchX:n_p.x Y:n_p.y State:4];
-    [self beginComputeTime];
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    [super touchesMoved:touches withEvent:event];
-    UITouch * pTouch = [touches anyObject];
-    if (pTouch.phase == UITouchPhaseStationary) {
-        NSLog(@"");
+- (void)changeToShow{
+    UIView* t_targetView = [SWUISys getInst].pMainVC.view;
+    for(UIView *t_view in [t_targetView subviews]){
+        [t_view removeFromSuperview];
     }
-    CGPoint point = [pTouch locationInView:self];
-    //映射到背景分辨率上，左下角要是（0， 0）
-    CGPoint n_p = CGPointMake(point.x/_m_layer_scale_x, [SWLogicSys getInst].pSWState.svOutH - point.y/_m_layer_scale_y);
-//    [[SWLogicSys getInst].pSVI pushTouchX:n_p.x Y:n_p.y State:2];
+    [self removeFromSuperview];
+    [t_targetView addSubview:self];
 }
 
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
-    [super touchesCancelled:touches withEvent:event];
-    UITouch * pTouch = [touches anyObject];
-    CGPoint point = [pTouch locationInView:self];
-    //映射到背景分辨率上，左下角要是（0， 0）
-    CGPoint n_p = CGPointMake(point.x/_m_layer_scale_x, [SWLogicSys getInst].pSWState.svOutH - point.y/_m_layer_scale_y);
-//    [[SWLogicSys getInst].pSVI pushTouchX:n_p.x Y:n_p.y State:4];
-    
+- (void)backAction:(UIButton *)btn{
+    [[SWUISys getInst].pMainVC.pMainView changeToShow];
 }
-
-- (void)longPressMethod:(id)obj{
-    
-}
-
-- (void)beginComputeTime{
-    m_timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFired) userInfo:nil repeats:YES];
-}
-
-- (void)endComputeTime{
-    [m_timer invalidate];
-}
-
 @end

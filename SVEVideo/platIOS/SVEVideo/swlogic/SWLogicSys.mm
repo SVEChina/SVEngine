@@ -113,37 +113,37 @@ void effect_op_callback(const char* _info){
 
 - (void)initSVE {
     if(!m_pApp) {
-//        //创建sv引擎对象
-//        m_pApp = new SVInst();
-//        m_pApp->init();
-//        //设置资源路径
-//        NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
-//        bundlePath = [NSString stringWithFormat:@"%@/",bundlePath];
-//        m_pApp->getFileMgr()->addRespath([bundlePath UTF8String]);
-//        m_pApp->getFileMgr()->addRespath("");
-//        //开启引擎
-//        m_pApp->startSVE();
-//        //创建渲染器
-//        SVOpCreateRenderderPtr t_op_renderder = MakeSharedPtr<SVOpCreateRenderder>(m_pApp);
-//        t_op_renderder->setGLParam(3,(__bridge_retained void *)m_pGLContext,self.pSWState.svOutW,self.pSWState.svOutH);
-//        m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_renderder);
-//        //创建场景
-//        SVOpCreateScenePtr t_op_scene = MakeSharedPtr<SVOpCreateScene>(m_pApp,"showScene");
-//        m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_scene);
-//        //开启相机
-//        [[SWBasicSys getInst].m_pDataSrc start];
-//        if ([[SWBasicSys getInst].m_pDataSrc isKindOfClass:[SWDataSourceCamera class]]) {
-//            //创建相机节点
-//            SVOpCreateIOSInstreamPtr t_op_iosin = MakeSharedPtr<SVOpCreateIOSInstream>(m_pApp, [SCENENAME UTF8String], 1, self.pSWState.svOutW, self.pSWState.svOutH, 0.0f, true);
-//            m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_iosin);
-//            //相机输出
-//            SVOpCreateIOSOutstreamPtr t_op_iosout = MakeSharedPtr<SVOpCreateIOSOutstream>(m_pApp,[SCENENAME UTF8String], 1, 0);
-//            m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_iosout);
-//
-//        }else if ([[SWBasicSys getInst].m_pDataSrc isKindOfClass:[SWDataSourceARCamera class]]){
-//            SVOpCreateYUVInstreamPtr t_op_yuv = MakeSharedPtr<SVOpCreateYUVInstream>(m_pApp,[SCENENAME UTF8String], SV_PF_NV12, 1280, 720, 90.0f);
-//            m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_yuv);
-//        }
+        //创建sv引擎对象
+        m_pApp = new SVInst();
+        m_pApp->init();
+        //设置资源路径
+        NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
+        bundlePath = [NSString stringWithFormat:@"%@/",bundlePath];
+        m_pApp->getFileMgr()->addRespath([bundlePath UTF8String]);
+        m_pApp->getFileMgr()->addRespath("");
+        //开启引擎
+        m_pApp->startSVE();
+        //创建渲染器
+        SVOpCreateRenderderPtr t_op_renderder = MakeSharedPtr<SVOpCreateRenderder>(m_pApp);
+        t_op_renderder->setGLParam(3,(__bridge_retained void *)m_pGLContext,self.pSWState.svOutW,self.pSWState.svOutH);
+        m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_renderder);
+        //创建场景
+        SVOpCreateScenePtr t_op_scene = MakeSharedPtr<SVOpCreateScene>(m_pApp,"showScene");
+        m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_scene);
+        //开启相机
+        [[SWBasicSys getInst].m_pDataSrc start];
+        if ([[SWBasicSys getInst].m_pDataSrc isKindOfClass:[SWDataSourceCamera class]]) {
+            //创建相机节点
+            SVOpCreateIOSInstreamPtr t_op_iosin = MakeSharedPtr<SVOpCreateIOSInstream>(m_pApp, [SCENENAME UTF8String], 1, self.pSWState.svOutW, self.pSWState.svOutH, 0.0f, true);
+            m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_iosin);
+            //相机输出
+            SVOpCreateIOSOutstreamPtr t_op_iosout = MakeSharedPtr<SVOpCreateIOSOutstream>(m_pApp,[SCENENAME UTF8String], 1, 0);
+            m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_iosout);
+
+        }else if ([[SWBasicSys getInst].m_pDataSrc isKindOfClass:[SWDataSourceARCamera class]]){
+            SVOpCreateYUVInstreamPtr t_op_yuv = MakeSharedPtr<SVOpCreateYUVInstream>(m_pApp,[SCENENAME UTF8String], SV_PF_NV12, 1280, 720, 90.0f);
+            m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_yuv);
+        }
         //美颜
 //        SVOpUpdateFilterSmoothPtr t_op_beauty_filter = MakeSharedPtr<SVOpUpdateFilterSmooth>(m_pApp, 50.0f, u32(SVI_EBEAUTY_FILTER));
 //        m_pApp->m_pTPool->getMainThread()->pushThreadOp(t_op_beauty_filter);
@@ -165,12 +165,12 @@ void effect_op_callback(const char* _info){
 
 - (void)destroySVE {
     //停止引擎并析构
-//    if(m_pApp){
-//        m_pApp->stopSVE();
-//        m_pApp->destroy();
-//        delete m_pApp;
-//        m_pApp = nullptr;
-//    }
+    if(m_pApp){
+        m_pApp->stopSVE();
+        m_pApp->destroy();
+        delete m_pApp;
+        m_pApp = nullptr;
+    }
 }
 
 -(EAGLContext*)getGLContext{

@@ -28,4 +28,6 @@
 
 -(void)unactive;
 
+- (void)changeToShow;
+
 @end
