@@ -17,7 +17,6 @@
 #import "../swbasic/SWBasicSys.h"
 #import "../datasrc/SWDataSourceCamera.h"
 #import "../swui/cells/MainCollectionViewCell.h"
-//
 const NSString *cellID = @"MainCollectionCell";
 @interface SWMainUI()<UICollectionViewDelegate, UICollectionViewDataSource>{
     UICollectionView *m_pCollectView;

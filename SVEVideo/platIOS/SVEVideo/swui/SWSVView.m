@@ -10,16 +10,16 @@
 #import "SWUISys.h"
 #import "SWMainUI.h"
 #import "SWMainVC.h"
-#import "../swlogic/SWLogicSys.h"
-#import "../swbasic/SWBasicSys.h"
 #import "SWDataSourceCamera.h"
-#import "../datasrc/SWDataSourceARCamera.h"
 #import "src/app/SVInst.h"
 #import "src/operate/SVOpRender.h"
 #import "src/operate/SVOpCreate.h"
 #import "src/work/SVThreadPool.h"
 #import "src/work/SVThreadMain.h"
 #import "src/work/SVThreadHelp.h"
+#import "../swlogic/SWLogicSys.h"
+#import "../swbasic/SWBasicSys.h"
+#import "../datasrc/SWDataSourceARCamera.h"
 @interface SWSVView() {
     CAEAGLLayer* m_layer;
     UIButton   * m_backBtn;
@@ -166,15 +166,6 @@
     }];
 }
 
-////获取所有的触摸对象
-//NSArray * array = [touches allObjects];
-////分别取出两个touch对象
-//UITouch * pTouch1 = [array objectAtIndex:0];
-//UITouch * pTouch2 = [array objectAtIndex:1];
-////获取两个touch对象的坐标点
-//CGPoint point1 = [pTouch1 locationInView:self];
-//CGPoint point2 = [pTouch2 locationInView:self];
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [super touchesBegan:touches withEvent:event];
     //以字符的形式输出触摸点
@@ -192,7 +183,6 @@
         SWDataSourceARCamera *t_arCamera = (SWDataSourceARCamera *)[SWBasicSys getInst].m_pDataSrc;
         [t_arCamera hitPoint:CGPointMake(0.5, 0.5)];
     }
-//    //
     float t_view_w = self.bounds.size.width;
     float t_view_h = self.bounds.size.height;
     float t_real_w = self.frame.size.width / [SWLogicSys getInst].pSWState.svAdaptRate;

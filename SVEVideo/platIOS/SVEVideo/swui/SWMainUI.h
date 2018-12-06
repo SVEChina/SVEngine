@@ -7,16 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import "SWBaseUI.h"
-
 #import "SWFilterTblUI.h"
 #import "SWFunctionTblUI.h"
 #import "SWFilterSlider.h"
 #import "SWFilterRGBW.h"
 #import "SWFilterColorBalanceSlider.h"
 //主UI
-
 @interface SWMainUI : SWBaseUI
 
 - (void)refreshUI;
