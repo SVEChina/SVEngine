@@ -29,6 +29,8 @@ namespace sv {
             void pushData(u8 *_srcPtr);
             
             void update(f32 dt);
+
+            void setAngle(f32 _angle);
             
         protected:
             SVTexturePtr m_texY;

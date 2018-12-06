@@ -11,6 +11,8 @@
 #include "../renderer/SVRendererBase.h"
 #include "SVMetalDevice.h"
 
+
+
 namespace sv {
     
     namespace render{
@@ -49,8 +51,10 @@ namespace sv {
             void returnProgramme(u32 _id);
             
         protected:
+#ifdef SV_IOS
             SVMetalDevice* m_pMetalDevice;
             //MTLDevice* m_pDevice;
+#endif
         };
         
     }//!namespace render

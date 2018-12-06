@@ -26,6 +26,10 @@ void SVTrans::init(s32 _w, s32 _h,f32 _angle,PICFORMATE _picformate,SVTEXTYPE _t
     m_texTT = _tt;
 }
 
+void SVTrans::setAngle(f32 _angle){
+    m_angle=_angle;
+}
+
 void SVTrans::destroy(){
 }
 
