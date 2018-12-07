@@ -39,10 +39,10 @@ bool SVFilterGlow::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
         t_renderer->createSVTex(E_TEX_FILTER_GLOW_1,t_w, t_h, GL_RGBA);
     }
     if(! t_renderer->getSVTex(E_TEX_FILTER_GLOW_2) ){
-        t_renderer->createSVTex(E_TEX_FILTER_GLOW_2,t_w/2, t_h/2, GL_RGBA);
+        t_renderer->createSVTex(E_TEX_FILTER_GLOW_2,t_w/2.0, t_h/2.0, GL_RGBA);
     }
     if(! t_renderer->getSVTex(E_TEX_FILTER_GLOW_3) ){
-        t_renderer->createSVTex(E_TEX_FILTER_GLOW_3,t_w/2, t_h/2, GL_RGBA);
+        t_renderer->createSVTex(E_TEX_FILTER_GLOW_3,t_w/2.0, t_h/2.0, GL_RGBA);
     }
     //创建多passnode
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
@@ -61,7 +61,7 @@ bool SVFilterGlow::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     t_pass1 = MakeSharedPtr<SVPass>();
     SVMtlSmoothPtr t_lkMtl02=MakeSharedPtr<SVMtlSmooth>(mApp,"blurtex");
     t_lkMtl02->setTexcoordFlip(1.0f, 1.0f);
-    t_lkMtl02->setImgWH(t_w,t_h);
+    t_lkMtl02->setImgWH(3.5/t_w,0.0);
     t_lkMtl02->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
     t_lkMtl02->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
     t_pass1->setMtl(t_lkMtl02);
@@ -71,7 +71,7 @@ bool SVFilterGlow::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
 //
     SVMtlSmoothPtr t_lkMtl01=MakeSharedPtr<SVMtlSmooth>(mApp,"blurtex");
     t_lkMtl01->setTexcoordFlip(1.0f, 1.0f);
-    t_lkMtl01->setImgWH(t_w/4,t_h/4);
+    t_lkMtl01->setImgWH(0.0 ,3.5/t_h);
     t_pass1 = MakeSharedPtr<SVPass>();
     t_pass1->setMtl(t_lkMtl01);
     t_pass1->setInTex(0,E_TEX_FILTER_GLOW_2);

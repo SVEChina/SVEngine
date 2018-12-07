@@ -59,16 +59,16 @@ void SVCoordGridNode::update(f32 dt){
 }
 
 void SVCoordGridNode::render(){
-    if (mApp->m_pGlobalParam->m_curScene && m_visible ){
-        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-        if (m_pRenderObj) {
+//    if (mApp->m_pGlobalParam->m_curScene && m_visible ){
+//        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+//        if (m_pRenderObj) {
 //            m_pRenderObj->setMesh(m_pMeshX);
 //            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVCoordGridNode");
-            m_pRenderObj->setMesh(m_pMeshY);
-            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVCoordGridNode");
+//            m_pRenderObj->setMesh(m_pMeshY);
+//            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVCoordGridNode");
 //            m_pRenderObj->setMesh(m_pMeshZ);
 //            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVCoordGridNode");
-        }
+     //   }
 //        //
 //        FMat4 m_mat_unit = FMat4_identity;
 //        SVMtlGeo3dPtr t_mtl = MakeSharedPtr<SVMtlGeo3d>(mApp);
@@ -89,7 +89,7 @@ void SVCoordGridNode::render(){
 //                                     FVec3(0.0f,0.0f,50.0f*m_unit),
 //                                     t_mtl,
 //                                     "sv_coord_axis");
-    }
+ //   }
     SVNode::render();
 }
 

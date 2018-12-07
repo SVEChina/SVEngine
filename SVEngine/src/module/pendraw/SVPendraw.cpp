@@ -31,7 +31,7 @@
 SVPendraw::SVPendraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
-    m_strokeWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeWidth;
+    m_strokeWidth = 1.0;
     m_strokeColor.set(mApp->m_pGlobalMgr->m_pConfig->m_strokeColor);
 }
 
