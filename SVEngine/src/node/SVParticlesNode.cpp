@@ -42,7 +42,7 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     m_pIndexData = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_atten = mApp->getTexMgr()->getTexture("svres/textures/particles_base_attenuation.png",true);
-    m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_xuehua_00.png",true);//particles_base_diffuse.png 
+    m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_xuehua_00.png",true); 
 }
 
 SVParticlesNode::~SVParticlesNode() {
@@ -54,29 +54,6 @@ SVParticlesNode::~SVParticlesNode() {
     m_pMesh = nullptr;
     m_mtl_particle = nullptr;
 }
-
-//// 粒子类型
-//enum PARTICLETYPE {
-//    TYPE_BILLBOARD = 0,
-//    TYPE_FLAT,
-//    TYPE_POINT,
-//    TYPE_LENGTH,
-//    TYPE_RANDOM,
-//    TYPE_ROUTE,
-//    TYPE_CHAIN,
-//    NUM_TYPES,
-//};
-
-//// 粒子发射器类型
-//enum EMITTERTYPE {
-//    EMITTER_POINT = 0,
-//    EMITTER_SPHERE,
-//    EMITTER_CYLINDER,
-//    EMITTER_BOX,
-//    EMITTER_RANDOM,
-//    EMITTER_SPARK,
-//    NUM_EMITTERS,
-//};
 
 void SVParticlesNode::testInit() {
     if( m_pParticles) {
@@ -114,13 +91,6 @@ void SVParticlesNode::testInit() {
 SVParticlesPtr SVParticlesNode::getParticles() {
     return m_pParticles;
 }
-
-//    EMITTER_POINT = 0,
-//    EMITTER_SPHERE,
-//    EMITTER_CYLINDER,
-//    EMITTER_BOX,
-//    EMITTER_RANDOM,
-//    EMITTER_SPARK,
 
 void SVParticlesNode::update(f32 ifps) {
     SVNode::update(ifps);
