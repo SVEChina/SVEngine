@@ -75,8 +75,6 @@ namespace sv {
             //
             virtual void renderVisualizer();
             
-            //
-            void testRandomPos();
         protected:
             //更新
             virtual void update(f32 ifps);
