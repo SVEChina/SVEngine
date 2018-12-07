@@ -21,12 +21,14 @@ namespace sv {
             virtual ~SVTrans();
             
             virtual void init(s32 _w, s32 _h,f32 _angle,PICFORMATE _picformate,SVTEXTYPE _tt);
-            
+
             virtual void destroy();
             
             virtual void pushData(u8 *_srcPtr);
             
             virtual void update(f32 dt);
+
+            virtual void setAngle(f32 _angle);
             
         protected:
             s32 m_width;

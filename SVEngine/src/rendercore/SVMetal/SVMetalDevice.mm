@@ -5,9 +5,8 @@
 //  Created by 付一洲 on 2018/11/13.
 //  Copyright © 2018 李晓帆. All rights reserved.
 //
-
 #import "SVMetalDevice.h"
-
+#ifdef SV_IOS
 @interface SVMetalDevice(){
 }
 @end
@@ -24,5 +23,5 @@
 
 -(void)dealloc {
 }
-
 @end
+#endif

@@ -19,6 +19,7 @@
 #include "../node/SVFacePointNode.h"
 #include "../node/SVFaceShapeNode.h"
 #include "../node/SVShapeVariedNode.h"
+#include "../node/SVSpriteNode.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/renderer/SVRendererBase.h"
 #include "../mtl/SVTexture.h"
@@ -50,11 +51,22 @@ void StreamInCore::init(s32 _w,s32 _h,PICFORMATE _fromate,f32 _angle,bool _show)
             //创建可视节点
 
             if(_show) {
-                m_showNode = MakeSharedPtr<SVIOSInstreamNode>(mApp);
-                SVIOSInstreamNodePtr tmpNode = std::dynamic_pointer_cast<SVIOSInstreamNode>(m_showNode);
-                if(tmpNode){
-                    tmpNode->init(m_tt);
-                }
+                #ifdef SV_IOS
+                    m_showNode = MakeSharedPtr<SVIOSInstreamNode>(mApp);
+                    SVIOSInstreamNodePtr tmpNode = std::dynamic_pointer_cast<SVIOSInstreamNode>(m_showNode);
+                    if(tmpNode){
+                        tmpNode->init(m_tt);
+                    }
+                #endif
+
+                #ifdef SV_ANDROID
+                    m_showNode = MakeSharedPtr<SVSpriteNode>(mApp,(f32)_h,(f32)_w);
+                    SVSpriteNodePtr tmpNode = std::dynamic_pointer_cast<SVSpriteNode>(m_showNode);
+                    if(tmpNode){
+                        tmpNode->setTexture(m_tt);
+                        tmpNode->setRSType(RST_BACKGROUND);
+                    }
+                #endif
             }
             //创建转换器
             m_trans = MakeSharedPtr<SVTransGPU>(mApp);
@@ -159,6 +171,7 @@ void SVStreamIn::pushStreamData(cptr8 _name,u8* _srcPtr,s32 width,s32 height,s32
     if(it!=m_TexMap.end()){
         StreamInCorePtr t_streamin = it->data;
         if(t_streamin->m_trans) {
+            t_streamin->m_trans->setAngle(_angle);
             t_streamin->m_trans->pushData(_srcPtr);
         }
     }

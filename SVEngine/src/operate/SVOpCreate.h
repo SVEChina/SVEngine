@@ -92,6 +92,22 @@ namespace sv {
         SVString m_strPath;
     };
     
+    class SVOpTexAttachment: public SVOpBase {
+    public:
+        SVOpTexAttachment(SVInst *_app, cptr8 _strPath, s32 _channel, cptr8 _data, s32 _width, s32 _height);
+        
+        ~SVOpTexAttachment();
+        
+    protected:
+        void _process(f32 dt);
+        
+        cptr8 m_data;
+        SVString m_strPath;
+        s32   m_width;
+        s32   m_height;
+        s32   m_channel;
+    };
+    
     //打开延时挂起
     class SVOpOpenDelaySuspend : public SVOpBase {
     public:

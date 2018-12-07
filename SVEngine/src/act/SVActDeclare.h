@@ -39,7 +39,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVActCircle);
         DECLARE_SHAREPTR(SVActSequence);
         DECLARE_SHAREPTR(SVActTime);
-       
+        DECLARE_SHAREPTR(SVTexAttachment);
         
         //MOVIE
         DECLARE_SHAREPTR(SVMovie);

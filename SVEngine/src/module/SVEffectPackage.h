@@ -10,6 +10,7 @@
 
 
 #include "SVModuleBase.h"
+#include "../act/SVActDeclare.h"
 namespace sv{
     
     class SVEffectUnit : public SVGBase{
@@ -57,10 +58,16 @@ namespace sv{
         void addEffectUnit(SVNodePtr _nodePtr);
         
         SVNodePtr getNode(cptr8 _name);
+        
+        void addAttachment(SVTexAttachmentPtr _attachment);
+        
+        SVTexAttachmentPtr getTexAttachment(s32 _channel);
     protected:
         EFFECTANISTATE m_aniState;
         typedef SVArray<SVEffectUnitPtr> SVEFFECTUNITPOOL;
         SVEFFECTUNITPOOL m_effectUnitPool;
+        typedef SVArray<SVTexAttachmentPtr> SVATTACHMENTPOOL;
+        SVATTACHMENTPOOL m_attachmentPool;
         SVLockPtr m_lock;
     };
     

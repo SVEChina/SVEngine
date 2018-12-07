@@ -16,6 +16,7 @@
 #include "../node/SVSpriteNode.h"
 #include "../node/SVBitFontNode.h"
 #include "../base/SVPreDeclare.h"
+#include "../act/SVTexAttachment.h"
 
 void spinenode_callback(SVSpineNodePtr _node,void* _obj,s32 _status) {
     SVEffectUnit *t_unit = (SVEffectUnit*)(_obj);
@@ -95,6 +96,11 @@ void SVEffectPackage::destroy(){
         t_unit->destroy();
     }
     m_effectUnitPool.destroy();
+    for (s32 i = 0; i<m_attachmentPool.size(); i++) {
+        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        t_attachment->destroy();
+    }
+    m_attachmentPool.destroy();
     m_lock->unlock();
     SVModuleBase::destroy();
 }
@@ -124,6 +130,10 @@ void SVEffectPackage::update(f32 _dt) {
         }
     }
     
+    for (s32 i = 0; i < m_attachmentPool.size(); i++) {
+        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        t_attachment->update(_dt);
+    }
 }
 
 bool SVEffectPackage::procEvent(SVEventPtr _event) {
@@ -138,6 +148,23 @@ void SVEffectPackage::addEffectUnit(SVNodePtr _nodePtr){
     }
 }
 
+void SVEffectPackage::addAttachment(SVTexAttachmentPtr _attachment){
+    if (_attachment) {
+        _attachment->init();
+        m_attachmentPool.append(_attachment);
+    }
+}
+
+SVTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
+    for (s32 i = 0; i < m_attachmentPool.size(); i++) {
+        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVTexAttachment::TEXATTACHSPARAM t_param = t_attachment->getParam();
+        if (t_param.channel == _channel) {
+            return t_attachment;
+        }
+    }
+    return nullptr;
+}
 
 SVNodePtr SVEffectPackage::getNode(cptr8 _name){
     for (s32 i = 0; i < m_effectUnitPool.size(); i++) {
