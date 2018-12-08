@@ -20,7 +20,6 @@ s32 SVRenderMesh::getVertexFormateSize(VFTYPE _type) {
     return SVResGLRenderMesh::getVertexFormateSize(_type);
 }
 
-//
 SVRenderMesh::SVRenderMesh(SVInst* _app)
 :SVRObjBase(_app){
     _resetMeshConf();
@@ -58,17 +57,14 @@ void SVRenderMesh::create(SVRendererBasePtr _renderer){
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
         m_objVBOPtr = MakeSharedPtr<SVResGLRenderMesh>(mApp);
-        
     }
     SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
-        
     }
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
     if (t_rendeMetalPtr) {
         //渲染器类型E_RENDERER_METAL,
-        
     }
     if (m_objVBOPtr) {
         _updateConf();
@@ -89,7 +85,6 @@ void SVRenderMesh::setIndexPoolType(u32 itype) {
         m_renderMeshConf.indexPoolType = itype;
         m_renderMeshConf.dirty = true;
     }
-    
 }
 
 void SVRenderMesh::setVertexPoolType(u32 vtype) {
@@ -97,7 +92,6 @@ void SVRenderMesh::setVertexPoolType(u32 vtype) {
         m_renderMeshConf.vertPoolType = vtype;
         m_renderMeshConf.dirty = true;
     }
-    
 }
 
 void SVRenderMesh::setDrawMethod(DRAWMETHOD drawtype) {
@@ -105,7 +99,6 @@ void SVRenderMesh::setDrawMethod(DRAWMETHOD drawtype) {
         m_renderMeshConf.drawmethod = drawtype;
         m_renderMeshConf.dirty = true;
     }
-    
 }
 
 void SVRenderMesh::setVertexType(VFTYPE type) {
@@ -113,7 +106,6 @@ void SVRenderMesh::setVertexType(VFTYPE type) {
         m_renderMeshConf.vftype = type;
         m_renderMeshConf.dirty = true;
     }
-    
 }
 
 void SVRenderMesh::setvisible(bool bVis) {
@@ -221,17 +213,14 @@ void SVRenderMeshDvid::create(SVRendererBasePtr _renderer){
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
         m_objVBOPtr = MakeSharedPtr<SVResGLRenderMeshDvid>(mApp);
-        
     }
     SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
-        
     }
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
     if (t_rendeMetalPtr) {
         //渲染器类型E_RENDERER_METAL,
-        
     }
     if (m_objVBOPtr) {
         _updateConf();
@@ -359,6 +348,3 @@ void SVRenderMeshDvid::render() {
         t_rendeMeshPtr->render();
     }
 }
-
-
-
