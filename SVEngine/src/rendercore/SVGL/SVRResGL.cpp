@@ -1170,6 +1170,7 @@ void SVResGLRenderMesh::setIndexData(SVDataSwapPtr _data,s32 _num){
                 m_indexID = 0;
             }
         }
+        m_indexNum = _num;
         if(m_indexID==0) {
             glGenBuffers(1, &m_indexID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexID);
