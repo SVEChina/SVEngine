@@ -34,7 +34,7 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     //
     m_mtl_particle = MakeSharedPtr<SVMtlParticleAni>(mApp);
     m_pMesh = _app->getRenderMgr()->createMeshRObj();
-    m_pMesh->createMesh(true);
+    m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_PARTICLE);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     //

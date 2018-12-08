@@ -151,6 +151,7 @@ void SVSpine::init(spSkeletonData *skedata, spAtlas *atlas, bool ownsSkeletonDat
         pMeshData->m_pRenderMesh = MakeSharedPtr<SVRenderMesh>(mApp);
         pMeshData->m_pRenderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
         pMeshData->m_pRenderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
+        pMeshData->m_pRenderMesh->createMesh();
         pMeshData->m_pRenderIndex  = MakeSharedPtr<SVDataSwap>();
         pMeshData->m_pRenderVertex = MakeSharedPtr<SVDataSwap>();
         m_spineDataPool.append(pMeshData);
@@ -306,7 +307,6 @@ void SVSpine::update(f32 deltaTime) {
             pMeshData->m_pRenderMesh->setVertexData(pMeshData->m_pRenderVertex);
             pMeshData->m_pRenderMesh->setIndexData(pMeshData->m_pRenderIndex,
                                                    pMeshData->m_indexCount);
-            pMeshData->m_pRenderMesh->createMesh();
         }
         pMeshData->m_aRenderVecData.clear();
         pMeshData->m_aRenderIndexData.clear();

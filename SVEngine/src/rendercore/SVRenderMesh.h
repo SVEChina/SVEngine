@@ -69,7 +69,7 @@ namespace sv {
             
             virtual void setVertexData(SVDataSwapPtr _data);
             
-            void createMesh(bool _direct = false);
+            void createMesh();
             
         protected:
             void _resetMeshConf();
@@ -84,7 +84,7 @@ namespace sv {
             
             RENDERMESHCONF m_renderMeshConf;
             
-            MESHSTATE m_meshState;
+            bool  m_created;
         private:
             
             RENDERMESHDATA m_renderMeshData;

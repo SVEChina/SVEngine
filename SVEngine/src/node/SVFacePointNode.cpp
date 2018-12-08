@@ -39,7 +39,7 @@ void SVFacePointNode::init(){
     m_pMesh->setVertexData(t_data);
     m_pMesh->setVertexType(E_VF_V2);
     m_pMesh->setDrawMethod(E_DM_POINTS);
-    
+    m_pMesh->createMesh();
   //  m_pMesh = SVGeoGen::genRect(mApp,100,100,0,0,100,100,m_aabbBox);
     // m_pMesh->setDrawMethod(E_DM_POINTS);
 }
@@ -60,7 +60,6 @@ void SVFacePointNode::update(f32 _dt){
         t_data->writeData(t_person->getFaceDataOriginal(), 212*sizeof(float));
         m_pMesh->setVertexDataNum(106);
         m_pMesh->setVertexData(t_data);
-        m_pMesh->createMesh();
         m_pRenderObj->setMtl(m_pMtl);
         m_pRenderObj->setMesh(m_pMesh);
     }

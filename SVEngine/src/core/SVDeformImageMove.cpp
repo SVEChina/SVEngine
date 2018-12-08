@@ -53,7 +53,8 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_passDeform = nullptr;
     m_passPoint = nullptr;
     m_pMeshBg = nullptr;
-    m_pMeshPoint = mApp->getRenderMgr()->createMeshRObj();;
+    m_pMeshPoint = mApp->getRenderMgr()->createMeshRObj();
+    m_pMeshPoint->createMesh();
     m_tt_w = 0;
     m_tt_h = 0;
     m_dataPoint = nullptr;
@@ -554,5 +555,4 @@ void SVDeformImageMove::updatePointMesh( V2* _facepoint){
     m_pMeshPoint->setVertexData(t_data);
     m_pMeshPoint->setVertexType(E_VF_V2_C_T0);
     m_pMeshPoint->setDrawMethod(E_DM_TRIANGLES);
-    m_pMeshPoint->createMesh();
 }

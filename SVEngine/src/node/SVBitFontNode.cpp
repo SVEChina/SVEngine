@@ -289,9 +289,6 @@ void SVBitFontNode::_refresh(){
     m_pRenderVertex->writeData(&tVerts[0], sizeof(V2_C_T0) * SV_BITFONT_MAX_NUM * 6);
     m_pMesh->setVertexDataNum(SV_BITFONT_MAX_NUM * 6);
     m_pMesh->setVertexData(m_pRenderVertex);
-    m_pMesh->setVertexType(E_VF_V2_C_T0);
-    m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    m_pMesh->createMesh();
 }
 
 void SVBitFontNode::_genMesh(){
@@ -394,7 +391,6 @@ void SVBitFontNode::_genMesh(){
     m_pMesh->setVertexData(m_pRenderVertex);
     m_pMesh->setVertexType(E_VF_V2_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    //
     m_pMesh->createMesh();
 }
 

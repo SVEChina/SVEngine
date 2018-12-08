@@ -92,7 +92,6 @@ void SV2DFaceMaskSTNode::update(f32 dt) {
     //传送顶点数据
     if (m_pFaceMesh) {
         m_pFaceMesh->setVertex2Data(m_pVerts);
-        m_pFaceMesh->createMesh();
     }
     if (m_pFaceMesh && m_mtlFace2D) {
         m_renderObject->setMtl(m_mtlFace2D);

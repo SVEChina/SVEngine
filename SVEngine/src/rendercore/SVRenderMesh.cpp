@@ -23,15 +23,15 @@ s32 SVRenderMesh::getVertexFormateSize(VFTYPE _type) {
 //
 SVRenderMesh::SVRenderMesh(SVInst* _app)
 :SVRObjBase(_app){
-    m_meshState = MESHDATA_WAIT;
     _resetMeshConf();
     _resetMeshData();
+    m_created = false;
 }
 
 SVRenderMesh::~SVRenderMesh() {
-    m_meshState = MESHDATA_WAIT;
     _resetMeshConf();
     _resetMeshData();
+    m_created = false;
 }
 
 void SVRenderMesh::_resetMeshData(){
@@ -140,21 +140,13 @@ void SVRenderMesh::setVertexData(SVDataSwapPtr _data){
     if (_data) {  
         m_renderMeshData.pDataVertex = _data;
         m_renderMeshData.dirty = true;
-        if (_data->getSize() > 0 && m_meshState == MESHDATA_WAIT) {
-            m_meshState = MESHDATA_READY;
-        }
     }
 }
 
-void SVRenderMesh::createMesh(bool _direct){
-    if(_direct) {
-        m_meshState = MESHDATA_CREATE;
+void SVRenderMesh::createMesh(){
+    if (!m_created) {
+        m_created = true;
         mApp->getRenderMgr()->pushRCmdCreate(THIS_TO_SHAREPTR(SVRenderMesh));
-    }else{
-        if (m_meshState == MESHDATA_READY) {
-            m_meshState = MESHDATA_CREATE;
-            mApp->getRenderMgr()->pushRCmdCreate(THIS_TO_SHAREPTR(SVRenderMesh));
-        }
     }
 }
 
@@ -198,7 +190,6 @@ void SVRenderMesh::_updateData(){
 
 SVRenderMeshDvid::SVRenderMeshDvid(SVInst* _app)
 :SVRenderMesh(_app){
-    m_meshState = MESHDATA_WAIT;
     _resetMeshConf();
     _resetMeshData();
 }
@@ -219,7 +210,6 @@ void SVRenderMeshDvid::_resetMeshData(){
 }
 
 SVRenderMeshDvid::~SVRenderMeshDvid() {
-    m_meshState = MESHDATA_WAIT;
     _resetMeshConf();
     _resetMeshData();
 }
@@ -266,19 +256,14 @@ void SVRenderMeshDvid::setIndexData(SVDataSwapPtr _data,s32 _num){
 }
 
 void SVRenderMeshDvid::setVertexDataNum(s32 _vertexNum){
-    //if (m_renderMeshDvidData.pointNum != _vertexNum) {
-        m_renderMeshDvidData.pointNum = _vertexNum;
-        m_renderMeshDvidData.dirty = true;
-    //}
+    m_renderMeshDvidData.pointNum = _vertexNum;
+    m_renderMeshDvidData.dirty = true;
 }
 
 void SVRenderMeshDvid::setVertex2Data(SVDataSwapPtr _pdata){
     if (_pdata) {
         m_renderMeshDvidData.pDataV2 = _pdata;
         m_renderMeshDvidData.dirty = true;
-        if (_pdata->getSize() > 0 && m_meshState == MESHDATA_WAIT) {
-            m_meshState = MESHDATA_READY;
-        }
     }
 }
 
@@ -286,9 +271,6 @@ void SVRenderMeshDvid::setVertex3Data(SVDataSwapPtr _pdata){
     if (_pdata) {
         m_renderMeshDvidData.pDataV3 = _pdata;
         m_renderMeshDvidData.dirty = true;
-        if (_pdata->getSize() > 0 && m_meshState == MESHDATA_WAIT) {
-            m_meshState = MESHDATA_READY;
-        }
     }
 }
 

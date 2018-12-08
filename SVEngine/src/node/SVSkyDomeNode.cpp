@@ -19,6 +19,7 @@ SVSkyDomeNode::SVSkyDomeNode(SVInst* _app)
 ,mDomeTex(nullptr){
     ntype = "SVSkyDomeNode";
     mMesh = MakeSharedPtr<SVRenderMesh>(mApp);
+    mMesh->createMesh();
     m_renderObject = MakeSharedPtr<SVRenderObject>();
 }
 
@@ -117,7 +118,6 @@ void SVSkyDomeNode::_generateMesh(){
     tmpDataSwap->writeData((void*)&VecPoint[0], sizeof(V3_T0) * VecPoint.size() );
     mMesh->setVertexDataNum(VecPoint.size());
     mMesh->setVertexData(tmpDataSwap);
-    mMesh->createMesh();
     SVArray<u16> VecIndex;
     for (i = 0; i < mHorizontalResolution; ++i){
         VecIndex.append(mVerticalResoulution + 2 + (mVerticalResoulution + 1)*i);
