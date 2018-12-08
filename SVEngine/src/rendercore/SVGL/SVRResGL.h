@@ -452,8 +452,6 @@ namespace sv {
 
             void setDrawMethod(DRAWMETHOD drawtype);
 
-            void setvisible(bool bVis);
-
             void setVertexDataNum(s32 _vertexNum);
             
             virtual void setIndexData(SVDataSwapPtr _data,s32 _num);
@@ -470,10 +468,6 @@ namespace sv {
 
             virtual void _unbindVerts();
 
-            virtual void _updateVertex();
-
-            virtual void _updateIndex();
-
             VFTYPE m_vftype;
             u32 m_vaoID;
             u32 m_vboID;
@@ -483,16 +477,8 @@ namespace sv {
             u32 m_vertPoolType;
             u32 m_indexPoolType;
             DRAWMETHOD m_drawmethod;
-            bool m_dirty;
-            bool m_renderDirty;
-            SVDataSwapPtr m_pDataIndex;
-            SVDataSwapPtr m_pDataVertex;
-            bool m_bVisible;
-            bool m_verbufferNeedResize;
-            bool m_indbufferNeedResize;
             bool m_useVAO;
         };
-
 
         class SVResGLRenderMeshDvid : public SVResGLRenderMesh {
         public:
@@ -528,17 +514,10 @@ namespace sv {
 
         protected:
             void _reset();
-            
-            void _bindVerts();
-
+        
             void _updateVertDsp();
 
-            void _unbindVerts();
-
-            void _updateVertex();
-
         private:
-            bool m_vertexDirty;
             u32 vertex2ID_0;
             u32 vertex2ID_1;
             u32 vertex2ID_2;
@@ -551,18 +530,8 @@ namespace sv {
             u32 normalID;
             u32 tagentID;
             u32 btagentID;
-
-            SVDataSwapPtr m_pDataV2;
-            SVDataSwapPtr m_pDataV3;
-            SVDataSwapPtr m_pDataC0;
-            SVDataSwapPtr m_pDataC1;
-            SVDataSwapPtr m_pDataT0;
-            SVDataSwapPtr m_pDataT1;
-            SVDataSwapPtr m_pDataT2;
-            SVDataSwapPtr m_pDataNor;
-            SVDataSwapPtr m_pDataTag;
-            SVDataSwapPtr m_pDataBTor;
         };
+        
         ////////////////////////////////////////////////////////
         //VAO资源
         class SVRResGLVAO: public SVRObjBase {

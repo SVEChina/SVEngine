@@ -1118,31 +1118,11 @@ void SVResGLRenderMesh::_reset(){
     m_drawmethod = E_DM_TRIANGLES;
     m_vertPoolType = GL_STATIC_DRAW;
     m_indexPoolType = GL_STATIC_DRAW;
-    m_pDataIndex = nullptr;
-    m_pDataVertex = nullptr;
-    m_bVisible = true;
-    m_dirty = true;
-    m_renderDirty = true;
-    m_verbufferNeedResize = false;
-    m_indbufferNeedResize = false;
     m_useVAO = false;
 }
 
 void SVResGLRenderMesh::create(SVRendererBasePtr _renderer){
     SVRResGLVBO::create(_renderer);
-    if( m_pDataIndex){
-        glGenBuffers(1, &m_indexID);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexID);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_pDataIndex->getSize(), m_pDataIndex->getData(),m_indexPoolType);
-        m_pDataIndex = nullptr;
-    }
-    //
-    if(m_pDataVertex){
-        glGenBuffers(1, &m_vboID);
-        glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataVertex->getSize(), m_pDataVertex->getData(),m_vertPoolType);
-        m_pDataVertex = nullptr;
-    }
 }
 
 void SVResGLRenderMesh::destroy(SVRendererBasePtr _renderer) {
@@ -1166,7 +1146,6 @@ void SVResGLRenderMesh::setIndexPoolType(u32 itype) {
 }
 
 void SVResGLRenderMesh::setVertexPoolType(u32 vtype) {
-
     if (vtype == GL_STREAM_DRAW || vtype == GL_STATIC_DRAW || vtype == GL_DYNAMIC_DRAW) {
         m_vertPoolType = vtype;
     } else {
@@ -1183,24 +1162,47 @@ void SVResGLRenderMesh::setVertexType(VFTYPE type) {
 }
 
 void SVResGLRenderMesh::setIndexData(SVDataSwapPtr _data,s32 _num){
-    if(  m_indexNum > 0 && m_indexNum < _num ){
-        m_indbufferNeedResize = true;
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(_data && t_renderer){
+        if(_num>m_indexNum) {
+            if (m_indexID > 0) {
+                glDeleteBuffers(1, &m_indexID);
+                m_indexID = 0;
+            }
+        }
+        if(m_indexID==0) {
+            glGenBuffers(1, &m_indexID);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexID);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, _data->getSize(), _data->getData(),m_indexPoolType);
+        }else{
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexID);
+            glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, _data->getSize(), _data->getData() );
+        }
     }
-    m_indexNum = _num;
-    m_pDataIndex = _data;
-    m_dirty = true;
 }
 
 void SVResGLRenderMesh::setVertexDataNum(s32 _vertexNum){
-    if( m_pointNum > 0 &&m_pointNum < _vertexNum ){
-        m_verbufferNeedResize = true;
+    if( m_pointNum > 0 && m_pointNum < _vertexNum ){
+        if (m_vboID > 0) {
+            glDeleteBuffers(1, &m_vboID);
+            m_vboID = 0;
+        }
     }
     m_pointNum = _vertexNum;
 }
 
 void SVResGLRenderMesh::setVertexData(SVDataSwapPtr _data){
-    m_pDataVertex = _data;
-    m_dirty = true;
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(_data && t_renderer){
+        if(m_vboID == 0) {
+            glGenBuffers(1, &m_vboID);
+            glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
+            glBufferData(GL_ARRAY_BUFFER,_data->getSize(), _data->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _data->getSize(), _data->getData() );
+        }
+    }
 }
 
 void SVResGLRenderMesh::render() {
@@ -1208,8 +1210,6 @@ void SVResGLRenderMesh::render() {
     if(!t_renderer) {
         return ;
     }
-    if(!m_bVisible)
-        return ;
     if(m_useVAO) {
         //使用vao
         if(m_indexID>0) {
@@ -1220,28 +1220,12 @@ void SVResGLRenderMesh::render() {
         }
     }else{
         //使用vbo
-        //创建相关的对象
-        if( m_pDataIndex){
-            if(m_indexID<=0) {
-                glGenBuffers(1, &m_indexID);
-            }
-        }
-        if(m_pDataVertex){
-            if(m_vboID<=0) {
-                glGenBuffers(1, &m_vboID);
-            }
-        }
         if(m_vboID>0) {
             if(m_indexID>0) {
                 //索引绘制
                 //因为索引这块可能大于65536 所以需要分批渲染 by fyz
                 t_renderer->svBindIndexBuffer(m_indexID);
                 t_renderer->svBindVertexBuffer(m_vboID);
-                if(m_dirty){
-                    m_dirty = false;
-                    _updateVertex();
-                    _updateIndex();
-                }
                 _updateVertDsp();
                 glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
                 t_renderer->svBindVertexBuffer(0);
@@ -1249,10 +1233,6 @@ void SVResGLRenderMesh::render() {
             } else {
                 //非索引绘制
                 t_renderer->svBindVertexBuffer(m_vboID);
-                if(m_dirty){
-                    m_dirty = false;
-                    _updateVertex();
-                }
                 _updateVertDsp();
                 glDrawArrays(m_drawmethod, 0, m_pointNum);
                 t_renderer->svBindVertexBuffer(0);
@@ -1276,7 +1256,7 @@ void SVResGLRenderMesh::_bindVerts(){
         }else{
             t_renderer->svBindIndexBuffer(0);
         }
-
+        //
         if(m_vboID>0){
             t_renderer->svBindVertexBuffer(m_vboID);
         }else{
@@ -1288,6 +1268,9 @@ void SVResGLRenderMesh::_bindVerts(){
 void SVResGLRenderMesh::_unbindVerts(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
+        for(s32 i=0;i<8;i++){
+            glDisableVertexAttribArray(i);
+        }
         if(m_indexID>0){
             t_renderer->svBindIndexBuffer(0);
         }
@@ -1297,56 +1280,6 @@ void SVResGLRenderMesh::_unbindVerts(){
     }
 }
 
-void SVResGLRenderMesh::_updateVertex() {
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
-    if(m_pDataVertex && t_renderer){
-        t_renderer->svBindVertexBuffer(m_vboID);
-        if(m_verbufferNeedResize){
-            m_verbufferNeedResize = false;
-            if (m_vboID > 0) {
-                glDeleteBuffers(1, &m_vboID);
-                m_vboID = 0;
-            }
-            if(m_pDataVertex){
-                glGenBuffers(1, &m_vboID);
-                glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-                glBufferData(GL_ARRAY_BUFFER,m_pDataVertex->getSize(), m_pDataVertex->getData(),m_vertPoolType);
-            }
-            
-        }else{
-            glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataVertex->getSize(), m_pDataVertex->getData() );
-        }
-    }
-    m_pDataVertex = nullptr;
-}
-
-void SVResGLRenderMesh::_updateIndex() {
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
-    if(m_pDataIndex && t_renderer){
-        t_renderer->svBindIndexBuffer(m_indexID);
-        if(m_indbufferNeedResize){
-            m_indbufferNeedResize= false;
-            if (m_indexID > 0) {
-                glDeleteBuffers(1, &m_indexID);
-                m_indexID = 0;
-            }
-            if(m_pDataIndex){
-                glGenBuffers(1, &m_indexID);
-                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexID);
-                glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_pDataIndex->getSize(), m_pDataIndex->getData(),m_indexPoolType);
-            }
-            
-        }else{
-            glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_pDataIndex->getSize(), m_pDataIndex->getData() );
-        }
-        m_pDataIndex = nullptr;
-    }
-}
-
-void SVResGLRenderMesh::setvisible(bool bVis) {
-    m_bVisible = bVis;
-}
-
 //
 SVResGLRenderMeshDvid::SVResGLRenderMeshDvid(SVInst* _app)
         :SVResGLRenderMesh(_app){
@@ -1354,7 +1287,6 @@ SVResGLRenderMeshDvid::SVResGLRenderMeshDvid(SVInst* _app)
 }
 
 SVResGLRenderMeshDvid::~SVResGLRenderMeshDvid() {
-    _reset();
 }
 
 void SVResGLRenderMeshDvid::_reset(){
@@ -1371,107 +1303,14 @@ void SVResGLRenderMeshDvid::_reset(){
     normalID = 0;
     tagentID = 0;
     btagentID = 0;
-    m_pDataV2 = nullptr;
-    m_pDataV3 = nullptr;
-    m_pDataC0 = nullptr;
-    m_pDataC1 = nullptr;
-    m_pDataT0 = nullptr;
-    m_pDataT1 = nullptr;
-    m_pDataT2 = nullptr;
-    m_pDataNor = nullptr;
-    m_pDataTag = nullptr;
-    m_pDataBTor = nullptr;
-    m_vertexDirty = true;
 }
 
 void SVResGLRenderMeshDvid::create(SVRendererBasePtr _renderer){
-    SVRResGLVBO::create(_renderer);
-    //索引
-    if( m_pDataIndex){
-        glGenBuffers(1, &m_indexID);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexID);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_pDataIndex->getSize(), m_pDataIndex->getData(),m_indexPoolType);
-        m_pDataIndex = nullptr;
-    }
-    if(m_pDataVertex){
-        glGenBuffers(1, &m_vboID);
-        glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataVertex->getSize(), m_pDataVertex->getData(),m_vertPoolType);
-        m_pDataVertex = nullptr;
-    }
-    //数据
-    if(m_pDataV2){
-        glGenBuffers(1, &vertex2ID_0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertex2ID_0);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataV2->getSize(), m_pDataV2->getData(),m_vertPoolType);
-        m_pDataV2 = nullptr;
-    }
-    if(m_pDataV3){
-        glGenBuffers(1, &vertex3ID);
-        glBindBuffer(GL_ARRAY_BUFFER, vertex3ID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataV3->getSize(), m_pDataV3->getData(),m_vertPoolType);
-        m_pDataV3 = nullptr;
-    }
-    if(m_pDataC0){
-        glGenBuffers(1, &color0ID);
-        glBindBuffer(GL_ARRAY_BUFFER, color0ID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataC0->getSize(), m_pDataC0->getData(),m_vertPoolType);
-        m_pDataC0 = nullptr;
-    }
-    if(m_pDataC1){
-        glGenBuffers(1, &color1ID);
-        glBindBuffer(GL_ARRAY_BUFFER, color1ID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataC1->getSize(), m_pDataC1->getData(),m_vertPoolType);
-        m_pDataC1 = nullptr;
-    }
-    if(m_pDataT0){
-        glGenBuffers(1, &texcoord0ID);
-        glBindBuffer(GL_ARRAY_BUFFER, texcoord0ID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataT0->getSize(), m_pDataT0->getData(),m_vertPoolType);
-        m_pDataT0 = nullptr;
-    }
-    if(m_pDataT1){
-        glGenBuffers(1, &texcoord1ID);
-        glBindBuffer(GL_ARRAY_BUFFER, texcoord1ID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataT1->getSize(), m_pDataT1->getData(),m_vertPoolType);
-        m_pDataT1 = nullptr;
-    }
-    if(m_pDataT2){
-        glGenBuffers(1, &texcoord2ID);
-        glBindBuffer(GL_ARRAY_BUFFER, texcoord2ID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataT2->getSize(), m_pDataT2->getData(),m_vertPoolType);
-        m_pDataT2 = nullptr;
-    }
-    if(m_pDataNor){
-        glGenBuffers(1, &normalID);
-        glBindBuffer(GL_ARRAY_BUFFER, normalID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataNor->getSize(), m_pDataNor->getData(),m_vertPoolType);
-        m_pDataNor = nullptr;
-    }
-    if(m_pDataTag){
-        glGenBuffers(1, &tagentID);
-        glBindBuffer(GL_ARRAY_BUFFER, tagentID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataTag->getSize(), m_pDataTag->getData(),m_vertPoolType);
-        m_pDataTag = nullptr;
-    }
-    if(m_pDataBTor){
-        glGenBuffers(1, &btagentID);
-        glBindBuffer(GL_ARRAY_BUFFER, btagentID);
-        glBufferData(GL_ARRAY_BUFFER,m_pDataBTor->getSize(), m_pDataBTor->getData(),m_vertPoolType);
-        m_pDataBTor = nullptr;
-    }
+    SVResGLRenderMesh::create(_renderer);
 }
 
 void SVResGLRenderMeshDvid::destroy(SVRendererBasePtr _renderer) {
-    SVRResGLVBO::destroy(_renderer);
-    if (m_indexID > 0) {
-        glDeleteBuffers(1, &m_indexID);
-        m_indexID = 0;
-    }
-    if (m_vboID > 0) {
-        glDeleteBuffers(1, &m_vboID);
-        m_vboID = 0;
-    }
+    SVResGLRenderMesh::destroy(_renderer);
     if (vertex2ID_0 != 0){
         glDeleteBuffers(1, &vertex2ID_0);
         vertex2ID_0 = 0;
@@ -1558,149 +1397,148 @@ void SVResGLRenderMeshDvid::_updateVertDsp() {
     }
 }
 
-void SVResGLRenderMeshDvid::_bindVerts(){
-    if(m_indexID>0){
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexID);
-    }
-}
-
-void SVResGLRenderMeshDvid::_unbindVerts(){
-    for(s32 i=0;i<8;i++){
-        glDisableVertexAttribArray(i);
-    }
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-//传递数据
-void SVResGLRenderMeshDvid::_updateVertex(){
-    if(m_pDataV2){
-        glBindBuffer(GL_ARRAY_BUFFER, vertex2ID_0);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataV2->getSize(), m_pDataV2->getData());
-        m_pDataV2 = nullptr;
-    }
-    if(m_pDataV3){
-        glBindBuffer(GL_ARRAY_BUFFER, vertex3ID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataV3->getSize(), m_pDataV3->getData());
-        m_pDataV3 = nullptr;
-    }
-    if(m_pDataC0){
-        glBindBuffer(GL_ARRAY_BUFFER, color0ID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataC0->getSize(), m_pDataC0->getData());
-        m_pDataC0 = nullptr;
-    }
-    if(m_pDataC1){
-        glBindBuffer(GL_ARRAY_BUFFER, color1ID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataC1->getSize(), m_pDataC1->getData());
-        m_pDataC1 = nullptr;
-    }
-    if(m_pDataT0){
-        glBindBuffer(GL_ARRAY_BUFFER, texcoord0ID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataT0->getSize(), m_pDataT0->getData());
-        m_pDataT0 = nullptr;
-    }
-    if(m_pDataT1){
-        glBindBuffer(GL_ARRAY_BUFFER, texcoord1ID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataT1->getSize(), m_pDataT1->getData());
-        m_pDataT1 = nullptr;
-    }
-    if(m_pDataT2){
-        glBindBuffer(GL_ARRAY_BUFFER, texcoord2ID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataT2->getSize(), m_pDataT2->getData());
-        m_pDataT2 = nullptr;
-    }
-    if(m_pDataNor){
-        glBindBuffer(GL_ARRAY_BUFFER, normalID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataNor->getSize(), m_pDataNor->getData());
-        m_pDataNor = nullptr;
-    }
-    if(m_pDataTag){
-        glBindBuffer(GL_ARRAY_BUFFER, tagentID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataTag->getSize(), m_pDataTag->getData());
-        m_pDataTag = nullptr;
-    }
-    if(m_pDataBTor){
-        glBindBuffer(GL_ARRAY_BUFFER, btagentID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_pDataBTor->getSize(), m_pDataBTor->getData());
-        m_pDataBTor = nullptr;
-    }
-}
-
-
 void SVResGLRenderMeshDvid::setVertex2Data(SVDataSwapPtr _pdata){
-    m_pDataV2 = _pdata;
-    m_vertexDirty = true;
+    if(_pdata){
+        if(vertex2ID_0 == 0) {
+            glGenBuffers(1, &vertex2ID_0);
+            glBindBuffer(GL_ARRAY_BUFFER, vertex2ID_0);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, vertex2ID_0);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+    }
 }
 
 void SVResGLRenderMeshDvid::setVertex3Data(SVDataSwapPtr _pdata){
-    m_pDataV3 = _pdata;
-    m_vertexDirty = true;
+    if(_pdata){
+        if(vertex3ID == 0) {
+            glGenBuffers(1, &vertex3ID);
+            glBindBuffer(GL_ARRAY_BUFFER, vertex3ID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, vertex3ID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+    }
 }
 
 void SVResGLRenderMeshDvid::setColor0Data(SVDataSwapPtr _pdata){
-    m_pDataC0 = _pdata;
-    m_vertexDirty = true;
+    if(_pdata){
+        if(color0ID == 0) {
+            glGenBuffers(1, &color0ID);
+            glBindBuffer(GL_ARRAY_BUFFER, color0ID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, color0ID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+    }
 }
 
 void SVResGLRenderMeshDvid::setColor1Data(SVDataSwapPtr _pdata){
-    m_pDataC1 = _pdata;
-    m_vertexDirty = true;
+    if(_pdata){
+        if(color1ID == 0) {
+            glGenBuffers(1, &color1ID);
+            glBindBuffer(GL_ARRAY_BUFFER, color1ID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, color1ID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+    }
 }
 
 void SVResGLRenderMeshDvid::setTexcoord0Data(SVDataSwapPtr _pdata){
-    m_pDataT0 = _pdata;
-    m_vertexDirty = true;
+    if(_pdata){
+        if(texcoord0ID == 0) {
+            glGenBuffers(1, &texcoord0ID);
+            glBindBuffer(GL_ARRAY_BUFFER, texcoord0ID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, texcoord0ID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+    }
 }
 
 void SVResGLRenderMeshDvid::setTexcoord1Data(SVDataSwapPtr _pdata){
-    m_pDataT1 = _pdata;
-    m_vertexDirty = true;
+    if(_pdata){
+        if(texcoord1ID == 0) {
+            glGenBuffers(1, &texcoord1ID);
+            glBindBuffer(GL_ARRAY_BUFFER, texcoord1ID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, texcoord1ID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+    }
 }
 
 void SVResGLRenderMeshDvid::setTexcoord2Data(SVDataSwapPtr _pdata){
-    m_pDataT2 = _pdata;
-    m_vertexDirty = true;
+    if(_pdata){
+        if(texcoord2ID == 0) {
+            glGenBuffers(1, &texcoord2ID);
+            glBindBuffer(GL_ARRAY_BUFFER, texcoord2ID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, texcoord2ID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+    }
 }
 
 void SVResGLRenderMeshDvid::setNormalData(SVDataSwapPtr _pdata){
-    m_pDataNor = _pdata;
-    m_vertexDirty = true;
-
+    if(_pdata){
+        if(normalID == 0) {
+            glGenBuffers(1, &normalID);
+            glBindBuffer(GL_ARRAY_BUFFER, normalID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, normalID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+    }
 }
 
 void SVResGLRenderMeshDvid::setTagentData(SVDataSwapPtr _pdata){
-    m_pDataTag = _pdata;
-    m_vertexDirty = true;
+    if(_pdata){
+        if(tagentID == 0) {
+            glGenBuffers(1, &tagentID);
+            glBindBuffer(GL_ARRAY_BUFFER, tagentID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, tagentID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+    }
 }
 
 void SVResGLRenderMeshDvid::setBTagentData(SVDataSwapPtr _pdata){
-    m_pDataBTor = _pdata;
-    m_vertexDirty = true;
-
+    if(_pdata){
+        if(btagentID == 0) {
+            glGenBuffers(1, &btagentID);
+            glBindBuffer(GL_ARRAY_BUFFER, btagentID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, btagentID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+    }
 }
 
 void SVResGLRenderMeshDvid::render(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
     if(t_rendererGL) {
-        if (m_bVisible ){
-            if(m_dirty){
-                m_dirty = false;
-                _updateIndex();
-            }
-            if (m_vertexDirty) {
-                m_vertexDirty = false;
-                _updateVertex();
-            }
-            _updateVertDsp();
-            _bindVerts();
-            if ( m_indexID>0 ) {
-                glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
-            } else {
-                glDrawArrays(m_drawmethod, 0, m_pointNum);
-            }
-            _unbindVerts();
+        _updateVertDsp();
+        _bindVerts();
+        if ( m_indexID>0 ) {
+            glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
+        } else {
+            glDrawArrays(m_drawmethod, 0, m_pointNum);
         }
+        _unbindVerts();
     }
 }
 

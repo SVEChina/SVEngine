@@ -557,7 +557,7 @@ namespace sv {
             
             SVParticlesWorldBasePtr m_pWorld;       // world interaction
             
-            s32 frame;                              // frame number
+            s32 frame;                              // 帧数
             
             s8 type;                                // particles type
             s8 warming;                             // warming particles

@@ -90,7 +90,7 @@ void SVParticles::update(f32 ifps) {
 	// 切换碰撞队列 switch collision arrays
 	contacts.swap(old_contacts);
 	contacts.clear();
-    // world forces
+    //获取世界中与粒子交互的区域和对象
     SVArray<WorldField> world_fields;   //获取世界中的防守
     SVArray<WorldForce> world_forces;   //获取世界中的强制区域
     SVArray<WorldNoise> world_noises;   //获取世界中的噪声区域
@@ -104,20 +104,22 @@ void SVParticles::update(f32 ifps) {
 	f32 offset = 0.0f;
 	s32 has_particles = 0;
 	do {
-		//计算本次的时间
+		//保证按照30帧每秒的速率 进行生产
 		f32 ifps = min(time - offset,PARTICLES_IFPS);
 		//大量生产粒子(spawn)
-        //计算新粒子数目
 		s32 num_particles = 0;
 		if(emitter_shift) {
+            //发射器如果运动的话 根据距离来计算生产的粒子数目
 			FVec3 position = emitter_transform.getColumn3(3);
 			FVec3 old_position = old_emitter_transform.getColumn3(3);
 			spawn_count += length(position - old_position) * spawn_rate * spawn_scale;
 			num_particles = Math::ftoi(spawn_count);
 			spawn_count -= Math::itof(num_particles);
 		} else if(emitter_type == EMITTER_SPARK) {
+            //火花发射器下的粒子数目
 			num_particles = Math::ftoi(spawn_rate * spawn_scale);
 		} else {
+            //普通状态下
 			spawn_count += spawn_rate * spawn_scale * ifps;
 			num_particles = Math::ftoi(spawn_count);
 			spawn_count -= Math::itof(num_particles);
@@ -125,7 +127,7 @@ void SVParticles::update(f32 ifps) {
         if(num_particles > emitter_limit){
             num_particles = emitter_limit;
         }
-        if(num_particles) {
+        if(num_particles > 0) {
             has_particles = 1;
         }
 		//创建新的粒子
@@ -142,7 +144,7 @@ void SVParticles::update(f32 ifps) {
                 m_pWorld->setEmitterEnabled(0);
             }
 		}
-		//更新例子
+		//重新计算 delay_time，duration_time，period_time
 		if(delay_time <= 0.0f) {
 			duration_time -= ifps;
 			if(duration_time <= 0.0f) {
@@ -155,196 +157,201 @@ void SVParticles::update(f32 ifps) {
 		} else {
 			delay_time -= ifps;
 		}
-//        //更新各种干扰器的矩阵
-//        // force parameters
-//        for(s32 i = 0; i < forces.size(); i++) {
-//            Force &f = forces[i];
-//            FMat4 transform = (f.attached) ? emitter_transform * f.transform : f.transform;
-//            f.position = transform.getColumn3(3);
-//            f.axis = transform.getColumn3(2);
-//            f.iradius = Math::rcp(f.radius);
-//        }
-//        // noise parameters
-//        for(s32 i = 0; i < noises.size(); i++) {
-//            Noise &n = noises[i];
-//            FMat4 transform = (n.attached) ? emitter_transform * n.transform : n.transform;
-//            n.itransform = translate(n.offset) * scale(FVec3_one / n.step) * transform;
-//        }
+        //更新各种干扰器的矩阵
+        // force parameters
+        for(s32 i = 0; i < forces.size(); i++) {
+            Force &f = forces[i];
+            FMat4 transform = (f.attached) ? emitter_transform * f.transform : f.transform;
+            f.position = transform.getColumn3(3);
+            f.axis = transform.getColumn3(2);
+            f.iradius = Math::rcp(f.radius);
+        }
+        // noise parameters
+        for(s32 i = 0; i < noises.size(); i++) {
+            Noise &n = noises[i];
+            FMat4 transform = (n.attached) ? emitter_transform * n.transform : n.transform;
+            n.itransform = translate(n.offset) * scale(FVec3_one / n.step) * transform;
+        }
 		//更新例子
 		update_particles(world_fields,world_forces,world_noises,iteration,ifps);
 		iteration++;
 		offset += ifps;
 	} while(time - offset > EPSILON);
-	
-	// emitter transformation
+    
+	// 有粒子产生 就更新发射器位置
     if(has_particles) {
         old_emitter_transform = emitter_transform;
     }
     
-//    // deflectors 弯曲
-//    for(s32 i = 0; i < deflectors.size(); i++) {
-//        const Deflector &d = deflectors[i];
-//        // deflector world transformation(弯曲矩阵)
-//        FMat4 transform = (d.attached) ? emitter_transform * d.transform : d.transform;
-//        // deflector basis(位置，切线，副法线)
-//        FVec3 position = transform.getColumn3(3);
-//        FVec3 tangent = transform.getColumn3(0);
-//        FVec3 binormal = transform.getColumn3(1);
-//        // deflector plane(弯曲平面)
-//        FVec3 normal = normalize(transform.getColumn3(2));
-//        FVec4 plane = FVec4(normal,-dot(normal,position));
-//        if(d.type == DEFLECTOR_REFLECTOR) {
-//            //反射
-//            FVec3 point,direction,x,y;
-//            for(s32 j = 0; j < m_particles.size(); j++) {
-//                Particle &t_p = m_particles[j];
-//                f32 normal_velocity = dot(normal,t_p.velocity);
-//                if(normal_velocity >= 0.0f)
-//                    continue;
-//                sub(direction,t_p.position,t_p.old_position);
-//                f32 k = -dot(plane,t_p.old_position) / dot3(plane,direction);
-//                if(k < 0.0f || k > 1.0f)
-//                    continue;
-//                mad(point,direction,k,t_p.old_position);
-//                sub(direction,point,position);
-//                if(Math::abs(dot(direction,tangent)) > d.size.x)
-//                    continue;
-//                if(Math::abs(dot(direction,binormal)) > d.size.y)
-//                    continue;
-//                //生成接触点(位置，法线，速度)
-//                Contact &c = contacts.append();
-//                c.point = point;
-//                c.normal = normal;
-//                c.velocity = t_p.velocity;
-//                c.data = NULL;
-//                if(culling) {
-//                    m_particles.removeFast(j--);
-//                    continue;
-//                }
-//                f32 ifps = length(t_p.position - point) / length(t_p.velocity);
-//                mad(t_p.velocity,normal,-(1.0f + restitution * d.restitution) * normal_velocity,t_p.velocity);
-//                if(roughness * d.roughness > EPSILON) {
-//                    cross(x,normal,t_p.velocity);
-//                    cross(y,x,t_p.velocity);
-//                    x.normalize();
-//                    y.normalize();
-//                    f32 velocity = length(t_p.velocity);
-//                    f32 scattering = velocity * roughness * d.roughness;
-//                    mad(t_p.velocity,x,scattering * random.getFloat(-0.5f,0.5f),t_p.velocity);
-//                    mad(t_p.velocity,y,scattering * random.getFloat(-0.5f,0.5f),t_p.velocity);
-//                    mul(t_p.velocity,t_p.velocity,velocity / length(t_p.velocity));
-//                }
-//                mad(t_p.position,t_p.velocity,ifps,point);
-//                //最后还是计算位置和速度
-//                mad(t_p.position,normal,1e-3f,t_p.position);
-//                mad(t_p.velocity,gravity,ifps,t_p.velocity);
-//            }
-//        } else if(d.type == DEFLECTOR_CLIPPER) {
-//            // 裁剪
-//            FVec3 point,direction,p,x,y;
-//            for(s32 j = 0; j < m_particles.size(); j++) {
-//                Particle &t_p = m_particles[j];
-//                f32 normal_velocity = dot(normal,t_p.velocity);
-//                if(normal_velocity >= 0.0f)
-//                    continue;
-//                sub(direction,t_p.position,t_p.old_position);
-//                f32 k = -dot(plane,t_p.old_position) / dot3(plane,direction);
-//                if(k < 0.0f || k > 1.0f)
-//                    continue;
-//                mad(point,direction,k,t_p.old_position);
-//                sub(direction,point,position);
-//                if(Math::abs(dot(direction,tangent)) > d.size.x)
-//                    continue;
-//                if(Math::abs(dot(direction,binormal)) > d.size.y)
-//                    continue;
-//                m_particles.removeFast(j--);
-//            }
-//        }
-//    }
-//    //////////////// 和世界求交 /////////////////
-//    if(m_pWorld && intersection) {
-//        FVec3 x,y;
-//        WorldContact contact;
-//        for(s32 i = 0; i < m_particles.size(); i++) {
-//            Particle &p = m_particles[i];
-//            if(p.old_position == p.position)
-//                continue;
-//            if(m_pWorld->getIntersection(p.old_position,p.position,contact) == 0)
-//                continue;
-//            f32 normal_velocity = dot(contact.normal,p.velocity);
-//            if(normal_velocity >= 0.0f)
-//                continue;
-//            Contact &c = contacts.append();
-//            c.point = contact.point;
-//            c.normal = contact.normal;
-//            c.velocity = p.velocity;
-//            c.data = contact.data;
-//            if(culling) {
-//                m_particles.removeFast(i--);
-//                continue;
-//            }
-//            f32 ifps = length(p.position - contact.point) / length(p.velocity);
-//            mad(p.velocity,contact.normal,-(1.0f + restitution * contact.restitution) * normal_velocity,p.velocity);
-//            //
-//            if(roughness * contact.roughness > EPSILON) {
-//                cross(x,contact.normal,p.velocity);
-//                cross(y,x,p.velocity);
-//                x.normalize();
-//                y.normalize();
-//                f32 velocity = length(p.velocity);
-//                f32 scattering = velocity * roughness * contact.roughness;
-//                mad(p.velocity,x,scattering * random.getFloat(-0.5f,0.5f),p.velocity);
-//                mad(p.velocity,y,scattering * random.getFloat(-0.5f,0.5f),p.velocity);
-//                mul(p.velocity,p.velocity,velocity / length(p.velocity));
-//            }
-//            //
-//            mad(p.position,p.velocity,ifps,contact.point);
-//            mad(p.position,contact.normal,1e-3f,p.position);
-//            mad(p.velocity,gravity,ifps,p.velocity);
-//        }
-//    }
-//
-//    //////////////////  世界碰撞 ///////////////
-//    if(m_pWorld && collision) {
-//        SVArray<WorldContact> world_contacts;
-//        for(s32 i = 0; i < m_particles.size(); i++) {
-//            Particle &p = m_particles[i];
-//            if( m_pWorld->getCollision(p.position,p.velocity,p.radius,world_contacts,ifps) == 0 )
-//                continue;
-//            if(culling) {
-//                for(s32 j = 0; j < world_contacts.size(); j++) {
-//                    const WorldContact &contact = world_contacts[j];
-//                    f32 normal_velocity = dot(contact.normal,p.velocity);
-//                    if(normal_velocity >= 0.0f)
-//                        continue;
-//                    Contact &c = contacts.append();
-//                    c.point = contact.point;
-//                    c.normal = contact.normal;
-//                    c.velocity = p.velocity;
-//                    c.data = contact.data;
-//                }
-//                m_particles.removeFast(i--);
-//            } else {
-//                for(s32 j = 0; j < world_contacts.size(); j++) {
-//                    const WorldContact &contact = world_contacts[j];
-//                    f32 normal_velocity = dot(contact.normal,p.velocity);
-//                    if(normal_velocity >= 0.0f)
-//                        continue;
-//                    Contact &c = contacts.append();
-//                    c.point = contact.point;
-//                    c.normal = contact.normal;
-//                    c.velocity = p.velocity;
-//                    c.data = contact.data;
-//                    mad(p.position,p.velocity,contact.time,p.position);
-//                    mad(p.position,contact.normal,contact.depth,p.position);
-//                    mad(p.velocity,contact.normal,-(1.0f + restitution * contact.restitution) * normal_velocity,p.velocity);
-//                }
-//            }
-//        }
-//    }
-	// particles bounds
+    //////////////// 粒子反射和裁剪 /////////////////
+    //弯曲 偏离 倾斜
+    for(s32 i = 0; i < deflectors.size(); i++) {
+        const Deflector &d = deflectors[i];
+        //修正矩阵
+        FMat4 transform = (d.attached) ? emitter_transform * d.transform : d.transform;
+        //修正位置，切线，副法线
+        FVec3 position = transform.getColumn3(3);
+        FVec3 tangent = transform.getColumn3(0);
+        FVec3 binormal = transform.getColumn3(1);
+        //修正法线和平面
+        FVec3 normal = normalize(transform.getColumn3(2));
+        FVec4 plane = FVec4(normal,-dot(normal,position));
+        if(d.type == DEFLECTOR_REFLECTOR) {
+            //反射
+            FVec3 point,direction,x,y;
+            for(s32 j = 0; j < m_particles.size(); j++) {
+                Particle &t_p = m_particles[j];
+                f32 normal_velocity = dot(normal,t_p.velocity);
+                if(normal_velocity >= 0.0f)
+                    continue;
+                sub(direction,t_p.position,t_p.old_position);
+                f32 k = -dot(plane,t_p.old_position) / dot3(plane,direction);
+                if(k < 0.0f || k > 1.0f)
+                    continue;
+                mad(point,direction,k,t_p.old_position);
+                sub(direction,point,position);
+                if(Math::abs(dot(direction,tangent)) > d.size.x)
+                    continue;
+                if(Math::abs(dot(direction,binormal)) > d.size.y)
+                    continue;
+                //生成接触点(位置，法线，速度)
+                Contact &c = contacts.append();
+                c.point = point;
+                c.normal = normal;
+                c.velocity = t_p.velocity;
+                c.data = NULL;
+                if(culling) {
+                    m_particles.removeFast(j--);
+                    continue;
+                }
+                f32 ifps = length(t_p.position - point) / length(t_p.velocity);
+                mad(t_p.velocity,normal,-(1.0f + restitution * d.restitution) * normal_velocity,t_p.velocity);
+                if(roughness * d.roughness > EPSILON) {
+                    //moca
+                    cross(x,normal,t_p.velocity);
+                    cross(y,x,t_p.velocity);
+                    x.normalize();
+                    y.normalize();
+                    f32 velocity = length(t_p.velocity);
+                    f32 scattering = velocity * roughness * d.roughness;
+                    mad(t_p.velocity,x,scattering * random.getFloat(-0.5f,0.5f),t_p.velocity);
+                    mad(t_p.velocity,y,scattering * random.getFloat(-0.5f,0.5f),t_p.velocity);
+                    mul(t_p.velocity,t_p.velocity,velocity / length(t_p.velocity));
+                }
+                mad(t_p.position,t_p.velocity,ifps,point);
+                //最后计算位置和速度
+                mad(t_p.position,normal,1e-3f,t_p.position);
+                mad(t_p.velocity,gravity,ifps,t_p.velocity);
+            }
+        } else if(d.type == DEFLECTOR_CLIPPER) {
+            // 裁剪剔除
+            FVec3 point,direction,p,x,y;
+            for(s32 j = 0; j < m_particles.size(); j++) {
+                Particle &t_p = m_particles[j];
+                f32 normal_velocity = dot(normal,t_p.velocity);
+                if(normal_velocity >= 0.0f)
+                    continue;
+                sub(direction,t_p.position,t_p.old_position);
+                f32 k = -dot(plane,t_p.old_position) / dot3(plane,direction);
+                if(k < 0.0f || k > 1.0f)
+                    continue;
+                mad(point,direction,k,t_p.old_position);
+                sub(direction,point,position);
+                if(Math::abs(dot(direction,tangent)) > d.size.x)
+                    continue;
+                if(Math::abs(dot(direction,binormal)) > d.size.y)
+                    continue;
+                m_particles.removeFast(j--);
+            }
+        }
+    }
+    //////////////// 和世界求交 /////////////////
+    if(m_pWorld && intersection) {
+        FVec3 x,y;
+        WorldContact contact;
+        for(s32 i = 0; i < m_particles.size(); i++) {
+            Particle &p = m_particles[i];
+            if(p.old_position == p.position)
+                continue;
+            if(m_pWorld->getIntersection(p.old_position,p.position,contact) == 0)
+                continue;
+            f32 normal_velocity = dot(contact.normal,p.velocity);
+            if(normal_velocity >= 0.0f)
+                continue;
+            Contact &c = contacts.append();
+            c.point = contact.point;
+            c.normal = contact.normal;
+            c.velocity = p.velocity;
+            c.data = contact.data;
+            if(culling) {
+                m_particles.removeFast(i--);
+                continue;
+            }
+            f32 ifps = length(p.position - contact.point) / length(p.velocity);
+            mad(p.velocity,contact.normal,
+                -(1.0f + restitution * contact.restitution) * normal_velocity,
+                p.velocity);
+            if(roughness * contact.roughness > EPSILON) {
+                cross(x,contact.normal,p.velocity);
+                cross(y,x,p.velocity);
+                x.normalize();
+                y.normalize();
+                f32 velocity = length(p.velocity);
+                f32 scattering = velocity * roughness * contact.roughness;
+                mad(p.velocity,x,scattering * random.getFloat(-0.5f,0.5f),p.velocity);
+                mad(p.velocity,y,scattering * random.getFloat(-0.5f,0.5f),p.velocity);
+                mul(p.velocity,p.velocity,velocity / length(p.velocity));
+            }
+            //计算位置和速度
+            mad(p.position,p.velocity,ifps,contact.point);
+            mad(p.position,contact.normal,1e-3f,p.position);
+            mad(p.velocity,gravity,ifps,p.velocity);
+        }
+    }
+
+    //////////////////  世界碰撞 ////////////////////////
+    if(m_pWorld && collision) {
+        SVArray<WorldContact> world_contacts;
+        for(s32 i = 0; i < m_particles.size(); i++) {
+            Particle &p = m_particles[i];
+            if( m_pWorld->getCollision(p.position,p.velocity,p.radius,world_contacts,ifps) == 0 )
+                continue;
+            if(culling) {
+                for(s32 j = 0; j < world_contacts.size(); j++) {
+                    const WorldContact &contact = world_contacts[j];
+                    f32 normal_velocity = dot(contact.normal,p.velocity);
+                    if(normal_velocity >= 0.0f)
+                        continue;
+                    Contact &c = contacts.append();
+                    c.point = contact.point;
+                    c.normal = contact.normal;
+                    c.velocity = p.velocity;
+                    c.data = contact.data;
+                }
+                m_particles.removeFast(i--);
+            } else {
+                for(s32 j = 0; j < world_contacts.size(); j++) {
+                    const WorldContact &contact = world_contacts[j];
+                    f32 normal_velocity = dot(contact.normal,p.velocity);
+                    if(normal_velocity >= 0.0f)
+                        continue;
+                    Contact &c = contacts.append();
+                    c.point = contact.point;
+                    c.normal = contact.normal;
+                    c.velocity = p.velocity;
+                    c.data = contact.data;
+                    mad(p.position,p.velocity,contact.time,p.position);
+                    mad(p.position,contact.normal,contact.depth,p.position);
+                    mad(p.velocity,contact.normal,
+                        -(1.0f + restitution * contact.restitution) * normal_velocity,
+                        p.velocity);
+                }
+            }
+        }
+    }
+	//更新粒子包围盒
 	update_particles_bounds();
-	// system bounds
+	//
 	update_bounds();
 }
 
@@ -385,9 +392,8 @@ s32 SVParticles::render(const FMat4 &modelview,const FVec3 &camera) {
 
 //发射粒子
 void SVParticles::spawn_particle(Particle &p,f32 k,f32 ifps) {
-	//计算一个随机速度
+	//随机一个初始速度
 	FVec3 velocity;
-    //随机一个初始速度
 	velocity.x = random.getFloat(-1.0f,1.0f);
 	velocity.y = random.getFloat(-1.0f,1.0f);
 	velocity.z = random.getFloat(-1.0f,1.0f);
@@ -591,7 +597,6 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
 	
 	// update parameters
 	FVec3 position,direction,rotation;
-    //
 	f32 world_imass_ifps = world_imass * ifps;
     //线程阻尼 影响线程缩放参数
 	f32 linear_scale = Math::exp(-linear_damping * ifps);
@@ -601,31 +606,29 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
 	f32 growth_scale = Math::exp(-growth_damping * ifps);
     //重力加速度与线性阻尼 影响速度
 	FVec3 velocity = gravity * linear_scale * ifps;
-    //粒子本身的强制和噪声
-////    遍历所有粒子 每个粒子被所有的forces处理一遍
-//    if(forces.size()) {
-//        for(s32 i = 0; i < m_particles.size(); i++) {
-//            Particle &p = m_particles[i];
-//            for(s32 j = 0; j < forces.size(); j++) {
-//                const Force &f = forces[j];
-//                f32 radius = sub(direction,p.position,f.position).length();
-//                if(radius < EPSILON)
-//                    continue;
-//                f32 force = Math::pow(max(1.0f - radius * f.iradius,0.0f),f.attenuation) * ifps;
-//                if(force < EPSILON)
-//                    continue;
-//                cross(rotation,direction,f.axis);
-//                f32 l = length2(rotation);
-//                mad(p.velocity,direction,f.attractor * force * Math::rcp(radius),p.velocity);
-//                if(l > EPSILON) {
-//                    mad(p.velocity,rotation,f.rotator * force * Math::rsqrt(l),p.velocity);
-//                }
-//            }
-//        }
-//    }
-//
-//    if(noises.size()) {
-//        for(s32 i = 0; i < noises.size(); i++) {
+    //遍历所有粒子 每个粒子被所有的forces处理一遍
+    if(forces.size()) {
+        for(s32 i = 0; i < m_particles.size(); i++) {
+            Particle &p = m_particles[i];
+            for(s32 j = 0; j < forces.size(); j++) {
+                const Force &f = forces[j];
+                f32 radius = sub(direction,p.position,f.position).length();
+                if(radius < EPSILON)
+                    continue;
+                f32 force = Math::pow(max(1.0f - radius * f.iradius,0.0f),f.attenuation) * ifps;
+                if(force < EPSILON)
+                    continue;
+                cross(rotation,direction,f.axis);
+                f32 l = length2(rotation);
+                mad(p.velocity,direction,f.attractor * force * Math::rcp(radius),p.velocity);
+                if(l > EPSILON) {
+                    mad(p.velocity,rotation,f.rotator * force * Math::rsqrt(l),p.velocity);
+                }
+            }
+        }
+    }
+    if(noises.size()) {
+        for(s32 i = 0; i < noises.size(); i++) {
 //            const Noise &n = noises[i];
 //            Image *image = getNoiseImage(i);
 //            const FMat4 &itransform = n.itransform;
@@ -642,61 +645,60 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
 //                direction.z = Math::itof(pixel.i.b) - 127.5f;
 //                mad(p.velocity,direction,p.radius * p.radius * force,p.velocity);
 //            }
-//        }
-//    }
+        }
+    }
     //世界中区域，强制和扰动(噪声)
-//    // world fields
-//    if(world_fields.size()) {
-//        for(s32 i = 0; i < m_particles.size(); i++) {
-//            Particle &p = m_particles[i];
-//            for(s32 j = 0; j < world_fields.size(); j++) {
-//                const WorldField &f = world_fields[j];
-//                mul(position,f.transform,p.position);
-//                if(position.x < -f.hsize.x || position.x > f.hsize.x)
-//                    continue;
-//                if(position.y < -f.hsize.y || position.y > f.hsize.y)
-//                    continue;
-//                if(position.z < -f.hsize.z || position.z > f.hsize.z)
-//                    continue;
-//                f32 impulse = PI * p.radius * p.radius * f.damping * world_imass_ifps;
-//                sub(direction,f.velocity,p.velocity);
-//                mul(direction,direction,min(impulse,1.0f));
-//                add(p.velocity,p.velocity,direction);
-//            }
-//        }
-//    }
-//
-//    // world forces
-//    if(world_forces.size()) {
-//        for(s32 i = 0; i < m_particles.size(); i++) {
-//            Particle &p = m_particles[i];
-//            for(s32 j = 0; j < world_forces.size(); j++) {
-//                const WorldForce &f = world_forces[j];
-//                f32 radius = sub(direction,p.position,f.position).length();
-//                if(radius < EPSILON)
-//                    continue;
-//                f32 force = Math::pow(max(1.0f - radius * f.iradius,0.0f),f.attenuation) * world_imass_ifps;
-//                if(force < EPSILON)
-//                    continue;
-//                cross(rotation,direction,f.axis);
-//                f32 l = length2(rotation);
-//                mad(p.velocity,direction,f.attractor * force * Math::rcp(radius),p.velocity);
-//                if(l > EPSILON) {
-//                    mad(p.velocity,rotation,f.rotator * force * Math::rsqrt(l),p.velocity);
-//                }
-//            }
-//        }
-//    }
-//    // world noises
-//    if(world_noises.size()) {
-//        for(s32 i = 0; i < world_noises.size(); i++) {
-//            const WorldNoise &n = world_noises[i];
-//            const FMat4 &itransform = n.itransform;
-//            f32 force = n.force * world_imass_ifps / 127.5f;
-//            if(Math::abs(force) < EPSILON)
-//                continue;
-//            for(s32 j = 0; j < particles.size(); j++) {
-//                Particle &p = particles[j];
+    // world fields
+    if(world_fields.size()) {
+        for(s32 i = 0; i < m_particles.size(); i++) {
+            Particle &p = m_particles[i];
+            for(s32 j = 0; j < world_fields.size(); j++) {
+                const WorldField &f = world_fields[j];
+                mul(position,f.transform,p.position);
+                if(position.x < -f.hsize.x || position.x > f.hsize.x)
+                    continue;
+                if(position.y < -f.hsize.y || position.y > f.hsize.y)
+                    continue;
+                if(position.z < -f.hsize.z || position.z > f.hsize.z)
+                    continue;
+                f32 impulse = PI * p.radius * p.radius * f.damping * world_imass_ifps;
+                sub(direction,f.velocity,p.velocity);
+                mul(direction,direction,min(impulse,1.0f));
+                add(p.velocity,p.velocity,direction);
+            }
+        }
+    }
+    // world forces
+    if(world_forces.size()) {
+        for(s32 i = 0; i < m_particles.size(); i++) {
+            Particle &p = m_particles[i];
+            for(s32 j = 0; j < world_forces.size(); j++) {
+                const WorldForce &f = world_forces[j];
+                f32 radius = sub(direction,p.position,f.position).length();
+                if(radius < EPSILON)
+                    continue;
+                f32 force = Math::pow(max(1.0f - radius * f.iradius,0.0f),f.attenuation) * world_imass_ifps;
+                if(force < EPSILON)
+                    continue;
+                cross(rotation,direction,f.axis);
+                f32 l = length2(rotation);
+                mad(p.velocity,direction,f.attractor * force * Math::rcp(radius),p.velocity);
+                if(l > EPSILON) {
+                    mad(p.velocity,rotation,f.rotator * force * Math::rsqrt(l),p.velocity);
+                }
+            }
+        }
+    }
+    // world noises
+    if(world_noises.size()) {
+        for(s32 i = 0; i < world_noises.size(); i++) {
+            const WorldNoise &n = world_noises[i];
+            const FMat4 &itransform = n.itransform;
+            f32 force = n.force * world_imass_ifps / 127.5f;
+            if(Math::abs(force) < EPSILON)
+                continue;
+//            for(s32 j = 0; j < m_particles.size(); j++) {
+//                Particle &p = m_particles[j];
 //                mul(position,itransform,p.position);
 //                Image::Pixel pixel = n.image->get3D(position.x,position.y,position.z);
 //                direction.x = Math::itof(pixel.i.r) - 127.5f;
@@ -704,15 +706,14 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
 //                direction.z = Math::itof(pixel.i.b) - 127.5f;
 //                mad(p.velocity,direction,p.radius * p.radius * force,p.velocity);
 //            }
-//        }
-//    }
+        }
+    }
 	/////////////////////// integrate particles //////////
     // 使用一体化
 	// clear remove buffer
 	remove.clear();
 	s32 num_particles = m_particles.size();
 	Particle *src = m_particles.get();
-    
 	#ifdef USE_SSE
 		__m128 linear_scale_vec = _mm_set1_ps(linear_scale);
 		__m128 ifps_vec = _mm_set1_ps(ifps);
@@ -723,7 +724,6 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
 		float32x4_t linear_scale_vec = vdupq_n_f32(linear_scale);
 		float32x4_t ifps_vec = vdupq_n_f32(ifps);
 	#endif
-    
 	while(num_particles >= 4) {
 		Particle &p0 = src[0];
 		Particle &p1 = src[1];
@@ -768,18 +768,18 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
 			p2.position.vec = vmlaq_f32(p2.position.vec,p2.velocity.vec,ifps_vec);
 			p3.position.vec = vmlaq_f32(p3.position.vec,p3.velocity.vec,ifps_vec);
 		#else
-            //计算速度
+            //计算速度 向量加法
+            //v = v*x + v1
 			mad(p0.velocity,p0.velocity,linear_scale,velocity);
 			mad(p1.velocity,p1.velocity,linear_scale,velocity);
 			mad(p2.velocity,p2.velocity,linear_scale,velocity);
 			mad(p3.velocity,p3.velocity,linear_scale,velocity);
-            //计算位置
+            //计算位置 p = p + vt
 			mad(p0.position,p0.velocity,ifps,p0.position);
 			mad(p1.position,p1.velocity,ifps,p1.position);
 			mad(p2.position,p2.velocity,ifps,p2.position);
 			mad(p3.position,p3.velocity,ifps,p3.position);
 		#endif
-        
         //角速度(影响角度)
 		p0.rotation *= angular_scale;
 		p1.rotation *= angular_scale;
@@ -1069,6 +1069,7 @@ void SVParticles::update_particles_bounds() {
 	}
 }
 
+//更新发射器包围
 void SVParticles::update_bounds() {
 	// life time
 	f32 life = life_mean + life_spread;
@@ -1083,8 +1084,6 @@ void SVParticles::update_bounds() {
 		min = ::min(min,particles_bound_box.getMin());
 		max = ::max(max,particles_bound_box.getMax());
 	} else {
-		// default bounds
-		// maximum particle velocity
 		SVBoundBox emitter_bounds;
 		FMat3 emitter_rotation = FMat3(emitter_transform);
 		f32 velocity = (velocity_mean + velocity_spread) * life;
@@ -1125,11 +1124,11 @@ void SVParticles::update_bounds() {
 
 //******************************** Render **********************************************
 
-//65280 0xff00
-//65535 0xffff
-//255   0x00ff
-//0     0x0000
 static const u16 orientations[28][4] = {
+    //65280 0xff00
+    //65535 0xffff
+    //255   0x00ff
+    //0     0x0000
 	// two axis variation(变量)
 	{ 65280, 65535, 255,   0     },
 	{ 0,     65280, 65535, 255,  },
@@ -1153,7 +1152,6 @@ static const u16 orientations[28][4] = {
     //16191 0x3f3f
     //63    0x003f
     // ...... 等等
-    
 	{ 16128, 16191, 63,    0     },
 	{ 32512, 32575, 16447, 16384 },
 	{ 48896, 48959, 32831, 32768 },
@@ -2156,7 +2154,6 @@ void SVParticles::setEmitterTransform(const FMat4 &transform) {
 	}
 	// set emitter transform
 	emitter_transform = transform;
-	// set old emitter transform
 	if(frame == 0 || emitter_enabled == 0 || emitter_continuous == 0 || spawn_rate * spawn_scale < EPSILON) {
 		old_emitter_transform = emitter_transform;
 	}

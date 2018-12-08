@@ -176,7 +176,6 @@ void SVRenderMesh::_updateConf(){
             t_rendeMeshPtr->setVertexPoolType(m_renderMeshConf.vertPoolType);
             t_rendeMeshPtr->setDrawMethod(m_renderMeshConf.drawmethod);
             t_rendeMeshPtr->setVertexType(m_renderMeshConf.vftype);
-            t_rendeMeshPtr->setvisible(m_renderMeshConf.bVisible);
         }
     }
 }
