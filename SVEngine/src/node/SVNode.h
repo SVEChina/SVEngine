@@ -80,6 +80,10 @@ namespace sv {
             
             void setcanSelect(bool _select);
             
+            void setBindIndex(s32 _index);
+            
+            s32  getBindIndex();
+            
             void setRSType(RENDERSTREAMTYPE _retype);
             
             RENDERSTREAMTYPE getRSType();

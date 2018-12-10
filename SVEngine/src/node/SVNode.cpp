@@ -32,6 +32,7 @@ SVNode::SVNode(SVInst *_app)
     m_dirty = false;
     m_parent = nullptr;             //父节点
     m_iZOrder = 0;
+    m_bindIndex = -1;
     //基础属性
     m_postion.set(0.0f, 0.0f, 0.0f);
     m_offpos.set(0.0f, 0.0f, 0.0f);
@@ -353,6 +354,14 @@ void SVNode::setbeSelect(bool _select){
 
 void SVNode::setcanSelect(bool _select){
     m_canSelect = _select;
+}
+
+void SVNode::setBindIndex(s32 _index){
+    m_bindIndex = _index;
+}
+
+s32  SVNode::getBindIndex(){
+    return m_bindIndex;
 }
 
 void SVNode::setRSType(RENDERSTREAMTYPE _rsType) {
