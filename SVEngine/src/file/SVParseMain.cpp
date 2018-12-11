@@ -19,6 +19,7 @@
 #include "SVParseSprite.h"
 #include "SVParseBitfont.h"
 #include "SVParseBMFont.h"
+#include "SVParseParticles.h"
 #include "SVParseBackground.h"
 #include "SVParseTexAttachment.h"
 #include "../module/SVEffectPackage.h"
@@ -32,7 +33,7 @@ SVParseMain::SVParseMain(SVInst *_app)
     _registDictionary("sv_bitfont", SVParseBitfont::parseBitfont);
     _registDictionary("sv_bmfont", SVParseBMFont::parseBMFont);
     _registDictionary("SVBackGroundNode", SVParseBackground::parseDeform);
-//    _registDictionary("sv_particle", SVParseParticle::parseParticle);
+    _registDictionary("SVParticlesNode", SVParseParticles::parseParticles);
     //////////////!!!!!!!!!!!!!!!!!!
 }
 
