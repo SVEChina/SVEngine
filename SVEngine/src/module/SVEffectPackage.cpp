@@ -80,7 +80,7 @@ void SVEffectUnit::destroy(){
     SVActionSysPtr t_actSys = mApp->getActionSys();
     if (m_personAct && t_actSys) {
         t_actSys->removeActionUnit(m_personAct);
-        m_personAct->destroy();
+        m_personAct->destroy(  );
         m_personAct = nullptr;
     }
 }

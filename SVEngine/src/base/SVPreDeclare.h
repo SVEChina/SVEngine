@@ -111,8 +111,6 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpTexLoad);
     DECLARE_SHAREPTR(SVOpTexAttachment);
     
-    //
-    DECLARE_SHAREPTR(SVOpDestroyRedPacket);
     DECLARE_SHAREPTR(SVOpDestroyEffect);
     DECLARE_SHAREPTR(SVOpDestroyDivision);
     //
