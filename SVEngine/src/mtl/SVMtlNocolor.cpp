@@ -70,11 +70,10 @@ SVMtlParticleAni::SVMtlParticleAni(SVInst *_app)
 :SVMtlCore(_app,"particle_ani_ambient") {
     m_ani_trans.set(1.0f,1.0f,1.0f,0.5f);
     m_diffuse_color = FVec4(1.0f,8.0f,1.0f,1.0f);
+    m_ambient_color  = FVec4(0.4f,0.4f,0.4f,1.0f);
     m_p_fade = 1.0f;
     m_diffuse_scale = 1.0f;
     m_p_radius = 1.0f;
-    //
-    m_ambient_color  = FVec4(0.4f,0.4f,0.4f,1.0f);
 }
 
 SVMtlParticleAni::SVMtlParticleAni(SVMtlParticleAni *_mtl)
@@ -82,11 +81,10 @@ SVMtlParticleAni::SVMtlParticleAni(SVMtlParticleAni *_mtl)
     m_p_transform = _mtl->m_p_transform;
     m_ani_trans = _mtl->m_ani_trans;
     m_diffuse_color = _mtl->m_diffuse_color;
-    m_p_fade = _mtl->m_p_fade;
     m_diffuse_scale = _mtl->m_diffuse_scale;
-    m_p_radius = _mtl->m_p_radius;
-    //
     m_ambient_color = _mtl->m_ambient_color;
+    m_p_fade = _mtl->m_p_fade;
+    m_p_radius = _mtl->m_p_radius;
 }
 
 SVMtlParticleAni::~SVMtlParticleAni() {
@@ -97,11 +95,10 @@ void SVMtlParticleAni::_submitMtl(SVRendererBasePtr _render) {
     _render->submitUniformMatrix("s_p_transform", m_p_transform.get());
     _render->submitUniformf4v("animation_transform", m_ani_trans.get());
     _render->submitUniformf4v("diffuse_color", m_diffuse_color.get());
-    _render->submitUniformf("s_particles_fade", m_p_fade);
     _render->submitUniformf("diffuse_scale", m_diffuse_scale);
-    _render->submitUniformf("s_particles_radius", m_p_radius);
-    //
     _render->submitUniformf4v("s_ambient_color", m_ambient_color.get());
+    _render->submitUniformf("s_particles_fade", m_p_fade);
+    _render->submitUniformf("s_particles_radius", m_p_radius);
 }
 
 
