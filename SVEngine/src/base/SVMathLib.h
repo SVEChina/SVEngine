@@ -501,7 +501,7 @@ namespace sv {
             return static_cast<s32>(v);
 #endif
         }
-        
+        //四舍五入
         sv_inline s32 Math::round(f32 v) {
 #ifdef _CELLOS_LV2
             return __fctiw(v);
