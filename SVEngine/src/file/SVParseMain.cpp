@@ -92,18 +92,24 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
         RAPIDJSON_NAMESPACE::Value &type = doc["type"];
         t_type = type.GetString();
     }
-    
     SVEffectPackagePtr t_bundle = MakeSharedPtr<SVEffectPackage>(m_app);
-    for(auto iter = doc.MemberBegin(); iter != doc.MemberEnd(); ++iter){
-        cptr8 key = (iter->name).GetString();
-        if (doc.HasMember(key)) {
-            RAPIDJSON_NAMESPACE::Value &item = iter->value;
-            SVNodePtr t_node = _callTypeParse(key, item, resid, t_path.get());
-            if (t_node) {
-                t_bundle->addEffectUnit(t_node);
+    if (doc.HasMember("nodearray") && doc["nodearray"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &nodearray = doc["nodearray"];
+        for(s32 i = 0; i<nodearray.Size(); i++){
+            RAPIDJSON_NAMESPACE::Value &node = nodearray[i];
+            for(auto iter = node.MemberBegin(); iter != node.MemberEnd(); ++iter){
+                cptr8 key = (iter->name).GetString();
+                if (node.HasMember(key)) {
+                    RAPIDJSON_NAMESPACE::Value &item = iter->value;
+                    SVNodePtr t_node = _callTypeParse(key, item, resid, t_path.get());
+                    if (t_node) {
+                        t_bundle->addEffectUnit(t_node);
+                    }
+                }
             }
         }
     }
+
     //parse tex attachment
     if (doc.HasMember("TexAttachment") && doc["TexAttachment"].IsArray()) {
         RAPIDJSON_NAMESPACE::Value &attachments = doc["TexAttachment"];

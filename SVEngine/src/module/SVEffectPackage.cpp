@@ -12,12 +12,16 @@
 #include "../basesys/SVSceneMgr.h"
 #include "../node/SVScene.h"
 #include "../node/SVSpineNode.h"
+#include "../node/SVNode.h"
 #include "../core/SVSpine.h"
 #include "../node/SVSpriteNode.h"
 #include "../node/SVBitFontNode.h"
 #include "../base/SVPreDeclare.h"
 #include "../act/SVTexAttachment.h"
-
+#include "../act/SVActFollow.h"
+#include "../act/SVActionSys.h"
+#include "../app/SVGlobalMgr.h"
+#include "../act/SVActionUnit.h"
 void spinenode_callback(SVSpineNodePtr _node,void* _obj,s32 _status) {
     SVEffectUnit *t_unit = (SVEffectUnit*)(_obj);
     if(_status == 2) {
@@ -29,6 +33,7 @@ void spinenode_callback(SVSpineNodePtr _node,void* _obj,s32 _status) {
 
 SVEffectUnit::SVEffectUnit(SVInst* _app):SVGBase(_app){
     m_end = false;
+    m_personAct = nullptr;
 }
 
 SVEffectUnit::~SVEffectUnit(){
@@ -44,8 +49,21 @@ void SVEffectUnit::init(SVNodePtr _node){
         if (t_spineNode) {
             cptr8 t_defAniName = t_spineNode->getCurAniName();
             t_spineNode->setSpineCallback(spinenode_callback, this);
-            t_spineNode->setloop(true);
             t_spineNode->play(t_defAniName);
+            if (t_spineNode->getBindIndex() >= 0 && !m_personAct) {
+                SVActFollowPersonPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson>(mApp, t_spineNode->getPersonID());
+                t_fllowPerson->setFllowIndex(t_spineNode->getBindIndex());
+                t_fllowPerson->setOffset(t_spineNode->getOffset().x, t_spineNode->getOffset().y);
+                m_personAct = MakeSharedPtr<SVActionUnit>(mApp);
+                m_personAct->init();
+                m_personAct->setAct(t_fllowPerson);
+                m_personAct->setNode(t_spineNode);
+                m_personAct->enter();
+                SVActionSysPtr t_actSys = mApp->getActionSys();
+                if (m_personAct && t_actSys) {
+                    t_actSys->addActionUnit(m_personAct);
+                }
+            }
             m_end = false;
         }else{
             m_end = true;
@@ -58,6 +76,12 @@ void SVEffectUnit::destroy(){
     if (m_node) {
         m_node->removeFromParent();
         m_node = nullptr;
+    }
+    SVActionSysPtr t_actSys = mApp->getActionSys();
+    if (m_personAct && t_actSys) {
+        t_actSys->removeActionUnit(m_personAct);
+        m_personAct->destroy();
+        m_personAct = nullptr;
     }
 }
 

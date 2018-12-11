@@ -30,7 +30,7 @@ namespace sv{
         bool isEnd();
     protected:
         SVNodePtr m_node;
-        
+        SVActionUnitPtr m_personAct;
         bool m_end;
     };
     
