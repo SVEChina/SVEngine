@@ -33,6 +33,7 @@ SVNode::SVNode(SVInst *_app)
     m_parent = nullptr;             //父节点
     m_iZOrder = 0;
     m_bindIndex = -1;
+    m_personID = 1;
     //基础属性
     m_postion.set(0.0f, 0.0f, 0.0f);
     m_offpos.set(0.0f, 0.0f, 0.0f);

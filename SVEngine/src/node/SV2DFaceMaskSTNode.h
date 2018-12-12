@@ -35,13 +35,12 @@ namespace sv {
             
             void render();
             
-        protected:
-            void _updateVerts();
-            
             //序列化接口
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             
             void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+        protected:
+            void _updateVerts();
         };
         
     }//!namespace node

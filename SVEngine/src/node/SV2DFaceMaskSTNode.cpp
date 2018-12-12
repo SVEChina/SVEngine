@@ -9,6 +9,7 @@
 
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtlFace2D.h"
+#include "../mtl/SVTexMgr.h"
 #include "../core/SVMathHelper.h"
 #include "../base/SVMeshData.h"
 #include "../basesys/SVConfig.h"
@@ -142,11 +143,28 @@ void SV2DFaceMaskSTNode::render(){
 
 //序列化接口
 void SV2DFaceMaskSTNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue) {
-    
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    _toJsonData(_allocator, locationObj);
+    if (m_mtlFace2D && m_mtlFace2D->getMaskTexture()) {
+        SVTexturePtr maskTexture = m_mtlFace2D->getMaskTexture();
+        SVString texName = maskTexture->getname();
+        s32 pos = texName.rfind('/');
+        m_texName = SVString::substr(texName.c_str(), pos+1);
+        locationObj.AddMember("texture", RAPIDJSON_NAMESPACE::StringRef(m_texName.c_str()), _allocator);
+    }
+    _objValue.AddMember("SV2DFaceMaskSTNode", locationObj, _allocator);
 }
 
 void SV2DFaceMaskSTNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
-    
+    _fromJsonData(item);
+    if (item.HasMember("texture") && item["texture"].IsString()) {
+        SVString t_textureName = item["texture"].GetString();
+        SVString t_texturePath = m_rootPath + t_textureName;
+        SVMtlFace2DPtr t_material_face2d = MakeSharedPtr<SVMtlFace2D>(mApp);
+        SVTexturePtr tex = mApp->getTexMgr()->getTextureSync(t_texturePath.c_str(), true);
+        t_material_face2d->setMaskTexture(tex);
+        setMaterial(t_material_face2d);
+    }
 }
 
 //=====================

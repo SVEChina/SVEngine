@@ -31,7 +31,9 @@ namespace sv {
             
             SVMtlFace2DPtr getMaterial();
             
+            SVString m_rootPath;
         protected:
+            SVString m_texName;
             SVRenderObjectPtr m_renderObject;
             SVRenderMeshDvidPtr m_pFaceMesh;
             SVDataSwapPtr m_pIndexs;

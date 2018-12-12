@@ -50,23 +50,23 @@ void SVEffectUnit::init(SVNodePtr _node){
             cptr8 t_defAniName = t_spineNode->getCurAniName();
             t_spineNode->setSpineCallback(spinenode_callback, this);
             t_spineNode->play(t_defAniName);
-            if (t_spineNode->getBindIndex() >= 0 && !m_personAct) {
-                SVActFollowPersonPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson>(mApp, t_spineNode->getPersonID());
-                t_fllowPerson->setFllowIndex(t_spineNode->getBindIndex());
-                t_fllowPerson->setOffset(t_spineNode->getOffset().x, t_spineNode->getOffset().y);
-                m_personAct = MakeSharedPtr<SVActionUnit>(mApp);
-                m_personAct->init();
-                m_personAct->setAct(t_fllowPerson);
-                m_personAct->setNode(t_spineNode);
-                m_personAct->enter();
-                SVActionSysPtr t_actSys = mApp->getActionSys();
-                if (m_personAct && t_actSys) {
-                    t_actSys->addActionUnit(m_personAct);
-                }
-            }
             m_end = false;
         }else{
             m_end = true;
+        }
+        if (_node->getBindIndex() >= 0 && !m_personAct) {
+            SVActFollowPersonPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson>(mApp, _node->getPersonID());
+            t_fllowPerson->setFllowIndex(_node->getBindIndex());
+            t_fllowPerson->setOffset(_node->getOffset().x, _node->getOffset().y);
+            m_personAct = MakeSharedPtr<SVActionUnit>(mApp);
+            m_personAct->init();
+            m_personAct->setAct(t_fllowPerson);
+            m_personAct->setNode(_node);
+            m_personAct->enter();
+            SVActionSysPtr t_actSys = mApp->getActionSys();
+            if (m_personAct && t_actSys) {
+                t_actSys->addActionUnit(m_personAct);
+            }
         }
         t_scene->addNode(m_node);
     }

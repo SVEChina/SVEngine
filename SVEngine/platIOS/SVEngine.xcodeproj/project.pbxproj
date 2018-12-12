@@ -731,14 +731,6 @@
 		5F7D617F215F407700803BCF /* SVParseMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5DC7215F407700803BCF /* SVParseMain.cpp */; };
 		5F7D6180215F407700803BCF /* SVParseMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5DC7215F407700803BCF /* SVParseMain.cpp */; };
 		5F7D6181215F407700803BCF /* SVParseMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5DC7215F407700803BCF /* SVParseMain.cpp */; };
-		5F7D6182215F407700803BCF /* SVParseGame.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5DC8215F407700803BCF /* SVParseGame.h */; };
-		5F7D6183215F407700803BCF /* SVParseGame.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5DC8215F407700803BCF /* SVParseGame.h */; };
-		5F7D6184215F407700803BCF /* SVParseGame.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5DC8215F407700803BCF /* SVParseGame.h */; };
-		5F7D6185215F407700803BCF /* SVParseGame.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5DC8215F407700803BCF /* SVParseGame.h */; };
-		5F7D6186215F407700803BCF /* SVParseGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5DC9215F407700803BCF /* SVParseGame.cpp */; };
-		5F7D6187215F407700803BCF /* SVParseGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5DC9215F407700803BCF /* SVParseGame.cpp */; };
-		5F7D6188215F407700803BCF /* SVParseGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5DC9215F407700803BCF /* SVParseGame.cpp */; };
-		5F7D6189215F407700803BCF /* SVParseGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5DC9215F407700803BCF /* SVParseGame.cpp */; };
 		5F7D618A215F407700803BCF /* SVParseBitfont.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5DCA215F407700803BCF /* SVParseBitfont.h */; };
 		5F7D618B215F407700803BCF /* SVParseBitfont.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5DCA215F407700803BCF /* SVParseBitfont.h */; };
 		5F7D618C215F407700803BCF /* SVParseBitfont.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5DCA215F407700803BCF /* SVParseBitfont.h */; };
@@ -2974,8 +2966,6 @@
 		5F7D5DC5215F407700803BCF /* SVObjLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVObjLoader.h; sourceTree = "<group>"; };
 		5F7D5DC6215F407700803BCF /* SVFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFileLoader.h; sourceTree = "<group>"; };
 		5F7D5DC7215F407700803BCF /* SVParseMain.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseMain.cpp; sourceTree = "<group>"; };
-		5F7D5DC8215F407700803BCF /* SVParseGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseGame.h; sourceTree = "<group>"; };
-		5F7D5DC9215F407700803BCF /* SVParseGame.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseGame.cpp; sourceTree = "<group>"; };
 		5F7D5DCA215F407700803BCF /* SVParseBitfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseBitfont.h; sourceTree = "<group>"; };
 		5F7D5DCB215F407700803BCF /* SVParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParse.h; sourceTree = "<group>"; };
 		5F7D5DCD215F407700803BCF /* SVParseSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseSprite.h; sourceTree = "<group>"; };
@@ -3804,8 +3794,6 @@
 				5F7D5DD9215F407700803BCF /* SVParseData.cpp */,
 				5F7D5DE5215F407700803BCF /* SVParseData.h */,
 				5F7D5DD4215F407700803BCF /* SVParseDef.h */,
-				5F7D5DC9215F407700803BCF /* SVParseGame.cpp */,
-				5F7D5DC8215F407700803BCF /* SVParseGame.h */,
 				5F7D5DC7215F407700803BCF /* SVParseMain.cpp */,
 				5F7D5DDA215F407700803BCF /* SVParseMain.h */,
 				5F7D5DE2215F407700803BCF /* SVParseMask.cpp */,
@@ -4860,7 +4848,6 @@
 				5F7D62B5215F407800803BCF /* Skin.h in Headers */,
 				5F7D604D215F407700803BCF /* SVFontProcess.h in Headers */,
 				5F7D6887215F407900803BCF /* SVMap.h in Headers */,
-				5F7D6185215F407700803BCF /* SVParseGame.h in Headers */,
 				5C0C605B219BFF790052A826 /* RateTransposer.h in Headers */,
 				5F7D674F215F407900803BCF /* SV2DFaceMaskSTNode.h in Headers */,
 				5F7D6219215F407800803BCF /* pngpriv.h in Headers */,
@@ -5246,7 +5233,6 @@
 				5F7D62B3215F407800803BCF /* Skin.h in Headers */,
 				5F7D604B215F407700803BCF /* SVFontProcess.h in Headers */,
 				5F7D6885215F407900803BCF /* SVMap.h in Headers */,
-				5F7D6183215F407700803BCF /* SVParseGame.h in Headers */,
 				5C0C6059219BFF790052A826 /* RateTransposer.h in Headers */,
 				5F7D674D215F407900803BCF /* SV2DFaceMaskSTNode.h in Headers */,
 				5F7D6217215F407800803BCF /* pngpriv.h in Headers */,
@@ -5711,7 +5697,6 @@
 				5F7D68CC215F407900803BCF /* SVColor.h in Headers */,
 				5F7D64DC215F407800803BCF /* SVActDeclare.h in Headers */,
 				5F7D6700215F407900803BCF /* SVOpCallback.h in Headers */,
-				5F7D6182215F407700803BCF /* SVParseGame.h in Headers */,
 				5F7D6142215F407700803BCF /* SVImageUsingMove.h in Headers */,
 				5F7D6668215F407800803BCF /* SVGLModify.h in Headers */,
 				5F7D6820215F407900803BCF /* SVEventMgr.h in Headers */,
@@ -6021,7 +6006,6 @@
 				5F7D62B4215F407800803BCF /* Skin.h in Headers */,
 				5F7D604C215F407700803BCF /* SVFontProcess.h in Headers */,
 				5F7D6886215F407900803BCF /* SVMap.h in Headers */,
-				5F7D6184215F407700803BCF /* SVParseGame.h in Headers */,
 				5C0C605A219BFF790052A826 /* RateTransposer.h in Headers */,
 				5F7D674E215F407900803BCF /* SV2DFaceMaskSTNode.h in Headers */,
 				5F7D6218215F407800803BCF /* pngpriv.h in Headers */,
@@ -6533,7 +6517,6 @@
 				5F7D6395215F407800803BCF /* Attachment.c in Sources */,
 				5F7D6209215F407800803BCF /* pngerror.c in Sources */,
 				5F7D6777215F407900803BCF /* SVFaceShapeNode.cpp in Sources */,
-				5F7D6189215F407700803BCF /* SVParseGame.cpp in Sources */,
 				5F7D6637215F407800803BCF /* SVResFBO.cpp in Sources */,
 				5F7D6235215F407800803BCF /* pngpread.c in Sources */,
 				5F7D6837215F407900803BCF /* SVOpEvent.cpp in Sources */,
@@ -6866,7 +6849,6 @@
 				5F7D67D4215F407900803BCF /* SVParticlesWorld.cpp in Sources */,
 				5F7D6774215F407900803BCF /* SVFaceShapeNode.cpp in Sources */,
 				5F7D648A215F407800803BCF /* SVTimeLineMtl.cpp in Sources */,
-				5F7D6186215F407700803BCF /* SVParseGame.cpp in Sources */,
 				5C0C6030219BFF790052A826 /* InterpolateLinear.cpp in Sources */,
 				5F7D64FC215F407800803BCF /* SVOpCreate.cpp in Sources */,
 				5F7D624E215F407800803BCF /* pngrutil.c in Sources */,
@@ -7171,7 +7153,6 @@
 				5F7D6394215F407800803BCF /* Attachment.c in Sources */,
 				5F7D6208215F407700803BCF /* pngerror.c in Sources */,
 				5F7D6776215F407900803BCF /* SVFaceShapeNode.cpp in Sources */,
-				5F7D6188215F407700803BCF /* SVParseGame.cpp in Sources */,
 				5F7D6636215F407800803BCF /* SVResFBO.cpp in Sources */,
 				5F7D6234215F407800803BCF /* pngpread.c in Sources */,
 				5F7D6836215F407900803BCF /* SVOpEvent.cpp in Sources */,
@@ -7489,7 +7470,6 @@
 				5F7D6393215F407800803BCF /* Attachment.c in Sources */,
 				5F7D6207215F407700803BCF /* pngerror.c in Sources */,
 				5F7D6775215F407900803BCF /* SVFaceShapeNode.cpp in Sources */,
-				5F7D6187215F407700803BCF /* SVParseGame.cpp in Sources */,
 				5F7D6635215F407800803BCF /* SVResFBO.cpp in Sources */,
 				5F7D6233215F407800803BCF /* pngpread.c in Sources */,
 				5F7D6835215F407900803BCF /* SVOpEvent.cpp in Sources */,
