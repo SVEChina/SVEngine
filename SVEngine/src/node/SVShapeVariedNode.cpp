@@ -102,7 +102,6 @@ void SVShapeVariedNode::render(){
     SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
     if( t_person && t_person->getExist() ){
         t_person->getFaceData();
-        //t_person->getFaceData()
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (t_rs && false  == t_rs->isSuspend() ) {
             for(s32 i=0;i<m_passPool.size();i++){
