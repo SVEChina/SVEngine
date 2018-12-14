@@ -188,7 +188,7 @@ void SVGlobalMgr::update(f32 dt) {
     timeTag(false,"event cost");
     m_pActionSys->update(dt);
     timeTag(false,"action cost");
-    m_pCameraMgr->update(dt);            //相机更新(节点系统)
+    m_pCameraMgr->update(dt);           //相机更新(节点系统)
     timeTag(false,"camera cost");
     m_pSceneMgr->update(dt);            //场景更新(节点系统)
     timeTag(false,"scene cost");
