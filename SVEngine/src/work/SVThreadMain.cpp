@@ -53,7 +53,7 @@ f32 SVThreadMain::_getDert() {
             s32 t_ms = s32( (t_curT.tv_sec - m_lastT.tv_sec)*1000+(t_curT.tv_usec - m_lastT.tv_usec) * 0.001f);
             dt = t_ms * 0.001f;
             m_lastT = t_curT;
-            dt = 1.0f/30.0f;
+            SV_LOG_INFO("time dert %f \n",dt);
         }
     }else if(mApp->getTimeState() == ENG_TS_FIX ){
         dt = 1.0f/30.0f;
