@@ -127,6 +127,10 @@ void SVEffectPackage::destroy(){
     m_attachmentPool.destroy();
     m_lock->unlock();
     SVModuleBase::destroy();
+    if (m_cb) {
+        SVString msg = SVString::format("effectpackageremovesuccess_%s",m_module_name.c_str());
+        (*m_cb)(msg.c_str());
+    }
 }
 
 void SVEffectPackage::open(){
@@ -149,7 +153,7 @@ void SVEffectPackage::update(f32 _dt) {
     if (end && m_aniState == EFFECT_ANI_BEGIN) {
         m_aniState = EFFECT_ANI_END;
         if (m_cb) {
-            SVString msg = SVString::format("effectpackageend %s",m_module_name.c_str());
+            SVString msg = SVString::format("effectpackageend_%s",m_module_name.c_str());
             (*m_cb)(msg.c_str());
         }
     }

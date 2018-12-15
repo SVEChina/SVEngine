@@ -63,7 +63,6 @@ void SVTexAttachment::setAttachmentTex(s32 _channel, cptr8 _data, s32 _width, s3
     if (m_srcNode) {
         SVTexturePtr texture = mApp->getTexMgr()->createUnctrlTextureWithData(_width, _height, GL_RGBA, GL_RGBA, (void *)_data);
         m_srcNode->setTexture(texture);
-        m_srcNode->setSpriteSize(140, 140);
         SVMtl2DPtr t_mtl = MakeSharedPtr<SVMtl2D>(mApp, "normal2d_mask_c");
         m_srcNode->setMaterial(t_mtl);
         SVTexturePtr textureMask = mApp->getTexMgr()->getTextureSync(m_param.maskTexPath.c_str(),true);

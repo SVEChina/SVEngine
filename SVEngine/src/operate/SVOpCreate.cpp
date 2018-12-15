@@ -136,6 +136,7 @@ void SVOpCreateEffcet::_process(f32 dt) {
         t_modulePtr = t_parssMain.parse(m_strPath.c_str(),123);
         if (t_modulePtr) {
             t_modulePtr->setOpCallBack(m_pCB);
+            t_modulePtr->setModuleName(t_moduleName.c_str());
             t_modulePtr->open();
             mApp->getModuleSys()->regist(t_modulePtr, t_moduleName.c_str());
         }

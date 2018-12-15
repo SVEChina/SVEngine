@@ -59,10 +59,14 @@ void SVThreadWork::_innerSignSuspend(){
 
 void SVThreadWork::_innerUpdateBegin(){
     SVThread::_innerUpdateBegin();
+    //
+    gettimeofday(&m_timTagLast, NULL);
+    //
     SV_LOG_INFO("thread run %s \n",m_name.c_str() );
     if(m_pCallbackFunc){
         (*m_pCallbackFunc)(mApp,this,THREAD_STAGE_UPDATE_BEGIN);
     }
+    
 }
 
 void SVThreadWork::_innerUpdate(){
@@ -99,12 +103,10 @@ void SVThreadWork::_innerUpdateEnd(){
         //SV_LOG_INFO("threadname %s too long time \n",m_name.c_str());
     }else{
         s32 t_sleeptime = t_dert - dt;
-        //SV_LOG_INFO("threadname %s fps %d sleep time %d ms \n",m_name.c_str(),m_fps,t_sleeptime);
         usleep(t_sleeptime*1000);
     }
     //刷新纪录时间
-    gettimeofday(&m_timTagLast, NULL);
-    //
+    //gettimeofday(&m_timTagLast, NULL);
     SVThread::_innerUpdateEnd();
 }
 
