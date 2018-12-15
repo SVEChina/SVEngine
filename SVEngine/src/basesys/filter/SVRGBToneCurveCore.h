@@ -11,15 +11,13 @@
 #include "../../base/SVGBase.h"
 #include "../../mtl/SVMtlDeclare.h"
 #include "../../node/SVNodeDeclare.h"
+#include "../../core/SVVertDef.h"
 
-typedef struct filterpoint{
-        f32 x;                ///< 坐标点x轴的值
-        f32 y;                ///< 坐标点y轴的值s
-} FILTERPOINT, *SVFILTERPOINT;
+void createSplineCurve(SVArray<V2> points,SVArray<f32> *preparedSplinePoints);
 
-void getPreparedSplineCurve(SVArray<FILTERPOINT>  mRgbCompositeControlPoints,
-                            SVArray<FILTERPOINT>  mRedControlPoints,
-                            SVArray<FILTERPOINT>  mGreenControlPoints,
-                            SVArray<FILTERPOINT>  mBlueControlPoints);
+void getPreparedSplineCurve(SVArray<V2>  mRgbCompositeControlPoints,
+                            SVArray<V2>  mRedControlPoints,
+                            SVArray<V2>  mGreenControlPoints,
+                            SVArray<V2>  mBlueControlPoints);
 
 #endif /* SV_RGBTONECURVECORE_H */

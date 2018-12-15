@@ -7,11 +7,12 @@
 
 #include "SVRGBToneCurveCore.h"
 
+
 u16 intSwap16(u16 var){
     return (u16)(((var << 8) & 0xFF00) | ((var >> 8) & 0xFF));
 }
 
-void createSecondDerivative(SVArray<FILTERPOINT> points ,SVArray<f64> *outarray){
+void createSecondDerivative(SVArray<V2> points ,SVArray<f64> *outarray){
     int n = points.size();
     if (n <= 1) {
         return ;
@@ -23,9 +24,9 @@ void createSecondDerivative(SVArray<FILTERPOINT> points ,SVArray<f64> *outarray)
     matrix[0][0] = 0;
     matrix[0][2] = 0;
     for (s32 i = 1; i < n - 1; i++) {
-        FILTERPOINT P1 = points[i - 1];
-        FILTERPOINT P2 = points[i];
-        FILTERPOINT P3 = points[i + 1];
+        V2 P1 = points[i - 1];
+        V2 P2 = points[i];
+        V2 P3 = points[i + 1];
         matrix[i][0] = (f64) (P2.x - P1.x) / 6;
         matrix[i][1] = (f64) (P3.x - P1.x) / 3;
         matrix[i][2] = (f64) (P3.x - P2.x) / 6;
@@ -55,7 +56,9 @@ void createSecondDerivative(SVArray<FILTERPOINT> points ,SVArray<f64> *outarray)
     for (int i = 0; i < n; i++)
         outarray->append(result[i] / matrix[i][1]);
     }
-    void createSplineCurve2(SVArray<FILTERPOINT> points,SVArray<FILTERPOINT> *output ) {
+
+
+void createSplineCurve2(SVArray<V2> points,SVArray<V2> *output ) {
     SVArray<f64> sdA;
     createSecondDerivative(points,&sdA);
     // Is [points count] equal to [sdA count]?
@@ -70,9 +73,9 @@ void createSecondDerivative(SVArray<FILTERPOINT> points ,SVArray<f64> *outarray)
         sd[i] = sdA[i];
     }
     for (int i = 0; i < n - 1; i++) {
-        FILTERPOINT cur = points[i];
-        FILTERPOINT next = points[i + 1];
-        for (int x = cur.x; x < next.x; x++) {
+        V2 cur = points[i];
+        V2 next = points[i + 1];
+        for (int x = cur.x; x < (int)next.x; x++) {
             f64 t = (f64) (x - cur.x) / (next.x - cur.x);
             f64 a = 1 - t;
             f64 b = t;
@@ -83,7 +86,7 @@ void createSecondDerivative(SVArray<FILTERPOINT> points ,SVArray<f64> *outarray)
             } else if (y < 0.0) {
                 y = 0.0;
             }
-            FILTERPOINT t_point;
+            V2 t_point;
             t_point.x=x;
             t_point.y=(s32)round(y);
             output->append(t_point);
@@ -95,42 +98,42 @@ void createSecondDerivative(SVArray<FILTERPOINT> points ,SVArray<f64> *outarray)
     }
 }
 
-void createSplineCurve(SVArray<FILTERPOINT> points,SVArray<f32> *preparedSplinePoints) {
+void createSplineCurve(SVArray<V2> points,SVArray<f32> *preparedSplinePoints) {
     if (points.size() <= 0) {
         return ;
     }
 
-    SVArray<FILTERPOINT> pointsSorted = points;
-    SVArray<FILTERPOINT> convertedPoints;
+    SVArray<V2> pointsSorted = points;
+    SVArray<V2> convertedPoints;
     for (s32 i = 0; i < points.size(); i++) {
-        FILTERPOINT point = pointsSorted[i];
-        FILTERPOINT point01;
-        point01.x=(s32) (point.x * 255) ;
-        point01.y=(s32) (point.y * 255);
+        V2 point = pointsSorted[i];
+        V2 point01;
+        point01.x=(s32) (point.x) ;
+        point01.y=(s32) (point.y );
         convertedPoints.append(point01);
     }
-    SVArray<FILTERPOINT> splinePoints ;
+    SVArray<V2> splinePoints ;
     createSplineCurve2(convertedPoints,&splinePoints);
-    FILTERPOINT firstSplinePoint = splinePoints[0];
+    V2 firstSplinePoint = splinePoints[0];
     if (firstSplinePoint.x > 0) {
         for (s32 i = firstSplinePoint.x; i >= 0; i--) {
-            FILTERPOINT t_point;
+            V2 t_point;
             t_point.x=i;
             t_point.y=0;
             splinePoints.append(t_point);
         }
     }
-    FILTERPOINT lastSplinePoint = splinePoints[splinePoints.size() - 1];
+    V2 lastSplinePoint = splinePoints[splinePoints.size() - 1];
     if (lastSplinePoint.x < 255) {
         for (s32 i = lastSplinePoint.x + 1; i <= 255; i++) {
-            FILTERPOINT t_point;
+            V2 t_point;
             t_point.x=i;
             t_point.y=255;
             splinePoints.append(t_point);
         }
     }
     for(s32 i=0;i<splinePoints.size();i++){
-        FILTERPOINT origPoint;
+        V2 origPoint;
         origPoint.x=splinePoints[i].x;
         origPoint.y=splinePoints[i].x;
         f32 distance = (f32)sqrt(pow((origPoint.x - splinePoints[i].x), 2.0) + pow((origPoint.y - splinePoints[i].y), 2.0));
@@ -141,10 +144,10 @@ void createSplineCurve(SVArray<FILTERPOINT> points,SVArray<f32> *preparedSplineP
     }
 }
 
-void getPreparedSplineCurve(SVArray<FILTERPOINT>  mRgbCompositeControlPoints,
-                            SVArray<FILTERPOINT>  mRedControlPoints,
-                            SVArray<FILTERPOINT>  mGreenControlPoints,
-                            SVArray<FILTERPOINT>  mBlueControlPoints){
+void getPreparedSplineCurve(SVArray<V2>  mRgbCompositeControlPoints,
+                            SVArray<V2>  mRedControlPoints,
+                            SVArray<V2>  mGreenControlPoints,
+                            SVArray<V2>  mBlueControlPoints){
     SVArray<f32> outPointsRGB;
     SVArray<f32> outPointsR;
     SVArray<f32> outPointsG;
@@ -153,7 +156,7 @@ void getPreparedSplineCurve(SVArray<FILTERPOINT>  mRgbCompositeControlPoints,
     createSplineCurve(mRedControlPoints, &outPointsR);
     createSplineCurve(mGreenControlPoints, &outPointsG);
     createSplineCurve(mBlueControlPoints, &outPointsB);
-    char *toneCurveByteArray = (char*)malloc(256*4);
+    unsigned char* toneCurveByteArray = (unsigned char*)malloc(256*4);
     if ( (outPointsRGB.size() >= 256) && (outPointsR.size() >= 256) && (outPointsG.size() >= 256) && (outPointsB.size() >= 256)){
         for (unsigned int currentCurveIndex = 0; currentCurveIndex < 256; currentCurveIndex++)
         {
@@ -165,6 +168,7 @@ void getPreparedSplineCurve(SVArray<FILTERPOINT>  mRgbCompositeControlPoints,
             unsigned char b = fmin(fmax(currentCurveIndex +outPointsB[currentCurveIndex], 0), 255);
             toneCurveByteArray[currentCurveIndex * 4+2] = fmin(fmax(b + outPointsRGB[b], 0), 255);
             toneCurveByteArray[currentCurveIndex * 4 + 3] = 255;
+            SV_LOG_INFO("rgba %d\n",(unsigned char)toneCurveByteArray[currentCurveIndex * 4 ]);
         }
     }
 }
