@@ -45,6 +45,11 @@ namespace sv {
             f32   m_ambientStrength;
             SVArray<f32> m_diffuseLightPosPool;
             SVArray<f32> m_diffuseLightColorPool;
+        public:
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         };
 
     }//!namespace mtl

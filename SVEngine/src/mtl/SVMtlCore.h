@@ -107,7 +107,6 @@ namespace sv {
         protected:
             virtual void _toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                                      RAPIDJSON_NAMESPACE::Value &locationObj);
-            
             virtual void _fromJsonData(RAPIDJSON_NAMESPACE::Value &item);
         };
 

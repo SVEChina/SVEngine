@@ -91,4 +91,92 @@ void SVMtl3D::_submitMtl(SVRendererBasePtr _render){
     _render->submitUniformf3v("u_diffuse_light_color", m_diffuseLightColorPool.get(), MAX_DIFFUSE_LIFHT);
 }
 
+void SVMtl3D::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                    RAPIDJSON_NAMESPACE::Value &_objValue){
+    _toJsonData(_allocator, _objValue);
+    //lighting
+    RAPIDJSON_NAMESPACE::Value lightObj(RAPIDJSON_NAMESPACE::kObjectType);
+    //ambient
+    RAPIDJSON_NAMESPACE::Value ambientObj(RAPIDJSON_NAMESPACE::kObjectType);
+    lightObj.AddMember("intensit", m_ambientStrength, _allocator);
+    RAPIDJSON_NAMESPACE::Value t_ambientColor(RAPIDJSON_NAMESPACE::kArrayType);
+    t_ambientColor.PushBack(m_ambient_color.x, _allocator);
+    t_ambientColor.PushBack(m_ambient_color.y, _allocator);
+    t_ambientColor.PushBack(m_ambient_color.z, _allocator);
+    lightObj.AddMember("ambient", t_ambientColor, _allocator);
+    //diffuse
+    RAPIDJSON_NAMESPACE::Value t_diffuses(RAPIDJSON_NAMESPACE::kArrayType);
+    RAPIDJSON_NAMESPACE::Value diffuseObj(RAPIDJSON_NAMESPACE::kObjectType);
+    RAPIDJSON_NAMESPACE::Value t_diffuseColor(RAPIDJSON_NAMESPACE::kArrayType);
+    RAPIDJSON_NAMESPACE::Value t_diffusePositon(RAPIDJSON_NAMESPACE::kArrayType);
+    diffuseObj.AddMember("channel", 0, _allocator);
+    t_diffuseColor.PushBack(getDiffuseLightColor(0).x, _allocator);
+    t_diffuseColor.PushBack(getDiffuseLightColor(1).x, _allocator);
+    t_diffuseColor.PushBack(getDiffuseLightColor(2).x, _allocator);
+    diffuseObj.AddMember("colorFactor", t_diffuseColor, _allocator);
+    t_diffusePositon.PushBack(getDiffuseLightPos(0).x, _allocator);
+    t_diffusePositon.PushBack(getDiffuseLightPos(1).x, _allocator);
+    t_diffusePositon.PushBack(getDiffuseLightPos(2).x, _allocator);
+    diffuseObj.AddMember("position", t_diffusePositon, _allocator);
+    t_diffuses.PushBack(diffuseObj, _allocator);
+}
 
+void SVMtl3D::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    _fromJsonData(item);
+    //lighting
+    if (item.HasMember("light") && item["light"].IsObject()) {
+        RAPIDJSON_NAMESPACE::Value &t_light = item["light"];
+        if (t_light.HasMember("ambient") && t_light["ambient"].IsObject()) {
+            RAPIDJSON_NAMESPACE::Value &t_ambient = t_light["ambient"];
+            f32 intensit = 1.0;
+            f32 r = 0.0f;
+            f32 g = 0.0f;
+            f32 b = 0.0f;
+            if (t_ambient.HasMember("intensit") && t_ambient["intensit"].IsFloat()) {
+                intensit = t_ambient["intensit"].GetFloat();
+            }
+            if (t_ambient.HasMember("colorFactor") && t_ambient["colorFactor"].IsArray()) {
+                RAPIDJSON_NAMESPACE::Value &t_color = t_ambient["colorFactor"];
+                if (t_color.Size() > 2) {
+                    r = t_color[0].GetFloat();
+                    g = t_color[1].GetFloat();
+                    b = t_color[2].GetFloat();
+                }
+            }
+            setAmbientLight(intensit, FVec3(r, g, b));
+        }
+        if (t_light.HasMember("difuse") && t_light["difuse"].IsArray()) {
+            RAPIDJSON_NAMESPACE::Value &t_difuses = t_light["difuse"];
+            for (s32 i=0; i<t_difuses.Size(); i++) {
+                RAPIDJSON_NAMESPACE::Value &t_difuse = t_difuses[i];
+                s32 channel = 0;
+                f32 postionX = 10000.0f;
+                f32 postionY = 10000.0f;
+                f32 postionZ = 10000.0f;
+                f32 r = 0.0f;
+                f32 g = 0.0f;
+                f32 b = 0.0f;
+                if (t_difuse.HasMember("channel") && t_difuse["channel"].IsInt()) {
+                    channel = t_difuse["channel"].GetInt();
+                }
+                if (t_difuse.HasMember("position") && t_difuse["position"].IsArray()) {
+                    RAPIDJSON_NAMESPACE::Value &t_positon = t_difuse["position"];
+                    if (t_positon.Size() > 2) {
+                        postionX = t_positon[0].GetFloat();
+                        postionY = t_positon[1].GetFloat();
+                        postionZ = t_positon[2].GetFloat();
+                    }
+                }
+                if (t_difuse.HasMember("colorFactor") && t_difuse["colorFactor"].IsArray()) {
+                    RAPIDJSON_NAMESPACE::Value &t_color = t_difuse["colorFactor"];
+                    if (t_color.Size() > 2) {
+                        r = t_color[0].GetFloat();
+                        g = t_color[1].GetFloat();
+                        b = t_color[2].GetFloat();
+                    }
+                }
+                setDiffuseLight(channel, FVec3(postionX, postionY, postionZ), FVec3(r, g, b));
+            }
+        }
+    }
+}
