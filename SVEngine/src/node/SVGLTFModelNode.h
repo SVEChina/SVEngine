@@ -30,8 +30,6 @@ namespace sv {
             GLTFModelPtr getModel();
             
             void destroyModel();
-            
-            SVMtlCorePtr getMaterial();
         protected:
             GLTFModelPtr m_model;
             
