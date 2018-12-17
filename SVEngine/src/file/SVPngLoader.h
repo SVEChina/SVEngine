@@ -29,6 +29,14 @@ namespace sv {
         
         void loadData(cptr8 name, u8 **data);
         
+        inline u32 getWidth(){
+            return m_iWidth;
+        }
+        
+        inline u32 getHeight(){
+            return m_iHeight;
+        }
+        
     private:
         void _readPngFromStream(void *stream, s32 dataLen, cptr8 fname, u8 **data);
         
