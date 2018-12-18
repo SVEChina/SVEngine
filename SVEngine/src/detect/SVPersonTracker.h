@@ -39,6 +39,7 @@ namespace sv {
             FVec3 m_noiseup;
             FVec3 m_noisedown;
             SVRect m_faceRect;
+            f32 m_standardEyeDis;
             f32 m_eyeDistance;      //瞳距
             FVec3 m_scale;           //pitch yaw roll
             f32 m_eyestd_scale;     //瞳距相对于标准脸的缩放
