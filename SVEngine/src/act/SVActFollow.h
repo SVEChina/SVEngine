@@ -72,14 +72,16 @@ namespace sv {
             
             void setFllowIndex(s32 _index);//设置人脸上的跟随点
             
-            void setOffset(f32 _offsetX, f32 _offsetY);//设置跟随点偏移
+            void setBindOffset(f32 _offsetX, f32 _offsetY, f32 _offsetZ);//设置跟随点偏移
             
-            void setScale(f32 _scaleX, f32 _scaleY);
+            void setScale(f32 _scaleX, f32 _scaleY, f32 _scaleZ);
         protected:
             f32 m_offsetX;
             f32 m_offsetY;
+            f32 m_offsetZ;
             f32 m_scaleX;
             f32 m_scaleY;
+            f32 m_scaleZ;
             s32 m_bindIndex;
             s32 m_personID;
         };

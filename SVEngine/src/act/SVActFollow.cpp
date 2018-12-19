@@ -169,12 +169,14 @@ void SVActFollowPerson::setFllowIndex(s32 _index){
     m_bindIndex = _index;
 }
 
-void SVActFollowPerson::setOffset(f32 _offsetX, f32 _offsetY){
+void SVActFollowPerson::setBindOffset(f32 _offsetX, f32 _offsetY, f32 _offsetZ){
     m_offsetX = _offsetX;
     m_offsetY = _offsetY;
+    m_offsetZ = _offsetZ;
 }
 
-void SVActFollowPerson::setScale(f32 _scaleX, f32 _scaleY){
+void SVActFollowPerson::setScale(f32 _scaleX, f32 _scaleY, f32 _scaleZ){
     m_scaleX = _scaleX;
     m_scaleY = _scaleY;
+    m_scaleZ = _scaleZ;
 }

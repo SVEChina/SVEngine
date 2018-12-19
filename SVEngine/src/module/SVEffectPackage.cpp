@@ -57,8 +57,8 @@ void SVEffectUnit::init(SVNodePtr _node){
         if (_node->getBindIndex() >= 0 && !m_personAct) {
             SVActFollowPersonPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson>(mApp, _node->getPersonID());
             t_fllowPerson->setFllowIndex(_node->getBindIndex());
-            t_fllowPerson->setOffset(_node->getBindOffset().x, _node->getBindOffset().y);
-            t_fllowPerson->setScale(_node->getScale().x, _node->getScale().y);
+            t_fllowPerson->setBindOffset(_node->getBindOffset().x, _node->getBindOffset().y, _node->getBindOffset().z);
+            t_fllowPerson->setScale(_node->getScale().x, _node->getScale().y, _node->getScale().z);
             m_personAct = MakeSharedPtr<SVActionUnit>(mApp);
             m_personAct->init();
             m_personAct->setAct(t_fllowPerson);

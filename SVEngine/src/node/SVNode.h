@@ -76,6 +76,10 @@ namespace sv {
             
             virtual void setAlpha(f32 _alpha);
             
+            virtual void setBindOffset(FVec3& _offset);
+            
+            virtual void setBindOffset(f32 _offsetX, f32 _offsetY, f32 _offsetZ);
+            
             void setbeSelect(bool _select);
             
             void setcanSelect(bool _select);
@@ -83,8 +87,6 @@ namespace sv {
             void setBindIndex(s32 _index);
             
             s32  getBindIndex();
-            
-            virtual void setBindOffset(FVec3& _pos);
             
             FVec3& getBindOffset();
             

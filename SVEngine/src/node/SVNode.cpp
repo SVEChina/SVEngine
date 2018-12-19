@@ -39,6 +39,7 @@ SVNode::SVNode(SVInst *_app)
     m_offpos.set(0.0f, 0.0f, 0.0f);
     m_rotation.set(0.0f, 0.0f, 0.0f);
     m_scale.set(1.0f, 1.0f, 1.0f);
+    m_bindOffset.set(0.0f, 0.0f, 0.0f);
     m_localMat.setIdentity();
     m_absolutMat.setIdentity();
     m_iabsolutMat.setIdentity();
@@ -332,8 +333,13 @@ FVec3& SVNode::getOffset() {
     return m_offpos;
 }
 
-void SVNode::setBindOffset(FVec3& _pos){
-    m_bindOffset = _pos;
+void SVNode::setBindOffset(FVec3& _offset){
+    m_bindOffset = _offset;
+    m_dirty = true;
+}
+
+void SVNode::setBindOffset(f32 _offsetX, f32 _offsetY, f32 _offsetZ){
+    m_bindOffset.set(_offsetX, _offsetY, _offsetZ);
     m_dirty = true;
 }
 
@@ -443,6 +449,9 @@ void SVNode::_toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     locationObj.AddMember("renderstream", (s32)m_rsType, _allocator);
     locationObj.AddMember("bind", m_bindIndex, _allocator);
     locationObj.AddMember("person", m_personID, _allocator);
+    locationObj.AddMember("bindOffsetX", m_bindOffset.x, _allocator);
+    locationObj.AddMember("bindOffsetY", m_bindOffset.y, _allocator);
+    locationObj.AddMember("bindOffsetZ", m_bindOffset.z, _allocator);
     //
     locationObj.AddMember("canselect", m_canSelect, _allocator);
     locationObj.AddMember("drawaabb", m_drawBox, _allocator);
@@ -486,6 +495,9 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     }
     if (item.HasMember("offsetY") && item["offsetY"].IsFloat()) {
         m_offpos.y = item["offsetY"].GetFloat();
+    }
+    if (item.HasMember("offsetZ") && item["offsetZ"].IsFloat()) {
+        m_offpos.z = item["offsetZ"].GetFloat();
     }
     //
     if (item.HasMember("zorder") && item["zorder"].IsInt()) {
