@@ -14,6 +14,8 @@
 #include "../app/SVInst.h"
 #include "../base/SVDataSwap.h"
 #include "../base/SVQuat.h"
+#include "../mtl/SVMtl3D.h"
+#include "../rendercore/SVRenderMesh.h"
 SVGLTF::SVGLTF(SVInst *_app)
 :SVGBase(_app) {
     
@@ -1287,6 +1289,8 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
         Mesh mesh = _model->meshes[i];
         for (s32 j = 0; j<mesh.primitives.size(); j++) {
             ModelMeshDataPtr modelMesh = MakeSharedPtr<ModelMeshData>();
+            modelMesh->m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
+            modelMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d_notex");
             modelMesh->m_boundBox.clear();
             _model->m_renderMeshData.append(modelMesh);
             Primitive meshPrimitive = mesh.primitives[j];
@@ -1303,7 +1307,8 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                 s32 textureIndex = parameter.TextureIndex();
                 Texture texture = _model->textures[textureIndex];
                 Image image = _model->images[texture.source];
-                modelMesh->m_pTex = image.texture;
+                modelMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d");
+                modelMesh->m_pMtl->setTexture(0,image.texture);
             }
             //basecolor
             FVec4 color;
@@ -1648,7 +1653,8 @@ ModelMeshData::ModelMeshData(){
     m_vertexCount   = 0;
     m_pRenderVertex = nullptr;
     m_pRenderIndex  = nullptr;
-    m_pTex = nullptr;
+    m_pMtl = nullptr;
+    m_pMesh = nullptr;
     m_globalTransform.setIdentity();
 }
 
@@ -1657,5 +1663,6 @@ ModelMeshData::~ModelMeshData(){
     m_vertexCount   = 0;
     m_pRenderVertex = nullptr;
     m_pRenderIndex  = nullptr;
-    m_pTex = nullptr;
+    m_pMtl = nullptr;
+    m_pMesh = nullptr;
 }

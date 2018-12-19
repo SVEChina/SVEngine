@@ -72,7 +72,7 @@ void SVGLTFModelNode::update(f32 dt) {
             m_aabbBox.expand(meshData->m_boundBox.getMin());
             m_aabbBox.expand(meshData->m_boundBox.getMax());
             //mesh
-            SVRenderMeshPtr renderMesh = MakeSharedPtr<SVRenderMesh>(mApp);
+            SVRenderMeshPtr renderMesh = meshData->m_pMesh;
             renderMesh->setDrawMethod(E_DM_TRIANGLES);
             renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
             renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
@@ -82,19 +82,12 @@ void SVGLTFModelNode::update(f32 dt) {
             renderMesh->setVertexDataNum(meshData->m_vertexCount);
             renderMesh->createMesh();
             //material
-            SVMtl3DPtr t_mtl = nullptr;
-            if (meshData->m_pTex) {
-                t_mtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d");
-                t_mtl->setTexture(0,meshData->m_pTex);
-            }else{
-                t_mtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d_notex");
-            }
-            t_mtl->setDepthEnable(true);
+            SVMtl3DPtr t_mtl = meshData->m_pMtl;
             FMat4 matrix =  m_absolutMat * meshData->m_globalTransform;
             t_mtl->setModelMatrix(matrix.get());
+            t_mtl->setDepthEnable(true);
             t_mtl->setBlendEnable(true);
             t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-            t_mtl->setDiffuseLight(0, FVec3(0, 800, 500), FVec3(0.8, 0.8, 0.8));
             m_pRObj->addRenderObj(renderMesh,t_mtl);
         }
     }else{
@@ -112,10 +105,6 @@ void SVGLTFModelNode::render() {
         m_pRObj->pushCmd(t_rs, m_rsType, ntype);
     }
     SVNode::render();
-}
-
-SVMtlCorePtr SVGLTFModelNode::getMaterial(){
-    return m_pMtl;
 }
 
 /*

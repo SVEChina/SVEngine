@@ -20,6 +20,7 @@
 #include "../base/SVPreDeclare.h"
 #include "../mtl/SVMtlDeclare.h"
 #include "../core/SVVertDef.h"
+#include "../rendercore/SVRenderDeclare.h"
 #ifndef SVGLTF_EMBREE
 #define SVGLTF_EMBREE 1
 #endif
@@ -551,7 +552,8 @@ namespace sv {
             ~ModelMeshData();
             SVDataSwapPtr           m_pRenderVertex;
             SVDataSwapPtr           m_pRenderIndex;
-            SVTexturePtr            m_pTex;
+            SVMtl3DPtr              m_pMtl;
+            SVRenderMeshPtr         m_pMesh;
             FMat4                   m_globalTransform;
             SVBoundBox              m_boundBox;
             s32                     m_indexCount;

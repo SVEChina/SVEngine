@@ -31,12 +31,6 @@ namespace sv {
         //
         class SVMtlCore : public SVGBase {
         public:
-            enum SVMTLBLENDMODE{
-                SV_MTL_BLENDMODE_NORMAL = 0,
-                SV_MTL_BLENDMODE_ADDITIVE,
-                SV_MTL_BLENDMODE_MULTIPLY,
-                SV_MTL_BLENDMODE_SCREEN
-            };
             SVMtlCore(SVInst *_app, cptr8 _shader);
             
             SVMtlCore(SVMtlCore* _mtl);
@@ -67,9 +61,13 @@ namespace sv {
             
             void setBlendEnable(bool _bBlendEnable);
             
+            void setBlendState(s32 _src , s32 _dst);
+            
             void setDepthEnable(bool _bDepthEnable);
             
-            void setBlendState(s32 _src , s32 _dst);
+            void setCullEnable(bool _bCullEnable);
+            
+            void setCullFace(s32 _frontFace, s32 _cullFace);
             
             void reloadShader(cptr8 _shader);
 
@@ -101,6 +99,15 @@ namespace sv {
             typedef SVArray<SVModifyPtr> MODPOOL;
             MODPOOL* m_renderPool;
             MODPOOL* m_logicPool;
+        public:
+            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+        protected:
+            virtual void _toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                                     RAPIDJSON_NAMESPACE::Value &locationObj);
+            virtual void _fromJsonData(RAPIDJSON_NAMESPACE::Value &item);
         };
 
     }//!namespace mtl

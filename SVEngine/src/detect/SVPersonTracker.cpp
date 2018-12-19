@@ -11,7 +11,7 @@
 #include "../event/SVEventMgr.h"
 #include "../app/SVInst.h"
 
-#define STANDARD_EYE_STD 260
+#define STANDARD_EYE_STD 190
 #define STANDARD_NOISE_STD 160  //从眼角中心点到鼻尖
 
 SVPersonTracker::SVPersonTracker(SVInst* _app)
@@ -20,7 +20,7 @@ SVPersonTracker::SVPersonTracker(SVInst* _app)
     m_img_h = 1024;
     m_personID = 0;
     m_scale.set(1.0f, 1.0f, 1.0f);
-
+    m_standardEyeDis = STANDARD_EYE_STD;
 }
 
 SVPersonTracker::~SVPersonTracker() {
@@ -54,8 +54,8 @@ void SVPersonTracker::track_st(void *_data, s32 _ptnum, SVRect *_rect, f32 yaw, 
         m_jawbottompos.x = pdata[16 * 2];
         m_jawbottompos.y = pdata[16 * 2 + 1];
 
-        m_eyeDistance = FVec3(pdata[74 * 2] - pdata[77 * 2], pdata[74 * 2 + 1] - pdata[77 * 2 + 1], 0).length();
+        m_eyeDistance = FVec3(pdata[74 * 2] - pdata[77 * 2], pdata[74 * 2 + 1] - pdata[77 * 2 + 1], 0).length() / cosf(fabs(yaw)*3.14/180);
         //横向缩放
-        m_eyestd_scale = m_eyeDistance / STANDARD_EYE_STD;
+        m_eyestd_scale = m_eyeDistance / m_standardEyeDis;
     }
 }

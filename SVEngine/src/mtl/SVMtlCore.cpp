@@ -332,7 +332,129 @@ void SVMtlCore::setBlendEnable(bool _bBlendEnable){
     m_LogicMtlFlag0 |= MTL_F0_BLEND;
 }
 
+void SVMtlCore::setCullEnable(bool _bCullEnable){
+    m_LogicParamCull.enable = _bCullEnable;
+    m_LogicMtlFlag0 |= MTL_F0_CULL;
+}
+
+void SVMtlCore::setCullFace(s32 _frontFace, s32 _cullFace){
+    m_LogicParamCull.frontFace = _frontFace;
+    m_LogicParamCull.cullFace = _cullFace;
+}
+
 void SVMtlCore::setDepthEnable(bool _bDepthEnable){
     m_LogicParamDepth.enable = _bDepthEnable;
     m_LogicMtlFlag0 |= MTL_F0_DEPTH;
+}
+
+void SVMtlCore::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                       RAPIDJSON_NAMESPACE::Value &_objValue){
+    _toJsonData(_allocator, _objValue);
+}
+
+void SVMtlCore::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    _fromJsonData(item);
+}
+
+void SVMtlCore::_toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+                 RAPIDJSON_NAMESPACE::Value &locationObj){
+    //blending
+    RAPIDJSON_NAMESPACE::Value blendObj(RAPIDJSON_NAMESPACE::kObjectType);
+    blendObj.AddMember("enable", m_LogicParamBlend.enable, _allocator);
+    blendObj.AddMember("src", m_LogicParamBlend.srcParam, _allocator);
+    blendObj.AddMember("dst", m_LogicParamBlend.dstParam, _allocator);
+    //shader
+    locationObj.AddMember("shader", RAPIDJSON_NAMESPACE::StringRef(m_mtlname.c_str()), _allocator);
+    //parameter
+    RAPIDJSON_NAMESPACE::Value parameterObj(RAPIDJSON_NAMESPACE::kObjectType);
+    parameterObj.AddMember("depth", m_LogicParamDepth.enable, _allocator);
+    RAPIDJSON_NAMESPACE::Value cullObj(RAPIDJSON_NAMESPACE::kObjectType);
+    //cull
+    cullObj.AddMember("enable", m_LogicParamCull.enable, _allocator);
+    cullObj.AddMember("frontFace", m_LogicParamCull.frontFace, _allocator);
+    cullObj.AddMember("cullFace", m_LogicParamCull.cullFace, _allocator);
+    parameterObj.AddMember("cull", cullObj, _allocator);
+}
+
+void SVMtlCore::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
+    //blending
+    if (item.HasMember("blend") && item["blend"].IsObject()) {
+        RAPIDJSON_NAMESPACE::Value &t_blend = item["blend"];
+        if (t_blend.HasMember("enable") && t_blend["enable"].IsBool()) {
+            bool enable = t_blend["enable"].GetBool();
+            setBlendEnable(enable);
+        }
+        s32 src = 1;
+        s32 dst = 1;
+        if (t_blend.HasMember("src") && t_blend["src"].IsInt()) {
+            src = t_blend["src"].GetInt();
+        }
+        if (t_blend.HasMember("dst") && t_blend["dst"].IsInt()) {
+            dst = t_blend["dst"].GetInt();
+        }
+        setBlendState(src, dst);
+    }
+    //shader
+    if (item.HasMember("shader") && item["shader"].IsString()) {
+        SVString shader = item["shader"].GetString();
+        reloadShader(shader);
+    }
+    //parameter
+    if (item.HasMember("parameter") && item["parameter"].IsObject()) {
+        RAPIDJSON_NAMESPACE::Value &t_paprmeter = item["parameter"];
+        if (t_paprmeter.HasMember("depth") && t_paprmeter["depth"].IsBool()) {
+            bool enable = t_paprmeter["depth"].GetBool();
+            setDepthEnable(enable);
+        }
+        if (t_paprmeter.HasMember("cull") && t_paprmeter["cull"].IsObject()) {
+            RAPIDJSON_NAMESPACE::Value &t_cull = item["cull"];
+            if (t_cull.HasMember("enable") && t_cull["enable"].IsBool()) {
+                bool enable = t_cull["enable"].GetBool();
+                setCullEnable(enable);
+            }
+            s32 t_frontFace = 1;
+            s32 t_cullFace = 1;
+            if (t_cull.HasMember("frontFace") && t_cull["frontFace"].IsInt()) {
+                t_frontFace = t_cull["frontFace"].GetInt();
+            }
+            if (t_cull.HasMember("cullFace") && t_cull["cullFace"].IsInt()) {
+                t_cullFace = t_cull["cullFace"].GetInt();
+            }
+            setCullFace(t_frontFace, t_cullFace);
+        }
+    }
+    //textures
+    if (item.HasMember("textures") && item["textures"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &t_textures = item["textures"];
+        for (s32 i = 0; i<t_textures.Size(); i++) {
+            RAPIDJSON_NAMESPACE::Value &t_texture = t_textures[i];
+            if(t_texture.HasMember("texture") && t_texture["texture"].IsString()){
+                SVString textureName = t_texture["texture"].GetString();
+            }
+            if(t_texture.HasMember("channel") && t_texture["channel"].IsInt()){
+                s32 channel = t_texture["channel"].GetInt();
+            }
+            if(t_texture.HasMember("internalformat") && t_texture["internalformat"].IsInt()){
+                s32 informat = t_texture["internalformat"].GetInt();
+            }
+            if(t_texture.HasMember("format") && t_texture["format"].IsInt()){
+                s32 format = t_texture["format"].GetInt();
+            }
+            if(t_texture.HasMember("sampler") && t_texture["sampler"].IsObject()){
+                RAPIDJSON_NAMESPACE::Value &sampler = t_texture["sampler"];
+                if(sampler.HasMember("magFilter") && sampler["magFilter"].IsInt()){
+                    s32 magFilter = sampler["magFilter"].GetInt();
+                }
+                if(sampler.HasMember("minFilter") && sampler["minFilter"].IsInt()){
+                    s32 minFilter = sampler["minFilter"].GetInt();
+                }
+                if(sampler.HasMember("wrapS") && sampler["wrapS"].IsInt()){
+                    s32 wrapS = sampler["wrapS"].GetInt();
+                }
+                if(sampler.HasMember("wrapT") && sampler["wrapT"].IsInt()){
+                    s32 wrapT = sampler["wrapT"].GetInt();
+                }
+            }
+        }
+    }
 }
