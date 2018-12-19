@@ -477,9 +477,9 @@ void SVDeformImageMove::updatePointMesh( V2* _facepoint){
         f32 _iny=_facepoint[i].y;
         f32 _x=_inx-m_tt_w/2;
         f32 _y=_iny-m_tt_h/2;
-        u8 t_r=255;
+        u8 t_r=0;
         u8 t_g=255;
-        u8 t_b=255;
+        u8 t_b=0;
         u8 t_a=255;
         SVMap<u32,V2>::Iterator it= m_param->m_pointMap.begin();
         while (it!=m_param->m_pointMap.end()) {

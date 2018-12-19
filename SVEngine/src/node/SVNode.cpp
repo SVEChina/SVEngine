@@ -283,7 +283,7 @@ void SVNode::setPosition(f32 _x, f32 _y, f32 _z) {
 }
 
 void SVNode::setOffset(f32 _x, f32 _y, f32 _z){
-    m_postion.set(_x, _y, _z);
+    m_offpos.set(_x, _y, _z);
     m_dirty = true;
 }
 
@@ -330,6 +330,15 @@ FVec3& SVNode::getPosition() {
 
 FVec3& SVNode::getOffset() {
     return m_offpos;
+}
+
+void SVNode::setBindOffset(FVec3& _pos){
+    m_bindOffset = _pos;
+    m_dirty = true;
+}
+
+FVec3& SVNode::getBindOffset(){
+    return m_bindOffset;
 }
 
 FVec3& SVNode::getRotation() {
@@ -490,6 +499,15 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     }
     if (item.HasMember("person") && item["person"].IsInt()) {
         m_personID  = item["person"].GetInt();
+    }
+    if (item.HasMember("bindOffsetX") && item["bindOffsetX"].IsFloat()) {
+        m_bindOffset.x  = item["bindOffsetX"].GetFloat();
+    }
+    if (item.HasMember("bindOffsetY") && item["bindOffsetY"].IsFloat()) {
+        m_bindOffset.y  = item["bindOffsetY"].GetFloat();
+    }
+    if (item.HasMember("bindOffsetZ") && item["bindOffsetZ"].IsFloat()) {
+        m_bindOffset.z  = item["bindOffsetZ"].GetFloat();
     }
     //
     if (item.HasMember("canselect") && item["canselect"].IsBool()) {

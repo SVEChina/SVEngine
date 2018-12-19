@@ -38,11 +38,17 @@ namespace sv {
             FVec3 m_jawbottompos;
             FVec3 m_noiseup;
             FVec3 m_noisedown;
+            FVec3 m_leftEyePos;
+            FVec3 m_rightEyePos;
             SVRect m_faceRect;
             f32 m_standardEyeDis;
+            f32 m_standardNoiseDis;
             f32 m_eyeDistance;      //瞳距
+            f32 m_noiseDistance;      
             FVec3 m_scale;           //pitch yaw roll
             f32 m_eyestd_scale;     //瞳距相对于标准脸的缩放
+            f32 m_noisetd_scale;
+            f32 m_eye_angle;
         };
         
     }//!namespace detect

@@ -84,6 +84,10 @@ namespace sv {
             
             s32  getBindIndex();
             
+            virtual void setBindOffset(FVec3& _pos);
+            
+            FVec3& getBindOffset();
+            
             void setRSType(RENDERSTREAMTYPE _retype);
             
             RENDERSTREAMTYPE getRSType();
@@ -154,6 +158,7 @@ namespace sv {
             FVec3 m_scale;          //缩放
             FVec3 m_offpos;         //偏移
             s32 m_bindIndex;        //绑定索引
+            FVec3 m_bindOffset;
             //
             bool m_dirty;
             bool m_beSelect;        //是否被选择

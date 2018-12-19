@@ -47,7 +47,7 @@ namespace sv{
         
         virtual void init();
         
-        virtual  void destroy();
+        virtual void destroy();
         
         virtual void update(f32 _dt);
         

@@ -11,8 +11,8 @@
 #include "../event/SVEventMgr.h"
 #include "../app/SVInst.h"
 
-#define STANDARD_EYE_STD 190
-#define STANDARD_NOISE_STD 160  //从眼角中心点到鼻尖
+#define STANDARD_EYE_STD 311
+#define STANDARD_NOISE_STD 225
 
 SVPersonTracker::SVPersonTracker(SVInst* _app)
 :SVGBase(_app) {
@@ -21,6 +21,7 @@ SVPersonTracker::SVPersonTracker(SVInst* _app)
     m_personID = 0;
     m_scale.set(1.0f, 1.0f, 1.0f);
     m_standardEyeDis = STANDARD_EYE_STD;
+    m_standardNoiseDis = STANDARD_NOISE_STD;
 }
 
 SVPersonTracker::~SVPersonTracker() {
@@ -54,8 +55,24 @@ void SVPersonTracker::track_st(void *_data, s32 _ptnum, SVRect *_rect, f32 yaw, 
         m_jawbottompos.x = pdata[16 * 2];
         m_jawbottompos.y = pdata[16 * 2 + 1];
 
-        m_eyeDistance = FVec3(pdata[74 * 2] - pdata[77 * 2], pdata[74 * 2 + 1] - pdata[77 * 2 + 1], 0).length() / cosf(fabs(yaw)*3.14/180);
+        m_leftEyePos.x = pdata[74 * 2];
+        m_leftEyePos.y = pdata[74 * 2 + 1];
+        m_leftEyePos.z = 0;
+        
+        m_rightEyePos.x = pdata[77 * 2];
+        m_rightEyePos.y = pdata[77 * 2 + 1];
+        m_rightEyePos.z = 0;
+        
+//        atan2f(pt1.y - pt0.y, pt1.x - pt0.x)
+        
+        m_eyeDistance = (m_leftEyePos - m_rightEyePos).length() / cosf(fabs(yaw)*DEGTORAD);
+        m_noiseDistance = (m_eyecenter - m_noisedown).length() / cosf(fabs(pitch)*DEGTORAD);
         //横向缩放
         m_eyestd_scale = m_eyeDistance / m_standardEyeDis;
+        //竖向缩放
+        m_noisetd_scale = m_noiseDistance / m_standardNoiseDis;
+        //
+        m_eye_angle = atan2f(m_eyecenter.y - m_noisedown.y, m_eyecenter.x - m_noisedown.x)*RADTODEG - 90;
+        
     }
 }

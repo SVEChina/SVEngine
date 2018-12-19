@@ -275,8 +275,7 @@ void SVSpineNode::setPosition(f32 _x, f32 _y, f32 _z) {
 }
 
 void SVSpineNode::setScale(f32 _x, f32 _y, f32 _z) {
-    FVec3& pAdaptScale = mApp->getConfig()->getAdaptScale();
-    m_scale.set(_x*pAdaptScale.x, _y*pAdaptScale.x, _z);
+    m_scale.set(_x, _y, _z);
     m_dirty = true;
 }
 
@@ -286,8 +285,7 @@ void SVSpineNode::setPosition(FVec3& _pos) {
 }
 
 void SVSpineNode::setScale(FVec3& _scale) {
-    FVec3& pAdaptScale = mApp->getConfig()->getAdaptScale();
-    m_scale = FVec3(_scale.x*pAdaptScale.x, _scale.y*pAdaptScale.x, _scale.z);
+    m_scale = FVec3(_scale.x, _scale.y, _scale.z);
     m_dirty = true;
 }
 

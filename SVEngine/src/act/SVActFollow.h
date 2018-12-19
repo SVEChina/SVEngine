@@ -74,9 +74,12 @@ namespace sv {
             
             void setOffset(f32 _offsetX, f32 _offsetY);//设置跟随点偏移
             
+            void setScale(f32 _scaleX, f32 _scaleY);
         protected:
             f32 m_offsetX;
             f32 m_offsetY;
+            f32 m_scaleX;
+            f32 m_scaleY;
             s32 m_bindIndex;
             s32 m_personID;
         };
