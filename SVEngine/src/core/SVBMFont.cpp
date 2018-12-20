@@ -72,6 +72,9 @@ f32 SVBMFont::getTextWidth(cptr8 _text, s32 _count){
     return x;
 }
 
+s32 SVBMFont::getTextLength(cptr8 _text){
+    return _getTextLength(_text);
+}
 
 s32 SVBMFont::getTextChar(cptr8 _text, s32 _pos, s32 *_nextPos){
     s32 ch;

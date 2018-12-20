@@ -537,9 +537,9 @@ void SVDataNodeBMFont::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_all
     RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
     _toJsonData(_allocator, locationObj);
     locationObj.AddMember("file", RAPIDJSON_NAMESPACE::StringRef(m_file_name.c_str()), _allocator);
-    locationObj.AddMember("fontW", m_fontW, _allocator);
-    locationObj.AddMember("fontH", m_fontH, _allocator);
-    locationObj.AddMember("spacing", m_spacing, _allocator);
+    locationObj.AddMember("fontw", m_fontW, _allocator);
+    locationObj.AddMember("fonth", m_fontH, _allocator);
+    locationObj.AddMember("space", m_spacing, _allocator);
     locationObj.AddMember("text", RAPIDJSON_NAMESPACE::StringRef(m_content.c_str()), _allocator);
     _objValue.AddMember("sv_bmfont", locationObj, _allocator);
 }
@@ -549,14 +549,14 @@ void SVDataNodeBMFont::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("file") && item["file"].IsString()) {
         m_file_name = item["file"].GetString();
     }
-    if (item.HasMember("fontW") && item["fontW"].IsInt()) {
-        m_fontW = item["fontW"].GetInt();
+    if (item.HasMember("fontw") && item["fontw"].IsInt()) {
+        m_fontW = item["fontw"].GetInt();
     }
-    if (item.HasMember("fontH") && item["fontH"].IsInt()) {
-        m_fontH = item["fontH"].GetInt();
+    if (item.HasMember("fonth") && item["fonth"].IsInt()) {
+        m_fontH = item["fonth"].GetInt();
     }
-    if (item.HasMember("spacing") && item["spacing"].IsFloat()) {
-        m_spacing = item["spacing"].GetFloat();
+    if (item.HasMember("space") && item["space"].IsFloat()) {
+        m_spacing = item["space"].GetFloat();
     }
     if (item.HasMember("text") && item["text"].IsString()) {
         m_content = item["text"].GetString();

@@ -30,8 +30,8 @@ SVParseMain::SVParseMain(SVInst *_app)
     _registDictionary("SVSpineNode", SVParseAnimate::parseAnim);
     _registDictionary("SV2DFaceMaskSTNode", SVParseMask::parseMask);
     _registDictionary("SVSpriteNode", SVParseSprite::parseSprite);
-    _registDictionary("sv_bitfont", SVParseBitfont::parseBitfont);
-    _registDictionary("sv_bmfont", SVParseBMFont::parseBMFont);
+    _registDictionary("SVBitFontNode", SVParseBitfont::parseBitfont);
+    _registDictionary("SVBMFontNode", SVParseBMFont::parseBMFont);
     _registDictionary("SVBackGroundNode", SVParseBackground::parseDeform);
     _registDictionary("SVParticlesNode", SVParseParticles::parseParticles);
     //////////////!!!!!!!!!!!!!!!!!!

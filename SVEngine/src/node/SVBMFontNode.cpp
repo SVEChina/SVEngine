@@ -18,8 +18,9 @@
 #include "../event/SVEventMgr.h"
 #include "../event/SVEvent.h"
 #include "../core/SVBMFont.h"
-
+#include "../file/SVBMFontLoader.h"
 #define SV_BMFONT_MAX_NUM  20
+#define DEFSPACE 40
 //
 SVBMFontNode::SVBMFontNode(SVInst *_app)
 :SVNode(_app) {
@@ -29,8 +30,6 @@ SVBMFontNode::SVBMFontNode(SVInst *_app)
     m_textSize = 0;
     m_atchType = ATCH_MC;
     m_spacing = 0.0f;
-    m_fontW = 60;
-    m_fontH = 60;
     m_alpha = 1.0f;
     m_pRenderVertex = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
@@ -104,20 +103,6 @@ cptr8 SVBMFontNode::getText(){
     return m_text;
 }
 
-void SVBMFontNode::setFontSize(f32 _w,f32 _h){
-    m_fontW = _w;
-    m_fontH = _w;
-    m_textDirty = true;
-}
-
-f32 SVBMFontNode::getFontW(){
-    return m_fontW;
-}
-
-f32 SVBMFontNode::getFontH(){
-    return m_fontH;
-}
-
 void SVBMFontNode::setSpacing(f32 _spacing){
     m_spacing = _spacing;
     m_textDirty = true;
@@ -152,47 +137,23 @@ void SVBMFontNode::setAlpha(f32 _alpha){
 
 void SVBMFontNode::_refresh(){
     _refreshTexcoords();
-    s32 t_Len = m_texcoordsTbl.size();
-    f32 t_total_w = m_fontW*t_Len;
-    f32 t_total_h = m_fontH;
-    f32 t_offx = 0.0f;
-    f32 t_offy = 0.0f;
-    if(m_atchType == ATCH_LB){
-        t_offx = 0.0f;
-        t_offy = 0.0f;
-    }else if(m_atchType == ATCH_LC){
-        t_offx = 0.0f;
-        t_offy = t_total_h*0.5f;
-    }else if(m_atchType == ATCH_LT){
-        t_offx = 0.0f;
-        t_offy = t_total_h;
-    }else if(m_atchType == ATCH_MB){
-        t_offx = 0.5f*t_total_w;
-        t_offy = 0.0f;
+    s32 t_Len = m_font->getTextLength(m_text.c_str());
+    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), t_Len);
+    f32 x = 0.0f;
+    if(m_atchType == ATCH_LC){
+        x = t_total_w;
     }else if(m_atchType == ATCH_MC){
-        t_offx = 0.5f*t_total_w;
-        t_offy = t_total_h*0.5f;
-    }else if(m_atchType == ATCH_MT){
-        t_offx = 0.5f*t_total_w;
-        t_offy = t_total_h;
-    }else if(m_atchType == ATCH_RB){
-        t_offx = t_total_w;
-        t_offy = 0.0f;
+        x = -t_total_w*0.5;
     }else if(m_atchType == ATCH_RC){
-        t_offx = t_total_w;
-        t_offy = t_total_h*0.5f;
-    }else if(m_atchType == ATCH_RT){
-        t_offx = t_total_w;
-        t_offy = t_total_h;
+        x = -t_total_w;
     }
-    
     m_aabbBox.clear();
     //顶点数据
     V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];
     //更新每个字符的的纹理坐标
     for (u32 i = 0; i < t_Len; ++i) {
-        tVerts[i * 6 + 0].x = (m_fontW + m_spacing)*i - t_offx;
-        tVerts[i * 6 + 0].y = -t_offy;
+        tVerts[i * 6 + 0].x = x+m_texcoordsTbl[i].ox;
+        tVerts[i * 6 + 0].y = -(m_texcoordsTbl[i].h+m_texcoordsTbl[i].oy)*0.5;
         tVerts[i * 6 + 0].t0x = m_texcoordsTbl[i].lb_x;
         tVerts[i * 6 + 0].t0y = m_texcoordsTbl[i].lb_y;
         tVerts[i * 6 + 0].r = 255;
@@ -201,8 +162,8 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 0].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 0].x,tVerts[i * 6 + 0].y, 0.0));
         //
-        tVerts[i * 6 + 1].x = m_fontW*(i+1) + m_spacing*i - t_offx;
-        tVerts[i * 6 + 1].y = -t_offy;
+        tVerts[i * 6 + 1].x = x+m_texcoordsTbl[i].w+m_texcoordsTbl[i].ox;
+        tVerts[i * 6 + 1].y = -(m_texcoordsTbl[i].h+m_texcoordsTbl[i].oy)*0.5;
         tVerts[i * 6 + 1].t0x = m_texcoordsTbl[i].rb_x;
         tVerts[i * 6 + 1].t0y = m_texcoordsTbl[i].rb_y;
         tVerts[i * 6 + 1].r = 255;
@@ -211,8 +172,8 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 1].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 1].x,tVerts[i * 6 + 1].y, 0.0));
         //
-        tVerts[i * 6 + 2].x = (m_fontW + m_spacing)*i - t_offx;
-        tVerts[i * 6 + 2].y = m_fontH - t_offy;
+        tVerts[i * 6 + 2].x = x+m_texcoordsTbl[i].ox;
+        tVerts[i * 6 + 2].y = -(m_texcoordsTbl[i].oy*0.5-m_texcoordsTbl[i].h*0.5);
         tVerts[i * 6 + 2].t0x = m_texcoordsTbl[i].lt_x;
         tVerts[i * 6 + 2].t0y = m_texcoordsTbl[i].lt_y;
         tVerts[i * 6 + 2].r = 255;
@@ -221,8 +182,8 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 2].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 2].x,tVerts[i * 6 + 2].y, 0.0));
         //
-        tVerts[i * 6 + 3].x = (m_fontW + m_spacing)*i - t_offx;
-        tVerts[i * 6 + 3].y = m_fontH - t_offy;
+        tVerts[i * 6 + 3].x = x+m_texcoordsTbl[i].ox;
+        tVerts[i * 6 + 3].y = -(m_texcoordsTbl[i].oy*0.5-m_texcoordsTbl[i].h*0.5);
         tVerts[i * 6 + 3].t0x = m_texcoordsTbl[i].lt_x;
         tVerts[i * 6 + 3].t0y = m_texcoordsTbl[i].lt_y;
         tVerts[i * 6 + 3].r = 255;
@@ -231,8 +192,8 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 3].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 3].x,tVerts[i * 6 + 3].y, 0.0));
         //
-        tVerts[i * 6 + 4].x = m_fontW*(i+1) + m_spacing*i - t_offx;
-        tVerts[i * 6 + 4].y = - t_offy;
+        tVerts[i * 6 + 4].x = x+m_texcoordsTbl[i].w+m_texcoordsTbl[i].ox;
+        tVerts[i * 6 + 4].y = -(m_texcoordsTbl[i].h+m_texcoordsTbl[i].oy)*0.5;
         tVerts[i * 6 + 4].t0x = m_texcoordsTbl[i].rb_x;
         tVerts[i * 6 + 4].t0y = m_texcoordsTbl[i].rb_y;
         tVerts[i * 6 + 4].r = 255;
@@ -241,8 +202,8 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 4].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 4].x,tVerts[i * 6 + 4].y, 0.0));
         //
-        tVerts[i * 6 + 5].x = m_fontW*(i+1) + m_spacing*i - t_offx;
-        tVerts[i * 6 + 5].y = m_fontH - t_offy;
+        tVerts[i * 6 + 5].x = x+m_texcoordsTbl[i].w+m_texcoordsTbl[i].ox;
+        tVerts[i * 6 + 5].y = -(m_texcoordsTbl[i].oy*0.5-m_texcoordsTbl[i].h*0.5);
         tVerts[i * 6 + 5].t0x = m_texcoordsTbl[i].rt_x;
         tVerts[i * 6 + 5].t0y = m_texcoordsTbl[i].rt_y;
         tVerts[i * 6 + 5].r = 255;
@@ -250,6 +211,11 @@ void SVBMFontNode::_refresh(){
         tVerts[i * 6 + 5].b = 255;
         tVerts[i * 6 + 5].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 5].x,tVerts[i * 6 + 5].y, 0.0));
+        x += m_texcoordsTbl[i].a;
+        x += m_spacing;
+        if (m_texcoordsTbl[i].charID == ' ') {
+            x += DEFSPACE;
+        }
     }
     //
     if (t_Len < SV_BMFONT_MAX_NUM) {
@@ -277,7 +243,7 @@ void SVBMFontNode::_refresh(){
 void SVBMFontNode::_genMesh(){
     V2_C_T0 t_Verts[SV_BMFONT_MAX_NUM * 6];
     for (u32 i = 0; i < SV_BMFONT_MAX_NUM ; i++) {
-        t_Verts[i * 6 + 0].x = m_fontW*i;
+        t_Verts[i * 6 + 0].x = 0.0f;
         t_Verts[i * 6 + 0].y = 0.0f;
         t_Verts[i * 6 + 0].t0x = 0.0f;
         t_Verts[i * 6 + 0].t0y = 0.0f;
@@ -286,7 +252,7 @@ void SVBMFontNode::_genMesh(){
         t_Verts[i * 6 + 0].b = 255;
         t_Verts[i * 6 + 0].a = 255;
         
-        t_Verts[i * 6 + 1].x = m_fontW*(i+1);
+        t_Verts[i * 6 + 1].x = 0.0f;
         t_Verts[i * 6 + 1].y = 0.0f;
         t_Verts[i * 6 + 1].t0x = 1.0f;
         t_Verts[i * 6 + 1].t0y = 0.0f;
@@ -295,8 +261,8 @@ void SVBMFontNode::_genMesh(){
         t_Verts[i * 6 + 1].b = 255;
         t_Verts[i * 6 + 1].a = 255;
         
-        t_Verts[i * 6 + 2].x = m_fontW*i;
-        t_Verts[i * 6 + 2].y = m_fontH;
+        t_Verts[i * 6 + 2].x = 0.0f;
+        t_Verts[i * 6 + 2].y = 0.0f;
         t_Verts[i * 6 + 2].t0x = 0.0f;
         t_Verts[i * 6 + 2].t0y = 1.0f;
         t_Verts[i * 6 + 2].r = 255;
@@ -304,8 +270,8 @@ void SVBMFontNode::_genMesh(){
         t_Verts[i * 6 + 2].b = 255;
         t_Verts[i * 6 + 2].a = 255;
         
-        t_Verts[i * 6 + 3].x = m_fontW*i;
-        t_Verts[i * 6 + 3].y = m_fontH;
+        t_Verts[i * 6 + 3].x = 0.0f;
+        t_Verts[i * 6 + 3].y = 0.0f;
         t_Verts[i * 6 + 3].t0x = 0.0f;
         t_Verts[i * 6 + 3].t0y = 1.0f;
         t_Verts[i * 6 + 3].r = 255;
@@ -313,7 +279,7 @@ void SVBMFontNode::_genMesh(){
         t_Verts[i * 6 + 3].b = 255;
         t_Verts[i * 6 + 3].a = 255;
         
-        t_Verts[i * 6 + 4].x = m_fontW*(i+1);
+        t_Verts[i * 6 + 4].x = 0.0f;
         t_Verts[i * 6 + 4].y = 0.0f;
         t_Verts[i * 6 + 4].t0x = 1.0f;
         t_Verts[i * 6 + 4].t0y = 0.0f;
@@ -322,8 +288,8 @@ void SVBMFontNode::_genMesh(){
         t_Verts[i * 6 + 4].b = 255;
         t_Verts[i * 6 + 4].a = 255;
         
-        t_Verts[i * 6 + 5].x = m_fontW*(i+1);
-        t_Verts[i * 6 + 5].y = m_fontH;
+        t_Verts[i * 6 + 5].x = 0.0f;
+        t_Verts[i * 6 + 5].y = 0.0f;
         t_Verts[i * 6 + 5].t0x = 1.0f;
         t_Verts[i * 6 + 5].t0y = 1.0f;
         t_Verts[i * 6 + 5].r = 255;
@@ -343,7 +309,7 @@ void SVBMFontNode::_genMesh(){
 void SVBMFontNode::_refreshTexcoords(){
     m_texcoordsTbl.clear();
     s32 page = -1;
-    for( int n = 0; n < m_textSize; )
+    for( s32 n = 0; n < m_textSize; )
     {
         s32 charId = m_font->getTextChar(m_text, n, &n);
         SVBMFont::SVBMFONTCHARINFO ch = m_font->getChar(charId);
@@ -376,7 +342,17 @@ void SVBMFontNode::_refreshTexcoords(){
         t_texcoord.rb_x = u2;
         t_texcoord.rb_y = v2;
         //
+        t_texcoord.ox = ox;
+        t_texcoord.oy = oy;
+        //
+        t_texcoord.w = w;
+        t_texcoord.h = h;
+        //
+        t_texcoord.a = a;
+        //
+        t_texcoord.charID = charId;
         m_texcoordsTbl.append(t_texcoord);
+        
     }
 
 }
@@ -387,9 +363,7 @@ void SVBMFontNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocat
     _objValue.AddMember("fntname", RAPIDJSON_NAMESPACE::StringRef(m_font->m_fntName.c_str()), _allocator);
     _objValue.AddMember("content", RAPIDJSON_NAMESPACE::StringRef(m_text.c_str()), _allocator);
     _objValue.AddMember("encode", s32(m_font->getTextEncoding()), _allocator);
-    _objValue.AddMember("fontw", m_fontW, _allocator);
-    _objValue.AddMember("fonth", m_fontH, _allocator);
-    _objValue.AddMember("space", m_fontH, _allocator);
+    _objValue.AddMember("space", m_spacing, _allocator);
     _objValue.AddMember("alignment", s32(m_atchType), _allocator);
     _objValue.AddMember("encode", s32(m_font->getTextEncoding()), _allocator);
 }
@@ -398,18 +372,19 @@ void SVBMFontNode::fromJSON(RAPIDJSON_NAMESPACE::Value &_item){
     _fromJsonData(_item);
     if (_item.HasMember("fntname") && _item["fntname"].IsString()) {
         SVString t_textureName = _item["fntname"].GetString();
+        SVString t_resPath = m_rootPath +  t_textureName;
+        SVBMFontPtr font = MakeSharedPtr<SVBMFont>(mApp);
+        SVBMFontLoader t_loder(mApp);
+        t_loder.loadData(t_resPath.c_str(), font);
+        setFont(font);
     }
     if (_item.HasMember("content") && _item["content"].IsString()) {
         m_text = _item["content"].GetString();
     }
     if (_item.HasMember("encode") && _item["encode"].IsInt()) {
-        m_font->setTextEncoding(SVFont::SVFONTTEXTENCODING(_item["encode"].GetInt()));
-    }
-    if (_item.HasMember("fontw") && _item["fontw"].IsFloat()) {
-        m_fontW = _item["fontw"].GetFloat();
-    }
-    if (_item.HasMember("fonth") && _item["fonth"].IsFloat()) {
-        m_fontH = _item["fonth"].GetFloat();
+        if (m_font) {
+            m_font->setTextEncoding(SVFont::SVFONTTEXTENCODING(_item["encode"].GetInt()));
+        }
     }
     if (_item.HasMember("space") && _item["space"].IsFloat()) {
         m_spacing = _item["space"].GetFloat();
@@ -417,4 +392,5 @@ void SVBMFontNode::fromJSON(RAPIDJSON_NAMESPACE::Value &_item){
     if (_item.HasMember("alignment") && _item["alignment"].IsInt()) {
         m_atchType = BITFONT_ATCH_PT(_item["alignment"].GetInt());
     }
+    m_textDirty = true;
 }

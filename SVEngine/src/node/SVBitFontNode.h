@@ -67,6 +67,13 @@ namespace sv {
             cptr8 getTexturePath();
             
             virtual void setAlpha(f32 _alpha);
+            
+            SVString m_rootPath;
+            
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &_item);
         private:
             void _genMesh();
             void _genTexcoords();

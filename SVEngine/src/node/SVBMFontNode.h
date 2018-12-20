@@ -25,6 +25,12 @@ namespace sv {
                 f32 lb_y;
                 f32 rb_x;
                 f32 rb_y;
+                f32 w;
+                f32 h;
+                f32 ox;
+                f32 oy;
+                f32 a;
+                s32 charID;
             };
         public:
             SVBMFontNode(SVInst *_app);
@@ -59,6 +65,8 @@ namespace sv {
             
             virtual void setAlpha(f32 _alpha);
             
+            SVString m_rootPath;
+            
             //序列化接口
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             
@@ -75,10 +83,8 @@ namespace sv {
             SVBMFontPtr m_font;
             typedef SVArray<FontTexcoords> TEXCOORDTBL;
             TEXCOORDTBL m_texcoordsTbl;
-            BITFONT_ATCH_PT m_atchType;    //布局位置 9个方向
+            BITFONT_ATCH_PT m_atchType;
             u32 m_textSize;
-            f32 m_fontW;
-            f32 m_fontH;
             f32 m_spacing;
             f32 m_alpha;
             SVString m_text;
