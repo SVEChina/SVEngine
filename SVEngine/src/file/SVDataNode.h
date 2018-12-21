@@ -77,45 +77,6 @@ namespace sv {
             void _toNodeData(SVNodePtr _node);
         };
         
-        //带变脸的背景节点
-        class SVDataNodeDeform : public SVDataNode {
-        public:
-            SVDataNodeDeform(SVInst *_app);
-            
-            ~SVDataNodeDeform();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
-                                RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-        protected:
-            
-        };
-        
-        //
-        class  SVDataNodeFilter : public SVDataNode{
-        public:
-            SVDataNodeFilter(SVInst *_app);
-            
-            ~SVDataNodeFilter();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-            inline SVDataFilterPtr getFilter(){
-                return m_dataFilter;
-            }
-            
-        protected:
-            SVDataFilterPtr m_dataFilter;
-        };
-        
         class SVDataNodeBmpFont : public SVDataNode{
         public:
             SVDataNodeBmpFont(SVInst *_app);
@@ -147,35 +108,6 @@ namespace sv {
             SVString m_content;
             
             BITFONT_ATCH_PT m_type;
-        };
-        
-        class SVDataNodeBackGround : public SVDataNode{
-        public:
-            SVDataNodeBackGround(SVInst *_app);
-            
-            ~SVDataNodeBackGround();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-            void refreshIn(SVSpriteNodePtr _spriteNode);
-            
-            void refreshOut(SVSpriteNodePtr _spriteNode);
-            
-            SVBackGroundNodePtr m_spritePtr;
-            
-            SVString m_root_path;
-            
-            SVString m_file_name;
-            
-            s32 m_spriteW;
-            
-            s32 m_spriteH;
-        protected:
-            SVMap<u32, V2> m_pointMap;
         };
         
 #ifdef CONFIG_IS_LOAD_FREETYPE
