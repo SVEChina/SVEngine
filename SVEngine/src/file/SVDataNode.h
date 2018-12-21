@@ -178,58 +178,6 @@ namespace sv {
             SVMap<u32, V2> m_pointMap;
         };
         
-        class SVDataNodeMask : public SVDataNode{
-        public:
-            SVDataNodeMask(SVInst *_app);
-            
-            ~SVDataNodeMask();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-            void refreshIn(SV2DFaceMaskNodePtr _maskNode);
-            
-            void refreshOut(SV2DFaceMaskNodePtr _maskNode);
-            
-            SVString m_root_path;
-            
-            SVString m_file_name;
-        };
-        
-        class SVDataNodeBMFont : public SVDataNode{
-        public:
-            SVDataNodeBMFont(SVInst *_app);
-            
-            ~SVDataNodeBMFont();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-            void refreshIn(SVBMFontNodePtr _bmfontNode);
-            
-            void refreshOut(SVBMFontNodePtr _bmfontNode);
-            
-            SVString m_root_path;
-            
-            SVString m_file_name;
-            
-            s32 m_fontW;
-            
-            s32 m_fontH;
-            
-            f32 m_spacing;
-            
-            SVString m_content;
-            
-            BITFONT_ATCH_PT m_type;
-        };
-        
 #ifdef CONFIG_IS_LOAD_FREETYPE
         
         class SVTTFNodeModelData : public SVDataNode{

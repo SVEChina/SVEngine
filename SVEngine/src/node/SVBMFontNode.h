@@ -43,12 +43,6 @@ namespace sv {
             
             void setFont(SVBMFontPtr _font);
             
-            void setFontSize(f32 _w,f32 _h);
-            
-            f32 getFontW();
-            
-            f32 getFontH();
-            
             void setText(cptr8 _text);
             
             cptr8 getText();
