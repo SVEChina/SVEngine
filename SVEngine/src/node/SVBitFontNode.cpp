@@ -415,6 +415,7 @@ void SVBitFontNode::_genTexcoords(){
     m_charTbl.append('-');
     m_charTbl.append('x');
     m_charTbl.append('%');
+    m_charTbl.append(',');
     //构建字符表 对应的纹理坐标
     s32 tCharNum = m_charTbl.size();
     //从图片计算的字符大小
@@ -463,7 +464,7 @@ void SVBitFontNode::fromJSON(RAPIDJSON_NAMESPACE::Value &_item){
         m_FontHeight = _item["fonth"].GetInt();
     }
     if (_item.HasMember("innerx") && _item["innerx"].IsInt()) {
-        m_innerOffXScale = _item["innerx"].GetInt();
+        m_innerOffXScale = _item["innerx"].GetInt() ;
     }
     if (_item.HasMember("innery") && _item["innery"].IsInt()) {
         m_innerOffYScale = _item["innery"].GetInt();
