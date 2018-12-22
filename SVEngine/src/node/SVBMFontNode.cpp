@@ -35,6 +35,7 @@ SVBMFontNode::SVBMFontNode(SVInst *_app)
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
     m_pMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
+    m_spacing = 0.0f;
     _genMesh();
 }
 
@@ -44,15 +45,11 @@ SVBMFontNode::~SVBMFontNode() {
     m_pMesh = nullptr;
     m_pRenderVertex = nullptr;
     m_texture = nullptr;
-    m_texcoordsTbl.clear();
 }
 
 void SVBMFontNode::update(f32 dt) {
     SVNode::update(dt);
     if (!m_font) {
-        return;
-    }
-    if (m_textSize == 0) {
         return;
     }
     if (m_textDirty) {
@@ -95,7 +92,6 @@ void SVBMFontNode::setFont(SVBMFontPtr _font){
 
 void SVBMFontNode::setText(cptr8 _text){
     m_text = _text;
-    m_textSize = m_text.size();
     m_textDirty = true;
 }
 
@@ -136,9 +132,10 @@ void SVBMFontNode::setAlpha(f32 _alpha){
 }
 
 void SVBMFontNode::_refresh(){
-    _refreshTexcoords();
-    s32 t_Len = m_font->getTextLength(m_text.c_str());
-    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), t_Len);
+    //顶点数据
+    V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];
+    m_textSize = m_font->getTextLength(m_text.c_str());
+    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), m_font->getTextLength(m_text.c_str()));
     f32 x = 0.0f;
     if(m_atchType == ATCH_LC){
         x = t_total_w;
@@ -148,95 +145,120 @@ void SVBMFontNode::_refresh(){
         x = -t_total_w;
     }
     m_aabbBox.clear();
-    //顶点数据
-    V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];
-    //更新每个字符的的纹理坐标
-    for (u32 i = 0; i < t_Len; ++i) {
-        tVerts[i * 6 + 0].x = x+m_texcoordsTbl[i].ox;
-        tVerts[i * 6 + 0].y = -(m_texcoordsTbl[i].h+m_texcoordsTbl[i].oy)*0.5;
-        tVerts[i * 6 + 0].t0x = m_texcoordsTbl[i].lb_x;
-        tVerts[i * 6 + 0].t0y = m_texcoordsTbl[i].lb_y;
+    s32 page = -1;
+    s32 i = 0;
+    for( s32 n = 0; n < m_textSize; )
+    {
+        s32 charId = m_font->getTextChar(m_text, n, &n);
+        SVBMFont::SVBMFONTCHARINFO ch = m_font->getChar(charId);
+        f32 u = (f32(ch.x)+0.5f) / m_font->m_scaleW;
+        f32 v = (f32(ch.y)+0.5f) / m_font->m_scaleH;
+        f32 u2 = u + f32(ch.width) / m_font->m_scaleW;
+        f32 v2 = v + f32(ch.height) / m_font->m_scaleH;
+        
+        f32 a = m_font->m_scale * f32(ch.xAdvance);
+        f32 w = m_font->m_scale * f32(ch.width);
+        f32 h = m_font->m_scale * f32(ch.height);
+        f32 ox = m_font->m_scale * f32(ch.xOffset);
+        f32 oy = m_font->m_scale * f32(ch.yOffset);
+        
+        if( ch.page != page )
+        {
+            page = ch.page;
+            m_texture = m_font->m_textures[page];
+        }
+        FontTexcoords t_texcoord;
+        t_texcoord.lt_x = u;
+        t_texcoord.lt_y = v;
+        //
+        t_texcoord.rt_x = u2;
+        t_texcoord.rt_y = v;
+        //
+        t_texcoord.lb_x = u;
+        t_texcoord.lb_y = v2;
+        //
+        t_texcoord.rb_x = u2;
+        t_texcoord.rb_y = v2;
+        //
+        t_texcoord.ox = ox;
+        t_texcoord.oy = oy;
+        //
+        t_texcoord.w = w;
+        t_texcoord.h = h;
+        //
+        t_texcoord.a = a;
+        //
+        t_texcoord.charID = charId;
+        //
+        tVerts[i * 6 + 0].x = x+t_texcoord.ox;
+        tVerts[i * 6 + 0].y = -(t_texcoord.h+t_texcoord.oy)*0.5;
+        tVerts[i * 6 + 0].t0x = t_texcoord.lb_x;
+        tVerts[i * 6 + 0].t0y = t_texcoord.lb_y;
         tVerts[i * 6 + 0].r = 255;
         tVerts[i * 6 + 0].g = 255;
         tVerts[i * 6 + 0].b = 255;
         tVerts[i * 6 + 0].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 0].x,tVerts[i * 6 + 0].y, 0.0));
         //
-        tVerts[i * 6 + 1].x = x+m_texcoordsTbl[i].w+m_texcoordsTbl[i].ox;
-        tVerts[i * 6 + 1].y = -(m_texcoordsTbl[i].h+m_texcoordsTbl[i].oy)*0.5;
-        tVerts[i * 6 + 1].t0x = m_texcoordsTbl[i].rb_x;
-        tVerts[i * 6 + 1].t0y = m_texcoordsTbl[i].rb_y;
+        tVerts[i * 6 + 1].x = x+t_texcoord.w+t_texcoord.ox;
+        tVerts[i * 6 + 1].y = -(t_texcoord.h+t_texcoord.oy)*0.5;
+        tVerts[i * 6 + 1].t0x = t_texcoord.rb_x;
+        tVerts[i * 6 + 1].t0y = t_texcoord.rb_y;
         tVerts[i * 6 + 1].r = 255;
         tVerts[i * 6 + 1].g = 255;
         tVerts[i * 6 + 1].b = 255;
         tVerts[i * 6 + 1].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 1].x,tVerts[i * 6 + 1].y, 0.0));
         //
-        tVerts[i * 6 + 2].x = x+m_texcoordsTbl[i].ox;
-        tVerts[i * 6 + 2].y = -(m_texcoordsTbl[i].oy*0.5-m_texcoordsTbl[i].h*0.5);
-        tVerts[i * 6 + 2].t0x = m_texcoordsTbl[i].lt_x;
-        tVerts[i * 6 + 2].t0y = m_texcoordsTbl[i].lt_y;
+        tVerts[i * 6 + 2].x = x+t_texcoord.ox;
+        tVerts[i * 6 + 2].y = -(t_texcoord.oy*0.5-t_texcoord.h*0.5);
+        tVerts[i * 6 + 2].t0x = t_texcoord.lt_x;
+        tVerts[i * 6 + 2].t0y = t_texcoord.lt_y;
         tVerts[i * 6 + 2].r = 255;
         tVerts[i * 6 + 2].g = 255;
         tVerts[i * 6 + 2].b = 255;
         tVerts[i * 6 + 2].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 2].x,tVerts[i * 6 + 2].y, 0.0));
         //
-        tVerts[i * 6 + 3].x = x+m_texcoordsTbl[i].ox;
-        tVerts[i * 6 + 3].y = -(m_texcoordsTbl[i].oy*0.5-m_texcoordsTbl[i].h*0.5);
-        tVerts[i * 6 + 3].t0x = m_texcoordsTbl[i].lt_x;
-        tVerts[i * 6 + 3].t0y = m_texcoordsTbl[i].lt_y;
+        tVerts[i * 6 + 3].x = x+t_texcoord.ox;
+        tVerts[i * 6 + 3].y = -(t_texcoord.oy*0.5-t_texcoord.h*0.5);
+        tVerts[i * 6 + 3].t0x = t_texcoord.lt_x;
+        tVerts[i * 6 + 3].t0y = t_texcoord.lt_y;
         tVerts[i * 6 + 3].r = 255;
         tVerts[i * 6 + 3].g = 255;
         tVerts[i * 6 + 3].b = 255;
         tVerts[i * 6 + 3].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 3].x,tVerts[i * 6 + 3].y, 0.0));
         //
-        tVerts[i * 6 + 4].x = x+m_texcoordsTbl[i].w+m_texcoordsTbl[i].ox;
-        tVerts[i * 6 + 4].y = -(m_texcoordsTbl[i].h+m_texcoordsTbl[i].oy)*0.5;
-        tVerts[i * 6 + 4].t0x = m_texcoordsTbl[i].rb_x;
-        tVerts[i * 6 + 4].t0y = m_texcoordsTbl[i].rb_y;
+        tVerts[i * 6 + 4].x = x+t_texcoord.w+t_texcoord.ox;
+        tVerts[i * 6 + 4].y = -(t_texcoord.h+t_texcoord.oy)*0.5;
+        tVerts[i * 6 + 4].t0x = t_texcoord.rb_x;
+        tVerts[i * 6 + 4].t0y = t_texcoord.rb_y;
         tVerts[i * 6 + 4].r = 255;
         tVerts[i * 6 + 4].g = 255;
         tVerts[i * 6 + 4].b = 255;
         tVerts[i * 6 + 4].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 4].x,tVerts[i * 6 + 4].y, 0.0));
         //
-        tVerts[i * 6 + 5].x = x+m_texcoordsTbl[i].w+m_texcoordsTbl[i].ox;
-        tVerts[i * 6 + 5].y = -(m_texcoordsTbl[i].oy*0.5-m_texcoordsTbl[i].h*0.5);
-        tVerts[i * 6 + 5].t0x = m_texcoordsTbl[i].rt_x;
-        tVerts[i * 6 + 5].t0y = m_texcoordsTbl[i].rt_y;
+        tVerts[i * 6 + 5].x = x+t_texcoord.w+t_texcoord.ox;
+        tVerts[i * 6 + 5].y = -(t_texcoord.oy*0.5-t_texcoord.h*0.5);
+        tVerts[i * 6 + 5].t0x = t_texcoord.rt_x;
+        tVerts[i * 6 + 5].t0y = t_texcoord.rt_y;
         tVerts[i * 6 + 5].r = 255;
         tVerts[i * 6 + 5].g = 255;
         tVerts[i * 6 + 5].b = 255;
         tVerts[i * 6 + 5].a = 255*m_alpha;
         m_aabbBox.expand(FVec3(tVerts[i * 6 + 5].x,tVerts[i * 6 + 5].y, 0.0));
-        x += m_texcoordsTbl[i].a;
+        x += t_texcoord.a;
         x += m_spacing;
-        if (m_texcoordsTbl[i].charID == ' ') {
+        if (t_texcoord.charID == ' ') {
             x += DEFSPACE;
         }
+        i++;
     }
-    //
-    if (t_Len < SV_BMFONT_MAX_NUM) {
-        for (s32 i = t_Len; i < SV_BMFONT_MAX_NUM; ++i) {
-            tVerts[i * 6 + 0].x = 0;
-            tVerts[i * 6 + 0].y = 0;
-            tVerts[i * 6 + 1].x = 0;
-            tVerts[i * 6 + 1].y = 0;
-            tVerts[i * 6 + 2].x = 0;
-            tVerts[i * 6 + 2].y = 0;
-            tVerts[i * 6 + 3].x = 0;
-            tVerts[i * 6 + 3].y = 0;
-            tVerts[i * 6 + 4].x = 0;
-            tVerts[i * 6 + 4].y = 0;
-            tVerts[i * 6 + 5].x = 0;
-            tVerts[i * 6 + 5].y = 0;
-        }
-    }
-    //
-    m_pRenderVertex->writeData(&tVerts[0], sizeof(V2_C_T0) * t_Len * 6);
-    m_pMesh->setVertexDataNum(t_Len * 6);
+    s32 t_len = i;
+    m_pRenderVertex->writeData(&tVerts[0], sizeof(V2_C_T0) * t_len * 6);
+    m_pMesh->setVertexDataNum(t_len * 6);
     m_pMesh->setVertexData(m_pRenderVertex);
 }
 
@@ -304,57 +326,6 @@ void SVBMFontNode::_genMesh(){
     m_pMesh->setVertexType(E_VF_V2_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pMesh->createMesh();
-}
-
-void SVBMFontNode::_refreshTexcoords(){
-    m_texcoordsTbl.clear();
-    s32 page = -1;
-    for( s32 n = 0; n < m_textSize; )
-    {
-        s32 charId = m_font->getTextChar(m_text, n, &n);
-        SVBMFont::SVBMFONTCHARINFO ch = m_font->getChar(charId);
-        f32 u = (f32(ch.x)+0.5f) / m_font->m_scaleW;
-        f32 v = (f32(ch.y)+0.5f) / m_font->m_scaleH;
-        f32 u2 = u + f32(ch.width) / m_font->m_scaleW;
-        f32 v2 = v + f32(ch.height) / m_font->m_scaleH;
-        
-        f32 a = m_font->m_scale * f32(ch.xAdvance);
-        f32 w = m_font->m_scale * f32(ch.width);
-        f32 h = m_font->m_scale * f32(ch.height);
-        f32 ox = m_font->m_scale * f32(ch.xOffset);
-        f32 oy = m_font->m_scale * f32(ch.yOffset);
-        
-        if( ch.page != page )
-        {
-            page = ch.page;
-            m_texture = m_font->m_textures[page];
-        }
-        FontTexcoords t_texcoord;
-        t_texcoord.lt_x = u;
-        t_texcoord.lt_y = v;
-        //
-        t_texcoord.rt_x = u2;
-        t_texcoord.rt_y = v;
-        //
-        t_texcoord.lb_x = u;
-        t_texcoord.lb_y = v2;
-        //
-        t_texcoord.rb_x = u2;
-        t_texcoord.rb_y = v2;
-        //
-        t_texcoord.ox = ox;
-        t_texcoord.oy = oy;
-        //
-        t_texcoord.w = w;
-        t_texcoord.h = h;
-        //
-        t_texcoord.a = a;
-        //
-        t_texcoord.charID = charId;
-        m_texcoordsTbl.append(t_texcoord);
-        
-    }
-
 }
 
 //序列化接口

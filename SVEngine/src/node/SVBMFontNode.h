@@ -67,7 +67,6 @@ namespace sv {
             void fromJSON(RAPIDJSON_NAMESPACE::Value &_item);
         private:
             void _genMesh();
-            void _refreshTexcoords();
             void _refresh();
         protected:
             SVRenderObjectPtr m_pRenderObj;
@@ -76,7 +75,6 @@ namespace sv {
             SVTexturePtr m_texture;
             SVBMFontPtr m_font;
             typedef SVArray<FontTexcoords> TEXCOORDTBL;
-            TEXCOORDTBL m_texcoordsTbl;
             BITFONT_ATCH_PT m_atchType;
             u32 m_textSize;
             f32 m_spacing;
