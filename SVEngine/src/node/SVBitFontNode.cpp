@@ -415,6 +415,7 @@ void SVBitFontNode::_genTexcoords(){
     m_charTbl.append('-');
     m_charTbl.append('x');
     m_charTbl.append('%');
+    m_charTbl.append(',');
     //构建字符表 对应的纹理坐标
     s32 tCharNum = m_charTbl.size();
     //从图片计算的字符大小
@@ -443,4 +444,36 @@ void SVBitFontNode::_genTexcoords(){
 
 cptr8 SVBitFontNode::getText(){
     return m_Text.c_str();
+}
+
+void SVBitFontNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+    
+}
+
+void SVBitFontNode::fromJSON(RAPIDJSON_NAMESPACE::Value &_item){
+    _fromJsonData(_item);
+    if (_item.HasMember("filefont") && _item["filefont"].IsString()) {
+        SVString t_file_name = _item["filefont"].GetString();
+        SVString t_resPath = m_rootPath +  t_file_name;
+        setTexture(t_resPath.c_str());
+    }
+    if (_item.HasMember("fontw") && _item["fontw"].IsInt()) {
+        m_FontWidth = _item["fontw"].GetInt();
+    }
+    if (_item.HasMember("fonth") && _item["fonth"].IsInt()) {
+        m_FontHeight = _item["fonth"].GetInt();
+    }
+    if (_item.HasMember("innerx") && _item["innerx"].IsInt()) {
+        m_innerOffXScale = _item["innerx"].GetInt() ;
+    }
+    if (_item.HasMember("innery") && _item["innery"].IsInt()) {
+        m_innerOffYScale = _item["innery"].GetInt();
+    }
+    if (_item.HasMember("content") && _item["content"].IsString()) {
+        m_Text = _item["content"].GetString();
+    }
+    if (_item.HasMember("alignment") && _item["alignment"].IsInt()) {
+        m_atchType = BITFONT_ATCH_PT(_item["alignment"].GetInt());
+    }
+    m_fontDirty = true;
 }

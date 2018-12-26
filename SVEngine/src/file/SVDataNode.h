@@ -77,45 +77,6 @@ namespace sv {
             void _toNodeData(SVNodePtr _node);
         };
         
-        //带变脸的背景节点
-        class SVDataNodeDeform : public SVDataNode {
-        public:
-            SVDataNodeDeform(SVInst *_app);
-            
-            ~SVDataNodeDeform();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
-                                RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-        protected:
-            
-        };
-        
-        //
-        class  SVDataNodeFilter : public SVDataNode{
-        public:
-            SVDataNodeFilter(SVInst *_app);
-            
-            ~SVDataNodeFilter();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-            inline SVDataFilterPtr getFilter(){
-                return m_dataFilter;
-            }
-            
-        protected:
-            SVDataFilterPtr m_dataFilter;
-        };
-        
         class SVDataNodeBmpFont : public SVDataNode{
         public:
             SVDataNodeBmpFont(SVInst *_app);
@@ -143,87 +104,6 @@ namespace sv {
             s32 m_innerX;
             
             s32 m_innerY;
-            
-            SVString m_content;
-            
-            BITFONT_ATCH_PT m_type;
-        };
-        
-        class SVDataNodeBackGround : public SVDataNode{
-        public:
-            SVDataNodeBackGround(SVInst *_app);
-            
-            ~SVDataNodeBackGround();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-            void refreshIn(SVSpriteNodePtr _spriteNode);
-            
-            void refreshOut(SVSpriteNodePtr _spriteNode);
-            
-            SVBackGroundNodePtr m_spritePtr;
-            
-            SVString m_root_path;
-            
-            SVString m_file_name;
-            
-            s32 m_spriteW;
-            
-            s32 m_spriteH;
-        protected:
-            SVMap<u32, V2> m_pointMap;
-        };
-        
-        class SVDataNodeMask : public SVDataNode{
-        public:
-            SVDataNodeMask(SVInst *_app);
-            
-            ~SVDataNodeMask();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-            void refreshIn(SV2DFaceMaskNodePtr _maskNode);
-            
-            void refreshOut(SV2DFaceMaskNodePtr _maskNode);
-            
-            SVString m_root_path;
-            
-            SVString m_file_name;
-        };
-        
-        class SVDataNodeBMFont : public SVDataNode{
-        public:
-            SVDataNodeBMFont(SVInst *_app);
-            
-            ~SVDataNodeBMFont();
-            
-            virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
-            
-            virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            virtual SVNodePtr toNode();
-            
-            void refreshIn(SVBMFontNodePtr _bmfontNode);
-            
-            void refreshOut(SVBMFontNodePtr _bmfontNode);
-            
-            SVString m_root_path;
-            
-            SVString m_file_name;
-            
-            s32 m_fontW;
-            
-            s32 m_fontH;
-            
-            f32 m_spacing;
             
             SVString m_content;
             

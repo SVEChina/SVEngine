@@ -47,6 +47,8 @@ namespace sv {
             
             f32 getTextWidth(cptr8 _text, s32 _count);
             
+            s32 getTextLength(cptr8 _text);
+            
             s32 getTextChar(cptr8 _text, s32 _pos, s32 *_nextPos = 0);
             
             SVBMFONTCHARINFO getChar(s32 _charID);

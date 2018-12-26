@@ -204,13 +204,13 @@ void SVOpCreateTest::_process(f32 dt) {
     //return;
     //创建逻辑场景
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-    if (t_pScene) {
-        //创建测试盒子®
-        for(s32 i=0;i<50;i++){
-            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-            t_testBox->randomInit();
-            t_pScene->addNode(t_testBox);
-        }
+//    if (t_pScene) {
+//        //创建测试盒子®
+//        for(s32 i=0;i<50;i++){
+//            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+//            t_testBox->randomInit();
+//            t_pScene->addNode(t_testBox);
+//        }
 //#ifdef SV_IOS
 //        SVSpriteNodePtr spriteNode = MakeSharedPtr<SVSpriteNode>(mApp);
 //        spriteNode->setPosition(0, 0, 1000);
@@ -231,15 +231,15 @@ void SVOpCreateTest::_process(f32 dt) {
 //        t_pScene->addNode(t_testFreetype);
         
         //
-//        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
-//        file = [file stringByAppendingPathComponent:@"svres/chineses.fnt"];
-//        SVBMFontPtr m_font = SVBMFont::creatFnt([file UTF8String], mApp);
-//        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
-//        bmNode->setFont(m_font);
-//        bmNode->setText("丹分化以什");
-//        bmNode->setSpacing(20);
-//        t_pScene->addNode(bmNode);
-        
+        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
+        file = [file stringByAppendingPathComponent:@"svres/chineses.fnt"];
+        SVBMFontPtr m_font = SVBMFont::creatFnt([file UTF8String], mApp);
+        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
+        bmNode->setFont(m_font);
+        bmNode->setText("丹分化");
+        bmNode->setSpacing(20);
+        t_pScene->addNode(bmNode);
+    
 //#ifdef SV_IOS
 //        NSString *t_resPath = [[NSBundle mainBundle]pathForResource:@"sve" ofType:@"bundle"];
 //        t_resPath = [t_resPath stringByAppendingPathComponent:@"svres/x-wing/scene.gltf"];
@@ -255,7 +255,7 @@ void SVOpCreateTest::_process(f32 dt) {
 //        }
 //#endif
         
-    }
+//    }
 }
 
 //测试操作

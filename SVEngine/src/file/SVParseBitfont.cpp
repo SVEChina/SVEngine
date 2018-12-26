@@ -6,12 +6,12 @@
 //
 
 #include "SVParseBitfont.h"
-#include "SVDataNode.h"
+#include "../node/SVBitFontNode.h"
 //解析面具
 SVNodePtr
 SVParseBitfont::parseBitfont(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _resid, cptr8 _path) {
-    SVDataNodeBmpFontPtr t_bitfonData = MakeSharedPtr<SVDataNodeBmpFont>(_app);
-    t_bitfonData->fromJSON(item);
-    t_bitfonData->m_root_path = _path;
-    return t_bitfonData->toNode();
+    SVBitFontNodePtr t_bitFontNode = MakeSharedPtr<SVBitFontNode>(_app);
+    t_bitFontNode->m_rootPath = _path;
+    t_bitFontNode->fromJSON(item);
+    return t_bitFontNode;
 }

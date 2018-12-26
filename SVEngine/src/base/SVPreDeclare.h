@@ -190,8 +190,6 @@ namespace sv {
         DECLARE_SHAREPTR(SVDataNodeDeform);
         DECLARE_SHAREPTR(SVDataNodeBmpFont);
         DECLARE_SHAREPTR(SVDataNodeSprite);
-        DECLARE_SHAREPTR(SVDataNodeBMFont);
-        DECLARE_SHAREPTR(SVDataNodeMask);
         DECLARE_SHAREPTR(SVModelControl);
         DECLARE_SHAREPTR(SVModelSpineControl);
         

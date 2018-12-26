@@ -6,12 +6,11 @@
 //
 
 #include "SVParseBMFont.h"
-#include "SVDataNode.h"
-
+#include "../node/SVBMFontNode.h"
 SVNodePtr
 SVParseBMFont::parseBMFont(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _resid, cptr8 _path) {
-    SVDataNodeBMFontPtr t_bmfonData = MakeSharedPtr<SVDataNodeBMFont>(_app);
-    t_bmfonData->fromJSON(item);
-    t_bmfonData->m_root_path = _path;
-    return t_bmfonData->toNode();
+    SVBMFontNodePtr t_bmFontNode = MakeSharedPtr<SVBMFontNode>(_app);
+    t_bmFontNode->m_rootPath = _path;
+    t_bmFontNode->fromJSON(item);
+    return t_bmFontNode;
 }
