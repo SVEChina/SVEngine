@@ -136,6 +136,9 @@ void SVBMFontNode::_refresh(){
     V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];
     m_textSize = m_font->getTextLength(m_text.c_str());
     f32 t_total_w = m_font->getTextWidth(m_text.c_str(), m_textSize);
+    if (m_text.size() > 1) {
+        t_total_w = t_total_w + (m_text.size() - 1)*m_spacing;
+    }
     f32 x = 0.0f;
     if(m_atchType == ATCH_LC){
         x = t_total_w;
