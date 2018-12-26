@@ -51,7 +51,6 @@ void SVBMFont::init(){
 
 }
 
-
 f32 SVBMFont::getTextWidth(cptr8 _text, s32 _count){
     if( _count <= 0 )
         _count = _getTextLength(_text);
@@ -174,7 +173,7 @@ void SVBMFont::addChar(s32 _charID, s32 _x, s32 _y, s32 _w, s32 _h, s32 _xoffset
     if     ( _chnl == 1 ) _chnl = 0x00010000;  // Blue channel
     else if( _chnl == 2 ) _chnl = 0x00000100;  // Green channel
     else if( _chnl == 4 ) _chnl = 0x00000001;  // Red channel
-    else if( _chnl == 8 ) _chnl = 0x01000000;  // Alpha channel
+    else if( _chnl == 8 ) _chnl = 0x01000000;  // Alpha c¯≤hannel
     else _chnl = 0;
     
     if( _charID >= 0 )
@@ -219,6 +218,6 @@ void SVBMFont::loadPage(s32 _pageID, cptr8 _pageFile, cptr8 _fontFile){
     s32 pos = rootFile.rfind('/');
     rootFile = SVString::substr(rootFile.c_str(), 0, pos);
     SVString path = rootFile + "/" + _pageFile;
-    SVTexturePtr texture = mApp->getTexMgr()->getTextureSync(path, true);
+    SVTexturePtr texture = mApp->getTexMgr()->getTextureSync(path, true, true);
     m_textures.append(_pageID, texture);
 }

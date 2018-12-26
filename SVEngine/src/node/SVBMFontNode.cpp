@@ -135,7 +135,7 @@ void SVBMFontNode::_refresh(){
     //顶点数据
     V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];
     m_textSize = m_font->getTextLength(m_text.c_str());
-    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), m_font->getTextLength(m_text.c_str()));
+    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), m_textSize);
     f32 x = 0.0f;
     if(m_atchType == ATCH_LC){
         x = t_total_w;
@@ -189,7 +189,7 @@ void SVBMFontNode::_refresh(){
         t_texcoord.a = a;
         //
         t_texcoord.charID = charId;
-        //
+        //数据
         tVerts[i * 6 + 0].x = x+t_texcoord.ox;
         tVerts[i * 6 + 0].y = -(t_texcoord.h+t_texcoord.oy)*0.5;
         tVerts[i * 6 + 0].t0x = t_texcoord.lb_x;
