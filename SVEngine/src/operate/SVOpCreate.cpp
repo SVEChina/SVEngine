@@ -231,6 +231,7 @@ void SVOpCreateTest::_process(f32 dt) {
 //        t_pScene->addNode(t_testFreetype);
         
         //
+#ifdef SV_IOS
         NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
         file = [file stringByAppendingPathComponent:@"svres/chineses.fnt"];
         SVBMFontPtr m_font = SVBMFont::creatFnt([file UTF8String], mApp);
@@ -239,6 +240,7 @@ void SVOpCreateTest::_process(f32 dt) {
         bmNode->setText("丹分化");
         bmNode->setSpacing(20);
         t_pScene->addNode(bmNode);
+#endif
     
 //#ifdef SV_IOS
 //        NSString *t_resPath = [[NSBundle mainBundle]pathForResource:@"sve" ofType:@"bundle"];
