@@ -18,6 +18,10 @@ namespace sv {
             
             void testInit();
             
+            void setDiffuse(SVTexturePtr _texture);
+            
+            void setDiffuse(SVString _texPath);
+            
             // particles
             SVParticlesPtr getParticles();
 
@@ -74,7 +78,6 @@ namespace sv {
 
             //
             virtual void renderVisualizer();
-            
         protected:
             //更新
             virtual void update(f32 ifps);
@@ -108,7 +111,9 @@ namespace sv {
             SVDataSwapPtr m_pIndexData;
             SVTexturePtr m_diffuse;
             SVTexturePtr m_atten;
-            
+            FVec4 m_color;
+            SVString m_texturePath;
+            SVString m_textureName;
         public:
             //序列化接口
             virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,

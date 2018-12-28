@@ -58,9 +58,6 @@ namespace sv {
             SVBMFontPtr getFont();
             
             virtual void setAlpha(f32 _alpha);
-            
-            SVString m_rootPath;
-            
             //序列化接口
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             

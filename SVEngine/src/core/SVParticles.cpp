@@ -2745,8 +2745,8 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
         angle_spread = dynObj["dyn_angle_spread"].GetFloat();
         rotation_mean = dynObj["dyn_rotation_mean"].GetFloat();
         rotation_spread = dynObj["dyn_rotation_spread"].GetFloat();
-        rotation_mean = dynObj["dyn_radius_mean"].GetFloat();
-        radius_mean = dynObj["dyn_radius_spread"].GetFloat();
+        radius_mean = dynObj["dyn_radius_mean"].GetFloat();
+        radius_spread = dynObj["dyn_radius_spread"].GetFloat();
         growth_mean = dynObj["dyn_growth_mean"].GetFloat();
         growth_spread = dynObj["dyn_growth_spread"].GetFloat();
     }

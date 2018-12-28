@@ -54,8 +54,6 @@ namespace sv {
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             
             void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
-            SVString m_rootPath;
         protected:
             f32 m_width;
             f32 m_height;

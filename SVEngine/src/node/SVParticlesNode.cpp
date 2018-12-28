@@ -42,7 +42,12 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     m_pIndexData = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_atten = mApp->getTexMgr()->getTexture("svres/textures/particles_base_attenuation.png",true);
-    m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_xuehua_00.png",true); 
+    m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_xuehua_00.png",true);
+    //随机一个颜色
+    f32 r = mApp->m_pGlobalParam->getRandomFloat(0.2f, 0.8f);
+    f32 g = mApp->m_pGlobalParam->getRandomFloat(0.2f, 0.8f);
+    f32 b = mApp->m_pGlobalParam->getRandomFloat(0.2f, 0.8f);
+    m_color = FVec4(0.0f, 1.0f, 0.0f, 1.0f);
 }
 
 SVParticlesNode::~SVParticlesNode() {
@@ -85,6 +90,20 @@ void SVParticlesNode::testInit() {
         m_pParticles->setRadius(5.0f,0.0f);
         //
         m_pParticles->setLife(10.0f,2.0f);
+    }
+}
+
+void SVParticlesNode::setDiffuse(SVTexturePtr _texture){
+    if (_texture) {
+        m_diffuse = _texture;
+    }
+}
+
+void SVParticlesNode::setDiffuse(SVString _texPath){
+    SVTexturePtr texture = mApp->getTexMgr()->getTexture(_texPath.c_str(),true);
+    if (texture) {
+        m_texturePath = _texPath;
+        m_diffuse = texture;
     }
 }
 
@@ -214,6 +233,8 @@ void SVParticlesNode::render() {
     m_mtl_particle->m_ambient_color = FVec4(1.0f,1.0f,1.0f,1.0f);
     //设置漫反色
     m_mtl_particle->m_diffuse_color = FVec4(1.0f,1.0f,1.0f,1.0f);
+    //
+    m_mtl_particle->m_out_color = m_color;
     //设置融合
     m_mtl_particle->setBlendEnable(true);
     m_mtl_particle->setBlendState(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
@@ -465,6 +486,9 @@ void SVParticlesNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allo
     RAPIDJSON_NAMESPACE::Value nodeObj(RAPIDJSON_NAMESPACE::kObjectType);
     _toJsonData(_allocator, nodeObj);
     locationObj.AddMember("node", nodeObj, _allocator);
+    s32 pos = m_texturePath.rfind('/');
+    m_textureName = SVString::substr(m_texturePath.c_str(), pos+1);
+    locationObj.AddMember("texture", RAPIDJSON_NAMESPACE::StringRef(m_textureName.c_str()), _allocator);
     //粒子属性部分
     if(m_pParticles){
         m_pParticles->toJSON(_allocator,locationObj);
@@ -475,6 +499,14 @@ void SVParticlesNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allo
 void SVParticlesNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
     if (item.HasMember("node") && item["node"].IsObject()) {
         _fromJsonData(item["node"]);
+    }
+    if (item.HasMember("texture") && item["texture"].IsString()) {
+        m_textureName = item["texture"].GetString();
+        if (m_textureName.size() > 0) {
+            SVString t_texturePath = m_rootPath + m_textureName;
+            SVTexturePtr t_texture = mApp->getTexMgr()->getTexture(t_texturePath.c_str(),true);
+            setDiffuse(t_texture);
+        }
     }
     if(m_pParticles){
         m_pParticles->fromJSON(item);

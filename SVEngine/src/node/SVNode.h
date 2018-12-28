@@ -203,6 +203,7 @@ namespace sv {
             
             //序列化接口
         public:
+            SVString m_rootPath;
             virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                                 RAPIDJSON_NAMESPACE::Value &_objValue);
             

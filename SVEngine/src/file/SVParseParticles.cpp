@@ -10,6 +10,7 @@
 SVNodePtr
 SVParseParticles::parseParticles(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _resid, cptr8 _path) {
     SVParticlesNodePtr t_particlesNode = MakeSharedPtr<SVParticlesNode>(_app);
+    t_particlesNode->m_rootPath = _path;
     t_particlesNode->fromJSON(item);
     return t_particlesNode;
 }

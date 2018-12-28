@@ -76,8 +76,6 @@ namespace sv {
             f32 getSlotAlpha(cptr8 bonename);
             
             void setStableBoundingBoxScale(f32 _scale);
-            
-            SVString m_rootPath;
         protected:
             
             void _fixBoundingBox();

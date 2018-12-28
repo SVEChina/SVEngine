@@ -74,6 +74,7 @@ namespace sv {
             f32 m_diffuse_scale;
             FVec4 m_diffuse_color;
             FVec4 m_ambient_color;
+            FVec4 m_out_color;
         };
         
     }//!namespace mtl
