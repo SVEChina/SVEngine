@@ -111,7 +111,6 @@ namespace sv {
             SVDataSwapPtr m_pIndexData;
             SVTexturePtr m_diffuse;
             SVTexturePtr m_atten;
-            FVec4 m_color;
             SVString m_texturePath;
             SVString m_textureName;
         public:

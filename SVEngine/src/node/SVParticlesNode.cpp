@@ -38,16 +38,11 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     m_pMesh->setVertexType(E_VF_V3_PARTICLE);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     //
-    m_pVertData = MakeSharedPtr<SVDataSwap>();
+    m_pVertData = MakeSharedPtr<SVDataSwap>( );
     m_pIndexData = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_atten = mApp->getTexMgr()->getTexture("svres/textures/particles_base_attenuation.png",true);
     m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_xuehua_00.png",true);
-    //随机一个颜色
-    f32 r = mApp->m_pGlobalParam->getRandomFloat(0.2f, 0.8f);
-    f32 g = mApp->m_pGlobalParam->getRandomFloat(0.2f, 0.8f);
-    f32 b = mApp->m_pGlobalParam->getRandomFloat(0.2f, 0.8f);
-    m_color = FVec4(0.0f, 1.0f, 0.0f, 1.0f);
 }
 
 SVParticlesNode::~SVParticlesNode() {
@@ -233,8 +228,6 @@ void SVParticlesNode::render() {
     m_mtl_particle->m_ambient_color = FVec4(1.0f,1.0f,1.0f,1.0f);
     //设置漫反色
     m_mtl_particle->m_diffuse_color = FVec4(1.0f,1.0f,1.0f,1.0f);
-    //
-    m_mtl_particle->m_out_color = m_color;
     //设置融合
     m_mtl_particle->setBlendEnable(true);
     m_mtl_particle->setBlendState(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);

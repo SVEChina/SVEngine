@@ -71,7 +71,6 @@ SVMtlParticleAni::SVMtlParticleAni(SVInst *_app)
     m_ani_trans.set(1.0f,1.0f,1.0f,0.5f);
     m_diffuse_color = FVec4(1.0f,8.0f,1.0f,1.0f);
     m_ambient_color  = FVec4(0.4f,0.4f,0.4f,1.0f);
-    m_out_color = FVec4(1.0f, 1.0f, 1.0f, 1.0f);
     m_p_fade = 1.0f;
     m_diffuse_scale = 1.0f;
     m_p_radius = 1.0f;
@@ -86,7 +85,6 @@ SVMtlParticleAni::SVMtlParticleAni(SVMtlParticleAni *_mtl)
     m_ambient_color = _mtl->m_ambient_color;
     m_p_fade = _mtl->m_p_fade;
     m_p_radius = _mtl->m_p_radius;
-    m_out_color = _mtl->m_out_color;
 }
 
 SVMtlParticleAni::~SVMtlParticleAni() {
@@ -101,7 +99,6 @@ void SVMtlParticleAni::_submitMtl(SVRendererBasePtr _render) {
     _render->submitUniformf4v("s_ambient_color", m_ambient_color.get());
     _render->submitUniformf("s_particles_fade", m_p_fade);
     _render->submitUniformf("s_particles_radius", m_p_radius);
-    _render->submitUniformf4v("out_color", m_out_color.get());
 }
 
 
