@@ -41,7 +41,7 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     m_pVertData = MakeSharedPtr<SVDataSwap>( );
     m_pIndexData = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
-    m_atten = mApp->getTexMgr()->getTexture("svres/textures/particles_base_attenuation.png",true);
+    m_atten = mApp->getTexMgr()->getTexture("svres/textures/particles_base_diffuse.png",true);
     m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_xuehua_00.png",true);
 }
 
@@ -74,11 +74,11 @@ void SVParticlesNode::testInit() {
         //发射繁衍
         m_pParticles->setEmitterSpread(FVec3(0.3f,0.3f,0.0f));
         //发射器方向
-        m_pParticles->setEmitterDirection(FVec3(0.0f,1.0f,0.0f));
+        m_pParticles->setEmitterDirection(FVec3(0.0f,0.0f,0.0f));
         //设置增长
         m_pParticles->setGrowth(2.0f, 0.0f);
         //重力速度
-        m_pParticles->setGravity(FVec3(0.0f,-50.0f,0.0f));
+        m_pParticles->setGravity(FVec3(0.0f,0.0f,0.0f));
         //
         m_pParticles->setVelocity(200.0,0.0);
         //
@@ -220,7 +220,7 @@ void SVParticlesNode::render() {
     // SVParticles radius
     m_mtl_particle->m_p_radius = m_pParticles->getRadiusMean();
     // SVParticles fade
-    m_mtl_particle->m_p_fade = 0.0f;//fade * fade;
+    m_mtl_particle->m_p_fade = m_pParticles->getFade();//fade * fade;
     //设置纹理
     m_mtl_particle->setTexture(0,m_diffuse);
     m_mtl_particle->setTexture(1,m_atten);

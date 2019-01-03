@@ -229,6 +229,7 @@ struct V3_PARTICLE {
         struct {
             f32 xyz[3];
             u32 parameters;
+            f32 rgb[3];
         };
 #ifdef USE_SSE
         __m128 vec;

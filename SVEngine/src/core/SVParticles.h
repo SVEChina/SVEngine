@@ -57,6 +57,7 @@ namespace sv {
             FVec3 old_position;                  // old position
             FVec3 parameters;                    // parameters
             FVec3 velocity;                      // velocity
+            FVec3 color;                         // color
             f32 angle;                           // angle
             f32 rotation;                        // rotation
             f32 radius;                          // radius
@@ -377,6 +378,9 @@ namespace sv {
             f32 getRadiusMean() const;
             f32 getRadiusSpread() const;
             
+            void setFade(f32 _fade);
+            f32 getFade();
+            
             void setGrowth(f32 mean,f32 spread);
             f32 getGrowthMean() const;
             f32 getGrowthSpread() const;
@@ -553,6 +557,10 @@ namespace sv {
             
             void create_chain_particles(V3_PARTICLE *vertex,const FMat4 &modelview,const FVec3 &camera);
             
+            void _getRandomVextexColor(FVec3 &_color);
+            
+            SVArray<FVec3>m_vetexColor;
+            
             SVRandom random;                        // random number generator
             
             SVParticlesWorldBasePtr m_pWorld;       // world interaction
@@ -618,6 +626,7 @@ namespace sv {
             f32 radius_spread;
             f32 growth_mean;                      // growth
             f32 growth_spread;
+            f32 fade;                             // fade
             
             FVec3 gravity;                          // 重力 gravity
 

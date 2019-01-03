@@ -24,6 +24,7 @@ SVParticles::SVParticles() {
 	period_time = 0.0f;
 	duration_time = 0.0f;
     duration_mean = 0.0f;
+    fade = 0.0f;
     
 	setWorldMass(0.0f);
 	setLengthStretch(0.0f);
@@ -59,6 +60,10 @@ SVParticles::SVParticles() {
 	update_bounds();
     //
     pVertex = nullptr;
+    FVec3 color1(255/255.0f, 146/255.0f, 218/255.0f);
+    FVec3 color2(126/255.0f, 168/255.0f, 255/255.0f);
+    m_vetexColor.append(color1);
+    m_vetexColor.append(color2);
 }
 
 SVParticles::~SVParticles() {
@@ -439,7 +444,8 @@ void SVParticles::spawn_particle(Particle &p,f32 k,f32 ifps) {
     } else {
         p.orientation = 0;
     }
-    
+    //随机一个顶点颜色
+    _getRandomVextexColor(p.color);
     //生成params
 	switch(type) {
 		case TYPE_FLAT:
@@ -574,7 +580,6 @@ void SVParticles::spawn_particles(s32 num_particles,f32 offset,f32 ifps,f32 time
 			emitter_transform.setColumn3(3,s.point);
             for(s32 j = 0; j < spark_num_particles; j++) {
                 Particle &p = m_particles.append();
-                p.position = s.point;
                 spawn_particle(p,1.0f,ifps);
             }
 		}
@@ -1230,100 +1235,112 @@ void SVParticles::create_particles(V3_PARTICLE *vertex,const FMat4 &modelview,co
 
 //
 void SVParticles::create_billboard_particles(V3_PARTICLE *vertex,const FMat4 &modelview,const FVec3 &camera) {
-	assert(type == TYPE_BILLBOARD && "SVParticles::create_billboard_particles(): bad particles type");
-	FVec3 dxc,dxs,dyc,dys,temp;
-	FVec3 dx = modelview.getRow3(0) * SQRT2;
-	FVec3 dy = modelview.getRow3(1) * SQRT2;
-	FVec3 dz = modelview.getRow3(2);
+    assert(type == TYPE_BILLBOARD && "SVParticles::create_billboard_particles(): bad particles type");
+    FVec3 dxc,dxs,dyc,dys,temp;
+    FVec3 dx = modelview.getRow3(0) * SQRT2;
+    FVec3 dy = modelview.getRow3(1) * SQRT2;
+    FVec3 dz = modelview.getRow3(2);
     if(dot(cross(dx,dy),dz) < 0.0f) {
         dy = -dy;
     }
     //
-	V3_PARTICLE *v = vertex;
-	s32 num_particles = m_particles.size();
+    V3_PARTICLE *v = vertex;
+    s32 num_particles = m_particles.size();
     if(depth_sort) {
         sort_particles(camera);
     }
-	for(s32 i = 0; i < num_particles; i++) {
-		const Particle &p = (depth_sort) ? m_particles[distances[i].index] : m_particles[i];
-		f32 s,c;
-		Math::sincosFast(p.angle,s,c);
-		s *= p.radius;
-		c *= p.radius;
-		#ifdef USE_SSE
-			__m128 c_vec = _mm_set1_ps(c);
-			__m128 s_vec = _mm_set1_ps(s);
-			dxc.vec = _mm_mul_ps(dx.vec,c_vec);
-			dxs.vec = _mm_mul_ps(dx.vec,s_vec);
-			dyc.vec = _mm_mul_ps(dy.vec,c_vec);
-			dys.vec = _mm_mul_ps(dy.vec,s_vec);
-		#elif USE_ALTIVEC
-			vec_float4 c_vec = vec_splats(c);
-			vec_float4 s_vec = vec_splats(s);
-			vec_float4 zero = vec_splats(0.0f);
-			dxc.vec = vec_madd(dx.vec,c_vec,zero);
-			dxs.vec = vec_madd(dx.vec,s_vec,zero);
-			dyc.vec = vec_madd(dy.vec,c_vec,zero);
-			dys.vec = vec_madd(dy.vec,s_vec,zero);
-		#elif USE_NEON
-			float32x4_t c_vec = vdupq_n_f32(c);
-			float32x4_t s_vec = vdupq_n_f32(s);
-			dxc.vec = vmulq_f32(dx.vec,c_vec);
-			dxs.vec = vmulq_f32(dx.vec,s_vec);
-			dyc.vec = vmulq_f32(dy.vec,c_vec);
-			dys.vec = vmulq_f32(dy.vec,s_vec);
-		#else
-			mul(dxc,dx,c);
-			mul(dxs,dx,s);
-			mul(dyc,dy,c);
-			mul(dys,dy,s);
-		#endif
-		//
-		const u16 *orientation = orientations[p.orientation];
-		u32 color = (65535 - Math::round(p.life * p.ilife)) << 16;
-		// v[0].xyz = p.position - dxc + dys
-		// v[1].xyz = p.position - dxs - dyc
-		// v[2].xyz = p.position + dxc - dys
-		// v[3].xyz = p.position + dxs + dyc
-		#ifdef USE_SSE
-			v[0].vec = _mm_sub_ps(p.position.vec,_mm_sub_ps(dxc.vec,dys.vec));
-			v[0].parameters = color | orientation[0];
-			v[1].vec = _mm_sub_ps(p.position.vec,_mm_add_ps(dxs.vec,dyc.vec));
-			v[1].parameters = color | orientation[1];
-			v[2].vec = _mm_add_ps(p.position.vec,_mm_sub_ps(dxc.vec,dys.vec));
-			v[2].parameters = color | orientation[2];
-			v[3].vec = _mm_add_ps(p.position.vec,_mm_add_ps(dxs.vec,dyc.vec));
-			v[3].parameters = color | orientation[3];
-		#elif USE_ALTIVEC
-			v[0].vec = vec_sub(p.position.vec,vec_sub(dxc.vec,dys.vec));
-			v[0].parameters = color | orientation[0];
-			v[1].vec = vec_sub(p.position.vec,vec_add(dxs.vec,dyc.vec));
-			v[1].parameters = color | orientation[1];
-			v[2].vec = vec_add(p.position.vec,vec_sub(dxc.vec,dys.vec));
-			v[2].parameters = color | orientation[2];
-			v[3].vec = vec_add(p.position.vec,vec_add(dxs.vec,dyc.vec));
-			v[3].parameters = color | orientation[3];
-		#elif USE_NEON
-			v[0].vec = vsubq_f32(p.position.vec,vsubq_f32(dxc.vec,dys.vec));
-			v[0].parameters = color | orientation[0];
-			v[1].vec = vsubq_f32(p.position.vec,vaddq_f32(dxs.vec,dyc.vec));
-			v[1].parameters = color | orientation[1];
-			v[2].vec = vaddq_f32(p.position.vec,vsubq_f32(dxc.vec,dys.vec));
-			v[2].parameters = color | orientation[2];
-			v[3].vec = vaddq_f32(p.position.vec,vaddq_f32(dxs.vec,dyc.vec));
-			v[3].parameters = color | orientation[3];
-		#else
-			sub3(v[0].xyz,p.position,sub(temp,dxc,dys));
-			v[0].parameters = color | orientation[0];
-			sub3(v[1].xyz,p.position,add(temp,dxs,dyc));
-			v[1].parameters = color | orientation[1];
-			add3(v[2].xyz,p.position,sub(temp,dxc,dys));
-			v[2].parameters = color | orientation[2];
-			add3(v[3].xyz,p.position,add(temp,dxs,dyc));
-			v[3].parameters = color | orientation[3];
-		#endif
-		v += 4;
-	}
+    for(s32 i = 0; i < num_particles; i++) {
+        const Particle &p = (depth_sort) ? m_particles[distances[i].index] : m_particles[i];
+        f32 s,c;
+        Math::sincosFast(p.angle,s,c);
+        s *= p.radius;
+        c *= p.radius;
+#ifdef USE_SSE
+        __m128 c_vec = _mm_set1_ps(c);
+        __m128 s_vec = _mm_set1_ps(s);
+        dxc.vec = _mm_mul_ps(dx.vec,c_vec);
+        dxs.vec = _mm_mul_ps(dx.vec,s_vec);
+        dyc.vec = _mm_mul_ps(dy.vec,c_vec);
+        dys.vec = _mm_mul_ps(dy.vec,s_vec);
+#elif USE_ALTIVEC
+        vec_float4 c_vec = vec_splats(c);
+        vec_float4 s_vec = vec_splats(s);
+        vec_float4 zero = vec_splats(0.0f);
+        dxc.vec = vec_madd(dx.vec,c_vec,zero);
+        dxs.vec = vec_madd(dx.vec,s_vec,zero);
+        dyc.vec = vec_madd(dy.vec,c_vec,zero);
+        dys.vec = vec_madd(dy.vec,s_vec,zero);
+#elif USE_NEON
+        float32x4_t c_vec = vdupq_n_f32(c);
+        float32x4_t s_vec = vdupq_n_f32(s);
+        dxc.vec = vmulq_f32(dx.vec,c_vec);
+        dxs.vec = vmulq_f32(dx.vec,s_vec);
+        dyc.vec = vmulq_f32(dy.vec,c_vec);
+        dys.vec = vmulq_f32(dy.vec,s_vec);
+#else
+        mul(dxc,dx,c);
+        mul(dxs,dx,s);
+        mul(dyc,dy,c);
+        mul(dys,dy,s);
+#endif
+        //
+        const u16 *orientation = orientations[p.orientation];
+        u32 color = (65535 - Math::round(p.life * p.ilife)) << 16;
+        // v[0].xyz = p.position - dxc + dys
+        // v[1].xyz = p.position - dxs - dyc
+        // v[2].xyz = p.position + dxc - dys
+        // v[3].xyz = p.position + dxs + dyc
+#ifdef USE_SSE
+        v[0].vec = _mm_sub_ps(p.position.vec,_mm_sub_ps(dxc.vec,dys.vec));
+        v[0].parameters = color | orientation[0];
+        v[1].vec = _mm_sub_ps(p.position.vec,_mm_add_ps(dxs.vec,dyc.vec));
+        v[1].parameters = color | orientation[1];
+        v[2].vec = _mm_add_ps(p.position.vec,_mm_sub_ps(dxc.vec,dys.vec));
+        v[2].parameters = color | orientation[2];
+        v[3].vec = _mm_add_ps(p.position.vec,_mm_add_ps(dxs.vec,dyc.vec));
+        v[3].parameters = color | orientation[3];
+#elif USE_ALTIVEC
+        v[0].vec = vec_sub(p.position.vec,vec_sub(dxc.vec,dys.vec));
+        v[0].parameters = color | orientation[0];
+        v[1].vec = vec_sub(p.position.vec,vec_add(dxs.vec,dyc.vec));
+        v[1].parameters = color | orientation[1];
+        v[2].vec = vec_add(p.position.vec,vec_sub(dxc.vec,dys.vec));
+        v[2].parameters = color | orientation[2];
+        v[3].vec = vec_add(p.position.vec,vec_add(dxs.vec,dyc.vec));
+        v[3].parameters = color | orientation[3];
+#elif USE_NEON
+        v[0].vec = vsubq_f32(p.position.vec,vsubq_f32(dxc.vec,dys.vec));
+        v[0].parameters = color | orientation[0];
+        v[1].vec = vsubq_f32(p.position.vec,vaddq_f32(dxs.vec,dyc.vec));
+        v[1].parameters = color | orientation[1];
+        v[2].vec = vaddq_f32(p.position.vec,vsubq_f32(dxc.vec,dys.vec));
+        v[2].parameters = color | orientation[2];
+        v[3].vec = vaddq_f32(p.position.vec,vaddq_f32(dxs.vec,dyc.vec));
+        v[3].parameters = color | orientation[3];
+#else
+        sub3(v[0].xyz,p.position,sub(temp,dxc,dys));
+        v[0].parameters = color | orientation[0];
+        v[0].rgb[0] = p.color.x;
+        v[0].rgb[1] = p.color.y;
+        v[0].rgb[2] = p.color.z;
+        sub3(v[1].xyz,p.position,add(temp,dxs,dyc));
+        v[1].parameters = color | orientation[1];
+        v[1].rgb[0] = p.color.x;
+        v[1].rgb[1] = p.color.y;
+        v[1].rgb[2] = p.color.z;
+        add3(v[2].xyz,p.position,sub(temp,dxc,dys));
+        v[2].parameters = color | orientation[2];
+        v[2].rgb[0] = p.color.x;
+        v[2].rgb[1] = p.color.y;
+        v[2].rgb[2] = p.color.z;
+        add3(v[3].xyz,p.position,add(temp,dxs,dyc));
+        v[3].parameters = color | orientation[3];
+        v[3].rgb[0] = p.color.x;
+        v[3].rgb[1] = p.color.y;
+        v[3].rgb[2] = p.color.z;
+#endif
+        v += 4;
+    }
 }
 
 //
@@ -2286,6 +2303,13 @@ f32 SVParticles::getRadiusSpread() const {
 	return radius_spread;
 }
 
+void SVParticles::setFade(f32 _fade){
+    fade = _fade;
+}
+f32 SVParticles::getFade(){
+    return fade;
+}
+
 void SVParticles::setGrowth(f32 mean,f32 spread) {
 	growth_mean = mean;
 	growth_spread = spread;
@@ -2617,6 +2641,17 @@ f32 SVParticles::getDeflectorRoughness(s32 num) const {
 	return deflectors[num].roughness;
 }
 
+void SVParticles::_getRandomVextexColor(FVec3 &_color){
+    if (m_vetexColor.size() > 0) {
+        s32 t_r = random.getInt(0, m_vetexColor.size());
+        _color.set(m_vetexColor[t_r]);
+        
+    }else{
+        _color.set(1.0f, 1.0f, 1.0f);
+    }
+//    _color.set(random.getFloat(0.5, 0.8), random.getFloat(0.2, 0.3), random.getFloat(0.6, 0.9));
+}
+
 //序列化接口
 void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                           RAPIDJSON_NAMESPACE::Value &_objValue) {
@@ -2637,6 +2672,7 @@ void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     baseObj.AddMember("base_delay", delay_time, _allocator);
     baseObj.AddMember("base_period", period_time, _allocator);
     baseObj.AddMember("base_duration", duration_time, _allocator);
+    baseObj.AddMember("base_fade", fade, _allocator);
     _objValue.AddMember("base", baseObj, _allocator);
     //
     RAPIDJSON_NAMESPACE::Value dynObj(RAPIDJSON_NAMESPACE::kObjectType);
@@ -2715,6 +2751,7 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
         delay_time = baseobj["base_delay"].GetFloat();
         period_time = baseobj["base_period"].GetFloat();
         duration_time = baseobj["base_duration"].GetFloat();
+        fade = baseobj["base_fade"].GetFloat();
 //        //
 //        setWarming(warming);
 //        setDepthSort(depth_sort);
