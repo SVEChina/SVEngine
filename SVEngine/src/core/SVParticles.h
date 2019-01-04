@@ -524,6 +524,10 @@ namespace sv {
                 return bound_sphere;
             }
             
+            void addVetexColor(FVec3 &_color, s32 _weights);
+            
+            bool removeVetexColor(FVec3 &_color);
+            
         protected:
             // update particles
             void spawn_particle(Particle &p,f32 k,f32 ifps);
@@ -559,7 +563,14 @@ namespace sv {
             
             void _getRandomVextexColor(FVec3 &_color);
             
-            SVArray<FVec3>m_vetexColor;
+            struct VETEXCOLORDATA{
+                FVec3 color;
+                s32   weights;
+            };
+            
+            SVArray<VETEXCOLORDATA>m_vetexColorData;
+            
+            s32 m_totalWeights;
             
             SVRandom random;                        // random number generator
             
