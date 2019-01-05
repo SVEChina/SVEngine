@@ -2640,6 +2640,10 @@ f32 SVParticles::getDeflectorRoughness(s32 num) const {
 
 void SVParticles::_getRandomVextexColor(FVec3 &_color){
     //加权随机
+    m_totalWeights = 0;
+    for (s32 i=0; i<m_vetexColorData.size(); i++) {
+        m_totalWeights += m_vetexColorData[i].weights;
+    }
     if (m_vetexColorData.size() > 0 && m_totalWeights > 0) {
         s32 t_r = random.getInt(0, m_totalWeights);
         for (s32 i=0; i<m_vetexColorData.size(); i++) {
@@ -2667,21 +2671,32 @@ void SVParticles::addVetexColor(FVec3 &_color, s32 _weights){
     t_colorData.color = _color;
     t_colorData.weights = _weights;
     m_vetexColorData.append(t_colorData);
-    m_totalWeights += _weights;
 }
 
-bool SVParticles::removeVetexColor(FVec3 &_color){
+bool SVParticles::removeVetexColor(s32 _index){
     bool t_result = false;
-    for (s32 i = 0; i<m_vetexColorData.size();) {
-        FVec3 t_color = m_vetexColorData[i].color;
-        if (_color == t_color) {
-            m_vetexColorData.removeFast(i);
-            t_result = true;
-        }else{
-            i++;
-        }
+    if (_index >= 0 && _index < m_vetexColorData.size()) {
+        m_vetexColorData.removeFast(_index);
+        t_result = true;
     }
     return t_result;
+}
+
+bool SVParticles::getVetexColor(VETEXCOLORDATA &_vetexColorData, s32 _index){
+    if (_index >= 0 && _index < m_vetexColorData.size()) {
+        _vetexColorData = m_vetexColorData[_index];
+        return true;
+    }
+    return false;
+}
+
+void SVParticles::setVetexColor(FVec3 &_color, s32 _weights, s32 _index){
+    if (_index >= 0 && _index < m_vetexColorData.size()) {
+        VETEXCOLORDATA t_colorData;
+        t_colorData.weights = _weights;
+        t_colorData.color = _color;
+        m_vetexColorData[_index] = t_colorData;
+    }
 }
 
 //序列化接口
