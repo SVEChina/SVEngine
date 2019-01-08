@@ -139,6 +139,20 @@ void SVOpCreateEffcet::_process(f32 dt) {
             t_modulePtr->setModuleName(t_moduleName.c_str());
             t_modulePtr->open();
             mApp->getModuleSys()->regist(t_modulePtr, t_moduleName.c_str());
+            if (m_pCB) {
+                SVString msg = SVString::format("effectpackageloadsucceed_%s",t_moduleName.c_str());
+                (*m_pCB)(msg.c_str());
+            }
+        }else{
+            if (m_pCB) {
+                SVString msg = SVString::format("effectpackageloadfailed_%s",t_moduleName.c_str());
+                (*m_pCB)(msg.c_str());
+            }
+        }
+    }else{
+        if (m_pCB) {
+            SVString msg = SVString::format("effectpackageloadfailed_%s",t_moduleName.c_str());
+            (*m_pCB)(msg.c_str());
         }
     }
 }

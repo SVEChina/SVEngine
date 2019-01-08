@@ -29,7 +29,6 @@ void SVOpDestroyEffect::_process(float dt) {
         t_module->close();
         t_module->destroy();
     }
-    
 }
 
 
