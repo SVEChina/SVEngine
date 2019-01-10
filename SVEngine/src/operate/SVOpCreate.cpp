@@ -32,7 +32,6 @@
 #include "../basesys/SVPickProcess.h"
 #include "../module/SVModuleDelaySuspend.h"
 #include "../module/SVDivisonFilter.h"
-//
 #include "../file/SVBMFontLoader.h"
 #include "../node/SVBMFontNode.h"
 #include "../core/SVBMFont.h"
@@ -73,6 +72,7 @@ SVOpCameraControl::SVOpCameraControl(SVInst *_app, bool bOpen, s32 iResId)
 }
 
 SVOpCameraControl::~SVOpCameraControl() {
+    
 }
 
 void SVOpCameraControl::_process(f32 dt) {

@@ -18,7 +18,6 @@
 #include "../rendercore/SVRenderMesh.h"
 SVGLTF::SVGLTF(SVInst *_app)
 :SVGBase(_app) {
-    
 }
 
 SVGLTF::~SVGLTF() {
@@ -401,6 +400,8 @@ GLTFModelPtr SVGLTF::loadFromFile(cptr8 _filename){
     
     //load mesh data
     _loadMeshData(_model);
+    //load animation
+    
     return _model;
 }
 
@@ -1451,12 +1452,10 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                                         }
                                         default:
                                         break;
-                                        
                                     }
                                     break;
                                 }
                                 default:
-                                
                                 break;
                             }
                         }
@@ -1583,6 +1582,25 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
     _refreshModelMatrix(_model);
 }
 
+void SVGLTF::_loadAnimationData(GLTFModelPtr _model){
+    for (s32 i = 0; i<_model->animations.size(); i++) {
+        Animation t_animation = _model->animations[i];
+        SVGLTFAnimationPtr animation = MakeSharedPtr<SVGLTFAnimation>();
+        _model->m_animations.append(animation);
+        for (s32 j = 0; j<t_animation.channels.size(); j++) {
+            AnimationChannel t_channel = t_animation.channels[j];
+            SVGLTFAnimationChannelPtr channel = MakeSharedPtr<SVGLTFAnimationChannel>();
+            animation->m_channels.append(channel);
+            channel->m_targeNodeIndex = t_channel.target_node;
+            channel->m_targetPath = t_channel.target_path;
+//            s32 sampler;              // required
+//            s32 target_node;          // required (index of the node to target)
+//            SVString target_path;     // required in ["translation", "rotation", "scale", "weights"]
+        }
+//        SVArray<AnimationChannel> channels;
+//        SVArray<AnimationSampler> samplers;
+    }
+}
 
 void SVGLTF::_refreshModelMatrix(GLTFModelPtr _model){
     if (!_model) {
@@ -1607,7 +1625,6 @@ void SVGLTF::_refreshMeshGlobalMat(GLTFModelPtr _model, Node _node, FMat4 _mat4)
     if (_node.translation.size() > 0) {
         matT.setTranslate(FVec3(_node.translation[0], _node.translation[1], _node.translation[2]));
     }
-    
     //rotation
     FMat4 matR;
     matR.setIdentity();
@@ -1646,6 +1663,31 @@ void SVGLTF::_refreshMeshGlobalMat(GLTFModelPtr _model, Node _node, FMat4 _mat4)
         Node node = _model->nodes[childIndex];
         _refreshMeshGlobalMat(_model, node, mat);
     }
+}
+
+SVGLTFAnimation::SVGLTFAnimation(){
+    
+}
+
+SVGLTFAnimation::~SVGLTFAnimation(){
+    m_channels.destroy();
+    m_samplers.clear();
+}
+
+SVGLTFAnimationChannel::SVGLTFAnimationChannel(){
+    
+}
+
+SVGLTFAnimationChannel::~SVGLTFAnimationChannel(){
+    
+}
+
+SVGLTFAnimationSampler::SVGLTFAnimationSampler(){
+    
+}
+
+SVGLTFAnimationSampler::~SVGLTFAnimationSampler(){
+    
 }
 
 ModelMeshData::ModelMeshData(){

@@ -128,6 +128,9 @@ namespace sv {
     //核心实用库
     namespace util {
         DECLARE_SHAREPTR(ModelMeshData);
+        DECLARE_SHAREPTR(SVGLTFAnimation);
+        DECLARE_SHAREPTR(SVGLTFAnimationChannel);
+        DECLARE_SHAREPTR(SVGLTFAnimationSampler);
         DECLARE_SHAREPTR(GLTFModel);
         DECLARE_SHAREPTR(SpineMeshData);
         DECLARE_SHAREPTR(SVSpine);

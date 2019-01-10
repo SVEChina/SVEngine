@@ -464,6 +464,7 @@ namespace sv {
                 extensionsRequired.destroy();
                 defaultScene = -1;
                 m_renderMeshData.destroy();
+                m_animations.destroy();
             }
             bool operator==(const GLTFModel &) const;
             
@@ -488,6 +489,8 @@ namespace sv {
             Asset asset;
         
             SVArray<ModelMeshDataPtr>  m_renderMeshData;
+            
+            SVArray<SVGLTFAnimationPtr> m_animations;
         };
         
         class SVGLTF : public SVGBase{
@@ -545,7 +548,56 @@ namespace sv {
             void _refreshModelMatrix(GLTFModelPtr _model);
             
             void _refreshMeshGlobalMat(GLTFModelPtr _model, Node _node, FMat4 _mat4);
+            
+            void _loadAnimationData(GLTFModelPtr _model);
         };
+        
+        class SVGLTFAnimation : public SVObject{
+        public:
+            
+            SVGLTFAnimation();
+            
+            ~SVGLTFAnimation();
+            
+            SVArray<SVGLTFAnimationChannelPtr> m_channels;
+            
+            SVMap<s32, SVGLTFAnimationSamplerPtr> m_samplers;
+        };
+        
+        class SVGLTFAnimationChannel : public SVObject{
+        public:
+            
+            SVGLTFAnimationChannel();
+            
+            ~SVGLTFAnimationChannel();
+            
+            s32 m_targeNodeIndex;
+            
+            SVString m_targetPath;
+            
+            SVGLTFAnimationSamplerPtr m_sampler;
+        };
+        
+        class SVGLTFAnimationSampler : public SVObject{
+        public:
+          
+            enum GLTFInterpolationMode{
+                GLTFInterpolationModeStep,
+                GLTFInterpolationModeLinear,
+                GLTFInterpolationModeCubic,
+            };
+            
+            SVGLTFAnimationSampler();
+            
+            ~SVGLTFAnimationSampler();
+            
+            SVDataSwapPtr m_inputData;
+            
+            SVDataSwapPtr m_outData;
+            
+            GLTFInterpolationMode m_interpolationMode;
+        };
+        
         class ModelMeshData :public SVObject{
         public:
             ModelMeshData();

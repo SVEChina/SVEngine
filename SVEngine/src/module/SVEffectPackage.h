@@ -55,6 +55,8 @@ namespace sv{
         
         virtual bool procEvent(SVEventPtr _event);
         
+        void reset();
+        
         void addEffectUnit(SVNodePtr _nodePtr);
         
         SVNodePtr getNode(cptr8 _name);

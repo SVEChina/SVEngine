@@ -139,6 +139,14 @@ void SVEffectPackage::open(){
     m_aniState = EFFECT_ANI_BEGIN;
 }
 
+void SVEffectPackage::reset(){
+    m_aniState = EFFECT_ANI_BEGIN;
+    for (s32 i = 0; i < m_effectUnitPool.size(); i++) {
+        SVEffectUnitPtr t_unit = m_effectUnitPool[i];
+        t_unit->setEnd(false);
+    }
+}
+
 void SVEffectPackage::update(f32 _dt) {
     SVModuleBase::update(_dt);
     bool end = true;
@@ -156,6 +164,7 @@ void SVEffectPackage::update(f32 _dt) {
         if (m_cb) {
             SVString msg = SVString::format("effectpackageend_%s",m_module_name.c_str());
             (*m_cb)(msg.c_str());
+            reset();
         }
     }
     
