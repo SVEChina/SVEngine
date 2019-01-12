@@ -735,8 +735,8 @@ u32 SVRResGLShader::_createProgram(){
     glBindAttribLocation(t_program_id, CHANNEL_ATTRI_5, "s_attribute_5");
     glBindAttribLocation(t_program_id, CHANNEL_ATTRI_6, "s_attribute_6");
     glBindAttribLocation(t_program_id, CHANNEL_ATTRI_7, "s_attribute_7");
-    //
     glLinkProgram(t_program_id);
+
     GLint linkstatus;
     glGetProgramiv(t_program_id, GL_LINK_STATUS, &linkstatus);
     if (linkstatus == GL_FALSE) {
