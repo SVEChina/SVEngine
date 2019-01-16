@@ -67,23 +67,23 @@ void SVGLTFModelNode::update(f32 dt) {
         m_aabbBox.clear();
         m_pRObj->clearMesh();
         for (s32 i = 0; i<m_model->m_renderMeshData.size(); i++) {
-            ModelMeshDataPtr meshData = m_model->m_renderMeshData[i];
+            ModelRenderDataPtr renderData = m_model->m_renderMeshData[i];
             //计算包围盒
-            m_aabbBox.expand(meshData->m_boundBox.getMin());
-            m_aabbBox.expand(meshData->m_boundBox.getMax());
+            m_aabbBox.expand(renderData->m_boundBox.getMin());
+            m_aabbBox.expand(renderData->m_boundBox.getMax());
             //mesh
-            SVRenderMeshPtr renderMesh = meshData->m_pMesh;
+            SVRenderMeshPtr renderMesh = renderData->m_pMesh;
             renderMesh->setDrawMethod(E_DM_TRIANGLES);
             renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
             renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
             renderMesh->setVertexType(E_VF_V3_N_C_T0);
-            renderMesh->setIndexData(meshData->m_pRenderIndex, meshData->m_indexCount);
-            renderMesh->setVertexData(meshData->m_pRenderVertex);
-            renderMesh->setVertexDataNum(meshData->m_vertexCount);
+            renderMesh->setIndexData(renderData->m_pRenderIndex, renderData->m_indexCount);
+            renderMesh->setVertexData(renderData->m_pRenderVertex);
+            renderMesh->setVertexDataNum(renderData->m_vertexCount);
             renderMesh->createMesh();
             //material
-            SVMtl3DPtr t_mtl = meshData->m_pMtl;
-            FMat4 matrix =  m_absolutMat * meshData->m_globalTransform;
+            SVMtl3DPtr t_mtl = renderData->m_pMtl;
+            FMat4 matrix =  m_absolutMat * renderData->m_globalTransform;
             t_mtl->setModelMatrix(matrix.get());
             t_mtl->setDepthEnable(true);
             t_mtl->setBlendEnable(true);
