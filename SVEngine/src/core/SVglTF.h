@@ -80,6 +80,24 @@ namespace sv {
             OBJECT_TYPE = 7
         } Type;
         
+        enum GLTFInterpolationMode{
+            GLTFInterpolationModeNone = -1,
+            GLTFInterpolationModeStep,
+            GLTFInterpolationModeLinear,
+            GLTFInterpolationModeCubic,
+        };
+        
+        static sv_inline GLTFInterpolationMode _getInterpolationMode(SVString _interpolation){
+            if (_interpolation == "LINEAR") {
+                return GLTFInterpolationModeLinear;
+            }else if(_interpolation == "STEP"){
+                return GLTFInterpolationModeStep;
+            }else if(_interpolation == "CUBICSPLINE"){
+                return GLTFInterpolationModeCubic;
+            }
+            return GLTFInterpolationModeNone;
+        }
+        
         static sv_inline s32 _getComponentSizeInBytes(u32 _componentType) {
             if (_componentType == SVGLTF_COMPONENT_TYPE_BYTE) {
                 return 1;
@@ -488,7 +506,7 @@ namespace sv {
             SVArray<SVString> extensionsRequired;
             Asset asset;
         
-            SVArray<ModelMeshDataPtr>  m_renderMeshData;
+            SVArray<ModelRenderDataPtr>  m_renderMeshData;
             
             SVArray<SVGLTFAnimationPtr> m_animations;
         };
@@ -545,11 +563,23 @@ namespace sv {
             
             void _loadMeshData(GLTFModelPtr _model);
             
-            void _refreshModelMatrix(GLTFModelPtr _model);
+            void _loadSkinsData(GLTFModelPtr _model);
+            
+            void _loadModelNodeData(GLTFModelPtr _model);
             
             void _refreshMeshGlobalMat(GLTFModelPtr _model, Node _node, FMat4 _mat4);
             
             void _loadAnimationData(GLTFModelPtr _model);
+        };
+        
+        class SVGLTFJoint : public SVObject{
+        public:
+            
+            SVGLTFJoint();
+            
+            ~SVGLTFJoint();
+            
+            s32 m_jointIndex;
         };
         
         class SVGLTFAnimation : public SVObject{
@@ -580,28 +610,21 @@ namespace sv {
         
         class SVGLTFAnimationSampler : public SVObject{
         public:
-          
-            enum GLTFInterpolationMode{
-                GLTFInterpolationModeStep,
-                GLTFInterpolationModeLinear,
-                GLTFInterpolationModeCubic,
-            };
-            
             SVGLTFAnimationSampler();
             
             ~SVGLTFAnimationSampler();
             
             SVDataSwapPtr m_inputData;
             
-            SVDataSwapPtr m_outData;
+            SVDataSwapPtr m_outputData;
             
             GLTFInterpolationMode m_interpolationMode;
         };
         
-        class ModelMeshData :public SVObject{
+        class ModelRenderData :public SVObject{
         public:
-            ModelMeshData();
-            ~ModelMeshData();
+            ModelRenderData();
+            ~ModelRenderData();
             SVDataSwapPtr           m_pRenderVertex;
             SVDataSwapPtr           m_pRenderIndex;
             SVMtl3DPtr              m_pMtl;

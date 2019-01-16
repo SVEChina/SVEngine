@@ -401,7 +401,7 @@ GLTFModelPtr SVGLTF::loadFromFile(cptr8 _filename){
     //load mesh data
     _loadMeshData(_model);
     //load animation
-    
+    _loadAnimationData(_model);
     return _model;
 }
 
@@ -907,7 +907,7 @@ bool SVGLTF::_parseAnimationChannel(AnimationChannel *_channel, RAPIDJSON_NAMESP
     if (_item.HasMember("target") && _item["target"].IsObject()) {
         RAPIDJSON_NAMESPACE::Value &t_targetItem = _item["target"];
         if (t_targetItem.HasMember("node") && t_targetItem["node"].IsNumber()) {
-            samplerIndex = t_targetItem["node"].GetDouble();
+            targetIndex = t_targetItem["node"].GetDouble();
         }
         if (t_targetItem.HasMember("path") && t_targetItem["path"].IsString()) {
             _channel->target_path = t_targetItem["path"].GetString();
@@ -1289,11 +1289,11 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
     for (s32 i = 0; i<_model->meshes.size(); i++) {
         Mesh mesh = _model->meshes[i];
         for (s32 j = 0; j<mesh.primitives.size(); j++) {
-            ModelMeshDataPtr modelMesh = MakeSharedPtr<ModelMeshData>();
-            modelMesh->m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
-            modelMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d_notex");
-            modelMesh->m_boundBox.clear();
-            _model->m_renderMeshData.append(modelMesh);
+            ModelRenderDataPtr renderMesh = MakeSharedPtr<ModelRenderData>();
+            renderMesh->m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
+            renderMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d_notex");
+            renderMesh->m_boundBox.clear();
+            _model->m_renderMeshData.append(renderMesh);
             Primitive meshPrimitive = mesh.primitives[j];
             Accessor indicesAccessor = _model->accessors[meshPrimitive.indices];
             BufferView bufferView = _model->bufferViews[indicesAccessor.bufferView];
@@ -1308,8 +1308,8 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                 s32 textureIndex = parameter.TextureIndex();
                 Texture texture = _model->textures[textureIndex];
                 Image image = _model->images[texture.source];
-                modelMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d");
-                modelMesh->m_pMtl->setTexture(0,image.texture);
+                renderMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d");
+                renderMesh->m_pMtl->setTexture(0,image.texture);
             }
             //basecolor
             FVec4 color;
@@ -1343,8 +1343,8 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                     SVDataSwapPtr indicesData = MakeSharedPtr<SVDataSwap>();
                     s32 t_len = (s32) (sizeof(u16) * t_indices.size());
                     indicesData->writeData(t_indices.get(), t_len);
-                    modelMesh->m_indexCount = count;
-                    modelMesh->m_pRenderIndex = indicesData;
+                    renderMesh->m_indexCount = count;
+                    renderMesh->m_pRenderIndex = indicesData;
                     break;
                 }case SVGLTF_COMPONENT_TYPE_UNSIGNED_SHORT:{
                     u16 *data = (u16 *)dataAddress;
@@ -1356,8 +1356,8 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                     SVDataSwapPtr indicesData = MakeSharedPtr<SVDataSwap>();
                     s32 t_len = (s32) (sizeof(u16) * t_indices.size());
                     indicesData->writeData(t_indices.get(), t_len);
-                    modelMesh->m_indexCount = count;
-                    modelMesh->m_pRenderIndex = indicesData;
+                    renderMesh->m_indexCount = count;
+                    renderMesh->m_pRenderIndex = indicesData;
                     break;
                 }case SVGLTF_COMPONENT_TYPE_INT:{
                     s32 *data = (s32 *)dataAddress;
@@ -1369,8 +1369,8 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                     SVDataSwapPtr indicesData = MakeSharedPtr<SVDataSwap>();
                     s32 t_len = (s32) (sizeof(u16) * t_indices.size());
                     indicesData->writeData(t_indices.get(), t_len);
-                    modelMesh->m_indexCount = count;
-                    modelMesh->m_pRenderIndex = indicesData;
+                    renderMesh->m_indexCount = count;
+                    renderMesh->m_pRenderIndex = indicesData;
                     break;
                 }case SVGLTF_COMPONENT_TYPE_UNSIGNED_INT:{
                     u32 *data = (u32 *)dataAddress;
@@ -1382,8 +1382,8 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                     SVDataSwapPtr indicesData = MakeSharedPtr<SVDataSwap>();
                     s32 t_len = (s32) (sizeof(u16) * t_indices.size());
                     indicesData->writeData(t_indices.get(), t_len);
-                    modelMesh->m_indexCount = count;
-                    modelMesh->m_pRenderIndex = indicesData;
+                    renderMesh->m_indexCount = count;
+                    renderMesh->m_pRenderIndex = indicesData;
                     break;
                 }
                 default:
@@ -1402,6 +1402,8 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                     SVArray<FVec3> t_normals;
                     SVArray<FVec2> t_texcoord0s;
                     SVArray<FVec2> t_texcoord1s;
+                    SVArray<FVec4> t_joints0;
+                    SVArray<FVec4> t_weights;
                     SVMap<SVString, s32>::Iterator primitiveIt = meshPrimitive.attributes.begin();
                     while ( primitiveIt!=meshPrimitive.attributes.end() ) {
                         const s32 attributID = primitiveIt->data;
@@ -1418,12 +1420,12 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                             minV.x = attribAccessor.minValues[0];
                             minV.y = attribAccessor.minValues[1];
                             minV.z = attribAccessor.minValues[2];
-                            modelMesh->m_boundBox.expand(minV);
+                            renderMesh->m_boundBox.expand(minV);
                             FVec3 maxV;
                             maxV.x = attribAccessor.maxValues[0];
                             maxV.y = attribAccessor.maxValues[1];
                             maxV.z = attribAccessor.maxValues[2];
-                            modelMesh->m_boundBox.expand(maxV);
+                            renderMesh->m_boundBox.expand(maxV);
                             
                             switch (attribAccessor.type) {
                                 case SVGLTF_TYPE_VEC3: {
@@ -1548,6 +1550,62 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                                 break;
                             }
                         }
+                        //joints_0
+                        if (strcmp(primitiveIt->key, "JOINTS_0") == 0) {
+                            switch (attribAccessor.type) {
+                                case SVGLTF_TYPE_VEC4: {
+                                    switch (attribAccessor.componentType) {
+                                        case SVGLTF_COMPONENT_TYPE_UNSIGNED_SHORT: {
+                                            u16 *data = (u16 *)dataPtr;
+                                            for (s32 pt = 0; pt<count*4; pt += 4) {
+                                                FVec4 t_joint;
+                                                t_joint.x = data[pt + 0];
+                                                t_joint.y = data[pt + 1];
+                                                t_joint.z = data[pt + 2];
+                                                t_joint.w = data[pt + 3];
+                                                t_joints0.append(t_joint);
+                                            }
+                                            break;
+                                        }
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                }
+                                default:
+                                    break;
+                            }
+                        }
+                        //weights
+                        if (strcmp(primitiveIt->key, "WEIGHTS_0") == 0) {
+                            switch (attribAccessor.type) {
+                                case SVGLTF_TYPE_VEC4: {
+                                    switch (attribAccessor.componentType) {
+                                        case SVGLTF_COMPONENT_TYPE_FLOAT: {
+                                            f32 *data = (f32 *)dataPtr;
+                                            for (s32 pt = 0; pt<count*4; pt += 4) {
+                                                FVec4 t_weight;
+                                                t_weight.x = data[pt + 0];
+                                                t_weight.y = data[pt + 1];
+                                                t_weight.z = data[pt + 2];
+                                                t_weight.w = data[pt + 3];
+                                                t_weights.append(t_weight);
+                                            }
+                                            break;
+                                        }
+                                        case SVGLTF_COMPONENT_TYPE_DOUBLE: {
+                                            //will to do
+                                            break;
+                                        }
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                }
+                                default:
+                                    break;
+                            }
+                        }
                         primitiveIt++;
                     }
                     SVArray<V3_N_C_T0> renderVertexData;
@@ -1559,7 +1617,7 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                         vertexPt.r = (u8)(color.x*255);
                         vertexPt.g = (u8)(color.y*255);
                         vertexPt.b = (u8)(color.z*255);
-                        vertexPt.a = (u8)(color.w*255);
+                        vertexPt.a = ( u8)(color.w*255);
                         vertexPt.nx = t_normals[vi].x;
                         vertexPt.ny = t_normals[vi].y;
                         vertexPt.nz = t_normals[vi].z;
@@ -1572,14 +1630,17 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                     SVDataSwapPtr vertexData = MakeSharedPtr<SVDataSwap>();
                     s32 t_len = (s32) (sizeof(V3_N_C_T0) * renderVertexData.size());
                     vertexData->writeData(renderVertexData.get(), t_len);
-                    modelMesh->m_vertexCount = renderVertexData.size();
-                    modelMesh->m_pRenderVertex = vertexData;
+                    renderMesh->m_vertexCount = renderVertexData.size();
+                    renderMesh->m_pRenderVertex = vertexData;
                     break;
                 }
             }
         }
     }
-    _refreshModelMatrix(_model);
+    //skins
+    
+    //
+    _loadModelNodeData(_model);
 }
 
 void SVGLTF::_loadAnimationData(GLTFModelPtr _model){
@@ -1593,16 +1654,43 @@ void SVGLTF::_loadAnimationData(GLTFModelPtr _model){
             animation->m_channels.append(channel);
             channel->m_targeNodeIndex = t_channel.target_node;
             channel->m_targetPath = t_channel.target_path;
-//            s32 sampler;              // required
-//            s32 target_node;          // required (index of the node to target)
-//            SVString target_path;     // required in ["translation", "rotation", "scale", "weights"]
+            AnimationSampler t_sampler = t_animation.samplers[t_channel.sampler];
+            SVGLTFAnimationSamplerPtr sampler = MakeSharedPtr<SVGLTFAnimationSampler>();
+            channel->m_sampler = sampler;
+            sampler->m_inputData = MakeSharedPtr<SVDataSwap>();
+            sampler->m_outputData = MakeSharedPtr<SVDataSwap>();
+            //input
+            Accessor t_inputAccessor = _model->accessors[t_sampler.input];
+            BufferView t_inputBufferView = _model->bufferViews[t_inputAccessor.bufferView];
+            s32 t_inputByteStride = t_inputBufferView.byteStride;
+            s64 t_inputCount = t_inputAccessor.count;
+            Buffer t_inputBuffer = _model->buffers[t_inputBufferView.buffer];
+            const u8 *t_inputDataAddress = (u8 *)t_inputBuffer.data->getData() + t_inputBufferView.byteOffset +t_inputAccessor.byteOffset;
+            sampler->m_inputData->writeData((void *)t_inputDataAddress, t_inputCount*4);
+            //output
+            Accessor t_outputAccessor = _model->accessors[t_sampler.output];
+            BufferView t_outputBufferView = _model->bufferViews[t_outputAccessor.bufferView];
+            s32 t_outputByteStride = t_outputBufferView.byteStride;
+            s64 t_outputCount = t_outputAccessor.count;
+            Buffer t_outputBuffer = _model->buffers[t_outputBufferView.buffer];
+            const u8 *t_outputDataAddress = (u8 *)t_outputBuffer.data->getData() + t_outputBufferView.byteOffset +t_outputAccessor.byteOffset;
+            sampler->m_outputData->writeData((void *)t_outputDataAddress, t_outputCount*4);
+            sampler->m_interpolationMode = _getInterpolationMode(t_sampler.interpolation);
+//            const tinygltf::Accessor& accessor = model.accessors[skin.inverseBindMatrices];
+//            const tinygltf::BufferView& bufView = model.bufferViews[accessor.bufferView];
+//            const tinygltf::Buffer& buf = model.buffers[bufView.buffer];
         }
-//        SVArray<AnimationChannel> channels;
-//        SVArray<AnimationSampler> samplers;
     }
 }
 
-void SVGLTF::_refreshModelMatrix(GLTFModelPtr _model){
+void SVGLTF::_loadSkinsData(GLTFModelPtr _model){
+    if (!_model) {
+        return;
+    }
+    
+}
+
+void SVGLTF::_loadModelNodeData(GLTFModelPtr _model){
     if (!_model) {
         return;
     }
@@ -1653,10 +1741,12 @@ void SVGLTF::_refreshMeshGlobalMat(GLTFModelPtr _model, Node _node, FMat4 _mat4)
     
     FMat4 mat = _mat4 * localTransform;
     if (_node.mesh >= 0) {
-        ModelMeshDataPtr meshData = _model->m_renderMeshData[_node.mesh];
-        meshData->m_globalTransform = mat;
-        meshData->m_boundBox.setTransform(mat);
+        ModelRenderDataPtr renderData = _model->m_renderMeshData[_node.mesh];
+        renderData->m_globalTransform = mat;
+        renderData->m_boundBox.setTransform(mat);
     }
+    
+    
     
     for (s32 i = 0; i<_node.children.size(); i++) {
         s32 childIndex = _node.children[i];
@@ -1690,7 +1780,7 @@ SVGLTFAnimationSampler::~SVGLTFAnimationSampler(){
     
 }
 
-ModelMeshData::ModelMeshData(){
+ModelRenderData::ModelRenderData(){
     m_indexCount    = 0;
     m_vertexCount   = 0;
     m_pRenderVertex = nullptr;
@@ -1700,7 +1790,7 @@ ModelMeshData::ModelMeshData(){
     m_globalTransform.setIdentity();
 }
 
-ModelMeshData::~ModelMeshData(){
+ModelRenderData::~ModelRenderData(){
     m_indexCount    = 0;
     m_vertexCount   = 0;
     m_pRenderVertex = nullptr;
