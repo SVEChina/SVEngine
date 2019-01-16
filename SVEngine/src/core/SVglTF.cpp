@@ -1676,9 +1676,6 @@ void SVGLTF::_loadAnimationData(GLTFModelPtr _model){
             const u8 *t_outputDataAddress = (u8 *)t_outputBuffer.data->getData() + t_outputBufferView.byteOffset +t_outputAccessor.byteOffset;
             sampler->m_outputData->writeData((void *)t_outputDataAddress, t_outputCount*4);
             sampler->m_interpolationMode = _getInterpolationMode(t_sampler.interpolation);
-//            const tinygltf::Accessor& accessor = model.accessors[skin.inverseBindMatrices];
-//            const tinygltf::BufferView& bufView = model.bufferViews[accessor.bufferView];
-//            const tinygltf::Buffer& buf = model.buffers[bufView.buffer];
         }
     }
 }
@@ -1687,7 +1684,56 @@ void SVGLTF::_loadSkinsData(GLTFModelPtr _model){
     if (!_model) {
         return;
     }
-    
+    for (s32 i = 0; i < _model->skins.size(); i++) {
+        Skin t_skin = _model->skins[i];
+        SVGLTFSkinPtr skin = MakeSharedPtr<SVGLTFSkin>();
+        skin->m_skinIndex = i;
+        Accessor t_accessor = _model->accessors[t_skin.inverseBindMatrices];
+        BufferView t_bufView = _model->bufferViews[t_accessor.bufferView];
+        Buffer t_buf = _model->buffers[t_bufView.buffer];
+        for (s32 j = 0; j < t_skin.joints.size(); j++) {
+            SVGLTFJointPtr joint = MakeSharedPtr<SVGLTFJoint>();
+            s32 t_jointIndex = t_skin.joints[j];
+            joint->m_jointIndex = t_jointIndex;
+            Node t_node = _model->nodes[t_jointIndex];
+            //
+            FMat4 t_globalJointTransform;
+            t_globalJointTransform.setIdentity();
+            //translate
+            FMat4 matT;
+            matT.setIdentity();
+            if (t_node.translation.size() > 0) {
+                matT.setTranslate(FVec3(t_node.translation[0], t_node.translation[1], t_node.translation[2]));
+            }
+            //rotation
+            FMat4 matR;
+            matR.setIdentity();
+            if (t_node.rotation.size() > 0) {
+                matR.set(SVQuat(FVec4(t_node.rotation[0], t_node.rotation[1], t_node.rotation[2], t_node.rotation[3])));
+            }
+            //scale
+            FMat4 matS;
+            matS.setIdentity();
+            if (t_node.scale.size() > 0) {
+                matS.setScale(FVec3(t_node.scale[0], t_node.scale[1], t_node.scale[2]));
+            }
+            t_globalJointTransform = matT * matR * matS;
+            
+            //matrix
+            if (t_node.matrix.size() > 0) {
+                FVec4 col0(t_node.matrix[0], t_node.matrix[1], t_node.matrix[2], t_node.matrix[3]);
+                FVec4 col1(t_node.matrix[4], t_node.matrix[5], t_node.matrix[6], t_node.matrix[7]);
+                FVec4 col2(t_node.matrix[8], t_node.matrix[9], t_node.matrix[10], t_node.matrix[11]);
+                FVec4 col3(t_node.matrix[12], t_node.matrix[13], t_node.matrix[14], t_node.matrix[15]);
+                t_globalJointTransform.setColumn(0, col0);
+                t_globalJointTransform.setColumn(1, col1);
+                t_globalJointTransform.setColumn(2, col2);
+                t_globalJointTransform.setColumn(3, col3);
+            }
+            joint->m_globalJointTransform = t_globalJointTransform;
+            
+        }
+    }
 }
 
 void SVGLTF::_loadModelNodeData(GLTFModelPtr _model){
@@ -1754,7 +1800,39 @@ void SVGLTF::_refreshMeshGlobalMat(GLTFModelPtr _model, Node _node, FMat4 _mat4)
         _refreshMeshGlobalMat(_model, node, mat);
     }
 }
+//
+SVGLTFScene::SVGLTFScene(){
+    
+}
 
+SVGLTFScene::~SVGLTFScene(){
+    
+}
+//
+SVGLTFNode::SVGLTFNode(){
+    
+}
+
+SVGLTFNode::~SVGLTFNode(){
+    
+}
+//
+SVGLTFSkin::SVGLTFSkin(){
+    
+}
+
+SVGLTFSkin::~SVGLTFSkin(){
+    
+}
+//
+SVGLTFJoint::SVGLTFJoint(){
+    
+}
+
+SVGLTFJoint::~SVGLTFJoint(){
+    
+}
+//
 SVGLTFAnimation::SVGLTFAnimation(){
     
 }

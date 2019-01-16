@@ -509,6 +509,8 @@ namespace sv {
             SVArray<ModelRenderDataPtr>  m_renderMeshData;
             
             SVArray<SVGLTFAnimationPtr> m_animations;
+            
+            SVArray<SVGLTFSkinPtr> m_skins;
         };
         
         class SVGLTF : public SVGBase{
@@ -571,6 +573,39 @@ namespace sv {
             
             void _loadAnimationData(GLTFModelPtr _model);
         };
+        //
+        class SVGLTFScene : public SVObject{
+        public:
+            SVGLTFScene();
+            ~SVGLTFScene();
+            SVArray<SVGLTFNodePtr>m_nodes;
+        };
+        
+        class SVGLTFNode : public SVObject{
+        public:
+            SVGLTFNode();
+            ~SVGLTFNode();
+            SVGLTFNodePtr m_parent;
+            SVArray<SVGLTFNodePtr> m_children;
+            SVGLTFSkinPtr m_skin;
+            FMat4 m_rotation;
+            FMat4 m_scale;
+            FMat4 m_translation;
+            FMat4 m_localTransform;
+            FMat4 m_globalTransform;
+        };
+        
+        class SVGLTFSkin : public SVObject{
+        public:
+            
+            SVGLTFSkin();
+            
+            ~SVGLTFSkin();
+            
+            s32 m_skinIndex;
+            
+            SVArray<SVGLTFJointPtr> m_joints;
+        };
         
         class SVGLTFJoint : public SVObject{
         public:
@@ -580,6 +615,10 @@ namespace sv {
             ~SVGLTFJoint();
             
             s32 m_jointIndex;
+            
+            FMat4 m_globalJointTransform;
+            
+            FMat4 m_inverseBindMatrix;
         };
         
         class SVGLTFAnimation : public SVObject{
