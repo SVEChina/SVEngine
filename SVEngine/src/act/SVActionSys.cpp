@@ -27,13 +27,8 @@ void SVActionSys::destroy() {
 
 void SVActionSys::update(f32 _dt) {
     m_lock->lock();
-    for(s32 i=0;i<m_aniPool.size();){
-        if( m_aniPool[i]->isEnd() ){
-            m_aniPool.removeForce(i);
-        } else {
-            m_aniPool[i]->update(_dt);
-            i++;
-        }
+    for(s32 i=0;i<m_aniPool.size(); i++){
+        m_aniPool[i]->update(_dt);
     }
     m_lock->unlock();
 }

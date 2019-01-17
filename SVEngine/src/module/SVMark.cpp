@@ -113,11 +113,11 @@ bool SVMark::isOpen(){
 
 void SVMark::update(f32 _dt) {
     SVModuleBase::update(_dt);
-    if (m_actAlphaUnit && m_actPositionUnit && m_actPositionUnit->isEnd()) {
-        SVActAlphaPtr t_actAlpha = DYN_TO_SHAREPTR(SVActAlpha, m_actAlphaUnit->getAct());
-        if (t_actAlpha) {
-            t_actAlpha->reset();
-        }
+    SVActAlphaPtr t_actAlpha = DYN_TO_SHAREPTR(SVActAlpha, m_actAlphaUnit->getAct());
+    SVActPositionPtr t_actPos = DYN_TO_SHAREPTR(SVActPosition, m_actPositionUnit->getAct());
+    if (t_actAlpha && t_actPos && t_actPos->isEnd()) {
+        t_actAlpha->reset();
+        t_actPos->reset();
     }
 }
 

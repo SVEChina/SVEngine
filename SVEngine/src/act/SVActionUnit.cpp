@@ -41,9 +41,7 @@ void SVActionUnit::exit(){
 
 void SVActionUnit::update(f32 _dt) {
     if (m_actPtr && m_nodePtr) {
-        if(m_actPtr->isEnd()){
-            m_isEnd = true;
-        }
+        m_isEnd = m_actPtr->isEnd();
         m_actPtr->run(m_nodePtr, _dt);
     }
 }

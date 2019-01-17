@@ -232,10 +232,6 @@ void SVActAlpha::run(SVNodePtr _nodePtr, f32 _dt) {
         
         f32 t_result = m_srcAlpha + (m_tarAlpha - m_srcAlpha)*t_lerp;
         _nodePtr->setAlpha(t_result);
-        //
-        if (isEnd()) {
-            reset();
-        }
     }
 }
 
@@ -370,7 +366,6 @@ void SVActPosition::run(SVNodePtr _nodePtr, f32 _dt){
     SVActDeform::run(_nodePtr, _dt);
     if(_nodePtr && m_time>0.0f){
         if (isEnd()) {
-            reset();
             if (m_enableRandom) {
                 _randomPosition(_nodePtr);
             }
