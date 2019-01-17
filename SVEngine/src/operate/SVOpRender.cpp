@@ -83,6 +83,7 @@ void SVOpCreateRenderder::_process(f32 dt) {
         mApp->getConfig()->setCameraDsp(m_w, m_h, 0);
 #elif defined SV_ANDROID
         t_renderer->init(m_glVersion, m_windows, m_glContext, m_w, m_h);
+        mApp->getConfig()->setCameraDsp(m_w, m_h, 0);
 #elif defined SV_OSX
         t_renderer->init(m_glVersion,m_glContext,m_pixelFormate,m_w, m_h);
 #endif
