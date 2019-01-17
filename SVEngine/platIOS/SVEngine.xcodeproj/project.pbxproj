@@ -117,6 +117,14 @@
 		0288FA12217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
 		0288FA13217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
 		0288FA14217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
+		02AD982C21EF44A800130131 /* SVMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 02AD982A21EF44A800130131 /* SVMark.h */; };
+		02AD982D21EF44A800130131 /* SVMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 02AD982A21EF44A800130131 /* SVMark.h */; };
+		02AD982E21EF44A800130131 /* SVMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 02AD982A21EF44A800130131 /* SVMark.h */; };
+		02AD982F21EF44A800130131 /* SVMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 02AD982A21EF44A800130131 /* SVMark.h */; };
+		02AD983021EF44A800130131 /* SVMark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02AD982B21EF44A800130131 /* SVMark.cpp */; };
+		02AD983121EF44A800130131 /* SVMark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02AD982B21EF44A800130131 /* SVMark.cpp */; };
+		02AD983221EF44A800130131 /* SVMark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02AD982B21EF44A800130131 /* SVMark.cpp */; };
+		02AD983321EF44A800130131 /* SVMark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02AD982B21EF44A800130131 /* SVMark.cpp */; };
 		02F27E3F218856C0007E85C3 /* SVglTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 02F27E3D218856BF007E85C3 /* SVglTF.h */; };
 		02F27E40218856C0007E85C3 /* SVglTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 02F27E3D218856BF007E85C3 /* SVglTF.h */; };
 		02F27E41218856C0007E85C3 /* SVglTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 02F27E3D218856BF007E85C3 /* SVglTF.h */; };
@@ -2812,6 +2820,8 @@
 		0288FA022178A8430089E61C /* SVBMFontNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFontNode.h; sourceTree = "<group>"; };
 		0288FA0B217B04090089E61C /* SVParseBMFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseBMFont.cpp; sourceTree = "<group>"; };
 		0288FA0C217B04090089E61C /* SVParseBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseBMFont.h; sourceTree = "<group>"; };
+		02AD982A21EF44A800130131 /* SVMark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMark.h; sourceTree = "<group>"; };
+		02AD982B21EF44A800130131 /* SVMark.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMark.cpp; sourceTree = "<group>"; };
 		02F27E3D218856BF007E85C3 /* SVglTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVglTF.h; sourceTree = "<group>"; };
 		02F27E3E218856C0007E85C3 /* SVglTF.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVglTF.cpp; sourceTree = "<group>"; };
 		02F27E51218EF215007E85C3 /* SVGLTFModelNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGLTFModelNode.h; sourceTree = "<group>"; };
@@ -4052,6 +4062,8 @@
 		5F7D5E7C215F407700803BCF /* module */ = {
 			isa = PBXGroup;
 			children = (
+				02AD982B21EF44A800130131 /* SVMark.cpp */,
+				02AD982A21EF44A800130131 /* SVMark.h */,
 				5F7D5E89215F407700803BCF /* SVDivisonFilter.cpp */,
 				5F7D5E8D215F407700803BCF /* SVDivisonFilter.h */,
 				5F7D5E82215F407700803BCF /* SVEffectPackage.cpp */,
@@ -4671,6 +4683,7 @@
 				5F7D654B215F407800803BCF /* SVOpDestroy.h in Headers */,
 				5F7D657B215F407800803BCF /* SVRenderCmd.h in Headers */,
 				5F7D60D5215F407700803BCF /* SVPictureProcess.h in Headers */,
+				02AD982F21EF44A800130131 /* SVMark.h in Headers */,
 				5F7D6011215F407700803BCF /* SVDetectST.h in Headers */,
 				5F7D603D215F407700803BCF /* SVSceneMgr.h in Headers */,
 				5F7D64DF215F407800803BCF /* SVActDeclare.h in Headers */,
@@ -5056,6 +5069,7 @@
 				5F7D6549215F407800803BCF /* SVOpDestroy.h in Headers */,
 				5F7D6579215F407800803BCF /* SVRenderCmd.h in Headers */,
 				5F7D60D3215F407700803BCF /* SVPictureProcess.h in Headers */,
+				02AD982D21EF44A800130131 /* SVMark.h in Headers */,
 				5F7D600F215F407700803BCF /* SVDetectST.h in Headers */,
 				5F7D603B215F407700803BCF /* SVSceneMgr.h in Headers */,
 				5F7D64DD215F407800803BCF /* SVActDeclare.h in Headers */,
@@ -5469,6 +5483,7 @@
 				5F7D6422215F407800803BCF /* stdint.hh in Headers */,
 				5F7D62CA215F407800803BCF /* TransformConstraintData.h in Headers */,
 				5F7D6524215F407800803BCF /* SVOpParse.h in Headers */,
+				02AD982C21EF44A800130131 /* SVMark.h in Headers */,
 				5F7D608A215F407700803BCF /* SVRGBToneCurveFilter.h in Headers */,
 				5F7D62D2215F407800803BCF /* PathConstraint.h in Headers */,
 				5F7D64CE215F407800803BCF /* SVActionUnit.h in Headers */,
@@ -5829,6 +5844,7 @@
 				5F7D654A215F407800803BCF /* SVOpDestroy.h in Headers */,
 				5F7D657A215F407800803BCF /* SVRenderCmd.h in Headers */,
 				5F7D60D4215F407700803BCF /* SVPictureProcess.h in Headers */,
+				02AD982E21EF44A800130131 /* SVMark.h in Headers */,
 				5F7D6010215F407700803BCF /* SVDetectST.h in Headers */,
 				5F7D603C215F407700803BCF /* SVSceneMgr.h in Headers */,
 				5F7D64DE215F407800803BCF /* SVActDeclare.h in Headers */,
@@ -6540,6 +6556,7 @@
 				5F7D65FB215F407800803BCF /* SVRendererVK.cpp in Sources */,
 				5F7D61D5215F407700803BCF /* SVFileMgr.cpp in Sources */,
 				5F7D6321215F407800803BCF /* SkeletonData.c in Sources */,
+				02AD983321EF44A800130131 /* SVMark.cpp in Sources */,
 				5F7D60F1215F407700803BCF /* SVBasicModel.cpp in Sources */,
 				5F7D6459215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				5F7D620D215F407800803BCF /* pngwio.c in Sources */,
@@ -6678,6 +6695,7 @@
 				5F7D66C8215F407900803BCF /* SVTexMgr.cpp in Sources */,
 				5F7D65EC215F407800803BCF /* SVFboObject.cpp in Sources */,
 				5F7D6568215F407800803BCF /* SVRResGL.cpp in Sources */,
+				02AD983021EF44A800130131 /* SVMark.cpp in Sources */,
 				5F7D67DC215F407900803BCF /* SVBackGroundNode.cpp in Sources */,
 				5F7D60B6215F407700803BCF /* SVFilterBase.cpp in Sources */,
 				5F7D649E215F407800803BCF /* SVActFollow.cpp in Sources */,
@@ -7176,6 +7194,7 @@
 				5F7D65FA215F407800803BCF /* SVRendererVK.cpp in Sources */,
 				5F7D61D4215F407700803BCF /* SVFileMgr.cpp in Sources */,
 				5F7D6320215F407800803BCF /* SkeletonData.c in Sources */,
+				02AD983221EF44A800130131 /* SVMark.cpp in Sources */,
 				5F7D60F0215F407700803BCF /* SVBasicModel.cpp in Sources */,
 				5F7D6458215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				5F7D620C215F407800803BCF /* pngwio.c in Sources */,
@@ -7493,6 +7512,7 @@
 				5F7D65F9215F407800803BCF /* SVRendererVK.cpp in Sources */,
 				5F7D61D3215F407700803BCF /* SVFileMgr.cpp in Sources */,
 				5F7D631F215F407800803BCF /* SkeletonData.c in Sources */,
+				02AD983121EF44A800130131 /* SVMark.cpp in Sources */,
 				5F7D60EF215F407700803BCF /* SVBasicModel.cpp in Sources */,
 				5F7D6457215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				5F7D620B215F407800803BCF /* pngwio.c in Sources */,

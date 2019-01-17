@@ -41,8 +41,6 @@ namespace sv {
             virtual void reset();
             
         protected:
-            bool m_isEnd;
-            
             SVString m_acttype;
             
         };

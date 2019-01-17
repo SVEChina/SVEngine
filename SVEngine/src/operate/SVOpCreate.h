@@ -154,6 +154,62 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
+    //mark
+    class SVOpCreateMark : public SVOpBase {
+    public:
+        SVOpCreateMark(SVInst *_app);
+        
+        ~SVOpCreateMark();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    
+    class SVOpMarkContent : public SVOpBase {
+    public:
+        SVOpMarkContent(SVInst *_app, SVString _content);
+        
+        ~SVOpMarkContent();
+        
+        SVString m_content;
+    protected:
+        void _process(f32 dt);
+    };
+    
+    class SVOpMarkAlphaTime : public SVOpBase {
+    public:
+        SVOpMarkAlphaTime(SVInst *_app, f32 _alphaTime);
+        
+        ~SVOpMarkAlphaTime();
+        
+        f32 m_alphaTime;
+    protected:
+        void _process(f32 dt);
+    };
+    
+    class SVOpMarkAlphaRange : public SVOpBase {
+    public:
+        SVOpMarkAlphaRange(SVInst *_app, f32 _srcAlpha, f32 _tarAlpha);
+        
+        ~SVOpMarkAlphaRange();
+        
+        f32 m_srcAlpha;
+        
+        f32 m_tarAlpha;
+    protected:
+        void _process(f32 dt);
+    };
+    
+    class SVOpMarkAppearTime : public SVOpBase {
+    public:
+        SVOpMarkAppearTime(SVInst *_app, f32 _appearTime);
+        
+        ~SVOpMarkAppearTime();
+        
+        f32 m_appearTime;
+    protected:
+        void _process(f32 dt);
+    };
 }//!namespace sv
 
 

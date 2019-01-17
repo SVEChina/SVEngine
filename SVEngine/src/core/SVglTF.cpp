@@ -1809,6 +1809,14 @@ SVGLTFScene::~SVGLTFScene(){
     
 }
 //
+SVGLTFMesh::SVGLTFMesh(){
+    
+}
+
+SVGLTFMesh::~SVGLTFMesh(){
+    
+}
+//
 SVGLTFNode::SVGLTFNode(){
     
 }

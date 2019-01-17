@@ -32,6 +32,7 @@
 #include "../basesys/SVPickProcess.h"
 #include "../module/SVModuleDelaySuspend.h"
 #include "../module/SVDivisonFilter.h"
+#include "../module/SVMark.h"
 #include "../file/SVBMFontLoader.h"
 #include "../node/SVBMFontNode.h"
 #include "../core/SVBMFont.h"
@@ -320,5 +321,93 @@ void SVOpCreateDivision::_process(f32 dt) {
         t_modulePtr->init();
         t_modulePtr->open();
         mApp->getModuleSys()->regist(t_modulePtr, t_name.c_str());
+    }
+}
+//about mark
+SVOpCreateMark::SVOpCreateMark(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpCreateMark::~SVOpCreateMark(){
+    
+}
+
+void SVOpCreateMark::_process(f32 dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr == nullptr) {
+        t_modulePtr = MakeSharedPtr<SVMark>(mApp);
+        t_modulePtr->init();
+        t_modulePtr->open();
+        mApp->getModuleSys()->regist(t_modulePtr, t_name.c_str());
+    }
+}
+
+SVOpMarkContent::SVOpMarkContent(SVInst *_app, SVString _content) :  SVOpBase(_app){
+    m_content = _content;
+}
+
+SVOpMarkContent::~SVOpMarkContent(){
+    
+}
+
+void SVOpMarkContent::_process(f32 dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
+    if (t_mark) {
+        t_mark->setContent(m_content);
+    }
+}
+
+SVOpMarkAlphaTime::SVOpMarkAlphaTime(SVInst *_app, f32 _alphaTime) :  SVOpBase(_app){
+    m_alphaTime = _alphaTime;
+}
+
+SVOpMarkAlphaTime::~SVOpMarkAlphaTime(){
+    
+}
+
+void SVOpMarkAlphaTime::_process(f32 dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
+    if (t_mark) {
+        t_mark->setAlphaTime(m_alphaTime);
+    }
+}
+
+SVOpMarkAlphaRange::SVOpMarkAlphaRange(SVInst *_app, f32 _srcAlpha, f32 _tarAlpha) :  SVOpBase(_app){
+    m_srcAlpha = _srcAlpha;
+    m_tarAlpha = _tarAlpha;
+}
+
+SVOpMarkAlphaRange::~SVOpMarkAlphaRange(){
+    
+}
+
+void SVOpMarkAlphaRange::_process(f32 dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
+    if (t_mark) {
+        t_mark->setAlphaRange(m_srcAlpha, m_tarAlpha);
+    }
+}
+
+SVOpMarkAppearTime::SVOpMarkAppearTime(SVInst *_app, f32 _appearTime) :  SVOpBase(_app){
+    m_appearTime = _appearTime;
+}
+
+SVOpMarkAppearTime::~SVOpMarkAppearTime(){
+    
+}
+
+void SVOpMarkAppearTime::_process(f32 dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
+    if (t_mark) {
+        t_mark->setAppearRate(m_appearTime);
     }
 }

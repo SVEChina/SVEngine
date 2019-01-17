@@ -73,16 +73,11 @@ void SVActMoveTo::run(SVNodePtr _nodePtr, f32 _dt){
     
         FVec3 t_result = m_srcpos*(1.0f-t_lerp) + m_target*t_lerp;
         _nodePtr->setPosition(t_result);
-        //
-        if (t_lerp == 1.0f) {
-            m_isEnd = true;
-        }
     }
 }
 
 void SVActMoveTo::enter(SVNodePtr _nodePtr){
     if(_nodePtr){
-        m_isEnd = false;
         m_srcpos = _nodePtr->getPosition();
     }
 }
@@ -116,6 +111,9 @@ void SVActMoveBetween::run(SVNodePtr _nodePtr, f32 _dt) {
         }
         FVec3 t_result = m_begin*(1.0f-t_lerp) + m_end*t_lerp;
         _nodePtr->setPosition(t_result);
+        if (isEnd()) {
+            reset();
+        }
     }
 }
 
@@ -235,16 +233,14 @@ void SVActAlpha::run(SVNodePtr _nodePtr, f32 _dt) {
         f32 t_result = m_srcAlpha + (m_tarAlpha - m_srcAlpha)*t_lerp;
         _nodePtr->setAlpha(t_result);
         //
-        if (t_lerp == 1.0f) {
-            m_isEnd = true;
+        if (isEnd()) {
+            reset();
         }
     }
 }
 
 void SVActAlpha::enter(SVNodePtr _nodePtr){
-    if (_nodePtr) {
-//        _nodePtr->setAlpha(m_srcAlpha);
-    }
+
 }
 
 void SVActAlpha::exit(SVNodePtr _nodePtr){
@@ -258,6 +254,7 @@ void SVActAlpha::setTarAlpha(f32 _alpha){
 void SVActAlpha::setSrcAlpha(f32 _alpha){
     m_srcAlpha = _alpha;
 }
+
 
 //
 SVActScale::SVActScale(SVInst *_app):SVActDeform(_app) {
@@ -304,10 +301,6 @@ void SVActScaleTo::run(SVNodePtr _nodePtr, f32 _dt) {
         }
         FVec3 t_result = m_srcscale*(1.0f-t_lerp) + m_target*t_lerp;
         _nodePtr->setScale(t_result.x, t_result.y, t_result.z);
-        //
-        if (t_lerp == 1.0f) {
-            m_isEnd = true;
-        }
     }
   
 }
@@ -337,6 +330,9 @@ void SVActScaleBetween::run(SVNodePtr _nodePtr, f32 _dt) {
         }
         FVec3 t_result = m_begin*(1.0f-t_lerp) + m_end*t_lerp;
         _nodePtr->setScale(t_result.x, t_result.y, t_result.z);
+        if (isEnd()) {
+            reset();
+        }
     }
 }
 
@@ -359,4 +355,61 @@ void SVActScaleBetween::setBeginScale(FVec3& _scale){
 void SVActScaleBetween::setEndScale(FVec3& _scale){
     m_end = _scale;
 }
+//
+SVActRandomPosition::SVActRandomPosition(SVInst *_app):SVActDeform(_app) {
+    m_acttype = "SVActRandomPosition";
+    m_minPos.set(0.0f, 0.0f, 0.0f);
+    m_maxPos.set(0.0f, 0.0f, 0.0f);
+}
 
+SVActRandomPosition::~SVActRandomPosition(){
+}
+
+void SVActRandomPosition::run(SVNodePtr _nodePtr, f32 _dt){
+    SVActDeform::run(_nodePtr, _dt);
+    if(_nodePtr && m_time>0.0f){
+        if (isEnd()) {
+            reset();
+            _randomPosition(_nodePtr);
+        }
+        
+    }
+}
+
+void SVActRandomPosition::enter(SVNodePtr _nodePtr){
+   
+}
+
+void SVActRandomPosition::exit(SVNodePtr _nodePtr){
+}
+
+void SVActRandomPosition::setMinPosition(FVec3 _minPos){
+    m_minPos = _minPos;
+}
+
+void SVActRandomPosition::setMaxPosition(FVec3 _maxPos){
+    m_maxPos = _maxPos;
+}
+
+void SVActRandomPosition::_randomPosition(SVNodePtr _nodePtr){
+    if (_nodePtr) {
+        FVec3 t_n_pos;
+        t_n_pos.set(0, 0, 0);
+        bool t_dirty = false;
+        if (m_maxPos.x > m_minPos.x) {
+            t_dirty = true;
+            t_n_pos.x = mApp->m_pGlobalParam->getRandomFloat(m_minPos.x,m_maxPos.x);
+        }
+        if (m_maxPos.y > m_minPos.y) {
+            t_dirty = true;
+            t_n_pos.y = mApp->m_pGlobalParam->getRandomFloat(m_minPos.y,m_maxPos.y);
+        }
+        if (m_maxPos.y > m_minPos.y) {
+            t_dirty = true;
+            t_n_pos.z = mApp->m_pGlobalParam->getRandomFloat(m_minPos.z,m_maxPos.z);
+        }
+        if (t_dirty) {
+            _nodePtr->setPosition(t_n_pos);
+        }
+    }
+}

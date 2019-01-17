@@ -37,6 +37,9 @@ namespace sv{
             
             void setNode(SVNodePtr _nodePtr);
             
+            SVActBasePtr getAct();
+            
+            SVNodePtr getNode();
             
         protected:
             bool m_isEnd;

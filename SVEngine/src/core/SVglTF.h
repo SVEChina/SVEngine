@@ -508,6 +508,12 @@ namespace sv {
         
             SVArray<ModelRenderDataPtr>  m_renderMeshData;
             
+            s32 m_defaultSceneIndex;
+            
+            SVArray<SVGLTFScenePtr> m_scenes;
+            
+            SVArray<SVGLTFMeshPtr> m_meshes;
+            
             SVArray<SVGLTFAnimationPtr> m_animations;
             
             SVArray<SVGLTFSkinPtr> m_skins;
@@ -593,6 +599,12 @@ namespace sv {
             FMat4 m_translation;
             FMat4 m_localTransform;
             FMat4 m_globalTransform;
+        };
+        
+        class SVGLTFMesh : public SVObject{
+        public:
+            SVGLTFMesh();
+            ~SVGLTFMesh();
         };
         
         class SVGLTFSkin : public SVObject{

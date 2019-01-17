@@ -63,3 +63,11 @@ void SVActionUnit::setNode(SVNodePtr _nodePtr){
         m_nodePtr = _nodePtr;
     }
 }
+
+SVActBasePtr SVActionUnit::getAct(){
+    return m_actPtr;
+}
+
+SVNodePtr SVActionUnit::getNode(){
+    return m_nodePtr;
+}

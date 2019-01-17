@@ -48,3 +48,18 @@ void SVOpDestroyDivision::_process(float dt) {
     
 }
 
+SVOpDestroyMark::SVOpDestroyMark(SVInst *_app)
+:SVOpBase(_app) {
+    
+}
+
+void SVOpDestroyMark::_process(float dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_module = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_module) {
+        mApp->getModuleSys()->unregist(t_name.c_str());
+        t_module->close();
+        t_module->destroy();
+    }
+    
+}

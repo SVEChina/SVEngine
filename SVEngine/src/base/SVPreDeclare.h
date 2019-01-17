@@ -73,6 +73,11 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpCreateTestSpine);
     DECLARE_SHAREPTR(SVOpOpenDelaySuspend);
     DECLARE_SHAREPTR(SVOpCreateDivision);
+    DECLARE_SHAREPTR(SVOpCreateMark);
+    DECLARE_SHAREPTR(SVOpMarkContent);
+    DECLARE_SHAREPTR(SVOpMarkAlphaTime);
+    DECLARE_SHAREPTR(SVOpMarkAlphaRange);
+    DECLARE_SHAREPTR(SVOpMarkAppearTime);
     
     DECLARE_SHAREPTR(SVOpDestroyScene);
     DECLARE_SHAREPTR(SVOpCameraControl);
@@ -129,6 +134,7 @@ namespace sv {
     namespace util {
         DECLARE_SHAREPTR(ModelRenderData);
         DECLARE_SHAREPTR(SVGLTFScene);
+        DECLARE_SHAREPTR(SVGLTFMesh);
         DECLARE_SHAREPTR(SVGLTFNode);
         DECLARE_SHAREPTR(SVGLTFAnimation);
         DECLARE_SHAREPTR(SVGLTFAnimationChannel);

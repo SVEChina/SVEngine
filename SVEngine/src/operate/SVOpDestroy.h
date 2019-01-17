@@ -29,6 +29,14 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
+    //
+    class SVOpDestroyMark : public SVOpBase {
+    public:
+        SVOpDestroyMark(SVInst *_app);
+        
+    protected:
+        void _process(f32 dt);
+    };
 }//!namespace sv
 
 
