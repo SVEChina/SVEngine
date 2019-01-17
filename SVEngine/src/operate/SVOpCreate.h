@@ -176,6 +176,17 @@ namespace sv {
         void _process(f32 dt);
     };
     
+    class SVOpMarkAlpha : public SVOpBase {
+    public:
+        SVOpMarkAlpha(SVInst *_app, f32 _alpha);
+        
+        ~SVOpMarkAlpha();
+        
+        f32 m_alpha;
+    protected:
+        void _process(f32 dt);
+    };
+    
     class SVOpMarkAlphaTime : public SVOpBase {
     public:
         SVOpMarkAlphaTime(SVInst *_app, f32 _alphaTime);
@@ -210,6 +221,29 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
+    
+    class SVOpMarkPosition : public SVOpBase {
+    public:
+        SVOpMarkPosition(SVInst *_app, FVec3 _pos);
+        
+        ~SVOpMarkPosition();
+        
+        FVec3 m_pos;
+    protected:
+        void _process(f32 dt);
+    };
+    
+    class SVOpMarkEnableRandom : public SVOpBase {
+    public:
+        SVOpMarkEnableRandom(SVInst *_app, bool _enable);
+        
+        ~SVOpMarkEnableRandom();
+        
+        bool m_enable;
+    protected:
+        void _process(f32 dt);
+    };
+    
 }//!namespace sv
 
 

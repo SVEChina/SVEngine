@@ -25,6 +25,7 @@ SVMark::SVMark(SVInst* _app)
     m_bmFontNode = nullptr;
     m_actAlphaUnit= nullptr;
     m_actPositionUnit = nullptr;
+    m_alpha = 1.0f;
     m_alphaTime = 1.0f;
     m_appearTime = 5.0f;
     m_srcAlpha = 0.2f;
@@ -59,7 +60,7 @@ void SVMark::init(){
     //
     m_actPositionUnit = MakeSharedPtr<SVActionUnit>(mApp);
     m_actPositionUnit->init();
-    SVActRandomPositionPtr t_actPos = MakeSharedPtr<SVActRandomPosition>(mApp);
+    SVActPositionPtr t_actPos = MakeSharedPtr<SVActPosition>(mApp);
     s32 t_w =  mApp->m_pGlobalParam->m_inner_width;
     s32 t_h =  mApp->m_pGlobalParam->m_inner_height;
     t_actPos->setMinPosition(FVec3(-t_w*0.4f, -t_h*0.4f, 0.0f));
@@ -112,8 +113,11 @@ bool SVMark::isOpen(){
 
 void SVMark::update(f32 _dt) {
     SVModuleBase::update(_dt);
-    if (m_actPositionUnit && m_actPositionUnit->isEnd()) {
-        
+    if (m_actAlphaUnit && m_actPositionUnit && m_actPositionUnit->isEnd()) {
+        SVActAlphaPtr t_actAlpha = DYN_TO_SHAREPTR(SVActAlpha, m_actAlphaUnit->getAct());
+        if (t_actAlpha) {
+            t_actAlpha->reset();
+        }
     }
 }
 
@@ -138,11 +142,35 @@ void SVMark::setAlphaTime(f32 _time){
     }
 }
 
+void SVMark::setAlpha(f32 _alpha){
+    if (m_alpha != _alpha) {
+        m_alpha = _alpha;
+        if (m_bmFontNode) {
+            m_bmFontNode->setAlpha(m_alpha);
+        }
+    }
+}
+
+void SVMark::setPosition(f32 _posX, f32 _posY, f32 _posZ){
+    if (m_bmFontNode) {
+        m_bmFontNode->setPosition(_posX, _posY, _posZ);
+    }
+}
+
+void SVMark::setEnableRandomPosition(bool _enable){
+    if (m_actPositionUnit) {
+        SVActPositionPtr t_actPos = DYN_TO_SHAREPTR(SVActPosition, m_actPositionUnit->getAct());
+        if (t_actPos) {
+            t_actPos->setEnableRandom(_enable);
+        }
+    }
+}
+
 void SVMark::setAppearRate(f32 _time){
     if (m_appearTime != _time) {
         m_appearTime = _time;
         if (m_actPositionUnit) {
-            SVActRandomPositionPtr t_actPos = DYN_TO_SHAREPTR(SVActRandomPosition, m_actPositionUnit->getAct());
+            SVActPositionPtr t_actPos = DYN_TO_SHAREPTR(SVActPosition, m_actPositionUnit->getAct());
             if (t_actPos) {
                 t_actPos->setTime(m_appearTime);
             }

@@ -75,9 +75,12 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpCreateDivision);
     DECLARE_SHAREPTR(SVOpCreateMark);
     DECLARE_SHAREPTR(SVOpMarkContent);
+    DECLARE_SHAREPTR(SVOpMarkAlpha);
     DECLARE_SHAREPTR(SVOpMarkAlphaTime);
     DECLARE_SHAREPTR(SVOpMarkAlphaRange);
     DECLARE_SHAREPTR(SVOpMarkAppearTime);
+    DECLARE_SHAREPTR(SVOpMarkPosition);
+    DECLARE_SHAREPTR(SVOpMarkEnableRandom);
     
     DECLARE_SHAREPTR(SVOpDestroyScene);
     DECLARE_SHAREPTR(SVOpCameraControl);

@@ -356,42 +356,48 @@ void SVActScaleBetween::setEndScale(FVec3& _scale){
     m_end = _scale;
 }
 //
-SVActRandomPosition::SVActRandomPosition(SVInst *_app):SVActDeform(_app) {
+SVActPosition::SVActPosition(SVInst *_app):SVActDeform(_app) {
     m_acttype = "SVActRandomPosition";
+    m_enableRandom = true;
     m_minPos.set(0.0f, 0.0f, 0.0f);
     m_maxPos.set(0.0f, 0.0f, 0.0f);
 }
 
-SVActRandomPosition::~SVActRandomPosition(){
+SVActPosition::~SVActPosition(){
 }
 
-void SVActRandomPosition::run(SVNodePtr _nodePtr, f32 _dt){
+void SVActPosition::run(SVNodePtr _nodePtr, f32 _dt){
     SVActDeform::run(_nodePtr, _dt);
     if(_nodePtr && m_time>0.0f){
         if (isEnd()) {
             reset();
-            _randomPosition(_nodePtr);
+            if (m_enableRandom) {
+                _randomPosition(_nodePtr);
+            }
         }
-        
     }
 }
 
-void SVActRandomPosition::enter(SVNodePtr _nodePtr){
+void SVActPosition::enter(SVNodePtr _nodePtr){
    
 }
 
-void SVActRandomPosition::exit(SVNodePtr _nodePtr){
+void SVActPosition::exit(SVNodePtr _nodePtr){
 }
 
-void SVActRandomPosition::setMinPosition(FVec3 _minPos){
+void SVActPosition::setMinPosition(FVec3 _minPos){
     m_minPos = _minPos;
 }
 
-void SVActRandomPosition::setMaxPosition(FVec3 _maxPos){
+void SVActPosition::setMaxPosition(FVec3 _maxPos){
     m_maxPos = _maxPos;
 }
 
-void SVActRandomPosition::_randomPosition(SVNodePtr _nodePtr){
+void SVActPosition::setEnableRandom(bool _random){
+    m_enableRandom = _random;
+}
+
+void SVActPosition::_randomPosition(SVNodePtr _nodePtr){
     if (_nodePtr) {
         FVec3 t_n_pos;
         t_n_pos.set(0, 0, 0);

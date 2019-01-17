@@ -360,6 +360,23 @@ void SVOpMarkContent::_process(f32 dt) {
     }
 }
 
+SVOpMarkAlpha::SVOpMarkAlpha(SVInst *_app, f32 _alpha) :  SVOpBase(_app){
+    m_alpha = _alpha;
+}
+
+SVOpMarkAlpha::~SVOpMarkAlpha(){
+    
+}
+
+void SVOpMarkAlpha::_process(f32 dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
+    if (t_mark) {
+        t_mark->setAlpha(m_alpha);
+    }
+}
+
 SVOpMarkAlphaTime::SVOpMarkAlphaTime(SVInst *_app, f32 _alphaTime) :  SVOpBase(_app){
     m_alphaTime = _alphaTime;
 }
@@ -409,5 +426,47 @@ void SVOpMarkAppearTime::_process(f32 dt) {
     SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
     if (t_mark) {
         t_mark->setAppearRate(m_appearTime);
+    }
+}
+
+SVOpMarkPosition::SVOpMarkPosition(SVInst *_app, FVec3 _pos) :  SVOpBase(_app){
+    m_pos = _pos;
+}
+
+SVOpMarkPosition::~SVOpMarkPosition(){
+    
+}
+
+void SVOpMarkPosition::_process(f32 dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
+    if (t_mark) {
+        f32 t_x = m_pos.x;
+        f32 t_y = m_pos.y;
+        s32 t_camera_w = mApp->m_pGlobalParam->m_inner_width;
+        s32 t_camera_h = mApp->m_pGlobalParam->m_inner_height;
+        f32 t_mod_x = t_x;
+        f32 t_mod_y = t_camera_h - t_y;
+        f32 t_n_targetX = t_mod_x - t_camera_w*0.5;
+        f32 t_n_targetY =  t_camera_h*0.5 - t_mod_y;
+        t_mark->setPosition(t_n_targetX, t_n_targetY, 0.0f);
+    }
+}
+
+SVOpMarkEnableRandom::SVOpMarkEnableRandom(SVInst *_app, bool _enable) :  SVOpBase(_app){
+    m_enable = _enable;
+}
+
+SVOpMarkEnableRandom::~SVOpMarkEnableRandom(){
+    
+}
+
+void SVOpMarkEnableRandom::_process(f32 dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
+    if (t_mark) {
+        t_mark->setEnableRandomPosition(m_enable);
     }
 }

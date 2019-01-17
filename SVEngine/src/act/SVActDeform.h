@@ -214,11 +214,11 @@ namespace sv {
             FVec3 m_end;
         };
         
-        class SVActRandomPosition : public SVActDeform {
+        class SVActPosition : public SVActDeform {
         public:
-            SVActRandomPosition(SVInst *_app);
+            SVActPosition(SVInst *_app);
             
-            ~SVActRandomPosition();
+            ~SVActPosition();
             
             virtual void run(SVNodePtr _nodePtr, f32 _dt);
             
@@ -226,11 +226,14 @@ namespace sv {
             
             virtual void exit(SVNodePtr _nodePtr);    //退出action
             
+            void setEnableRandom(bool _random);
+            
             void setMinPosition(FVec3 _minPos);
             
             void setMaxPosition(FVec3 _maxPos);
         protected:
             void _randomPosition(SVNodePtr _nodePtr);
+            bool  m_enableRandom;
             FVec3 m_maxPos;
             FVec3 m_minPos;
         };

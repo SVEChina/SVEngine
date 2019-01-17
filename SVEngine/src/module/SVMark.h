@@ -34,6 +34,12 @@ namespace sv{
         
         void setContent(SVString _content);
         
+        void setAlpha(f32 _alpha);
+        
+        void setPosition(f32 _posX, f32 _posY, f32 _posZ);
+        
+        void setEnableRandomPosition(bool _enable);
+        
         void setAlphaRange(f32 _src, f32 _tar);
         
         void setAlphaTime(f32 _time);
@@ -46,6 +52,7 @@ namespace sv{
         SVString m_content;
         f32 m_alphaTime;
         f32 m_appearTime;
+        f32 m_alpha;
         f32 m_srcAlpha;
         f32 m_tarAlpha;
     };
