@@ -377,6 +377,40 @@ void SVOpMarkAlpha::_process(f32 dt) {
     }
 }
 
+SVOpMarkScale::SVOpMarkScale(SVInst *_app, f32 _scale) :  SVOpBase(_app){
+    m_scale = _scale;
+}
+
+SVOpMarkScale::~SVOpMarkScale(){
+    
+}
+
+void SVOpMarkScale::_process(f32 dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
+    if (t_mark) {
+        t_mark->setScale(m_scale);
+    }
+}
+
+SVOpMarkRotation::SVOpMarkRotation(SVInst *_app, f32 _roation) :  SVOpBase(_app){
+    m_rotation = _roation;
+}
+
+SVOpMarkRotation::~SVOpMarkRotation(){
+    
+}
+
+void SVOpMarkRotation::_process(f32 dt) {
+    SVString t_name = "sv_mark_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
+    if (t_mark) {
+        t_mark->setRotation(m_rotation);
+    }
+}
+
 SVOpMarkAlphaTime::SVOpMarkAlphaTime(SVInst *_app, f32 _alphaTime) :  SVOpBase(_app){
     m_alphaTime = _alphaTime;
 }

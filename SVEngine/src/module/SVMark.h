@@ -34,6 +34,10 @@ namespace sv{
         
         void setContent(SVString _content);
         
+        void setScale(f32 _scale);
+        
+        void setRotation(f32 _rot);
+        
         void setAlpha(f32 _alpha);
         
         void setPosition(f32 _posX, f32 _posY, f32 _posZ);
@@ -53,6 +57,8 @@ namespace sv{
         f32 m_alphaTime;
         f32 m_appearTime;
         f32 m_alpha;
+        f32 m_scale;
+        f32 m_rotation;
         f32 m_srcAlpha;
         f32 m_tarAlpha;
     };

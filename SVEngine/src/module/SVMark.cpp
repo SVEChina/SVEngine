@@ -26,6 +26,8 @@ SVMark::SVMark(SVInst* _app)
     m_actAlphaUnit= nullptr;
     m_actPositionUnit = nullptr;
     m_alpha = 1.0f;
+    m_scale = 1.0f;
+    m_rotation = 0.0f;
     m_alphaTime = 1.0f;
     m_appearTime = 5.0f;
     m_srcAlpha = 0.2f;
@@ -138,6 +140,24 @@ void SVMark::setAlphaTime(f32 _time){
             if (t_actAlpha) {
                 t_actAlpha->setTime(m_alphaTime);
             }
+        }
+    }
+}
+
+void SVMark::setScale(f32 _scale){
+    if (m_scale != _scale) {
+        m_scale = _scale;
+        if (m_bmFontNode) {
+            m_bmFontNode->setScale(m_scale, m_scale, 1.0f);
+        }
+    }
+}
+
+void SVMark::setRotation(f32 _rot){
+    if (m_rotation != _rot) {
+        m_rotation = _rot;
+        if (m_bmFontNode) {
+            m_bmFontNode->setRotation(0.0f, 0.0f, _rot);
         }
     }
 }

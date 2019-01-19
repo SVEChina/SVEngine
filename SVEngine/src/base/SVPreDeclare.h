@@ -76,6 +76,8 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpCreateMark);
     DECLARE_SHAREPTR(SVOpMarkContent);
     DECLARE_SHAREPTR(SVOpMarkAlpha);
+    DECLARE_SHAREPTR(SVOpMarkScale);
+    DECLARE_SHAREPTR(SVOpMarkRotation);
     DECLARE_SHAREPTR(SVOpMarkAlphaTime);
     DECLARE_SHAREPTR(SVOpMarkAlphaRange);
     DECLARE_SHAREPTR(SVOpMarkAppearTime);
