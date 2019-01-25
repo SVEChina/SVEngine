@@ -1285,21 +1285,23 @@ cptr8 SVGLTF::_base64_decode(SVString const &encoded_string){
 }
 
 void SVGLTF::_loadMeshData(GLTFModelPtr _model){
-    _model->m_renderMeshData.clear();
+    _model->m_meshes.clear();
     for (s32 i = 0; i<_model->meshes.size(); i++) {
         Mesh mesh = _model->meshes[i];
+        SVGLTFMeshPtr gltfMesh = MakeSharedPtr<SVGLTFMesh>();
+        gltfMesh->m_name = mesh.name;
         for (s32 j = 0; j<mesh.primitives.size(); j++) {
             ModelRenderDataPtr renderMesh = MakeSharedPtr<ModelRenderData>();
+            SVGLTFSubMeshPtr gltfSubMesh = MakeSharedPtr<SVGLTFSubMesh>();
             renderMesh->m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
             renderMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d_notex");
             renderMesh->m_boundBox.clear();
             _model->m_renderMeshData.append(renderMesh);
-            Primitive meshPrimitive = mesh.primitives[j];
-            Accessor indicesAccessor = _model->accessors[meshPrimitive.indices];
-            BufferView bufferView = _model->bufferViews[indicesAccessor.bufferView];
-            Buffer buffer = _model->buffers[bufferView.buffer];
+            Primitive primitive = mesh.primitives[j];
+            gltfSubMesh->m_primitiveType = primitive.mode;
             //basetexture
-            s32 materialID = meshPrimitive.material;
+            SVGLTFMaterialPtr gltfMaterial = MakeSharedPtr<SVGLTFMaterial>();
+            s32 materialID = primitive.material;
             Material material = _model->materials[materialID];
             ParameterMap values = material.values;
             ParameterMap::Iterator baseTexValue = values.find("baseColorTexture");
@@ -1308,6 +1310,7 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                 s32 textureIndex = parameter.TextureIndex();
                 Texture texture = _model->textures[textureIndex];
                 Image image = _model->images[texture.source];
+                gltfMaterial->m_baseColorTexture = image.texture;
                 renderMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d");
                 renderMesh->m_pMtl->setTexture(0,image.texture);
             }
@@ -1319,11 +1322,24 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                 Parameter parameter = baseColorValue->data;
                 SVArray<f64> colorFactor = parameter.number_array;
                 color.set(colorFactor[0], colorFactor[1], colorFactor[2], colorFactor[3]);
+                gltfMaterial->m_baseColorFactor = color;
             }
+            Accessor indicesAccessor = _model->accessors[primitive.indices];
+            BufferView bufferView = _model->bufferViews[indicesAccessor.bufferView];
+            Buffer buffer = _model->buffers[bufferView.buffer];
             // index
+            SVGLTFAccessorPtr gltfIndicesAccessor = MakeSharedPtr<SVGLTFAccessor>();
             s32 byteStride = indicesAccessor.ByteStride(bufferView);
             s64 count = indicesAccessor.count;
-            const u8 *dataAddress = (u8 *)buffer.data->getData() + bufferView.byteOffset +indicesAccessor.byteOffset;
+            u8 *dataAddress = (u8 *)buffer.data->getData() + bufferView.byteOffset +indicesAccessor.byteOffset;
+            gltfIndicesAccessor->m_count = count;
+            gltfIndicesAccessor->m_offset = indicesAccessor.byteOffset;
+            gltfIndicesAccessor->m_componentType = indicesAccessor.componentType;
+            gltfIndicesAccessor->m_dimensionType = indicesAccessor.type;
+            gltfIndicesAccessor->m_bufferData = MakeSharedPtr<SVDataSwap>();
+            gltfIndicesAccessor->m_bufferData->writeData(dataAddress, byteStride*count);
+            gltfIndicesAccessor->m_minValues = indicesAccessor.minValues;
+            gltfIndicesAccessor->m_maxValues = indicesAccessor.maxValues;
             switch (indicesAccessor.componentType) {
                 case SVGLTF_COMPONENT_TYPE_BYTE:{
                     c8 *data = (c8 *)dataAddress;
@@ -1389,7 +1405,7 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                 default:
                 break;
             }
-            switch (meshPrimitive.mode) {
+            switch (primitive.mode) {
                 case SVGLTF_MODE_TRIANGLE_FAN:
                 //will to do
                 break;
@@ -1404,8 +1420,8 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                     SVArray<FVec2> t_texcoord1s;
                     SVArray<FVec4> t_joints0;
                     SVArray<FVec4> t_weights;
-                    SVMap<SVString, s32>::Iterator primitiveIt = meshPrimitive.attributes.begin();
-                    while ( primitiveIt!=meshPrimitive.attributes.end() ) {
+                    SVMap<SVString, s32>::Iterator primitiveIt = primitive.attributes.begin();
+                    while ( primitiveIt!=primitive.attributes.end() ) {
                         const s32 attributID = primitiveIt->data;
                         Accessor attribAccessor = _model->accessors[attributID];
                         BufferView bufferView = _model->bufferViews[attribAccessor.bufferView];
@@ -1814,7 +1830,42 @@ SVGLTFMesh::SVGLTFMesh(){
 }
 
 SVGLTFMesh::~SVGLTFMesh(){
-    
+    m_meshes.destroy();
+}
+//
+SVGLTFSubMesh::SVGLTFSubMesh(){
+    m_material = nullptr;
+    m_indexAccessor = nullptr;
+}
+
+SVGLTFSubMesh::~SVGLTFSubMesh(){
+    m_material = nullptr;
+    m_indexAccessor = nullptr;
+    m_accessorsForAttributes.clear();
+}
+//
+SVGLTFAccessor::SVGLTFAccessor(){
+    m_bufferData = nullptr;
+}
+
+SVGLTFAccessor::~SVGLTFAccessor(){
+    m_bufferData = nullptr;
+}
+//
+SVGLTFMaterial::SVGLTFMaterial(){
+    m_baseColorTexture = nullptr;
+    m_metallicRoughnessTexture = nullptr;
+    m_normalTexture = nullptr;
+    m_emissiveTexture = nullptr;
+    m_occlusionTexture = nullptr;
+}
+
+SVGLTFMaterial::~SVGLTFMaterial(){
+    m_baseColorTexture = nullptr;
+    m_metallicRoughnessTexture = nullptr;
+    m_normalTexture = nullptr;
+    m_emissiveTexture = nullptr;
+    m_occlusionTexture = nullptr;
 }
 //
 SVGLTFNode::SVGLTFNode(){

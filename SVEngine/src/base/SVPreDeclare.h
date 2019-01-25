@@ -140,6 +140,9 @@ namespace sv {
         DECLARE_SHAREPTR(ModelRenderData);
         DECLARE_SHAREPTR(SVGLTFScene);
         DECLARE_SHAREPTR(SVGLTFMesh);
+        DECLARE_SHAREPTR(SVGLTFSubMesh);
+        DECLARE_SHAREPTR(SVGLTFMaterial);
+        DECLARE_SHAREPTR(SVGLTFAccessor);
         DECLARE_SHAREPTR(SVGLTFNode);
         DECLARE_SHAREPTR(SVGLTFAnimation);
         DECLARE_SHAREPTR(SVGLTFAnimationChannel);

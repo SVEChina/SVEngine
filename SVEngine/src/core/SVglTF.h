@@ -605,6 +605,51 @@ namespace sv {
         public:
             SVGLTFMesh();
             ~SVGLTFMesh();
+            SVArray<SVGLTFSubMeshPtr> m_meshes;
+            SVString m_name;
+        };
+        
+        class SVGLTFSubMesh : public SVObject{
+        public:
+            SVGLTFSubMesh();
+            ~SVGLTFSubMesh();
+            SVMap<SVString, SVGLTFAccessorPtr> m_accessorsForAttributes;
+            SVGLTFMaterialPtr m_material;
+            SVGLTFAccessorPtr m_indexAccessor;
+            u32 m_primitiveType;
+        };
+        
+        class SVGLTFAccessor : public SVObject{
+        public:
+            SVGLTFAccessor();
+            ~SVGLTFAccessor();
+            SVDataSwapPtr m_bufferData;
+            u32 m_componentType; //(SVGLTF_COMPONENT_TYPE_BYTE SVGLTF_COMPONENT_TYPE_SHORT ..)
+            u32 m_dimensionType; //(SVGLTF_TYPE_SCALAR SVGLTF_TYPE_VEC2 ....)
+            s32 m_offset;
+            s32 m_count;
+            SVArray<f64> m_minValues;
+            SVArray<f64> m_maxValues;
+        };
+        
+        class SVGLTFMaterial : public SVObject{
+        public:
+            SVGLTFMaterial();
+            ~SVGLTFMaterial();
+            FVec4 m_baseColorFactor;
+            FVec3 m_emissiveFactor;
+            FVec3 m_specularFactor; // Only used by KHR_materials_pbrSpecularGlossiness extension
+            f32 m_metalnessFactor;
+            f32 m_roughnessFactor;
+            f32 m_normalTextureScale;
+            f32 m_occlusionStrength;
+            f32 m_glossinessFactor; // Only used by KHR_materials_pbrSpecularGlossiness extension
+            bool m_hasTextureTransforms; // Only used when KHR_texture_transform extension is present
+            SVTexturePtr m_baseColorTexture;
+            SVTexturePtr m_metallicRoughnessTexture;
+            SVTexturePtr m_normalTexture;
+            SVTexturePtr m_emissiveTexture;
+            SVTexturePtr m_occlusionTexture;
         };
         
         class SVGLTFSkin : public SVObject{
