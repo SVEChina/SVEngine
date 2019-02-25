@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		020B04252223BFA7001AF120 /* sve.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 020B04242223BFA7001AF120 /* sve.bundle */; };
 		0229771F213D0DFE000E27EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0229771E213D0DFE000E27EE /* AppDelegate.m */; };
 		02297722213D0DFE000E27EE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02297721213D0DFE000E27EE /* ViewController.m */; };
 		02297725213D0DFE000E27EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02297723213D0DFE000E27EE /* Main.storyboard */; };
@@ -26,7 +27,6 @@
 		0231CAC5213D20EF004A2414 /* SDCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0231CAC4213D20EF004A2414 /* SDCamera.m */; };
 		0231CACC213D2D9A004A2414 /* SDMainUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0231CACB213D2D9A004A2414 /* SDMainUI.m */; };
 		023652B4216082790011A9F1 /* libSVEngine_Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 023652AF216082050011A9F1 /* libSVEngine_Static.a */; };
-		023652B7216087800011A9F1 /* sve.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 023652B6216087800011A9F1 /* sve.bundle */; };
 		02D0304D213E4ED000E148FD /* qiuqian.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 02D0304C213E4ED000E148FD /* qiuqian.bundle */; };
 		02D031EB213E615200E148FD /* SVIEffect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D031EA213E615100E148FD /* SVIEffect.mm */; };
 		02D031EE213E624500E148FD /* hero.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 02D031ED213E624500E148FD /* hero.bundle */; };
@@ -64,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		020B04242223BFA7001AF120 /* sve.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = sve.bundle; path = ../../../SVERes/sve.bundle; sourceTree = "<group>"; };
 		0229771A213D0DFE000E27EE /* SVEDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SVEDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0229771D213D0DFE000E27EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0229771E213D0DFE000E27EE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -101,7 +102,6 @@
 		0231CACA213D2D9A004A2414 /* SDMainUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDMainUI.h; sourceTree = "<group>"; };
 		0231CACB213D2D9A004A2414 /* SDMainUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDMainUI.m; sourceTree = "<group>"; };
 		023652A4216082050011A9F1 /* SVEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SVEngine.xcodeproj; path = ../../../SVEngine/platIOS/SVEngine.xcodeproj; sourceTree = "<group>"; };
-		023652B6216087800011A9F1 /* sve.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = sve.bundle; path = ../../../SVERes/sve.bundle; sourceTree = "<group>"; };
 		02D0304C213E4ED000E148FD /* qiuqian.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = qiuqian.bundle; sourceTree = "<group>"; };
 		02D031EA213E615100E148FD /* SVIEffect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVIEffect.mm; sourceTree = "<group>"; };
 		02D031ED213E624500E148FD /* hero.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = hero.bundle; sourceTree = "<group>"; };
@@ -174,8 +174,8 @@
 		02297733213D0ECD000E27EE /* svelib */ = {
 			isa = PBXGroup;
 			children = (
+				020B04242223BFA7001AF120 /* sve.bundle */,
 				023652A4216082050011A9F1 /* SVEngine.xcodeproj */,
-				023652B6216087800011A9F1 /* sve.bundle */,
 				02D0304C213E4ED000E148FD /* qiuqian.bundle */,
 				02D031ED213E624500E148FD /* hero.bundle */,
 			);
@@ -313,7 +313,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				023652B7216087800011A9F1 /* sve.bundle in Resources */,
+				020B04252223BFA7001AF120 /* sve.bundle in Resources */,
 				02D031EE213E624500E148FD /* hero.bundle in Resources */,
 				02D0304D213E4ED000E148FD /* qiuqian.bundle in Resources */,
 				0229772A213D0E01000E27EE /* LaunchScreen.storyboard in Resources */,
