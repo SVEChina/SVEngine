@@ -26,6 +26,7 @@ SVGLTFModelNode::SVGLTFModelNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVGLTFModelNode";
     m_model = nullptr;
+    m_enableDebugNormal = false;
 }
 
 SVGLTFModelNode::~SVGLTFModelNode() {
@@ -82,13 +83,16 @@ void SVGLTFModelNode::update(f32 dt) {
             renderMesh->setVertexDataNum(renderData->m_vertexCount);
             renderMesh->createMesh();
             //material
-            SVMtl3DPtr t_mtl = renderData->m_pMtl;
+            SVMtl3DPtr t_mtl = DYN_TO_SHAREPTR(SVMtl3D, renderData->m_pMtl);
             FMat4 matrix =  m_absolutMat * renderData->m_globalTransform;
             t_mtl->setModelMatrix(matrix.get());
             t_mtl->setDepthEnable(true);
             t_mtl->setBlendEnable(true);
             t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
             m_pRObj->addRenderObj(renderMesh,t_mtl);
+        }
+        if (m_enableDebugNormal) {
+            _showDebugNormalLines();
         }
     }else{
         m_visible = false;
@@ -159,3 +163,35 @@ void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     }
 }
  */
+
+void SVGLTFModelNode::_showDebugNormalLines(){
+    for (s32 i = 0; i<m_model->m_renderDebugMeshData.size(); i++) {
+        ModelRenderDataPtr debugRenderData = m_model->m_renderDebugMeshData[i];
+        //mesh
+        SVRenderMeshPtr renderMesh = debugRenderData->m_pMesh;
+        renderMesh->setDrawMethod(E_DM_LINES);
+        renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
+//        renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
+        renderMesh->setVertexType(E_VF_V3_C);
+//        renderMesh->setIndexData(debugRenderData->m_pRenderIndex, debugRenderData->m_indexCount);
+        renderMesh->setVertexData(debugRenderData->m_pRenderVertex);
+        renderMesh->setVertexDataNum(debugRenderData->m_vertexCount);
+        renderMesh->createMesh();
+        //material
+        SVMtlCorePtr t_mtl = DYN_TO_SHAREPTR(SVMtlCore, debugRenderData->m_pMtl);
+        FMat4 matrix =  m_absolutMat * debugRenderData->m_globalTransform;
+        t_mtl->setModelMatrix(matrix.get());
+        t_mtl->setDepthEnable(true);
+        t_mtl->setBlendEnable(true);
+        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        m_pRObj->addRenderObj(renderMesh,t_mtl);
+    }
+}
+
+void SVGLTFModelNode::enableDebugNormal(bool _enable){
+    m_enableDebugNormal = _enable;
+}
+
+bool SVGLTFModelNode::getDebugNormalEnable(){
+    return m_enableDebugNormal;
+}

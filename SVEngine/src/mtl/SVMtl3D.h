@@ -27,28 +27,28 @@ namespace sv {
             virtual void reset();
             
             virtual SVMtlCorePtr clone();
-            //最多支持8个反射光源，channel 最大为7
-            void setDiffuseLightPositon(u32 _channel, FVec3 _lightPos);
-            
-            void setDiffuseLightColor(u32 _channel, FVec3 _lightColor);
-            
-            FVec3 getDiffuseLightColor(u32 _channel);
-            
-            FVec3 getDiffuseLightPos(u32 _channel);
             
             void setAmbientLightIntensit(f32 _intersit);
             
-            void setAmbientLightColorFactor(FVec3 _ambientColor);
+            void setAmbientLightColorFactor(FVec3& _ambientColor);
             
             f32 getAmbientLightStrength();
             
-            FVec3 getAmbientLightColor();
+            FVec3& getAmbientLightColor();
+            
+            void setLightPositon(FVec3& _lightPos);
+            
+            void setLightColor(FVec3& _lightColor);
+            
+            FVec3& getLightColor();
+            
+            FVec3& getLightPos();
         protected:
             void _submitMtl(SVRendererBasePtr _render);
-            FVec3 m_ambient_color;
             f32   m_ambientStrength;
-            SVArray<f32> m_diffuseLightPosPool;
-            SVArray<f32> m_diffuseLightColorPool;
+            FVec3 m_ambient_color;
+            FVec3 m_lightPos;
+            FVec3 m_lightColor;
         public:
             virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                                 RAPIDJSON_NAMESPACE::Value &_objValue);

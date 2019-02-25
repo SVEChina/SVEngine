@@ -508,6 +508,8 @@ namespace sv {
         
             SVArray<ModelRenderDataPtr>  m_renderMeshData;
             
+            SVArray<ModelRenderDataPtr>  m_renderDebugMeshData;
+            
             s32 m_defaultSceneIndex;
             
             SVArray<SVGLTFScenePtr> m_scenes;
@@ -723,7 +725,7 @@ namespace sv {
             ~ModelRenderData();
             SVDataSwapPtr           m_pRenderVertex;
             SVDataSwapPtr           m_pRenderIndex;
-            SVMtl3DPtr              m_pMtl;
+            SVMtlCorePtr            m_pMtl;
             SVRenderMeshPtr         m_pMesh;
             FMat4                   m_globalTransform;
             SVBoundBox              m_boundBox;

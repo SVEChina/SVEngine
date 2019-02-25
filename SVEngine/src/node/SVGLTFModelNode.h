@@ -30,10 +30,18 @@ namespace sv {
             GLTFModelPtr getModel();
             
             void destroyModel();
+            
+            void enableDebugNormal(bool _enable);
+            
+            bool getDebugNormalEnable();
+        protected:
+            void _showDebugNormalLines();
         protected:
             GLTFModelPtr m_model;
             
             SVMultMeshMtlRenderObjectPtr m_pRObj;
+            
+            bool m_enableDebugNormal;
         public:
             //序列化接口
 //            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);

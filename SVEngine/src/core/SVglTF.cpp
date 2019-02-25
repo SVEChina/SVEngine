@@ -1291,12 +1291,20 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
         SVGLTFMeshPtr gltfMesh = MakeSharedPtr<SVGLTFMesh>();
         gltfMesh->m_name = mesh.name;
         for (s32 j = 0; j<mesh.primitives.size(); j++) {
+            //
             ModelRenderDataPtr renderMesh = MakeSharedPtr<ModelRenderData>();
-            SVGLTFSubMeshPtr gltfSubMesh = MakeSharedPtr<SVGLTFSubMesh>();
             renderMesh->m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
             renderMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d_notex");
             renderMesh->m_boundBox.clear();
             _model->m_renderMeshData.append(renderMesh);
+            //
+            //debug
+            ModelRenderDataPtr debugRenderMesh = MakeSharedPtr<ModelRenderData>();
+            debugRenderMesh->m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
+            debugRenderMesh->m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "debugNormalLine");
+            _model->m_renderDebugMeshData.append(debugRenderMesh);
+            //
+            SVGLTFSubMeshPtr gltfSubMesh = MakeSharedPtr<SVGLTFSubMesh>();
             Primitive primitive = mesh.primitives[j];
             gltfSubMesh->m_primitiveType = primitive.mode;
             //basetexture
@@ -1648,6 +1656,37 @@ void SVGLTF::_loadMeshData(GLTFModelPtr _model){
                     vertexData->writeData(renderVertexData.get(), t_len);
                     renderMesh->m_vertexCount = renderVertexData.size();
                     renderMesh->m_pRenderVertex = vertexData;
+                    //debug
+                    SVArray<V3_C> renderDebugData;
+                    for (s32 vi = 0; vi < t_postions.size(); vi++) {
+                        V3_C vertexPt1;
+                        vertexPt1.x = t_postions[vi].x;
+                        vertexPt1.y = t_postions[vi].y;
+                        vertexPt1.z = t_postions[vi].z;
+                        vertexPt1.r = 0;
+                        vertexPt1.g = 255;
+                        vertexPt1.b = 0;
+                        vertexPt1.a = 255;
+                        renderDebugData.append(vertexPt1);
+                        
+                        f32 t_normalX = t_normals[vi].x*0.5;
+                        f32 t_normalY = t_normals[vi].y*0.5;
+                        f32 t_normalZ = t_normals[vi].z*0.5;
+                        V3_C vertexPt2;
+                        vertexPt2.x = t_normalX + t_postions[vi].x;
+                        vertexPt2.y = t_normalY + t_postions[vi].y;
+                        vertexPt2.z = t_normalZ + t_postions[vi].z;
+                        vertexPt2.r = 0;
+                        vertexPt2.g = 255;
+                        vertexPt2.b = 0;
+                        vertexPt2.a = 255;
+                        renderDebugData.append(vertexPt2);
+                    }
+                    SVDataSwapPtr vertexDebugData = MakeSharedPtr<SVDataSwap>();
+                    s32 t_debugLen = (s32) (sizeof(V3_C) * renderDebugData.size());
+                    vertexDebugData->writeData(renderDebugData.get(), t_debugLen);
+                    debugRenderMesh->m_vertexCount = renderDebugData.size();
+                    debugRenderMesh->m_pRenderVertex = vertexDebugData;
                     break;
                 }
             }
@@ -1806,9 +1845,10 @@ void SVGLTF::_refreshMeshGlobalMat(GLTFModelPtr _model, Node _node, FMat4 _mat4)
         ModelRenderDataPtr renderData = _model->m_renderMeshData[_node.mesh];
         renderData->m_globalTransform = mat;
         renderData->m_boundBox.setTransform(mat);
+        ModelRenderDataPtr debugRenderData = _model->m_renderDebugMeshData[_node.mesh];
+        debugRenderData->m_globalTransform = mat;
+        debugRenderData->m_boundBox.setTransform(mat);
     }
-    
-    
     
     for (s32 i = 0; i<_node.children.size(); i++) {
         s32 childIndex = _node.children[i];
@@ -1935,3 +1975,4 @@ ModelRenderData::~ModelRenderData(){
     m_pMtl = nullptr;
     m_pMesh = nullptr;
 }
+
