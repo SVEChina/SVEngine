@@ -106,7 +106,7 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passDeform->setInTex(0,_intex);
         m_passDeform->setOutTex(_texout);
         
-        m_passPoint = MakeSharedPtr<SVPass>();
+        
         SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dcolor");
         t_mtl->setBlendEnable(false);
         t_mtl->setModelMatrix(t_camera.getAbsoluteMat());
@@ -115,6 +115,7 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         t_mtl->setBlendEnable(true);
         t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
  
+        m_passPoint = MakeSharedPtr<SVPass>();
         m_passPoint->setMtl(t_mtl);
         m_passPoint->setMesh(m_pMeshPoint);
         m_passPoint->setInTex(0,m_pPointTex);

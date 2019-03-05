@@ -9,8 +9,6 @@
 #include "../app/SVInst.h"
 #include "../app/SVGlobalMgr.h"
 #include "../basesys/SVSceneMgr.h"
-#include "../basesys/SVBasicSys.h"
-#include "../basesys/SVPictureProcess.h"
 #include "../basesys/filter/SVFilterBase.h"
 #include "../basesys/filter/SVBasedonFilter.h"
 #include "../basesys/filter/SVFilterDef.h"
@@ -19,6 +17,8 @@
 #include "../event/SVOpEvent.h"
 #include "../base/SVDataSwap.h"
 #include "../basesys/filter/SVParseLUTFilter.h"
+#include "../basesys/SVBasicSys.h"
+#include "../basesys/SVPictureProcess.h"
 #include "../basesys/filter/SVFilterLUT.h"
 //设置美颜滤镜
 SVOpSetBeautyFilter::SVOpSetBeautyFilter(SVInst* _app,cptr8 _scenename,cptr8 _filter,s32 _lows)
@@ -115,8 +115,7 @@ SVOpLUTFilterCreate::SVOpLUTFilterCreate(SVInst* _app,cptr8 _scenename,cptr8 _pa
 }
 
 void SVOpLUTFilterCreate::_process(f32 _dt){
-    SVParseLUTFilter t_filter(mApp);
-    SVFilterLUTPtr t_lutFilter = t_filter.parse(m_path, m_resid);
+    SVFilterBasePtr t_lutFilter = SVParseLUTFilter::parseLUT(mApp,m_path, m_resid);
     SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
     if( t_picproc&&t_lutFilter) {
         t_lutFilter->create();

@@ -17,12 +17,7 @@ namespace sv {
         
         class SVParseLUTFilter : public SVParseData {
         public:
-            SVParseLUTFilter(SVInst *_app);
-            
-            virtual ~SVParseLUTFilter();
-            
-            SVFilterLUTPtr parse(cptr8 _path, s32 resid);
-
+            static SVFilterBasePtr parseLUT(SVInst *_app,cptr8 _path, s32 resid);
         };
         
     }//!namespace logic

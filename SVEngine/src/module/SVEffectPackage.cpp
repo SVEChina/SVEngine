@@ -22,6 +22,10 @@
 #include "../act/SVActionSys.h"
 #include "../app/SVGlobalMgr.h"
 #include "../act/SVActionUnit.h"
+#include "../basesys/filter/SVParseLUTFilter.h"
+#include "../basesys/SVBasicSys.h"
+#include "../basesys/SVPictureProcess.h"
+#include "../basesys/filter/SVFilterLUT.h"
 void spinenode_callback(SVSpineNodePtr _node,void* _obj,s32 _status) {
     SVEffectUnit *t_unit = (SVEffectUnit*)(_obj);
     if(_status == 2) {
@@ -125,6 +129,14 @@ void SVEffectPackage::destroy(){
         SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
         t_attachment->destroy();
     }
+    for (s32 i = 0; i<m_filterBasePool.size(); i++) {
+        SVFilterBasePtr t_filterBase = m_filterBasePool[i];
+        SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
+        if( t_picproc) {
+            t_picproc->clearFilter(t_filterBase);
+        }
+    }
+    m_filterBasePool.destroy();
     m_attachmentPool.destroy();
     m_lock->unlock();
     SVModuleBase::destroy();
@@ -190,6 +202,18 @@ void SVEffectPackage::addAttachment(SVTexAttachmentPtr _attachment){
     if (_attachment) {
         _attachment->init();
         m_attachmentPool.append(_attachment);
+    }
+}
+
+void SVEffectPackage::addFilter(SVFilterBasePtr _filter){
+    if(_filter){
+        SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
+        if( t_picproc) {
+            _filter->create();
+            t_picproc->addFilter(_filter);
+            t_picproc->openFilter(_filter);
+            m_filterBasePool.append(_filter);
+        }
     }
 }
 
