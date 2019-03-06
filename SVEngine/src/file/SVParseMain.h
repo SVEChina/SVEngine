@@ -24,7 +24,7 @@ namespace sv {
             
             SVModuleBasePtr parse(cptr8 _path, s32 resid);
 
-        private:
+        protected:
             void _registDictionary(cptr8 _type, prase_content_fun fun);
             
             void _unregistDictionary(cptr8 _type);
