@@ -88,8 +88,8 @@ PERSON_STDATA *SVDetectST::getDataOriginal(s32 _personid) {
 }
 
 void SVDetectST::_transformToCenter(PERSON_STDATA *_stData){
-    f32 t_camera_w = mApp->m_pGlobalParam->m_inner_width;
-    f32 t_camera_h = mApp->m_pGlobalParam->m_inner_height;    
+    f32 t_camera_w = mApp->getConfig()->getCameraWidth();
+    f32 t_camera_h = mApp->getConfig()->getCameraHeight();
     _stData->rectleft = _stData->rectleft - t_camera_w*0.5;
     _stData->rectright = _stData->rectright - t_camera_w*0.5;
     _stData->recttop = t_camera_h*0.5 - _stData->recttop;
