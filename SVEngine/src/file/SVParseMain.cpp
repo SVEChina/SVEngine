@@ -23,6 +23,7 @@
 #include "SVParseBackground.h"
 #include "SVParseTexAttachment.h"
 #include "../module/SVEffectPackage.h"
+#include "../basesys/filter/SVParseLUTFilter.h"
 
 SVParseMain::SVParseMain(SVInst *_app)
 :SVGBase(_app) {
@@ -119,6 +120,14 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
             SVTexAttachmentPtr t_texAttachment = SVParseTexAttachment::parseTexAttachmet(mApp, attachment, 102, t_path.get());
             t_bundle->addAttachment(t_texAttachment);
         }
+    }
+    
+    if (doc.HasMember("SVLutFlter") && doc["SVLutFlter"].IsObject()) {
+        RAPIDJSON_NAMESPACE::Value &attachments = doc["SVLutFlter"];
+        SVString t_name = attachments["name"].GetString();
+        SVString t_pathLut = t_path + t_name;
+        SVFilterBasePtr t_baseFilter = SVParseLUTFilter::parseLUT(mApp,t_pathLut, 102);
+        t_bundle->addFilter(t_baseFilter);
     }
     
     SV_LOG_ERROR("SVParseMain::parse end\n");

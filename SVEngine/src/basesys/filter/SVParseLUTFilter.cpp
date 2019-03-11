@@ -13,19 +13,14 @@
 #include "../../base/SVDataChunk.h"
 #include "../../app/SVInst.h"
 
-SVParseLUTFilter::SVParseLUTFilter(SVInst *_app)
-:SVParseData(_app){
-}
 
-SVParseLUTFilter::~SVParseLUTFilter(){
-}
 
-SVFilterLUTPtr SVParseLUTFilter::parse(cptr8 _path, s32 resid){
+SVFilterBasePtr SVParseLUTFilter::parseLUT(SVInst *_app,cptr8 _path, s32 resid){
     RAPIDJSON_NAMESPACE::Document t_doc;
     //解析滤镜包
 
     SVDataChunk tDataStream;
-    bool tflag = mApp->m_pGlobalMgr->m_pFileMgr->loadFileContentStr(&tDataStream, _path);
+    bool tflag = _app->m_pGlobalMgr->m_pFileMgr->loadFileContentStr(&tDataStream, _path);
     if (!tflag)
     return nullptr;
     SV_LOG_ERROR("SVParseMain::load effect sucess\n");
@@ -49,7 +44,7 @@ SVFilterLUTPtr SVParseLUTFilter::parse(cptr8 _path, s32 resid){
    
     if(doc.HasMember("filterLUT")&& doc["filterLUT"].IsObject()){
         RAPIDJSON_NAMESPACE::Value &t_lut = doc["filterLUT"];
-        SVFilterLUTPtr t_filterLUT = MakeSharedPtr<SVFilterLUT>(mApp);
+        SVFilterLUTPtr t_filterLUT = MakeSharedPtr<SVFilterLUT>(_app);
         t_filterLUT->fromJSON(t_lut);
         return t_filterLUT;
     }

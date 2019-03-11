@@ -63,6 +63,8 @@ namespace sv{
         
         void addAttachment(SVTexAttachmentPtr _attachment);
         
+        void addFilter(SVFilterBasePtr _filter);
+        
         SVTexAttachmentPtr getTexAttachment(s32 _channel);
     protected:
         EFFECTANISTATE m_aniState;
@@ -70,6 +72,8 @@ namespace sv{
         SVEFFECTUNITPOOL m_effectUnitPool;
         typedef SVArray<SVTexAttachmentPtr> SVATTACHMENTPOOL;
         SVATTACHMENTPOOL m_attachmentPool;
+        typedef SVArray<SVFilterBasePtr> SVFILTERPOOL;
+        SVFILTERPOOL m_filterBasePool;
         SVLockPtr m_lock;
     };
     
