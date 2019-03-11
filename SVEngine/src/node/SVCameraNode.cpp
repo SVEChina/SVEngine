@@ -8,6 +8,7 @@
 #include "SVCameraNode.h"
 #include "../basesys/SVConfig.h"
 #include "../rendercore/SVFboObject.h"
+#include "../act/SVNodeCtrlCamera.h"
 //
 SVCameraNode::SVCameraNode(SVInst *_app)
 : SVNode(_app) {
@@ -18,6 +19,7 @@ SVCameraNode::SVCameraNode(SVInst *_app)
     m_mat_vp.setIdentity();
     m_resLock = MakeSharedPtr<SVLock>();
     //
+    m_pCtrl = nullptr;
     m_angle_yaw = 0.0f;
     m_angle_pitch = 0.0f;
 }
@@ -25,10 +27,16 @@ SVCameraNode::SVCameraNode(SVInst *_app)
 SVCameraNode::~SVCameraNode() {
     m_fbobjectPool.destroy();
     m_resLock = nullptr;
+    m_pCtrl = nullptr;
 }
 
 void SVCameraNode::update(f32 _dt) {
     _removeUnuseLinkFboObject();
+    //
+    if(m_pCtrl) {
+        m_pCtrl->run(THIS_TO_SHAREPTR(SVCameraNode),_dt);
+    }
+    
     if (m_dirty) {
         //更新本地矩阵
         m_dirty = false;
@@ -164,6 +172,16 @@ FMat4& SVCameraNode::getViewMatObj(){
 
 FMat4& SVCameraNode::getVPMatObj(){
     return m_mat_vp;
+}
+
+//获取控制器
+SVNodeCtrlCameraPtr SVCameraNode::getCtrl(){
+    return m_pCtrl;
+}
+
+//设置控制器
+void SVCameraNode::setCtrl(SVNodeCtrlCameraPtr _ctr) {
+    m_pCtrl = _ctr;
 }
 
 void SVCameraNode::updateProjMat() {

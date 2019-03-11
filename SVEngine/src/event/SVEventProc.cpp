@@ -17,11 +17,11 @@ SVEventProc::~SVEventProc() {
 }
 
 void SVEventProc::startListen(){
-    mApp->getEventMgr()->registProcer(std::dynamic_pointer_cast<SVEventProc>(this->shared_from_this()));
+    mApp->getEventMgr()->registProcer(THIS_TO_SHAREPTR(SVEventProc));
 }
 
 void SVEventProc::stopListen(){
-    mApp->getEventMgr()->unregistProcer(std::dynamic_pointer_cast<SVEventProc>(this->shared_from_this()));
+    mApp->getEventMgr()->unregistProcer(THIS_TO_SHAREPTR(SVEventProc));
 }
 
 //返回true 表示消息继续传递 否者 表示消息不在传递
