@@ -2783,6 +2783,14 @@
 		5FAB9DDD2189AC6700B05ED5 /* SVAniBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */; };
 		5FAB9DDE2189AC6700B05ED5 /* SVAniBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */; };
 		5FAB9DDF2189AC6700B05ED5 /* SVAniBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */; };
+		5FB61F892227E521001EA141 /* SVPythonSys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FB61F872227E521001EA141 /* SVPythonSys.cpp */; };
+		5FB61F8A2227E521001EA141 /* SVPythonSys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FB61F872227E521001EA141 /* SVPythonSys.cpp */; };
+		5FB61F8B2227E521001EA141 /* SVPythonSys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FB61F872227E521001EA141 /* SVPythonSys.cpp */; };
+		5FB61F8C2227E521001EA141 /* SVPythonSys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FB61F872227E521001EA141 /* SVPythonSys.cpp */; };
+		5FB61F8D2227E521001EA141 /* SVPythonSys.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB61F882227E521001EA141 /* SVPythonSys.h */; };
+		5FB61F8E2227E521001EA141 /* SVPythonSys.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB61F882227E521001EA141 /* SVPythonSys.h */; };
+		5FB61F8F2227E521001EA141 /* SVPythonSys.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB61F882227E521001EA141 /* SVPythonSys.h */; };
+		5FB61F902227E521001EA141 /* SVPythonSys.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB61F882227E521001EA141 /* SVPythonSys.h */; };
 		5FBA206B216DFF7000A6868E /* SVUIMovieNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA2069216DFF6F00A6868E /* SVUIMovieNode.h */; };
 		5FBA206C216DFF7000A6868E /* SVUIMovieNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA206A216DFF6F00A6868E /* SVUIMovieNode.cpp */; };
 		5FBA206F216E02AA00A6868E /* SVUIPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA206D216E02A900A6868E /* SVUIPanel.cpp */; };
@@ -3489,6 +3497,10 @@
 		5F7D5FE5215F407700803BCF /* SVBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBounds.h; sourceTree = "<group>"; };
 		5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVAniBase.cpp; sourceTree = "<group>"; };
 		5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAniBase.h; sourceTree = "<group>"; };
+		5FB61F842227E36A001EA141 /* libpython2.7.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpython2.7.tbd; path = usr/lib/libpython2.7.tbd; sourceTree = SDKROOT; };
+		5FB61F872227E521001EA141 /* SVPythonSys.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = SVPythonSys.cpp; sourceTree = "<group>"; };
+		5FB61F882227E521001EA141 /* SVPythonSys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVPythonSys.h; sourceTree = "<group>"; };
+		5FB61F922229335F001EA141 /* libpython.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpython.tbd; path = usr/lib/libpython.tbd; sourceTree = SDKROOT; };
 		5FBA2069216DFF6F00A6868E /* SVUIMovieNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUIMovieNode.h; sourceTree = "<group>"; };
 		5FBA206A216DFF6F00A6868E /* SVUIMovieNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVUIMovieNode.cpp; sourceTree = "<group>"; };
 		5FBA206D216E02A900A6868E /* SVUIPanel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVUIPanel.cpp; sourceTree = "<group>"; };
@@ -3655,6 +3667,7 @@
 		5F7D5D68215F407700803BCF /* basesys */ = {
 			isa = PBXGroup;
 			children = (
+				5FB61F862227E4EE001EA141 /* script */,
 				5F44285E21843BAC00AF4A5B /* out */,
 				5F7D5D86215F407700803BCF /* filter */,
 				5F7D5D71215F407700803BCF /* SVBasicSys.cpp */,
@@ -4062,8 +4075,6 @@
 		5F7D5E7C215F407700803BCF /* module */ = {
 			isa = PBXGroup;
 			children = (
-				02AD982B21EF44A800130131 /* SVMark.cpp */,
-				02AD982A21EF44A800130131 /* SVMark.h */,
 				5F7D5E89215F407700803BCF /* SVDivisonFilter.cpp */,
 				5F7D5E8D215F407700803BCF /* SVDivisonFilter.h */,
 				5F7D5E82215F407700803BCF /* SVEffectPackage.cpp */,
@@ -4078,6 +4089,8 @@
 				5F7D5E88215F407700803BCF /* SVGameReady.h */,
 				5F7D5E8A215F407700803BCF /* SVGameRun.cpp */,
 				5F7D5E91215F407700803BCF /* SVGameRun.h */,
+				02AD982B21EF44A800130131 /* SVMark.cpp */,
+				02AD982A21EF44A800130131 /* SVMark.h */,
 				5F7D5E84215F407700803BCF /* SVModuleBase.cpp */,
 				5F7D5E80215F407700803BCF /* SVModuleBase.h */,
 				5F7D5E8C215F407700803BCF /* SVModuleDef.h */,
@@ -4281,12 +4294,12 @@
 			children = (
 				5F7D5F2A215F407700803BCF /* SVGLModify.cpp */,
 				5F7D5F18215F407700803BCF /* SVGLModify.h */,
-				5F7D5F1C215F407700803BCF /* SVMtlAni2D.cpp */,
-				5F7D5F3B215F407700803BCF /* SVMtlAni2D.h */,
-				020B7793219A82560043E97E /* SVMtl3D.cpp */,
-				020B7792219A82550043E97E /* SVMtl3D.h */,
 				022AF18421AD1F2200BF6F37 /* SVMtl2D.cpp */,
 				022AF18521AD1F2300BF6F37 /* SVMtl2D.h */,
+				020B7793219A82560043E97E /* SVMtl3D.cpp */,
+				020B7792219A82550043E97E /* SVMtl3D.h */,
+				5F7D5F1C215F407700803BCF /* SVMtlAni2D.cpp */,
+				5F7D5F3B215F407700803BCF /* SVMtlAni2D.h */,
 				5F7D5F2E215F407700803BCF /* SVMtlBasedOn.cpp */,
 				5F7D5F2C215F407700803BCF /* SVMtlBasedOn.h */,
 				5F7D5F37215F407700803BCF /* SVMtlBeauty.cpp */,
@@ -4529,6 +4542,15 @@
 			path = base;
 			sourceTree = "<group>";
 		};
+		5FB61F862227E4EE001EA141 /* script */ = {
+			isa = PBXGroup;
+			children = (
+				5FB61F872227E521001EA141 /* SVPythonSys.cpp */,
+				5FB61F882227E521001EA141 /* SVPythonSys.h */,
+			);
+			path = script;
+			sourceTree = "<group>";
+		};
 		822A3F8D1E70069800CF3953 = {
 			isa = PBXGroup;
 			children = (
@@ -4554,6 +4576,8 @@
 		822A43201E710E0800CF3953 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FB61F922229335F001EA141 /* libpython.tbd */,
+				5FB61F842227E36A001EA141 /* libpython2.7.tbd */,
 				5FFB8A4821C4F94F002480D0 /* MetalKit.framework */,
 				5FFB8A4621C4F948002480D0 /* Metal.framework */,
 				02357A1920EB563400F29FB8 /* AppKit.framework */,
@@ -4733,6 +4757,7 @@
 				5F7D6239215F407800803BCF /* pngdebug.h in Headers */,
 				5F7D6657215F407800803BCF /* SVThreadRender.h in Headers */,
 				5F7D67E3215F407900803BCF /* SVDummyNode.h in Headers */,
+				5FB61F902227E521001EA141 /* SVPythonSys.h in Headers */,
 				5F7D6697215F407800803BCF /* SVMtlShapeVaried.h in Headers */,
 				5F7D6289215F407800803BCF /* Color.h in Headers */,
 				5F7D63BD215F407800803BCF /* stringbuffer.h in Headers */,
@@ -5119,6 +5144,7 @@
 				5F7D6237215F407800803BCF /* pngdebug.h in Headers */,
 				5F7D6655215F407800803BCF /* SVThreadRender.h in Headers */,
 				5F7D67E1215F407900803BCF /* SVDummyNode.h in Headers */,
+				5FB61F8E2227E521001EA141 /* SVPythonSys.h in Headers */,
 				5F7D6695215F407800803BCF /* SVMtlShapeVaried.h in Headers */,
 				5F7D6287215F407800803BCF /* Color.h in Headers */,
 				5F7D63BB215F407800803BCF /* stringbuffer.h in Headers */,
@@ -5656,6 +5682,7 @@
 				5F7D681C215F407900803BCF /* SVEventProc.h in Headers */,
 				5F7D6940215F407900803BCF /* svstr.h in Headers */,
 				5F7D6072215F407700803BCF /* SVRecycleProcess.h in Headers */,
+				5FB61F8D2227E521001EA141 /* SVPythonSys.h in Headers */,
 				5F7D68AC215F407900803BCF /* SVVec4.h in Headers */,
 				5F7D6256215F407800803BCF /* Animation.h in Headers */,
 				5F7D61F6215F407700803BCF /* SVParseData.h in Headers */,
@@ -5894,6 +5921,7 @@
 				5F7D6238215F407800803BCF /* pngdebug.h in Headers */,
 				5F7D6656215F407800803BCF /* SVThreadRender.h in Headers */,
 				5F7D67E2215F407900803BCF /* SVDummyNode.h in Headers */,
+				5FB61F8F2227E521001EA141 /* SVPythonSys.h in Headers */,
 				5F7D6696215F407800803BCF /* SVMtlShapeVaried.h in Headers */,
 				5F7D6288215F407800803BCF /* Color.h in Headers */,
 				5F7D63BC215F407800803BCF /* stringbuffer.h in Headers */,
@@ -6402,6 +6430,7 @@
 				5F7D6159215F407700803BCF /* SVInst.cpp in Sources */,
 				5F7D6309215F407800803BCF /* PathConstraintData.c in Sources */,
 				5F7D6319215F407800803BCF /* VertexEffect.c in Sources */,
+				5FB61F8C2227E521001EA141 /* SVPythonSys.cpp in Sources */,
 				5F7D635D215F407800803BCF /* Event.c in Sources */,
 				5F7D68C3215F407900803BCF /* SVGeometry.cpp in Sources */,
 				5F7D5FF9215F407700803BCF /* SVPersonTracker.cpp in Sources */,
@@ -6680,6 +6709,7 @@
 				5F7D644A215F407800803BCF /* SVGameEnd.cpp in Sources */,
 				5F7D6598215F407800803BCF /* SVRendererBase.cpp in Sources */,
 				5F7D6302215F407800803BCF /* extension.c in Sources */,
+				5FB61F892227E521001EA141 /* SVPythonSys.cpp in Sources */,
 				5F7D606A215F407700803BCF /* SVTransCPU.cpp in Sources */,
 				020B7798219A82560043E97E /* SVMtl3D.cpp in Sources */,
 				5CA05D4F21873E8100D1C033 /* SVParseBackground.cpp in Sources */,
@@ -7040,6 +7070,7 @@
 				5F7D6158215F407700803BCF /* SVInst.cpp in Sources */,
 				5F7D6308215F407800803BCF /* PathConstraintData.c in Sources */,
 				5F7D6318215F407800803BCF /* VertexEffect.c in Sources */,
+				5FB61F8B2227E521001EA141 /* SVPythonSys.cpp in Sources */,
 				5F7D635C215F407800803BCF /* Event.c in Sources */,
 				5F7D68C2215F407900803BCF /* SVGeometry.cpp in Sources */,
 				5F7D5FF8215F407700803BCF /* SVPersonTracker.cpp in Sources */,
@@ -7358,6 +7389,7 @@
 				5F7D6157215F407700803BCF /* SVInst.cpp in Sources */,
 				5F7D6307215F407800803BCF /* PathConstraintData.c in Sources */,
 				5F7D6317215F407800803BCF /* VertexEffect.c in Sources */,
+				5FB61F8A2227E521001EA141 /* SVPythonSys.cpp in Sources */,
 				5F7D635B215F407800803BCF /* Event.c in Sources */,
 				5F7D68C1215F407900803BCF /* SVGeometry.cpp in Sources */,
 				5F7D5FF7215F407700803BCF /* SVPersonTracker.cpp in Sources */,

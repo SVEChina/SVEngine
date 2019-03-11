@@ -57,7 +57,8 @@ namespace sv {
         SVActionSysPtr m_pActionSys;
         //静态数据
         SVStaticDataPtr m_pStaticData;
-        
+        //
+        SVPythonSysPtr m_pPythonSys;
         //时间标志
         timeval timTagLast;
     };
