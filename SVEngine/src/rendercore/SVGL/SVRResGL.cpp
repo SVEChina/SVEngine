@@ -332,7 +332,7 @@ void SVRResGLTexiOS::destroy(SVRendererBasePtr _renderer){
 
 void SVRResGLTexiOS::pushData(u8* _srcPtr,s32 _w,s32 _h,s32 _pixelformate){
 #ifdef SV_IOS
-    if( (!m_pPixelBuf) || (!m_pTexRef) || (!m_pTexCacheRef) )
+    if( (!m_pPixelBuf) || (!m_pTexRef) || (!m_pTexCacheRef) || (_srcPtr == nullptr) )
         return;
     if(CVPixelBufferLockBaseAddress(m_pPixelBuf, 0) == kCVReturnSuccess){
         s32 width = (s32)CVPixelBufferGetWidth(m_pPixelBuf);
@@ -358,7 +358,7 @@ void SVRResGLTexiOS::pushData(u8* _srcPtr,s32 _w,s32 _h,s32 _pixelformate){
 
 void SVRResGLTexiOS::fetchData(u8* _dstPtr,s32 _w,s32 _h) {
 #ifdef SV_IOS
-    if( (!m_pPixelBuf) || (!m_pTexRef) || (!m_pTexCacheRef) )
+    if( (!m_pPixelBuf) || (!m_pTexRef) || (!m_pTexCacheRef) || (_dstPtr == nullptr))
         return;
     if(CVPixelBufferLockBaseAddress(m_pPixelBuf, 0) == kCVReturnSuccess){
         s32 width = (s32)CVPixelBufferGetWidth(m_pPixelBuf);
