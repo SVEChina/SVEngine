@@ -24,7 +24,9 @@ namespace sv {
             
             virtual void run(SVCameraNodePtr _nodePtr, f32 dt);
             
+            
         protected:
+            f32 m_dis;
             
         };
 

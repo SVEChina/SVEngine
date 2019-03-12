@@ -17,5 +17,8 @@ SVNodeCtrlCamera::SVNodeCtrlCamera(SVInst* _app)
 SVNodeCtrlCamera::~SVNodeCtrlCamera() {
 }
 
+//相机控制
 void SVNodeCtrlCamera::run(SVCameraNodePtr _nodePtr, f32 dt) {
+    //
+    
 }
