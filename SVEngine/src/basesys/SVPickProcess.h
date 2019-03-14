@@ -12,6 +12,7 @@
 #include "../base/SVVec3.h"
 #include "../node/SVNodeDeclare.h"
 #include "../node/SVNodeVisit.h"
+#include "../base/SVMat4.h"
 
 //获取射线拾取(拣选器)
 
@@ -60,6 +61,7 @@ namespace sv {
             void moveNode(s32 _sx,s32 _sy);
             //获取交叉点
             bool getCrossPoint(s32 _sx,s32 _sy,FVec3& _crosspt);
+            bool getCrossPointUI(s32 _sx,s32 _sy,FVec3& _crosspt);
             //
             SVNodePtr getPickNode();
             //
@@ -70,6 +72,7 @@ namespace sv {
             void _pick(SVNodePtr _node);
             //获取射线
             bool _getRay(s32 _sx,s32 _sy,FVec3& _rayStart,FVec3& _rayEnd);
+            bool _getRayMat(FMat4 _vpMat,s32 _sx,s32 _sy,FVec3& _rayStart,FVec3& _rayEnd);
             //
             bool m_enablePick;
             SVNodePtr m_curPickNode;
