@@ -94,6 +94,12 @@ namespace sv {
             //重制
             void reset();
             
+            //获取控制器
+            SVNodeCtrlCameraPtr getCtrl();
+            
+            //设置控制器
+            void setCtrl(SVNodeCtrlCameraPtr _ctr);
+            
         protected:
             void _removeUnuseLinkFboObject();
 
@@ -113,6 +119,8 @@ namespace sv {
             
             f32 m_angle_yaw;
             f32 m_angle_pitch;
+            
+            SVNodeCtrlCameraPtr m_pCtrl;
         };
 
         

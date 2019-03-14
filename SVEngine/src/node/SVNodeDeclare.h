@@ -12,6 +12,11 @@
 
 namespace sv {
     
+    namespace logic {
+        DECLARE_SHAREPTR(SVNodeCtrl);
+        DECLARE_SHAREPTR(SVNodeCtrlCamera);
+    }
+    
     namespace node {
         
         //visit

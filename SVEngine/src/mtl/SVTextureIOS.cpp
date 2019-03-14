@@ -35,7 +35,6 @@ void SVTextureIOS::create(SVRendererBasePtr _renderer){
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
         m_objTexPtr = MakeSharedPtr<SVRResGLTexiOS>(mApp)  ;
-        
     }
     
     if (m_objTexPtr) {

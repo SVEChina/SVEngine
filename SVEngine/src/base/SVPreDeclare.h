@@ -60,6 +60,8 @@ namespace sv {
     DECLARE_SHAREPTR(SVCameraMgr);
     DECLARE_SHAREPTR(SVTexMgr);
     DECLARE_SHAREPTR(SVUIMgr);
+    DECLARE_SHAREPTR(SVPythonSys);
+    
     //模块
     DECLARE_SHAREPTR(SVModuleBase);
     DECLARE_SHAREPTR(SVModuleSys);

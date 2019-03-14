@@ -54,11 +54,7 @@
 #if TARGET_OS_IPHONE
 
 #define SV_IOS
-//#define CONFIG_IS_LOAD_ASSIMP
-//#define CONFIG_IS_LOAD_FREETYPE
 #include <UIKit/UIKit.h>
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
 #include <Foundation/Foundation.h>
 #include <OpenGLES/EAGL.h>
 #include <GLKit/GLKit.h>

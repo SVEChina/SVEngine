@@ -153,7 +153,7 @@ void SVNode::addChild(SVNodePtr _node) {
     if (hasChild(_node))
         return;
     m_childNodePool.append(_node);
-    _node->m_parent = std::dynamic_pointer_cast<SVNode>(shared_from_this());
+    _node->m_parent = THIS_TO_SHAREPTR(SVNode);
     m_needsort = true;
 }
 
@@ -221,7 +221,7 @@ u32 SVNode::getChildNum() {
 
 SVNodePtr SVNode::getNode(cptr8 _name){
     if(m_name == _name){
-        return std::dynamic_pointer_cast<SVNode>(shared_from_this());;
+        return THIS_TO_SHAREPTR(SVNode);
     }
     for (int i = 0; i < m_childNodePool.size(); i++) {
         SVNodePtr t_node = m_childNodePool[i]->getNode(_name);

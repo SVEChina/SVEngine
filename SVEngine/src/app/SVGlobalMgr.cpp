@@ -9,6 +9,7 @@
 #include "SVInst.h"
 #include "../basesys/SVConfig.h"
 #include "../basesys/SVBasicSys.h"
+#include "../basesys/script/SVPythonSys.h"
 #include "../basesys/SVFontProcess.h"
 #include "../basesys/SVSceneMgr.h"
 #include "../basesys/SVCameraMgr.h"
@@ -24,6 +25,7 @@
 #include "../act/SVActionSys.h"
 #include <sys/time.h>
 #include "../base/svstr.h"
+//#include <Python/Python.h>
 
 SVGlobalMgr::SVGlobalMgr(SVInst *_app)
 :SVGBase(_app) {
@@ -66,6 +68,9 @@ void SVGlobalMgr::init() {
     //基础系统
     m_pBasicSys = MakeSharedPtr<SVBasicSys>(mApp);
     m_pBasicSys->init();
+    //
+    m_pPythonSys = MakeSharedPtr<SVPythonSys>(mApp);
+    m_pPythonSys->init();
     //渲染器初始化
     m_pRenderMgr = MakeSharedPtr<SVRenderMgr>(mApp);
     m_pRenderMgr->init();
