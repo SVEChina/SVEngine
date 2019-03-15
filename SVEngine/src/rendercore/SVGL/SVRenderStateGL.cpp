@@ -52,7 +52,7 @@ SVRenderStateGL::SVRenderStateGL(SVInst *_app)
     for(s32 i=0;i<8;i++){
         m_texState[i].m_texID = 0;
         m_texState[i].m_min_filter = 0;
-        m_texState[i].m_max_filter = 0;
+        m_texState[i].m_mag_filter = 0;
         m_texState[i].m_s_wrap = 0;
         m_texState[i].m_t_wrap = 0;
     }

@@ -53,6 +53,8 @@ namespace sv {
             
             void setTexcoordFlip(f32 _x, f32 _y);
             
+            void setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value);
+            
             void setModelMatrix(f32 *_mat);
             
             void setTexSizeIndex(s32 index, f32 _w, f32 _h);

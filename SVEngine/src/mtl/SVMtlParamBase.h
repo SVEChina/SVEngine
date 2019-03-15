@@ -63,7 +63,7 @@ namespace sv {
             
             u32 m_min_filter;
             
-            u32 m_max_filter;
+            u32 m_mag_filter;
             
             u32 m_s_wrap;
             
@@ -86,6 +86,17 @@ namespace sv {
             void setTexture(u32 _index,SVTEXTYPE _from);
             
             void setTexClip(u32 _index,f32 _x,f32 _y);
+            
+            //设置纹理环绕
+            void setTexWrapS(u32 _index,s32 _type);
+            
+            void setTexWrapT(u32 _index,s32 _type);
+            
+            //设置纹理过滤器
+            void setTexFilterMax(u32 _index,s32 _type);
+            
+            void setTexFilterMin(u32 _index,s32 _type);
+
             
             TexUnit m_texUnit[MAX_TEXUNIT];
         };

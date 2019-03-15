@@ -49,7 +49,7 @@ void SVMatrixParam::copy(SVMatrixParam& _param){
 TexUnit::TexUnit(){
     m_texForm = E_TEX_END;
     m_min_filter = E_T_FILTER_LINEAR;
-    m_max_filter = E_T_FILTER_LINEAR;
+    m_mag_filter = E_T_FILTER_LINEAR;
     m_s_wrap = E_T_WRAP_CLAMP_TO_EDAGE;
     m_t_wrap = E_T_WRAP_CLAMP_TO_EDAGE;
     m_pTex = nullptr;
@@ -70,7 +70,7 @@ void TexUnit::copy(TexUnit& _texunit){
     m_texcoordFlip[1] = _texunit.m_texcoordFlip[1];
     m_texForm = _texunit.m_texForm;
     m_min_filter = _texunit.m_min_filter;
-    m_max_filter = _texunit.m_max_filter;
+    m_mag_filter = _texunit.m_mag_filter;
     m_s_wrap = _texunit.m_s_wrap;
     m_t_wrap = _texunit.m_t_wrap;
 }
@@ -103,6 +103,33 @@ void SVTextureParam::setTexClip(u32 _index,f32 _x,f32 _y){
     m_texUnit[_index].m_texcoordFlip[1] = _y;
 }
 
+//设置纹理环绕
+void SVTextureParam::setTexWrapS(u32 _index,s32 _type) {
+    if(_index<0 ||_index>=MAX_TEXUNIT)
+        return;
+    m_texUnit[_index].m_s_wrap = _type;
+}
+
+void SVTextureParam::setTexWrapT(u32 _index,s32 _type) {
+    if(_index<0 ||_index>=MAX_TEXUNIT)
+        return;
+    m_texUnit[_index].m_t_wrap = _type;
+}
+
+//设置纹理过滤器
+void SVTextureParam::setTexFilterMax(u32 _index,s32 _type) {
+    if(_index<0 ||_index>=MAX_TEXUNIT)
+        return;
+    m_texUnit[_index].m_mag_filter = _type;
+}
+
+void SVTextureParam::setTexFilterMin(u32 _index,s32 _type) {
+    if(_index<0 ||_index>=MAX_TEXUNIT)
+        return;
+    m_texUnit[_index].m_min_filter = _type;
+}
+
+//重置
 void SVTextureParam::reset(){
     for(s32 i=0;i<MAX_TEXUNIT;i++){
         m_texUnit[i].reset();

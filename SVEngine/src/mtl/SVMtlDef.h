@@ -23,11 +23,19 @@ namespace sv {
     
     typedef SVMtlCore *(*mtl_new_func)(SVInst *_app);
 
+    enum TEXTUREPARAM{
+        E_T_PARAM_FILTER_MAG = 0,
+        E_T_PARAM_FILTER_MIN,
+        E_T_PARAM_WRAP_S,
+        E_T_PARAM_WRAP_T
+    };
+    
     //纹理过滤器
     enum TEXTUREFILTER{
         E_T_FILTER_NEAREST = 0,
         E_T_FILTER_LINEAR
     };
+    
     //纹理环绕规则
     enum TEXTUREWRAP{
         E_T_WRAP_CLAMP = 0,

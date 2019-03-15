@@ -182,7 +182,7 @@ void SVRendererGL::submitTex(u32 _channel,TexUnit& _unit){
     }
     //最大过滤器
     t_filter = GL_TEXTURE_MAG_FILTER;
-    switch (_unit.m_max_filter) {
+    switch (_unit.m_mag_filter) {
         case E_T_FILTER_NEAREST:
             t_filter = GL_NEAREST;
             break;
@@ -190,8 +190,8 @@ void SVRendererGL::submitTex(u32 _channel,TexUnit& _unit){
             t_filter = GL_LINEAR;
             break;
     }
-    if( pState->m_texState[_channel].m_max_filter != t_filter) {
-        pState->m_texState[_channel].m_max_filter = t_filter;
+    if( pState->m_texState[_channel].m_mag_filter != t_filter) {
+        pState->m_texState[_channel].m_mag_filter = t_filter;
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, t_filter);
     }
 #if defined SV_OSX

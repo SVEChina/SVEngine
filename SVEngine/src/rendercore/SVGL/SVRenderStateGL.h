@@ -76,7 +76,7 @@ namespace sv {
             struct TexState {
                 s32 m_texID;
                 s32 m_min_filter;
-                s32 m_max_filter;
+                s32 m_mag_filter;
                 s32 m_s_wrap;
                 s32 m_t_wrap;
             };

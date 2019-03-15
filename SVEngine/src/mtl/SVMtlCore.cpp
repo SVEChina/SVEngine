@@ -102,6 +102,24 @@ void SVMtlCore::setTexcoordFlip(f32 _x, f32 _y) {
     m_LogicMtlFlag0 |= MTL_F0_TEX_FLIP;
 }
 
+void SVMtlCore::setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value) {
+    if(_chanel>=0 && _chanel<MAX_TEXUNIT) {
+        if(_type == E_T_PARAM_FILTER_MAG) {
+            //filter_max
+            m_LogicParamTex.m_texUnit[_chanel].m_mag_filter = _value;
+        }else if(_type == E_T_PARAM_FILTER_MIN) {
+            //filter_min
+            m_LogicParamTex.m_texUnit[_chanel].m_min_filter = _value;
+        }else if(_type == E_T_PARAM_WRAP_S) {
+            //wrap_s
+            m_LogicParamTex.m_texUnit[_chanel].m_s_wrap = _value;
+        }else if(_type == E_T_PARAM_WRAP_T) {
+            //wrap_t
+            m_LogicParamTex.m_texUnit[_chanel].m_t_wrap = _value;
+        }
+    }
+}
+
 //逻辑更新
 void SVMtlCore::update(f32 dt) {
 }
