@@ -54,6 +54,18 @@ namespace sv {
             
             FMat4& getVPMatObj();
             
+            f32 *getProjectMatUI();
+            
+            f32 *getCameraMatUI();
+            
+            f32 *getVPMatUI();
+            
+            FMat4& getProjectMatObjUI();
+            
+            FMat4& getViewMatObjUI();
+            
+            FMat4& getVPMatObjUI();
+            
             void updateProjMat();
             
             void updateCameraMat();
@@ -113,6 +125,10 @@ namespace sv {
             FMat4 m_mat_proj;
             FMat4 m_mat_view;
             FMat4 m_mat_vp;
+            
+            FMat4 m_mat_projUI;
+            FMat4 m_mat_viewUI;
+            FMat4 m_mat_vpUI;
             
             typedef SVArray<SVFboObjectPtr> FBOBJECTPOOL;
             FBOBJECTPOOL m_fbobjectPool;

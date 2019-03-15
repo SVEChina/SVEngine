@@ -17,6 +17,9 @@ SVCameraNode::SVCameraNode(SVInst *_app)
     m_mat_proj.setIdentity();
     m_mat_view.setIdentity();
     m_mat_vp.setIdentity();
+    m_mat_projUI.setIdentity();
+    m_mat_viewUI.setIdentity();
+    m_mat_vpUI.setIdentity();
     m_resLock = MakeSharedPtr<SVLock>();
     //
     m_pCtrl = nullptr;
@@ -174,6 +177,30 @@ FMat4& SVCameraNode::getVPMatObj(){
     return m_mat_vp;
 }
 
+f32 *SVCameraNode::getProjectMatUI(){
+    return m_mat_projUI.get();
+}
+
+f32 *SVCameraNode::getCameraMatUI(){
+    return m_mat_viewUI.get();
+}
+
+f32 *SVCameraNode::getVPMatUI(){
+    return m_mat_vpUI.get();
+}
+
+FMat4& SVCameraNode::getProjectMatObjUI(){
+    return m_mat_projUI;
+}
+
+FMat4& SVCameraNode::getViewMatObjUI(){
+    return m_mat_viewUI;
+}
+
+FMat4& SVCameraNode::getVPMatObjUI(){
+    return m_mat_vpUI;
+}
+
 //获取控制器
 SVNodeCtrlCameraPtr SVCameraNode::getCtrl(){
     return m_pCtrl;
@@ -186,7 +213,9 @@ void SVCameraNode::setCtrl(SVNodeCtrlCameraPtr _ctr) {
 
 void SVCameraNode::updateProjMat() {
     m_mat_proj = perspective(m_fovy,m_width/m_height, m_p_zn, m_p_zf);
-    m_mat_vp =m_mat_proj*m_mat_view;
+    m_mat_vp = m_mat_proj*m_mat_view;
+    m_mat_projUI = ortho( -m_width/2 , m_width/2 , -m_height/2 , m_height/2  , 100 , 5000);
+    m_mat_vpUI = m_mat_projUI*m_mat_viewUI;
 }
 
 void SVCameraNode::updateCameraMat() {
@@ -194,10 +223,13 @@ void SVCameraNode::updateCameraMat() {
                         FVec3(m_targetEx.x,m_targetEx.y,m_targetEx.z),
                         FVec3(m_upEx.x,m_upEx.y,m_upEx.z) );
     m_mat_vp =m_mat_proj*m_mat_view;
+    m_mat_viewUI =  lookAt(FVec3(0,0,381), FVec3(0.0,0.0,0.0), FVec3(0.0,1.0,0.0));
+    m_mat_vpUI = m_mat_projUI*m_mat_viewUI;
 }
 
 void SVCameraNode::updateViewProj() {
     m_mat_vp =m_mat_proj*m_mat_view;
+    m_mat_vpUI = m_mat_projUI*m_mat_viewUI;
 }
 
 void SVCameraNode::addLinkFboObject(SVFboObjectPtr _fbo){

@@ -160,16 +160,9 @@ bool SVPickProcess::pickScene(s32 _sx,s32 _sy){
 bool SVPickProcess::pickUI(s32 _sx,s32 _sy){
     SVScenePtr t_sc = mApp->getSceneMgr()->getScene();
     SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
-    FMat4 t_proj;
-    s32 t_width = mApp->getCameraMgr()->getMainCamera()->m_width;
-    s32 t_height = mApp->getCameraMgr()->getMainCamera()->m_height;
-    t_proj=ortho( -t_width/2 , t_width/2 , -t_height/2 , t_height/2  , 100 , 5000);
-    FMat4 t_view=lookAt(FVec3(0,0,381), FVec3(0.0,0.0,0.0), FVec3(0.0,1.0,0.0));
-    FMat4 t_vp=t_proj*t_view;
-
     if (t_camera && t_sc) {
         FVec3 t_start,t_end;
-        if( _getRayMat(t_vp,_sx,_sy,t_start,t_end) ){
+        if( _getRayMat(t_camera->getVPMatObjUI(),_sx,_sy,t_start,t_end) ){
             //射线求交
             SVVisitRayPickPtr t_visit = MakeSharedPtr<SVVisitRayPick>(t_start,t_end);
             t_sc->visit(t_visit);
@@ -228,21 +221,17 @@ bool SVPickProcess::getCrossPoint(s32 _sx,s32 _sy,FVec3& _crosspt){
 bool SVPickProcess::getCrossPointUI(s32 _sx,s32 _sy,FVec3& _crosspt){
     FVec3 t_start,t_end;
     SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
-    FMat4 t_proj;
-    s32 t_width = mApp->getCameraMgr()->getMainCamera()->m_width;
-    s32 t_height = mApp->getCameraMgr()->getMainCamera()->m_height;
-    t_proj=ortho( -t_width/2 , t_width/2 , -t_height/2 , t_height/2  , 100 , 5000);
-    FMat4 t_view=lookAt(FVec3(0,0,381), FVec3(0.0,0.0,0.0), FVec3(0.0,1.0,0.0));
-    FMat4 t_vp=t_proj*t_view;
-    if(_getRayMat(t_vp,_sx,_sy,t_start,t_end)){
-        //构建移动平面(这个平面可以绘制出来)
-        FVec3 t_pos = t_start;
-        FVec3 t_dir = t_end - t_start;
-        FVec4 t_plane = FVec4(0.0f,0.0f,1.0f,0.0f);
-        //
-        s32 t_ret = rayPlaneIntersection(_crosspt,t_pos,t_dir,t_plane);
-        if(t_ret>0)
-            return true;
+    if(t_camera){
+        if(_getRayMat(mApp->getCameraMgr()->getMainCamera()->getVPMatObjUI(),_sx,_sy,t_start,t_end)){
+            //构建移动平面(这个平面可以绘制出来)
+            FVec3 t_pos = t_start;
+            FVec3 t_dir = t_end - t_start;
+            FVec4 t_plane = FVec4(0.0f,0.0f,1.0f,0.0f);
+            //
+            s32 t_ret = rayPlaneIntersection(_crosspt,t_pos,t_dir,t_plane);
+            if(t_ret>0)
+                return true;
+        }
     }
     return false;
 }

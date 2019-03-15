@@ -340,6 +340,8 @@ namespace sv {
             
             SVTexturePtr getOutTex();
             
+            void setCurveRgba(ptr8  data,u32 size);
+            
             void refreshFData(SVGenLUTParamPtr _param);
             
             SVGenLUTParamPtr getLUTparam(){
