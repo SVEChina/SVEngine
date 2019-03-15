@@ -42,7 +42,7 @@ namespace sv {
         static SVRenderMeshPtr createRectMesh(SVInst* _app,f32 _w ,f32 _h , s32 _wPointCount , s32 _hPointCont);
         
         //
-        static SVRenderMeshPtr createNetGrid(SVInst* _app,s32 _num,f32 _unit);
+        static SVRenderMeshPtr createNetGrid(SVInst* _app,s32 _size,s32 _axis);
         
     private:
         static SVRenderMeshPtr _getPolygonDiy(SVInst* _app,s32 _edagenum,f32 _startangle,f32 _len,SVBoundBox& _aabb);

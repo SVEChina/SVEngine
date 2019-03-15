@@ -52,6 +52,21 @@ namespace sv {
             SVColor m_color;
         };
         
+        //坐标
+        class SVMtlCoord : public SVMtlCore {
+        public:
+            SVMtlCoord(SVInst *_app);
+            
+            SVMtlCoord(SVMtlCoord *_mtl);
+            
+            ~SVMtlCoord();
+            
+            SV_MTL_CLONE(SVMtlCoord);
+            
+        protected:
+            virtual void _submitMtl(SVRendererBasePtr _render);
+        };
+        
         //粒子带动画的
         class SVMtlParticleAni : public SVMtlCore {
         public:
