@@ -352,41 +352,77 @@ SVRenderMeshPtr SVGeoGen::createRectMesh(SVInst* _app,f32 _w ,f32 _h , s32 _wPoi
     return pRenderMesh;
 }
 
-SVRenderMeshPtr SVGeoGen::createNetGrid(SVInst* _app,s32 _num,f32 _unit) {
+//_axis = 0 代表x轴
+//_axis = 1 代表y轴
+//_axis = 2 代表z轴
+
+SVRenderMeshPtr SVGeoGen::createNetGrid(SVInst* _app,s32 _size,s32 _axis) {
     SVRenderMeshPtr pRenderMesh =  _app->getRenderMgr()->createMeshRObj();
     //渲染数据
-    s32 t_line_num = 2*(_num*2 + 1);
-    s32 iDataCount = t_line_num*2;
-    V3 pVer[iDataCount];
-    for(s32 j=0;j<=1;j++) {
-        s32 t_base = j*2*(_num*2 + 1);
-        for(s32 i=-_num;i<=_num;i++) {
-            if(j == 0) {
-                //横向
-                pVer[t_base + (i+_num)*2 ].x = -_num*_unit;
-                pVer[t_base + (i+_num)*2 ].y = 0.0f;
-                pVer[t_base + (i+_num)*2 ].z = i*_unit;
-                pVer[t_base + (i+_num)*2 + 1].x = _num*_unit;
-                pVer[t_base + (i+_num)*2 + 1].y = 0.0f;
-                pVer[t_base + (i+_num)*2 + 1].z = i*_unit;
-            } else {
-                //纵向
-                pVer[t_base + (i+_num)*2 ].x = i*_unit;
-                pVer[t_base + (i+_num)*2 ].y = 0.0f;
-                pVer[t_base + (i+_num)*2 ].z =  -_num*_unit;
-                pVer[t_base + (i+_num)*2 + 1].x = i*_unit;
-                pVer[t_base + (i+_num)*2 + 1].y = 0.0f;
-                pVer[t_base + (i+_num)*2 + 1].z = _num*_unit;
-            }
-        }
+    V3_T0 pVer[4];
+    if(_axis ==0 ) {
+        pVer[0].x = _size*-1.0f;
+        pVer[0].z = _size;
+        pVer[1].x = _size*-1.0f;
+        pVer[1].z = _size*-1.0f;
+        pVer[2].x = _size;
+        pVer[2].z = _size;
+        pVer[3].x = _size;
+        pVer[3].z = _size*-1.0f;
+        pVer[0].y = 0;
+        pVer[1].y = 0;
+        pVer[2].y = 0;
+        pVer[3].y = 0;
+    }else if(_axis == 1) {
+        pVer[0].x = _size*-1.0f;
+        pVer[0].y = _size;
+        pVer[1].x = _size*-1.0f;
+        pVer[1].y = _size*-1.0f;
+        pVer[2].x = _size;
+        pVer[2].y = _size;
+        pVer[3].x = _size;
+        pVer[3].y = _size*-1.0f;
+        pVer[0].z = 0;
+        pVer[1].z = 0;
+        pVer[2].z = 0;
+        pVer[3].z = 0;
+    }else if(_axis == 2){
+        pVer[0].y = _size*-1.0f;
+        pVer[0].z = _size;
+        pVer[1].y = _size*-1.0f;
+        pVer[1].z = _size*-1.0f;
+        pVer[2].y = _size;
+        pVer[2].z = _size;
+        pVer[3].y = _size;
+        pVer[3].z = _size*-1.0f;
+        pVer[0].x = 0;
+        pVer[1].x = 0;
+        pVer[2].x = 0;
+        pVer[3].x = 0;
     }
+    pVer[0].t0x = 0.0f;
+    pVer[0].t0y = 0.0f;
+    pVer[1].t0x = 0.0f;
+    pVer[1].t0y = 2.0f;
+    pVer[2].t0x = 2.0f;
+    pVer[2].t0y = 0.0f;
+    pVer[3].t0x = 2.0f;
+    pVer[3].t0y = 2.0f;
+//    pVer[0].t0x = 0;
+//    pVer[0].t0y = 0;
+//    pVer[1].t0x = 0;
+//    pVer[1].t0y = _size*2.0f;
+//    pVer[2].t0x = _size*2.0f;
+//    pVer[2].t0y = 0;
+//    pVer[3].t0x = _size*2.0f;
+//    pVer[3].t0y = _size*2.0f;
     //
-    pRenderMesh->setVertexType(E_VF_V3);
+    pRenderMesh->setVertexType(E_VF_V3_T0);
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
-    t_data->writeData(pVer, sizeof(V3) * iDataCount);
-    pRenderMesh->setVertexDataNum(iDataCount);
+    t_data->writeData(pVer, sizeof(V3_T0) * 4);
+    pRenderMesh->setVertexDataNum(4);
     pRenderMesh->setVertexData(t_data);
-    pRenderMesh->setDrawMethod(E_DM_LINES);
+    pRenderMesh->setDrawMethod(E_DM_TRIANGLE_STRIP);
     pRenderMesh->createMesh();
     return pRenderMesh;
 }

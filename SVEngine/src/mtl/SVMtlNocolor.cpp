@@ -65,6 +65,23 @@ void SVMtlGeo3d::_submitMtl(SVRendererBasePtr _render) {
     _render->submitUniformf4("u_color", m_color.r, m_color.g, m_color.b, m_color.a);
 }
 
+//坐标
+SVMtlCoord::SVMtlCoord(SVInst *_app)
+:SVMtlCore(_app,"normal3d1") {
+}
+
+SVMtlCoord::SVMtlCoord(SVMtlCoord *_mtl)
+:SVMtlCore(_mtl){
+}
+
+SVMtlCoord::~SVMtlCoord() {
+}
+
+void SVMtlCoord::_submitMtl(SVRendererBasePtr _render) {
+    SVMtlCore::_submitMtl(_render);
+    //_render->submitUniformf4("u_color", m_color.r, m_color.g, m_color.b, m_color.a);
+}
+
 //
 SVMtlParticleAni::SVMtlParticleAni(SVInst *_app)
 :SVMtlCore(_app,"particle_ani_ambient") {

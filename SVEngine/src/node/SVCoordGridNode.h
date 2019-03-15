@@ -33,7 +33,9 @@ namespace sv {
             
             SVRenderObjectPtr m_pRenderObj;
             
-            SVRenderMeshPtr m_pMesh;
+            SVRenderMeshPtr m_pMeshX;
+            SVRenderMeshPtr m_pMeshY;
+            SVRenderMeshPtr m_pMeshZ;
         };
         
     }//!namespace node
