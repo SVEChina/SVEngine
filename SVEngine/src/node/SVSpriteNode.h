@@ -42,7 +42,7 @@ namespace sv {
             
             cptr8 getTexturePath();
             
-            virtual void setTexture(cptr8 _path);
+            virtual void setTexture(cptr8 _path, bool enableMipMap = false);
             
             virtual void setTexture(SVTEXTYPE _textype);
             

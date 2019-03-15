@@ -45,7 +45,7 @@ namespace sv {
         class SVSpine : public SVGBase {
         public:
             static SVSpinePtr
-            createSpine(SVInst *_app, cptr8 skefname,cptr8 atlasfname, f32 scale = 1.0f);
+            createSpine(SVInst *_app, cptr8 skefname,cptr8 atlasfname, f32 scale = 1.0f, bool enableMipMap = false);
             
             SVSpine(SVInst *_app);
             

@@ -424,7 +424,7 @@ void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
         if (item.HasMember("ske_json") && item["ske_json"].IsString()) {
             t_json = item["ske_json"].GetString();
         }
-        SVSpinePtr t_spine = SVSpine::createSpine(mApp, m_rootPath + t_json, m_rootPath + t_atlas, 1.0f);
+        SVSpinePtr t_spine = SVSpine::createSpine(mApp, m_rootPath + t_json, m_rootPath + t_atlas, 1.0f, m_enableMipMap);
         if ( t_spine ) {
             s32 len = t_atlas.size();
             s32 pos = t_atlas.rfind('.');

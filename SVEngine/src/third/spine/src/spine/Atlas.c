@@ -164,7 +164,7 @@ static const char* formatNames[] = { "", "Alpha", "Intensity", "LuminanceAlpha",
 static const char* textureFilterNames[] = { "", "Nearest", "Linear", "MipMap", "MipMapNearestNearest", "MipMapLinearNearest",
 "MipMapNearestLinear", "MipMapLinearLinear" };
 
-spAtlas* spAtlas_create(void *_app, const char* begin, int length, const char* dir, void* rendererObject) {
+spAtlas* spAtlas_create(void *_app, const char* begin, int length, const char* dir, void* rendererObject, char enableMipMap) {
 	spAtlas* self;
 
 	int count;
@@ -231,7 +231,7 @@ spAtlas* spAtlas_create(void *_app, const char* begin, int length, const char* d
 				}
 			}
 
-			_spAtlasPage_createTexture(_app, page, path);
+			_spAtlasPage_createTexture(_app, page, path, enableMipMap);
 			FREE(path);
 		}
 		else {
@@ -304,7 +304,7 @@ spAtlas* spAtlas_create(void *_app, const char* begin, int length, const char* d
 	return self;
 }
 
-spAtlas* spAtlas_createFromFile(void *_app, const char* path, void* rendererObject) {
+spAtlas* spAtlas_createFromFile(void *_app, const char* path, void* rendererObject, char enableMipMap) {
 	int dirLength;
 	char *dir;
 	int length;
@@ -323,7 +323,7 @@ spAtlas* spAtlas_createFromFile(void *_app, const char* path, void* rendererObje
 	dir[dirLength] = '\0';
 
 	data = _spUtil_readFile(_app, path, &length);
-	if (data) atlas = spAtlas_create(_app, data, length, dir, rendererObject);
+	if (data) atlas = spAtlas_create(_app, data, length, dir, rendererObject, enableMipMap);
 
 	FREE(data);
 	FREE(dir);
