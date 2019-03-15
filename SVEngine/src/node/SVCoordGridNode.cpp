@@ -14,7 +14,7 @@
 #include "../rendercore/SVRenderScene.h"
 #include "../rendercore/SVRenderMgr.h"
 
-#define COORD_SIZE 1000
+#define COORD_SIZE 100000
 
 SVCoordGridNode::SVCoordGridNode(SVInst *_app)
 :SVNode(_app)
@@ -40,6 +40,8 @@ void SVCoordGridNode::update(f32 dt){
     SVMtlCoordPtr t_mtl_coord = MakeSharedPtr<SVMtlCoord>(mApp);
     t_mtl_coord->update(dt * 0.001f);
     t_mtl_coord->setTexture(0, mApp->getTexMgr()->getSVETexture());
+    t_mtl_coord->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
+    t_mtl_coord->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
     t_mtl_coord->setModelMatrix(m_absolutMat.get());
     t_mtl_coord->setTexcoordFlip(1.0, -1.0f);
     t_mtl_coord->setDepthEnable(true);

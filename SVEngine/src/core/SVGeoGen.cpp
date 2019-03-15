@@ -400,22 +400,22 @@ SVRenderMeshPtr SVGeoGen::createNetGrid(SVInst* _app,s32 _size,s32 _axis) {
         pVer[2].x = 0;
         pVer[3].x = 0;
     }
+//    pVer[0].t0x = 0.0f;
+//    pVer[0].t0y = 0.0f;
+//    pVer[1].t0x = 0.0f;
+//    pVer[1].t0y = 2.0f;
+//    pVer[2].t0x = 2.0f;
+//    pVer[2].t0y = 0.0f;
+//    pVer[3].t0x = 2.0f;
+//    pVer[3].t0y = 2.0f;
     pVer[0].t0x = 0.0f;
     pVer[0].t0y = 0.0f;
     pVer[1].t0x = 0.0f;
-    pVer[1].t0y = 2.0f;
-    pVer[2].t0x = 2.0f;
+    pVer[1].t0y = _size/100.0f;
+    pVer[2].t0x = _size/100.0f;
     pVer[2].t0y = 0.0f;
-    pVer[3].t0x = 2.0f;
-    pVer[3].t0y = 2.0f;
-//    pVer[0].t0x = 0;
-//    pVer[0].t0y = 0;
-//    pVer[1].t0x = 0;
-//    pVer[1].t0y = _size*2.0f;
-//    pVer[2].t0x = _size*2.0f;
-//    pVer[2].t0y = 0;
-//    pVer[3].t0x = _size*2.0f;
-//    pVer[3].t0y = _size*2.0f;
+    pVer[3].t0x = _size/100.0f;
+    pVer[3].t0y = _size/100.0f;
     //
     pRenderMesh->setVertexType(E_VF_V3_T0);
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();

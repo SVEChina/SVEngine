@@ -206,6 +206,7 @@ void SVRendererGL::submitTex(u32 _channel,TexUnit& _unit){
             break;
         case E_T_WRAP_REPEAT:
             s_wrap = GL_REPEAT;
+            break;
         case E_T_WRAP_MIRROR:
             s_wrap = GL_MIRRORED_REPEAT;
             break;
@@ -225,6 +226,7 @@ void SVRendererGL::submitTex(u32 _channel,TexUnit& _unit){
             break;
         case E_T_WRAP_REPEAT:
             t_wrap = GL_REPEAT;
+            break;
         case E_T_WRAP_MIRROR:
             t_wrap = GL_MIRRORED_REPEAT;
             break;
@@ -245,6 +247,7 @@ void SVRendererGL::submitTex(u32 _channel,TexUnit& _unit){
             break;
         case E_T_WRAP_REPEAT:
             s_wrap = GL_REPEAT;
+            break;
         case E_T_WRAP_MIRROR:
             s_wrap = GL_MIRRORED_REPEAT;
             break;
@@ -264,6 +267,7 @@ void SVRendererGL::submitTex(u32 _channel,TexUnit& _unit){
             break;
         case E_T_WRAP_REPEAT:
             t_wrap = GL_REPEAT;
+            break;
         case E_T_WRAP_MIRROR:
             t_wrap = GL_MIRRORED_REPEAT;
             break;
