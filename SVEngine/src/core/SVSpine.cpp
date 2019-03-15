@@ -55,8 +55,8 @@ SpineMeshData::~SpineMeshData(){
 
 //
 SVSpinePtr
-SVSpine::createSpine(SVInst *_app, cptr8 skefname, cptr8 atlasfname,f32 scale) {
-    spAtlas *_atlas = spAtlas_createFromFile(_app, atlasfname, 0);
+SVSpine::createSpine(SVInst *_app, cptr8 skefname, cptr8 atlasfname,f32 scale, bool enableMipMap) {
+    spAtlas *_atlas = spAtlas_createFromFile(_app, atlasfname, 0, enableMipMap);
     if (!_atlas)
         return nullptr;
     //骨架json

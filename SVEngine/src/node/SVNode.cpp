@@ -34,6 +34,7 @@ SVNode::SVNode(SVInst *_app)
     m_iZOrder = 0;
     m_bindIndex = -1;
     m_personID = 1;
+    m_enableMipMap = false;
     //基础属性
     m_postion.set(0.0f, 0.0f, 0.0f);
     m_offpos.set(0.0f, 0.0f, 0.0f);
@@ -347,6 +348,14 @@ FVec3& SVNode::getBindOffset(){
     return m_bindOffset;
 }
 
+void SVNode::enableMipMap(){
+    m_enableMipMap = true;
+}
+
+void SVNode::disableMipMap(){
+    m_enableMipMap = false;
+}
+
 FVec3& SVNode::getRotation() {
     return m_rotation;
 }
@@ -457,6 +466,7 @@ void SVNode::_toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     locationObj.AddMember("drawaabb", m_drawBox, _allocator);
     locationObj.AddMember("canprocevent", m_canProcEvent, _allocator);
     locationObj.AddMember("visible", m_visible, _allocator);
+    locationObj.AddMember("mipmap", m_enableMipMap, _allocator);
 }
 
 void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
@@ -533,6 +543,9 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     }
     if (item.HasMember("visible") && item["visible"].IsBool()) {
         m_visible = item["visible"].GetBool();
+    }
+    if (item.HasMember("mipmap") && item["mipmap"].IsBool()) {
+        m_enableMipMap = item["mipmap"].GetBool();
     }
     m_dirty = true;
 }

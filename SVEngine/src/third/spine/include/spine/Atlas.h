@@ -151,9 +151,9 @@ struct spAtlas {
 };
 
 /* Image files referenced in the atlas file will be prefixed with dir. */
-SP_API spAtlas* spAtlas_create (void *_app, const char* data, int length, const char* dir, void* rendererObject);
+SP_API spAtlas* spAtlas_create (void *_app, const char* data, int length, const char* dir, void* rendererObject, char enableMipMap);
 /* Image files referenced in the atlas file will be prefixed with the directory containing the atlas file. */
-SP_API spAtlas* spAtlas_createFromFile (void *_app, const char* path, void* rendererObject);
+SP_API spAtlas* spAtlas_createFromFile (void *_app, const char* path, void* rendererObject, char enableMipMap);
 SP_API void spAtlas_dispose (spAtlas* atlas);
 
 /* Returns 0 if the region was not found. */

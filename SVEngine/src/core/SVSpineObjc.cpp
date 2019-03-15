@@ -32,10 +32,10 @@ char *_spUtil_readFile(void *_app, const char *path, int *length) {
 }
 
 //创建纹理接口
-void _spAtlasPage_createTexture(void *_app, spAtlasPage *self, const char *path) {
+void _spAtlasPage_createTexture(void *_app, spAtlasPage *self, const char *path, char enableMipMap) {
     SVInst *_tApp = (SVInst *) _app;
     SVSpineObjc* pSpineObj = new SVSpineObjc();
-    pSpineObj->m_texture = _tApp->getTexMgr()->getTextureSync(path, true);
+    pSpineObj->m_texture = _tApp->getTexMgr()->getTextureSync(path, true, enableMipMap);
     if (pSpineObj && pSpineObj->m_texture) {
         self->pRenderObj = (void*)pSpineObj;
     }

@@ -27,7 +27,7 @@ extern "C" {
     
 char *_spUtil_readFile(void *_app, const char *path, int *length);
     
-void _spAtlasPage_createTexture(void *_app, spAtlasPage *self, const char *path);
+void _spAtlasPage_createTexture(void *_app, spAtlasPage *self, const char *path, char enableMipMap);
     
 void _spAtlasPage_disposeTexture(spAtlasPage *self);
     

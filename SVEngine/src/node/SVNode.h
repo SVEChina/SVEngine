@@ -90,6 +90,10 @@ namespace sv {
             
             FVec3& getBindOffset();
             
+            void enableMipMap();
+            
+            void disableMipMap();
+            
             void setRSType(RENDERSTREAMTYPE _retype);
             
             RENDERSTREAMTYPE getRSType();
@@ -130,7 +134,7 @@ namespace sv {
             inline void setvisible(bool _visible){ m_visible = _visible; }
             inline void setPeronID(s32 _personID){ m_personID = _personID;}
             inline s32 getPersonID(){ return m_personID; }
-            
+            inline bool getIsMipMap(){ return m_enableMipMap; }
             //设置材质
             void setMtl(SVMtlCorePtr _mtl);
             
@@ -161,6 +165,7 @@ namespace sv {
             FVec3 m_offpos;         //偏移
             s32 m_bindIndex;        //绑定索引
             FVec3 m_bindOffset;
+            bool m_enableMipMap;     //是否开启mipmap，//先写到这里了。
             //
             bool m_dirty;
             bool m_beSelect;        //是否被选择

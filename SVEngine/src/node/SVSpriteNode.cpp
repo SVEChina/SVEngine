@@ -88,10 +88,10 @@ SVMtlCorePtr SVSpriteNode::getMaterial(){
     return m_pMtl;
 }
 
-void SVSpriteNode::setTexture(cptr8 _path){
+void SVSpriteNode::setTexture(cptr8 _path, bool enableMipMap){
     if(m_pTexPath!=_path) {
         m_pTexPath = _path;
-        m_pTex = mApp->getTexMgr()->getTextureSync(m_pTexPath.c_str(),true);
+        m_pTex = mApp->getTexMgr()->getTextureSync(m_pTexPath.c_str(),true, enableMipMap);
     }
 }
 
@@ -191,7 +191,7 @@ void SVSpriteNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("texture") && item["texture"].IsString()) {
         SVString t_textureName = item["texture"].GetString();
         SVString t_texturePath = m_rootPath + t_textureName;
-        setTexture(t_texturePath.c_str());
+        setTexture(t_texturePath.c_str(), m_enableMipMap);
     }
     if (item.HasMember("textype") && item["textype"].IsInt()) {
         m_inTexType = SVTEXTYPE(item["textype"].GetInt());
