@@ -147,7 +147,7 @@ void createSplineCurve(SVArray<V2> points,SVArray<f32> *preparedSplinePoints) {
 void getPreparedSplineCurve(SVArray<V2>  mRgbCompositeControlPoints,
                             SVArray<V2>  mRedControlPoints,
                             SVArray<V2>  mGreenControlPoints,
-                            SVArray<V2>  mBlueControlPoints){
+                            SVArray<V2>  mBlueControlPoints, u8* outRgba){
     SVArray<f32> outPointsRGB;
     SVArray<f32> outPointsR;
     SVArray<f32> outPointsG;
@@ -156,19 +156,17 @@ void getPreparedSplineCurve(SVArray<V2>  mRgbCompositeControlPoints,
     createSplineCurve(mRedControlPoints, &outPointsR);
     createSplineCurve(mGreenControlPoints, &outPointsG);
     createSplineCurve(mBlueControlPoints, &outPointsB);
-    unsigned char* toneCurveByteArray = (unsigned char*)malloc(256*4);
     if ( (outPointsRGB.size() >= 256) && (outPointsR.size() >= 256) && (outPointsG.size() >= 256) && (outPointsB.size() >= 256)){
         for (unsigned int currentCurveIndex = 0; currentCurveIndex < 256; currentCurveIndex++)
         {
             // BGRA for upload to texture
             unsigned   char r = fmin(fmax(currentCurveIndex + outPointsR[currentCurveIndex], 0), 255);
-            toneCurveByteArray[currentCurveIndex * 4 ] = fmin(fmax(r +outPointsRGB[r], 0), 255);
+            outRgba[currentCurveIndex * 4 ] = fmin(fmax(r +outPointsRGB[r], 0), 255);
             unsigned char g = fmin(fmax(currentCurveIndex + outPointsG[currentCurveIndex], 0), 255);
-            toneCurveByteArray[currentCurveIndex * 4+1] = fmin(fmax(g +outPointsRGB[g], 0), 255);
+            outRgba[currentCurveIndex * 4+1] = fmin(fmax(g +outPointsRGB[g], 0), 255);
             unsigned char b = fmin(fmax(currentCurveIndex +outPointsB[currentCurveIndex], 0), 255);
-            toneCurveByteArray[currentCurveIndex * 4+2] = fmin(fmax(b + outPointsRGB[b], 0), 255);
-            toneCurveByteArray[currentCurveIndex * 4 + 3] = 255;
-            SV_LOG_INFO("rgba %d\n",(unsigned char)toneCurveByteArray[currentCurveIndex * 4 ]);
+            outRgba[currentCurveIndex * 4+2] = fmin(fmax(b + outPointsRGB[b], 0), 255);
+            outRgba[currentCurveIndex * 4 + 3] = 255;
         }
     }
 }

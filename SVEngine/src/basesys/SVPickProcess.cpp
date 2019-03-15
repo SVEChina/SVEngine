@@ -107,6 +107,31 @@ bool SVPickProcess::_getRay(s32 _sx,s32 _sy,FVec3& _rayStart,FVec3& _rayEnd){
     return false;
 }
 
+bool SVPickProcess::_getRayMat(FMat4 _vpMat,s32 _sx,s32 _sy,FVec3& _rayStart,FVec3& _rayEnd){
+    SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
+    if( t_camera){
+        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
+        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
+        //投影坐标x(-1,1.0),y(-1,1.0)
+        FVec4 t_proj_v_begin = FVec4((_sx/m_screenW - 0.5f)*2.0f,(_sy/m_screenH - 0.5f)*2.0f,-1.0f,1.0f);
+        FVec4 t_proj_v_end = FVec4((_sx/m_screenW - 0.5f)*2.0f,(_sy/m_screenH - 0.5f)*2.0f,1.0f,1.0f);
+        FMat4 t_vp_inv = inverse(_vpMat);
+        FVec4 t_world_begin = t_vp_inv*t_proj_v_begin;
+        FVec4 t_world_end = t_vp_inv*t_proj_v_end;
+        t_world_begin = t_world_begin/t_world_begin.w;
+        t_world_end = t_world_end/t_world_end.w;
+        //射线(确认过的 没错了)
+        _rayStart.x = t_world_begin.x;
+        _rayStart.y = t_world_begin.y;
+        _rayStart.z = t_world_begin.z;
+        _rayEnd.x = t_world_end.x;
+        _rayEnd.y = t_world_end.y;
+        _rayEnd.z = t_world_end.z;
+        return true;
+    }
+    return false;
+}
+
 //屏幕坐标(左上角为 0，0),(720，1280)
 bool SVPickProcess::pickScene(s32 _sx,s32 _sy){
     SVScenePtr t_sc = mApp->getSceneMgr()->getScene();
@@ -133,6 +158,29 @@ bool SVPickProcess::pickScene(s32 _sx,s32 _sy){
 }
 
 bool SVPickProcess::pickUI(s32 _sx,s32 _sy){
+    SVScenePtr t_sc = mApp->getSceneMgr()->getScene();
+    SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
+    if (t_camera && t_sc) {
+        FVec3 t_start,t_end;
+        if( _getRayMat(t_camera->getVPMatObjUI(),_sx,_sy,t_start,t_end) ){
+            //射线求交
+            SVVisitRayPickPtr t_visit = MakeSharedPtr<SVVisitRayPick>(t_start,t_end);
+            t_sc->visit(t_visit);
+            FVec3 t_postion(0.0,0.0,0.0);
+            SVNodePtr t_node = t_visit->getCrossNode(t_postion);
+            if(t_node){
+                if(t_node->getRSType() == RST_UI){
+                    _pick(t_node);
+                    return true;
+                }
+            }else{
+                SVPickGetNothingEventPtr t_event = MakeSharedPtr<SVPickGetNothingEvent>();
+                t_event->m_px = _sx;
+                t_event->m_py = _sy;
+                mApp->getEventMgr()->pushEvent(t_event);
+            }
+        }
+    }
     return false;
 }
 
@@ -169,6 +217,25 @@ bool SVPickProcess::getCrossPoint(s32 _sx,s32 _sy,FVec3& _crosspt){
     }
     return false;
 }
+                                                     
+bool SVPickProcess::getCrossPointUI(s32 _sx,s32 _sy,FVec3& _crosspt){
+    FVec3 t_start,t_end;
+    SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
+    if(t_camera){
+        if(_getRayMat(mApp->getCameraMgr()->getMainCamera()->getVPMatObjUI(),_sx,_sy,t_start,t_end)){
+            //构建移动平面(这个平面可以绘制出来)
+            FVec3 t_pos = t_start;
+            FVec3 t_dir = t_end - t_start;
+            FVec4 t_plane = FVec4(0.0f,0.0f,1.0f,0.0f);
+            //
+            s32 t_ret = rayPlaneIntersection(_crosspt,t_pos,t_dir,t_plane);
+            if(t_ret>0)
+                return true;
+        }
+    }
+    return false;
+}
+                                                     
 
 //
 void SVPickProcess::_pick(SVNodePtr _node){

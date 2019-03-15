@@ -166,7 +166,7 @@ void SVRenderMesh::_updateConf(){
 
 void SVRenderMesh::_updateData(){
     SVResGLRenderMeshPtr t_rendeMeshPtr = std::dynamic_pointer_cast<SVResGLRenderMesh>(m_objVBOPtr);
-    if (t_rendeMeshPtr) {
+    if (t_rendeMeshPtr) { 
         if (m_renderMeshData.dirty) {
             m_renderMeshData.dirty = false;
             if (m_renderMeshData.pDataIndex) {
