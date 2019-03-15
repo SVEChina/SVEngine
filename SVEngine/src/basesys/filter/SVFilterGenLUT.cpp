@@ -50,6 +50,7 @@ bool SVFilterGenLUT::create(){
     t_renderer->createSVTex(E_TEX_FILTER_GENLUT_OUT, t_w, t_h, GL_RGBA);
     t_renderer->createSVTex(E_TEX_FILTER_GENLUT_H1, t_w, t_h, GL_RGBA);
     t_renderer->createSVTex(E_TEX_FILTER_GENLUT_H2, t_w, t_h, GL_RGBA);
+    t_renderer->createSVTex(E_TEX_FILTER_GENLUT_H3, 255, 1, GL_RGBA);
     
     //增加pass
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
@@ -86,6 +87,9 @@ bool SVFilterGenLUT::create(){
     
     m_exposureMtl = MakeSharedPtr<SVMtlExposure>(mApp);
     m_exposureMtl->setTexcoordFlip(1.0, 1.0);
+    
+    SVMtlCorePtr t_curveMtl = MakeSharedPtr<SVMtlCore>(mApp,"curveRgba");
+    t_curveMtl->setTexcoordFlip(1.0, 1.0);
    
     SVPassPtr m_pass = MakeSharedPtr<SVPass>();
     m_pass->setMtl(m_BCMtl);
@@ -146,10 +150,17 @@ bool SVFilterGenLUT::create(){
     m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H2);
     m_pass->setOutTex(E_TEX_FILTER_GENLUT_H1);
     m_pPassNode->addPass(m_pass);
+    
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(t_curveMtl);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H1);
+    m_pass->setInTex(1 ,E_TEX_FILTER_GENLUT_H3);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H2);
+    m_pPassNode->addPass(m_pass);
 
     m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(t_mtl_back);
-    m_pass->setInTex(0,E_TEX_FILTER_GENLUT_H1);
+    m_pass->setInTex(0,E_TEX_FILTER_GENLUT_H2);
     m_pass->setOutTex(E_TEX_FILTER_GENLUT_OUT);
     m_pPassNode->addPass(m_pass);
 
@@ -163,6 +174,7 @@ void SVFilterGenLUT::destroy(){
         t_renderer->destroySVTex(E_TEX_FILTER_GENLUT_OUT);
         t_renderer->destroySVTex(E_TEX_FILTER_GENLUT_H1);
         t_renderer->destroySVTex(E_TEX_FILTER_GENLUT_H2);
+        t_renderer->destroySVTex(E_TEX_FILTER_GENLUT_H3);
     }
     //
     m_BCMtl=nullptr;//brightness contrast
@@ -183,6 +195,14 @@ SVTexturePtr SVFilterGenLUT::getOutTex(){
         return t_renderer->getSVTex(E_TEX_FILTER_GENLUT_OUT);
     }
     return nullptr;
+}
+
+void SVFilterGenLUT::setCurveRgba(ptr8  data,u32 size){
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
+        SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_FILTER_GENLUT_H3);
+        t_tex->setTexData(data, size);
+    }
 }
 
 void SVFilterGenLUT::update(f32 dt){
