@@ -51,6 +51,8 @@ void SVCoordGridNode::update(f32 dt){
     t_mtl_coord->setModelMatrix(m_absolutMat.get());
     t_mtl_coord->setTexcoordFlip(1.0, -1.0f);
     t_mtl_coord->setDepthEnable(true);
+    t_mtl_coord->setZOffEnable(true);
+    t_mtl_coord->setZOffParam(-1.0f, -1.0f);
     t_mtl_coord->setBlendEnable(true);
     t_mtl_coord->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     m_pRenderObj->setMtl(t_mtl_coord);
@@ -60,12 +62,12 @@ void SVCoordGridNode::render(){
     if (mApp->m_pGlobalParam->m_curScene && m_visible ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj) {
-            m_pRenderObj->setMesh(m_pMeshX);
-            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVCoordGridNode");
+//            m_pRenderObj->setMesh(m_pMeshX);
+//            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVCoordGridNode");
             m_pRenderObj->setMesh(m_pMeshY);
             m_pRenderObj->pushCmd(t_rs, m_rsType, "SVCoordGridNode");
-            m_pRenderObj->setMesh(m_pMeshZ);
-            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVCoordGridNode");
+//            m_pRenderObj->setMesh(m_pMeshZ);
+//            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVCoordGridNode");
         }
 //        //
 //        FMat4 m_mat_unit = FMat4_identity;

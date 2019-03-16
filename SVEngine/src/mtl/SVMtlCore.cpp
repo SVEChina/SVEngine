@@ -27,19 +27,15 @@ SVMtlCorePtr SVMtlCoreParam::genMtl(SVInst *_app){
 SVMtlCore::SVMtlCore(SVInst *_app, cptr8 _shader)
 :SVGBase(_app)
 ,m_mtlname(_shader){
-    //
     reset();
-    //
     m_renderPool = new MODPOOL();
     m_logicPool = new MODPOOL();
 }
 
 SVMtlCore::SVMtlCore(SVMtlCore* _mtl)
 :SVGBase(_mtl->mApp){
-    //
     m_renderPool = new MODPOOL();
     m_logicPool = new MODPOOL();
-    //
     m_mtlname = _mtl->m_mtlname;
     m_programID = _mtl->m_programID;
     m_LogicMtlFlag0 = _mtl->m_LogicMtlFlag0;
@@ -51,6 +47,7 @@ SVMtlCore::SVMtlCore(SVMtlCore* _mtl)
     m_LogicParamAlpha.copy(_mtl->m_LogicParamAlpha);
     m_LogicParamSize.copy(_mtl->m_LogicParamSize);
     m_LogicParamMatrix.copy(_mtl->m_LogicParamMatrix);
+    m_LogicParamZOff.copy(_mtl->m_LogicParamZOff);
 }
 
 SVMtlCore::~SVMtlCore() {
@@ -83,14 +80,10 @@ void SVMtlCore::reset() {
     m_LogicParamAlpha.reset();
     m_LogicParamSize.reset();
     m_LogicParamMatrix.reset();
+    m_LogicParamZOff.reset();
 }
 
 void SVMtlCore::setModelMatrix(f32 *_mat) {
-//    SVGLModifyUniMatrixPtr t_mod = MakeSharedPtr<SVGLModifyUniMatrix>(mApp);
-//    t_mod->m_shaderID = m_programID;
-//    t_mod->m_name = NAME_M_MATRIX;
-//    memcpy(t_mod->m_mat_model, _mat, sizeof(f32) * 16);
-//    addModify(t_mod);
     memcpy(m_LogicParamMatrix.m_mat_model, _mat, sizeof(f32) * 16);
     m_LogicMtlFlag0 |= MTL_F0_MAT_M;
 }
@@ -289,6 +282,12 @@ void SVMtlCore::_submitState(SVRendererBasePtr _render) {
     if((m_LogicMtlFlag0&MTL_F0_DEPTH)>0){
         _render->submitDepth(m_LogicParamDepth);
     }
+    //Z冲突
+    if((m_LogicMtlFlag0&MTL_F0_ZOFF)>0){
+        _render->submitZOff(m_LogicParamZOff);
+    }else{
+         _render->submitZOff(m_LogicParamZOff);
+    }
 }
 
 void SVMtlCore::_submitMtl(SVRendererBasePtr _render) {
@@ -363,6 +362,16 @@ void SVMtlCore::setCullFace(s32 _frontFace, s32 _cullFace){
 void SVMtlCore::setDepthEnable(bool _bDepthEnable){
     m_LogicParamDepth.enable = _bDepthEnable;
     m_LogicMtlFlag0 |= MTL_F0_DEPTH;
+}
+
+void SVMtlCore::setZOffEnable(bool _enable) {
+    m_LogicParamZOff.enable = _enable;
+    m_LogicMtlFlag0 |= MTL_F0_ZOFF;
+}
+
+void SVMtlCore::setZOffParam(f32 _factor,f32 _unit) {
+    m_LogicParamZOff.m_factor = _factor;
+    m_LogicParamZOff.m_unit = _unit;
 }
 
 void SVMtlCore::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,

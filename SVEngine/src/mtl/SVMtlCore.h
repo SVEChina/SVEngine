@@ -71,8 +71,12 @@ namespace sv {
             
             void setCullFace(s32 _frontFace, s32 _cullFace);
             
+            void setZOffEnable(bool _enable);
+            
+            void setZOffParam(f32 _factor,f32 _unit);
+            
             void reloadShader(cptr8 _shader);
-
+            
         public:
             SVString m_mtlname;
             u32 m_programID;
@@ -85,6 +89,7 @@ namespace sv {
             SVStencilParam m_LogicParamStencil;          //模板参数
             SVAlphaParam m_LogicParamAlpha;              //alpha参数
             SVSizeParam m_LogicParamSize;                //尺寸参数
+            SVZOffParam m_LogicParamZOff;                //Z偏移参数
             
         protected:
             void _loadShader();

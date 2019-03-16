@@ -204,6 +204,22 @@ namespace sv {
             f32 m_linewidth;
         };
         
+        //z偏移参数
+        class SVZOffParam : public SVMtlParam {
+        public:
+            SVZOffParam();
+            
+            ~SVZOffParam();
+            
+            void reset();
+            
+            void copy(SVZOffParam& _param);
+            
+            bool enable;
+            f32 m_factor;
+            f32 m_unit;
+        };
+        
         //
         class SVBlendModeParam : public SVMtlParam {
         public:

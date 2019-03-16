@@ -81,6 +81,8 @@ namespace sv {
             virtual void submitDepth(SVDepthParam& _param);
             //提交隐藏面参数
             virtual void submitCull(SVCullFaceParam& _param);
+            //提交zfighting
+            virtual void submitZOff(SVZOffParam& _param);
             //提交线宽
             virtual void submitLineWidth(f32 _width);
             //提交点大小

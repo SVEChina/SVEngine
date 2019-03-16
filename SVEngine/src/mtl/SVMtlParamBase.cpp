@@ -279,7 +279,29 @@ void SVSizeParam::copy(SVSizeParam& _param){
     m_linewidth = _param.m_linewidth;
 }
 
+//
+//
+SVZOffParam::SVZOffParam(){
+    reset();
+}
 
+SVZOffParam::~SVZOffParam(){
+}
+
+void SVZOffParam::reset(){
+    enable = false;
+    m_factor = 1.0f;
+    m_unit = 1.0f;
+}
+
+void SVZOffParam::copy(SVZOffParam& _param){
+    enable = _param.enable;
+    m_factor = _param.m_factor;
+    m_unit = _param.m_unit;
+}
+
+
+//融合参数
 SVBlendModeParam::SVBlendModeParam(){
     reset();
 }

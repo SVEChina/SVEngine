@@ -108,7 +108,8 @@ namespace sv {
         MTL_F1_TEX_SIZE     = 0x02000000,
         MTL_F2_TEX_SIZE     = 0x04000000,
         MTL_F3_TEX_SIZE     = 0x08000000,
-        MTL_F0_BLENDMODE    = 0x10000000
+        MTL_F0_BLENDMODE    = 0x10000000,
+        MTL_F0_ZOFF         = 0x20000000
     };
     
     //材质标记

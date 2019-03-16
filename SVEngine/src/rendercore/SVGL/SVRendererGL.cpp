@@ -464,6 +464,20 @@ void SVRendererGL::submitDepth(SVDepthParam& _param){
     }
 }
 
+//提交zfighting
+void SVRendererGL::submitZOff(SVZOffParam& _param) {
+    if (_param.enable) {
+        if (!glIsEnabled(GL_POLYGON_OFFSET_FILL)) {
+            glEnable(GL_POLYGON_OFFSET_FILL);
+        }
+        glPolygonOffset(_param.m_factor,_param.m_unit);
+    } else {
+        if (glIsEnabled(GL_POLYGON_OFFSET_FILL)) {
+            glDisable(GL_POLYGON_OFFSET_FILL);
+        }
+    }
+}
+
 //提交隐藏面参数
 void SVRendererGL::submitCull(SVCullFaceParam& _param){
     if (_param.enable) {
