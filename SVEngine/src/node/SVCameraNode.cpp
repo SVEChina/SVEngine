@@ -72,7 +72,7 @@ void SVCameraNode::resetCamera(f32 w, f32 h, f32 fovy) {
     m_width = w;
     m_height = h;
     m_p_zn = 100.0f;
-    m_p_zf = 5000.0f;
+    m_p_zf = 15000.0f;
     m_fovy = fovy;
     //
     m_postion.set(0.0f, 0.0f, 0.5f * m_height / tan(0.5f*m_fovy * DEGTORAD));

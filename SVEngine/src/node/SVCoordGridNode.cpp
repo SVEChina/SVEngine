@@ -14,16 +14,18 @@
 #include "../rendercore/SVRenderScene.h"
 #include "../rendercore/SVRenderMgr.h"
 
-#define COORD_SIZE 100000
+#define COORD_SIZE 64*100
 
 SVCoordGridNode::SVCoordGridNode(SVInst *_app)
 :SVNode(_app)
 ,m_unit(50.0f){
-    m_rsType = RST_MAGIC_BEGIN;
+    m_rsType = RST_LASTFILTER;
     m_pMeshX = SVGeoGen::createNetGrid(mApp,COORD_SIZE,0);
     m_pMeshY = SVGeoGen::createNetGrid(mApp,COORD_SIZE,1);
     m_pMeshZ = SVGeoGen::createNetGrid(mApp,COORD_SIZE,2);
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
+    //m_gridTex = mApp->getTexMgr()->getTextureSync("svres/grid6.png",true);
+    m_gridTex = nullptr;
 }
 
 SVCoordGridNode::~SVCoordGridNode(){
@@ -31,15 +33,19 @@ SVCoordGridNode::~SVCoordGridNode(){
     m_pMeshY = nullptr;
     m_pMeshZ = nullptr;
     m_pRenderObj = nullptr;
+    m_gridTex = nullptr;
 }
 
 void SVCoordGridNode::update(f32 dt){
     SVNode::update(dt);
     _refreshUnit();
     //
+    if(!m_gridTex){
+       m_gridTex = mApp->getTexMgr()->getTextureSync("svres/grid2.png",true,true);
+    }
     SVMtlCoordPtr t_mtl_coord = MakeSharedPtr<SVMtlCoord>(mApp);
     t_mtl_coord->update(dt * 0.001f);
-    t_mtl_coord->setTexture(0, mApp->getTexMgr()->getSVETexture());
+    t_mtl_coord->setTexture(0, m_gridTex);
     t_mtl_coord->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
     t_mtl_coord->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
     t_mtl_coord->setModelMatrix(m_absolutMat.get());

@@ -36,6 +36,8 @@ namespace sv {
             SVRenderMeshPtr m_pMeshX;
             SVRenderMeshPtr m_pMeshY;
             SVRenderMeshPtr m_pMeshZ;
+            
+            SVTexturePtr m_gridTex;
         };
         
     }//!namespace node
