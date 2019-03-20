@@ -281,6 +281,8 @@
 		5C29E2C1217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */; };
 		5C29E2C2217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */; };
 		5C29E2C3217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */; };
+		5C3C60A4223D0D0E007DD879 /* SVRGBGradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C3C60A2223D0D0E007DD879 /* SVRGBGradient.cpp */; };
+		5C3C60A5223D0D0E007DD879 /* SVRGBGradient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C3C60A3223D0D0E007DD879 /* SVRGBGradient.h */; };
 		5CA05D4521873B4600D1C033 /* SVParseDeform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA05D4321873B4600D1C033 /* SVParseDeform.cpp */; };
 		5CA05D4621873B4600D1C033 /* SVParseDeform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA05D4321873B4600D1C033 /* SVParseDeform.cpp */; };
 		5CA05D4721873B4600D1C033 /* SVParseDeform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA05D4321873B4600D1C033 /* SVParseDeform.cpp */; };
@@ -2885,6 +2887,8 @@
 		5C22C71821997840007B59EF /* SVBezierNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVBezierNode.h; sourceTree = "<group>"; };
 		5C29E2BA217F004B00F26CB3 /* SVParseLUTFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; path = SVParseLUTFilter.cpp; sourceTree = "<group>"; };
 		5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVParseLUTFilter.h; sourceTree = "<group>"; };
+		5C3C60A2223D0D0E007DD879 /* SVRGBGradient.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SVRGBGradient.cpp; sourceTree = "<group>"; };
+		5C3C60A3223D0D0E007DD879 /* SVRGBGradient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVRGBGradient.h; sourceTree = "<group>"; };
 		5CA05D4321873B4600D1C033 /* SVParseDeform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; path = SVParseDeform.cpp; sourceTree = "<group>"; };
 		5CA05D4421873B4600D1C033 /* SVParseDeform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVParseDeform.h; sourceTree = "<group>"; };
 		5CA05D4D21873E8100D1C033 /* SVParseBackground.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; path = SVParseBackground.cpp; sourceTree = "<group>"; };
@@ -3751,6 +3755,8 @@
 				5F7D5D87215F407700803BCF /* SVRGBToneCurveFilter.h */,
 				5C29E2BA217F004B00F26CB3 /* SVParseLUTFilter.cpp */,
 				5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */,
+				5C3C60A2223D0D0E007DD879 /* SVRGBGradient.cpp */,
+				5C3C60A3223D0D0E007DD879 /* SVRGBGradient.h */,
 			);
 			path = filter;
 			sourceTree = "<group>";
@@ -5418,6 +5424,7 @@
 				5F44287C21848CBC00AF4A5B /* SVFrameOutRead.h in Headers */,
 				5F7D68D4215F407900803BCF /* SVMeshData.h in Headers */,
 				5F7D6968215F407900803BCF /* SVSet.h in Headers */,
+				5C3C60A5223D0D0E007DD879 /* SVRGBGradient.h in Headers */,
 				5F7D6570215F407800803BCF /* SVRenderCmdOut.h in Headers */,
 				5F7D6432215F407800803BCF /* SVModuleBase.h in Headers */,
 				5F7D627A215F407800803BCF /* VertexAttachment.h in Headers */,
@@ -6800,6 +6807,7 @@
 				5FAB9DD82189AC6700B05ED5 /* SVAniBase.cpp in Sources */,
 				5F7D68D0215F407900803BCF /* SVVec4.cpp in Sources */,
 				5F7D6346215F407800803BCF /* EventData.c in Sources */,
+				5C3C60A4223D0D0E007DD879 /* SVRGBGradient.cpp in Sources */,
 				5F7D6838215F407900803BCF /* SVEventThread.cpp in Sources */,
 				5F7D6824215F407900803BCF /* SVEventMgr.cpp in Sources */,
 				5F7D6012215F407700803BCF /* SVDetectST.cpp in Sources */,
