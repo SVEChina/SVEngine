@@ -22,6 +22,7 @@
 #include "SVParseParticles.h"
 #include "SVParseBackground.h"
 #include "SVParseTexAttachment.h"
+#include "SVParseFilter.h"
 #include "../module/SVEffectPackage.h"
 #include "../basesys/filter/SVParseLUTFilter.h"
 
@@ -128,6 +129,14 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
         SVString t_pathLut = t_path + t_name;
         SVFilterBasePtr t_baseFilter = SVParseLUTFilter::parseLUT(mApp,t_pathLut, 102);
         t_bundle->addFilter(t_baseFilter);
+    }
+    
+    if (doc.HasMember("SVFilter") && doc["SVFilter"].IsObject()) {
+        RAPIDJSON_NAMESPACE::Value &filterObj = doc["SVFilter"];
+        SVFilterBasePtr t_baseFilter = SVParseFilter::parseFilter(mApp, filterObj, resid, t_path.get());
+        if (t_baseFilter) {
+            t_bundle->addFilter(t_baseFilter);
+        }
     }
     
     SV_LOG_ERROR("SVParseMain::parse end\n");

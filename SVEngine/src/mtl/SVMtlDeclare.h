@@ -49,6 +49,7 @@ namespace sv {
         //滤镜
         DECLARE_SHAREPTR(SVMtlBasedOn);
         DECLARE_SHAREPTR(SVMtlAcutance);
+        DECLARE_SHAREPTR(SVMtlShinning);
         //texture
         DECLARE_SHAREPTR(SVTexture);
         DECLARE_SHAREPTR(SVTextureInputTexID);
