@@ -52,6 +52,38 @@ namespace sv {
             
         };
 
+        class SVCtrlCamera2D : public SVNodeCtrl {
+        public:
+            SVCtrlCamera2D(SVInst* _app,s32 _width,s32 _height);
+            
+            ~SVCtrlCamera2D();
+            
+            virtual void run(SVCameraNodePtr _nodePtr, f32 dt);
+
+            //
+            void reset();
+            
+            //
+            void reset(s32 _w,s32 _h);
+            
+            //平移
+            void move(FVec3 _off);
+            
+            //角度旋转
+            void angle(f32 _angle);
+            
+            //推拉
+            void zoom(f32 _dis);
+
+        protected:
+            f32 m_dis;
+            f32 m_angle;
+            s32 m_width;
+            s32 m_height;
+            FVec3 m_pos;
+            FVec3 m_target;
+            bool m_dirty;
+        };
         
     }//!namespace logic
     
