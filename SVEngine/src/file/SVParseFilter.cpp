@@ -11,6 +11,7 @@
 #include "../mtl/SVMtlShinning.h"
 #include "../mtl/SVMtlBlackWhite.h"
 #include "../mtl/SVMtlStreak.h"
+#include "../mtl/SVMtlRainbowColor.h"
 SVFilterBasePtr
 SVParseFilter::parseFilter(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _resid, cptr8 _path) {
     SVString mtlName;
@@ -24,7 +25,9 @@ SVParseFilter::parseFilter(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _
     }else if (mtlName == "filterblackwhite"){
         t_mtl = MakeSharedPtr<SVMtlBlackWhite>(_app);//黑白滤镜
     }else if (mtlName == "filterstreak"){
-        t_mtl = MakeSharedPtr<SVMtlStreak>(_app);//条纹滤镜
+        t_mtl = MakeSharedPtr<SVMtlStreak>(_app);//斑马纹滤镜
+    }else if (mtlName == "filterrainbowcolor"){
+        t_mtl = MakeSharedPtr<SVMtlRainbowColor>(_app);//彩虹色滤镜
     }
     SVADFilterBasePtr t_filter = MakeSharedPtr<SVADFilterBase>(_app, t_mtl);
     return t_filter;

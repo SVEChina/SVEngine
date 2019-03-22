@@ -117,6 +117,14 @@
 		02381F0C224399F400584EEF /* SVMtlStreak.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F06224399F400584EEF /* SVMtlStreak.cpp */; };
 		02381F0D224399F400584EEF /* SVMtlStreak.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F06224399F400584EEF /* SVMtlStreak.cpp */; };
 		02381F0E224399F400584EEF /* SVMtlStreak.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F06224399F400584EEF /* SVMtlStreak.cpp */; };
+		02381F112244B88400584EEF /* SVMtlRainbowColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 02381F0F2244B88400584EEF /* SVMtlRainbowColor.h */; };
+		02381F122244B88400584EEF /* SVMtlRainbowColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 02381F0F2244B88400584EEF /* SVMtlRainbowColor.h */; };
+		02381F132244B88400584EEF /* SVMtlRainbowColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 02381F0F2244B88400584EEF /* SVMtlRainbowColor.h */; };
+		02381F142244B88400584EEF /* SVMtlRainbowColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 02381F0F2244B88400584EEF /* SVMtlRainbowColor.h */; };
+		02381F152244B88400584EEF /* SVMtlRainbowColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F102244B88400584EEF /* SVMtlRainbowColor.cpp */; };
+		02381F162244B88400584EEF /* SVMtlRainbowColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F102244B88400584EEF /* SVMtlRainbowColor.cpp */; };
+		02381F172244B88400584EEF /* SVMtlRainbowColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F102244B88400584EEF /* SVMtlRainbowColor.cpp */; };
+		02381F182244B88400584EEF /* SVMtlRainbowColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F102244B88400584EEF /* SVMtlRainbowColor.cpp */; };
 		0288F9E721788A310089E61C /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288F9E321788A300089E61C /* SVBMFont.cpp */; };
 		0288F9E821788A310089E61C /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288F9E321788A300089E61C /* SVBMFont.cpp */; };
 		0288F9E921788A310089E61C /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288F9E321788A300089E61C /* SVBMFont.cpp */; };
@@ -2894,6 +2902,8 @@
 		02381EFC22437FE300584EEF /* SVMtlBlackWhite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlBlackWhite.h; sourceTree = "<group>"; };
 		02381F05224399F400584EEF /* SVMtlStreak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlStreak.h; sourceTree = "<group>"; };
 		02381F06224399F400584EEF /* SVMtlStreak.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlStreak.cpp; sourceTree = "<group>"; };
+		02381F0F2244B88400584EEF /* SVMtlRainbowColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlRainbowColor.h; sourceTree = "<group>"; };
+		02381F102244B88400584EEF /* SVMtlRainbowColor.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlRainbowColor.cpp; sourceTree = "<group>"; };
 		0288F9E321788A300089E61C /* SVBMFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBMFont.cpp; sourceTree = "<group>"; };
 		0288F9E421788A300089E61C /* SVFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFont.cpp; sourceTree = "<group>"; };
 		0288F9E521788A300089E61C /* SVBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFont.h; sourceTree = "<group>"; };
@@ -4438,6 +4448,8 @@
 				02381EFC22437FE300584EEF /* SVMtlBlackWhite.h */,
 				02381F06224399F400584EEF /* SVMtlStreak.cpp */,
 				02381F05224399F400584EEF /* SVMtlStreak.h */,
+				02381F102244B88400584EEF /* SVMtlRainbowColor.cpp */,
+				02381F0F2244B88400584EEF /* SVMtlRainbowColor.h */,
 			);
 			path = mtl;
 			sourceTree = "<group>";
@@ -4710,6 +4722,7 @@
 				5F7D6947215F407900803BCF /* SVDatatDef.h in Headers */,
 				5F7D6029215F407700803BCF /* SVUIMgr.h in Headers */,
 				5F7D680F215F407900803BCF /* SVNodeDeclare.h in Headers */,
+				02381F142244B88400584EEF /* SVMtlRainbowColor.h in Headers */,
 				5F7D64D5215F407800803BCF /* SVActFollow.h in Headers */,
 				5F7D6139215F407700803BCF /* SVDeformImageMove.h in Headers */,
 				5F7D62F1215F407800803BCF /* MeshAttachment.h in Headers */,
@@ -5105,6 +5118,7 @@
 				5F7D6945215F407900803BCF /* SVDatatDef.h in Headers */,
 				5F7D6027215F407700803BCF /* SVUIMgr.h in Headers */,
 				5F7D680D215F407900803BCF /* SVNodeDeclare.h in Headers */,
+				02381F122244B88400584EEF /* SVMtlRainbowColor.h in Headers */,
 				5F7D64D3215F407800803BCF /* SVActFollow.h in Headers */,
 				5F7D6137215F407700803BCF /* SVDeformImageMove.h in Headers */,
 				5F7D62EF215F407800803BCF /* MeshAttachment.h in Headers */,
@@ -5688,6 +5702,7 @@
 				5F7D6544215F407800803BCF /* SVOpLoadBase.h in Headers */,
 				5F7D63B2215F407800803BCF /* filereadstream.h in Headers */,
 				5F7D6770215F407900803BCF /* SVCoordGridNode.h in Headers */,
+				02381F112244B88400584EEF /* SVMtlRainbowColor.h in Headers */,
 				5F7D62AE215F407800803BCF /* AttachmentLoader.h in Headers */,
 				5F7D654C215F407800803BCF /* SVEConfig.h in Headers */,
 				5F7D690C215F407900803BCF /* SVStack.h in Headers */,
@@ -5899,6 +5914,7 @@
 				5F7D6946215F407900803BCF /* SVDatatDef.h in Headers */,
 				5F7D6028215F407700803BCF /* SVUIMgr.h in Headers */,
 				5F7D680E215F407900803BCF /* SVNodeDeclare.h in Headers */,
+				02381F132244B88400584EEF /* SVMtlRainbowColor.h in Headers */,
 				5F7D64D4215F407800803BCF /* SVActFollow.h in Headers */,
 				5F7D6138215F407700803BCF /* SVDeformImageMove.h in Headers */,
 				5F7D62F0215F407800803BCF /* MeshAttachment.h in Headers */,
@@ -6479,6 +6495,7 @@
 				5F7D5FE9215F407700803BCF /* SVDetectMgr.cpp in Sources */,
 				02F27E8121915B30007E85C3 /* SVSensorProcess.cpp in Sources */,
 				5F7D60D9215F407700803BCF /* SVDeformImageMove.cpp in Sources */,
+				02381F182244B88400584EEF /* SVMtlRainbowColor.cpp in Sources */,
 				5F7D66CB215F407900803BCF /* SVTexMgr.cpp in Sources */,
 				5F7D6883215F407900803BCF /* SVIDPool.cpp in Sources */,
 				5F7D6375215F407800803BCF /* ClippingAttachment.c in Sources */,
@@ -6800,6 +6817,7 @@
 				5F7D617E215F407700803BCF /* SVParseMain.cpp in Sources */,
 				5F7D5FFA215F407700803BCF /* SVPersonModule.cpp in Sources */,
 				5F7D6874215F407900803BCF /* SVListenBase.cpp in Sources */,
+				02381F152244B88400584EEF /* SVMtlRainbowColor.cpp in Sources */,
 				5FB61FA122365382001EA141 /* SVNodeCtrl.cpp in Sources */,
 				5F7D62F6215F407800803BCF /* AttachmentLoader.c in Sources */,
 				5F7D635A215F407800803BCF /* Event.c in Sources */,
@@ -7136,6 +7154,7 @@
 				5F7D5FE8215F407700803BCF /* SVDetectMgr.cpp in Sources */,
 				02F27E8021915B30007E85C3 /* SVSensorProcess.cpp in Sources */,
 				5F7D60D8215F407700803BCF /* SVDeformImageMove.cpp in Sources */,
+				02381F172244B88400584EEF /* SVMtlRainbowColor.cpp in Sources */,
 				5F7D66CA215F407900803BCF /* SVTexMgr.cpp in Sources */,
 				5F7D6882215F407900803BCF /* SVIDPool.cpp in Sources */,
 				5F7D6374215F407800803BCF /* ClippingAttachment.c in Sources */,
@@ -7463,6 +7482,7 @@
 				5F7D5FE7215F407700803BCF /* SVDetectMgr.cpp in Sources */,
 				02F27E7F21915B30007E85C3 /* SVSensorProcess.cpp in Sources */,
 				5F7D60D7215F407700803BCF /* SVDeformImageMove.cpp in Sources */,
+				02381F162244B88400584EEF /* SVMtlRainbowColor.cpp in Sources */,
 				5F7D66C9215F407900803BCF /* SVTexMgr.cpp in Sources */,
 				5F7D6881215F407900803BCF /* SVIDPool.cpp in Sources */,
 				5F7D6373215F407800803BCF /* ClippingAttachment.c in Sources */,
