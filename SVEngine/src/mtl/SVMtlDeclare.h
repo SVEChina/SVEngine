@@ -53,6 +53,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVMtlBlackWhite);
         DECLARE_SHAREPTR(SVMtlStreak);
         DECLARE_SHAREPTR(SVMtlRainbowColor);
+        DECLARE_SHAREPTR(SVMtlFlash);
         
         //texture
         DECLARE_SHAREPTR(SVTexture);
