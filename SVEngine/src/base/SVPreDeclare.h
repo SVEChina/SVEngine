@@ -231,7 +231,8 @@ namespace sv {
         DECLARE_SHAREPTR(SVAni2DStickersMgr);
         DECLARE_SHAREPTR(SVAni2DBase);
         DECLARE_SHAREPTR(SVAni2DScreen);
-        
+        DECLARE_SHAREPTR(SVFilterShinning);
+        DECLARE_SHAREPTR(SVADFilterBase);
     }//!namespace logic
 
 }//!namespace sv

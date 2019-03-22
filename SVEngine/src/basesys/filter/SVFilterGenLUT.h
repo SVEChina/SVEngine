@@ -342,6 +342,12 @@ namespace sv {
             
             void setCurveRgba(ptr8  data,u32 size);
             
+            void setGradientMap(ptr8  data,u32 size);
+            
+            void openGradientMap();
+            
+            void closeGradientMap();
+            
             void refreshFData(SVGenLUTParamPtr _param);
             
             SVGenLUTParamPtr getLUTparam(){
@@ -359,6 +365,7 @@ namespace sv {
             SVMtlExposurePtr m_exposureMtl;
             SVMtlHSLPtr m_hslMtl;
             SVGenLUTParamPtr m_genParam;
+            SVPassPtr m_GradientMapPass;
             
         public:
             //序列化
