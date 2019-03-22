@@ -50,6 +50,9 @@ namespace sv {
         DECLARE_SHAREPTR(SVMtlBasedOn);
         DECLARE_SHAREPTR(SVMtlAcutance);
         DECLARE_SHAREPTR(SVMtlShinning);
+        DECLARE_SHAREPTR(SVMtlBlackWhite);
+        DECLARE_SHAREPTR(SVMtlStreak);
+        
         //texture
         DECLARE_SHAREPTR(SVTexture);
         DECLARE_SHAREPTR(SVTextureInputTexID);

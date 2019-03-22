@@ -1,11 +1,11 @@
 //
-// SVFilterShinning.cpp
+// SVADFilterBase.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVFilterShinning.h"
+#include "SVADFilterBase.h"
 #include "../../core/SVPass.h"
 #include "../../mtl/SVTexMgr.h"
 #include "../../mtl/SVTexture.h"
@@ -14,18 +14,21 @@
 #include "../../rendercore/renderer/SVRendererBase.h"
 #include "../../mtl/SVMtlShinning.h"
 #include "../../rendercore/SVRenderMgr.h"
-SVFilterShinning::SVFilterShinning(SVInst *_app)
+SVADFilterBase::SVADFilterBase(SVInst *_app, SVMtlCorePtr _mtl)
 :SVFilterBase(_app){
-    m_type=SV_FUNC_ADBASE;
-    m_name="SVFilterShinning";
-
+    m_type = SV_FUNC_ADBASE;
+    m_name = "SVADFilterBase";
+    m_mtl = _mtl;
 }
 
-SVFilterShinning::~SVFilterShinning(){
+SVADFilterBase::~SVADFilterBase(){
     
 }
 
-bool SVFilterShinning::create(){
+bool SVADFilterBase::create(){
+    if (!m_mtl) {
+        return false;
+    }
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
@@ -39,9 +42,8 @@ bool SVFilterShinning::create(){
     m_pPassNode->create(t_w, t_h);
     //创建pass
     SVPassPtr t_pass1 = MakeSharedPtr<SVPass>();
-    m_mtlShinning = MakeSharedPtr<SVMtlShinning>(mApp);
-    m_mtlShinning->setTexcoordFlip(1.0f, 1.0f);
-    t_pass1->setMtl(m_mtlShinning);
+    m_mtl->setTexcoordFlip(1.0f, 1.0f);
+    t_pass1->setMtl(m_mtl);
     t_pass1->setInTex(0,E_TEX_MAIN);
     t_pass1->setOutTex(E_TEX_FILTER_1);
     m_pPassNode->addPass(t_pass1);
@@ -56,32 +58,32 @@ bool SVFilterShinning::create(){
     return true;
 }
 
-void SVFilterShinning::destroy(){
+void SVADFilterBase::destroy(){
     if(m_pPassNode){
         m_pPassNode->removeFromParent();
         m_pPassNode = nullptr;
     }
     m_pPassNode = nullptr;
-    m_mtlShinning = nullptr;
+    m_mtl = nullptr;
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         t_renderer->destroySVTex(E_TEX_FILTER_1);
     }
 }
 
-void SVFilterShinning::update(f32 dt){
+void SVADFilterBase::update(f32 dt){
     //
-    if(m_pPassNode && m_mtlShinning){
+    if(m_pPassNode && m_mtl){
         m_pPassNode->setvisible(true);
-        m_mtlShinning->update(dt);
+        m_mtl->update(dt);
     }
 }
 
-void SVFilterShinning::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
+void SVADFilterBase::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                          RAPIDJSON_NAMESPACE::Value &_objValue) {
 }
 
-void SVFilterShinning::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
+void SVADFilterBase::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //    if (item.HasMember("data") && item["data"].IsString()) {
 //        SVRendererBasePtr t_renderer = mApp->getRenderer();
 //        if(t_renderer){
