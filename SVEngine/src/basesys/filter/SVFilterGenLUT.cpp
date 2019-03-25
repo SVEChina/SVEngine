@@ -14,6 +14,7 @@
 #include "../../mtl/SVMtlBasedOn.h"
 #include "../../rendercore/renderer/SVRendererBase.h"
 #include "../../mtl/SVMtlFilterEx.h"
+#include "../../mtl/SVMtlGradientMap.h"
 #include "../../rendercore/SVRenderMgr.h"
 
 
@@ -31,6 +32,7 @@ SVFilterGenLUT::SVFilterGenLUT(SVInst *_app)
     m_gammaMtl=nullptr;
     m_exposureMtl=nullptr;
     m_GradientMapPass=nullptr;
+    m_gradientMapMtl=nullptr;
     //
     m_genParam = MakeSharedPtr<SVGenLUTParam>();
     m_genParam->reset();
@@ -199,6 +201,7 @@ void SVFilterGenLUT::destroy(){
     m_gammaMtl=nullptr;
     m_exposureMtl=nullptr;
     m_GradientMapPass=nullptr;
+    m_gradientMapMtl=nullptr;
     //
     m_genParam->reset();
 }
@@ -276,12 +279,17 @@ void SVFilterGenLUT::update(f32 dt){
     m_gammaMtl->setGamma(m_genParam->m_gamma);
     
     m_exposureMtl->setExposure(m_genParam->m_exposure);
+    if(m_gradientMapMtl){
+        m_gradientMapMtl->setSmooth(m_genParam->m_gmSmooth);
+    }
 }
 
 void SVFilterGenLUT::openGradientMap(){
-    SVMtlCorePtr t_mtl=MakeSharedPtr<SVMtlCore>(mApp,"GradientMap");
-    t_mtl->setTexcoordFlip(1.0f, 1.0f);
-    m_GradientMapPass->setMtl(t_mtl);
+    if(!m_gradientMapMtl){
+       m_gradientMapMtl=MakeSharedPtr<SVMtlGradientMap>(mApp);
+       m_gradientMapMtl->setTexcoordFlip(1.0f, 1.0f);
+    }
+    m_GradientMapPass->setMtl(m_gradientMapMtl);
     m_GradientMapPass->setInTex(0,E_TEX_FILTER_GENLUT_H2);
     m_GradientMapPass->setInTex(1,E_TEX_FILTER_GENLUT_H4);
 }

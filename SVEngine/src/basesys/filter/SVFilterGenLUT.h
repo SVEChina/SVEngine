@@ -68,6 +68,8 @@ namespace sv {
                 m_temperature=5000.0;
                 
                 m_exposure=0.0;
+                
+                m_gmSmooth=1.0;
             }
             
             void copy(SVGenLUTParamPtr _p){
@@ -124,6 +126,8 @@ namespace sv {
                 
                 m_data=_p->m_data;
                 
+                m_gmSmooth=_p->m_gmSmooth;
+                
             }
             
             f32 m_brightness;
@@ -174,6 +178,7 @@ namespace sv {
             f32 m_tint;
             
             f32 m_exposure;
+            f32 m_gmSmooth;
             
             SVString m_data;
             SVString m_name;
@@ -336,6 +341,10 @@ namespace sv {
                 m_genParam->m_name=_name;
             }
             
+            inline void setGMSmooth(f32 _smooth){
+                m_genParam->m_gmSmooth=_smooth;
+            }
+            
             void setLUTData(ptr8  data,u32 size);
             
             SVTexturePtr getOutTex();
@@ -365,6 +374,7 @@ namespace sv {
             SVMtlExposurePtr m_exposureMtl;
             SVMtlHSLPtr m_hslMtl;
             SVGenLUTParamPtr m_genParam;
+            SVMtlGradientMapPtr m_gradientMapMtl;
             SVPassPtr m_GradientMapPass;
             
         public:
