@@ -206,14 +206,12 @@ void SVEffectPackage::addAttachment(SVTexAttachmentPtr _attachment){
 }
 
 void SVEffectPackage::addFilter(SVFilterBasePtr _filter){
-    if(_filter){
-        SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
-        if( t_picproc) {
-            _filter->create();
-            t_picproc->addFilter(_filter);
-            t_picproc->openFilter(_filter);
-            m_filterBasePool.append(_filter);
-        }
+    SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
+    if(_filter && t_picproc){
+        _filter->create();
+        t_picproc->addFilter(_filter);
+        t_picproc->openFilter(_filter);
+        m_filterBasePool.append(_filter);
     }
 }
 
