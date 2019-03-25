@@ -13,6 +13,8 @@
 #include "../mtl/SVMtlStreak.h"
 #include "../mtl/SVMtlRainbowColor.h"
 #include "../mtl/SVMtlFlash.h"
+#include "../mtl/SVMtlGlitch.h"
+#include "../mtl/SVMtlDistorted.h"
 SVFilterBasePtr
 SVParseFilter::parseFilter(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _resid, cptr8 _path) {
     SVString mtlName;
@@ -31,7 +33,12 @@ SVParseFilter::parseFilter(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _
         t_mtl = MakeSharedPtr<SVMtlRainbowColor>(_app);//彩虹色滤镜
     }else if (mtlName == "filterflash"){
         t_mtl = MakeSharedPtr<SVMtlFlash>(_app);//白闪滤镜
+    }else if (mtlName == "filterglitch"){
+        t_mtl = MakeSharedPtr<SVMtlGlitch>(_app);//毛刺滤镜
+    }else if (mtlName == "filterdistorted"){
+        t_mtl = MakeSharedPtr<SVMtlDistorted>(_app);//老电视滤镜
     }
+    
     SVADFilterBasePtr t_filter = MakeSharedPtr<SVADFilterBase>(_app, t_mtl);
     return t_filter;
 }
