@@ -363,6 +363,14 @@
 		5C29E2C3217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */; };
 		5C3C60A4223D0D0E007DD879 /* SVRGBGradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C3C60A2223D0D0E007DD879 /* SVRGBGradient.cpp */; };
 		5C3C60A5223D0D0E007DD879 /* SVRGBGradient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C3C60A3223D0D0E007DD879 /* SVRGBGradient.h */; };
+		5C56B67A2248AF77007D7DC8 /* SVMtlGradientMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C56B6782248AF76007D7DC8 /* SVMtlGradientMap.h */; };
+		5C56B67B2248AF77007D7DC8 /* SVMtlGradientMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C56B6792248AF77007D7DC8 /* SVMtlGradientMap.cpp */; };
+		5C56B67C2248AFFB007D7DC8 /* SVMtlGradientMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C56B6792248AF77007D7DC8 /* SVMtlGradientMap.cpp */; };
+		5C56B67D2248AFFC007D7DC8 /* SVMtlGradientMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C56B6792248AF77007D7DC8 /* SVMtlGradientMap.cpp */; };
+		5C56B67E2248AFFD007D7DC8 /* SVMtlGradientMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C56B6792248AF77007D7DC8 /* SVMtlGradientMap.cpp */; };
+		5C56B67F2248B004007D7DC8 /* SVMtlGradientMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C56B6782248AF76007D7DC8 /* SVMtlGradientMap.h */; };
+		5C56B6802248B005007D7DC8 /* SVMtlGradientMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C56B6782248AF76007D7DC8 /* SVMtlGradientMap.h */; };
+		5C56B6812248B006007D7DC8 /* SVMtlGradientMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C56B6782248AF76007D7DC8 /* SVMtlGradientMap.h */; };
 		5CA05D4521873B4600D1C033 /* SVParseDeform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA05D4321873B4600D1C033 /* SVParseDeform.cpp */; };
 		5CA05D4621873B4600D1C033 /* SVParseDeform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA05D4321873B4600D1C033 /* SVParseDeform.cpp */; };
 		5CA05D4721873B4600D1C033 /* SVParseDeform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA05D4321873B4600D1C033 /* SVParseDeform.cpp */; };
@@ -2989,6 +2997,8 @@
 		5C29E2BB217F004B00F26CB3 /* SVParseLUTFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVParseLUTFilter.h; sourceTree = "<group>"; };
 		5C3C60A2223D0D0E007DD879 /* SVRGBGradient.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = SVRGBGradient.cpp; sourceTree = "<group>"; };
 		5C3C60A3223D0D0E007DD879 /* SVRGBGradient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVRGBGradient.h; sourceTree = "<group>"; };
+		5C56B6782248AF76007D7DC8 /* SVMtlGradientMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlGradientMap.h; sourceTree = "<group>"; };
+		5C56B6792248AF77007D7DC8 /* SVMtlGradientMap.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlGradientMap.cpp; sourceTree = "<group>"; };
 		5CA05D4321873B4600D1C033 /* SVParseDeform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; path = SVParseDeform.cpp; sourceTree = "<group>"; };
 		5CA05D4421873B4600D1C033 /* SVParseDeform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVParseDeform.h; sourceTree = "<group>"; };
 		5CA05D4D21873E8100D1C033 /* SVParseBackground.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; path = SVParseBackground.cpp; sourceTree = "<group>"; };
@@ -4428,6 +4438,8 @@
 		5F7D5F15215F407700803BCF /* mtl */ = {
 			isa = PBXGroup;
 			children = (
+				5C56B6792248AF77007D7DC8 /* SVMtlGradientMap.cpp */,
+				5C56B6782248AF76007D7DC8 /* SVMtlGradientMap.h */,
 				5F7D5F2A215F407700803BCF /* SVGLModify.cpp */,
 				5F7D5F18215F407700803BCF /* SVGLModify.h */,
 				022AF18421AD1F2200BF6F37 /* SVMtl2D.cpp */,
@@ -4893,6 +4905,7 @@
 				5F7D66C7215F407900803BCF /* SVMtlFaceShape.h in Headers */,
 				5F7D63A1215F407800803BCF /* memorystream.h in Headers */,
 				5F7D65BF215F407800803BCF /* SVRendererMetal.h in Headers */,
+				5C56B6812248B006007D7DC8 /* SVMtlGradientMap.h in Headers */,
 				5F7D60BD215F407700803BCF /* SVFilterGenLUT.h in Headers */,
 				5F7D68E7215F407900803BCF /* SVDataSwap.h in Headers */,
 				5F7D65CB215F407800803BCF /* SVResFBO.h in Headers */,
@@ -5292,6 +5305,7 @@
 				5F7D66C5215F407900803BCF /* SVMtlFaceShape.h in Headers */,
 				5F7D639F215F407800803BCF /* memorystream.h in Headers */,
 				5F7D65BD215F407800803BCF /* SVRendererMetal.h in Headers */,
+				5C56B67F2248B004007D7DC8 /* SVMtlGradientMap.h in Headers */,
 				5F7D60BB215F407700803BCF /* SVFilterGenLUT.h in Headers */,
 				5F7D68E5215F407900803BCF /* SVDataSwap.h in Headers */,
 				5F7D65C9215F407800803BCF /* SVResFBO.h in Headers */,
@@ -5889,6 +5903,7 @@
 				5F7D65C8215F407800803BCF /* SVResFBO.h in Headers */,
 				5F7D63BE215F407800803BCF /* ieee754.h in Headers */,
 				5C0C6060219BFF790052A826 /* InterpolateLinear.h in Headers */,
+				5C56B67A2248AF77007D7DC8 /* SVMtlGradientMap.h in Headers */,
 				5F7D68C4215F407900803BCF /* SVGBase.h in Headers */,
 				5F7D65AC215F407800803BCF /* SVResTex.h in Headers */,
 				02381EF32243754900584EEF /* SVADFilterBase.h in Headers */,
@@ -6094,6 +6109,7 @@
 				5F7D66C6215F407900803BCF /* SVMtlFaceShape.h in Headers */,
 				5F7D63A0215F407800803BCF /* memorystream.h in Headers */,
 				5F7D65BE215F407800803BCF /* SVRendererMetal.h in Headers */,
+				5C56B6802248B005007D7DC8 /* SVMtlGradientMap.h in Headers */,
 				5F7D60BC215F407700803BCF /* SVFilterGenLUT.h in Headers */,
 				5F7D68E6215F407900803BCF /* SVDataSwap.h in Headers */,
 				5F7D65CA215F407800803BCF /* SVResFBO.h in Headers */,
@@ -6631,6 +6647,7 @@
 				5F7D68EF215F407900803BCF /* SVSem.cpp in Sources */,
 				5F7D623D215F407800803BCF /* pngread.c in Sources */,
 				5F7D6553215F407800803BCF /* SVResTex.cpp in Sources */,
+				5C56B67E2248AFFD007D7DC8 /* SVMtlGradientMap.cpp in Sources */,
 				5F7D6159215F407700803BCF /* SVInst.cpp in Sources */,
 				5F7D6309215F407800803BCF /* PathConstraintData.c in Sources */,
 				5F7D6319215F407800803BCF /* VertexEffect.c in Sources */,
@@ -6942,6 +6959,7 @@
 				02F27E57218EF216007E85C3 /* SVGLTFModelNode.cpp in Sources */,
 				5F7D66C8215F407900803BCF /* SVTexMgr.cpp in Sources */,
 				5F7D65EC215F407800803BCF /* SVFboObject.cpp in Sources */,
+				5C56B67B2248AF77007D7DC8 /* SVMtlGradientMap.cpp in Sources */,
 				5F7D6568215F407800803BCF /* SVRResGL.cpp in Sources */,
 				02AD983021EF44A800130131 /* SVMark.cpp in Sources */,
 				5F7D67DC215F407900803BCF /* SVBackGroundNode.cpp in Sources */,
@@ -7296,6 +7314,7 @@
 				5F7D68EE215F407900803BCF /* SVSem.cpp in Sources */,
 				5F7D623C215F407800803BCF /* pngread.c in Sources */,
 				5F7D6552215F407800803BCF /* SVResTex.cpp in Sources */,
+				5C56B67D2248AFFC007D7DC8 /* SVMtlGradientMap.cpp in Sources */,
 				5F7D6158215F407700803BCF /* SVInst.cpp in Sources */,
 				5F7D6308215F407800803BCF /* PathConstraintData.c in Sources */,
 				5F7D6318215F407800803BCF /* VertexEffect.c in Sources */,
@@ -7627,6 +7646,7 @@
 				5F7D68ED215F407900803BCF /* SVSem.cpp in Sources */,
 				5F7D623B215F407800803BCF /* pngread.c in Sources */,
 				5F7D6551215F407800803BCF /* SVResTex.cpp in Sources */,
+				5C56B67C2248AFFB007D7DC8 /* SVMtlGradientMap.cpp in Sources */,
 				5F7D6157215F407700803BCF /* SVInst.cpp in Sources */,
 				5F7D6307215F407800803BCF /* PathConstraintData.c in Sources */,
 				5F7D6317215F407800803BCF /* VertexEffect.c in Sources */,
