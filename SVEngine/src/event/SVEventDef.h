@@ -37,7 +37,7 @@ namespace sv {
         EVN_T_DEVICE_ACCELEROMETER,
         EVN_T_CAMERA_MATRIX,
         EVN_T_PROJECT_MATRIX,
-        EVN_T_ANCHOR_POINT,
+        EVN_T_ANCHOR_AR,
         EVN_T_PICK_COLOR,
         EVN_T_PICK_NODE_CHANGE,
         EVN_T_PICK_GET_NODE,

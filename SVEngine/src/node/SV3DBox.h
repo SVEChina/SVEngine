@@ -26,7 +26,6 @@ namespace sv {
             virtual void render();
             
             void randomInit();
-            
         public:
             SVRenderObjectPtr m_pRenderObj;
             

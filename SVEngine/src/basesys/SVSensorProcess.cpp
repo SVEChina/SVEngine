@@ -14,7 +14,7 @@
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVScene.h"
 #include "../node/SVCameraNode.h"
-#include "../base/SVPreDeclare.h"
+#include "../node/SV3DBox.h"
 #include <sys/time.h>
 //
 SVSensorProcess::SVSensorProcess(SVInst *_app)
@@ -27,10 +27,11 @@ SVSensorProcess::SVSensorProcess(SVInst *_app)
     m_distance1.set(0.0f, 0.0f, 0.0f);
     m_isFitst = false;
     m_isEnable= true;
+    m_maxBox = 20;
 }
 
 SVSensorProcess::~SVSensorProcess() {
-    
+    m_3DBoxPool.destroy();
 }
 
 void SVSensorProcess::startSensor(){
@@ -68,17 +69,40 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
         memcpy(mainCamera->getCameraMat(), cameraMatrix->m_matData->getData(), cameraMatrix->m_matData->getSize());
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_PROJECT_MATRIX){
         SVProjectMatrixEventPtr projectMatrix = std::dynamic_pointer_cast<SVProjectMatrixEvent>(_event);
-        //        SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-        //        memcpy(mainCamera->getProjectMat(), projectMatrix->m_matData->getData(), projectMatrix->m_matData->getSize());
-    }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHOR_POINT){
-        //        SVAnchorPointEventPtr anchorPoint = std::dynamic_pointer_cast<SVAnchorPointEvent>(_event);
-        //        if (m_stage == E_G_STAGE_RUN) {
-        //            SVLightStickUnitPtr unit = m_run->getUnitMgr()->generateUnit();
-        //            if (unit) {
-        //                unit->enter();
-        //                unit->setPos(FVec3(anchorPoint->x, anchorPoint->y, anchorPoint->z));
-        //            }
-        //        }
+                SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
+                memcpy(mainCamera->getProjectMat(), projectMatrix->m_matData->getData(), projectMatrix->m_matData->getSize());
+    }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHOR_AR){
+        SVARAnchorEventPtr anchor = std::dynamic_pointer_cast<SVARAnchorEvent>(_event);
+        if (anchor) {
+            if (m_maxBox > anchor->m_index) {
+                if (anchor->m_index < m_3DBoxPool.size()) {
+                    SV3DBoxPtr t_testBox = m_3DBoxPool[anchor->m_index];
+                    //做数据更新
+//                    t_testBox->setPosition(anchor->m_p_x, anchor->m_p_y, -200);
+//                    FMat4 localMat = FMat4((f32 *)anchor->m_matData->getData());
+                    //                        localMat.setScale(FVec3(0.5, 0.5, 0.5));
+//                    t_testBox->setLocalMatrix(localMat);
+                }else{
+                    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+                    if (t_pScene) {
+                        //创建测试盒子®
+                        SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+                        //做数据更新
+//                        t_testBox->randomInit();
+//                        t_testBox->setScale(0.5, 0.5, 0.5);
+//                        t_testBox->setPosition(anchor->m_p_x, anchor->m_p_y, -200);
+//                        t_testBox->setRotation(anchor->m_r_x, anchor->m_r_y, anchor->m_r_z);
+                        t_testBox->m_color.setColor(1.0, 0.0, 0.0, 1.0);
+                        FMat4 localMat = FMat4((f32 *)anchor->m_matData->getData());
+//                        localMat.setScale(FVec3(0.5, 0.5, 0.5));
+                        t_testBox->setLocalMatrix(localMat);
+                        t_pScene->addNode(t_testBox);
+                        m_3DBoxPool.append(t_testBox);
+                    }
+                }
+            }
+        }
+        
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_DEVICE_ACCELEROMETER){
         if (!m_isFitst) {
             m_isFitst = true;
