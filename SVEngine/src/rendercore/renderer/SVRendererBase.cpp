@@ -133,7 +133,7 @@ bool SVRendererBase::hasSVTex(SVTEXTYPE _type) {
 }
 
 //创建内置纹理 有问题后期删掉
-SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate) {
+SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate, bool _enableMipMap) {
     if (_type >= E_TEX_CAMERA && _type <= E_TEX_OUTSTREAM) {
         SVTexturePtr t_tex = nullptr;
 #if defined( SV_IOS )
@@ -145,9 +145,9 @@ SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _form
             SVString t_str("");
             t_str.printf("intexture_%d",s32(_type));
 #if defined( SV_IOS )
-            t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_BGRA);
+            t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_BGRA,_enableMipMap);
 #else
-            t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_RGBA);
+            t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_RGBA,_enableMipMap);
 #endif
             mApp->getRenderMgr()->pushRCmdCreate(t_tex);
             m_svTex[_type] = t_tex;
@@ -157,9 +157,9 @@ SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _form
         SVString t_str("");
         t_str.printf("intexture_%d",s32(_type));
 #if defined( SV_IOS )
-        t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_BGRA);
+        t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_BGRA,_enableMipMap);
 #else
-        t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_RGBA);
+        t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_RGBA,_enableMipMap);
 #endif
         mApp->getRenderMgr()->pushRCmdCreate(t_tex);
         m_svTex[_type] = t_tex;
@@ -168,7 +168,7 @@ SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _form
 }
 
 //创建内置纹理 有问题后期删掉
-SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate) {
+SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate, bool _enableMipMap) {
     if (_type >= E_TEX_CAMERA && _type <= E_TEX_OUTSTREAM) {
         SVTexturePtr t_tex = nullptr;
 #if defined( SV_IOS )
@@ -180,9 +180,9 @@ SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _info
             SVString t_str("");
             t_str.printf("intexture_%d",s32(_type));
 #if defined( SV_IOS )
-            t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate);
+            t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate,_enableMipMap);
 #else
-            t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate);
+            t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate,_enableMipMap);
 #endif
             mApp->getRenderMgr()->pushRCmdCreate(t_tex);
             m_svTex[_type] = t_tex;
@@ -192,9 +192,9 @@ SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _info
         SVString t_str("");
         t_str.printf("intexture_%d",s32(_type));
 #if defined( SV_IOS )
-        t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate);
+        t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate,_enableMipMap);
 #else
-        t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate);
+        t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate,_enableMipMap);
 #endif
         mApp->getRenderMgr()->pushRCmdCreate(t_tex);
         m_svTex[_type] = t_tex;

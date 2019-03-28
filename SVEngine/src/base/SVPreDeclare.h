@@ -226,6 +226,9 @@ namespace sv {
         DECLARE_SHAREPTR(SVGenLUTParam);
         DECLARE_SHAREPTR(SVDataFilter);
         DECLARE_SHAREPTR(SVFilterGenLUT);
+        DECLARE_SHAREPTR(SVFilterClarity);
+        DECLARE_SHAREPTR(SVFilterHaze);
+        DECLARE_SHAREPTR(SVFilterGof);
         DECLARE_SHAREPTR(SVRGBToneCurveFilter);
         DECLARE_SHAREPTR(SVBasedonFilter);
         DECLARE_SHAREPTR(SVAni2DStickersMgr);
