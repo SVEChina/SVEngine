@@ -58,9 +58,9 @@ namespace sv {
             //是否存在内置纹理
             bool hasSVTex(SVTEXTYPE _type);
             //创建内置纹理
-            SVTexturePtr createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate);
+            SVTexturePtr createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate, bool _enableMipMap = false);
             
-            SVTexturePtr createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate);
+            SVTexturePtr createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate, bool _enableMipMap = false);
             //销毁内置纹理
             void destroySVTex(SVTEXTYPE _type);
             //获取渲染状态

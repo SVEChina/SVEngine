@@ -8,13 +8,13 @@
 #ifndef SV_MTLSHINNING_H
 #define SV_MTLSHINNING_H
 
-#include "SVMtlCore.h"
+#include "SVMtlADFilterBase.h"
 
 namespace sv {
     
     namespace mtl{
         
-        class SVMtlShinning : public SVMtlCore {
+        class SVMtlShinning : public SVMtlADFilterBase {
         public:
             SVMtlShinning(SVInst *_app);
             
@@ -29,8 +29,7 @@ namespace sv {
             void update(f32 dt);
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
-            f32 m_time;
-            f32 m_accTime;
+            void _resetTime();
             f32 m_lerp;
         };
 

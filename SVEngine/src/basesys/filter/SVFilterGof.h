@@ -1,23 +1,25 @@
 //
-// SVADFilterBase.h
-// SVEngine
-// Copyright 2017-2020
-// yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
+//  SVFilterGof.h
+//  SVEngine
+//
+//  Created by 徐子昱 on 2019/3/27.
+//  Copyright © 2019 李晓帆. All rights reserved.
 //
 
-#ifndef SV_FILTERADBASE_H
-#define SV_FILTERADBASE_H
+#ifndef SV_FILTER_GOF_H
+#define SV_FILTER_GOF_H
 
 #include "SVFilterBase.h"
 
 namespace sv {
+    
     namespace logic {
         
-        class SVADFilterBase : public SVFilterBase {
+        class SVFilterGof : public SVFilterBase {
         public:
-            SVADFilterBase(SVInst *_app, SVMtlCorePtr _mtl);
+            SVFilterGof(SVInst *_app);
             
-            ~SVADFilterBase();
+            ~SVFilterGof();
             
             virtual bool create();
             
@@ -25,18 +27,23 @@ namespace sv {
             
             virtual void update(f32 dt);
             
-            void setFilterMtl(SVMtlADFilterBasePtr _mtl);
+            inline void setSmooth(f32 smooth){
+                m_smooth = smooth;
+            }
             
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                         RAPIDJSON_NAMESPACE::Value &_objValue);
             
             void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+            
         protected:
-            SVMtlCorePtr m_mtl;
+            f32 m_smooth;
+            SVMtlSmoothPtr m_mtl_smooth;
         };
         
     };//!namespace logic
+    
 }//!namespace sv
 
 
-#endif /* SV_FILTERADBASE_H */
+#endif /* SV_FILTER_GOF_H */

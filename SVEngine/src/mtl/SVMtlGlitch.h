@@ -8,14 +8,15 @@
 #ifndef SV_MTLGLITCH_H
 #define SV_MTLGLITCH_H
 
-#include "SVMtlCore.h"
+#include "SVMtlADFilterBase.h"
 
 namespace sv {
     
     namespace mtl{
         
-        class SVMtlGlitch : public SVMtlCore {
+        class SVMtlGlitch : public SVMtlADFilterBase {
         public:
+            
             SVMtlGlitch(SVInst *_app);
             
             SVMtlGlitch(SVMtlGlitch *_mtl);
@@ -31,6 +32,7 @@ namespace sv {
             virtual void _submitUniform(SVRendererBasePtr _render);
             void _initializeParameter();
             void _destroyParameter();
+            void _resetTime();
             s32 m_maxFrame;
             s32 m_curFrame;
             f32 *m_drift;
