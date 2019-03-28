@@ -30,9 +30,9 @@ namespace sv {
             //
             void resize(s32 _w,s32 _h);
             //平移 像素dert x,y
-            void move(s32 _px,s32 py);
+            void move(f32 _px,f32 py);
             //角度旋转 像素dert x,y
-            void angle(s32 _px,s32 py);
+            void angle(f32 _px,f32 py);
             //推拉
             void zoom(f32 _dis);
             
@@ -57,9 +57,9 @@ namespace sv {
             //
             void resize(s32 _w,s32 _h);
             //平移 像素dert x,y
-            void move(s32 _px,s32 py);
+            void move(f32 _px,f32 py);
             //角度旋转 像素dert x,y
-            void angle(s32 _px,s32 py);
+            void angle(f32 _px,f32 py);
             //推拉
             void zoom(f32 _dis);
 
@@ -71,6 +71,7 @@ namespace sv {
             FVec3 m_pos;
             FVec3 m_target;
             bool m_dirty;
+            f32 m_pixelUnit;
         };
         
     }//!namespace logic

@@ -290,8 +290,8 @@ SVZOffParam::~SVZOffParam(){
 
 void SVZOffParam::reset(){
     enable = false;
-    m_factor = 1.0f;
-    m_unit = 1.0f;
+    m_factor = 0.0f;
+    m_unit = 0.0f;
 }
 
 void SVZOffParam::copy(SVZOffParam& _param){

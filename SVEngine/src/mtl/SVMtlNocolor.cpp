@@ -79,7 +79,6 @@ SVMtlCoord::~SVMtlCoord() {
 
 void SVMtlCoord::_submitMtl(SVRendererBasePtr _render) {
     SVMtlCore::_submitMtl(_render);
-    //_render->submitUniformf4("u_color", m_color.r, m_color.g, m_color.b, m_color.a);
 }
 
 //
