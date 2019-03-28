@@ -11,12 +11,12 @@
 #include "../rendercore/renderer/SVRendererBase.h"
 
 SVMtlStreak::SVMtlStreak(SVInst *_app)
-:SVMtlCore(_app,"filterstreak") {
+:SVMtlADFilterBase(_app,"filterstreak") {
 
 }
 
 SVMtlStreak::SVMtlStreak(SVMtlStreak *_mtl)
-:SVMtlCore(_mtl){
+:SVMtlADFilterBase(_mtl){
     
 }
 
@@ -29,13 +29,13 @@ SVMtlCorePtr SVMtlStreak::clone() {
 }
 
 void SVMtlStreak::reset() {
-    SVMtlCore::reset();
+    SVMtlADFilterBase::reset();
  
 }
 
 //逻辑更新
 void SVMtlStreak::update(f32 dt) {
-    SVMtlCore::update(dt);
+    SVMtlADFilterBase::update(dt);
    
 }
 

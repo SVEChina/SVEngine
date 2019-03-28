@@ -8,13 +8,13 @@
 #ifndef SV_MTLDISTORTED_H
 #define SV_MTLDISTORTED_H
 
-#include "SVMtlCore.h"
+#include "SVMtlADFilterBase.h"
 
 namespace sv {
     
     namespace mtl{
         
-        class SVMtlDistorted : public SVMtlCore {
+        class SVMtlDistorted : public SVMtlADFilterBase {
         public:
             SVMtlDistorted(SVInst *_app);
             
@@ -29,8 +29,7 @@ namespace sv {
             void update(f32 dt);
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
-            f32 m_time;
-            f32 m_accTime;
+            void _resetTime();
         };
 
     }//!namespace mtl
