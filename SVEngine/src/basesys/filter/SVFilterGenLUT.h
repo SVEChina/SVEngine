@@ -67,9 +67,13 @@ namespace sv {
                 
                 m_temperature=5000.0;
                 
+                m_clarity=0.0;
+                
                 m_exposure=0.0;
                 
                 m_gmSmooth=1.0;
+                
+                m_haze=0.0f;
             }
             
             void copy(SVGenLUTParamPtr _p){
@@ -128,6 +132,9 @@ namespace sv {
                 
                 m_gmSmooth=_p->m_gmSmooth;
                 
+                m_clarity=_p->m_clarity;
+                m_haze=_p->m_haze;
+                
             }
             
             f32 m_brightness;
@@ -179,6 +186,8 @@ namespace sv {
             
             f32 m_exposure;
             f32 m_gmSmooth;
+            f32 m_clarity;
+            f32 m_haze;
             
             SVString m_data;
             SVString m_name;

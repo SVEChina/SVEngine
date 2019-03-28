@@ -25,6 +25,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVMtlGamma);
         DECLARE_SHAREPTR(SVMtlShadowHighlight);        
         DECLARE_SHAREPTR(SVMtlColorBalance);
+        DECLARE_SHAREPTR(SVMtlSmooth);
         DECLARE_SHAREPTR(SVMtlHSL);
         DECLARE_SHAREPTR(SVMtlGeo3d);
         DECLARE_SHAREPTR(SVMtlCoord);
