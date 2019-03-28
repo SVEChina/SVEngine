@@ -19,8 +19,8 @@ SV3DBox::SV3DBox(SVInst *_app)
 : SVNode(_app) {
     ntype = "SV3DBox";
     m_aabbBox.clear();
-    m_aabbBox.expand(FVec3(50.0f, 50.0f, 50.0f));
-    m_aabbBox.expand(FVec3(-50.0f, -50.0f, -50.0f));
+    m_aabbBox.expand(FVec3(0.02f, 0.02f, 0.02f));
+    m_aabbBox.expand(FVec3(-0.02f, -0.02f, -0.02f));
     //
     m_pMesh = SVGeoGen::genAABB(mApp,m_aabbBox);
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();

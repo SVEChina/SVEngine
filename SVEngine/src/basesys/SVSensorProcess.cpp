@@ -78,23 +78,15 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
                 if (anchor->m_index < m_3DBoxPool.size()) {
                     SV3DBoxPtr t_testBox = m_3DBoxPool[anchor->m_index];
                     //做数据更新
-//                    t_testBox->setPosition(anchor->m_p_x, anchor->m_p_y, -200);
-//                    FMat4 localMat = FMat4((f32 *)anchor->m_matData->getData());
-                    //                        localMat.setScale(FVec3(0.5, 0.5, 0.5));
-//                    t_testBox->setLocalMatrix(localMat);
+
                 }else{
                     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
                     if (t_pScene) {
                         //创建测试盒子®
                         SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
                         //做数据更新
-//                        t_testBox->randomInit();
-//                        t_testBox->setScale(0.5, 0.5, 0.5);
-//                        t_testBox->setPosition(anchor->m_p_x, anchor->m_p_y, -200);
-//                        t_testBox->setRotation(anchor->m_r_x, anchor->m_r_y, anchor->m_r_z);
                         t_testBox->m_color.setColor(1.0, 0.0, 0.0, 1.0);
                         FMat4 localMat = FMat4((f32 *)anchor->m_matData->getData());
-//                        localMat.setScale(FVec3(0.5, 0.5, 0.5));
                         t_testBox->setLocalMatrix(localMat);
                         t_pScene->addNode(t_testBox);
                         m_3DBoxPool.append(t_testBox);
