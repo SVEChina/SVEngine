@@ -286,7 +286,7 @@ void SVMtlCore::_submitState(SVRendererBasePtr _render) {
     if((m_LogicMtlFlag0&MTL_F0_ZOFF)>0){
         _render->submitZOff(m_LogicParamZOff);
     }else{
-         _render->submitZOff(m_LogicParamZOff);
+        _render->submitZOff(m_LogicParamZOff);
     }
 }
 

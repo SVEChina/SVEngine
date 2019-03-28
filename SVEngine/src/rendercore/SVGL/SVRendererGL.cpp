@@ -473,6 +473,7 @@ void SVRendererGL::submitZOff(SVZOffParam& _param) {
         glPolygonOffset(_param.m_factor,_param.m_unit);
     } else {
         if (glIsEnabled(GL_POLYGON_OFFSET_FILL)) {
+            glPolygonOffset(0.0f,0.0f);
             glDisable(GL_POLYGON_OFFSET_FILL);
         }
     }
