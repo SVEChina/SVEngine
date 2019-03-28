@@ -43,6 +43,12 @@ void SVFilterBase::setFilterParam(f32 _smooth,SVFILTERITEMTYPE _type){
 f32 SVFilterBase::getFilterParam(SVFILTERITEMTYPE _type){
     return 0;
 }
+
+void SVFilterBase::setVisible(bool _visible){
+    if (m_pPassNode) {
+        m_pPassNode->setvisible(_visible);
+    }
+}
 //序列化
 void SVFilterBase::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                     RAPIDJSON_NAMESPACE::Value &_objValue){

@@ -29,6 +29,8 @@ namespace sv {
             void update(f32 dt);
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
+            void _resetTime();
+            f32 m_lerp;
         };
 
     }//!namespace mtl

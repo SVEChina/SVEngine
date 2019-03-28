@@ -74,7 +74,6 @@ void SVADFilterBase::destroy(){
 void SVADFilterBase::update(f32 dt){
     //
     if(m_pPassNode && m_mtl){
-        m_pPassNode->setvisible(true);
         m_mtl->update(dt);
     }
 }

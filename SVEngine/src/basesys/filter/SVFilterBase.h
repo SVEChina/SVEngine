@@ -37,6 +37,7 @@ namespace sv {
             
             virtual f32 getFilterParam(SVFILTERITEMTYPE _type);
             
+            virtual void setVisible(bool _visible);
             //序列化
             virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                                 RAPIDJSON_NAMESPACE::Value &_objValue);
