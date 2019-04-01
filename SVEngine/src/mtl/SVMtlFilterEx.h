@@ -98,6 +98,32 @@ namespace sv {
             
         };
         
+        class SVMtlWhiteBlackLevel : public SVMtlCore  {
+        public:
+            SVMtlWhiteBlackLevel(SVInst *_app);
+            
+            SVMtlWhiteBlackLevel(SVMtlWhiteBlackLevel* _mtl);
+            
+            ~SVMtlWhiteBlackLevel();
+            
+            virtual SVMtlCorePtr clone();
+            
+            void setShadow(f32 _smooth){
+                m_shadow=_smooth;
+            }
+            
+            void setHighlight(f32 _smooth){
+                m_HighLight=_smooth;
+            }
+            
+        protected:
+            virtual void _submitMtl(SVRendererBasePtr _render);
+            //
+            f32 m_shadow;
+            f32 m_HighLight;
+            
+        };
+        
         class SVMtlColorBalance: public SVMtlCore  {
         public:
             SVMtlColorBalance(SVInst *_app);

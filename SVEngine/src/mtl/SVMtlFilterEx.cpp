@@ -127,6 +127,31 @@ void SVMtlShadowHighlight::_submitMtl(SVRendererBasePtr _render){
     _render->submitUniformf("highlights", m_HighLight);
 }
 
+SVMtlWhiteBlackLevel::SVMtlWhiteBlackLevel(SVInst *_app)
+:SVMtlCore(_app,"whiteblackLevel") {
+    m_shadow=0.0;
+    m_HighLight=0.0;
+}
+
+SVMtlWhiteBlackLevel::SVMtlWhiteBlackLevel(SVMtlWhiteBlackLevel* _mtl)
+:SVMtlCore(_mtl){
+    
+}
+
+SVMtlWhiteBlackLevel::~SVMtlWhiteBlackLevel(){
+    
+}
+
+SVMtlCorePtr SVMtlWhiteBlackLevel::clone(){
+    return PointerSharedPtr<SVMtlWhiteBlackLevel>(new SVMtlWhiteBlackLevel(this));
+}
+
+void SVMtlWhiteBlackLevel::_submitMtl(SVRendererBasePtr _render){
+    SVMtlCore::_submitMtl(_render);
+    _render->submitUniformf("shadows", m_shadow);
+    _render->submitUniformf("highlights", m_HighLight);
+}
+
 SVMtlColorBalance::SVMtlColorBalance(SVInst *_app)
 :SVMtlCore(_app,"colorBalance"){
     m_redShift      = 0.0f;

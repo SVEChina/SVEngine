@@ -33,6 +33,7 @@ SVFilterGenLUT::SVFilterGenLUT(SVInst *_app)
     m_exposureMtl=nullptr;
     m_GradientMapPass=nullptr;
     m_gradientMapMtl=nullptr;
+    m_whiteBalckLeveMtl=nullptr;
     //
     m_genParam = MakeSharedPtr<SVGenLUTParam>();
     m_genParam->reset();
@@ -83,6 +84,9 @@ bool SVFilterGenLUT::create(){
     m_shadowHighlightMtl=MakeSharedPtr<SVMtlShadowHighlight>(mApp);
     m_shadowHighlightMtl->setTexcoordFlip(1.0, 1.0);
     
+    m_whiteBalckLeveMtl=MakeSharedPtr<SVMtlWhiteBlackLevel>(mApp);
+    m_whiteBalckLeveMtl->setTexcoordFlip(1.0, 1.0);
+    
     m_whiteBalanceMtl = MakeSharedPtr<SVMtlWhiteBalance>(mApp);
     m_whiteBalanceMtl->setTexcoordFlip(1.0, 1.0);
     
@@ -132,48 +136,48 @@ bool SVFilterGenLUT::create(){
     m_pPassNode->addPass(m_pass);
     
     m_pass=MakeSharedPtr<SVPass>();
-    m_pass->setMtl(m_shadowHighlightMtl);
-    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H1);
-    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H2);
+    m_pass->setMtl(m_whiteBalckLeveMtl);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H2);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H1);
     m_pPassNode->addPass(m_pass);
     
     m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(m_whiteBalanceMtl);
-    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H2);
-    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H1);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H1);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H2);
     m_pPassNode->addPass(m_pass);
     
     m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(m_gammaMtl);
-    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H1);
-    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H2);
-    m_pPassNode->addPass(m_pass);
-    
-    m_pass=MakeSharedPtr<SVPass>();
-    m_pass->setMtl(m_exposureMtl);
     m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H2);
     m_pass->setOutTex(E_TEX_FILTER_GENLUT_H1);
     m_pPassNode->addPass(m_pass);
     
     m_pass=MakeSharedPtr<SVPass>();
-    m_pass->setMtl(t_curveMtl);
+    m_pass->setMtl(m_exposureMtl);
     m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H1);
-    m_pass->setInTex(1 ,E_TEX_FILTER_GENLUT_H3);
     m_pass->setOutTex(E_TEX_FILTER_GENLUT_H2);
+    m_pPassNode->addPass(m_pass);
+    
+    m_pass=MakeSharedPtr<SVPass>();
+    m_pass->setMtl(t_curveMtl);
+    m_pass->setInTex(0, E_TEX_FILTER_GENLUT_H2);
+    m_pass->setInTex(1 ,E_TEX_FILTER_GENLUT_H3);
+    m_pass->setOutTex(E_TEX_FILTER_GENLUT_H1);
     m_pPassNode->addPass(m_pass);
     
     SVMtlCorePtr t_mtl_rgba=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     t_mtl_rgba->setTexcoordFlip(1.0f, 1.0f);
     m_GradientMapPass=MakeSharedPtr<SVPass>();
     m_GradientMapPass->setMtl(t_mtl_rgba);
-    m_GradientMapPass->setInTex(0,E_TEX_FILTER_GENLUT_H2);
+    m_GradientMapPass->setInTex(0,E_TEX_FILTER_GENLUT_H1);
     m_GradientMapPass->setInTex(1,E_TEX_FILTER_GENLUT_H4);
-    m_GradientMapPass->setOutTex(E_TEX_FILTER_GENLUT_H1);
+    m_GradientMapPass->setOutTex(E_TEX_FILTER_GENLUT_H2);
     m_pPassNode->addPass(m_GradientMapPass);
 
     m_pass=MakeSharedPtr<SVPass>();
     m_pass->setMtl(t_mtl_back);
-    m_pass->setInTex(0,E_TEX_FILTER_GENLUT_H1);
+    m_pass->setInTex(0,E_TEX_FILTER_GENLUT_H2);
     m_pass->setOutTex(E_TEX_FILTER_GENLUT_OUT);
     m_pPassNode->addPass(m_pass);
 
@@ -201,6 +205,7 @@ void SVFilterGenLUT::destroy(){
     m_exposureMtl=nullptr;
     m_GradientMapPass=nullptr;
     m_gradientMapMtl=nullptr;
+    m_whiteBalckLeveMtl=nullptr;
     //
     m_genParam->reset();
 }
@@ -271,7 +276,10 @@ void SVFilterGenLUT::update(f32 dt){
     
     m_shadowHighlightMtl->setShadow(m_genParam->m_shadow);
     m_shadowHighlightMtl->setHighlight(m_genParam->m_Highlight);
-    
+
+    m_whiteBalckLeveMtl->setShadow(m_genParam->m_blackLeve);
+    m_whiteBalckLeveMtl->setHighlight(m_genParam->m_whiteLeve);
+ 
     m_whiteBalanceMtl->setTemperature(m_genParam->m_temperature);
     m_whiteBalanceMtl->setTint(m_genParam->m_tint);
     
@@ -348,6 +356,8 @@ void SVFilterGenLUT::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc
     locationObj.AddMember("hhblueShift",m_genParam->m_hhblueShift, _allocator);
     locationObj.AddMember("shadow",m_genParam->m_shadow, _allocator);
     locationObj.AddMember("Highlight",m_genParam->m_Highlight, _allocator);
+    locationObj.AddMember("blackLevel",m_genParam->m_blackLeve, _allocator);
+    locationObj.AddMember("whiteLevel",m_genParam->m_whiteLeve, _allocator);
     locationObj.AddMember("gamma",m_genParam->m_gamma, _allocator);
     locationObj.AddMember("temperature",m_genParam->m_temperature, _allocator);
     locationObj.AddMember("tint",m_genParam->m_tint, _allocator);

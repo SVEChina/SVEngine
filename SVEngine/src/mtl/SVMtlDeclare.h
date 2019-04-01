@@ -23,7 +23,8 @@ namespace sv {
         DECLARE_SHAREPTR(SVMtlWhiteBalance);
         DECLARE_SHAREPTR(SVMtlExposure);
         DECLARE_SHAREPTR(SVMtlGamma);
-        DECLARE_SHAREPTR(SVMtlShadowHighlight);        
+        DECLARE_SHAREPTR(SVMtlShadowHighlight);
+        DECLARE_SHAREPTR(SVMtlWhiteBlackLevel);
         DECLARE_SHAREPTR(SVMtlColorBalance);
         DECLARE_SHAREPTR(SVMtlSmooth);
         DECLARE_SHAREPTR(SVMtlHSL);

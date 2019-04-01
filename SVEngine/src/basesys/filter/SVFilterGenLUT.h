@@ -63,6 +63,9 @@ namespace sv {
                 m_shadow=0.0;
                 m_Highlight=0.0;
                 
+                m_whiteLeve=0.0;
+                m_blackLeve=0.0;
+                
                 m_gamma=1.0;
                 
                 m_temperature=5000.0;
@@ -118,6 +121,9 @@ namespace sv {
                 
                 m_shadow=_p->m_shadow;
                 m_Highlight=_p->m_Highlight;
+                
+                m_whiteLeve=_p->m_whiteLeve;
+                m_blackLeve=_p->m_blackLeve;
                 
                 m_gamma=_p->m_gamma;
                 
@@ -178,6 +184,9 @@ namespace sv {
             
             f32 m_shadow;
             f32 m_Highlight;
+            
+            f32 m_whiteLeve;
+            f32 m_blackLeve;
             
             f32 m_gamma;
             
@@ -346,6 +355,14 @@ namespace sv {
                  m_genParam->m_Highlight=_highlight;
             }
             
+            inline void setWhiteLeve(f32 _white){
+                m_genParam->m_whiteLeve=_white;
+            }
+            
+            inline void setBlackLeve(f32 _black){
+                m_genParam->m_blackLeve=_black;
+            }
+            
             inline void setName(cptr8 _name){
                 m_genParam->m_name=_name;
             }
@@ -378,6 +395,7 @@ namespace sv {
             SVMtlVibrancePtr m_VibranceMtl;
             SVMtlColorBalancePtr m_colorBalanceMtl;
             SVMtlShadowHighlightPtr m_shadowHighlightMtl;
+            SVMtlWhiteBlackLevelPtr m_whiteBalckLeveMtl;
             SVMtlWhiteBalancePtr m_whiteBalanceMtl;
             SVMtlGammaPtr m_gammaMtl;
             SVMtlExposurePtr m_exposureMtl;
