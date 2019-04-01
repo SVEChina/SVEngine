@@ -8,13 +8,13 @@
 #ifndef SV_MTLSTREAK_H
 #define SV_MTLSTREAK_H
 
-#include "SVMtlCore.h"
+#include "SVMtlADFilterBase.h"
 
 namespace sv {
     
     namespace mtl{
         
-        class SVMtlStreak : public SVMtlCore {
+        class SVMtlStreak : public SVMtlADFilterBase {
         public:
             SVMtlStreak(SVInst *_app);
             
@@ -29,6 +29,8 @@ namespace sv {
             void update(f32 dt);
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
+            void _resetTime();
+            f32 m_lerp;
         };
 
     }//!namespace mtl

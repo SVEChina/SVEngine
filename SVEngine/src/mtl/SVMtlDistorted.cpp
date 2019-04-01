@@ -11,13 +11,12 @@
 #include "../rendercore/renderer/SVRendererBase.h"
 
 SVMtlDistorted::SVMtlDistorted(SVInst *_app)
-:SVMtlCore(_app,"filterdistorted") {
-    m_accTime = 0.0f;
-    m_time = 3.0f;
+:SVMtlADFilterBase(_app,"filterdistorted") {
+    _resetTime();
 }
 
 SVMtlDistorted::SVMtlDistorted(SVMtlDistorted *_mtl)
-:SVMtlCore(_mtl){
+:SVMtlADFilterBase(_mtl){
     
 }
 
@@ -30,9 +29,8 @@ SVMtlCorePtr SVMtlDistorted::clone() {
 }
 
 void SVMtlDistorted::reset() {
-    SVMtlCore::reset();
-    m_accTime = 0.0f;
-    m_time = 3.0f;
+    SVMtlADFilterBase::reset();
+    _resetTime();
 }
 
 //逻辑更新
@@ -47,4 +45,9 @@ void SVMtlDistorted::update(f32 dt) {
 void SVMtlDistorted::_submitUniform(SVRendererBasePtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf("time", m_accTime/m_time);
+}
+
+void SVMtlDistorted::_resetTime(){
+    m_accTime = 0.0f;
+    m_time = 3.0f;
 }

@@ -11,14 +11,12 @@
 #include "../rendercore/renderer/SVRendererBase.h"
 
 SVMtlRainbowColor::SVMtlRainbowColor(SVInst *_app)
-:SVMtlCore(_app,"filterrainbowcolor") {
-    m_lerp = 0.0f;
-    m_accTime = 0.0f;
-    m_time = 1.0f;
+:SVMtlADFilterBase(_app,"filterrainbowcolor") {
+    _resetTime();
 }
 
 SVMtlRainbowColor::SVMtlRainbowColor(SVMtlRainbowColor *_mtl)
-:SVMtlCore(_mtl){
+:SVMtlADFilterBase(_mtl){
     
 }
 
@@ -31,15 +29,13 @@ SVMtlCorePtr SVMtlRainbowColor::clone() {
 }
 
 void SVMtlRainbowColor::reset() {
-    SVMtlCore::reset();
-    m_lerp = 0.0f;
-    m_accTime = 0.0f;
-    m_time = 1.0f;
+    SVMtlADFilterBase::reset();
+    _resetTime();
 }
 
 //逻辑更新
 void SVMtlRainbowColor::update(f32 dt) {
-    SVMtlCore::update(dt);
+    SVMtlADFilterBase::update(dt);
     m_lerp = m_accTime/m_time;
     if(m_lerp<0){
         m_lerp = 0.0f;
@@ -53,6 +49,12 @@ void SVMtlRainbowColor::update(f32 dt) {
 }
 
 void SVMtlRainbowColor::_submitUniform(SVRendererBasePtr _render) {
-    SVMtlCore::_submitUniform(_render);
+    SVMtlADFilterBase::_submitUniform(_render);
     _render->submitUniformf("lerp", m_lerp);
+}
+
+void SVMtlRainbowColor::_resetTime(){
+    m_lerp = 0.0f;
+    m_accTime = 0.0f;
+    m_time = 1.0f;
 }

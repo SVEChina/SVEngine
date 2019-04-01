@@ -59,7 +59,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVMtlFlash);
         DECLARE_SHAREPTR(SVMtlGlitch);
         DECLARE_SHAREPTR(SVMtlDistorted);
-        
+        DECLARE_SHAREPTR(SVMtlADFilterBase);
         //texture
         DECLARE_SHAREPTR(SVTexture);
         DECLARE_SHAREPTR(SVTextureInputTexID);

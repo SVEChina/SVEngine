@@ -8,13 +8,13 @@
 #ifndef SV_MTLFLASH_H
 #define SV_MTLFLASH_H
 
-#include "SVMtlCore.h"
+#include "SVMtlADFilterBase.h"
 
 namespace sv {
     
     namespace mtl{
         
-        class SVMtlFlash : public SVMtlCore {
+        class SVMtlFlash : public SVMtlADFilterBase {
         public:
             SVMtlFlash(SVInst *_app);
             
@@ -29,6 +29,7 @@ namespace sv {
             void update(f32 dt);
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
+            void _resetTime();
             f32 m_accTime;
             f32 m_time;//周期
             f32 m_lerp;

@@ -74,8 +74,20 @@ void SVADFilterBase::destroy(){
 void SVADFilterBase::update(f32 dt){
     //
     if(m_pPassNode && m_mtl){
-        m_pPassNode->setvisible(true);
         m_mtl->update(dt);
+    }
+}
+
+void SVADFilterBase::setFilterMtl(SVMtlADFilterBasePtr _mtl){
+    if (_mtl && m_pPassNode) {
+        m_mtl = _mtl;
+        SVPassPtr t_pass1 = m_pPassNode->getPass(0);
+        if (t_pass1) {
+            m_mtl->setTexcoordFlip(1.0f, 1.0f);
+            t_pass1->setMtl(m_mtl);
+            t_pass1->setInTex(0,E_TEX_MAIN);
+            t_pass1->setOutTex(E_TEX_FILTER_1);
+        }
     }
 }
 

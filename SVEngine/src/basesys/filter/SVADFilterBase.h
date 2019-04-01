@@ -25,6 +25,8 @@ namespace sv {
             
             virtual void update(f32 dt);
             
+            void setFilterMtl(SVMtlADFilterBasePtr _mtl);
+            
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                         RAPIDJSON_NAMESPACE::Value &_objValue);
             

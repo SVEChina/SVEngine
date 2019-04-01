@@ -11,17 +11,21 @@
 #include "../rendercore/renderer/SVRendererBase.h"
 
 SVMtlStreak::SVMtlStreak(SVInst *_app)
-:SVMtlCore(_app,"filterstreak") {
-
+:SVMtlADFilterBase(_app,"filterstreak2") {
+    m_lerp = 0.0f;
+    _resetTime();
+    m_state = MTL_ADFILTER_BEGIN;
 }
 
 SVMtlStreak::SVMtlStreak(SVMtlStreak *_mtl)
-:SVMtlCore(_mtl){
+:SVMtlADFilterBase(_mtl){
     
 }
 
 SVMtlStreak::~SVMtlStreak() {
-    
+    m_lerp = 0.0f;
+    _resetTime();
+    m_state = MTL_ADFILTER_BEGIN;
 }
 
 SVMtlCorePtr SVMtlStreak::clone() {
@@ -29,17 +33,44 @@ SVMtlCorePtr SVMtlStreak::clone() {
 }
 
 void SVMtlStreak::reset() {
-    SVMtlCore::reset();
+    SVMtlADFilterBase::reset();
  
 }
 
 //逻辑更新
 void SVMtlStreak::update(f32 dt) {
-    SVMtlCore::update(dt);
-   
+    SVMtlADFilterBase::update(dt);
+    if (m_accTime >= m_intervalTime) {
+        if (m_state == MTL_ADFILTER_END) {
+            m_state = MTL_ADFILTER_BEGIN;
+        }
+        _resetTime();
+    }
+    if (m_accTime >= m_time) {
+        m_state = MTL_ADFILTER_END;
+    }
+    if (m_state == MTL_ADFILTER_BEGIN) {
+        m_state = MTL_ADFILTER_RUNNING;
+    }
+    if (m_state == MTL_ADFILTER_RUNNING) {
+        m_lerp = m_accTime/m_time;
+        if (m_lerp > 1.0 || m_lerp < 0.0) {
+            m_lerp = 0;
+        }
+    }
+    if (m_state == MTL_ADFILTER_END) {
+        m_lerp = 0;
+    }
+    m_accTime += dt;
 }
 
 void SVMtlStreak::_submitUniform(SVRendererBasePtr _render) {
     SVMtlCore::_submitUniform(_render);
+    _render->submitUniformf("lerp", m_lerp);
+}
 
+void SVMtlStreak::_resetTime(){
+    m_accTime = 0.0f;
+    m_time = 1.0f;
+    m_intervalTime = 4.0f;
 }
