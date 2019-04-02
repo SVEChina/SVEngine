@@ -22,6 +22,7 @@
 #include "../node/SVSkyDomeNode.h"
 #include "../node/SV3DBox.h"
 #include "../node/SVSpriteNode.h"
+#include "../node/SVBillboardNode.h"
 #include "../node/SVParticlesNode.h"
 #include "../node/SVFreeTypeNode.h"
 #include "../core/SVSpine.h"
@@ -246,16 +247,16 @@ void SVOpCreateTest::_process(f32 dt) {
 //        t_pScene->addNode(t_testFreetype);
         
         //
-#ifdef SV_IOS
-        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
-        file = [file stringByAppendingPathComponent:@"svres/chineses.fnt"];
-        SVBMFontPtr m_font = SVBMFont::creatFnt([file UTF8String], mApp);
-        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
-        bmNode->setFont(m_font);
-        bmNode->setText("丹分化");
-        bmNode->setSpacing(20);
-        t_pScene->addNode(bmNode);
-#endif
+//#ifdef SV_IOS
+//        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
+//        file = [file stringByAppendingPathComponent:@"svres/chineses.fnt"];
+//        SVBMFontPtr m_font = SVBMFont::creatFnt([file UTF8String], mApp);
+//        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
+//        bmNode->setFont(m_font);
+//        bmNode->setText("丹分化");
+//        bmNode->setSpacing(20);
+//        t_pScene->addNode(bmNode);
+//#endif
     
 //#ifdef SV_IOS
 //        NSString *t_resPath = [[NSBundle mainBundle]pathForResource:@"sve" ofType:@"bundle"];
@@ -273,6 +274,16 @@ void SVOpCreateTest::_process(f32 dt) {
 //#endif
         
 //    }
+    
+    SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
+    billboardNode->setPosition(0, 0, 100);
+    cptr8 file = "svres/sprite/HollowKnight.png";
+    SVTexturePtr texture = mApp->getTexMgr()->getTexture(file,true);
+    billboardNode->setTexture(texture);
+    billboardNode->setSize(500, 500);
+    t_pScene->addNode(billboardNode);
+
+    
 }
 
 //测试操作

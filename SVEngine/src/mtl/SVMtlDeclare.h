@@ -38,6 +38,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVMtlAni2D);
         DECLARE_SHAREPTR(SVMtl3D);
         DECLARE_SHAREPTR(SVMtl2D);
+        DECLARE_SHAREPTR(SVMtlBillboard);
         //美颜
         DECLARE_SHAREPTR(SVMtlFilterBrilaterl);
         DECLARE_SHAREPTR(SVMtlFilterBrilaterl2);

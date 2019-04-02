@@ -10,6 +10,7 @@
 #include "SVScene.h"
 #include "SVCameraNode.h"
 #include "../mtl/SVMtlCore.h"
+#include "../mtl/SVMtlBillboard.h"
 #include "../rendercore/SVRenderMesh.h"
 #include "../core/SVGeoGen.h"
 #include "../basesys/SVConfig.h"
@@ -33,6 +34,7 @@ SVBillboardNode::SVBillboardNode(SVInst *_app)
     m_pMesh = nullptr;
     setTexcoord(1.0,-1.0);
     setSize(100,100);
+    m_pMtl = MakeSharedPtr<SVMtlBillboard>(_app);
 }
 
 SVBillboardNode::SVBillboardNode(SVInst *_app,f32 _w,f32 _h)
@@ -46,6 +48,7 @@ SVBillboardNode::SVBillboardNode(SVInst *_app,f32 _w,f32 _h)
     m_pMesh = nullptr;
     setTexcoord(1.0,-1.0);
     setSize(_w,_h);
+    m_pMtl = MakeSharedPtr<SVMtlBillboard>(_app);
 }
 
 SVBillboardNode::~SVBillboardNode() {
@@ -78,14 +81,6 @@ void SVBillboardNode::syncTexSize() {
 void SVBillboardNode::setTexcoord(f32 _x,f32 _y){
     m_texcoordX=_x;
     m_texcoordY=_y;
-}
-
-void SVBillboardNode::setMaterial(SVMtlCorePtr _mtl){
-    m_pMtl = _mtl;
-}
-
-SVMtlCorePtr SVBillboardNode::getMaterial(){
-    return m_pMtl;
 }
 
 void SVBillboardNode::setTexture(cptr8 _path, bool enableMipMap){
@@ -123,6 +118,10 @@ void SVBillboardNode::update(f32 dt) {
     SVNode::update(dt);
     if (m_pRenderObj && m_pMesh) {
         if(m_pMtl){
+            SVMtlBillboardPtr t_billboard = DYN_TO_SHAREPTR(SVMtlBillboard, m_pMtl);
+            if (t_billboard) {
+                t_billboard->setQuadPosW(getPosition());
+            }
             m_pMtl->setBlendEnable(true);
             m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
             m_pMtl->setModelMatrix(m_absolutMat.get());
