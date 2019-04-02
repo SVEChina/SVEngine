@@ -1,42 +1,42 @@
 //
-// SVSpriteNode.h
+// SVBillboardNode.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_SPRITE_H
-#define SV_SPRITE_H
+#ifndef SV_BILLBOARD_H
+#define SV_BILLBOARD_H
 
-#include "SVNode.h"
+#include "SVSpriteNode.h"
 
 namespace sv {
     
     namespace node{
         
-        class SVSpriteNode : public SVNode {
+        class SVBillboardNode : public SVSpriteNode {
         public:
-            SVSpriteNode(SVInst *_app);
+            SVBillboardNode(SVInst *_app);
             
-            SVSpriteNode(SVInst *_app,f32 _w,f32 _h);
+            SVBillboardNode(SVInst *_app,f32 _w,f32 _h);
             
-            ~SVSpriteNode();
+            ~SVBillboardNode();
             
             void update(f32 _dt);
             
             void render();
             
-            virtual void setSize(f32 _w,f32 _h);
+            void setSize(f32 _w,f32 _h);
             
             void syncTexSize();
             
-            virtual void setTexcoord(f32 x,f32 y);
+            void setTexcoord(f32 x,f32 y);
             
             inline f32 getWidth(){ return m_width; }
             
             inline f32 getHeight(){ return m_height; }
             
-            virtual void setMaterial(SVMtlCorePtr _mtl);
+            void setMaterial(SVMtlCorePtr _mtl);
             
             SVMtlCorePtr getMaterial();
             
@@ -48,7 +48,7 @@ namespace sv {
             
             virtual void setTexture(SVTexturePtr _tex);
             
-            virtual void setMesh(SVRenderMeshPtr _mesh);
+            void setMesh(SVRenderMeshPtr _mesh);
             
             //序列化接口
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
@@ -74,4 +74,4 @@ namespace sv {
 }//!namespace sv
 
 
-#endif //SV_SPRITE_H
+#endif //SV_BILLBOARD_H

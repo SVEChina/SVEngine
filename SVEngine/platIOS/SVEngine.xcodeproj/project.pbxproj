@@ -149,6 +149,14 @@
 		02381F342247AF8800584EEF /* SVMtlDistorted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F2E2247AF8800584EEF /* SVMtlDistorted.cpp */; };
 		02381F352247AF8800584EEF /* SVMtlDistorted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F2E2247AF8800584EEF /* SVMtlDistorted.cpp */; };
 		02381F362247AF8800584EEF /* SVMtlDistorted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F2E2247AF8800584EEF /* SVMtlDistorted.cpp */; };
+		023FF32E2253565D00632659 /* SVBillboardNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF32C2253565D00632659 /* SVBillboardNode.h */; };
+		023FF32F2253565D00632659 /* SVBillboardNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF32C2253565D00632659 /* SVBillboardNode.h */; };
+		023FF3302253565D00632659 /* SVBillboardNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF32C2253565D00632659 /* SVBillboardNode.h */; };
+		023FF3312253565D00632659 /* SVBillboardNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF32C2253565D00632659 /* SVBillboardNode.h */; };
+		023FF3322253565D00632659 /* SVBillboardNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023FF32D2253565D00632659 /* SVBillboardNode.cpp */; };
+		023FF3332253565D00632659 /* SVBillboardNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023FF32D2253565D00632659 /* SVBillboardNode.cpp */; };
+		023FF3342253565D00632659 /* SVBillboardNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023FF32D2253565D00632659 /* SVBillboardNode.cpp */; };
+		023FF3352253565D00632659 /* SVBillboardNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023FF32D2253565D00632659 /* SVBillboardNode.cpp */; };
 		0288F9E721788A310089E61C /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288F9E321788A300089E61C /* SVBMFont.cpp */; };
 		0288F9E821788A310089E61C /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288F9E321788A300089E61C /* SVBMFont.cpp */; };
 		0288F9E921788A310089E61C /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288F9E321788A300089E61C /* SVBMFont.cpp */; };
@@ -2982,6 +2990,8 @@
 		02381F242246280000584EEF /* SVMtlGlitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlGlitch.h; sourceTree = "<group>"; };
 		02381F2D2247AF8800584EEF /* SVMtlDistorted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlDistorted.h; sourceTree = "<group>"; };
 		02381F2E2247AF8800584EEF /* SVMtlDistorted.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlDistorted.cpp; sourceTree = "<group>"; };
+		023FF32C2253565D00632659 /* SVBillboardNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBillboardNode.h; sourceTree = "<group>"; };
+		023FF32D2253565D00632659 /* SVBillboardNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBillboardNode.cpp; sourceTree = "<group>"; };
 		0288F9E321788A300089E61C /* SVBMFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBMFont.cpp; sourceTree = "<group>"; };
 		0288F9E421788A300089E61C /* SVFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFont.cpp; sourceTree = "<group>"; };
 		0288F9E521788A300089E61C /* SVBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFont.h; sourceTree = "<group>"; };
@@ -4644,6 +4654,8 @@
 				5F7D5F4C215F407700803BCF /* SVSkyDomeNode.h */,
 				5F7D5F79215F407700803BCF /* SVSpineNode.cpp */,
 				5F7D5F67215F407700803BCF /* SVSpineNode.h */,
+				023FF32D2253565D00632659 /* SVBillboardNode.cpp */,
+				023FF32C2253565D00632659 /* SVBillboardNode.h */,
 				5F7D5F65215F407700803BCF /* SVSpriteNode.cpp */,
 				5F7D5F54215F407700803BCF /* SVSpriteNode.h */,
 				5FBA206A216DFF6F00A6868E /* SVUIMovieNode.cpp */,
@@ -5005,6 +5017,7 @@
 				5F7D678F215F407900803BCF /* SVParticlesWorld.h in Headers */,
 				5F7D655F215F407800803BCF /* SVRendererGL.h in Headers */,
 				5F7D64A9215F407800803BCF /* SVTimeLineDeform.h in Headers */,
+				023FF3312253565D00632659 /* SVBillboardNode.h in Headers */,
 				5F7D6597215F407800803BCF /* SVRendererBase.h in Headers */,
 				5F7D6211215F407800803BCF /* pngstruct.h in Headers */,
 				5F7D6281215F407800803BCF /* spine.h in Headers */,
@@ -5410,6 +5423,7 @@
 				5F7D678D215F407900803BCF /* SVParticlesWorld.h in Headers */,
 				5F7D655D215F407800803BCF /* SVRendererGL.h in Headers */,
 				5F7D64A7215F407800803BCF /* SVTimeLineDeform.h in Headers */,
+				023FF32F2253565D00632659 /* SVBillboardNode.h in Headers */,
 				5F7D6595215F407800803BCF /* SVRendererBase.h in Headers */,
 				5F7D620F215F407800803BCF /* pngstruct.h in Headers */,
 				5F7D627F215F407800803BCF /* spine.h in Headers */,
@@ -5738,6 +5752,7 @@
 				5F7D68D8215F407900803BCF /* SVLock.h in Headers */,
 				5F7D64E0215F407800803BCF /* SVActTime.h in Headers */,
 				02F27E3F218856C0007E85C3 /* SVglTF.h in Headers */,
+				023FF32E2253565D00632659 /* SVBillboardNode.h in Headers */,
 				5F7D65CC215F407800803BCF /* SVRenderStream.h in Headers */,
 				5F7D6888215F407900803BCF /* SVBase.spu.h in Headers */,
 				5F7D694C215F407900803BCF /* SVUtils.spu.h in Headers */,
@@ -6224,6 +6239,7 @@
 				5F7D678E215F407900803BCF /* SVParticlesWorld.h in Headers */,
 				5F7D655E215F407800803BCF /* SVRendererGL.h in Headers */,
 				5F7D64A8215F407800803BCF /* SVTimeLineDeform.h in Headers */,
+				023FF3302253565D00632659 /* SVBillboardNode.h in Headers */,
 				5F7D6596215F407800803BCF /* SVRendererBase.h in Headers */,
 				5F7D6210215F407800803BCF /* pngstruct.h in Headers */,
 				5F7D6280215F407800803BCF /* spine.h in Headers */,
@@ -6626,6 +6642,7 @@
 				5F7D677F215F407900803BCF /* SVSkyDomeNode.cpp in Sources */,
 				5F7D6783215F407900803BCF /* SVBGRAInstreamNode.cpp in Sources */,
 				5F7D6893215F407900803BCF /* SVBase.cpp in Sources */,
+				023FF3352253565D00632659 /* SVBillboardNode.cpp in Sources */,
 				5F7D65C3215F407800803BCF /* SVRenderStateMetal.cpp in Sources */,
 				5F7D61A5215F407700803BCF /* SVParseBitfont.cpp in Sources */,
 				5F7D6491215F407800803BCF /* SVActSequence.cpp in Sources */,
@@ -7145,6 +7162,7 @@
 				5F7D6964215F407900803BCF /* SVSign.cpp in Sources */,
 				5F7D652C215F407800803BCF /* SVOpThread.cpp in Sources */,
 				5F7D64A2215F407800803BCF /* SVActionSys.cpp in Sources */,
+				023FF3322253565D00632659 /* SVBillboardNode.cpp in Sources */,
 				5F7D660C215F407800803BCF /* SVRenderCmdOut.cpp in Sources */,
 				5F7D6246215F407800803BCF /* png.c in Sources */,
 				5F7D6156215F407700803BCF /* SVInst.cpp in Sources */,
@@ -7303,6 +7321,7 @@
 				5F7D677E215F407900803BCF /* SVSkyDomeNode.cpp in Sources */,
 				5F7D6782215F407900803BCF /* SVBGRAInstreamNode.cpp in Sources */,
 				5F7D6892215F407900803BCF /* SVBase.cpp in Sources */,
+				023FF3342253565D00632659 /* SVBillboardNode.cpp in Sources */,
 				5F7D65C2215F407800803BCF /* SVRenderStateMetal.cpp in Sources */,
 				5F7D61A4215F407700803BCF /* SVParseBitfont.cpp in Sources */,
 				5F7D6490215F407800803BCF /* SVActSequence.cpp in Sources */,
@@ -7640,6 +7659,7 @@
 				5F7D677D215F407900803BCF /* SVSkyDomeNode.cpp in Sources */,
 				5F7D6781215F407900803BCF /* SVBGRAInstreamNode.cpp in Sources */,
 				5F7D6891215F407900803BCF /* SVBase.cpp in Sources */,
+				023FF3332253565D00632659 /* SVBillboardNode.cpp in Sources */,
 				5F7D65C1215F407800803BCF /* SVRenderStateMetal.cpp in Sources */,
 				5F7D61A3215F407700803BCF /* SVParseBitfont.cpp in Sources */,
 				5F7D648F215F407800803BCF /* SVActSequence.cpp in Sources */,
