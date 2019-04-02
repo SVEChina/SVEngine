@@ -135,7 +135,7 @@ void SVNode::render() {
             t_mtl->setColor(0.0f, 1.0f, 0.0f, 1.0f);
             FMat4 m_mat_unit = FMat4_identity;
             t_mtl->setModelMatrix( m_mat_unit.get() );
-            SVRenderObjInst::pushAABBCmd(t_rs,RST_DEBUG_INNER,m_aabbBox_sw,t_mtl,"SV3DBOX_aabb");
+        SVRenderObjInst::pushAABBCmd(t_rs,RST_DEBUG_INNER,m_aabbBox_sw,t_mtl,"SV3DBOX_aabb");
         }
     }
 }
@@ -425,6 +425,10 @@ void SVNode::setZOrder(s32 _zorder){
 }
 
 void SVNode::setAlpha(f32 _alpha){
+}
+
+void SVNode::setLocalMatrix(FMat4 &_mat){
+    m_localMat = _mat;
 }
 
 //序列化接口
