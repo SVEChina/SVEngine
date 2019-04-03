@@ -23,16 +23,6 @@ namespace sv {
     class SVARAnchorEvent : public SVEvent {
     public:
         SVARAnchorEvent();
-        f32 m_p_x;
-        f32 m_p_y;
-        f32 m_p_z;
-        f32 m_s_x;
-        f32 m_s_y;
-        f32 m_s_z;
-        f32 m_r_x;
-        f32 m_r_y;
-        f32 m_r_z;
-        f32 m_index;
         SVDataSwapPtr m_matData;
     };
     

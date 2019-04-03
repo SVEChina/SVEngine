@@ -43,7 +43,7 @@ namespace sv {
             FVec3 m_distance0;//路程
             FVec3 m_distance1;//路程
             //测试代码
-            SVArray<SV3DBoxPtr> m_3DBoxPool;
+            SVArray<SVNodePtr> m_3DBoxPool;
             s32 m_maxBox;
         };
         

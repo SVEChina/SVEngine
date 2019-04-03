@@ -17,7 +17,7 @@ SVMtlBillboard::SVMtlBillboard(SVInst *_app)
 
 SVMtlBillboard::SVMtlBillboard(SVMtlBillboard *_mtl)
 :SVMtlCore(_mtl){
-    m_quadPosW.set(0, 0, 0);
+    m_quadPosW = _mtl->m_quadPosW;
 }
 
 SVMtlBillboard::~SVMtlBillboard() {
@@ -34,7 +34,7 @@ void SVMtlBillboard::reset() {
 }
 
 void SVMtlBillboard::setQuadPosW(FVec3 &_quadPosW){
-    m_quadPosW = _quadPosW;
+    m_quadPosW.set(_quadPosW.x, _quadPosW.y, _quadPosW.z);
 }
 
 void SVMtlBillboard::_submitUniform(SVRendererBasePtr _render) {
