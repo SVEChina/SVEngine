@@ -31,9 +31,14 @@ void SVGameBase::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end)
     m_pGameReady = _ready;
     m_pGameRun = _run;
     m_pGameEnd = _end;
-    if(m_pGameReady && m_pGameRun && m_pGameEnd) {
+    //
+    if(m_pGameReady) {
         m_pGameReady->init();
+    }
+    if( m_pGameRun ) {
         m_pGameRun->init();
+    }
+    if(m_pGameEnd) {
         m_pGameEnd->init();
     }
 }
@@ -53,35 +58,59 @@ void SVGameBase::destroy() {
 }
 
 void SVGameBase::update(f32 _dt) {
-    if(m_pGameReady && m_pGameRun && m_pGameEnd) {
-        if(m_stage == E_G_STAGE_WAIT) {
-            //m_stage = E_G_STAGE_BEGIN;
-        }
-        if(m_stage == E_G_STAGE_BEGIN) {
+    if(m_stage == E_G_STAGE_WAIT) {
+    }
+    //开始
+    if(m_stage == E_G_STAGE_BEGIN) {
+        if(m_pGameReady) {
+            //准备逻辑
             if( m_pGameReady->isEnd() ) {
                 m_stage = E_G_STAGE_RUN;
                 m_pGameReady->exit();
-                m_pGameRun->enter();
+                if(m_pGameRun) {
+                    m_pGameRun->enter();
+                }
             }else{
                 m_pGameReady->update(_dt);
             }
+        }else{
+            //无准备
+            m_stage = E_G_STAGE_RUN;
+            if(m_pGameRun) {
+                m_pGameRun->enter();
+            }
         }
-        if(m_stage == E_G_STAGE_RUN) {
+    }
+    //循环
+    if(m_stage == E_G_STAGE_RUN) {
+        if(m_pGameRun) {
             if( m_pGameRun->isEnd() ) {
                 m_stage = E_G_STAGE_END;
                 m_pGameRun->exit();
-                m_pGameEnd->enter();
+                if(m_pGameEnd){
+                    m_pGameEnd->enter();
+                }
             }else{
                 m_pGameRun->update(_dt);
             }
+        }else{
+            m_stage = E_G_STAGE_END;
+            if(m_pGameEnd){
+                m_pGameEnd->enter();
+            }
         }
-        if(m_stage == E_G_STAGE_END) {
+    }
+    //结束
+    if(m_stage == E_G_STAGE_END) {
+        if(m_pGameEnd){
             if( m_pGameEnd->isEnd() ) {
                 m_stage = E_G_STAGE_WAIT;
                 m_pGameEnd->exit();
             }else{
                 m_pGameEnd->update(_dt);
             }
+        }else{
+            m_stage = E_G_STAGE_WAIT;
         }
     }
 }
@@ -100,9 +129,13 @@ void SVGameBase::close() {
     SVModuleBase::close();
     if(m_stage != E_G_STAGE_WAIT) {
         m_stage = E_G_STAGE_WAIT;
-        if(m_pGameReady && m_pGameRun && m_pGameEnd) {
+        if(m_pGameReady) {
             m_pGameReady->exit();
+        }
+        if(m_pGameRun){
             m_pGameRun->exit();
+        }
+        if(m_pGameEnd){
             m_pGameEnd->exit();
         }
     }
