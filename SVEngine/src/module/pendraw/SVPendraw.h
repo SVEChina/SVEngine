@@ -36,6 +36,7 @@ namespace sv{
     protected:
         typedef SVArray<SVPenStrokePtr> STROKEPOOL;
         STROKEPOOL m_strokes;
+        SVPenStrokePtr m_curStroke;
     };
     
 }//!namespace sv

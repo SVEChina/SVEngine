@@ -2969,6 +2969,9 @@
 		5FD9AFFA2256096500522317 /* SVPendraw.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFF22256096400522317 /* SVPendraw.h */; };
 		5FD9AFFF225B286200522317 /* SVPenStroke.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9AFFD225B286200522317 /* SVPenStroke.cpp */; };
 		5FD9B000225B286200522317 /* SVPenStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFFE225B286200522317 /* SVPenStroke.h */; };
+		5FD9B001225B497800522317 /* SVPenStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFFE225B286200522317 /* SVPenStroke.h */; };
+		5FD9B002225B497900522317 /* SVPenStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFFE225B286200522317 /* SVPenStroke.h */; };
+		5FD9B003225B497900522317 /* SVPenStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFFE225B286200522317 /* SVPenStroke.h */; };
 		5FFB8A4721C4F948002480D0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFB8A4621C4F948002480D0 /* Metal.framework */; };
 		5FFB8A4921C4F950002480D0 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFB8A4821C4F94F002480D0 /* MetalKit.framework */; };
 /* End PBXBuildFile section */
@@ -3723,7 +3726,7 @@
 		5FC2D1CF20AC42EE0065DAF6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		5FD9AFF12256096400522317 /* SVPendraw.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPendraw.cpp; sourceTree = "<group>"; };
 		5FD9AFF22256096400522317 /* SVPendraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPendraw.h; sourceTree = "<group>"; };
-		5FD9AFFD225B286200522317 /* SVPenStroke.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVPenStroke.cpp; sourceTree = "<group>"; };
+		5FD9AFFD225B286200522317 /* SVPenStroke.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = SVPenStroke.cpp; sourceTree = "<group>"; };
 		5FD9AFFE225B286200522317 /* SVPenStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPenStroke.h; sourceTree = "<group>"; };
 		5FFB8A4621C4F948002480D0 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		5FFB8A4821C4F94F002480D0 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
@@ -5088,6 +5091,7 @@
 				5F7D6817215F407900803BCF /* SVEvent.h in Headers */,
 				5F7D649D215F407800803BCF /* SVActionSys.h in Headers */,
 				5F4428712184413600AF4A5B /* SVOutMissionNor.h in Headers */,
+				5FD9B002225B497900522317 /* SVPenStroke.h in Headers */,
 				5F7D6259215F407800803BCF /* Animation.h in Headers */,
 				5F7D605D215F407700803BCF /* SVStaticData.h in Headers */,
 				5F7D696F215F407900803BCF /* SVVecbase.h in Headers */,
@@ -5496,6 +5500,7 @@
 				5F7D6815215F407900803BCF /* SVEvent.h in Headers */,
 				5F7D649B215F407800803BCF /* SVActionSys.h in Headers */,
 				5F44286D2184413400AF4A5B /* SVOutMissionNor.h in Headers */,
+				5FD9B001225B497800522317 /* SVPenStroke.h in Headers */,
 				5F7D6257215F407800803BCF /* Animation.h in Headers */,
 				5F7D605B215F407700803BCF /* SVStaticData.h in Headers */,
 				5F7D696D215F407900803BCF /* SVVecbase.h in Headers */,
@@ -6317,6 +6322,7 @@
 				5F7D6816215F407900803BCF /* SVEvent.h in Headers */,
 				5F7D649C215F407800803BCF /* SVActionSys.h in Headers */,
 				5F44286F2184413500AF4A5B /* SVOutMissionNor.h in Headers */,
+				5FD9B003225B497900522317 /* SVPenStroke.h in Headers */,
 				5F7D6258215F407800803BCF /* Animation.h in Headers */,
 				5F7D605C215F407700803BCF /* SVStaticData.h in Headers */,
 				5F7D696E215F407900803BCF /* SVVecbase.h in Headers */,
