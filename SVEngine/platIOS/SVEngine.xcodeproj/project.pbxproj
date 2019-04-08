@@ -2967,6 +2967,8 @@
 		5FD9AFF82256096500522317 /* SVPendraw.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFF22256096400522317 /* SVPendraw.h */; };
 		5FD9AFF92256096500522317 /* SVPendraw.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFF22256096400522317 /* SVPendraw.h */; };
 		5FD9AFFA2256096500522317 /* SVPendraw.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFF22256096400522317 /* SVPendraw.h */; };
+		5FD9AFFF225B286200522317 /* SVPenStroke.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9AFFD225B286200522317 /* SVPenStroke.cpp */; };
+		5FD9B000225B286200522317 /* SVPenStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFFE225B286200522317 /* SVPenStroke.h */; };
 		5FFB8A4721C4F948002480D0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFB8A4621C4F948002480D0 /* Metal.framework */; };
 		5FFB8A4921C4F950002480D0 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFB8A4821C4F94F002480D0 /* MetalKit.framework */; };
 /* End PBXBuildFile section */
@@ -3721,6 +3723,8 @@
 		5FC2D1CF20AC42EE0065DAF6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		5FD9AFF12256096400522317 /* SVPendraw.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPendraw.cpp; sourceTree = "<group>"; };
 		5FD9AFF22256096400522317 /* SVPendraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPendraw.h; sourceTree = "<group>"; };
+		5FD9AFFD225B286200522317 /* SVPenStroke.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVPenStroke.cpp; sourceTree = "<group>"; };
+		5FD9AFFE225B286200522317 /* SVPenStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPenStroke.h; sourceTree = "<group>"; };
 		5FFB8A4621C4F948002480D0 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		5FFB8A4821C4F94F002480D0 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		822A3F971E70069800CF3953 /* SVEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SVEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4811,6 +4815,8 @@
 		5FD9AFF02256096400522317 /* pendraw */ = {
 			isa = PBXGroup;
 			children = (
+				5FD9AFFD225B286200522317 /* SVPenStroke.cpp */,
+				5FD9AFFE225B286200522317 /* SVPenStroke.h */,
 				5FD9AFF12256096400522317 /* SVPendraw.cpp */,
 				5FD9AFF22256096400522317 /* SVPendraw.h */,
 			);
@@ -5814,6 +5820,7 @@
 				5F7D63EA215F407800803BCF /* pow10.h in Headers */,
 				5F7D6500215F407800803BCF /* SVOpBase.h in Headers */,
 				5F7D62B2215F407800803BCF /* Skin.h in Headers */,
+				5FD9B000225B286200522317 /* SVPenStroke.h in Headers */,
 				5F7D6584215F407800803BCF /* SVContextBase.h in Headers */,
 				5C0C6078219BFF790052A826 /* PeakFinder.h in Headers */,
 				5F7D6714215F407900803BCF /* SVThreadCallback.h in Headers */,
@@ -7198,6 +7205,7 @@
 				5F7D6376215F407800803BCF /* VertexAttachment.c in Sources */,
 				5F7D62FE215F407800803BCF /* Skeleton.c in Sources */,
 				5F7D6638215F407800803BCF /* SVThreadHelp.cpp in Sources */,
+				5FD9AFFF225B286200522317 /* SVPenStroke.cpp in Sources */,
 				5F7D6540215F407800803BCF /* SVOpOutCamera.cpp in Sources */,
 				5F7D6206215F407700803BCF /* pngerror.c in Sources */,
 				5F7D607E215F407700803BCF /* SVSceneMgr.cpp in Sources */,

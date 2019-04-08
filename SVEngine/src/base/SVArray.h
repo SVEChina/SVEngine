@@ -6,9 +6,6 @@
 //
 namespace sv {
     
-//    typedef bool (*sv_compare)(void* _e1,void* _e2);
-//    typedef bool (*sv_compare_share)(SVObjectPtr _e1,SVObjectPtr _e2);
-    
     namespace util {
         
         //

@@ -9,9 +9,12 @@
 #define SV_PENDRAW_H
 
 #include "../SVGameBase.h"
+#include "../../event/SVEvent.h"
 
 namespace sv{
-    //
+    
+    //绘制事件
+
     class SVPendraw : public SVGameBase {
     public:
         SVPendraw(SVInst* _app);
@@ -31,8 +34,10 @@ namespace sv{
         virtual bool procEvent(SVEventPtr _event);
         
     protected:
-        
+        typedef SVArray<SVPenStrokePtr> STROKEPOOL;
+        STROKEPOOL m_strokes;
     };
+    
 }//!namespace sv
 
 
