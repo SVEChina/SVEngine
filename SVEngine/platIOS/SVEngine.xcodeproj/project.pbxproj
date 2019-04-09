@@ -165,6 +165,9 @@
 		023FF33E2253761100632659 /* SVMtlBillboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF3382253761000632659 /* SVMtlBillboard.h */; };
 		023FF33F2253761100632659 /* SVMtlBillboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF3382253761000632659 /* SVMtlBillboard.h */; };
 		023FF3402253761100632659 /* SVMtlBillboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF3382253761000632659 /* SVMtlBillboard.h */; };
+		02613218225C6343007435C3 /* SVPenStroke.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9AFFD225B286200522317 /* SVPenStroke.cpp */; };
+		02613219225C6343007435C3 /* SVPenStroke.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9AFFD225B286200522317 /* SVPenStroke.cpp */; };
+		0261321A225C6344007435C3 /* SVPenStroke.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9AFFD225B286200522317 /* SVPenStroke.cpp */; };
 		0288F9E721788A310089E61C /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288F9E321788A300089E61C /* SVBMFont.cpp */; };
 		0288F9E821788A310089E61C /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288F9E321788A300089E61C /* SVBMFont.cpp */; };
 		0288F9E921788A310089E61C /* SVBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0288F9E321788A300089E61C /* SVBMFont.cpp */; };
@@ -3726,7 +3729,7 @@
 		5FC2D1CF20AC42EE0065DAF6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		5FD9AFF12256096400522317 /* SVPendraw.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPendraw.cpp; sourceTree = "<group>"; };
 		5FD9AFF22256096400522317 /* SVPendraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPendraw.h; sourceTree = "<group>"; };
-		5FD9AFFD225B286200522317 /* SVPenStroke.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = SVPenStroke.cpp; sourceTree = "<group>"; };
+		5FD9AFFD225B286200522317 /* SVPenStroke.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPenStroke.cpp; sourceTree = "<group>"; };
 		5FD9AFFE225B286200522317 /* SVPenStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPenStroke.h; sourceTree = "<group>"; };
 		5FFB8A4621C4F948002480D0 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		5FFB8A4821C4F94F002480D0 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
@@ -6680,6 +6683,7 @@
 				5F7D67EF215F407900803BCF /* SVParticlesNode.cpp in Sources */,
 				5F7D6389215F407800803BCF /* TransformConstraint.c in Sources */,
 				5C0C608B219BFF790052A826 /* mmx_optimized.cpp in Sources */,
+				0261321A225C6344007435C3 /* SVPenStroke.cpp in Sources */,
 				5F7D637D215F407800803BCF /* SkeletonJson.c in Sources */,
 				5F7D602D215F407700803BCF /* SVProcess.cpp in Sources */,
 				0288FA062178A8430089E61C /* SVBMFontNode.cpp in Sources */,
@@ -7364,6 +7368,7 @@
 				5F7D67EE215F407900803BCF /* SVParticlesNode.cpp in Sources */,
 				5F7D6388215F407800803BCF /* TransformConstraint.c in Sources */,
 				5C0C608A219BFF790052A826 /* mmx_optimized.cpp in Sources */,
+				02613219225C6343007435C3 /* SVPenStroke.cpp in Sources */,
 				5F7D637C215F407800803BCF /* SkeletonJson.c in Sources */,
 				5F7D602C215F407700803BCF /* SVProcess.cpp in Sources */,
 				0288FA052178A8430089E61C /* SVBMFontNode.cpp in Sources */,
@@ -7704,6 +7709,7 @@
 				5F7D67ED215F407900803BCF /* SVParticlesNode.cpp in Sources */,
 				5F7D6387215F407800803BCF /* TransformConstraint.c in Sources */,
 				5C0C6089219BFF790052A826 /* mmx_optimized.cpp in Sources */,
+				02613218225C6343007435C3 /* SVPenStroke.cpp in Sources */,
 				5F7D637B215F407800803BCF /* SkeletonJson.c in Sources */,
 				5F7D602B215F407700803BCF /* SVProcess.cpp in Sources */,
 				0288FA042178A8430089E61C /* SVBMFontNode.cpp in Sources */,
