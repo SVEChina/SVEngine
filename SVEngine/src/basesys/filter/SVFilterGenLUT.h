@@ -77,6 +77,8 @@ namespace sv {
                 m_gmSmooth=1.0;
                 
                 m_haze=0.0f;
+                
+                m_sharp=0.0f;
             }
             
             void copy(SVGenLUTParamPtr _p){
@@ -140,6 +142,7 @@ namespace sv {
                 
                 m_clarity=_p->m_clarity;
                 m_haze=_p->m_haze;
+                m_sharp=_p->m_sharp;
                 
             }
             
@@ -197,6 +200,7 @@ namespace sv {
             f32 m_gmSmooth;
             f32 m_clarity;
             f32 m_haze;
+            f32 m_sharp;
             
             SVString m_data;
             SVString m_name;
