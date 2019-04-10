@@ -122,6 +122,8 @@ namespace sv {
             //设置z顺序
             void setZOrder(s32 _zorder);
             
+            void setLocalMatrix(FMat4 &_mat);
+            
             inline cptr8 getType(){ return ntype.c_str(); }
             inline s32 getuid(){ return uid; }
             inline cptr8 getname(){return m_name.c_str();}

@@ -20,12 +20,10 @@ namespace sv {
         s32 y;
     };
     
-    class SVAnchorPointEvent : public SVEvent {
+    class SVARAnchorEvent : public SVEvent {
     public:
-        SVAnchorPointEvent();
-        f32 x;
-        f32 y;
-        f32 z;
+        SVARAnchorEvent();
+        SVDataSwapPtr m_matData;
     };
     
     //

@@ -12,10 +12,8 @@ SVTouchEvent::SVTouchEvent() {
     y = 0;
 }
 
-SVAnchorPointEvent::SVAnchorPointEvent() {
-    x = 0;
-    y = 0;
-    z = 0;
+SVARAnchorEvent::SVARAnchorEvent() {
+    m_matData = MakeSharedPtr<SVDataSwap>();
 }
 
 SVPickEvent::SVPickEvent() {

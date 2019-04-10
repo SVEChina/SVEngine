@@ -9,6 +9,7 @@
 #define SV_SENSORMODULE_H
 #include "SVProcess.h"
 #include "../base/SVVec3.h"
+#include "../node/SVNodeDeclare.h"
 namespace sv {
     namespace logic{
         
@@ -41,6 +42,9 @@ namespace sv {
             FVec3 m_velocity1;//速度
             FVec3 m_distance0;//路程
             FVec3 m_distance1;//路程
+            //测试代码
+            SVArray<SVNodePtr> m_3DBoxPool;
+            s32 m_maxBox;
         };
         
     }//!namespace logic

@@ -22,7 +22,7 @@ void SVRecycleProcess::update(f32 _dt){
 }
 
 bool SVRecycleProcess::procEvent(SVEventPtr _event){
-    SVRecycleEventPtr t_event = DYN_TO_SHAREPTR(SVRecycleEvent,_event);
+    SVEvtRecyclePtr t_event = DYN_TO_SHAREPTR(SVEvtRecycle,_event);
     if(t_event && t_event->m_obj){
         t_event->m_obj = nullptr;
         return false;

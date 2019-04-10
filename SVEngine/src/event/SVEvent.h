@@ -27,9 +27,9 @@ namespace sv {
     };
     
     //回收事件
-    class SVRecycleEvent : public SVEvent {
+    class SVEvtRecycle : public SVEvent {
     public:
-        SVRecycleEvent();
+        SVEvtRecycle();
         
         SVObjectPtr m_obj;
     };
@@ -142,6 +142,20 @@ namespace sv {
         
         ~SVRedPacketEvent();
     };
+    
+//    //
+//    class SVEvtDraw : public SVEvent {
+//    public:
+//        SVEvtDraw(s32 _state,f32 _x,f32 _y) {
+//            state = _state;
+//            x = _x;
+//            y = _y;
+//        }
+//
+//        s32 state;
+//        f32 x;
+//        f32 y;
+//    };
     
 }//!namespace sv
 

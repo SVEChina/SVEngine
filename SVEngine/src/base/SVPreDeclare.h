@@ -103,6 +103,9 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpPick);
     DECLARE_SHAREPTR(SVOpRecycleNode);
     //
+    DECLARE_SHAREPTR(SVOpOpenPen);
+    DECLARE_SHAREPTR(SVOpClosePen);
+    //
     DECLARE_SHAREPTR(SVOpCreateIOSInstream);
     DECLARE_SHAREPTR(SVOpDestroyIOSInstream);
     DECLARE_SHAREPTR(SVOpCreateIOSOutstream);

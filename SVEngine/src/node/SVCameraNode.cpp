@@ -145,6 +145,16 @@ void SVCameraNode::setPose(f32 _x, f32 _y, f32 _z){
 //    t_mat_rotZ*t_mat_rotY*t_mat_rotX
 }
 
+void SVCameraNode::setViewMatrix(FMat4 &_mat){
+    m_mat_view = _mat;
+    FMat4 t_matrix_invert = inverse(_mat);
+    m_postion.set(t_matrix_invert[12], t_matrix_invert[13], t_matrix_invert[14]);
+}
+
+void SVCameraNode::setProjectMatrix(FMat4 &_mat){
+    m_mat_proj = _mat;
+}
+
 FVec3& SVCameraNode::getDirection(){
     return m_direction;
 }

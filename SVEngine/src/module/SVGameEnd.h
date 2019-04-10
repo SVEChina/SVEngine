@@ -27,7 +27,9 @@ namespace sv{
         bool isEnd();
         
     protected:
+        
     };
+    
 }//!namespace sv
 
 

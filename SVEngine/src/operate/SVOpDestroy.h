@@ -37,6 +37,14 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
+    //
+    class SVOpClosePen : public SVOpBase {
+    public:
+        SVOpClosePen(SVInst *_app);
+        
+    protected:
+        void _process(f32 dt);
+    };
 }//!namespace sv
 
 

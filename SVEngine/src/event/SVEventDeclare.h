@@ -13,7 +13,7 @@
 namespace sv {
     
     DECLARE_SHAREPTR(SVEvent);
-    DECLARE_SHAREPTR(SVRecycleEvent);
+    DECLARE_SHAREPTR(SVEvtRecycle);
     DECLARE_SHAREPTR(SVPersonEvent);
     DECLARE_SHAREPTR(SVFaceShapeEvent);
     DECLARE_SHAREPTR(SVAnimateEvent);
@@ -41,9 +41,11 @@ namespace sv {
     DECLARE_SHAREPTR(SVCameraMatrixEvent);
     DECLARE_SHAREPTR(SVProjectMatrixEvent);
     DECLARE_SHAREPTR(SVReactEvent);
-    DECLARE_SHAREPTR(SVAnchorPointEvent);
+    DECLARE_SHAREPTR(SVARAnchorEvent);
     //
     DECLARE_SHAREPTR(SVEventThread);
+    //
+    DECLARE_SHAREPTR(SVEvtDraw);
     
 }
 

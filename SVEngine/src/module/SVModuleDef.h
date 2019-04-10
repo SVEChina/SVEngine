@@ -17,7 +17,10 @@ namespace sv {
     DECLARE_SHAREPTR(SVGameRun);
     DECLARE_SHAREPTR(SVGameEnd);
     DECLARE_SHAREPTR(SVRedPacket);
-    
+    //
+    DECLARE_SHAREPTR(SVPenStroke);
+    DECLARE_SHAREPTR(SVPendraw);
+    //
     DECLARE_SHAREPTR(SVEffectUnit);
     DECLARE_SHAREPTR(SVEffectPackage);
     DECLARE_SHAREPTR(SVDivisonFilter);

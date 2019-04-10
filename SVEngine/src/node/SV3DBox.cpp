@@ -24,6 +24,7 @@ SV3DBox::SV3DBox(SVInst *_app)
     //
     m_pMesh = SVGeoGen::genAABB(mApp,m_aabbBox);
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
+    m_drawBox = true;
 }
 
 SV3DBox::~SV3DBox() {

@@ -20,7 +20,7 @@ bool SVEvent::isEqual(SVEventPtr _event) {
 }
 
 //
-SVRecycleEvent::SVRecycleEvent(){
+SVEvtRecycle::SVEvtRecycle(){
     m_obj = nullptr;
 }
 

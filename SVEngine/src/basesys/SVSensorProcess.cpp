@@ -14,7 +14,11 @@
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVScene.h"
 #include "../node/SVCameraNode.h"
-#include "../base/SVPreDeclare.h"
+#include "../node/SV3DBox.h"
+#include "../node/SVBillboardNode.h"
+#include "../node/SVSpriteNode.h"
+#include "../mtl/SVTexMgr.h"
+#include "../mtl/SVTexture.h"
 #include <sys/time.h>
 //
 SVSensorProcess::SVSensorProcess(SVInst *_app)
@@ -27,10 +31,11 @@ SVSensorProcess::SVSensorProcess(SVInst *_app)
     m_distance1.set(0.0f, 0.0f, 0.0f);
     m_isFitst = false;
     m_isEnable= true;
+    m_maxBox = 25;
 }
 
 SVSensorProcess::~SVSensorProcess() {
-    
+    m_3DBoxPool.destroy();
 }
 
 void SVSensorProcess::startSensor(){
@@ -65,20 +70,45 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_CAMERA_MATRIX){
         SVCameraMatrixEventPtr cameraMatrix = std::dynamic_pointer_cast<SVCameraMatrixEvent>(_event);
         SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-        memcpy(mainCamera->getCameraMat(), cameraMatrix->m_matData->getData(), cameraMatrix->m_matData->getSize());
+        FMat4 t_viewMat = FMat4((f32 *)cameraMatrix->m_matData->getData());
+        mainCamera->setViewMatrix(t_viewMat);
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_PROJECT_MATRIX){
         SVProjectMatrixEventPtr projectMatrix = std::dynamic_pointer_cast<SVProjectMatrixEvent>(_event);
-        //        SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-        //        memcpy(mainCamera->getProjectMat(), projectMatrix->m_matData->getData(), projectMatrix->m_matData->getSize());
-    }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHOR_POINT){
-        //        SVAnchorPointEventPtr anchorPoint = std::dynamic_pointer_cast<SVAnchorPointEvent>(_event);
-        //        if (m_stage == E_G_STAGE_RUN) {
-        //            SVLightStickUnitPtr unit = m_run->getUnitMgr()->generateUnit();
-        //            if (unit) {
-        //                unit->enter();
-        //                unit->setPos(FVec3(anchorPoint->x, anchorPoint->y, anchorPoint->z));
-        //            }
-        //        }
+                SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
+        FMat4 t_projectMat = FMat4((f32 *)projectMatrix->m_matData->getData());
+        mainCamera->setProjectMatrix(t_projectMat);
+    }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHOR_AR){
+        SVARAnchorEventPtr anchor = std::dynamic_pointer_cast<SVARAnchorEvent>(_event);
+        if (anchor) {
+            if (m_maxBox > m_3DBoxPool.size()) {
+                SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+                if (t_pScene) {
+                    FMat4 localMat = FMat4((f32 *)anchor->m_matData->getData());
+                    /*
+                     //创建测试盒子®
+                     SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+                     //做数据更新
+                     t_testBox->m_color.setColor(1.0, 0.0, 0.0, 1.0);
+                     t_testBox->randomInit();
+                     t_testBox->setScale(0.0005, 0.0005, 0.0005);
+                     t_testBox->setPosition(localMat[12], localMat[13], localMat[14]);
+                     t_pScene->addNode(t_testBox);
+                     m_3DBoxPool.append(t_testBox);
+                     */
+                    SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
+                    //                        SVSpriteNodePtr billboardNode = MakeSharedPtr<SVSpriteNode>(mApp);
+                    billboardNode->setPosition(localMat[12], localMat[13], localMat[14]);
+                    cptr8 file = "svres/HollowKnight.png";
+                    SVTexturePtr texture = mApp->getTexMgr()->getTexture(file,true);
+                    billboardNode->setTexture(texture);
+                    billboardNode->setScale(0.0001, 0.0001, 0.0001);
+                    billboardNode->setSize(500, 500);
+                    t_pScene->addNode(billboardNode);
+                    m_3DBoxPool.append(billboardNode);
+                }
+            }
+        }
+        
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_DEVICE_ACCELEROMETER){
         if (!m_isFitst) {
             m_isFitst = true;
