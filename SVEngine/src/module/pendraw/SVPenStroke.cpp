@@ -19,6 +19,7 @@
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
     m_ptPool.clear();
+    m_localMat.setIdentity();
     m_lock = MakeSharedPtr<SVLock>();
     m_pVertData = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
@@ -28,6 +29,7 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pointSize = 10;
     m_vertexNum = 0;
+    setupLocal = false;
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -129,9 +131,9 @@ void SVPenStroke::_drawMesh() {
         t_mtl->setBlendEnable(true);
         t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         //
-        FMat4 t_localMat;
-        t_localMat.setIdentity();
-        t_mtl->setModelMatrix(t_localMat);
+//        FMat4 t_localMat;
+//        t_localMat.setIdentity();
+        t_mtl->setModelMatrix(m_localMat);
 //        t_mtl->update(dt);
         //更新顶点数据
         m_pMesh->setVertexDataNum(m_vertexNum);
@@ -140,5 +142,12 @@ void SVPenStroke::_drawMesh() {
         m_pRenderObj->setMtl(t_mtl);
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         m_pRenderObj->pushCmd(t_rs, RST_FREETYPE, "SVPenStroke");
+    }
+}
+
+void SVPenStroke::setModelMatrix(FMat4 &_matrix){
+    if (!setupLocal) {
+        setupLocal = true;
+        m_localMat = _matrix;
     }
 }

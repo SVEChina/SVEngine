@@ -78,23 +78,13 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
         FMat4 t_projectMat = FMat4((f32 *)projectMatrix->m_matData->getData());
         mainCamera->setProjectMatrix(t_projectMat);
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHOR_AR){
+        /*
         SVARAnchorEventPtr anchor = std::dynamic_pointer_cast<SVARAnchorEvent>(_event);
         if (anchor) {
             if (m_maxBox > m_3DBoxPool.size()) {
                 SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
                 if (t_pScene) {
                     FMat4 localMat = FMat4((f32 *)anchor->m_matData->getData());
-                    /*
-                     //创建测试盒子®
-                     SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-                     //做数据更新
-                     t_testBox->m_color.setColor(1.0, 0.0, 0.0, 1.0);
-                     t_testBox->randomInit();
-                     t_testBox->setScale(0.0005, 0.0005, 0.0005);
-                     t_testBox->setPosition(localMat[12], localMat[13], localMat[14]);
-                     t_pScene->addNode(t_testBox);
-                     m_3DBoxPool.append(t_testBox);
-                     */
                     SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
                     //                        SVSpriteNodePtr billboardNode = MakeSharedPtr<SVSpriteNode>(mApp);
                     billboardNode->setPosition(localMat[12], localMat[13], localMat[14]);
@@ -108,7 +98,7 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
                 }
             }
         }
-        
+        */
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_DEVICE_ACCELEROMETER){
         if (!m_isFitst) {
             m_isFitst = true;

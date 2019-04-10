@@ -12,7 +12,7 @@
 #include "../SVGameRun.h"
 #include "../SVGameEnd.h"
 #include "../../app/SVInst.h"
-
+#include "../../base/SVDataSwap.h"
 SVPendraw::SVPendraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
@@ -78,6 +78,12 @@ bool SVPendraw::procEvent(SVEventPtr _event){
         f32 t_n_targetY = t_mod_y - t_camera_h*0.5;
         if(m_curStroke) {
             m_curStroke->draw(t_n_targetX,t_n_targetY,0.0f);
+        }
+    }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHOR_AR){
+        SVARAnchorEventPtr anchor = DYN_TO_SHAREPTR(SVARAnchorEvent, _event);
+        if (anchor && m_curStroke) {
+            FMat4 localMat = FMat4((f32 *)anchor->m_matData->getData());
+            m_curStroke->setModelMatrix(localMat);
         }
     }
     return true;
