@@ -79,44 +79,44 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 0].x = t_pt.x - m_pointSize*0.5;
         t_verts[i*6 + 0].y = t_pt.y + m_pointSize*0.5;
         t_verts[i*6 + 0].r = 0.0f;
-        t_verts[i*6 + 0].g = 1.0f;
+        t_verts[i*6 + 0].g = 255.0f;
         t_verts[i*6 + 0].b = 0.0f;
-        t_verts[i*6 + 0].a = 1.0f;
+        t_verts[i*6 + 0].a = 255.0f;
 
         t_verts[i*6 + 1].x = t_pt.x - m_pointSize*0.5;
         t_verts[i*6 + 1].y = t_pt.y - m_pointSize*0.5;
         t_verts[i*6 + 1].r = 0.0f;
-        t_verts[i*6 + 1].g = 1.0f;
+        t_verts[i*6 + 1].g = 255.0f;
         t_verts[i*6 + 1].b = 0.0f;
-        t_verts[i*6 + 1].a = 1.0f;
+        t_verts[i*6 + 1].a = 255.0f;
 
         t_verts[i*6 + 2].x = t_pt.x + m_pointSize*0.5;
         t_verts[i*6 + 2].y = t_pt.y - m_pointSize*0.5;
         t_verts[i*6 + 2].r = 0.0f;
-        t_verts[i*6 + 2].g = 1.0f;
+        t_verts[i*6 + 2].g = 255.0f;
         t_verts[i*6 + 2].b = 0.0f;
-        t_verts[i*6 + 2].a = 1.0f;
+        t_verts[i*6 + 2].a = 255.0f;
 
         t_verts[i*6 + 3].x = t_pt.x + m_pointSize*0.5;
         t_verts[i*6 + 3].y = t_pt.y - m_pointSize*0.5;
         t_verts[i*6 + 3].r = 0.0f;
-        t_verts[i*6 + 3].g = 1.0f;
+        t_verts[i*6 + 3].g = 255.0f;
         t_verts[i*6 + 3].b = 0.0f;
-        t_verts[i*6 + 3].a = 1.0f;
+        t_verts[i*6 + 3].a = 255.0f;
 
         t_verts[i*6 + 4].x = t_pt.x + m_pointSize*0.5;
         t_verts[i*6 + 4].y = t_pt.y + m_pointSize*0.5;
         t_verts[i*6 + 4].r = 0.0f;
-        t_verts[i*6 + 4].g = 1.0f;
+        t_verts[i*6 + 4].g = 255.0f;
         t_verts[i*6 + 4].b = 0.0f;
-        t_verts[i*6 + 4].a = 1.0f;
+        t_verts[i*6 + 4].a = 255.0f;
 
         t_verts[i*6 + 5].x = t_pt.x - m_pointSize*0.5;
         t_verts[i*6 + 5].y = t_pt.y + m_pointSize*0.5;
         t_verts[i*6 + 5].r = 0.0f;
-        t_verts[i*6 + 5].g = 1.0f;
+        t_verts[i*6 + 5].g = 255.0f;
         t_verts[i*6 + 5].b = 0.0f;
-        t_verts[i*6 + 5].a = 1.0f;
+        t_verts[i*6 + 5].a = 255.0f;
     }
     m_pVertData->appendData(t_verts, t_vertex_size);
     m_vertexNum += t_vertex_num;

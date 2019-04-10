@@ -79,7 +79,6 @@ bool SVPendraw::procEvent(SVEventPtr _event){
         if(m_curStroke) {
             m_curStroke->draw(t_n_targetX,t_n_targetY,0.0f);
         }
-        printf("xiaofan draw point(%f, %f)\n",t_n_targetX, t_n_targetY);
     }
     return true;
 }
