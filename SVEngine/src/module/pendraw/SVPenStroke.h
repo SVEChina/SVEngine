@@ -44,6 +44,7 @@ namespace sv{
 //        static PTPOOL m_ptCache;
         f32 m_pointSize;
         s32 m_vertexNum;
+        SVLockPtr m_lock;
     };
     
 }//!namespace sv

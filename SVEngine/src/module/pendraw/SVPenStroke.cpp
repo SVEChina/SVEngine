@@ -19,41 +19,51 @@
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
     m_ptPool.clear();
+    m_lock = MakeSharedPtr<SVLock>();
     m_pVertData = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pMesh = _app->getRenderMgr()->createMeshRObj();
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V2_C);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    m_pointSize = 0.08f;
+    m_pointSize = 10;
     m_vertexNum = 0;
 }
 
 SVPenStroke::~SVPenStroke() {
     m_ptPool.clear();
     m_pVertData = nullptr;
+    m_lock = nullptr;
 }
 
 //绘制一笔
 void SVPenStroke::update(f32 _dt) {
+    m_lock->unlock();
     //插值生成面片
-    if(1) {
+//    if(1) {
         _genMesh();
-    }
+//    }
     //绘制dataswap
     _drawMesh();
+    m_lock->unlock();
 }
 
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
+    m_lock->lock();
     m_ptPool.append(FVec3(_px,_py,_pz));
+    m_lock->unlock();
 }
 
 void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
+    m_lock->lock();
     m_ptPool.append(FVec3(_px,_py,_pz));
+    m_lock->unlock();
 }
 
 void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
+    m_lock->lock();
     m_ptPool.append(FVec3(_px,_py,_pz));
+    m_lock->unlock();
 }
 
 //生成数据
@@ -61,9 +71,9 @@ void SVPenStroke::_genMesh() {
     //
     s32 t_pt_num = m_ptPool.size();
     s32 t_vertex_num = t_pt_num*6;
-    s32 t_vertex_size = t_vertex_num*sizeof(V2_C_T0);
-    V2_C_T0 verts[t_vertex_num];
-    V2_C_T0 *t_verts = verts;
+    s32 t_vertex_size = t_vertex_num*sizeof(V2_C);
+    V2_C verts[t_vertex_num];
+    V2_C *t_verts = verts;
     for (s32 i = 0; i<t_pt_num; i++) {
         FVec3 t_pt = m_ptPool[i];
         t_verts[i*6 + 0].x = t_pt.x - m_pointSize*0.5;
@@ -72,46 +82,45 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 0].g = 1.0f;
         t_verts[i*6 + 0].b = 0.0f;
         t_verts[i*6 + 0].a = 1.0f;
-        
+
         t_verts[i*6 + 1].x = t_pt.x - m_pointSize*0.5;
         t_verts[i*6 + 1].y = t_pt.y - m_pointSize*0.5;
         t_verts[i*6 + 1].r = 0.0f;
         t_verts[i*6 + 1].g = 1.0f;
         t_verts[i*6 + 1].b = 0.0f;
         t_verts[i*6 + 1].a = 1.0f;
-        
+
         t_verts[i*6 + 2].x = t_pt.x + m_pointSize*0.5;
         t_verts[i*6 + 2].y = t_pt.y - m_pointSize*0.5;
         t_verts[i*6 + 2].r = 0.0f;
         t_verts[i*6 + 2].g = 1.0f;
         t_verts[i*6 + 2].b = 0.0f;
         t_verts[i*6 + 2].a = 1.0f;
-        
+
         t_verts[i*6 + 3].x = t_pt.x + m_pointSize*0.5;
         t_verts[i*6 + 3].y = t_pt.y - m_pointSize*0.5;
         t_verts[i*6 + 3].r = 0.0f;
         t_verts[i*6 + 3].g = 1.0f;
         t_verts[i*6 + 3].b = 0.0f;
         t_verts[i*6 + 3].a = 1.0f;
-        
+
         t_verts[i*6 + 4].x = t_pt.x + m_pointSize*0.5;
         t_verts[i*6 + 4].y = t_pt.y + m_pointSize*0.5;
         t_verts[i*6 + 4].r = 0.0f;
         t_verts[i*6 + 4].g = 1.0f;
         t_verts[i*6 + 4].b = 0.0f;
         t_verts[i*6 + 4].a = 1.0f;
-        
+
         t_verts[i*6 + 5].x = t_pt.x - m_pointSize*0.5;
         t_verts[i*6 + 5].y = t_pt.y + m_pointSize*0.5;
         t_verts[i*6 + 5].r = 0.0f;
         t_verts[i*6 + 5].g = 1.0f;
         t_verts[i*6 + 5].b = 0.0f;
         t_verts[i*6 + 5].a = 1.0f;
-        t_verts += 6;
     }
     m_pVertData->appendData(t_verts, t_vertex_size);
+    m_vertexNum += t_vertex_num;
     m_ptPool.clear();
-    m_vertexNum += t_pt_num;
 }
 
 void SVPenStroke::_drawMesh() {
@@ -119,6 +128,10 @@ void SVPenStroke::_drawMesh() {
         SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "penstroke_base");
         t_mtl->setBlendEnable(true);
         t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        //
+        FMat4 t_localMat;
+        t_localMat.setIdentity();
+        t_mtl->setModelMatrix(t_localMat);
 //        t_mtl->update(dt);
         //更新顶点数据
         m_pMesh->setVertexDataNum(m_vertexNum);

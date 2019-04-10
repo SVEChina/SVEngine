@@ -11,7 +11,7 @@
 #include "../SVGameReady.h"
 #include "../SVGameRun.h"
 #include "../SVGameEnd.h"
-
+#include "../../app/SVInst.h"
 
 SVPendraw::SVPendraw(SVInst *_app)
 :SVGameBase(_app)
@@ -33,6 +33,9 @@ void SVPendraw::destroy() {
 
 void SVPendraw::update(f32 _dt) {
     SVGameBase::update(_dt);
+    if (m_curStroke) {
+        m_curStroke->update(_dt);
+    }
 }
 
 void SVPendraw::open() {
@@ -45,27 +48,38 @@ void SVPendraw::close() {
 
 bool SVPendraw::procEvent(SVEventPtr _event){
     //
+    f32 t_camera_w = mApp->m_pGlobalParam->m_inner_width*1.0;
+    f32 t_camera_h = mApp->m_pGlobalParam->m_inner_height*1.0;
     if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_BEGIN){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         f32 t_mod_x = t_touch->x;
         f32 t_mod_y = t_touch->y;
-        m_curStroke = MakeSharedPtr<SVPenStroke>(mApp);
-        m_curStroke->begin(0.0f,0.0f,0.0f);
+        f32 t_n_targetX = t_mod_x - t_camera_w*0.5;
+        f32 t_n_targetY = t_mod_y - t_camera_h*0.5;
+        if (!m_curStroke) {
+            m_curStroke = MakeSharedPtr<SVPenStroke>(mApp);
+            m_curStroke->begin(t_n_targetX,t_n_targetY,0.0f);
+        }
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_END){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         f32 t_mod_x = t_touch->x;
         f32 t_mod_y = t_touch->y;
-        if(m_curStroke) {
-            m_curStroke->end(0.0f,0.0f,0.0f);
-        }
-        m_curStroke = nullptr;
+        f32 t_n_targetX = t_mod_x - t_camera_w*0.5;
+        f32 t_n_targetY = t_mod_y - t_camera_h*0.5;
+//        if(m_curStroke) {
+//            m_curStroke->end(t_n_targetX,t_n_targetY,0.0f);
+//        }
+//        m_curStroke = nullptr;
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_MOVE){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         f32 t_mod_x = t_touch->x;
         f32 t_mod_y = t_touch->y;
+        f32 t_n_targetX = t_mod_x - t_camera_w*0.5;
+        f32 t_n_targetY = t_mod_y - t_camera_h*0.5;
         if(m_curStroke) {
-            m_curStroke->draw(0.0f,0.0f,0.0f);
+            m_curStroke->draw(t_n_targetX,t_n_targetY,0.0f);
         }
+        printf("xiaofan draw point(%f, %f)\n",t_n_targetX, t_n_targetY);
     }
     return true;
 }

@@ -40,6 +40,7 @@
 #include "../core/SVglTF.h"
 #include "../node/SVGLTFModelNode.h"
 #include "../module/SVEffectPackage.h"
+#include "../module/pendraw/SVPendraw.h"
 #include "../act/SVTexAttachment.h"
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
@@ -513,5 +514,29 @@ void SVOpMarkEnableRandom::_process(f32 dt) {
     SVMarkPtr t_mark = DYN_TO_SHAREPTR(SVMark, t_modulePtr);
     if (t_mark) {
         t_mark->setEnableRandomPosition(m_enable);
+    }
+}
+
+//about pen
+SVOpOpenPen::SVOpOpenPen(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpOpenPen::~SVOpOpenPen(){
+    
+}
+
+void SVOpOpenPen::_process(f32 dt) {
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr == nullptr) {
+        t_modulePtr = MakeSharedPtr<SVPendraw>(mApp);
+        SVGameBasePtr gameBasePtr = DYN_TO_SHAREPTR(SVGameBase, t_modulePtr);
+        if (gameBasePtr) {
+            gameBasePtr->init(nullptr, nullptr, nullptr);
+            gameBasePtr->open();
+            mApp->getModuleSys()->regist(gameBasePtr, t_name.c_str());
+        }
+
     }
 }
