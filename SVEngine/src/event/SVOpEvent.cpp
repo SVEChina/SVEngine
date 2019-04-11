@@ -16,6 +16,11 @@ SVARAnchorEvent::SVARAnchorEvent() {
     m_matData = MakeSharedPtr<SVDataSwap>();
 }
 
+SVARAnchorProjPosEvent::SVARAnchorProjPosEvent() {
+    m_x = 0.0;
+    m_y = 0.0;
+}
+
 SVPickEvent::SVPickEvent() {
     colorid = 0;
 }

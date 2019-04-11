@@ -217,7 +217,21 @@ bool SVPickProcess::getCrossPoint(s32 _sx,s32 _sy,FVec3& _crosspt){
     }
     return false;
 }
-                                                     
+
+bool SVPickProcess::getCrossPointWithPlane(s32 _sx,s32 _sy,FVec3& _crosspt, FVec4& _plane){
+    FVec3 t_start,t_end;
+    if( _getRay(_sx,_sy,t_start,t_end) ){
+        //构建移动平面(这个平面可以绘制出来)
+        FVec3 t_pos = t_start;
+        FVec3 t_dir = t_end - t_start;
+        //
+        s32 t_ret = rayPlaneIntersection(_crosspt,t_pos,t_dir,_plane);
+        if(t_ret>0)
+            return true;
+    }
+    return false;
+}
+
 bool SVPickProcess::getCrossPointUI(s32 _sx,s32 _sy,FVec3& _crosspt){
     FVec3 t_start,t_end;
     SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();

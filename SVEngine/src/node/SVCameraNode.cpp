@@ -149,10 +149,12 @@ void SVCameraNode::setViewMatrix(FMat4 &_mat){
     m_mat_view = _mat;
     FMat4 t_matrix_invert = inverse(_mat);
     m_postion.set(t_matrix_invert[12], t_matrix_invert[13], t_matrix_invert[14]);
+    m_mat_vp =m_mat_proj*m_mat_view;
 }
 
 void SVCameraNode::setProjectMatrix(FMat4 &_mat){
     m_mat_proj = _mat;
+    m_mat_vp =m_mat_proj*m_mat_view;
 }
 
 FVec3& SVCameraNode::getDirection(){

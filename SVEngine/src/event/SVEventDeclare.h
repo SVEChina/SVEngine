@@ -42,6 +42,8 @@ namespace sv {
     DECLARE_SHAREPTR(SVProjectMatrixEvent);
     DECLARE_SHAREPTR(SVReactEvent);
     DECLARE_SHAREPTR(SVARAnchorEvent);
+    DECLARE_SHAREPTR(SVARAnchorProjPosEvent);
+    
     //
     DECLARE_SHAREPTR(SVEventThread);
     //

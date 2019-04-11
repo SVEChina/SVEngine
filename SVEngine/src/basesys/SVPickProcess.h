@@ -62,6 +62,7 @@ namespace sv {
             //获取交叉点
             bool getCrossPoint(s32 _sx,s32 _sy,FVec3& _crosspt);
             bool getCrossPointUI(s32 _sx,s32 _sy,FVec3& _crosspt);
+            bool getCrossPointWithPlane(s32 _sx,s32 _sy,FVec3& _crosspt, FVec4& _plane);
             //
             SVNodePtr getPickNode();
             //

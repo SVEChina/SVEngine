@@ -26,6 +26,13 @@ namespace sv {
         SVDataSwapPtr m_matData;
     };
     
+    class SVARAnchorProjPosEvent : public SVEvent {
+    public:
+        SVARAnchorProjPosEvent();
+        f32 m_x;
+        f32 m_y;
+    };
+    
     //
     class SVPickEvent : public SVEvent {
     public:
