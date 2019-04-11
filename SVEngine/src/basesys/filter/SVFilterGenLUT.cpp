@@ -297,7 +297,7 @@ void SVFilterGenLUT::openGradientMap(){
        m_gradientMapMtl->setTexcoordFlip(1.0f, 1.0f);
     }
     m_GradientMapPass->setMtl(m_gradientMapMtl);
-    m_GradientMapPass->setInTex(0,E_TEX_FILTER_GENLUT_H2);
+    m_GradientMapPass->setInTex(0,E_TEX_FILTER_GENLUT_H1);
     m_GradientMapPass->setInTex(1,E_TEX_FILTER_GENLUT_H4);
 }
 
