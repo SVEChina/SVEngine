@@ -116,19 +116,6 @@ void SVRResGLTex::setTexData(void *_data, s32 _len){
     m_texLock->unlock();
 }
 
-
-
-u32 SVRResGLTex::getTexID(){
-    return m_id;
-}
-
-u32 SVRResGLTex::getuid(){
-    return m_uid;
-}
-
-bool SVRResGLTex::getbLoad() {
-    return m_bLoad;
-}
 //////
 SVRResGLTexWithTexID::SVRResGLTexWithTexID(SVInst* _app, s32 _id):SVRResGLTex(_app){
     m_id = _id;

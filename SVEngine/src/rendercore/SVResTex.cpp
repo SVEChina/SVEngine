@@ -34,7 +34,3 @@ void SVResTex::setTexData(void *_data, s32 _len){
 void SVResTex::commit(){
     
 }
-
-bool SVResTex::getbLoad(){
-    return false;
-}

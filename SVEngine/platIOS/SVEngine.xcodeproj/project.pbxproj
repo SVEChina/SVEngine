@@ -2972,6 +2972,8 @@
 		5FD9B001225B497800522317 /* SVPenStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFFE225B286200522317 /* SVPenStroke.h */; };
 		5FD9B002225B497900522317 /* SVPenStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFFE225B286200522317 /* SVPenStroke.h */; };
 		5FD9B003225B497900522317 /* SVPenStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9AFFE225B286200522317 /* SVPenStroke.h */; };
+		5FD9B00F225F589600522317 /* SVRResMetal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9B00D225F589500522317 /* SVRResMetal.cpp */; };
+		5FD9B010225F589600522317 /* SVRResMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD9B00E225F589600522317 /* SVRResMetal.h */; };
 		5FFB8A4721C4F948002480D0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFB8A4621C4F948002480D0 /* Metal.framework */; };
 		5FFB8A4921C4F950002480D0 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFB8A4821C4F94F002480D0 /* MetalKit.framework */; };
 /* End PBXBuildFile section */
@@ -3728,6 +3730,8 @@
 		5FD9AFF22256096400522317 /* SVPendraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPendraw.h; sourceTree = "<group>"; };
 		5FD9AFFD225B286200522317 /* SVPenStroke.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = SVPenStroke.cpp; sourceTree = "<group>"; };
 		5FD9AFFE225B286200522317 /* SVPenStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPenStroke.h; sourceTree = "<group>"; };
+		5FD9B00D225F589500522317 /* SVRResMetal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVRResMetal.cpp; sourceTree = "<group>"; };
+		5FD9B00E225F589600522317 /* SVRResMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRResMetal.h; sourceTree = "<group>"; };
 		5FFB8A4621C4F948002480D0 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		5FFB8A4821C4F94F002480D0 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		822A3F971E70069800CF3953 /* SVEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SVEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4491,6 +4495,8 @@
 		5F7D5EE8215F407700803BCF /* SVMetal */ = {
 			isa = PBXGroup;
 			children = (
+				5FD9B00D225F589500522317 /* SVRResMetal.cpp */,
+				5FD9B00E225F589600522317 /* SVRResMetal.h */,
 				5F481CBC21B6A7A9008C733C /* SVMetalDevice.h */,
 				5F481CBB21B6A7A9008C733C /* SVMetalDevice.mm */,
 				5F7D5EE9215F407700803BCF /* SVRendererMetal.cpp */,
@@ -5929,6 +5935,7 @@
 				5F7D68F0215F407900803BCF /* SVCompileConfig.h in Headers */,
 				5F7D6402215F407800803BCF /* document.h in Headers */,
 				5F7D613A215F407700803BCF /* SVParticles.h in Headers */,
+				5FD9B010225F589600522317 /* SVRResMetal.h in Headers */,
 				5F7D663C215F407800803BCF /* SVThreadPool.h in Headers */,
 				5C56B69C224A2B47007D7DC8 /* SVFilterHaze.h in Headers */,
 				0288FA072178A8430089E61C /* SVBMFontNode.h in Headers */,
@@ -7316,6 +7323,7 @@
 				5C0C6030219BFF790052A826 /* InterpolateLinear.cpp in Sources */,
 				5F7D64FC215F407800803BCF /* SVOpCreate.cpp in Sources */,
 				5F7D624E215F407800803BCF /* pngrutil.c in Sources */,
+				5FD9B00F225F589600522317 /* SVRResMetal.cpp in Sources */,
 				5F7D65B8215F407800803BCF /* SVRendererMetal.cpp in Sources */,
 				5F7D667C215F407800803BCF /* SVMtlFace2D.cpp in Sources */,
 				5F7D64BE215F407800803BCF /* SVMovie.cpp in Sources */,

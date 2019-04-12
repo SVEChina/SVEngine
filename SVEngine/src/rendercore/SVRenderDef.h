@@ -11,6 +11,20 @@
 #include "../base/SVDef.h"
 #include "SVRenderDeclare.h"
 
+/*
+ .背景（sky）
+ .美颜（磨皮，美白，红润等）
+ .美妆（纹眉，腮红，嘴唇等面具技术）
+ .面部微整（大眼，瘦脸，尖下巴，隆鼻等）
+ .风格化（老照片，青色，阳光等）
+ .面具（饰品类）
+ .动画（头饰类，跟人）
+ .AR特效
+ .平面特效（动画，全屏幕动画）
+ .ui类
+ .debug类
+ */
+
 enum RENDERSTREAMTYPE {
     RST_BEGIN = 0,
     RST_IMG_TRANS,
@@ -33,7 +47,7 @@ enum RENDERSTREAMTYPE {
     RST_2D_BEGIN,
     RST_UI,
     RST_2D_END,
-    RST_SCENE_END, //场景之后是在界面尺寸(真分辨率)下玩的内容
+    RST_SCENE_END,          //场景之后是在界面尺寸(真分辨率)下玩的内容
     RST_DATATRANS,          //数据转换流
     RST_ADAPT_SCENE,        //scene单独使用，将设计分辨率的内容 适配给真是分辨率
     RST_LOGO,

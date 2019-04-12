@@ -48,22 +48,21 @@ void SVTexture::create(SVRendererBasePtr _renderer){
     SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
-        
+        //m_objTexPtr = MakeSharedPtr<SVRResGLTex>(mApp);
     }
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
     if (t_rendeMetalPtr) {
         //渲染器类型E_RENDERER_METAL,
-        
+        //m_objTexPtr = MakeSharedPtr<SVRResGLTex>(mApp);
     }
     if (m_objTexPtr) {
-        SVRResGLTexPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTex>(m_objTexPtr);
-        t_tmp->setname(m_name);
-        t_tmp->settype(m_type);
-        t_tmp->setwidth(m_width);
-        t_tmp->setheight(m_height);
-        t_tmp->setinformate(m_informate);
-        t_tmp->setdataformate(m_dataformate);
-        t_tmp->setEnableMipMap(m_bEnableMipMap);
+        m_objTexPtr->setname(m_name);
+        m_objTexPtr->settype(m_type);
+        m_objTexPtr->setwidth(m_width);
+        m_objTexPtr->setheight(m_height);
+        m_objTexPtr->setinformate(m_informate);
+        m_objTexPtr->setdataformate(m_dataformate);
+        m_objTexPtr->setEnableMipMap(m_bEnableMipMap);
         _updateData();
         m_objTexPtr->create(_renderer);
     }
@@ -96,25 +95,22 @@ void SVTexture::setTexData(void *_data, s32 _len){
 }
 
 void SVTexture::commit(){
-    SVRResGLTexPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTex>(m_objTexPtr);
-    if (t_tmp) {
-        t_tmp->commit();
+    if (m_objTexPtr) {
+        m_objTexPtr->commit();
     }
 }
 
 u32  SVTexture::getTexID(){
-    SVRResGLTexPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTex>(m_objTexPtr);
-    if (t_tmp) {
-        return t_tmp->getTexID();
+    if (m_objTexPtr) {
+        return m_objTexPtr->getTexID();
     }
     return 0;
     
 }
 
 bool SVTexture::getbLoad(){
-    SVRResGLTexPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTex>(m_objTexPtr);
-    if (t_tmp) {
-        return t_tmp->getbLoad();
+    if (m_objTexPtr) {
+        return m_objTexPtr->getbLoad();
     }
     return 0;
 }
@@ -129,50 +125,44 @@ cptr8 SVTexture::getname(){
 }
 
 s32 SVTexture::gettype(){
-    SVRResGLTexPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTex>(m_objTexPtr);
-    if (t_tmp) {
-        return t_tmp->gettype();
+    if (m_objTexPtr) {
+        return m_objTexPtr->gettype();
     }
     return 0;
 }
 
 s32 SVTexture::getwidth(){
-    SVRResGLTexPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTex>(m_objTexPtr);
-    if (t_tmp) {
-        return t_tmp->getwidth();
+    if (m_objTexPtr) {
+        return m_objTexPtr->getwidth();
     }
     return m_width;
 }
 
 s32 SVTexture::getheight(){
-    SVRResGLTexPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTex>(m_objTexPtr);
-    if (t_tmp) {
-        return t_tmp->getheight();
+    if (m_objTexPtr) {
+        return m_objTexPtr->getheight();
     }
     return m_height;
 }
 
 s32 SVTexture::getinformate(){
-    SVRResGLTexPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTex>(m_objTexPtr);
-    if (t_tmp) {
-        return t_tmp->getinformate();
+    if (m_objTexPtr) {
+        return m_objTexPtr->getinformate();
     }
     return 0;
 }
 
 s32 SVTexture::getdataformate(){
-    SVRResGLTexPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTex>(m_objTexPtr);
-    if (t_tmp) {
-        return t_tmp->getdataformate();
+    if (m_objTexPtr) {
+        return m_objTexPtr->getdataformate();
     }
     return 0;
 }
 
 void SVTexture::_updateData(){
-    SVRResGLTexPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTex>(m_objTexPtr);
-    if (t_tmp) {
+    if (m_objTexPtr) {
         if (m_bData) {
-            t_tmp->setTexData(m_pData->getData(), m_pData->getSize());
+            m_objTexPtr->setTexData(m_pData->getData(), m_pData->getSize());
             m_bData = false;
         }
     }

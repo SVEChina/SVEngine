@@ -38,13 +38,12 @@ void SVTextureIOS::create(SVRendererBasePtr _renderer){
     }
     
     if (m_objTexPtr) {
-        SVRResGLTexiOSPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTexiOS>(m_objTexPtr);
-        t_tmp->setname(m_name);
-        t_tmp->settype(m_type);
-        t_tmp->setwidth(m_width);
-        t_tmp->setheight(m_height);
-        t_tmp->setinformate(m_informate);
-        t_tmp->setdataformate(m_dataformate);
+        m_objTexPtr->setname(m_name);
+        m_objTexPtr->settype(m_type);
+        m_objTexPtr->setwidth(m_width);
+        m_objTexPtr->setheight(m_height);
+        m_objTexPtr->setinformate(m_informate);
+        m_objTexPtr->setdataformate(m_dataformate);
         _updateData();
         m_objTexPtr->create(_renderer);
     }
