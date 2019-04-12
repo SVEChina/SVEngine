@@ -76,9 +76,6 @@ bool SVPendraw::procEvent(SVEventPtr _event){
                 m_curStroke->end(t_pos.x,t_pos.y,t_pos.z);
             }
         }
-//        if(m_curStroke) {
-//            m_curStroke->end(t_n_targetX,t_n_targetY,0.0f);
-//        }
 //        m_curStroke = nullptr;
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_MOVE){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);

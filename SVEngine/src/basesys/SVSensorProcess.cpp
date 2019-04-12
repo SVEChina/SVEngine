@@ -112,7 +112,7 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
         }
         
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHORPOINT_AR){
-        
+      
         SVARAnchorProjPosEventPtr anchorPoint = std::dynamic_pointer_cast<SVARAnchorProjPosEvent>(_event);
         if (anchorPoint) {
             if (m_maxBox > m_3DBoxPool.size()) {
@@ -132,13 +132,14 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
                         billboardNode->setTexture(texture);
                         billboardNode->setScale(0.0001, 0.0001, 0.0001);
                         billboardNode->setSize(500, 500);
-//                        t_pScene->addNode(billboardNode);
-//                        m_3DBoxPool.append(billboardNode);
+                        t_pScene->addNode(billboardNode);
+                        m_3DBoxPool.append(billboardNode);
                         
                     }
                 }
             }
         }
+        
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_DEVICE_ACCELEROMETER){
         if (!m_isFitst) {
             m_isFitst = true;

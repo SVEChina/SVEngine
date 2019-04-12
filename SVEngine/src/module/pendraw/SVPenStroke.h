@@ -12,6 +12,7 @@
 #include "../../base/SVVec3.h"
 #include "../../base/SVMat4.h"
 #include "../../rendercore/SVRenderDeclare.h"
+#include "../../mtl/SVMtlDeclare.h"
 namespace sv{
     
     class SVPenStroke : public SVGameBase {
@@ -27,8 +28,6 @@ namespace sv{
         void end(f32 _px,f32 _py,f32 _pz);
         
         void draw(f32 _px,f32 _py,f32 _pz);
-        
-        void setModelMatrix(FMat4 &_matrix);
     protected:
         //生成面片
         void _genMesh();
@@ -42,11 +41,10 @@ namespace sv{
         SVDataSwapPtr m_pVertData;
         SVRenderMeshPtr m_pMesh;
         SVRenderObjectPtr m_pRenderObj;
+        SVMtlCorePtr m_pMtl;
+        SVTexturePtr m_pTex;
         //test
         FMat4 m_localMat;
-        bool setupLocal;
-//        //
-//        static PTPOOL m_ptCache;
         f32 m_pointSize;
         s32 m_vertexNum;
         SVLockPtr m_lock;
