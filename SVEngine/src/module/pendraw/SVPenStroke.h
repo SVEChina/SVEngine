@@ -29,6 +29,7 @@ namespace sv{
         
         void draw(f32 _px,f32 _py,f32 _pz);
     protected:
+        void _screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint);
         //生成面片
         void _genMesh();
         

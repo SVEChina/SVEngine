@@ -13,10 +13,6 @@
 #include "../SVGameEnd.h"
 #include "../../app/SVInst.h"
 #include "../../base/SVDataSwap.h"
-#include "../../basesys/SVCameraMgr.h"
-#include "../../node/SVCameraNode.h"
-#include "../../basesys/SVBasicSys.h"
-#include "../../basesys/SVPickProcess.h"
 SVPendraw::SVPendraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
@@ -55,39 +51,18 @@ bool SVPendraw::procEvent(SVEventPtr _event){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (!m_curStroke) {
             m_curStroke = MakeSharedPtr<SVPenStroke>(mApp);
-            SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-            FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
-            FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], 0.3);
-            SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
-            FVec3 t_pos;
-            if(t_pickModule && t_pickModule->getCrossPointWithPlane(t_touch->x, t_touch->y,t_pos, t_plane) ){
-                m_curStroke->begin(t_pos.x,t_pos.y,t_pos.z);
-            }
+            m_curStroke->begin(t_touch->x,t_touch->y,0.0);
         }
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_END){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (t_touch && m_curStroke) {
-            SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-            FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
-            FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], 0.3);
-            SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
-            FVec3 t_pos;
-            if(t_pickModule && t_pickModule->getCrossPointWithPlane(t_touch->x, t_touch->y,t_pos, t_plane) ){
-                m_curStroke->end(t_pos.x,t_pos.y,t_pos.z);
-            }
+            m_curStroke->end(t_touch->x,t_touch->y,0.0f);
         }
 //        m_curStroke = nullptr;
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_MOVE){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (t_touch && m_curStroke) {
-            SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-            FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
-            FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], 0.3);
-            SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
-            FVec3 t_pos;
-            if(t_pickModule && t_pickModule->getCrossPointWithPlane(t_touch->x, t_touch->y,t_pos, t_plane) ){
-                m_curStroke->draw(t_pos.x,t_pos.y,t_pos.z);
-            }
+            m_curStroke->draw(t_touch->x,t_touch->y,0.0f);
         }
     }
     return true;

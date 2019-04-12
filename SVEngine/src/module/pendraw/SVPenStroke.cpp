@@ -18,6 +18,10 @@
 #include "../../mtl/SVMtlCore.h"
 #include "../../mtl/SVTexMgr.h"
 #include "../../mtl/SVTexture.h"
+#include "../../basesys/SVCameraMgr.h"
+#include "../../node/SVCameraNode.h"
+#include "../../basesys/SVBasicSys.h"
+#include "../../basesys/SVPickProcess.h"
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
     m_ptPool.clear();
@@ -29,7 +33,7 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    m_pointSize = 0.05;
+    m_pointSize = 120;
     m_vertexNum = 0;
 }
 
@@ -79,9 +83,26 @@ void SVPenStroke::_genMesh() {
     V3_C_T0 *t_verts = verts;
     for (s32 i = 0; i<t_pt_num; i++) {
         FVec3 t_pt = m_ptPool[i];
-        t_verts[i*6 + 0].x = t_pt.x - m_pointSize*0.5;
-        t_verts[i*6 + 0].y = t_pt.y + m_pointSize*0.5;
-        t_verts[i*6 + 0].z = t_pt.z;
+        FVec2 t_t_pt;
+        //0
+        FVec3 t_worldPt0;
+        t_t_pt = FVec2(t_pt.x - m_pointSize*0.5, t_pt.y + m_pointSize*0.5);
+        _screenPointToWorld(t_t_pt, t_worldPt0);
+        //1
+        FVec3 t_worldPt1;
+        t_t_pt = FVec2(t_pt.x - m_pointSize*0.5, t_pt.y - m_pointSize*0.5);
+        _screenPointToWorld(t_t_pt, t_worldPt1);
+        //2
+        FVec3 t_worldPt2;
+        t_t_pt = FVec2(t_pt.x + m_pointSize*0.5, t_pt.y - m_pointSize*0.5);
+        _screenPointToWorld(t_t_pt, t_worldPt2);
+        //3
+        FVec3 t_worldPt3;
+        t_t_pt = FVec2(t_pt.x + m_pointSize*0.5, t_pt.y + m_pointSize*0.5);
+        _screenPointToWorld(t_t_pt, t_worldPt3);
+        t_verts[i*6 + 0].x = t_worldPt0.x;
+        t_verts[i*6 + 0].y = t_worldPt0.y;
+        t_verts[i*6 + 0].z = t_worldPt0.z;
         t_verts[i*6 + 0].t0x = 0.0f;
         t_verts[i*6 + 0].t0y = 1.0f;
         t_verts[i*6 + 0].r = 0.0f;
@@ -89,9 +110,9 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 0].b = 0.0f;
         t_verts[i*6 + 0].a = 255.0f;
 
-        t_verts[i*6 + 1].x = t_pt.x - m_pointSize*0.5;
-        t_verts[i*6 + 1].y = t_pt.y - m_pointSize*0.5;
-        t_verts[i*6 + 1].z = t_pt.z;
+        t_verts[i*6 + 1].x = t_worldPt1.x;
+        t_verts[i*6 + 1].y = t_worldPt1.y;
+        t_verts[i*6 + 1].z = t_worldPt1.z;
         t_verts[i*6 + 1].t0x = 0.0f;
         t_verts[i*6 + 1].t0y = 0.0f;
         t_verts[i*6 + 1].r = 0.0f;
@@ -99,9 +120,9 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 1].b = 0.0f;
         t_verts[i*6 + 1].a = 255.0f;
 
-        t_verts[i*6 + 2].x = t_pt.x + m_pointSize*0.5;
-        t_verts[i*6 + 2].y = t_pt.y - m_pointSize*0.5;
-        t_verts[i*6 + 2].z = t_pt.z;
+        t_verts[i*6 + 2].x = t_worldPt2.x;
+        t_verts[i*6 + 2].y = t_worldPt2.y;
+        t_verts[i*6 + 2].z = t_worldPt2.z;
         t_verts[i*6 + 2].t0x = 1.0f;
         t_verts[i*6 + 2].t0y = 0.0f;
         t_verts[i*6 + 2].r = 0.0f;
@@ -109,9 +130,9 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 2].b = 0.0f;
         t_verts[i*6 + 2].a = 255.0f;
 
-        t_verts[i*6 + 3].x = t_pt.x + m_pointSize*0.5;
-        t_verts[i*6 + 3].y = t_pt.y - m_pointSize*0.5;
-        t_verts[i*6 + 3].z = t_pt.z;
+        t_verts[i*6 + 3].x = t_worldPt2.x;
+        t_verts[i*6 + 3].y = t_worldPt2.y;
+        t_verts[i*6 + 3].z = t_worldPt2.z;
         t_verts[i*6 + 3].t0x = 1.0f;
         t_verts[i*6 + 3].t0y = 0.0f;
         t_verts[i*6 + 3].r = 0.0f;
@@ -119,9 +140,9 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 3].b = 0.0f;
         t_verts[i*6 + 3].a = 255.0f;
 
-        t_verts[i*6 + 4].x = t_pt.x + m_pointSize*0.5;
-        t_verts[i*6 + 4].y = t_pt.y + m_pointSize*0.5;
-        t_verts[i*6 + 4].z = t_pt.z;
+        t_verts[i*6 + 4].x = t_worldPt3.x;
+        t_verts[i*6 + 4].y = t_worldPt3.y;
+        t_verts[i*6 + 4].z = t_worldPt3.z;
         t_verts[i*6 + 4].t0x = 1.0f;
         t_verts[i*6 + 4].t0y = 1.0f;
         t_verts[i*6 + 4].r = 0.0f;
@@ -129,9 +150,9 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 4].b = 0.0f;
         t_verts[i*6 + 4].a = 255.0f;
 
-        t_verts[i*6 + 5].x = t_pt.x - m_pointSize*0.5;
-        t_verts[i*6 + 5].y = t_pt.y + m_pointSize*0.5;
-        t_verts[i*6 + 5].z = t_pt.z;
+        t_verts[i*6 + 5].x = t_worldPt0.x;
+        t_verts[i*6 + 5].y = t_worldPt0.y;
+        t_verts[i*6 + 5].z = t_worldPt0.z;
         t_verts[i*6 + 5].t0x = 0.0f;
         t_verts[i*6 + 5].t0y = 1.0f;
         t_verts[i*6 + 5].r = 0.0f;
@@ -165,3 +186,19 @@ void SVPenStroke::_drawMesh() {
     }
 }
 
+void SVPenStroke::_screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint){
+    SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
+    FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
+    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], 0.3);
+    SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
+    FVec3 t_pos;
+    f32 t_pt_x = _point.x;
+    f32 t_pt_y = _point.y;
+    f32 t_pt_z = 0.0f;
+    if(t_pickModule && t_pickModule->getCrossPointWithPlane(t_pt_x, t_pt_y,t_pos, t_plane) ){
+        t_pt_x = t_pos.x;
+        t_pt_y = t_pos.y;
+        t_pt_z = t_pos.z;
+    }
+    _worldPoint = FVec3(t_pt_x, t_pt_y, t_pt_z);
+}
