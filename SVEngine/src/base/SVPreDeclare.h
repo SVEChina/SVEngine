@@ -103,6 +103,9 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpPick);
     DECLARE_SHAREPTR(SVOpRecycleNode);
     //
+    DECLARE_SHAREPTR(SVOpOpenPen);
+    DECLARE_SHAREPTR(SVOpClosePen);
+    //
     DECLARE_SHAREPTR(SVOpCreateIOSInstream);
     DECLARE_SHAREPTR(SVOpDestroyIOSInstream);
     DECLARE_SHAREPTR(SVOpCreateIOSOutstream);
@@ -228,6 +231,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVFilterGenLUT);
         DECLARE_SHAREPTR(SVFilterClarity);
         DECLARE_SHAREPTR(SVFilterHaze);
+        DECLARE_SHAREPTR(SVSharpFilter);
         DECLARE_SHAREPTR(SVFilterGof);
         DECLARE_SHAREPTR(SVRGBToneCurveFilter);
         DECLARE_SHAREPTR(SVBasedonFilter);

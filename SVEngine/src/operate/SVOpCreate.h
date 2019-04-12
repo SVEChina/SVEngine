@@ -265,6 +265,18 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
+    
+    //
+    //mark
+    class SVOpOpenPen : public SVOpBase {
+    public:
+        SVOpOpenPen(SVInst *_app);
+        
+        ~SVOpOpenPen();
+        
+    protected:
+        void _process(f32 dt);
+    };
 
 }//!namespace sv
 
