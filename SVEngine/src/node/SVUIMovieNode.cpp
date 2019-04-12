@@ -14,7 +14,7 @@
 SVUIMovieNode::SVUIMovieNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVUIMovieNode";
-    m_rsType = RST_PREFILTER;
+    m_rsType = RST_DEBUG;
 }
 
 SVUIMovieNode::~SVUIMovieNode() {
@@ -40,7 +40,6 @@ void SVUIMovieNode::render() {
     //渲染timeline
     
     //渲染key
-    
 }
 
 void SVUIMovieNode::_renderMoview() {

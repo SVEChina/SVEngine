@@ -263,18 +263,8 @@ void SVDeformImageMove::render(){
             if(m_passPoint->m_pMtl&&m_is_point){
                  t_cmd->addMtlMesh(m_passPoint->m_pMtl,m_passPoint->m_pMesh);
             }
-            t_rs->pushRenderCmd(RST_BACKGROUND, t_cmd);//m_rsType
+            t_rs->pushRenderCmd(RST_FACEMORPH, t_cmd);//m_rsType
         }
-//
-//        if(m_passPoint->m_pMtl){
-//            SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
-//            t_cmd->mTag = "SVBackGroundNode";
-//            t_cmd->setFbo(m_fbo);
-//            t_cmd->setTexture(m_passPoint->m_outTex);
-//            t_cmd->setMesh(m_passPoint->m_pMesh);
-//            t_cmd->setMaterial(m_passPoint->m_pMtl);
-//            t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);//m_rsType
-//        }
     }
 }
 

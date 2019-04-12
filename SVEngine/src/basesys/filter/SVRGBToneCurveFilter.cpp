@@ -36,6 +36,7 @@ bool SVRGBToneCurveFilter::create() {
     //增加pass
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->create(t_w, t_h);
+    m_pPassNode->setRSType(RST_IMGFILTER);
     //
     texrgb = mApp->getTexMgr()->createUnctrlTexture(256, 1, GL_RGBA, GL_RGBA);
     //

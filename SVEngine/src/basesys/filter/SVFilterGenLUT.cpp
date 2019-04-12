@@ -60,6 +60,7 @@ bool SVFilterGenLUT::create(){
     //增加pass
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->create(t_w,t_h);
+    m_pPassNode->setRSType(RST_IMGFILTER);
     m_pPassNode->setname("SVFilterGenLUT");
     
     //创建材质

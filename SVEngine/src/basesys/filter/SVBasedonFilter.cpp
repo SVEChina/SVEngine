@@ -68,6 +68,7 @@ bool SVBasedonFilter::create() {
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->setname("SVfilterBaseOn");
     m_pPassNode->create(t_w, t_h);
+    m_pPassNode->setRSType(RST_IMGFILTER);
     //创建pass
     SVPassPtr t_pass1 = MakeSharedPtr<SVPass>();
     t_pass1->setMtl(m_baseOnmtl);

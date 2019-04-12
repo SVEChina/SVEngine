@@ -26,7 +26,7 @@ SVSpriteNode::SVSpriteNode(SVInst *_app)
     ntype = "SVSpriteNode";
     m_inTexType = E_TEX_END;
     m_pTexPath = "default";
-    m_rsType = RST_ANIMATE;
+    m_rsType = RST_SOLID_3D;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_canSelect = false;
     m_pTex = nullptr;
@@ -39,7 +39,7 @@ SVSpriteNode::SVSpriteNode(SVInst *_app,f32 _w,f32 _h)
 :SVNode(_app) {
     ntype = "SVSpriteNode";
     m_inTexType = E_TEX_END;
-    m_rsType = RST_ANIMATE;
+    m_rsType = RST_SOLID_3D;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_canSelect = false;
     m_pTex = nullptr;

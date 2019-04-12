@@ -125,7 +125,7 @@ void SVFrameOutRead::render(){
         t_cmd->setParam(m_fbo,t_out_tex,m_pDataSwap,nullptr);
         t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
         t_cmd->setMaterial(m_pMtl->clone());
-        t_rs->pushRenderCmd(RST_MAGIC_END, t_cmd);
+        t_rs->pushRenderCmd(RST_MAGIC_OUT, t_cmd);
     }
 }
 

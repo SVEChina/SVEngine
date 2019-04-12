@@ -152,6 +152,7 @@ bool SVFairDataBlur::create() {
     
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->create(t_w, t_h);
+    m_pPassNode->setRSType(RST_BEAUTY);
 
     //
     if(! t_renderer->getSVTex(E_TEX_HELP0) ){
@@ -356,6 +357,7 @@ bool SVFairLtraLow::create() {
     
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->create(t_w, t_h);
+    m_pPassNode->setRSType(RST_BEAUTY);
     
     SVPassPtr t_pass = MakeSharedPtr<SVPass>();
     t_pass->setMtl(m_mtl_a);

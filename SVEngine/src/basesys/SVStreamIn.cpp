@@ -64,7 +64,7 @@ void StreamInCore::init(s32 _w,s32 _h,PICFORMATE _fromate,f32 _angle,bool _show)
                     SVSpriteNodePtr tmpNode = std::dynamic_pointer_cast<SVSpriteNode>(m_showNode);
                     if(tmpNode){
                         tmpNode->setTexture(m_tt);
-                        tmpNode->setRSType(RST_BACKGROUND);
+                        tmpNode->setRSType(RST_SKY);
                     }
                 #endif
             }

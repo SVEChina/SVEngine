@@ -20,7 +20,7 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     ntype = "SVParticlesNode";
     m_drawBox = true;
     m_canSelect = true;
-    m_rsType = RST_ALPHA;
+    m_rsType = RST_ALPHA_3D;
     m_pParticles = MakeSharedPtr<SVParticles>();
     m_pParticlesWorld = MakeSharedPtr<SVParticlesWorld>();
     m_pParticles->setSeed(mApp->m_pGlobalParam->getRandom());

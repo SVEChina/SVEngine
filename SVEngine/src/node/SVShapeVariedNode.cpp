@@ -112,7 +112,7 @@ void SVShapeVariedNode::render(){
                     t_cmd->setTexture(m_passPool[i]->m_outTex);
                     t_cmd->setMesh(m_passPool[i]->m_pMesh);
                     t_cmd->setMaterial(m_passPool[i]->m_pMtl->clone());
-                    t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);
+                    t_rs->pushRenderCmd(RST_FACEMORPH, t_cmd);
                 }
             }
         }

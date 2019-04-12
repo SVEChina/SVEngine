@@ -43,7 +43,7 @@ SVDataNode::SVDataNode(SVInst *_app)
     m_offsetX = 0.0f;
     m_offsetY = 0.0f;
     //渲染流
-    m_renderStreamType = RST_ANIMATE;
+    m_renderStreamType = RST_SOLID_3D;
     //流中z顺序
     m_zorder = 1;
     //是否可被选择
@@ -193,7 +193,7 @@ void SVDataNode::refreshOut(SVNodePtr _node){
 //
 SVDataNodeBmpFont::SVDataNodeBmpFont(SVInst *_app)
 : SVDataNode(_app){
-    m_renderStreamType = RST_ANIMATE;
+    m_renderStreamType = RST_SOLID_3D;
     m_dataType = MODELDATA_BITFONT;
     m_fontW = 50;
     m_fontH = 50;

@@ -76,7 +76,7 @@ void SVFreeTypeNode::render() {
     if (mApp->m_pGlobalParam->m_curScene && m_visible ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_renderObject && m_pMesh && m_pMtl) {
-            m_renderObject->pushCmd(t_rs, RST_FREETYPE, "SVFreeTypeNode");
+            m_renderObject->pushCmd(t_rs, RST_SOLID_3D, "SVFreeTypeNode");
         }
     }
     SVNode::render();

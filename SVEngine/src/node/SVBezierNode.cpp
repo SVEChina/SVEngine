@@ -9,7 +9,7 @@
 SVBezierNode::SVBezierNode(SVInst *_app)
 :SVNode(_app){
     ntype = "SVBezierNode";
-    m_rsType = RST_PREFILTER;
+    m_rsType = RST_IMGFILTER_OUT;
 }
 
 SVBezierNode::~SVBezierNode(){

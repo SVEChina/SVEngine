@@ -30,7 +30,7 @@ SVBGRAInstreamNode::SVBGRAInstreamNode(SVInst *_app)
 SVBGRAInstreamNode::SVBGRAInstreamNode(SVInst *_app,f32 _w,f32 _h)
 :SVNode(_app) {
     ntype = "SVBGRAInstreamNode";
-    m_rsType = RST_ANIMATE;
+    m_rsType = RST_SOLID_3D;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_canSelect = false;
     m_pMesh = nullptr;
