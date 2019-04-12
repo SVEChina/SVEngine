@@ -34,10 +34,10 @@ SVTransGPU::SVTransGPU(SVInst *_app)
     //
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_passNode = MakeSharedPtr<SVMultPassNode>(mApp);
+    m_passNode->setRSType(RST_IMGFILTER);
     m_pMtl = nullptr;
     m_pMesh = nullptr;
     m_beload = false;
-
 }
 
 SVTransGPU::~SVTransGPU() {

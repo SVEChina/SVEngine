@@ -80,7 +80,7 @@ void SV3DBox::render() {
     if (mApp->m_pGlobalParam->m_curScene && m_visible ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj) {
-            m_pRenderObj->pushCmd(t_rs, RST_ANIMATE, "SV3DBox");
+            m_pRenderObj->pushCmd(t_rs, RST_SOLID_3D, "SV3DBox");
         }
     }
     SVNode::render();

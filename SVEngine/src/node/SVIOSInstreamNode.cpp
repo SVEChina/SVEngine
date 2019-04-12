@@ -59,11 +59,9 @@ void SVIOSInstreamNode::render() {
         return;
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_pRenderObj ) {
-        m_pRenderObj->pushCmd(t_rs, RST_BACKGROUND, "SVIOSInstreamNode");
+        m_pRenderObj->pushCmd(t_rs, RST_SKY, "SVIOSInstreamNode");
     }
 }
-
-
 
 
 

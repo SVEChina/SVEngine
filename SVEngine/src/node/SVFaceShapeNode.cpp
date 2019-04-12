@@ -112,15 +112,11 @@ void SVFaceShapeNode::render(){
                     t_cmd->setTexture(m_passPool[i]->m_outTex);
                     t_cmd->setMesh(m_passPool[i]->m_pMesh);
                     t_cmd->setMaterial(m_passPool[i]->m_pMtl);
-                    t_rs->pushRenderCmd(RST_PREFILTER, t_cmd);
+                    t_rs->pushRenderCmd(RST_FACEMORPH, t_cmd);
                 }
             }
         }
     }
-//    if(!mApp->getDetectMgr()->getDetect()->stData[0].has){
-//        return;
-//    }
-
 }
 
 bool SVFaceShapeNode::procEvent(SVEventPtr _event){

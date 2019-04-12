@@ -40,6 +40,7 @@ bool SVADFilterBase::create(){
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->setname("SVAdvanceFilterNode");
     m_pPassNode->create(t_w, t_h);
+    m_pPassNode->setRSType(RST_IMGFILTER);
     //创建pass
     SVPassPtr t_pass1 = MakeSharedPtr<SVPass>();
     m_mtl->setTexcoordFlip(1.0f, 1.0f);

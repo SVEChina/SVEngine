@@ -52,6 +52,7 @@ bool SVFilterGof::create(){
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->setname("SVFilterGOFNode");
     m_pPassNode->create(t_w, t_h);
+    m_pPassNode->setRSType(RST_IMGFILTER);
     //创建pass
     SVPassPtr t_pass1 = MakeSharedPtr<SVPass>();
     SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
@@ -60,8 +61,6 @@ bool SVFilterGof::create(){
     t_pass1->setInTex(0,E_TEX_MAIN);
     t_pass1->setOutTex(E_TEX_HELP0);
     m_pPassNode->addPass(t_pass1);
-    
-
     
     t_pass1 = MakeSharedPtr<SVPass>();
     SVMtlSmoothPtr t_lkMtl02=MakeSharedPtr<SVMtlSmooth>(mApp,"blurtex");

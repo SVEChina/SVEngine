@@ -36,7 +36,7 @@ SVSpineNode::SVSpineNode(SVInst *_app)
     m_p_cb_obj = nullptr;
     m_visible = false;
     m_state = tANI_STATE_WAIT;
-    m_rsType = RST_ANIMATE;
+    m_rsType = RST_SOLID_3D;
     m_cur_aniname = "animation";
     m_canSelect = true;
     m_box_scale = 1.0f;

@@ -43,6 +43,7 @@ bool SVFilterClarity::create(){
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->setname("SVFilterClarityNode");
     m_pPassNode->create(t_w, t_h);
+    m_pPassNode->setRSType(RST_IMGFILTER);
     //创建pass
     SVPassPtr t_pass1 = MakeSharedPtr<SVPass>();
     SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");

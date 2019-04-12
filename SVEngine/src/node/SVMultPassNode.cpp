@@ -24,7 +24,7 @@
 SVMultPassNode::SVMultPassNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVMultPassNode";
-    m_rsType = RST_PREFILTER;
+    m_rsType = RST_IMGFILTER;
 }
 
 SVMultPassNode::~SVMultPassNode() {

@@ -36,7 +36,7 @@
 SVBackGroundNode::SVBackGroundNode(SVInst *_app)
 :SVSpriteNode(_app,720,1280){
     ntype = "SVDeformNode";
-    m_rsType = RST_BACKGROUND;
+    m_rsType = RST_SKY;
     m_useTexType = E_TEX_END;
     m_texcoordX = 1.0f;
     m_texcoordY = -1.0f;
@@ -45,7 +45,7 @@ SVBackGroundNode::SVBackGroundNode(SVInst *_app)
 SVBackGroundNode::SVBackGroundNode(SVInst *_app,f32 _w,f32 _h)
 :SVSpriteNode(_app,_w,_h){
     ntype = "SVDeformNode";
-    m_rsType = RST_BACKGROUND;
+    m_rsType = RST_SKY;
     m_useTexType = E_TEX_END;
     m_texcoordX = 1.0f;
     m_texcoordY = -1.0f;

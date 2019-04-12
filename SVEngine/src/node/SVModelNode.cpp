@@ -48,7 +48,7 @@ void SVModelNode::render() {
         return;
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_renderObject) {
-        m_renderObject->pushCmd(t_rs,RST_ANIMATE, "skinModelRender");
+        m_renderObject->pushCmd(t_rs,RST_SOLID_3D, "skinModelRender");
     }
 }
 
