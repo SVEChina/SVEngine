@@ -132,8 +132,8 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
                         billboardNode->setTexture(texture);
                         billboardNode->setScale(0.0001, 0.0001, 0.0001);
                         billboardNode->setSize(500, 500);
-                        t_pScene->addNode(billboardNode);
-                        m_3DBoxPool.append(billboardNode);
+//                        t_pScene->addNode(billboardNode);
+//                        m_3DBoxPool.append(billboardNode);
                         
                     }
                 }
