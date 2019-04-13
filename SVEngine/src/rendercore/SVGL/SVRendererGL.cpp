@@ -7,6 +7,7 @@
 
 #include "SVRendererGL.h"
 #include "SVRenderStateGL.h"
+#include "SVRResGL.h"
 #include "../../app/SVInst.h"
 #include "../../app/SVGlobalParam.h"
 #include "../renderer/SVContextIOS.h"

@@ -29,6 +29,12 @@ enum SV_STATE{
     SV_ST_SUSPEND       //挂起
 };
 
+enum SV_ENGCORE {
+    SV_E_CORE_GL = 0,
+    SV_E_CORE_METAL,
+    SV_E_CORE_VULKAN
+};
+
 //引擎状态
 enum SV_ENG_TIMESTATE {
     ENG_TS_NOR = 0,

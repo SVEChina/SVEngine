@@ -12,7 +12,7 @@
 #include "../base/SVObject.h"
 #include "../base/SVMap.h"
 #include "../basesys/SVSysBase.h"
-#include "../rendercore/SVGL/SVRResGL.h"
+#include "../rendercore/SVResShader.h"
 
 namespace sv {
     
@@ -34,7 +34,7 @@ namespace sv {
         void clearAllShader();
         
     protected:
-        typedef SVMap<SVString,render::SVRResGLShaderPtr> SHADERPOOL;
+        typedef SVMap<SVString,render::SVResShaderPtr> SHADERPOOL;
         SHADERPOOL ShaderMap;
     };
     

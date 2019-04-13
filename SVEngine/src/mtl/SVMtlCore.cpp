@@ -8,6 +8,7 @@
 
 #include "SVMtlCore.h"
 #include "../rendercore/SVRenderScene.h"
+#include "../rendercore/SVGL/SVRResGL.h"
 #include "../operate/SVOpCreate.h"
 #include "../mtl/SVTexture.h"
 #include "../rendercore/SVRenderMgr.h"
