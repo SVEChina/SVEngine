@@ -11,6 +11,6 @@
 
 #include <stdio.h>
 
-void createRgbGradient(SVArray<FVec3> _colors , ptr8 outRgba);
+//void createRgbGradient(SVArray<FVec3> _colors , ptr8 outRgba);
 
 #endif /* SV_RGBGRADIENT_H */
