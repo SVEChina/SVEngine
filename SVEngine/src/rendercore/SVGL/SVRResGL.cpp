@@ -405,45 +405,9 @@ void SVRResGLShader::create(SVRendererBasePtr _renderer) {
     }
 }
 
-void SVRResGLShader::setProgrammeName(cptr8 _filename) {
-    m_programme_fname = _filename;
-}
-
-cptr8 SVRResGLShader::getProgrammeName(){
-    return m_programme_fname.c_str();
-}
-
-u32 SVRResGLShader::getProgramm(){
-    return m_programm;
-}
-
 void SVRResGLShader::setTechFName(cptr8 _filename) {
     m_tech_fname = _filename;
     m_use_tech = true;
-}
-
-void SVRResGLShader::setVSFName(cptr8 _filename){
-    m_vs_fname = _filename;
-}
-
-void SVRResGLShader::setFSFName(cptr8 _filename){
-    m_fs_fname = _filename;
-}
-
-void SVRResGLShader::setGSFName(cptr8 _filename){
-    m_gs_fname = _filename;
-}
-
-void SVRResGLShader::setCSFName(cptr8 _filename){
-    m_cs_fname = _filename;
-}
-
-void SVRResGLShader::setTSCFName(cptr8 _filename){
-    m_tsc_fname = _filename;
-}
-
-void SVRResGLShader::setTSEFName(cptr8 _filename){
-    m_tse_fname = _filename;
 }
 
 //解析tech

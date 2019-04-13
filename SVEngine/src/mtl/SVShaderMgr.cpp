@@ -9,10 +9,13 @@
 #include "../file/SVFileMgr.h"
 #include "../base/SVDataChunk.h"
 #include "../app/SVInst.h"
+#include "../app/SVGlobalParam.h"
 #include "../third/rapidjson/document.h"
 #include "../third/rapidjson/stringbuffer.h"
 #include "../third/rapidjson/writer.h"
 #include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/SVGL/SVRResGL.h"
+#include "../rendercore/SVMetal/SVRResMetal.h"
 
 SVShaderMgr::SVShaderMgr(SVInst *_app)
 :SVSysBase(_app) {
@@ -69,13 +72,24 @@ void SVShaderMgr::loadAllShader() {
             if (shaderitem.HasMember("programme") && shaderitem["programme"].IsString()) {
                 t_programme_name = shaderitem["programme"].GetString();
             }
-            SVRResGLShaderPtr t_resShader = MakeSharedPtr<SVRResGLShader>(mApp);
-            ShaderMap.append(t_programme_name, t_resShader);
-            t_resShader->setVSFName(t_vs_fname.c_str());
-            t_resShader->setFSFName(t_fs_fname.c_str());
-            t_resShader->setProgrammeName(t_programme_name.c_str());
-            mApp->getRenderMgr()->pushRCmdCreate(t_resShader);
-            SV_LOG_ERROR("shader : vs(%s) fs(%s)\n", t_vs_fname.c_str(),t_fs_fname.c_str());
+            
+            SVResShaderPtr t_resShader = nullptr;
+            if( mApp->m_pGlobalParam->getEngCore() == SV_E_CORE_GL ) {
+                t_resShader = MakeSharedPtr<SVRResGLShader>(mApp);
+            }else if(mApp->m_pGlobalParam->getEngCore() == SV_E_CORE_METAL){
+                t_resShader = MakeSharedPtr<SVRResMetalShader>(mApp);
+            }else if(mApp->m_pGlobalParam->getEngCore() == SV_E_CORE_VULKAN){
+                //t_resShader = MakeSharedPtr<SVRResGLShader>(mApp);
+            }
+            //
+            if(t_resShader) {
+                ShaderMap.append(t_programme_name, t_resShader);
+                t_resShader->setVSFName(t_vs_fname.c_str());
+                t_resShader->setFSFName(t_fs_fname.c_str());
+                t_resShader->setProgrammeName(t_programme_name.c_str());
+                mApp->getRenderMgr()->pushRCmdCreate(t_resShader);
+                SV_LOG_ERROR("shader : vs(%s) fs(%s)\n", t_vs_fname.c_str(),t_fs_fname.c_str());
+            }
         }
     }
     SV_LOG_DEBUG("load shader end\n");
@@ -88,7 +102,7 @@ void SVShaderMgr::clearAllShader() {
 u32 SVShaderMgr::getProgramme(cptr8 _name) {
     SHADERPOOL::Iterator it = ShaderMap.find(_name);
     if(it!=ShaderMap.end()) {
-        SVRResGLShaderPtr t_resShader = it->data;
+        SVResShaderPtr t_resShader = it->data;
         if (t_resShader) {
             u32 t_programmeID = t_resShader->getProgramm();
             if (t_programmeID == 0) {
