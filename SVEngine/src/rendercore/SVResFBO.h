@@ -14,6 +14,7 @@
 namespace sv {
     
     namespace render{
+        
         class SVResFBO: public SVRObjBase{
         public:
             SVResFBO(SVInst* _app);

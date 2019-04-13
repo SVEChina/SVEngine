@@ -46,11 +46,11 @@ void SVRenderTexture::create(SVRendererBasePtr _renderer) {
         //渲染器类型E_RENDERER_VUNKAN,
         
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-        
-    }
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
+//    if (t_rendeMetalPtr) {
+//        //渲染器类型E_RENDERER_METAL,
+//        
+//    }
 }
 
 void SVRenderTexture::destroy(SVRendererBasePtr _renderer) {

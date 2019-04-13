@@ -11,6 +11,7 @@
 #include "../SVRObjBase.h"
 #include "../SVResTex.h"
 #include "../SVResFBO.h"
+#include "../SVResShader.h"
 #include "../../base/SVPreDeclare.h"
 #include "../../base/SVRect.h"
 #include "../../core/SVVertDef.h"
@@ -183,7 +184,7 @@ namespace sv {
         };
         //
         //Shader资源
-        class SVRResGLShader: public SVRObjBase {
+        class SVRResGLShader: public SVResShader {
         public:
             SVRResGLShader(SVInst* _app);
 

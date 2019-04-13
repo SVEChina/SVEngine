@@ -53,16 +53,16 @@ namespace sv {
             SVContextBasePtr getRenderContext();
             //获取渲染到纹理
             SVRenderTexturePtr getRenderTexture();
+            //创建内置纹理
+            virtual SVTexturePtr createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate, bool _enableMipMap = false);
+            
+            virtual SVTexturePtr createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate, bool _enableMipMap = false);
+            //销毁内置纹理
+            void destroySVTex(SVTEXTYPE _type);
             //获取内置纹理
             SVTexturePtr getSVTex(SVTEXTYPE _type);
             //是否存在内置纹理
             bool hasSVTex(SVTEXTYPE _type);
-            //创建内置纹理
-            SVTexturePtr createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate, bool _enableMipMap = false);
-            
-            SVTexturePtr createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate, bool _enableMipMap = false);
-            //销毁内置纹理
-            void destroySVTex(SVTEXTYPE _type);
             //获取渲染状态
             SVRenderStatePtr getState();
             //重置状态

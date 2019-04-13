@@ -62,10 +62,10 @@ void SVRenderMesh::create(SVRendererBasePtr _renderer){
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-    }
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+//    if (t_rendeMetalPtr) {
+//        //渲染器类型E_RENDERER_METAL,
+//    }
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();
@@ -218,10 +218,10 @@ void SVRenderMeshDvid::create(SVRendererBasePtr _renderer){
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-    }
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+//    if (t_rendeMetalPtr) {
+//        //渲染器类型E_RENDERER_METAL,
+//    }
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();
