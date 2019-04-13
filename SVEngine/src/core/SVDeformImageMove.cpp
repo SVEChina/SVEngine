@@ -36,19 +36,17 @@
 
 
 SVParamDeform::SVParamDeform(){
-    
 }
 
 SVParamDeform::~SVParamDeform(){
-    
 }
 
 SVDeformImageMove::SVDeformImageMove(SVInst *_app)
 :SVGBase(_app){
     m_pMtlBg  = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_pIUMP    = MakeSharedPtr<SVImageUsingMove>();
-    m_pPointTex = mApp->getTexMgr()->getTextureSync("svres/point.png",true);;
-    m_param=MakeSharedPtr<SVParamDeform>();
+    m_pPointTex = mApp->getTexMgr()->getTextureSync("svres/point.png",true);
+    m_param = MakeSharedPtr<SVParamDeform>();
     m_param->reset();
     m_passDeform = nullptr;
     m_passPoint = nullptr;
@@ -59,14 +57,14 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_tt_h = 0;
     m_dataPoint = nullptr;
     m_fbo = nullptr;
-    m_wPointCount =51;
+    m_wPointCount = 51;
     m_hPointCont = 64;
-    m_inw=10;
-    m_inh=10;
+    m_inw = 10;
+    m_inh = 10;
     m_flip = false;
     is_swith = true;
-    m_is_point=false;
-    is_detect=false;
+    m_is_point = false;
+    is_detect = false;
     
 }
 
