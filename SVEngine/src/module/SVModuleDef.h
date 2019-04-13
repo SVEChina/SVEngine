@@ -20,6 +20,7 @@ namespace sv {
     //
     DECLARE_SHAREPTR(SVPenStroke);
     DECLARE_SHAREPTR(SVPendraw);
+    DECLARE_SHAREPTR(SVPenCurve);
     //
     DECLARE_SHAREPTR(SVEffectUnit);
     DECLARE_SHAREPTR(SVEffectPackage);
