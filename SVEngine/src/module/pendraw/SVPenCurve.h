@@ -8,17 +8,35 @@
 #ifndef SV_PENCURVE_H
 #define SV_PENCURVE_H
 
-#include "../../base/SVObject.h"
+#include "../../base/SVGBase.h"
+#include "../../base/SVVec2.h"
+#include "../../base/SVArray.h"
 namespace sv{
     
-    class SVPenCurve : public SVObject {
+    class SVPenCurve : public SVGBase {
     public:
-        SVPenCurve();
+        enum ADDPOINTACTION {
+            SV_ADD_DRAWBEGIN = 0,
+            SV_ADD_DRAWING,
+            SV_ADD_DRAWEND
+        };
+        SVPenCurve(SVInst *_app);
         
         ~SVPenCurve();
         
-        bool addPoint(f32 x, f32 y, f32 _width, f32 _density);
-
+        void reset();
+        
+        bool addPoint(f32 x, f32 y, f32 _width, f32 _density, ADDPOINTACTION _action, SVArray<FVec2> &_outPtPool);
+        
+    protected:
+         void
+        _lerpNor(f32 _width, f32 _density, SVArray<FVec2> &_outPtPool, bool _useLast3);
+        void
+        _lineLerp(f32 _width, f32 _density, SVArray<FVec2> &_outPtPool);
+        void _onePt(f32 _width, f32 _density, SVArray<FVec2> &_outPtPool);
+        typedef SVArray<FVec2> PTPOOL;
+        PTPOOL m_ptPool;
+        bool m_bPushSamePoint;
     };
     
 }//!namespace sv
