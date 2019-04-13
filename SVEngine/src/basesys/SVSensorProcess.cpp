@@ -120,7 +120,8 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
                 if (t_pScene) {
                     SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
                     FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
-                    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], 0.3);
+                    FVec3 t_cameraEye = FVec3(t_cameraMatrix[12], t_cameraMatrix[13], t_cameraMatrix[14]);
+                    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], t_cameraEye.length()+0.3);
                     SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
                     FVec3 t_pos;
                     if(t_pickModule && t_pickModule->getCrossPointWithPlane(anchorPoint->m_x, anchorPoint->m_y,t_pos, t_plane) ){
