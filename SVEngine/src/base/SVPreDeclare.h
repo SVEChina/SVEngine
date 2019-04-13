@@ -57,6 +57,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVRenderMgr);
     DECLARE_SHAREPTR(SVShaderMgr);
     DECLARE_SHAREPTR(SVSceneMgr);
+    DECLARE_SHAREPTR(SVDeformMgr);
     DECLARE_SHAREPTR(SVCameraMgr);
     DECLARE_SHAREPTR(SVTexMgr);
     DECLARE_SHAREPTR(SVUIMgr);
@@ -196,7 +197,6 @@ namespace sv {
         DECLARE_SHAREPTR(SVStreamIn);
         DECLARE_SHAREPTR(SVStreamOut);
         DECLARE_SHAREPTR(SVPictureProcess);
-        
         //parse部分
         DECLARE_SHAREPTR(SVParse);
         DECLARE_SHAREPTR(SVParse2DAni);

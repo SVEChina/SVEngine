@@ -59,6 +59,8 @@ namespace sv {
         SVStaticDataPtr m_pStaticData;
         //
         SVPythonSysPtr m_pPythonSys;
+        //变形形同
+        SVDeformMgrPtr m_pDeformSys;
         //时间标志
         timeval timTagLast;
     };

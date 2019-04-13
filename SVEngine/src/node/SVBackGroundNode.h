@@ -52,7 +52,7 @@ namespace sv {
             SVTEXTYPE getUseInnerTex(){ return m_useTexType; }
             
             //形变相关接口
-            bool enableDeform(SVTEXTYPE _textype);
+            bool enableDeform();
             
             void disableDeform();
             

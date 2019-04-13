@@ -193,6 +193,12 @@ SVDetectMgrPtr SVInst::getDetectMgr(){
     return m_pGlobalMgr->m_pDetectMgr;
 }
 
+SVDeformMgrPtr SVInst::getDeformMgr(){
+    if(!m_pGlobalMgr)
+        return nullptr;
+    return m_pGlobalMgr->m_pDeformSys;
+}
+
 SVStaticDataPtr SVInst::getDataMgr(){
     if(!m_pGlobalMgr)
         return nullptr;

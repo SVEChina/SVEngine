@@ -41,6 +41,7 @@ namespace sv{
         //传感器数据处理 
         SVSensorProcessPtr getSensorModule();
         
+        
     protected:
         
         SVStreamInPtr m_pStreamIn;

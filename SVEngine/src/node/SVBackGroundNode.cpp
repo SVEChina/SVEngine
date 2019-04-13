@@ -31,6 +31,7 @@
 #include "../detect/SVDetectST.h"
 #include "../core/SVImageUsingMove.h"
 #include "../core/SVDeformImageMove.h"
+#include "../basesys/SVDeformMgr.h"
 #include "../base/SVVec2.h"
 
 SVBackGroundNode::SVBackGroundNode(SVInst *_app)
@@ -116,10 +117,6 @@ void SVBackGroundNode::setTexture(cptr8 _path) {
         }
     }
     m_useTexType = E_TEX_END;
-//    if( m_pDeform ) {
-//        disableDeform();
-//        enableDeform(m_useTexType);
-//    }
 }
 
 void SVBackGroundNode:: setTexture(SVTEXTYPE _textype) {
@@ -128,60 +125,38 @@ void SVBackGroundNode:: setTexture(SVTEXTYPE _textype) {
     if(m_isSyncTex){
         syncTexSize();
     }
-    //重新创建一下纹理
-//    if( m_pDeform ) {
-//        disableDeform();
-//        enableDeform(m_useTexType);
-//    }
 }
 
 SVDeformImageMovePtr SVBackGroundNode::getDeform(){
     return m_pDeform;
 }
 
-bool SVBackGroundNode::enableDeform(SVTEXTYPE _textype) {
-    SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(_textype);
-    if(t_tex){
-        return false;
+bool SVBackGroundNode::enableDeform() {
+
+    if(m_useTexType == E_TEX_END) {
+        if(m_pTex) {
+            if(!m_pDeform){
+                m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
+            }
+            m_pDeform->init(m_pTex,m_pTex);
+            return true;
+        }
+    }else{
+        SVTexturePtr t_innerTex = mApp->getRenderer()->getSVTex(m_useTexType);
+        if(t_innerTex){
+            if(!m_pDeform){
+                m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
+            }
+            m_pDeform->init(t_innerTex,t_innerTex);
+            return true;
+        }
     }
-//    if(m_inTexType == E_TEX_END) {
-//        if(m_pTex) {
-//            if(!m_pDeform){
-//                m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
-//            }
-//            SVTexturePtr m_texout =
-//            mApp->getRenderer()->createSVTex(_textype,
-//                                             m_pTex->getwidth(),
-//                                             m_pTex->getheight(),
-//                                             GL_RGBA);
-//            m_pDeform->init(m_pTex,m_texout);
-//            m_useTexType = _textype;
-//            return true;
-//        }
-//    }else{
-//        SVTexturePtr t_innerTex = mApp->getRenderer()->getSVTex(m_inTexType);
-//        if(t_innerTex){
-//            if(!m_pDeform){
-//                m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
-//            }
-//            SVTexturePtr m_texout =
-//            mApp->getRenderer()->createSVTex(_textype,
-//                                             t_innerTex->getwidth(),
-//                                             t_innerTex->getheight(),
-//                                             GL_RGBA);
-//            m_pDeform->init(t_innerTex,m_texout);
-//            m_useTexType = _textype;
-//            return true;
-//        }
-//    }
     return false;
 }
 
 void SVBackGroundNode::disableDeform() {
     if(m_pDeform){
         m_pDeform = nullptr;
-        mApp->getRenderer()->destroySVTex(m_useTexType);
-        m_useTexType = E_TEX_END;;
     }
 }
 
@@ -193,11 +168,13 @@ bool SVBackGroundNode::isDeform() {
 }
 
 void SVBackGroundNode::update(f32 _dt){
+    
+    if(m_pDeform){
+        mApp->getDeformMgr()->pushDeform(m_pDeform);
+    }
+    
     if(m_inScreen) {
         //屏幕空间下更新
-        if( m_pDeform ){
-            
-        }else{
             m_pRenderObj->setMesh(mApp->getDataMgr()->m_screenMesh);
             if(m_pMtl){
                 m_pMtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
@@ -210,41 +187,22 @@ void SVBackGroundNode::update(f32 _dt){
             }else{
                 m_pRenderObj->setMtl(nullptr);
             }
-        }
     }else{
         //三维空间下更新
         SVNode::update(_dt);
-        if( m_pDeform ){
-            m_pRenderObj->setMesh(m_pMesh);
-            if(m_pMtl){
-                m_pMtl->setModelMatrix(m_absolutMat.get());
-                m_pMtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
-                if(m_useTexType!=E_TEX_END){
-                    m_pMtl->setTexture(0,m_useTexType);
-                }else{
-                    m_pMtl->setTexture(0,m_pTex);
-                }
-                m_pMtl->update(_dt);
-                m_pRenderObj->setMtl(m_pMtl->clone());
+        m_pRenderObj->setMesh(m_pMesh);
+        if(m_pMtl){
+            m_pMtl->setModelMatrix(m_absolutMat.get());
+            m_pMtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
+            if(m_useTexType!=E_TEX_END){
+                m_pMtl->setTexture(0,m_useTexType);
             }else{
-                m_pRenderObj->setMtl(nullptr);
+                m_pMtl->setTexture(0,m_pTex);
             }
-            m_pDeform->update(_dt);
+            m_pMtl->update(_dt);
+            m_pRenderObj->setMtl(m_pMtl->clone());
         }else{
-            m_pRenderObj->setMesh(m_pMesh);
-            if(m_pMtl){
-                m_pMtl->setModelMatrix(m_absolutMat.get());
-                m_pMtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
-                if(m_useTexType!=E_TEX_END){
-                    m_pMtl->setTexture(0,m_useTexType);
-                }else{
-                    m_pMtl->setTexture(0,m_pTex);
-                }
-                m_pMtl->update(_dt);
-                m_pRenderObj->setMtl(m_pMtl->clone());
-            }else{
-                m_pRenderObj->setMtl(nullptr);
-            }
+            m_pRenderObj->setMtl(nullptr);
         }
     }
 }
@@ -252,9 +210,6 @@ void SVBackGroundNode::update(f32 _dt){
 void SVBackGroundNode::render(){
     if ( !m_visible )
         return ;
-    if(m_pDeform){
-        m_pDeform->render();//形变算法
-    }
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_pRenderObj) {
         m_pRenderObj->pushCmd(t_rs, m_rsType, "SVBackGroundNode");
@@ -308,6 +263,6 @@ void SVBackGroundNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
         }
         m_pDeform = MakeSharedPtr<SVDeformImageMove>(mApp);
         m_pDeform->fromJSON(item["sv_deform"]);
-        enableDeform(m_useTexType);
+        enableDeform();
     }
 }

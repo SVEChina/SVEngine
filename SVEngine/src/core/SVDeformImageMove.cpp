@@ -50,6 +50,7 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_param->reset();
     m_passDeform = nullptr;
     m_passPoint = nullptr;
+    m_passBack = nullptr;
     m_pMeshBg = nullptr;
     m_pMeshPoint = mApp->getRenderMgr()->createMeshRObj();
     m_pMeshPoint->createMesh();
@@ -75,6 +76,11 @@ SVDeformImageMove::~SVDeformImageMove(){
     m_pMtlBg = nullptr;
     m_pIUMP = nullptr;
     m_dataPoint = nullptr;
+    m_fbo = nullptr;
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
+        t_renderer->destroySVTex(E_TEX_FILTER_DEFORM02);
+    }
 }
 
 void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
@@ -89,6 +95,8 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
                                                false,
                                                false);
         mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
+        
+        t_renderer->createSVTex(E_TEX_FILTER_DEFORM02, m_tt_w, m_tt_h, GL_RGBA);
         //设置该fbo的矩阵关系
         SVCameraNode t_camera(mApp);
         t_camera.resetCamera(m_tt_w, m_tt_h,120.0f);
@@ -102,7 +110,7 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passDeform->setMtl(m_pMtlBg);
         m_passDeform->setMesh(m_pMeshBg);
         m_passDeform->setInTex(0,_intex);
-        m_passDeform->setOutTex(_texout);
+        m_passDeform->setOutTex(E_TEX_FILTER_DEFORM02);
         
         
         SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dcolor");
@@ -117,7 +125,21 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passPoint->setMtl(t_mtl);
         m_passPoint->setMesh(m_pMeshPoint);
         m_passPoint->setInTex(0,m_pPointTex);
-        m_passPoint->setOutTex(_texout);
+        m_passPoint->setOutTex(E_TEX_FILTER_DEFORM02);
+        
+        
+        t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dcolor");
+        t_mtl->setBlendEnable(false);
+        t_mtl->setModelMatrix(t_camera.getAbsoluteMat());
+        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        t_mtl->setTexcoordFlip(1.0, -1.0);
+        t_mtl->setBlendEnable(true);
+        t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        m_passBack = MakeSharedPtr<SVPass>();
+        m_passBack->setMtl(t_mtl);
+        m_passBack->setMesh(mApp->getDataMgr()->m_screenMesh);
+        m_passBack->setInTex(0,E_TEX_FILTER_DEFORM02);
+        m_passBack->setOutTex(_texout);
     }
 }
 
@@ -261,6 +283,22 @@ void SVDeformImageMove::render(){
             if(m_passPoint->m_pMtl&&m_is_point){
                  t_cmd->addMtlMesh(m_passPoint->m_pMtl,m_passPoint->m_pMesh);
             }
+            t_rs->pushRenderCmd(RST_FACEMORPH, t_cmd);//m_rsType
+        }
+        
+        if(m_passBack){
+          
+            SVRenderCmdPassCollectionPtr t_cmd = MakeSharedPtr<SVRenderCmdPassCollection>();
+            t_cmd->mTag = "SVBackGroundNodeDeform";
+           
+             SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(m_passBack->m_outTexType);
+            SVRenderTexturePtr  t_fbo = MakeSharedPtr<SVRenderTexture>(mApp,
+                                                                       t_tex,
+                                                                       false,
+                                                                       false);
+            t_cmd->setFbo(m_fbo);
+            t_cmd->setTexture(t_tex);
+            t_cmd->addMtlMesh(m_passBack->m_pMtl,m_passBack->m_pMesh);
             t_rs->pushRenderCmd(RST_FACEMORPH, t_cmd);//m_rsType
         }
     }
