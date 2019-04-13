@@ -13,10 +13,12 @@
 SVResTex::SVResTex(SVInst* _app)
 :SVRObjBase(_app){
     m_uid = mApp->m_IDPool.applyUID();
+    m_texLock = MakeSharedPtr<SVLock>();
 }
 
 SVResTex:: ~SVResTex(){
     mApp->m_IDPool.returnUID(m_uid);
+    m_texLock = nullptr;
 }
 
 void SVResTex::create(SVRendererBasePtr _renderer){

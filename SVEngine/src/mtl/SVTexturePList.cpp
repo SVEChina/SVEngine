@@ -54,11 +54,11 @@ void SVTexturePList::create(SVRendererBasePtr _renderer){
         //渲染器类型E_RENDERER_VUNKAN,
         
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-        
-    }
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+//    if (t_rendeMetalPtr) {
+//        //渲染器类型E_RENDERER_METAL,
+//
+//    }
 }
 
 void SVTexturePList::destroy(SVRendererBasePtr _renderer){
@@ -202,11 +202,11 @@ void SVTextureSet::create(SVRendererBasePtr _renderer){
         //渲染器类型E_RENDERER_VUNKAN,
         
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-        
-    }
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+//    if (t_rendeMetalPtr) {
+//        //渲染器类型E_RENDERER_METAL,
+//        
+//    }
 }
 
 void SVTextureSet::destroy(SVRendererBasePtr _renderer){

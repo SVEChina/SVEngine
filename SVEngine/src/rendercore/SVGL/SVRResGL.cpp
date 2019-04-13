@@ -23,8 +23,6 @@
 
 SVRResGLTex::SVRResGLTex(SVInst* _app)
         :SVResTex(_app){
-    m_uid = mApp->m_IDPool.applyUID();
-    m_texLock = MakeSharedPtr<SVLock>();
     m_bLoad = false;
     m_enableMipMap = false;
     m_name = "";
@@ -37,48 +35,45 @@ SVRResGLTex::SVRResGLTex(SVInst* _app)
 }
 
 SVRResGLTex::~SVRResGLTex(){
-    m_texLock = nullptr;
-    mApp->m_IDPool.returnUID(m_uid);
 }
 
 void SVRResGLTex:: create(SVRendererBasePtr _renderer) {
-    SVRObjBase::create(_renderer); {
-        if( m_id == 0 ){
-            m_bLoad = true;
-            glGenTextures(1, &m_id);
-            glBindTexture(GL_TEXTURE_2D, m_id);
-            if(m_pData){
-                glTexImage2D(GL_TEXTURE_2D,
-                             0,
-                             m_informate,
-                             m_width,
-                             m_height,
-                             0,
-                             m_dataformate,
-                             GL_UNSIGNED_BYTE,
-                             m_pData->getData());
-                
-            }else{
-                glTexImage2D(GL_TEXTURE_2D,
-                             0,
-                             m_informate,
-                             m_width,
-                             m_height,
-                             0,
-                             m_dataformate,
-                             GL_UNSIGNED_BYTE,
-                             nullptr);
-            }
-            m_pData = nullptr;
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            if (m_enableMipMap) {
-                glGenerateMipmap(GL_TEXTURE_2D);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            }
+    SVRObjBase::create(_renderer);
+    if( m_id == 0 ){
+        m_bLoad = true;
+        glGenTextures(1, &m_id);
+        glBindTexture(GL_TEXTURE_2D, m_id);
+        if(m_pData){
+            glTexImage2D(GL_TEXTURE_2D,
+                         0,
+                         m_informate,
+                         m_width,
+                         m_height,
+                         0,
+                         m_dataformate,
+                         GL_UNSIGNED_BYTE,
+                         m_pData->getData());
+            
+        }else{
+            glTexImage2D(GL_TEXTURE_2D,
+                         0,
+                         m_informate,
+                         m_width,
+                         m_height,
+                         0,
+                         m_dataformate,
+                         GL_UNSIGNED_BYTE,
+                         nullptr);
+        }
+        m_pData = nullptr;
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        if (m_enableMipMap) {
+            glGenerateMipmap(GL_TEXTURE_2D);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         }
     }
 }
@@ -373,7 +368,7 @@ void SVRResGLTexiOS::fetchData(u8* _dstPtr,s32 _w,s32 _h) {
 //////////
 //Shader
 SVRResGLShader::SVRResGLShader(SVInst* _app)
-        :SVRObjBase(_app){
+:SVResShader(_app){
     m_programm = 0;
     m_vs = 0;
     m_fs = 0;
