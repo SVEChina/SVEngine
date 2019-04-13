@@ -51,9 +51,7 @@ SVPenStroke::~SVPenStroke() {
 void SVPenStroke::update(f32 _dt) {
     m_lock->unlock();
     //插值生成面片
-//    if(1) {
-        _genMesh();
-//    }
+    _genMesh();
     //绘制dataswap
     _drawMesh();
     m_lock->unlock();
@@ -61,27 +59,21 @@ void SVPenStroke::update(f32 _dt) {
 
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    if (false) {
-        SVArray<FVec2> t_ptArray;
-        m_penCurve->addPoint(_px, _py, m_pointWidth, m_density, SVPenCurve::SV_ADD_DRAWBEGIN, t_ptArray);
-        _updatePtPool(t_ptArray, m_ptPool);
-    }else{
-        m_ptPool.append(FVec3(_px,_py,_pz));
+    m_ptPool.append(FVec3(_px,_py,_pz));
+    if (m_penCurve) {
+        m_penCurve->reset();
     }
     m_lock->unlock();
 }
 
 void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    if (false) {
+    if (m_penCurve) {
         SVArray<FVec2> t_ptArray;
         m_penCurve->addPoint(_px, _py, m_pointWidth, m_density, SVPenCurve::SV_ADD_DRAWEND, t_ptArray);
         _updatePtPool(t_ptArray, m_ptPool);
     }else{
         m_ptPool.append(FVec3(_px,_py,_pz));
-    }
-    if (m_penCurve) {
-        m_penCurve->reset();
     }
     m_lock->unlock();
 }
