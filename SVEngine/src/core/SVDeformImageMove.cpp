@@ -97,7 +97,6 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
                                                false,
                                                false);
         mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
-        
        
         //设置该fbo的矩阵关系
         SVCameraNode t_camera(mApp);
@@ -113,7 +112,6 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passDeform->setMesh(m_pMeshBg);
         m_passDeform->setInTex(0,_intex);
         m_passDeform->setOutTex(E_TEX_FILTER_DEFORM02);
-        
         
         SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dcolor");
         t_mtl->setBlendEnable(false);
