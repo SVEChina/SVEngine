@@ -1152,7 +1152,7 @@ void SVResGLRenderMesh::setVertexData(SVDataSwapPtr _data){
     }
 }
 
-void SVResGLRenderMesh::render() {
+void SVResGLRenderMesh::render(SVRendererBasePtr _renderer) {
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(!t_renderer) {
         return ;
@@ -1474,7 +1474,7 @@ void SVResGLRenderMeshDvid::setBTagentData(SVDataSwapPtr _pdata){
     }
 }
 
-void SVResGLRenderMeshDvid::render(){
+void SVResGLRenderMeshDvid::render(SVRendererBasePtr _renderer){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
     if(t_rendererGL) {
