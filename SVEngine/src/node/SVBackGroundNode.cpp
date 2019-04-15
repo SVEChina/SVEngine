@@ -132,26 +132,12 @@ SVDeformImageMovePtr SVBackGroundNode::getDeform(){
 }
 
 bool SVBackGroundNode::enableDeform() {
-
-    if(m_useTexType == E_TEX_END) {
-        if(m_pTex) {
-            if(!m_pDeform){
-                m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
-            }
-            m_pDeform->init(m_pTex,m_pTex);
-            return true;
-        }
-    }else{
-        SVTexturePtr t_innerTex = mApp->getRenderer()->getSVTex(m_useTexType);
-        if(t_innerTex){
-            if(!m_pDeform){
-                m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
-            }
-            m_pDeform->init(t_innerTex,t_innerTex);
-            return true;
-        }
+    SVTexturePtr t_innerTex = mApp->getRenderer()->getSVTex(E_TEX_MAIN);
+    if(!m_pDeform){
+        m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
     }
-    return false;
+    m_pDeform->init(t_innerTex,t_innerTex);
+    return true;
 }
 
 void SVBackGroundNode::disableDeform() {
@@ -173,7 +159,7 @@ void SVBackGroundNode::update(f32 _dt){
         mApp->getDeformMgr()->pushDeform(m_pDeform);
     }
     
-    if(m_inScreen) {
+    if(true) {
         //屏幕空间下更新
             m_pRenderObj->setMesh(mApp->getDataMgr()->m_screenMesh);
             if(m_pMtl){

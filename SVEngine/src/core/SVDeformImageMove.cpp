@@ -90,13 +90,15 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_tt_h = _intex->getheight();
        
         _initPoint();
+        t_renderer->createSVTex(E_TEX_FILTER_DEFORM02, m_tt_w, m_tt_h, GL_RGBA);
+        SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(E_TEX_FILTER_DEFORM02);
         m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,
-                                               _texout,
+                                               t_tex,
                                                false,
                                                false);
         mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
         
-        t_renderer->createSVTex(E_TEX_FILTER_DEFORM02, m_tt_w, m_tt_h, GL_RGBA);
+       
         //设置该fbo的矩阵关系
         SVCameraNode t_camera(mApp);
         t_camera.resetCamera(m_tt_w, m_tt_h,120.0f);
@@ -128,13 +130,8 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passPoint->setOutTex(E_TEX_FILTER_DEFORM02);
         
         
-        t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dcolor");
-        t_mtl->setBlendEnable(false);
-        t_mtl->setModelMatrix(t_camera.getAbsoluteMat());
-        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        t_mtl = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
         t_mtl->setTexcoordFlip(1.0, -1.0);
-        t_mtl->setBlendEnable(true);
-        t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
         m_passBack = MakeSharedPtr<SVPass>();
         m_passBack->setMtl(t_mtl);
         m_passBack->setMesh(mApp->getDataMgr()->m_screenMesh);
@@ -287,19 +284,13 @@ void SVDeformImageMove::render(){
         }
         
         if(m_passBack){
-          
-            SVRenderCmdPassCollectionPtr t_cmd = MakeSharedPtr<SVRenderCmdPassCollection>();
-            t_cmd->mTag = "SVBackGroundNodeDeform";
-           
-             SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(m_passBack->m_outTexType);
-            SVRenderTexturePtr  t_fbo = MakeSharedPtr<SVRenderTexture>(mApp,
-                                                                       t_tex,
-                                                                       false,
-                                                                       false);
+            SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
+            t_cmd->mTag = "SVFaceDeform";
             t_cmd->setFbo(m_fbo);
-            t_cmd->setTexture(t_tex);
-            t_cmd->addMtlMesh(m_passBack->m_pMtl,m_passBack->m_pMesh);
-            t_rs->pushRenderCmd(RST_FACEMORPH, t_cmd);//m_rsType
+            t_cmd->setTexture(m_passBack->m_outTex);
+            t_cmd->setMesh(m_passBack->m_pMesh);
+            t_cmd->setMaterial(m_passBack->m_pMtl);
+            t_rs->pushRenderCmd(RST_FACEMORPH, t_cmd);
         }
     }
 }
