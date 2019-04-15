@@ -28,6 +28,8 @@ namespace sv{
         void end(f32 _px,f32 _py,f32 _pz);
         
         void draw(f32 _px,f32 _py,f32 _pz);
+        
+        void setStrokeWidth(f32 _width);
     protected:
         void _updatePtPool(SVArray<FVec2> &_inPtPool, SVArray<FVec3> &_outPtPool);
         void _screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint);
