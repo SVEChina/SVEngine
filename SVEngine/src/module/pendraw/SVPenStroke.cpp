@@ -35,7 +35,7 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    m_pointWidth = 100;
+    m_pointWidth = 60;
     m_density = 0.05;
     m_vertexNum = 0;
 }
@@ -51,9 +51,7 @@ SVPenStroke::~SVPenStroke() {
 void SVPenStroke::update(f32 _dt) {
     m_lock->unlock();
     //插值生成面片
-//    if(1) {
-        _genMesh();
-//    }
+    _genMesh();
     //绘制dataswap
     _drawMesh();
     m_lock->unlock();
@@ -61,27 +59,21 @@ void SVPenStroke::update(f32 _dt) {
 
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    if (false) {
-        SVArray<FVec2> t_ptArray;
-        m_penCurve->addPoint(_px, _py, m_pointWidth, m_density, SVPenCurve::SV_ADD_DRAWBEGIN, t_ptArray);
-        _updatePtPool(t_ptArray, m_ptPool);
-    }else{
-        m_ptPool.append(FVec3(_px,_py,_pz));
+    m_ptPool.append(FVec3(_px,_py,_pz));
+    if (m_penCurve) {
+        m_penCurve->reset();
     }
     m_lock->unlock();
 }
 
 void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    if (false) {
+    if (m_penCurve) {
         SVArray<FVec2> t_ptArray;
         m_penCurve->addPoint(_px, _py, m_pointWidth, m_density, SVPenCurve::SV_ADD_DRAWEND, t_ptArray);
         _updatePtPool(t_ptArray, m_ptPool);
     }else{
         m_ptPool.append(FVec3(_px,_py,_pz));
-    }
-    if (m_penCurve) {
-        m_penCurve->reset();
     }
     m_lock->unlock();
 }
@@ -225,7 +217,7 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint){
     SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
     FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
     FVec3 t_cameraEye = FVec3(t_cameraMatrix[12], t_cameraMatrix[13], t_cameraMatrix[14]);
-    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], t_cameraEye.length()+0.2);
+    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], t_cameraEye.length()+0.05);
     SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
     FVec3 t_pos;
     f32 t_pt_x = _point.x;
