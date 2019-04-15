@@ -17,7 +17,7 @@
 #include "../rendercore/SVGL/SVRendererGL.h"
 //
 #include "../rendercore/SVMetal/SVRendererMetal.h"
-#include "../rendercore/SVMetal/SVRResMetal.h"
+#include "../rendercore/SVMetal/SVResMetal.h"
 //
 #include "../rendercore/SVVulkan/SVRendererVK.h"
 

@@ -41,15 +41,15 @@ void SVRenderTexture::create(SVRendererBasePtr _renderer) {
         m_objFBOPtr->create(_renderer);
         return ;
     }
-    SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(_renderer);
-    if (t_rendeVKPtr) {
-        //渲染器类型E_RENDERER_VUNKAN,
-        
-    }
+//    SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(_renderer);
+//    if (t_rendeVKPtr) {
+//        //渲染器类型E_RENDERER_VUNKAN,
+//        
+//    }
 //    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
 //    if (t_rendeMetalPtr) {
 //        //渲染器类型E_RENDERER_METAL,
-//        
+//
 //    }
 }
 

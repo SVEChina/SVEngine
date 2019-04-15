@@ -5,15 +5,17 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
- //#ifdef SV_IOS
-
 #include "SVRendererMetal.h"
+#include "SVResMetalFbo.h"
 #include "../../app/SVInst.h"
 #include "../../base/SVDataSwap.h"
 
 SVRendererMetal::SVRendererMetal(SVInst* _app)
 :SVRendererBase(_app){
     m_pDevice = nullptr;
+    m_pCmdQueue = nullptr;
+    m_pLibrary = nullptr;
+    m_pCurEncoder = nullptr;
 }
 
 SVRendererMetal::~SVRendererMetal(){
@@ -25,6 +27,8 @@ void SVRendererMetal::init(s32 _ver,void* _windows,void* context,s32 _w,s32 _h){
     if (m_pDevice == nil) {
         SV_LOG_INFO("don't support metal !");
     }
+    m_pCmdQueue = m_pDevice.newCommandQueue;
+    m_pLibrary = [m_pDevice newDefaultLibrary];
     //创建主fbo
 //    m_inWidth = _w;
 //    m_inHeight = _h;
@@ -34,8 +38,8 @@ void SVRendererMetal::init(s32 _ver,void* _windows,void* context,s32 _w,s32 _h){
 //    mApp->m_pGlobalParam->m_inner_width = _w;
 //    mApp->m_pGlobalParam->m_inner_height = _h;
 //    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
-//    //主FBO
-//    m_pRenderTex = MakeSharedPtr<SVRenderTexture>(mApp,
+    //主FBO
+//    m_pRenderTex = MakeSharedPtr<SVResMetalRenderTexture>(mApp,
 //                                                  t_tex,
 //                                                  true,
 //                                                  true);
@@ -185,5 +189,3 @@ void SVRendererMetal::svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h){
 void SVRendererMetal::svPopViewPort() {
     
 }
-
-//#endif

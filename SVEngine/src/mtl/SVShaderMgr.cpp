@@ -15,7 +15,7 @@
 #include "../third/rapidjson/writer.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVGL/SVRResGL.h"
-#include "../rendercore/SVMetal/SVRResMetal.h"
+#include "../rendercore/SVMetal/SVResMetal.h"
 
 SVShaderMgr::SVShaderMgr(SVInst *_app)
 :SVSysBase(_app) {

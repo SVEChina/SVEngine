@@ -142,12 +142,12 @@ void SVRenderMesh::createMesh(){
     }
 }
 
-void SVRenderMesh::render() {
+void SVRenderMesh::render(SVRendererBasePtr _renderer) {
     SVResGLRenderMeshPtr t_rendeMeshPtr = std::dynamic_pointer_cast<SVResGLRenderMesh>(m_objVBOPtr);
     if (t_rendeMeshPtr) {
         _updateConf();
         _updateData();
-        t_rendeMeshPtr->render();
+        t_rendeMeshPtr->render(_renderer);
     }
 }
 
@@ -340,11 +340,11 @@ void SVRenderMeshDvid::_updateData(){
     }
 }
 
-void SVRenderMeshDvid::render() {
+void SVRenderMeshDvid::render(SVRendererBasePtr _renderer) {
     SVResGLRenderMeshDvidPtr t_rendeMeshPtr = std::dynamic_pointer_cast<SVResGLRenderMeshDvid>(m_objVBOPtr);
     if (t_rendeMeshPtr) {
         _updateConf();
         _updateData();
-        t_rendeMeshPtr->render();
+        t_rendeMeshPtr->render(_renderer);
     }
 }

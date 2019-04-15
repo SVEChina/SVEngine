@@ -316,7 +316,7 @@ namespace sv {
 
             virtual void destroy(SVRendererBasePtr _renderer);
 
-            virtual void render();
+            virtual void render(SVRendererBasePtr _renderer);
 
             void setIndexPoolType(u32 itype);
 
@@ -364,7 +364,7 @@ namespace sv {
 
             virtual void destroy(SVRendererBasePtr _renderer);
 
-            virtual void render();
+            virtual void render(SVRendererBasePtr _renderer);
 
             void setVertex2Data(SVDataSwapPtr _pdata);
 

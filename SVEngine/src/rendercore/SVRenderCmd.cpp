@@ -78,7 +78,7 @@ void SVRenderCmdNor::setMaterial(SVMtlCorePtr _mtl){
 void SVRenderCmdNor::render() {
     if (m_pMtl && m_pMesh) {
         if (m_pMtl->submitMtl()) {
-            m_pMesh->render();
+            m_pMesh->render(m_pRenderer);
         }
     }
 }
@@ -155,7 +155,7 @@ void SVRenderCmdPass::render() {
         m_fbo->clear();
         if(m_pMtl && m_pMesh) {
             if (m_pMtl->submitMtl()) {
-                m_pMesh->render();
+                m_pMesh->render(m_pRenderer);
             }
         }
         m_fbo->unbind();
@@ -186,7 +186,7 @@ void SVRenderCmdPassCollection::render(){
             SVRenderMeshPtr t_mesh = m_MeshArray.get(i);
             if(t_mtl && t_mesh) {
                 if (t_mtl->submitMtl()) {
-                    t_mesh->render();
+                    t_mesh->render(m_pRenderer);
                 }
             }
         }

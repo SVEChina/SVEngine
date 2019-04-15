@@ -13,6 +13,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <QuartzCore/CAMetalLayer.h>
 #import <Metal/Metal.h>
+#import <Metal/MTLRenderCommandEncoder.h>
 #import <MetalKit/MetalKit.h>
 
 namespace sv {
@@ -104,7 +105,11 @@ namespace sv {
             virtual void svPopViewPort();
             
         public:
-           id<MTLDevice> m_pDevice;
+            id<MTLDevice> m_pDevice;
+            id<MTLCommandQueue> m_pCmdQueue;
+            id<MTLLibrary> m_pLibrary;
+            id<MTLRenderCommandEncoder> m_pCurEncoder;
+            //MTLRenderPipelineDescriptor *m_pRPDes;
         };
         
     }//!namespace render
