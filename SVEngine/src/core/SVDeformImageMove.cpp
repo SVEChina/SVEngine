@@ -36,22 +36,21 @@
 
 
 SVParamDeform::SVParamDeform(){
-    
 }
 
 SVParamDeform::~SVParamDeform(){
-    
 }
 
 SVDeformImageMove::SVDeformImageMove(SVInst *_app)
 :SVGBase(_app){
     m_pMtlBg  = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_pIUMP    = MakeSharedPtr<SVImageUsingMove>();
-    m_pPointTex = mApp->getTexMgr()->getTextureSync("svres/point.png",true);;
-    m_param=MakeSharedPtr<SVParamDeform>();
+    m_pPointTex = mApp->getTexMgr()->getTextureSync("svres/point.png",true);
+    m_param = MakeSharedPtr<SVParamDeform>();
     m_param->reset();
     m_passDeform = nullptr;
     m_passPoint = nullptr;
+    m_passBack = nullptr;
     m_pMeshBg = nullptr;
     m_pMeshPoint = mApp->getRenderMgr()->createMeshRObj();
     m_pMeshPoint->createMesh();
@@ -59,14 +58,14 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_tt_h = 0;
     m_dataPoint = nullptr;
     m_fbo = nullptr;
-    m_wPointCount =51;
+    m_wPointCount = 51;
     m_hPointCont = 64;
-    m_inw=10;
-    m_inh=10;
+    m_inw = 10;
+    m_inh = 10;
     m_flip = false;
     is_swith = true;
-    m_is_point=false;
-    is_detect=false;
+    m_is_point = false;
+    is_detect = false;
     
 }
 
@@ -77,6 +76,11 @@ SVDeformImageMove::~SVDeformImageMove(){
     m_pMtlBg = nullptr;
     m_pIUMP = nullptr;
     m_dataPoint = nullptr;
+    m_fbo = nullptr;
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer) {
+        t_renderer->destroySVTex(E_TEX_FILTER_DEFORM02);
+    }
 }
 
 void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
@@ -86,11 +90,14 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_tt_h = _intex->getheight();
        
         _initPoint();
+        t_renderer->createSVTex(E_TEX_FILTER_DEFORM02, m_tt_w, m_tt_h, GL_RGBA);
+        SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(E_TEX_FILTER_DEFORM02);
         m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,
-                                               _texout,
+                                               t_tex,
                                                false,
                                                false);
         mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
+       
         //设置该fbo的矩阵关系
         SVCameraNode t_camera(mApp);
         t_camera.resetCamera(m_tt_w, m_tt_h,120.0f);
@@ -104,8 +111,7 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passDeform->setMtl(m_pMtlBg);
         m_passDeform->setMesh(m_pMeshBg);
         m_passDeform->setInTex(0,_intex);
-        m_passDeform->setOutTex(_texout);
-        
+        m_passDeform->setOutTex(E_TEX_FILTER_DEFORM02);
         
         SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dcolor");
         t_mtl->setBlendEnable(false);
@@ -119,7 +125,16 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         m_passPoint->setMtl(t_mtl);
         m_passPoint->setMesh(m_pMeshPoint);
         m_passPoint->setInTex(0,m_pPointTex);
-        m_passPoint->setOutTex(_texout);
+        m_passPoint->setOutTex(E_TEX_FILTER_DEFORM02);
+        
+        
+        t_mtl = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
+        t_mtl->setTexcoordFlip(1.0, -1.0);
+        m_passBack = MakeSharedPtr<SVPass>();
+        m_passBack->setMtl(t_mtl);
+        m_passBack->setMesh(mApp->getDataMgr()->m_screenMesh);
+        m_passBack->setInTex(0,E_TEX_FILTER_DEFORM02);
+        m_passBack->setOutTex(_texout);
     }
 }
 
@@ -264,6 +279,16 @@ void SVDeformImageMove::render(){
                  t_cmd->addMtlMesh(m_passPoint->m_pMtl,m_passPoint->m_pMesh);
             }
             t_rs->pushRenderCmd(RST_FACEMORPH, t_cmd);//m_rsType
+        }
+        
+        if(m_passBack){
+            SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
+            t_cmd->mTag = "SVFaceDeform";
+            t_cmd->setFbo(m_fbo);
+            t_cmd->setTexture(m_passBack->m_outTex);
+            t_cmd->setMesh(m_passBack->m_pMesh);
+            t_cmd->setMaterial(m_passBack->m_pMtl);
+            t_rs->pushRenderCmd(RST_FACEMORPH, t_cmd);
         }
     }
 }

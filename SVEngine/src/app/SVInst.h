@@ -76,6 +76,7 @@ namespace sv {
         SVTexMgrPtr getTexMgr();
         SVRenderMgrPtr getRenderMgr();
         SVDetectMgrPtr getDetectMgr();
+        SVDeformMgrPtr getDeformMgr();
         SVStaticDataPtr getDataMgr();
         SVActionSysPtr getActionSys();
         //

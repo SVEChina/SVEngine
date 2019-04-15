@@ -35,7 +35,7 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    m_pointWidth = 60;
+    m_pointWidth = 40;
     m_density = 0.05;
     m_vertexNum = 0;
 }
@@ -45,6 +45,10 @@ SVPenStroke::~SVPenStroke() {
     m_ptPool.clear();
     m_pVertData = nullptr;
     m_lock = nullptr;
+}
+
+void SVPenStroke::setStrokeWidth(f32 _width){
+    m_pointWidth = _width;
 }
 
 //绘制一笔

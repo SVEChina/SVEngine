@@ -462,6 +462,22 @@
 		5CA05D5421873E8100D1C033 /* SVParseBackground.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA05D4E21873E8100D1C033 /* SVParseBackground.h */; };
 		5CA05D5521873E8100D1C033 /* SVParseBackground.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA05D4E21873E8100D1C033 /* SVParseBackground.h */; };
 		5CA05D5621873E8100D1C033 /* SVParseBackground.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA05D4E21873E8100D1C033 /* SVParseBackground.h */; };
+		5CABE76C2261CD840037E8D2 /* SVDeformMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CABE76A2261CD840037E8D2 /* SVDeformMgr.cpp */; };
+		5CABE76D2261CD840037E8D2 /* SVDeformMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CABE76A2261CD840037E8D2 /* SVDeformMgr.cpp */; };
+		5CABE76E2261CD840037E8D2 /* SVDeformMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CABE76A2261CD840037E8D2 /* SVDeformMgr.cpp */; };
+		5CABE76F2261CD840037E8D2 /* SVDeformMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CABE76A2261CD840037E8D2 /* SVDeformMgr.cpp */; };
+		5CABE7702261CD840037E8D2 /* SVDeformMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CABE76B2261CD840037E8D2 /* SVDeformMgr.h */; };
+		5CABE7712261CD840037E8D2 /* SVDeformMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CABE76B2261CD840037E8D2 /* SVDeformMgr.h */; };
+		5CABE7722261CD840037E8D2 /* SVDeformMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CABE76B2261CD840037E8D2 /* SVDeformMgr.h */; };
+		5CABE7732261CD840037E8D2 /* SVDeformMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CABE76B2261CD840037E8D2 /* SVDeformMgr.h */; };
+		5CABE7762261CF5F0037E8D2 /* SVDeformNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CABE7742261CF5F0037E8D2 /* SVDeformNode.cpp */; };
+		5CABE7772261CF5F0037E8D2 /* SVDeformNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CABE7742261CF5F0037E8D2 /* SVDeformNode.cpp */; };
+		5CABE7782261CF5F0037E8D2 /* SVDeformNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CABE7742261CF5F0037E8D2 /* SVDeformNode.cpp */; };
+		5CABE7792261CF5F0037E8D2 /* SVDeformNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CABE7742261CF5F0037E8D2 /* SVDeformNode.cpp */; };
+		5CABE77A2261CF5F0037E8D2 /* SVDeformNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CABE7752261CF5F0037E8D2 /* SVDeformNode.h */; };
+		5CABE77B2261CF5F0037E8D2 /* SVDeformNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CABE7752261CF5F0037E8D2 /* SVDeformNode.h */; };
+		5CABE77C2261CF5F0037E8D2 /* SVDeformNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CABE7752261CF5F0037E8D2 /* SVDeformNode.h */; };
+		5CABE77D2261CF5F0037E8D2 /* SVDeformNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CABE7752261CF5F0037E8D2 /* SVDeformNode.h */; };
 		5CE09B7D2179E04600C8DF25 /* SVFaceBeautyFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CE09B7B2179E04500C8DF25 /* SVFaceBeautyFilter.h */; };
 		5CE09B7E2179E04600C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
 		5CE09B7F2179E04900C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
@@ -3157,6 +3173,10 @@
 		5CA05D4421873B4600D1C033 /* SVParseDeform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVParseDeform.h; sourceTree = "<group>"; };
 		5CA05D4D21873E8100D1C033 /* SVParseBackground.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; path = SVParseBackground.cpp; sourceTree = "<group>"; };
 		5CA05D4E21873E8100D1C033 /* SVParseBackground.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVParseBackground.h; sourceTree = "<group>"; };
+		5CABE76A2261CD840037E8D2 /* SVDeformMgr.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; path = SVDeformMgr.cpp; sourceTree = "<group>"; };
+		5CABE76B2261CD840037E8D2 /* SVDeformMgr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVDeformMgr.h; sourceTree = "<group>"; };
+		5CABE7742261CF5F0037E8D2 /* SVDeformNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; path = SVDeformNode.cpp; sourceTree = "<group>"; };
+		5CABE7752261CF5F0037E8D2 /* SVDeformNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVDeformNode.h; sourceTree = "<group>"; };
 		5CE09B7B2179E04500C8DF25 /* SVFaceBeautyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceBeautyFilter.h; sourceTree = "<group>"; };
 		5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = SVFaceBeautyFilter.cpp; sourceTree = "<group>"; };
 		5CF0ABAB20BB367A009E673E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
@@ -4011,6 +4031,8 @@
 				5F7D5D7C215F407700803BCF /* SVTransGPU.h */,
 				5F7D5D6F215F407700803BCF /* SVUIMgr.cpp */,
 				5F7D5D6D215F407700803BCF /* SVUIMgr.h */,
+				5CABE76A2261CD840037E8D2 /* SVDeformMgr.cpp */,
+				5CABE76B2261CD840037E8D2 /* SVDeformMgr.h */,
 			);
 			path = basesys;
 			sourceTree = "<group>";
@@ -4789,6 +4811,8 @@
 				5FBA2069216DFF6F00A6868E /* SVUIMovieNode.h */,
 				5FBA206D216E02A900A6868E /* SVUIPanel.cpp */,
 				5FBA206E216E02AA00A6868E /* SVUIPanel.h */,
+				5CABE7742261CF5F0037E8D2 /* SVDeformNode.cpp */,
+				5CABE7752261CF5F0037E8D2 /* SVDeformNode.h */,
 			);
 			path = node;
 			sourceTree = "<group>";
@@ -5053,6 +5077,7 @@
 				5F7D6723215F407900803BCF /* SVIOSInstreamNode.h in Headers */,
 				5F7D6867215F407900803BCF /* SVIDPool.h in Headers */,
 				5F7D640D215F407800803BCF /* writer.h in Headers */,
+				5CABE7732261CD840037E8D2 /* SVDeformMgr.h in Headers */,
 				5F7D61FD215F407700803BCF /* pnginfo.h in Headers */,
 				5CA05D4C21873B4600D1C033 /* SVParseDeform.h in Headers */,
 				5F7D6149215F407700803BCF /* SVVertDef.h in Headers */,
@@ -5136,6 +5161,7 @@
 				5F7D6753215F407900803BCF /* SVSpriteNode.h in Headers */,
 				5F7D64E3215F407800803BCF /* SVActTime.h in Headers */,
 				5F7D62C9215F407800803BCF /* PathConstraintData.h in Headers */,
+				5CABE77D2261CF5F0037E8D2 /* SVDeformNode.h in Headers */,
 				5F7D695F215F407900803BCF /* SVMathLib.h in Headers */,
 				5F7D65C7215F407800803BCF /* SVRenderStateMetal.h in Headers */,
 				5C56B69F224A2B47007D7DC8 /* SVFilterHaze.h in Headers */,
@@ -5470,6 +5496,7 @@
 				5F7D6721215F407900803BCF /* SVIOSInstreamNode.h in Headers */,
 				5F7D6865215F407900803BCF /* SVIDPool.h in Headers */,
 				5F7D640B215F407800803BCF /* writer.h in Headers */,
+				5CABE7712261CD840037E8D2 /* SVDeformMgr.h in Headers */,
 				5F7D61FB215F407700803BCF /* pnginfo.h in Headers */,
 				5CA05D4A21873B4600D1C033 /* SVParseDeform.h in Headers */,
 				5F7D6147215F407700803BCF /* SVVertDef.h in Headers */,
@@ -5553,6 +5580,7 @@
 				5F7D6751215F407900803BCF /* SVSpriteNode.h in Headers */,
 				5F7D64E1215F407800803BCF /* SVActTime.h in Headers */,
 				5F7D62C7215F407800803BCF /* PathConstraintData.h in Headers */,
+				5CABE77B2261CF5F0037E8D2 /* SVDeformNode.h in Headers */,
 				5F7D695D215F407900803BCF /* SVMathLib.h in Headers */,
 				5F7D65C5215F407800803BCF /* SVRenderStateMetal.h in Headers */,
 				5C56B69D224A2B47007D7DC8 /* SVFilterHaze.h in Headers */,
@@ -5935,6 +5963,7 @@
 				5F7D616A215F407700803BCF /* SVFileWriter.h in Headers */,
 				5FBA206B216DFF7000A6868E /* SVUIMovieNode.h in Headers */,
 				5F7D63D6215F407800803BCF /* strfunc.h in Headers */,
+				5CABE77A2261CF5F0037E8D2 /* SVDeformNode.h in Headers */,
 				5F7D6720215F407900803BCF /* SVIOSInstreamNode.h in Headers */,
 				5C0C607C219BFF790052A826 /* AAFilter.h in Headers */,
 				5F7D646A215F407800803BCF /* SVModuleSys.h in Headers */,
@@ -6121,6 +6150,7 @@
 				5F7D63A2215F407800803BCF /* reader.h in Headers */,
 				5F7D6082215F407700803BCF /* SVTransCPU.h in Headers */,
 				5F7D62BE215F407800803BCF /* SkeletonData.h in Headers */,
+				5CABE7702261CD840037E8D2 /* SVDeformMgr.h in Headers */,
 				5F7D6930215F407900803BCF /* SVSimdLib.h in Headers */,
 				5C0C6048219BFF790052A826 /* InterpolateCubic.h in Headers */,
 				5F7D6610215F407800803BCF /* SVRenderDeclare.h in Headers */,
@@ -6308,6 +6338,7 @@
 				5F7D6722215F407900803BCF /* SVIOSInstreamNode.h in Headers */,
 				5F7D6866215F407900803BCF /* SVIDPool.h in Headers */,
 				5F7D640C215F407800803BCF /* writer.h in Headers */,
+				5CABE7722261CD840037E8D2 /* SVDeformMgr.h in Headers */,
 				5F7D61FC215F407700803BCF /* pnginfo.h in Headers */,
 				5CA05D4B21873B4600D1C033 /* SVParseDeform.h in Headers */,
 				5F7D6148215F407700803BCF /* SVVertDef.h in Headers */,
@@ -6391,6 +6422,7 @@
 				5F7D6752215F407900803BCF /* SVSpriteNode.h in Headers */,
 				5F7D64E2215F407800803BCF /* SVActTime.h in Headers */,
 				5F7D62C8215F407800803BCF /* PathConstraintData.h in Headers */,
+				5CABE77C2261CF5F0037E8D2 /* SVDeformNode.h in Headers */,
 				5F7D695E215F407900803BCF /* SVMathLib.h in Headers */,
 				5F7D65C6215F407800803BCF /* SVRenderStateMetal.h in Headers */,
 				5C56B69E224A2B47007D7DC8 /* SVFilterHaze.h in Headers */,
@@ -7046,6 +7078,7 @@
 				5F7D610D215F407700803BCF /* SVPass.cpp in Sources */,
 				5F7D633D215F407800803BCF /* BoneData.c in Sources */,
 				5CA05D4821873B4600D1C033 /* SVParseDeform.cpp in Sources */,
+				5CABE76F2261CD840037E8D2 /* SVDeformMgr.cpp in Sources */,
 				5F7D66A3215F407900803BCF /* SVShaderMgr.cpp in Sources */,
 				5F7D66C3215F407900803BCF /* SVMtlBasedOn.cpp in Sources */,
 				5F7D661F215F407800803BCF /* SVRenderTarget.cpp in Sources */,
@@ -7103,6 +7136,7 @@
 				5F7D632D215F407800803BCF /* PathConstraint.c in Sources */,
 				5F7D61AD215F407700803BCF /* SVPngWriter.cpp in Sources */,
 				5F7D68E3215F407900803BCF /* SVVec2.cpp in Sources */,
+				5CABE7792261CF5F0037E8D2 /* SVDeformNode.cpp in Sources */,
 				5F7D61C5215F407700803BCF /* SVParse.cpp in Sources */,
 				5F7D66B3215F407900803BCF /* SVGLModify.cpp in Sources */,
 				5F7D6351215F407800803BCF /* SlotData.c in Sources */,
@@ -7155,6 +7189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F7D6166215F407700803BCF /* SVParseAnimate.cpp in Sources */,
+				5CABE76C2261CD840037E8D2 /* SVDeformMgr.cpp in Sources */,
 				5C0C6020219BFF790052A826 /* cpu_detect_x86.cpp in Sources */,
 				5F7D6456215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				5C56B6C1225219B9007D7DC8 /* SVSharpFilter.cpp in Sources */,
@@ -7370,6 +7405,7 @@
 				5F7D6246215F407800803BCF /* png.c in Sources */,
 				5F7D6156215F407700803BCF /* SVInst.cpp in Sources */,
 				5F7D623A215F407800803BCF /* pngread.c in Sources */,
+				5CABE7762261CF5F0037E8D2 /* SVDeformNode.cpp in Sources */,
 				5F7D643A215F407800803BCF /* SVEffectPackage.cpp in Sources */,
 				5F7D682C215F407900803BCF /* SVEventVideo.cpp in Sources */,
 				5F7D60B2215F407700803BCF /* SVRGBToneCurveCore.cpp in Sources */,
@@ -7747,6 +7783,7 @@
 				5F7D610C215F407700803BCF /* SVPass.cpp in Sources */,
 				5F7D633C215F407800803BCF /* BoneData.c in Sources */,
 				5CA05D4721873B4600D1C033 /* SVParseDeform.cpp in Sources */,
+				5CABE76E2261CD840037E8D2 /* SVDeformMgr.cpp in Sources */,
 				5F7D66A2215F407900803BCF /* SVShaderMgr.cpp in Sources */,
 				5F7D66C2215F407900803BCF /* SVMtlBasedOn.cpp in Sources */,
 				5F7D661E215F407800803BCF /* SVRenderTarget.cpp in Sources */,
@@ -7804,6 +7841,7 @@
 				5F7D632C215F407800803BCF /* PathConstraint.c in Sources */,
 				5F7D61AC215F407700803BCF /* SVPngWriter.cpp in Sources */,
 				5F7D68E2215F407900803BCF /* SVVec2.cpp in Sources */,
+				5CABE7782261CF5F0037E8D2 /* SVDeformNode.cpp in Sources */,
 				5F7D61C4215F407700803BCF /* SVParse.cpp in Sources */,
 				5F7D66B2215F407900803BCF /* SVGLModify.cpp in Sources */,
 				5F7D6350215F407800803BCF /* SlotData.c in Sources */,
@@ -8096,6 +8134,7 @@
 				5F7D610B215F407700803BCF /* SVPass.cpp in Sources */,
 				5F7D633B215F407800803BCF /* BoneData.c in Sources */,
 				5CA05D4621873B4600D1C033 /* SVParseDeform.cpp in Sources */,
+				5CABE76D2261CD840037E8D2 /* SVDeformMgr.cpp in Sources */,
 				5F7D66A1215F407900803BCF /* SVShaderMgr.cpp in Sources */,
 				5F7D66C1215F407900803BCF /* SVMtlBasedOn.cpp in Sources */,
 				5F7D661D215F407800803BCF /* SVRenderTarget.cpp in Sources */,
@@ -8153,6 +8192,7 @@
 				5F7D632B215F407800803BCF /* PathConstraint.c in Sources */,
 				5F7D61AB215F407700803BCF /* SVPngWriter.cpp in Sources */,
 				5F7D68E1215F407900803BCF /* SVVec2.cpp in Sources */,
+				5CABE7772261CF5F0037E8D2 /* SVDeformNode.cpp in Sources */,
 				5F7D61C3215F407700803BCF /* SVParse.cpp in Sources */,
 				5F7D66B1215F407900803BCF /* SVGLModify.cpp in Sources */,
 				5F7D634F215F407800803BCF /* SlotData.c in Sources */,
