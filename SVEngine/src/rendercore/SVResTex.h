@@ -13,6 +13,7 @@
 namespace sv {
     
     namespace render{
+        
         class SVResTex: public SVRObjBase{
         public:
             SVResTex(SVInst* _app);

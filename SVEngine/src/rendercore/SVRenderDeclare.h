@@ -32,6 +32,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVRRes);
         DECLARE_SHAREPTR(SVResTex);
         DECLARE_SHAREPTR(SVResFBO);
+        DECLARE_SHAREPTR(SVResVBO);
         DECLARE_SHAREPTR(SVResShader);
 
         //渲染器
@@ -53,16 +54,17 @@ namespace sv {
         DECLARE_SHAREPTR(SVResGLRenderTarget);
         DECLARE_SHAREPTR(SVResGLRenderTargetOut);
         DECLARE_SHAREPTR(SVResGLRenderTexture);
-        DECLARE_SHAREPTR(SVRResGLVBO);
+        DECLARE_SHAREPTR(SVResGLVBO);
         DECLARE_SHAREPTR(SVResGLRenderMesh);
         DECLARE_SHAREPTR(SVResGLRenderMeshDvid);
         DECLARE_SHAREPTR(SVResGLRenderMeshData);
-        DECLARE_SHAREPTR(SVRResGLVAO);
         
         //metal
         DECLARE_SHAREPTR(SVRendererMetal);
         DECLARE_SHAREPTR(SVRResMetalTex);
         DECLARE_SHAREPTR(SVRResMetalShader);
+        DECLARE_SHAREPTR(SVResMetalBuf);
+        DECLARE_SHAREPTR(SVResMetalRenderMesh);
         
         //vulkan
         DECLARE_SHAREPTR(SVRendererVK);

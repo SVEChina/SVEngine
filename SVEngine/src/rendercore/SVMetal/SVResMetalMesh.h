@@ -8,7 +8,7 @@
 #ifndef SV_RESMETAL_MESH_H
 #define SV_RESMETAL_MESH_H
 
-#include "../SVRObjBase.h"
+#include "../SVResVBO.h"
 #import <Metal/MTLTexture.h>
 #import <Metal/MTLBuffer.h>
 
@@ -17,11 +17,11 @@ namespace sv {
     namespace render{
 
         //Buffer资源
-        class SVRResMetalBuf: public SVRObjBase {
+        class SVResMetalBuf: public SVResVBO {
         public:
-            SVRResMetalBuf(SVInst* _app);
+            SVResMetalBuf(SVInst* _app);
             
-            virtual ~SVRResMetalBuf();
+            virtual ~SVResMetalBuf();
             
             virtual void create(SVRendererBasePtr _renderer);
             
@@ -32,7 +32,7 @@ namespace sv {
         };
         
         //mesh
-        class SVResMetalRenderMesh : public SVRResMetalBuf {
+        class SVResMetalRenderMesh : public SVResMetalBuf {
         public:
             SVResMetalRenderMesh(SVInst* _app);
             
@@ -42,7 +42,7 @@ namespace sv {
             
             virtual void destroy(SVRendererBasePtr _renderer);
             
-            virtual void render();
+            virtual void render(SVRendererBasePtr _renderer);
         };
 
         

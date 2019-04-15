@@ -10,14 +10,59 @@
 #include "../app/SVGlobalMgr.h"
 #include "../base/SVDataSwap.h"
 #include "SVRenderMgr.h"
+//
 #include "SVGL/SVRendererGL.h"
 #include "SVGL/SVRResGL.h"
-#include "SVGL/SVRendererGL.h"
+#include "SVGL/SVResGLMesh.h"
+//
 #include "SVMetal/SVRendererMetal.h"
+#include "SVMetal/SVResMetalMesh.h"
+//
 #include "SVVulkan/SVRendererVK.h"
 
 s32 SVRenderMesh::getVertexFormateSize(VFTYPE _type) {
-    return SVResGLRenderMesh::getVertexFormateSize(_type);
+    if (_type == E_VF_V2) {
+        return sizeof(V2);
+    } else if (_type == E_VF_V2_T0) {
+        return sizeof(V2_T0);
+    } else if (_type == E_VF_V2_T0_T1) {
+        return sizeof(V2_T0_T1);
+    } else if (_type == E_VF_V2_C) {
+        return sizeof(V2_C);
+    } else if (_type == E_VF_V2_C_T0) {
+        return sizeof(V2_C_T0);
+    } else if (_type == E_VF_V2_C_T0_T1) {
+        return sizeof(V2_C_T0_T1);
+    } else if (_type == E_VF_V3) {
+        return sizeof(V3);
+    } else if (_type == E_VF_V3_T0) {
+        return sizeof(V3_T0);
+    } else if (_type == E_VF_V3_T0_T1) {
+        return sizeof(V3_T0_T1);
+    } else if (_type == E_VF_V3_N) {
+        return sizeof(V3_N);
+    } else if (_type == E_VF_V3_N_T0) {
+        return sizeof(V3_N_T0);
+    } else if (_type == E_VF_V3_N_T0_T1) {
+        return sizeof(V3_N_T0_T1);
+    } else if (_type == E_VF_V3_C) {
+        return sizeof(V3_C);
+    } else if (_type == E_VF_V3_C_T0) {
+        return sizeof(V3_C_T0);
+    } else if (_type == E_VF_V3_C_T0_T1) {
+        return sizeof(V3_C_T0_T1);
+    } else if (_type == E_VF_V3_N_C) {
+        return sizeof(V3_N_C);
+    } else if (_type == E_VF_V3_N_C_T0) {
+        return sizeof(V3_N_C_T0);
+    } else if (_type == E_VF_V3_N_C_T0_T1) {
+        return sizeof(V3_N_C_T0_T1);
+    } else if (_type == E_VF_V3_N_T0_BONE_W) {
+        return sizeof(V3_N_T0_BONE4);
+    } else if (_type == E_VF_V3_PARTICLE) {
+        return sizeof(V3_PARTICLE);
+    }
+    return 0;
 }
 
 SVRenderMesh::SVRenderMesh(SVInst* _app)
@@ -62,10 +107,11 @@ void SVRenderMesh::create(SVRendererBasePtr _renderer){
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
     }
-//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-//    if (t_rendeMetalPtr) {
-//        //渲染器类型E_RENDERER_METAL,
-//    }
+    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+    if (t_rendeMetalPtr) {
+        //渲染器类型E_RENDERER_METAL
+        m_objVBOPtr = MakeSharedPtr<SVResMetalRenderMesh>(mApp);
+    }
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();
@@ -78,6 +124,24 @@ void SVRenderMesh::destroy(SVRendererBasePtr _renderer) {
         m_objVBOPtr->destroy(_renderer);
     }
     SVRObjBase::destroy(_renderer);
+}
+
+void SVRenderMesh::_updateConf(){
+    if (m_objVBOPtr) {
+        if (m_renderMeshConf.dirty) {
+            m_renderMeshConf.dirty = false;
+            m_objVBOPtr->updateConf(m_renderMeshConf);
+        }
+    }
+}
+
+void SVRenderMesh::_updateData(){
+    if (m_objVBOPtr) {
+        if (m_renderMeshData.dirty) {
+            m_renderMeshData.dirty = false;
+            m_objVBOPtr->updateData(m_renderMeshData);
+        }
+    }
 }
 
 void SVRenderMesh::setIndexPoolType(u32 itype) {
@@ -143,42 +207,16 @@ void SVRenderMesh::createMesh(){
 }
 
 void SVRenderMesh::render(SVRendererBasePtr _renderer) {
-    SVResGLRenderMeshPtr t_rendeMeshPtr = std::dynamic_pointer_cast<SVResGLRenderMesh>(m_objVBOPtr);
-    if (t_rendeMeshPtr) {
+    if (m_objVBOPtr) {
         _updateConf();
         _updateData();
-        t_rendeMeshPtr->render(_renderer);
+        m_objVBOPtr->render(_renderer);
     }
 }
 
-void SVRenderMesh::_updateConf(){
-    SVResGLRenderMeshPtr t_rendeMeshPtr = std::dynamic_pointer_cast<SVResGLRenderMesh>(m_objVBOPtr);
-    if (t_rendeMeshPtr) {
-        if (m_renderMeshConf.dirty) {
-            m_renderMeshConf.dirty = false;
-            t_rendeMeshPtr->setIndexPoolType(m_renderMeshConf.indexPoolType);
-            t_rendeMeshPtr->setVertexPoolType(m_renderMeshConf.vertPoolType);
-            t_rendeMeshPtr->setDrawMethod(m_renderMeshConf.drawmethod);
-            t_rendeMeshPtr->setVertexType(m_renderMeshConf.vftype);
-        }
-    }
-}
-
-void SVRenderMesh::_updateData(){
-    SVResGLRenderMeshPtr t_rendeMeshPtr = std::dynamic_pointer_cast<SVResGLRenderMesh>(m_objVBOPtr);
-    if (t_rendeMeshPtr) { 
-        if (m_renderMeshData.dirty) {
-            m_renderMeshData.dirty = false;
-            if (m_renderMeshData.pDataIndex) {
-                t_rendeMeshPtr->setIndexData(m_renderMeshData.pDataIndex, m_renderMeshData.indexNum);
-            }
-            if (m_renderMeshData.pDataVertex) {
-                t_rendeMeshPtr->setVertexDataNum( m_renderMeshData.pointNum);
-                t_rendeMeshPtr->setVertexData(m_renderMeshData.pDataVertex);
-            }
-        }
-    }
-}
+/*
+    SVRenderMeshDvid
+ */
 
 SVRenderMeshDvid::SVRenderMeshDvid(SVInst* _app)
 :SVRenderMesh(_app){
@@ -187,18 +225,19 @@ SVRenderMeshDvid::SVRenderMeshDvid(SVInst* _app)
 }
 
 void SVRenderMeshDvid::_resetMeshData(){
-    m_renderMeshDvidData.pDataV2 = nullptr;
-    m_renderMeshDvidData.pDataV3 = nullptr;
-    m_renderMeshDvidData.pDataC0 = nullptr;
-    m_renderMeshDvidData.pDataC1 = nullptr;
-    m_renderMeshDvidData.pDataT0 = nullptr;
-    m_renderMeshDvidData.pDataT1 = nullptr;
-    m_renderMeshDvidData.pDataT2 = nullptr;
-    m_renderMeshDvidData.pDataNor = nullptr;
-    m_renderMeshDvidData.pDataTag = nullptr;
-    m_renderMeshDvidData.pDataBTor = nullptr;
-    m_renderMeshDvidData.pointNum = 0;
-    m_renderMeshDvidData.dirty = false;
+    SVRenderMesh::_resetMeshData();
+    m_renderMeshData.pDataV2 = nullptr;
+    m_renderMeshData.pDataV3 = nullptr;
+    m_renderMeshData.pDataC0 = nullptr;
+    m_renderMeshData.pDataC1 = nullptr;
+    m_renderMeshData.pDataT0 = nullptr;
+    m_renderMeshData.pDataT1 = nullptr;
+    m_renderMeshData.pDataT2 = nullptr;
+    m_renderMeshData.pDataNor = nullptr;
+    m_renderMeshData.pDataTag = nullptr;
+    m_renderMeshData.pDataBTor = nullptr;
+    m_renderMeshData.pointNum = 0;
+    m_renderMeshData.dirty = false;
 }
 
 SVRenderMeshDvid::~SVRenderMeshDvid() {
@@ -214,14 +253,14 @@ void SVRenderMeshDvid::create(SVRendererBasePtr _renderer){
         //渲染器类型E_RENDERER_GLES,
         m_objVBOPtr = MakeSharedPtr<SVResGLRenderMeshDvid>(mApp);
     }
-    SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
-    if (t_rendeVKPtr) {
-        //渲染器类型E_RENDERER_VUNKAN,
-    }
-//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-//    if (t_rendeMetalPtr) {
-//        //渲染器类型E_RENDERER_METAL,
+//    SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
+//    if (t_rendeVKPtr) {
+//        //渲染器类型E_RENDERER_VUNKAN,
 //    }
+    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+    if (t_rendeMetalPtr) {
+        //渲染器类型E_RENDERER_METAL,
+    }
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();
@@ -238,113 +277,83 @@ void SVRenderMeshDvid::destroy(SVRendererBasePtr _renderer) {
 
 void SVRenderMeshDvid::setIndexData(SVDataSwapPtr _data,s32 _num){
     if (_data) {
-        m_renderMeshDvidData.pDataIndex = _data;
-        m_renderMeshDvidData.indexNum = _num;
-        m_renderMeshDvidData.dirty = true;
+        m_renderMeshData.pDataIndex = _data;
+        m_renderMeshData.indexNum = _num;
+        m_renderMeshData.dirty = true;
     }
 }
 
 void SVRenderMeshDvid::setVertexDataNum(s32 _vertexNum){
-    m_renderMeshDvidData.pointNum = _vertexNum;
-    m_renderMeshDvidData.dirty = true;
+    m_renderMeshData.pointNum = _vertexNum;
+    m_renderMeshData.dirty = true;
 }
 
 void SVRenderMeshDvid::setVertex2Data(SVDataSwapPtr _pdata){
     if (_pdata) {
-        m_renderMeshDvidData.pDataV2 = _pdata;
-        m_renderMeshDvidData.dirty = true;
+        m_renderMeshData.pDataV2 = _pdata;
+        m_renderMeshData.dirty = true;
     }
 }
 
 void SVRenderMeshDvid::setVertex3Data(SVDataSwapPtr _pdata){
     if (_pdata) {
-        m_renderMeshDvidData.pDataV3 = _pdata;
-        m_renderMeshDvidData.dirty = true;
+        m_renderMeshData.pDataV3 = _pdata;
+        m_renderMeshData.dirty = true;
     }
 }
 
 void SVRenderMeshDvid::setColor0Data(SVDataSwapPtr _pdata){
     if (_pdata) {
-        m_renderMeshDvidData.pDataC0 = _pdata;
-        m_renderMeshDvidData.dirty = true;
+        m_renderMeshData.pDataC0 = _pdata;
+        m_renderMeshData.dirty = true;
     }
 }
 
 void SVRenderMeshDvid::setColor1Data(SVDataSwapPtr _pdata){
     if (_pdata) {
-        m_renderMeshDvidData.pDataC1 = _pdata;
-        m_renderMeshDvidData.dirty = true;
+        m_renderMeshData.pDataC1 = _pdata;
+        m_renderMeshData.dirty = true;
     }
 }
 
 void SVRenderMeshDvid::setTexcoord0Data(SVDataSwapPtr _pdata){
     if (_pdata) {
-        m_renderMeshDvidData.pDataT0 = _pdata;
-        m_renderMeshDvidData.dirty = true;
+        m_renderMeshData.pDataT0 = _pdata;
+        m_renderMeshData.dirty = true;
     }
 }
 
 void SVRenderMeshDvid::setTexcoord1Data(SVDataSwapPtr _pdata){
     if (_pdata) {
-        m_renderMeshDvidData.pDataT1 = _pdata;
-        m_renderMeshDvidData.dirty = true;
+        m_renderMeshData.pDataT1 = _pdata;
+        m_renderMeshData.dirty = true;
     }
 }
 
 void SVRenderMeshDvid::setTexcoord2Data(SVDataSwapPtr _pdata){
     if (_pdata) {
-        m_renderMeshDvidData.pDataT2 = _pdata;
-        m_renderMeshDvidData.dirty = true;
+        m_renderMeshData.pDataT2 = _pdata;
+        m_renderMeshData.dirty = true;
     }
 }
 
 void SVRenderMeshDvid::setNormalData(SVDataSwapPtr _pdata){
     if (_pdata) {
-        m_renderMeshDvidData.pDataNor = _pdata;
-        m_renderMeshDvidData.dirty = true;
+        m_renderMeshData.pDataNor = _pdata;
+        m_renderMeshData.dirty = true;
     }
 }
 
 void SVRenderMeshDvid::setTagentData(SVDataSwapPtr _pdata){
     if (_pdata) {
-        m_renderMeshDvidData.pDataTag = _pdata;
-        m_renderMeshDvidData.dirty = true;
+        m_renderMeshData.pDataTag = _pdata;
+        m_renderMeshData.dirty = true;
     }
 }
 
 void SVRenderMeshDvid::setBTagentData(SVDataSwapPtr _pdata){
     if (_pdata) {
-        m_renderMeshDvidData.pDataBTor = _pdata;
-        m_renderMeshDvidData.dirty = true;
-    }
-}
-
-void SVRenderMeshDvid::_updateData(){
-    SVResGLRenderMeshDvidPtr t_rendeMeshPtr = std::dynamic_pointer_cast<SVResGLRenderMeshDvid>(m_objVBOPtr);
-    if (t_rendeMeshPtr) {
-        if (m_renderMeshDvidData.dirty) {
-            m_renderMeshDvidData.dirty = false;
-            t_rendeMeshPtr->setVertexDataNum(m_renderMeshDvidData.pointNum);
-            t_rendeMeshPtr->setVertex2Data(m_renderMeshDvidData.pDataV2);
-            t_rendeMeshPtr->setVertex3Data(m_renderMeshDvidData.pDataV3);
-            t_rendeMeshPtr->setColor0Data(m_renderMeshDvidData.pDataC0);
-            t_rendeMeshPtr->setColor1Data(m_renderMeshDvidData.pDataC1);
-            t_rendeMeshPtr->setTexcoord0Data(m_renderMeshDvidData.pDataT0);
-            t_rendeMeshPtr->setTexcoord1Data(m_renderMeshDvidData.pDataT1);
-            t_rendeMeshPtr->setTexcoord2Data(m_renderMeshDvidData.pDataT2);
-            t_rendeMeshPtr->setNormalData(m_renderMeshDvidData.pDataNor);
-            t_rendeMeshPtr->setTagentData(m_renderMeshDvidData.pDataTag);
-            t_rendeMeshPtr->setBTagentData(m_renderMeshDvidData.pDataBTor);
-            t_rendeMeshPtr->setIndexData(m_renderMeshDvidData.pDataIndex, m_renderMeshDvidData.indexNum);
-        }
-    }
-}
-
-void SVRenderMeshDvid::render(SVRendererBasePtr _renderer) {
-    SVResGLRenderMeshDvidPtr t_rendeMeshPtr = std::dynamic_pointer_cast<SVResGLRenderMeshDvid>(m_objVBOPtr);
-    if (t_rendeMeshPtr) {
-        _updateConf();
-        _updateData();
-        t_rendeMeshPtr->render(_renderer);
+        m_renderMeshData.pDataBTor = _pdata;
+        m_renderMeshData.dirty = true;
     }
 }
