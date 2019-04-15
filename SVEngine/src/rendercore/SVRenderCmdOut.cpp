@@ -52,7 +52,7 @@ void SVRenderCmdStreamOutNor::render() {
         m_fbo->setTexture(m_tex);
         m_fbo->bind();
         if (m_pMtl->submitMtl()) {
-            m_pMesh->render();
+            m_pMesh->render(m_pRenderer);
         }
         _fectchdata();
         m_fbo->unbind();

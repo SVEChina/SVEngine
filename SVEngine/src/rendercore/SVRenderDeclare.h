@@ -31,16 +31,25 @@ namespace sv {
         //渲染资源
         DECLARE_SHAREPTR(SVRRes);
         DECLARE_SHAREPTR(SVResTex);
+        DECLARE_SHAREPTR(SVResFBO);
+        DECLARE_SHAREPTR(SVResShader);
+
+        //渲染器
+        DECLARE_SHAREPTR(SVRendererBase);
+        DECLARE_SHAREPTR(SVRenderState);
+        DECLARE_SHAREPTR(SVRenderTexture);
+        
+        //gl
+        DECLARE_SHAREPTR(SVRendererGL);
+        DECLARE_SHAREPTR(SVRenderStateGL);
         DECLARE_SHAREPTR(SVRResGLTex);
         DECLARE_SHAREPTR(SVRResGLTexWithTexID);
         DECLARE_SHAREPTR(SVRResGLTexPlist);
         DECLARE_SHAREPTR(SVRResGLTexSet);
         DECLARE_SHAREPTR(SVRResGLTexiOS);
         DECLARE_SHAREPTR(SVRResGLShader);
-        DECLARE_SHAREPTR(SVResFBO);
         DECLARE_SHAREPTR(SVRResGLFBO);
         DECLARE_SHAREPTR(SVRResGLOutFBO);
-        
         DECLARE_SHAREPTR(SVResGLRenderTarget);
         DECLARE_SHAREPTR(SVResGLRenderTargetOut);
         DECLARE_SHAREPTR(SVResGLRenderTexture);
@@ -50,15 +59,14 @@ namespace sv {
         DECLARE_SHAREPTR(SVResGLRenderMeshData);
         DECLARE_SHAREPTR(SVRResGLVAO);
         
-        //渲染器
-        DECLARE_SHAREPTR(SVRendererBase);
-        DECLARE_SHAREPTR(SVRendererGL);
-        DECLARE_SHAREPTR(SVRendererVK);
+        //metal
         DECLARE_SHAREPTR(SVRendererMetal);
-        DECLARE_SHAREPTR(SVRenderState);
-        DECLARE_SHAREPTR(SVRenderStateGL);
-        DECLARE_SHAREPTR(SVRenderTexture);
-
+        DECLARE_SHAREPTR(SVRResMetalTex);
+        DECLARE_SHAREPTR(SVRResMetalShader);
+        
+        //vulkan
+        DECLARE_SHAREPTR(SVRendererVK);
+        
         //渲染框架
         DECLARE_SHAREPTR(SVFboObject);
         DECLARE_SHAREPTR(SVRenderTarget);

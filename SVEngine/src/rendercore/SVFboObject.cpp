@@ -43,11 +43,11 @@ void SVFboObject::create(SVRendererBasePtr _renderer){
         //渲染器类型E_RENDERER_VUNKAN,
         
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-        
-    }
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+//    if (t_rendeMetalPtr) {
+//        //渲染器类型E_RENDERER_METAL,
+//
+//    }
     if (m_objFBOPtr) {
         m_objFBOPtr->create(_renderer);
     }
@@ -177,11 +177,11 @@ void SVOutFboObject::create(SVRendererBasePtr _renderer){
         //渲染器类型E_RENDERER_VUNKAN,
         
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-        
-    }
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+//    if (t_rendeMetalPtr) {
+//        //渲染器类型E_RENDERER_METAL,
+//        
+//    }
     if(m_objFBOPtr){
         m_objFBOPtr->create(_renderer);
     }

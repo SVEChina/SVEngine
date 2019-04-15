@@ -62,10 +62,10 @@ void SVRenderMesh::create(SVRendererBasePtr _renderer){
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-    }
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+//    if (t_rendeMetalPtr) {
+//        //渲染器类型E_RENDERER_METAL,
+//    }
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();
@@ -142,12 +142,12 @@ void SVRenderMesh::createMesh(){
     }
 }
 
-void SVRenderMesh::render() {
+void SVRenderMesh::render(SVRendererBasePtr _renderer) {
     SVResGLRenderMeshPtr t_rendeMeshPtr = std::dynamic_pointer_cast<SVResGLRenderMesh>(m_objVBOPtr);
     if (t_rendeMeshPtr) {
         _updateConf();
         _updateData();
-        t_rendeMeshPtr->render();
+        t_rendeMeshPtr->render(_renderer);
     }
 }
 
@@ -218,10 +218,10 @@ void SVRenderMeshDvid::create(SVRendererBasePtr _renderer){
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-    }
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+//    if (t_rendeMetalPtr) {
+//        //渲染器类型E_RENDERER_METAL,
+//    }
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();
@@ -340,11 +340,11 @@ void SVRenderMeshDvid::_updateData(){
     }
 }
 
-void SVRenderMeshDvid::render() {
+void SVRenderMeshDvid::render(SVRendererBasePtr _renderer) {
     SVResGLRenderMeshDvidPtr t_rendeMeshPtr = std::dynamic_pointer_cast<SVResGLRenderMeshDvid>(m_objVBOPtr);
     if (t_rendeMeshPtr) {
         _updateConf();
         _updateData();
-        t_rendeMeshPtr->render();
+        t_rendeMeshPtr->render(_renderer);
     }
 }

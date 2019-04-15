@@ -51,7 +51,12 @@ namespace sv {
         FMat4 m_mat_ui;
         //
         SVRandom m_random;
-
+        //获取引擎内核
+        SV_ENGCORE getEngCore(){ return m_engCore; };
+    
+    protected:
+        SV_ENGCORE m_engCore;   //引擎内核
+        
     public:
         FVec4 diffuse_color;    //漫反射颜色
         f32 diffuse_scale;      //满反射颜色缩放值

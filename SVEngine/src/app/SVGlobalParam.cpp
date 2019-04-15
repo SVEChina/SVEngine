@@ -14,6 +14,7 @@ SVGlobalParam::SVGlobalParam(SVInst *_app)
     m_curScene = nullptr;
     m_inner_width = 720;
     m_inner_height = 1280;
+    m_engCore = SV_E_CORE_GL;
     m_fontFileName = "svres/simsun.ttf";
     setSeed(0);
 }

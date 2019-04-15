@@ -12,9 +12,13 @@
 #include "../rendercore/SVRenderMgr.h"
 #include "../base/SVLock.h"
 #include "../base/SVDataSwap.h"
+//
 #include "../rendercore/SVGL/SVRResGL.h"
 #include "../rendercore/SVGL/SVRendererGL.h"
+//
 #include "../rendercore/SVMetal/SVRendererMetal.h"
+#include "../rendercore/SVMetal/SVResMetal.h"
+//
 #include "../rendercore/SVVulkan/SVRendererVK.h"
 
 SVTexture::SVTexture(SVInst*_app)
@@ -53,7 +57,7 @@ void SVTexture::create(SVRendererBasePtr _renderer){
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
     if (t_rendeMetalPtr) {
         //渲染器类型E_RENDERER_METAL,
-        //m_objTexPtr = MakeSharedPtr<SVRResGLTex>(mApp);
+        m_objTexPtr = MakeSharedPtr<SVRResMetalTex>(mApp);
     }
     if (m_objTexPtr) {
         m_objTexPtr->setname(m_name);
@@ -213,11 +217,11 @@ void SVTextureInputTexID::create(SVRendererBasePtr _renderer){
         //渲染器类型E_RENDERER_VUNKAN,
         
     }
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-        
-    }
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+//    if (t_rendeMetalPtr) {
+//        //渲染器类型E_RENDERER_METAL,
+//
+//    }
     if (m_objTexPtr) {
         SVRResGLTexWithTexIDPtr t_tmp = std::dynamic_pointer_cast<SVRResGLTexWithTexID>(m_objTexPtr);
         t_tmp->setname(m_name);

@@ -91,8 +91,8 @@ void SVOpCreateRenderder::_process(f32 dt) {
         SVRendererVKPtr t_renderer = MakeSharedPtr<SVRendererVK>(mApp);
         mApp->getRenderMgr()->setRenderer(t_renderer);
     } else if (m_type == E_RENDERER_METAL) {
-        SVRendererMetalPtr t_renderer = MakeSharedPtr<SVRendererMetal>(mApp);
-        mApp->getRenderMgr()->setRenderer(t_renderer);
+//        SVRendererMetalPtr t_renderer = MakeSharedPtr<SVRendererMetal>(mApp);
+//        mApp->getRenderMgr()->setRenderer(t_renderer);
     }
 }
 

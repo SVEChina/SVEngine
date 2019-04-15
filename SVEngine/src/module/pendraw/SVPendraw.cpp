@@ -51,8 +51,8 @@ bool SVPendraw::procEvent(SVEventPtr _event){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (!m_curStroke) {
             m_curStroke = MakeSharedPtr<SVPenStroke>(mApp);
-            m_curStroke->begin(t_touch->x,t_touch->y,0.0);
         }
+        m_curStroke->begin(t_touch->x,t_touch->y,0.0);
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_END){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (t_touch && m_curStroke) {

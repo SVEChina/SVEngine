@@ -51,7 +51,7 @@ namespace sv {
             
             virtual void destroy(SVRendererBasePtr _renderer);
         
-            virtual void render();
+            virtual void render(SVRendererBasePtr _renderer);
             
             void setIndexPoolType(u32 itype);
             
@@ -142,11 +142,13 @@ namespace sv {
             
             void setBTagentData(SVDataSwapPtr _pdata);
             
-            virtual void render();
+            virtual void render(SVRendererBasePtr _renderer);
+            
         protected:
             virtual void _resetMeshData();
             
             virtual void _updateData();
+            
         private:
             RENDERMESHDVIDDATA m_renderMeshDvidData;
         };

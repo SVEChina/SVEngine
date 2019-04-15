@@ -6,6 +6,7 @@
 //
 
 #include "SVPenStroke.h"
+#include "SVPenCurve.h"
 #include "../SVGameReady.h"
 #include "../SVGameRun.h"
 #include "../SVGameEnd.h"
@@ -24,6 +25,7 @@
 #include "../../basesys/SVPickProcess.h"
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
+    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptPool.clear();
     m_localMat.setIdentity();
     m_lock = MakeSharedPtr<SVLock>();
@@ -33,23 +35,27 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    m_pointSize = 120;
+    m_pointWidth = 40;
+    m_density = 0.05;
     m_vertexNum = 0;
 }
 
 SVPenStroke::~SVPenStroke() {
+    m_penCurve = nullptr;
     m_ptPool.clear();
     m_pVertData = nullptr;
     m_lock = nullptr;
+}
+
+void SVPenStroke::setStrokeWidth(f32 _width){
+    m_pointWidth = _width;
 }
 
 //绘制一笔
 void SVPenStroke::update(f32 _dt) {
     m_lock->unlock();
     //插值生成面片
-//    if(1) {
-        _genMesh();
-//    }
+    _genMesh();
     //绘制dataswap
     _drawMesh();
     m_lock->unlock();
@@ -58,19 +64,44 @@ void SVPenStroke::update(f32 _dt) {
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
     m_ptPool.append(FVec3(_px,_py,_pz));
+    if (m_penCurve) {
+        m_penCurve->reset();
+    }
     m_lock->unlock();
 }
 
 void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    m_ptPool.append(FVec3(_px,_py,_pz));
+    if (m_penCurve) {
+        SVArray<FVec2> t_ptArray;
+        m_penCurve->addPoint(_px, _py, m_pointWidth, m_density, SVPenCurve::SV_ADD_DRAWEND, t_ptArray);
+        _updatePtPool(t_ptArray, m_ptPool);
+    }else{
+        m_ptPool.append(FVec3(_px,_py,_pz));
+    }
     m_lock->unlock();
 }
 
 void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    m_ptPool.append(FVec3(_px,_py,_pz));
+    if (m_penCurve) {
+        SVArray<FVec2> t_ptArray;
+        m_penCurve->addPoint(_px, _py, m_pointWidth, m_density, SVPenCurve::SV_ADD_DRAWING, t_ptArray);
+        _updatePtPool(t_ptArray, m_ptPool);
+    }else{
+        m_ptPool.append(FVec3(_px,_py,_pz));
+    }
     m_lock->unlock();
+}
+
+void SVPenStroke::_updatePtPool(SVArray<FVec2> &_inPtPool, SVArray<FVec3> &_outPtPool){
+    if (_inPtPool.size() <= 0)
+        return;
+    for (s32 i = 0; i<_inPtPool.size(); i++) {
+        FVec2 t_pt = _inPtPool[i];
+        FVec3 t_n_pt = FVec3(t_pt.x, t_pt.y, 0.0f);
+        _outPtPool.append(t_n_pt);
+    }
 }
 
 //生成数据
@@ -86,19 +117,19 @@ void SVPenStroke::_genMesh() {
         FVec2 t_t_pt;
         //0
         FVec3 t_worldPt0;
-        t_t_pt = FVec2(t_pt.x - m_pointSize*0.5, t_pt.y + m_pointSize*0.5);
+        t_t_pt = FVec2(t_pt.x - m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
         _screenPointToWorld(t_t_pt, t_worldPt0);
         //1
         FVec3 t_worldPt1;
-        t_t_pt = FVec2(t_pt.x - m_pointSize*0.5, t_pt.y - m_pointSize*0.5);
+        t_t_pt = FVec2(t_pt.x - m_pointWidth*0.5, t_pt.y - m_pointWidth*0.5);
         _screenPointToWorld(t_t_pt, t_worldPt1);
         //2
         FVec3 t_worldPt2;
-        t_t_pt = FVec2(t_pt.x + m_pointSize*0.5, t_pt.y - m_pointSize*0.5);
+        t_t_pt = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y - m_pointWidth*0.5);
         _screenPointToWorld(t_t_pt, t_worldPt2);
         //3
         FVec3 t_worldPt3;
-        t_t_pt = FVec2(t_pt.x + m_pointSize*0.5, t_pt.y + m_pointSize*0.5);
+        t_t_pt = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
         _screenPointToWorld(t_t_pt, t_worldPt3);
         t_verts[i*6 + 0].x = t_worldPt0.x;
         t_verts[i*6 + 0].y = t_worldPt0.y;
@@ -190,7 +221,7 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint){
     SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
     FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
     FVec3 t_cameraEye = FVec3(t_cameraMatrix[12], t_cameraMatrix[13], t_cameraMatrix[14]);
-    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], t_cameraEye.length()+0.3);
+    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], t_cameraEye.length()+0.05);
     SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
     FVec3 t_pos;
     f32 t_pt_x = _point.x;

@@ -28,7 +28,10 @@ namespace sv{
         void end(f32 _px,f32 _py,f32 _pz);
         
         void draw(f32 _px,f32 _py,f32 _pz);
+        
+        void setStrokeWidth(f32 _width);
     protected:
+        void _updatePtPool(SVArray<FVec2> &_inPtPool, SVArray<FVec3> &_outPtPool);
         void _screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint);
         //生成面片
         void _genMesh();
@@ -38,6 +41,7 @@ namespace sv{
         typedef SVArray<FVec3> PTPOOL;
         
         PTPOOL m_ptPool;
+        SVPenCurvePtr m_penCurve;
         //数据域
         SVDataSwapPtr m_pVertData;
         SVRenderMeshPtr m_pMesh;
@@ -46,7 +50,8 @@ namespace sv{
         SVTexturePtr m_pTex;
         //test
         FMat4 m_localMat;
-        f32 m_pointSize;
+        f32 m_pointWidth;
+        f32 m_density;
         s32 m_vertexNum;
         SVLockPtr m_lock;
     };
