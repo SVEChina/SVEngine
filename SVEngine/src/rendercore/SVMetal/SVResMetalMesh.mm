@@ -81,3 +81,17 @@ void SVResMetalRenderMesh::render(SVRendererBasePtr _renderer) {
 //                vertexCount:3];
 //    [encoder endEncoding];
 }
+
+void SVResMetalRenderMesh::updateConf(RENDERMESHCONF& _conf) {
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
+//    if (t_rendeMetalPtr) {
+//
+//    }
+}
+
+void SVResMetalRenderMesh::updateData(RENDERMESHDATA& _data) {
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
+//    if (t_rendeMetalPtr) {
+//        
+//    }
+}

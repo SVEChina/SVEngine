@@ -43,6 +43,10 @@ namespace sv {
             virtual void destroy(SVRendererBasePtr _renderer);
             
             virtual void render(SVRendererBasePtr _renderer);
+            
+            virtual void updateConf(RENDERMESHCONF& _conf);
+            
+            virtual void updateData(RENDERMESHDATA& _data);
         };
 
         
