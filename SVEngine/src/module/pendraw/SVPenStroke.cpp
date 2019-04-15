@@ -35,7 +35,7 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    m_pointWidth = 100;
+    m_pointWidth = 60;
     m_density = 0.05;
     m_vertexNum = 0;
 }
@@ -217,7 +217,7 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint){
     SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
     FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
     FVec3 t_cameraEye = FVec3(t_cameraMatrix[12], t_cameraMatrix[13], t_cameraMatrix[14]);
-    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], t_cameraEye.length()+0.2);
+    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], t_cameraEye.length()+0.05);
     SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
     FVec3 t_pos;
     f32 t_pt_x = _point.x;
