@@ -159,7 +159,7 @@ void SVBackGroundNode::update(f32 _dt){
         mApp->getDeformMgr()->pushDeform(m_pDeform);
     }
     
-    if(true) {
+    if(m_inScreen) {
         //屏幕空间下更新
             m_pRenderObj->setMesh(mApp->getDataMgr()->m_screenMesh);
             if(m_pMtl){
