@@ -43,6 +43,8 @@ namespace sv{
         //
         void _drawBoundBox();
         //
+//        void _attachTrangles
+        //
         typedef SVArray<FVec3> PTPOOL;
         
         PTPOOL m_ptPool;

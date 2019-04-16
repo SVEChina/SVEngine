@@ -20,17 +20,17 @@
 #include "../renderer/SVRendererBase.h"
 
 /*
-SVRResMetalBuf
+SVResMetalBuf
  */
 
-SVRResMetalBuf::SVRResMetalBuf(SVInst* _app)
-:SVRObjBase(_app){
+SVResMetalBuf::SVResMetalBuf(SVInst* _app)
+:SVResVBO(_app){
 }
 
-SVRResMetalBuf::~SVRResMetalBuf() {
+SVResMetalBuf::~SVResMetalBuf() {
 }
 
-void SVRResMetalBuf::create(SVRendererBasePtr _renderer) {
+void SVResMetalBuf::create(SVRendererBasePtr _renderer) {
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
     if (t_rendeMetalPtr && m_pData) {
         m_pData->lockData();
@@ -40,7 +40,7 @@ void SVRResMetalBuf::create(SVRendererBasePtr _renderer) {
     }
 }
 
-void SVRResMetalBuf::destroy(SVRendererBasePtr _renderer) {
+void SVResMetalBuf::destroy(SVRendererBasePtr _renderer) {
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
     if (t_rendeMetalPtr) {
         
@@ -52,7 +52,7 @@ SVResMetalRenderMesh
  */
 
 SVResMetalRenderMesh::SVResMetalRenderMesh(SVInst* _app)
-:SVRResMetalBuf(_app){
+:SVResMetalBuf(_app){
     
 }
 
@@ -67,7 +67,7 @@ void SVResMetalRenderMesh::create(SVRendererBasePtr _renderer) {
 void SVResMetalRenderMesh::destroy(SVRendererBasePtr _renderer) {
 }
 
-void SVResMetalRenderMesh::render() {
+void SVResMetalRenderMesh::render(SVRendererBasePtr _renderer) {
 //    id<MTLRenderCommandEncoder> encoder = [commandBuffer renderCommandEncoderWithDescriptor:renderDes];
 //    [encoder setCullMode:MTLCullModeNone];
 //    [encoder setFrontFacingWinding:MTLWindingCounterClockwise];
@@ -80,4 +80,18 @@ void SVResMetalRenderMesh::render() {
 //                vertexStart:0
 //                vertexCount:3];
 //    [encoder endEncoding];
+}
+
+void SVResMetalRenderMesh::updateConf(RENDERMESHCONF& _conf) {
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
+//    if (t_rendeMetalPtr) {
+//
+//    }
+}
+
+void SVResMetalRenderMesh::updateData(RENDERMESHDATA& _data) {
+//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
+//    if (t_rendeMetalPtr) {
+//        
+//    }
 }

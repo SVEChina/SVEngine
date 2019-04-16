@@ -24,6 +24,7 @@ namespace sv {
             virtual void create(SVRendererBasePtr _renderer);
             
             virtual void destroy(SVRendererBasePtr _renderer);
+            
         protected:
             u32     m_uid;          //唯一ID对象
             SVLockPtr m_texLock;

@@ -46,6 +46,8 @@ namespace sv {
             
             ~SVDeformImageMove();
             
+            void reset();
+            
             void init(SVTexturePtr _tex,SVTexturePtr _texout);
 
             void update(f32 dt);
@@ -84,8 +86,6 @@ namespace sv {
             
             void updatePointMesh( V2* _facepoint);
             
-            void reset();
-            
             void setvisiPoint(bool _ispoint){
                 m_is_point = _ispoint;
             }
@@ -106,32 +106,29 @@ namespace sv {
             void _initPoint();
             
             SVTexturePtr m_pTexBg;
+            SVTexturePtr m_pPointTex;
             SVMtlCorePtr m_pMtlBg;
             SVRenderMeshPtr m_pMeshBg;
-            s32 m_tt_w;
-            s32 m_tt_h;
-            
+            SVRenderMeshPtr m_pMeshPoint;
+            SVRenderTexturePtr m_fbo;
             SVImageUsingMovePtr m_pIUMP;
-            
+            SVPassPtr m_passDeform;
+            SVPassPtr m_passPoint;
+            SVPassPtr m_passBack;
             V2 m_pointScreen[51*64];     //31*81
             SVParamDeformPtr m_param;
-              //人脸偏移值
-            
+
             V2 *m_dataPoint;
             s32 m_wPointCount;
             s32 m_hPointCont;
             
-            SVPassPtr m_passDeform;
-            SVPassPtr m_passPoint;
-            //
-            SVRenderTexturePtr m_fbo;
             bool is_swith;
             bool m_flip;
             bool m_is_point;
             bool is_detect;
-            
-            SVTexturePtr m_pPointTex;
-            SVRenderMeshPtr m_pMeshPoint;
+    
+            s32 m_tt_w;
+            s32 m_tt_h;
             s32 m_inw;
             s32 m_inh;
        

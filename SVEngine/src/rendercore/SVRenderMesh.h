@@ -8,41 +8,25 @@
 #ifndef SV_RENDERMESH_H
 #define SV_RENDERMESH_H
 
-#include "SVRObjBase.h"
+#include "SVResVBO.h"
 #include "SVRenderDef.h"
 #include "../mtl/SVShaderMgr.h"
-#include "../core/SVVertDef.h"
 #include "../base/SVPreDeclare.h"
 
 namespace sv {
     
     namespace render{
-        
+                
         class SVRenderMesh : public SVRObjBase {
-            struct RENDERMESHDATA{
-                u32 indexNum;    //索引数量
-                u32 pointNum;    //顶点数量
-                SVDataSwapPtr pDataIndex;
-                SVDataSwapPtr pDataVertex;
-                bool dirty;
-            };
-            struct RENDERMESHCONF{
-                VFTYPE vftype;
-                u32 vertPoolType;
-                u32 indexPoolType;
-                DRAWMETHOD drawmethod;
-                bool bVisible;
-                bool dirty;
-            };
         public:
             static int getVertexFormateSize(VFTYPE _type);
-            
-        public:
+
             enum MESHSTATE{
                 MESHDATA_WAIT = 0,
                 MESHDATA_READY,
                 MESHDATA_CREATE
             };
+            
             SVRenderMesh(SVInst* _app);
             
             ~SVRenderMesh();
@@ -72,43 +56,25 @@ namespace sv {
             void createMesh();
             
         protected:
-            void _resetMeshConf();
-            
-            void _updateConf();
-            
+            virtual void _resetMeshConf();
+        
             virtual void _resetMeshData();
+            
+            virtual void _updateConf();
             
             virtual void _updateData();
             
-            SVRResGLVBOPtr m_objVBOPtr;
+            SVResVBOPtr m_objVBOPtr;
+            
+            bool  m_created;
             
             RENDERMESHCONF m_renderMeshConf;
             
-            bool  m_created;
-        private:
-            
             RENDERMESHDATA m_renderMeshData;
-            
         };
         
-        
+        //
         class SVRenderMeshDvid : public SVRenderMesh {
-            struct RENDERMESHDVIDDATA{
-                u32 indexNum;    //索引数量
-                u32 pointNum;    //顶点数量
-                SVDataSwapPtr pDataIndex;
-                SVDataSwapPtr pDataV2;
-                SVDataSwapPtr pDataV3;
-                SVDataSwapPtr pDataC0;
-                SVDataSwapPtr pDataC1;
-                SVDataSwapPtr pDataT0;
-                SVDataSwapPtr pDataT1;
-                SVDataSwapPtr pDataT2;
-                SVDataSwapPtr pDataNor;
-                SVDataSwapPtr pDataTag;
-                SVDataSwapPtr pDataBTor;
-                bool          dirty;
-            };
         public:
             SVRenderMeshDvid(SVInst* _app);
             
@@ -142,15 +108,8 @@ namespace sv {
             
             void setBTagentData(SVDataSwapPtr _pdata);
             
-            virtual void render(SVRendererBasePtr _renderer);
-            
         protected:
             virtual void _resetMeshData();
-            
-            virtual void _updateData();
-            
-        private:
-            RENDERMESHDVIDDATA m_renderMeshDvidData;
         };
         
     }//!namespace render

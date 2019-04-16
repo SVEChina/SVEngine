@@ -15,6 +15,7 @@
 #include "../basesys/SVCameraMgr.h"
 #include "../basesys/SVUIMgr.h"
 #include "../basesys/SVStaticData.h"
+#include "../basesys/SVDeformMgr.h"
 #include "../module/SVModuleSys.h"
 #include "../file/SVFileMgr.h"
 #include "../event/SVEventMgr.h"
@@ -43,6 +44,7 @@ SVGlobalMgr::SVGlobalMgr(SVInst *_app)
     m_pDetectMgr = nullptr;
     m_pStaticData = nullptr;
     m_pActionSys = nullptr;
+    m_pDeformSys = nullptr;
 }
 
 SVGlobalMgr::~SVGlobalMgr() {
@@ -100,6 +102,9 @@ void SVGlobalMgr::init() {
     m_pDetectMgr->init(DETECT_T_ST);
     //最后构建数据
     m_pStaticData = MakeSharedPtr<SVStaticData>(mApp);
+    //变形系统
+    m_pDeformSys = MakeSharedPtr<SVDeformMgr>(mApp);
+    m_pDeformSys->init();
 }
 
 void SVGlobalMgr::destroy() {
@@ -182,6 +187,12 @@ void SVGlobalMgr::destroy() {
         m_pConfig = nullptr;
         SV_LOG_ERROR("SVConfig:destroy sucess");
     }
+    
+    if(m_pDeformSys){
+        m_pDeformSys->destroy();
+        m_pDeformSys=nullptr;
+        SV_LOG_ERROR("m_pDeformSys:destroy sucess");
+    }
 }
 
 void SVGlobalMgr::update(f32 dt) {
@@ -197,11 +208,15 @@ void SVGlobalMgr::update(f32 dt) {
     timeTag(false,"camera cost");
     m_pSceneMgr->update(dt);            //场景更新(节点系统)
     timeTag(false,"scene cost");
+    m_pDeformSys->update(dt);           //变形更新
+    timeTag(false,"deform cost");
     m_pUIMgr->update(dt);               //UI更新
     timeTag(false,"ui cost");
     m_pTexMgr->update(dt);              //删除不用的纹理
     timeTag(false,"texmgr cost");
     m_pDetectMgr->update(dt);           //识别更新
+    //
+    
 }
 
 void SVGlobalMgr::timeTag(bool _clear,cptr8 _tag){
