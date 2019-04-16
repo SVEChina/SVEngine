@@ -26,11 +26,14 @@ void SVResVBO::destroy(SVRendererBasePtr _renderer) {
 }
 
 void SVResVBO::render(SVRendererBasePtr _renderer) {
+    
 }
 
 void SVResVBO::updateConf(RENDERMESHCONF& _conf) {
+    
 }
 
 void SVResVBO::updateData(RENDERMESHDATA& _data) {
+    
 }
 

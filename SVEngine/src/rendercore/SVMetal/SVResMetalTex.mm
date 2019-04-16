@@ -129,12 +129,27 @@ SVRResMetalShader::~SVRResMetalShader() {
 }
 
 
+//SVString m_vs_fname;
+//
+//SVString m_fs_fname;
+
 void SVRResMetalShader::create(SVRendererBasePtr _renderer) {
-    //
-    
+    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
+    if (t_rendeMetalPtr && t_rendeMetalPtr->m_pLibrary) {
+        NSString* t_vsname = [NSString stringWithFormat:@"%s",m_vs_fname.c_str()];
+        NSString* t_fsname = [NSString stringWithFormat:@"%s",m_fs_fname.c_str()];
+        m_pVS = [t_rendeMetalPtr->m_pLibrary newFunctionWithName:t_vsname];
+        m_pFS = [t_rendeMetalPtr->m_pLibrary newFunctionWithName:t_fsname];
+        MTLRenderPipelineDescriptor *t_dsp = [[MTLRenderPipelineDescriptor alloc] init];
+        t_dsp.vertexFunction = m_pVS;
+        t_dsp.fragmentFunction = m_pFS;
+        //t_dsp.colorAttachments[0].pixelFormat = self.mtkView.colorPixelFormat;
+        m_pProgram = [t_rendeMetalPtr->m_pDevice newRenderPipelineStateWithDescriptor:t_dsp error:nullptr];
+    }
+    //创建图形渲染管道，耗性能操作不宜频繁调用
+    //self.commandQueue = [self.mtkView.device newCommandQueue]; // CommandQueue是渲染指令队列，保证渲染指令有序地提交到GPU
 }
 
 void SVRResMetalShader::destroy(SVRendererBasePtr _renderer) {
     //
-    
 }

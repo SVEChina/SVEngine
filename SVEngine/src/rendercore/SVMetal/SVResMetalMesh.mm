@@ -61,20 +61,33 @@ SVResMetalRenderMesh::~SVResMetalRenderMesh() {
 }
 
 void SVResMetalRenderMesh::create(SVRendererBasePtr _renderer) {
-    
+    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
+    if (t_rendeMetalPtr) {
+        m_pData->lockData();
+        m_pVerBuf = [t_rendeMetalPtr->m_pDevice newBufferWithBytes:m_pData->getData() length:m_pData->getSize() options:0];
+        m_pData->unlockData();
+        m_pData = nullptr;
+    }
 }
 
 void SVResMetalRenderMesh::destroy(SVRendererBasePtr _renderer) {
+    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
+    if (t_rendeMetalPtr) {
+        
+    }
 }
 
 void SVResMetalRenderMesh::render(SVRendererBasePtr _renderer) {
+    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
+    if (t_rendeMetalPtr) {
+        
+    }
 //    id<MTLRenderCommandEncoder> encoder = [commandBuffer renderCommandEncoderWithDescriptor:renderDes];
 //    [encoder setCullMode:MTLCullModeNone];
 //    [encoder setFrontFacingWinding:MTLWindingCounterClockwise];
 //    [encoder setRenderPipelineState:self.pipelineState];
 //    [encoder setVertexBuffer:self.vertexBuffer offset:0 atIndex:0];
 //    [encoder setFragmentTexture:textture atIndex:0];
-//
 //    //set render vertex
 //    [encoder drawPrimitives:MTLPrimitiveTypeTriangle
 //                vertexStart:0

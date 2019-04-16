@@ -7,8 +7,8 @@
 
 #include "SVResMetal.h"
 
-//Metal RenderMesh
 
+//Metal RenderMesh
 //// 每次渲染都要单独创建一个CommandBuffer
 //id<MTLCommandBuffer> commandBuffer = [self.commandQueue commandBuffer];
 //MTLRenderPassDescriptor *renderPassDescriptor = view.currentRenderPassDescriptor;
