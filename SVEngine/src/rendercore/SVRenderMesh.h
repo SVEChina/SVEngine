@@ -19,8 +19,6 @@ namespace sv {
                 
         class SVRenderMesh : public SVRObjBase {
         public:
-            static int getVertexFormateSize(VFTYPE _type);
-
             enum MESHSTATE{
                 MESHDATA_WAIT = 0,
                 MESHDATA_READY,
