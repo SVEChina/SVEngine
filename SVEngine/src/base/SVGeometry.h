@@ -130,7 +130,7 @@ namespace sv {
         //
         s32 getClosestPointsOnLines(const FVec3 &p00,const FVec3 &p01,const FVec3 &p10,const FVec3 &p11,FVec3 &ret_0,FVec3 &ret_1);
         s32 getClosestPointsOnLines(const DVec3 &p00,const DVec3 &p01,const DVec3 &p10,const DVec3 &p11,DVec3 &ret_0,DVec3 &ret_1);
-        
+        s32 getTwoLinesIntersection(const FVec2 &p0, const FVec2 &p1, const FVec2 &p2, const FVec2 &p3);//判断两条线段是否相交
     } //!namespace util
     
 }//!namespace sv

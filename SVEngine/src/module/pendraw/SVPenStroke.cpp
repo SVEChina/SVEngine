@@ -29,6 +29,7 @@ SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
     m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptPool.clear();
+    m_rectanglePool.clear();
     m_localMat.setIdentity();
     m_lock = MakeSharedPtr<SVLock>();
     m_pVertData = MakeSharedPtr<SVDataSwap>();
@@ -46,9 +47,10 @@ SVPenStroke::SVPenStroke(SVInst *_app)
 
 SVPenStroke::~SVPenStroke() {
     m_penCurve = nullptr;
-    m_ptPool.clear();
     m_pVertData = nullptr;
     m_lock = nullptr;
+    m_ptPool.clear();
+    m_rectanglePool.clear();
     m_aabbBox.clear();
 }
 
@@ -63,6 +65,8 @@ void SVPenStroke::setDrawBox(bool _drawBox){
 //绘制一笔
 void SVPenStroke::update(f32 _dt) {
     m_lock->unlock();
+    //根据点生成矩形
+    _genRectangle();
     //插值生成面片
     _genMesh();
     //绘制dataswap
@@ -72,6 +76,7 @@ void SVPenStroke::update(f32 _dt) {
 
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
+    m_lastRectangle.lb = FVec2(-10000, -10000);
     m_ptPool.append(FVec3(_px,_py,_pz));
     if (m_penCurve) {
         m_penCurve->reset();
@@ -115,109 +120,63 @@ void SVPenStroke::_updatePtPool(SVArray<FVec2> &_inPtPool, SVArray<FVec3> &_outP
     }
 }
 
-/*
-//生成数据
-void SVPenStroke::_genMesh() {
+//生成矩形
+void SVPenStroke::_genRectangle(){
     //
+    SVStrokeRectangle t_rectangle;
     s32 t_pt_num = m_ptPool.size();
-    s32 t_vertex_num = t_pt_num*4;
-    s32 t_vertex_size = t_vertex_num*sizeof(V3_C_T0);
-    V3_C_T0 verts[t_vertex_num];
-    V3_C_T0 *t_verts = verts;
     for (s32 i = 0; i<t_pt_num; i++) {
         FVec3 t_pt = m_ptPool[i];
-        FVec2 t_t_pt;
         //0
-        FVec3 t_worldPt0;
-        t_t_pt = FVec2(t_pt.x - m_pointWidth*0.5, t_pt.y - m_pointWidth*0.5);
-        _screenPointToWorld(t_t_pt, t_worldPt0);
+        FVec2 t_pt0 = FVec2(t_pt.x - m_pointWidth*0.5, t_pt.y - m_pointWidth*0.5);
+        t_rectangle.lb = t_pt0;
         //1
-        FVec3 t_worldPt1;
-        t_t_pt = FVec2(t_pt.x - m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
-        _screenPointToWorld(t_t_pt, t_worldPt1);
+        FVec2 t_pt1;
+        t_pt1 = FVec2(t_pt.x - m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
+        t_rectangle.lt = t_pt1;
         //2
-        FVec3 t_worldPt2;
-        t_t_pt = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y - m_pointWidth*0.5);
-        _screenPointToWorld(t_t_pt, t_worldPt2);
+        FVec2 t_pt2;
+        t_pt2 = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y - m_pointWidth*0.5);
+        t_rectangle.rb = t_pt2;
         //3
-        FVec3 t_worldPt3;
-        t_t_pt = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
-        _screenPointToWorld(t_t_pt, t_worldPt3);
-        t_verts[i*4 + 0].x = t_worldPt0.x;
-        t_verts[i*4 + 0].y = t_worldPt0.y;
-        t_verts[i*4 + 0].z = t_worldPt0.z;
-        t_verts[i*4 + 0].t0x = 0.0f;
-        t_verts[i*4 + 0].t0y = 0.0f;
-        t_verts[i*4 + 0].r = 0.0f;
-        t_verts[i*4 + 0].g = 255.0f;
-        t_verts[i*4 + 0].b = 0.0f;
-        t_verts[i*4 + 0].a = 255.0f;
-        
-        t_verts[i*4 + 1].x = t_worldPt1.x;
-        t_verts[i*4 + 1].y = t_worldPt1.y;
-        t_verts[i*4 + 1].z = t_worldPt1.z;
-        t_verts[i*4 + 1].t0x = 0.0f;
-        t_verts[i*4 + 1].t0y = 1.0f;
-        t_verts[i*4 + 1].r = 0.0f;
-        t_verts[i*4 + 1].g = 255.0f;
-        t_verts[i*4 + 1].b = 0.0f;
-        t_verts[i*4 + 1].a = 255.0f;
-        
-        t_verts[i*4 + 2].x = t_worldPt2.x;
-        t_verts[i*4 + 2].y = t_worldPt2.y;
-        t_verts[i*4 + 2].z = t_worldPt2.z;
-        t_verts[i*4 + 2].t0x = 1.0f;
-        t_verts[i*4 + 2].t0y = 0.0f;
-        t_verts[i*4 + 2].r = 0.0f;
-        t_verts[i*4 + 2].g = 255.0f;
-        t_verts[i*4 + 2].b = 0.0f;
-        t_verts[i*4 + 2].a = 255.0f;
-        
-        t_verts[i*4 + 3].x = t_worldPt3.x;
-        t_verts[i*4 + 3].y = t_worldPt3.y;
-        t_verts[i*4 + 3].z = t_worldPt3.z;
-        t_verts[i*4 + 3].t0x = 1.0f;
-        t_verts[i*4 + 3].t0y = 1.0f;
-        t_verts[i*4 + 3].r = 0.0f;
-        t_verts[i*4 + 3].g = 255.0f;
-        t_verts[i*4 + 3].b = 0.0f;
-        t_verts[i*4 + 3].a = 255.0f;
+        FVec2 t_pt3;
+        t_pt3 = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
+        t_rectangle.rt = t_pt3;
+        //
+        m_rectanglePool.append(t_rectangle);
     }
-    m_pVertData->appendData(t_verts, t_vertex_size);
-    m_vertexNum += t_vertex_num;
     m_ptPool.clear();
 }
- */
 
 //生成数据
 void SVPenStroke::_genMesh() {
     //
-    s32 t_pt_num = m_ptPool.size();
-    s32 t_vertex_num = t_pt_num*6;
+    s32 t_rectangle_num = m_rectanglePool.size();
+    s32 t_vertex_num = t_rectangle_num*6;
     s32 t_vertex_size = t_vertex_num*sizeof(V3_C_T0);
     V3_C_T0 verts[t_vertex_num];
     V3_C_T0 *t_verts = verts;
-    for (s32 i = 0; i<t_pt_num; i++) {
-        FVec3 t_pt = m_ptPool[i];
+    for (s32 i = 0; i<t_rectangle_num; i++) {
+        SVStrokeRectangle t_rectangle = m_rectanglePool[i];
         FVec2 t_t_pt;
         //0
         FVec3 t_worldPt0;
-        t_t_pt = FVec2(t_pt.x - m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
+        t_t_pt = t_rectangle.lb;
         _screenPointToWorld(t_t_pt, t_worldPt0);
         m_aabbBox.expand(t_worldPt0);
         //1
         FVec3 t_worldPt1;
-        t_t_pt = FVec2(t_pt.x - m_pointWidth*0.5, t_pt.y - m_pointWidth*0.5);
+        t_t_pt = t_rectangle.lt;
         _screenPointToWorld(t_t_pt, t_worldPt1);
         m_aabbBox.expand(t_worldPt1);
         //2
         FVec3 t_worldPt2;
-        t_t_pt = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y - m_pointWidth*0.5);
+        t_t_pt = t_rectangle.rb;
         _screenPointToWorld(t_t_pt, t_worldPt2);
         m_aabbBox.expand(t_worldPt2);
         //3
         FVec3 t_worldPt3;
-        t_t_pt = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
+        t_t_pt = t_rectangle.rt;
         _screenPointToWorld(t_t_pt, t_worldPt3);
         m_aabbBox.expand(t_worldPt3);
         //
@@ -225,7 +184,7 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 0].y = t_worldPt0.y;
         t_verts[i*6 + 0].z = t_worldPt0.z;
         t_verts[i*6 + 0].t0x = 0.0f;
-        t_verts[i*6 + 0].t0y = 1.0f;
+        t_verts[i*6 + 0].t0y = 0.0f;
         t_verts[i*6 + 0].r = 0.0f;
         t_verts[i*6 + 0].g = 255.0f;
         t_verts[i*6 + 0].b = 0.0f;
@@ -235,7 +194,7 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 1].y = t_worldPt1.y;
         t_verts[i*6 + 1].z = t_worldPt1.z;
         t_verts[i*6 + 1].t0x = 0.0f;
-        t_verts[i*6 + 1].t0y = 0.0f;
+        t_verts[i*6 + 1].t0y = 1.0f;
         t_verts[i*6 + 1].r = 0.0f;
         t_verts[i*6 + 1].g = 255.0f;
         t_verts[i*6 + 1].b = 0.0f;
@@ -261,20 +220,20 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 3].b = 0.0f;
         t_verts[i*6 + 3].a = 255.0f;
 
-        t_verts[i*6 + 4].x = t_worldPt3.x;
-        t_verts[i*6 + 4].y = t_worldPt3.y;
-        t_verts[i*6 + 4].z = t_worldPt3.z;
-        t_verts[i*6 + 4].t0x = 1.0f;
+        t_verts[i*6 + 4].x = t_worldPt1.x;
+        t_verts[i*6 + 4].y = t_worldPt1.y;
+        t_verts[i*6 + 4].z = t_worldPt1.z;
+        t_verts[i*6 + 4].t0x = 0.0f;
         t_verts[i*6 + 4].t0y = 1.0f;
         t_verts[i*6 + 4].r = 0.0f;
         t_verts[i*6 + 4].g = 255.0f;
         t_verts[i*6 + 4].b = 0.0f;
         t_verts[i*6 + 4].a = 255.0f;
 
-        t_verts[i*6 + 5].x = t_worldPt0.x;
-        t_verts[i*6 + 5].y = t_worldPt0.y;
-        t_verts[i*6 + 5].z = t_worldPt0.z;
-        t_verts[i*6 + 5].t0x = 0.0f;
+        t_verts[i*6 + 5].x = t_worldPt3.x;
+        t_verts[i*6 + 5].y = t_worldPt3.y;
+        t_verts[i*6 + 5].z = t_worldPt3.z;
+        t_verts[i*6 + 5].t0x = 1.0f;
         t_verts[i*6 + 5].t0y = 1.0f;
         t_verts[i*6 + 5].r = 0.0f;
         t_verts[i*6 + 5].g = 255.0f;
@@ -283,7 +242,7 @@ void SVPenStroke::_genMesh() {
     }
     m_pVertData->appendData(t_verts, t_vertex_size);
     m_vertexNum += t_vertex_num;
-    m_ptPool.clear();
+    m_rectanglePool.clear();
 }
 
 void SVPenStroke::_drawMesh() {
@@ -339,3 +298,4 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint){
     }
     _worldPoint = FVec3(t_pt_x, t_pt_y, t_pt_z);
 }
+
