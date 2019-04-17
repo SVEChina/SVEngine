@@ -49,6 +49,8 @@ namespace sv {
         //
         class SVResVBO: public SVRObjBase{
         public:
+            static int getVertexFormateSize(VFTYPE _type);
+            
             SVResVBO(SVInst* _app);
             
             virtual ~SVResVBO();

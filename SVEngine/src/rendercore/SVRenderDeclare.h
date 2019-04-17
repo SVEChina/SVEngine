@@ -63,7 +63,6 @@ namespace sv {
         DECLARE_SHAREPTR(SVRendererMetal);
         DECLARE_SHAREPTR(SVRResMetalTex);
         DECLARE_SHAREPTR(SVRResMetalShader);
-        DECLARE_SHAREPTR(SVResMetalBuf);
         DECLARE_SHAREPTR(SVResMetalRenderMesh);
         
         //vulkan

@@ -562,7 +562,7 @@ void SVRendererGL::svPopViewPort() {
 void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf) {
     SVRenderStateGLPtr m_pRStateGL = std::dynamic_pointer_cast<SVRenderStateGL>(m_pRState);
     m_pRStateGL->m_VFType = _vf;
-    s32 t_ver_len = SVRenderMesh::getVertexFormateSize(_vf);
+    s32 t_ver_len = SVResVBO::getVertexFormateSize(_vf);
     s32 t_off = 0;
     if (_vf == E_VF_V3_PARTICLE) {
         //骨骼权重
