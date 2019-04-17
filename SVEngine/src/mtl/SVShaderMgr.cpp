@@ -15,6 +15,7 @@
 #include "../third/rapidjson/writer.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVGL/SVRResGL.h"
+#include "../rendercore/SVGL/SVRResGLShader.h"
 #include "../rendercore/SVMetal/SVResMetal.h"
 
 SVShaderMgr::SVShaderMgr(SVInst *_app)
@@ -99,19 +100,10 @@ void SVShaderMgr::clearAllShader() {
     ShaderMap.clear();
 }
 
-u32 SVShaderMgr::getProgramme(cptr8 _name) {
+SVResShaderPtr SVShaderMgr::getShader(cptr8 _name) {
     SHADERPOOL::Iterator it = ShaderMap.find(_name);
     if(it!=ShaderMap.end()) {
-        SVResShaderPtr t_resShader = it->data;
-        if (t_resShader) {
-            u32 t_programmeID = t_resShader->getProgramm();
-            if (t_programmeID == 0) {
-                SV_LOG_DEBUG("create shader program:%s error!\n", t_resShader->getProgrammeName());
-                return 0;
-            }
-            return t_programmeID;
-        }
+        return it->data;
     }
-    return 0;
+    return nullptr;
 }
-

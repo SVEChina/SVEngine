@@ -1107,6 +1107,21 @@ namespace sv {
             return 1;
         }
         
+        s32 getTwoLinesIntersection(const FVec2 &p0, const FVec2 &p1, const FVec2 &p2, const FVec2 &p3){
+            //            a p0
+            //            b p1
+            //            c p2
+            //            d p3
+            //快速排斥实验
+            if (max(p2.x,p3.x)<min(p0.x,p1.x) || max(p0.x,p1.x)<min(p2.x,p3.x) ||max(p2.y,p3.y)<min(p0.y,p1.y) || max(p0.y,p1.y)<min(p2.y,p3.y)) {
+                return 0 ;
+            }
+            //跨立实验
+            if (cross(p0-p3,p2-p3)*cross(p1-p3,p2-p3)>0 ||cross(p3-p1,p0-p1)*cross(p2-p1,p0-p1)>0) {
+                return 0;
+            }
+            return 1;
+        }
     } //!namespace util
     
 }//!namespace sv

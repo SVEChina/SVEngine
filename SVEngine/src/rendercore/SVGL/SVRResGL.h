@@ -119,64 +119,6 @@ namespace sv {
 #endif
         };
         
-        
-        /*
-         GL Shader
-         */
-        
-        class SVRResGLShader: public SVResShader {
-        public:
-            SVRResGLShader(SVInst* _app);
-
-            virtual ~SVRResGLShader();
-
-            virtual void create(SVRendererBasePtr _renderer);
-
-            virtual void destroy(SVRendererBasePtr _renderer);
-
-            void setTechFName(cptr8 _filename);
-
-        private:
-            bool _parseTech();
-
-            u32 _loadTechVS(cptr8 _precision,cptr8 _src);
-
-            u32 _loadTechFS(cptr8 _precision,cptr8 _src);
-
-            u32 _loadTechGS(cptr8 _precision,cptr8 _src);
-
-            u32 _loadVS(cptr8 _filename);
-
-            u32 _loadFS(cptr8 _filename);
-
-            u32 _loadGS(cptr8 _filename);
-
-            u32 _loadCS(cptr8 _filename);
-
-            u32 _loadTSC(cptr8 _filename);
-
-            u32 _loadTSE(cptr8 _filename);
-
-            u32 _createProgram();
-
-            void _clearShaderRes();
-
-            bool m_use_tech;
-
-            SVString m_tech_fname;   //技术
-
-            u32 m_vs;
-
-            u32 m_fs;
-
-            u32 m_gs;
-
-            u32 m_tsc;
-
-            u32 m_tse;
-
-            u32 m_cs;
-        };
         //////////////////////////////////////////////////////////FBO资源
         class SVRResGLFBO: public SVResFBO {
         public:

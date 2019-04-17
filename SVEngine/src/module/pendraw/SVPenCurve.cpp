@@ -17,6 +17,7 @@ SVPenCurve::~SVPenCurve() {
 
 void SVPenCurve::reset(){
     m_ptPool.clear();
+    m_bPushSamePoint = false;
 }
 
 bool SVPenCurve::addPoint(f32 x, f32 y, f32 _width, f32 _density, ADDPOINTACTION _action, SVArray<FVec2> &_outPtPool){

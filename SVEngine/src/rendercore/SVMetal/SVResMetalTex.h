@@ -12,6 +12,8 @@
 #include "../SVResShader.h"
 #import <Metal/MTLTexture.h>
 #import <Metal/MTLBuffer.h>
+#import <Metal/MTLLibrary.h>
+#import <Metal/MTLRenderPipeline.h>
 
 namespace sv {
 
@@ -57,6 +59,13 @@ namespace sv {
             virtual void create(SVRendererBasePtr _renderer);
             
             virtual void destroy(SVRendererBasePtr _renderer);
+            
+            virtual bool active(SVRendererBasePtr _render);
+            
+        protected:
+            id<MTLFunction> m_pVS;
+            id<MTLFunction> m_pFS;
+            id<MTLRenderPipelineState> m_pProgram;
         };
         
     }//!namespace render

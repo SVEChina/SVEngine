@@ -54,10 +54,6 @@ void SVRendererMetal::resize(s32 _w,s32 _h) {
 }
 
 //提交纹理
- void SVRendererMetal::submitShader(u32 _shader){
-     
- }
-//提交纹理
  void SVRendererMetal::submitTex(u32 _channel,TexUnit& _unit){
      
  }

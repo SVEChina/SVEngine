@@ -36,8 +36,6 @@ namespace sv {
         public:
             //renderder interface
             //提交纹理
-            virtual void submitShader(u32 _shader);
-            //提交纹理
             virtual void submitTex(u32 _channel,TexUnit& _unit);
             //提交unifrom matrix
             virtual void submitUniformMatrix(cptr8 _name,f32* _data);
