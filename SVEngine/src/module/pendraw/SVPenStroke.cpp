@@ -27,7 +27,7 @@
 #include "../../mtl/SVMtlNocolor.h"
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
-    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
+//    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptPool.clear();
     m_rectanglePool.clear();
     m_localMat.setIdentity();
@@ -38,7 +38,9 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    m_pointWidth = 40;
+    m_lastEdge.p0.set(-10000, -10000);
+    m_lastEdge.p1.set(-10000, -10000);
+    m_stroke = 40;
     m_density = 0.05;
     m_vertexNum = 0;
     m_drawBox = false;
@@ -55,7 +57,7 @@ SVPenStroke::~SVPenStroke() {
 }
 
 void SVPenStroke::setStrokeWidth(f32 _width){
-    m_pointWidth = _width;
+    m_stroke = _width;
 }
 
 void SVPenStroke::setDrawBox(bool _drawBox){
@@ -66,7 +68,8 @@ void SVPenStroke::setDrawBox(bool _drawBox){
 void SVPenStroke::update(f32 _dt) {
     m_lock->unlock();
     //根据点生成矩形
-    _genRectangle();
+//    _genRectangle();
+    _genPolygon();
     //插值生成面片
     _genMesh();
     //绘制dataswap
@@ -76,12 +79,13 @@ void SVPenStroke::update(f32 _dt) {
 
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    m_lastRectangle.lb = FVec2(-10000, -10000);
+    m_lastEdge.p0.set(-10000, -10000);
+    m_lastEdge.p1.set(-10000, -10000);
     m_ptPool.append(FVec3(_px,_py,_pz));
     if (m_penCurve) {
         m_penCurve->reset();
         SVArray<FVec2> t_ptArray;
-        m_penCurve->addPoint(_px, _py, m_pointWidth, m_density, SVPenCurve::SV_ADD_DRAWBEGIN, t_ptArray);
+        m_penCurve->addPoint(_px, _py, m_stroke, m_density, SVPenCurve::SV_ADD_DRAWBEGIN, t_ptArray);
     }
     m_lock->unlock();
 }
@@ -90,7 +94,7 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
     if (m_penCurve) {
         SVArray<FVec2> t_ptArray;
-        m_penCurve->addPoint(_px, _py, m_pointWidth, m_density, SVPenCurve::SV_ADD_DRAWEND, t_ptArray);
+        m_penCurve->addPoint(_px, _py, m_stroke, m_density, SVPenCurve::SV_ADD_DRAWEND, t_ptArray);
         _updatePtPool(t_ptArray, m_ptPool);
     }else{
         m_ptPool.append(FVec3(_px,_py,_pz));
@@ -102,7 +106,7 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
     if (m_penCurve) {
         SVArray<FVec2> t_ptArray;
-        m_penCurve->addPoint(_px, _py, m_pointWidth, m_density, SVPenCurve::SV_ADD_DRAWING, t_ptArray);
+        m_penCurve->addPoint(_px, _py, m_stroke, m_density, SVPenCurve::SV_ADD_DRAWING, t_ptArray);
         _updatePtPool(t_ptArray, m_ptPool);
     }else{
         m_ptPool.append(FVec3(_px,_py,_pz));
@@ -120,6 +124,89 @@ void SVPenStroke::_updatePtPool(SVArray<FVec2> &_inPtPool, SVArray<FVec3> &_outP
     }
 }
 
+void SVPenStroke::_genPolygon(){
+    s32 t_pt_num = m_ptPool.size();
+    if (t_pt_num <= 1){
+        if (t_pt_num == 1) {
+            _genRectangle();
+        }
+    }else{
+        f32 stroke = m_stroke*0.5f;
+        for (s32 i = 0; i<t_pt_num; i++) {
+            FVec2 t_pt1 = FVec2(m_ptPool[i].x, m_ptPool[i].y);
+            FVec2 t_perpVec;
+            bool  isRectangle = true;
+            if (i == 0) {
+                FVec2 t_pt2 = FVec2(m_ptPool[i+1].x, m_ptPool[i+1].y);
+                t_perpVec = (t_pt1 - t_pt2).normalize().getPerp();
+                if (m_lastEdge.p0.x == -10000) {
+                    isRectangle = false;
+                    t_perpVec = t_perpVec*stroke;
+                    FVec2 p0 = t_pt1 - t_perpVec;
+                    FVec2 p1 = t_pt1 + t_perpVec;
+                    SVStrokeEdge t_edge;
+                    t_edge.p0 = p0;
+                    t_edge.p1 = p1;
+                    m_lastEdge = t_edge;
+                }
+            }else if (i == t_pt_num - 1){
+                FVec2 t_pt0 = FVec2(m_ptPool[i-1].x, m_ptPool[i-1].y);
+                t_perpVec = (t_pt1 - t_pt0).normalize().getPerp();
+            }else{
+                FVec2 t_pt2 =  FVec2(m_ptPool[i+1].x, m_ptPool[i+1].y);;
+                FVec2 t_pt0 = FVec2(m_ptPool[i-1].x, m_ptPool[i-1].y);
+                
+                FVec2 t_p2p1 = (t_pt2 - t_pt1).normalize();
+                FVec2 t_p0p1 = (t_pt0 - t_pt1).normalize();
+                // Calculate angle between vectors
+                f32 angle = acosf(dot(t_p2p1, t_p0p1));
+                if(angle < degToRad(70.0)){
+                    FVec2 t_mid = FVec2((t_p2p1.x+t_p0p1.x)*0.5, (t_p2p1.y*t_p0p1.y)*0.5);
+                    t_perpVec = t_mid.normalize().getPerp();
+                }
+                else if(angle < degToRad(170.0)){
+                    FVec2 t_mid = FVec2((t_p2p1.x+t_p0p1.x)*0.5, (t_p2p1.y*t_p0p1.y)*0.5);
+                    t_perpVec = t_mid.normalize();
+                }
+                else{
+                    FVec2 t_vec = (t_pt2 - t_pt0);
+                    t_perpVec = t_vec.normalize().getPerp();
+                }
+            }
+            if (isRectangle) {
+                t_perpVec = t_perpVec*stroke;
+                FVec2 p0 = t_pt1 - t_perpVec;
+                FVec2 p1 = t_pt1 + t_perpVec;
+                SVStrokeEdge t_edge;
+                t_edge.p0 = p0;
+                t_edge.p1 = p1;
+                SVStrokeRectangle t_rectangle;
+                t_rectangle.edge0 = m_lastEdge;
+                t_rectangle.edge1 = t_edge;
+                m_lastEdge = t_edge;
+                m_rectanglePool.append(t_rectangle);
+            }
+            
+        }
+        for(s32 i = 0; i<m_rectanglePool.size(); i++)
+        {
+            SVStrokeRectangle t_rectangle = m_rectanglePool[i];
+            FVec2 p0 = t_rectangle.edge0.p0;
+            FVec2 p1 = t_rectangle.edge0.p1;
+            FVec2 p3 = t_rectangle.edge1.p0;
+            FVec2 p4 = t_rectangle.edge1.p1;
+            if (!getTwoLinesIntersection(p0, p4, p1, p3)) {
+                SVStrokeEdge t_edge;
+                t_edge.p0 = p4;
+                t_edge.p1 = p3;
+                t_rectangle.edge1 = t_edge;
+                m_rectanglePool.set(i, t_rectangle);
+            }
+        }
+    }
+    m_ptPool.clear();
+}
+
 //生成矩形
 void SVPenStroke::_genRectangle(){
     //
@@ -128,20 +215,20 @@ void SVPenStroke::_genRectangle(){
     for (s32 i = 0; i<t_pt_num; i++) {
         FVec3 t_pt = m_ptPool[i];
         //0
-        FVec2 t_pt0 = FVec2(t_pt.x - m_pointWidth*0.5, t_pt.y - m_pointWidth*0.5);
-        t_rectangle.lb = t_pt0;
+        FVec2 t_pt0 = FVec2(t_pt.x - m_stroke*0.5, t_pt.y - m_stroke*0.5);
+        t_rectangle.edge0.p0 = t_pt0;
         //1
         FVec2 t_pt1;
-        t_pt1 = FVec2(t_pt.x - m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
-        t_rectangle.lt = t_pt1;
+        t_pt1 = FVec2(t_pt.x - m_stroke*0.5, t_pt.y + m_stroke*0.5);
+        t_rectangle.edge0.p1 = t_pt1;
         //2
         FVec2 t_pt2;
-        t_pt2 = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y - m_pointWidth*0.5);
-        t_rectangle.rb = t_pt2;
+        t_pt2 = FVec2(t_pt.x + m_stroke*0.5, t_pt.y - m_stroke*0.5);
+        t_rectangle.edge1.p0 = t_pt2;
         //3
         FVec2 t_pt3;
-        t_pt3 = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
-        t_rectangle.rt = t_pt3;
+        t_pt3 = FVec2(t_pt.x + m_stroke*0.5, t_pt.y + m_stroke*0.5);
+        t_rectangle.edge1.p1 = t_pt3;
         //
         m_rectanglePool.append(t_rectangle);
     }
@@ -161,22 +248,22 @@ void SVPenStroke::_genMesh() {
         FVec2 t_t_pt;
         //0
         FVec3 t_worldPt0;
-        t_t_pt = t_rectangle.lb;
+        t_t_pt = t_rectangle.edge0.p0;
         _screenPointToWorld(t_t_pt, t_worldPt0);
         m_aabbBox.expand(t_worldPt0);
         //1
         FVec3 t_worldPt1;
-        t_t_pt = t_rectangle.lt;
+        t_t_pt = t_rectangle.edge0.p1;
         _screenPointToWorld(t_t_pt, t_worldPt1);
         m_aabbBox.expand(t_worldPt1);
         //2
         FVec3 t_worldPt2;
-        t_t_pt = t_rectangle.rb;
+        t_t_pt = t_rectangle.edge1.p0;
         _screenPointToWorld(t_t_pt, t_worldPt2);
         m_aabbBox.expand(t_worldPt2);
         //3
         FVec3 t_worldPt3;
-        t_t_pt = t_rectangle.rt;
+        t_t_pt = t_rectangle.edge1.p1;
         _screenPointToWorld(t_t_pt, t_worldPt3);
         m_aabbBox.expand(t_worldPt3);
         //
@@ -246,7 +333,7 @@ void SVPenStroke::_genMesh() {
 }
 
 void SVPenStroke::_drawMesh() {
-    if (m_pMesh && m_pRenderObj) {
+    if (m_pMesh && m_pRenderObj && m_vertexNum > 0) {
         if (!m_pMtl) {
             m_pMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp);
             m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_point.png",true);
@@ -299,3 +386,34 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint){
     _worldPoint = FVec3(t_pt_x, t_pt_y, t_pt_z);
 }
 
+bool SVPenStroke::_judgePolygonLineIntersect(SVStrokeRectangle &_rectangle, f32 *_t){
+//    float  distAB, theCos, theSin, newX;
+//    
+//    // FAIL: Line undefined
+//    if ((Ax==Bx && Ay==By) || (Cx==Dx && Cy==Dy)) return false;
+//    
+//    //  Translate system to make A the origin
+//    Bx-=Ax; By-=Ay;
+//    Cx-=Ax; Cy-=Ay;
+//    Dx-=Ax; Dy-=Ay;
+//    
+//    // Length of segment AB
+//    distAB = sqrtf(Bx*Bx+By*By);
+//    
+//    // Rotate the system so that point B is on the positive X axis.
+//    theCos = Bx/distAB;
+//    theSin = By/distAB;
+//    newX = Cx*theCos+Cy*theSin;
+//    Cy  = Cy*theCos-Cx*theSin; Cx = newX;
+//    newX = Dx*theCos+Dy*theSin;
+//    Dy  = Dy*theCos-Dx*theSin; Dx = newX;
+//    
+//    // FAIL: Lines are parallel.
+//    if (Cy == Dy) return false;
+//    
+//    // Discover the relative position of the intersection in the line AB
+//    *T = (Dx+(Cx-Dx)*Dy/(Dy-Cy))/distAB;
+//    
+    // Success.
+    return true;
+}

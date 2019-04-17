@@ -124,6 +124,10 @@ namespace sv {
                 return *this;
             }
             
+            sv_inline FVec2 getPerp(){
+                return FVec2(-y, x);
+            }
+            
             union {
                 struct {
                     f32 x,y;

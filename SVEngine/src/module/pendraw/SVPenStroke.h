@@ -18,12 +18,16 @@ namespace sv{
     
     class SVPenStroke : public SVGameBase {
     public:
+        typedef struct STROKEDGE{
+            FVec2 p0;
+            FVec2 p1;
+        }SVStrokeEdge;
+        
         typedef struct RECTANGLE{
-            FVec2 lb;
-            FVec2 lt;
-            FVec2 rt;
-            FVec2 rb;
+            SVStrokeEdge edge0;
+            SVStrokeEdge edge1;
         }SVStrokeRectangle;
+
         SVPenStroke(SVInst* _app);
         
         ~SVPenStroke();
@@ -42,6 +46,9 @@ namespace sv{
     protected:
         void _updatePtPool(SVArray<FVec2> &_inPtPool, SVArray<FVec3> &_outPtPool);
         void _screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint);
+        //
+        void _genPolygon();
+        bool _judgePolygonLineIntersect(SVStrokeRectangle &_rectangle, f32 *_t);
         //生成矩形
         void _genRectangle();
         //生成面片
@@ -69,8 +76,9 @@ namespace sv{
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
         SVStrokeRectangle m_lastRectangle;
+        SVStrokeEdge m_lastEdge;
         FMat4 m_localMat;
-        f32 m_pointWidth;
+        f32 m_stroke;
         f32 m_density;
         s32 m_vertexNum;
         bool m_drawBox;
