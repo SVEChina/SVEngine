@@ -142,6 +142,7 @@ void SVPenStroke::_genRectangle(){
         FVec2 t_pt3;
         t_pt3 = FVec2(t_pt.x + m_pointWidth*0.5, t_pt.y + m_pointWidth*0.5);
         t_rectangle.rt = t_pt3;
+        //
         m_rectanglePool.append(t_rectangle);
     }
     m_ptPool.clear();
@@ -238,13 +239,6 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 5].g = 255.0f;
         t_verts[i*6 + 5].b = 0.0f;
         t_verts[i*6 + 5].a = 255.0f;
-        
-//        SVBoundBox t_curBox;
-//        t_curBox.expand(t_worldPt0);
-//        t_curBox.expand(t_worldPt1);
-//        t_curBox.expand(t_worldPt2);
-//        t_curBox.expand(t_worldPt3);
-//        _attachTrangles(t_curBox);
     }
     m_pVertData->appendData(t_verts, t_vertex_size);
     m_vertexNum += t_vertex_num;
@@ -305,67 +299,3 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint){
     _worldPoint = FVec3(t_pt_x, t_pt_y, t_pt_z);
 }
 
-void SVPenStroke::_getRectangleLine(FVec2 &_pointStart, FVec2 &_pointEnd, SVStrokeRectangle &_curRectangle, s32 _index){
-    // index 0     0-1
-    // index 1     1-3
-    // index 2     3-2
-    // index 3     2-0
-    switch (_index) {
-        case 0:{
-            _pointStart = _curRectangle.lb;
-            _pointEnd = _curRectangle.lt;
-            break;
-        }
-        case 1:{
-            _pointStart = _curRectangle.lt;
-            _pointEnd = _curRectangle.rt;
-            break;
-        }
-        case 2:{
-            _pointStart = _curRectangle.rt;
-            _pointEnd = _curRectangle.rb;
-            break;
-        }
-        case 3:{
-            _pointStart = _curRectangle.rb;
-            _pointEnd = _curRectangle.lb;
-            break;
-        }
-        default:
-            break;
-    }
-}
-
-void SVPenStroke::_attachRectTrangle(SVStrokeRectangle &_curRectangle){
-    if (m_lastRectangle.lb == FVec2(-10000, -10000)) {
-        //说明这是第一个矩形，不做处理
-    }else{
-        //都在2D平面计算
-        FVec2 curBoxCenter = FVec2((_curRectangle.lb.x+_curRectangle.rt.x)*0.5f, (_curRectangle.lb.y+_curRectangle.rt.y)*0.5f);
-        FVec2 lastBoxCenter = FVec2((m_lastRectangle.lb.x+m_lastRectangle.rt.x)*0.5f, (m_lastRectangle.lb.y+m_lastRectangle.rt.y)*0.5f);
-        FVec2 lastP0 = FVec2(-10000, -10000);
-        FVec2 lastP1 = FVec2(-10000, -10000);
-        FVec2 curP0 = FVec2(-10000, -10000);
-        FVec2 curP1 = FVec2(-10000, -10000);
-        for (s32 i = 0; i<4; i++) {
-            FVec2 t_lastP0;
-            FVec2 t_lastP1;
-            _getRectangleLine(t_lastP0, t_lastP1, m_lastRectangle, i);
-            if (getTwoLinesIntersection(curBoxCenter, lastBoxCenter, t_lastP0, t_lastP1)) {
-                lastP0 = t_lastP0;
-                lastP1 = t_lastP1;
-            }
-            FVec2 t_curP0;
-            FVec2 t_curP1;
-            _getRectangleLine(t_curP0, t_curP1, _curRectangle, i);
-            if (getTwoLinesIntersection(curBoxCenter, lastBoxCenter, t_curP0, t_curP1)) {
-                curP0 = t_curP0;
-                curP1 = t_curP1;
-            }
-        }
-        if ((lastP0.x != -10000) && (lastP0.y != -10000) && (lastP1.x != -10000) && (lastP1.y != -10000) && (curP0.x != -10000) && (curP0.y != -10000) && (curP1.x != -10000) && (curP1.y != -10000)) {
-            
-        }
-    }
-    m_lastRectangle = _curRectangle;
-}
