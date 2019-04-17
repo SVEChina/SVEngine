@@ -7,13 +7,14 @@
 
 
 #include "SVMtlCore.h"
-#include "../rendercore/SVRenderScene.h"
-#include "../rendercore/SVGL/SVRResGL.h"
+#include "SVGLModify.h"
 #include "../operate/SVOpCreate.h"
 #include "../mtl/SVTexture.h"
+#include "../rendercore/SVRenderScene.h"
+#include "../rendercore/SVGL/SVRResGL.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/renderer/SVRendererBase.h"
-#include "SVGLModify.h"
+#include "../rendercore/SVResShader.h"
 
 SVMtlCoreParam::SVMtlCoreParam(){
     m_shader = "normal2d";
@@ -27,7 +28,9 @@ SVMtlCorePtr SVMtlCoreParam::genMtl(SVInst *_app){
 //
 SVMtlCore::SVMtlCore(SVInst *_app, cptr8 _shader)
 :SVGBase(_app)
-,m_mtlname(_shader){
+,m_pShader(nullptr)
+,m_mtlname(_shader)
+{
     reset();
     m_renderPool = new MODPOOL();
     m_logicPool = new MODPOOL();
@@ -38,7 +41,7 @@ SVMtlCore::SVMtlCore(SVMtlCore* _mtl)
     m_renderPool = new MODPOOL();
     m_logicPool = new MODPOOL();
     m_mtlname = _mtl->m_mtlname;
-    m_programID = _mtl->m_programID;
+    m_pShader = _mtl->m_pShader;
     m_LogicMtlFlag0 = _mtl->m_LogicMtlFlag0;
     m_LogicParamTex.copy(_mtl->m_LogicParamTex);
     m_LogicParamBlend.copy(_mtl->m_LogicParamBlend);
@@ -71,7 +74,7 @@ SVMtlCorePtr SVMtlCore::clone() {
 }
 
 void SVMtlCore::reset() {
-    m_programID = 0;
+    m_pShader = nullptr;
     m_LogicMtlFlag0 = 0;
     m_LogicParamTex.reset();
     m_LogicParamBlend.reset();
@@ -120,7 +123,7 @@ void SVMtlCore::update(f32 dt) {
 
 void SVMtlCore::reloadShader(cptr8 _shader){
     m_mtlname = _shader;
-    m_programID = 0;
+    m_pShader = nullptr;
 }
 
 //渲染更新(跑渲染参数)
@@ -130,9 +133,9 @@ bool SVMtlCore::submitMtl() {
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
-    if (m_programID == 0){
+    if (!m_pShader){
         _loadShader();//加载shader
-        if(m_programID == 0){
+        if(!m_pShader){
             SV_LOG_INFO("SHADER ERROR %s \n",m_mtlname.c_str());
             return false;
         }
@@ -140,7 +143,9 @@ bool SVMtlCore::submitMtl() {
     _refreshMatrix();
     _refreshModify();
     //提交shader
-    t_renderer->submitShader(m_programID);
+    if(m_pShader) {
+        m_pShader->active(t_renderer);
+    }
     _submitUniform(t_renderer);
     _submitState(t_renderer);
     _submitMtl(t_renderer);
@@ -165,9 +170,9 @@ void SVMtlCore::swap() {
 
 void SVMtlCore::_loadShader() {
     SVRendererBasePtr t_renderer = mApp->getRenderer();
-    if(!t_renderer)
-        return ;
-    m_programID = mApp->getShaderMgr()->getProgramme(m_mtlname.c_str());
+    if(t_renderer){
+        m_pShader = mApp->getShaderMgr()->getShader(m_mtlname.c_str());
+    }
 }
 
 void SVMtlCore::_refreshMatrix(){

@@ -67,6 +67,7 @@ namespace sv {
             SVRenderStatePtr getState();
             //重置状态
             void resetState();
+            
         protected:
             //渲染上下文
             SVContextBasePtr m_pRenderContext;
@@ -91,8 +92,6 @@ namespace sv {
             
         public:
             //renderder interface
-            //提交纹理
-            virtual void submitShader(u32 _shader){}
             //提交纹理
             virtual void submitTex(u32 _channel,TexUnit& _unit){}
             //提交unifrom matrix
