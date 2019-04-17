@@ -35,6 +35,8 @@ namespace sv {
             virtual void create(SVRendererBasePtr _renderer);
 
             virtual void destroy(SVRendererBasePtr _renderer);
+            
+            virtual bool active(SVRendererBasePtr _render);
 
             void setTechFName(cptr8 _filename);
 
@@ -67,6 +69,8 @@ namespace sv {
 
             SVString m_tech_fname;   //技术
 
+            u32 m_programm;
+            
             u32 m_vs;
 
             u32 m_fs;

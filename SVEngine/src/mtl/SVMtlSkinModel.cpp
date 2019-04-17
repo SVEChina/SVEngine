@@ -43,33 +43,33 @@ void SVMtlSkinModel::update(f32 dt) {
 }
 
 bool SVMtlSkinModel::submitMtl() {
-    //return;
-    m_LogicParamDepth.enable = true;
-    m_LogicParamDepth.testMethod = GL_LEQUAL;
-//    int iError = GLERROR;
-    bool bSuc = SVMtlCore::submitMtl();
-    if (bSuc == false)
-        return false;
-    
-//    iError = GLERROR;
-    s32 iSize =m_vecBoneMatrix.size();
-    if (iSize > MAX_BONES){
-        iSize = MAX_BONES;
-    }
-    //
-    for (u32 i = 0; i < iSize; i++) {
-        aiMatrix4x4 identity;
-        s32 iSize = sizeof(ai_real);
-        identity = m_vecBoneMatrix[i];
-        identity.Transpose();
-        //
-        char Name[128];
-        memset(Name, 0, sizeof(Name));
-        sprintf(Name, "gBones[%d]", i);
-        m_boneLocation[i] = glGetUniformLocation(m_programID, Name);
-        _render->submitUniformf4v("u_color", (const GLfloat *) &identity);
-        glUniformMatrix4fv(m_boneLocation[i], 1, GL_FALSE, );
-    }
+//    //return;
+//    m_LogicParamDepth.enable = true;
+//    m_LogicParamDepth.testMethod = GL_LEQUAL;
+////    int iError = GLERROR;
+//    bool bSuc = SVMtlCore::submitMtl();
+//    if (bSuc == false)
+//        return false;
+//    
+////    iError = GLERROR;
+//    s32 iSize =m_vecBoneMatrix.size();
+//    if (iSize > MAX_BONES){
+//        iSize = MAX_BONES;
+//    }
+//    //
+//    for (u32 i = 0; i < iSize; i++) {
+//        aiMatrix4x4 identity;
+//        s32 iSize = sizeof(ai_real);
+//        identity = m_vecBoneMatrix[i];
+//        identity.Transpose();
+//        //
+//        char Name[128];
+//        memset(Name, 0, sizeof(Name));
+//        sprintf(Name, "gBones[%d]", i);
+//        m_boneLocation[i] = glGetUniformLocation(m_programID, Name);
+//        _render->submitUniformf4v("u_color", (const GLfloat *) &identity);
+//        glUniformMatrix4fv(m_boneLocation[i], 1, GL_FALSE, );
+//    }
     return true;
 }
 
