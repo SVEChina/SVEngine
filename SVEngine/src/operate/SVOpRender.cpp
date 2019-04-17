@@ -76,6 +76,7 @@ void SVOpCreateRenderder::setMetalParam() {
 
 void SVOpCreateRenderder::_process(f32 dt) {
     if (m_type == E_RENDERER_GLES) {
+        //跨平台
         SVRendererGLPtr t_renderer = MakeSharedPtr<SVRendererGL>(mApp);
         mApp->getRenderMgr()->setRenderer(t_renderer);
 #if defined SV_IOS
@@ -88,11 +89,13 @@ void SVOpCreateRenderder::_process(f32 dt) {
         t_renderer->init(m_glVersion,m_glContext,m_pixelFormate,m_w, m_h);
 #endif
     } else if (m_type == E_RENDERER_VUNKAN) {
+        //andriod平台
         SVRendererVKPtr t_renderer = MakeSharedPtr<SVRendererVK>(mApp);
         mApp->getRenderMgr()->setRenderer(t_renderer);
     } else if (m_type == E_RENDERER_METAL) {
-//        SVRendererMetalPtr t_renderer = MakeSharedPtr<SVRendererMetal>(mApp);
-//        mApp->getRenderMgr()->setRenderer(t_renderer);
+        //ios平台
+        SVRendererMetalPtr t_renderer = MakeSharedPtr<SVRendererMetal>(mApp);
+        mApp->getRenderMgr()->setRenderer(t_renderer);
     }
 }
 

@@ -57,10 +57,10 @@ namespace sv {
         SVGlobalParamPtr m_pGlobalParam;
         //线程管理部分
         SVThreadPoolPtr m_pTPool;
+        
     protected:
         SV_STATE m_svst;
         SV_ENG_TIMESTATE m_engTimeState;
-        bool m_outscreen;
         
     public:
         //获取各种模块，管理类
@@ -79,7 +79,6 @@ namespace sv {
         SVDeformMgrPtr getDeformMgr();
         SVStaticDataPtr getDataMgr();
         SVActionSysPtr getActionSys();
-        //
         SVRendererBasePtr getRenderer();
         SVRenderStatePtr getRenderState();
     };
