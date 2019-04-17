@@ -35,11 +35,7 @@ void SVDeformMgr::update(f32 _dt){
         m_deformArray[i]->update(_dt);
         m_deformArray[i]->render();
     }
-    m_deformArray.clear();
-    for(int i=0;i<m_deformCir.size();i++){
-        m_deformCir[i]->update(_dt);
-        m_deformCir[i]->render();
-    }
+    removeEnd();
     m_defromLock->unlock();
 }
 
@@ -49,17 +45,19 @@ void SVDeformMgr::pushDeform(SVDeformImageMovePtr deform){
     m_defromLock->unlock();
 }
 
-void SVDeformMgr::addDeform(SVDeformImageMovePtr deform){
+void SVDeformMgr::clear(){
     m_defromLock->lock();
-    m_deformCir.append(deform);
+    m_deformArray.clear();
     m_defromLock->unlock();
 }
 
-void SVDeformMgr::removeDeform(SVDeformImageMovePtr _deform){
-    for(int i=0;i<m_deformCir.size();i++){
-        if(_deform==m_deformCir.get(i)){
-            m_deformCir.removeForce(i);
-            break;
+void SVDeformMgr::removeEnd(){
+    m_deformArray.begin();
+    SVArray<SVDeformImageMovePtr>::Iterator it = m_deformArray.begin();
+    while ( it!=m_deformArray.end() ) {
+        if((*it)->m_rule){
+            m_deformArray.remove(it);
         }
+        it++;
     }
 }
