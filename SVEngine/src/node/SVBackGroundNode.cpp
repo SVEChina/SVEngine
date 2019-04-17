@@ -133,10 +133,15 @@ SVDeformImageMovePtr SVBackGroundNode::getDeform(){
 
 bool SVBackGroundNode::enableDeform() {
     SVTexturePtr t_innerTex = mApp->getRenderer()->getSVTex(E_TEX_MAIN);
+    SVRendererBasePtr t_renderer =  mApp->getRenderer();
+    t_renderer->createSVTex(E_TEX_FILTER_DEFORM01, t_innerTex->getwidth(), t_innerTex->getheight(), GL_RGBA);
+    SVTexturePtr t_innerTexout = mApp->getRenderer()->getSVTex(E_TEX_FILTER_DEFORM01);
+    
     if(!m_pDeform){
         m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
     }
-    m_pDeform->init(t_innerTex,t_innerTex);
+    m_pDeform->init(t_innerTex,t_innerTexout);
+    setTexture(E_TEX_FILTER_DEFORM01);
     return true;
 }
 

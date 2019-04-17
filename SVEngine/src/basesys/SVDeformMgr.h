@@ -29,10 +29,15 @@ namespace sv {
             void destroy();
     
             void pushDeform(SVDeformImageMovePtr deform);
+            
+            void addDeform(SVDeformImageMovePtr deform);
+            
+            void removeDeform(SVDeformImageMovePtr _deform);
         
         protected:
             SVLockPtr m_defromLock;
             SVArray<SVDeformImageMovePtr> m_deformArray;
+            SVArray<SVDeformImageMovePtr> m_deformCir;
             
         };
     

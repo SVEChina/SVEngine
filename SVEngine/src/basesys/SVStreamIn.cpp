@@ -76,6 +76,39 @@ void StreamInCore::init(s32 _w,s32 _h,PICFORMATE _fromate,f32 _angle,bool _show)
     }
 }
 
+void StreamInCore::init(s32 _w,s32 _h,PICFORMATE _fromate,f32 _angle,bool _show,SVTEXTYPE _tex){
+            //创建内置纹理
+            m_tt = _tex;
+            if(_fromate == SV_PF_BGRA) {
+                mApp->getRenderer()->createSVTex(m_tt,_w,_h,GL_RGBA);
+            }else {
+                mApp->getRenderer()->createSVTex(m_tt,_w,_h,GL_RGBA);
+            }
+            //创建可视节点
+            
+            if(_show) {
+#ifdef SV_IOS
+                m_showNode = MakeSharedPtr<SVIOSInstreamNode>(mApp);
+                SVIOSInstreamNodePtr tmpNode = std::dynamic_pointer_cast<SVIOSInstreamNode>(m_showNode);
+                if(tmpNode){
+                    tmpNode->init(m_tt);
+                }
+#endif
+                
+#ifdef SV_ANDROID
+                m_showNode = MakeSharedPtr<SVSpriteNode>(mApp,(f32)_h,(f32)_w);
+                SVSpriteNodePtr tmpNode = std::dynamic_pointer_cast<SVSpriteNode>(m_showNode);
+                if(tmpNode){
+                    tmpNode->setTexture(m_tt);
+                    tmpNode->setRSType(RST_SKY);
+                }
+#endif
+            }
+            //创建转换器
+//            m_trans = MakeSharedPtr<SVTransGPU>(mApp);
+//            m_trans->init(_w, _h,_angle,_fromate,m_tt);
+}
+
 void StreamInCore::destroy() {
     //
     if(m_showNode) {

@@ -11,6 +11,7 @@
 #include "SVProcess.h"
 #include "../node/SVNodeDeclare.h"
 #include "../base/SVMap.h"
+#include "../mtl/SVMtlDeclare.h"
 
 namespace sv {
 
@@ -24,6 +25,8 @@ namespace sv {
             virtual ~StreamInCore();
             
             void init(s32 _w,s32 _h,PICFORMATE _informate,f32 _angle,bool _show);
+            
+            void init(s32 _w,s32 _h,PICFORMATE _informate,f32 _angle,bool _show,SVTEXTYPE _tex);
             
             void destroy();
             
