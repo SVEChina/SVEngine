@@ -30,9 +30,10 @@ namespace sv {
     
             void pushDeform(SVDeformImageMovePtr deform);
             
-            void addDeform(SVDeformImageMovePtr deform);
+            void clear();
+        protected:
             
-            void removeDeform(SVDeformImageMovePtr _deform);
+            void removeEnd();
         
         protected:
             SVLockPtr m_defromLock;

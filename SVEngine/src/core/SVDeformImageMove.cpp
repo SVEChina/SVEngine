@@ -54,6 +54,7 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_pMeshBg = nullptr;
     m_pMeshPoint = mApp->getRenderMgr()->createMeshRObj();
     m_pMeshPoint->createMesh();
+    m_rule=1;
     m_tt_w = 0;
     m_tt_h = 0;
     m_dataPoint = nullptr;
