@@ -29,6 +29,7 @@ SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
 //    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptPool.clear();
+    m_screenPtPool.clear();
     m_rectanglePool.clear();
     m_localMat.setIdentity();
     m_lock = MakeSharedPtr<SVLock>();
@@ -38,12 +39,14 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    m_lastEdge.p0.set(-10000, -10000);
-    m_lastEdge.p1.set(-10000, -10000);
-    m_stroke = 40;
+    m_lastEdge.p0.set(-10000, -10000, -10000);
+    m_lastEdge.p1.set(-10000, -10000, -10000);
+    m_lastPoint.set(-10000, -10000, -10000);
+    m_stroke = 0.008;
     m_density = 0.05;
     m_vertexNum = 0;
     m_drawBox = false;
+    m_isFirstTouch = true;
     setDrawBox(true);
 }
 
@@ -51,6 +54,7 @@ SVPenStroke::~SVPenStroke() {
     m_penCurve = nullptr;
     m_pVertData = nullptr;
     m_lock = nullptr;
+    m_screenPtPool.clear();
     m_ptPool.clear();
     m_rectanglePool.clear();
     m_aabbBox.clear();
@@ -67,8 +71,9 @@ void SVPenStroke::setDrawBox(bool _drawBox){
 //绘制一笔
 void SVPenStroke::update(f32 _dt) {
     m_lock->unlock();
-    //根据点生成矩形
-//    _genRectangle();
+    //转化成世界坐标系下的坐标点
+    _genPoints();
+    //
     _genPolygon();
     //插值生成面片
     _genMesh();
@@ -79,9 +84,11 @@ void SVPenStroke::update(f32 _dt) {
 
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    m_lastEdge.p0.set(-10000, -10000);
-    m_lastEdge.p1.set(-10000, -10000);
-    m_ptPool.append(FVec3(_px,_py,_pz));
+    m_isFirstTouch = true;
+    m_lastEdge.p0.set(-10000, -10000, -10000);
+    m_lastEdge.p1.set(-10000, -10000, -10000);
+    m_lastPoint.set(-10000, -10000, -10000);
+    m_screenPtPool.append(SVStrokePoint(_px,_py,_pz));
     if (m_penCurve) {
         m_penCurve->reset();
         SVArray<FVec2> t_ptArray;
@@ -95,9 +102,9 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     if (m_penCurve) {
         SVArray<FVec2> t_ptArray;
         m_penCurve->addPoint(_px, _py, m_stroke, m_density, SVPenCurve::SV_ADD_DRAWEND, t_ptArray);
-        _updatePtPool(t_ptArray, m_ptPool);
+        _updatePtPool(t_ptArray, m_screenPtPool);
     }else{
-        m_ptPool.append(FVec3(_px,_py,_pz));
+        m_screenPtPool.append(SVStrokePoint(_px,_py,_pz));
     }
     m_lock->unlock();
 }
@@ -107,79 +114,134 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     if (m_penCurve) {
         SVArray<FVec2> t_ptArray;
         m_penCurve->addPoint(_px, _py, m_stroke, m_density, SVPenCurve::SV_ADD_DRAWING, t_ptArray);
-        _updatePtPool(t_ptArray, m_ptPool);
+        _updatePtPool(t_ptArray, m_screenPtPool);
     }else{
-        m_ptPool.append(FVec3(_px,_py,_pz));
+        m_screenPtPool.append(SVStrokePoint(_px,_py,_pz));
     }
     m_lock->unlock();
 }
 
-void SVPenStroke::_updatePtPool(SVArray<FVec2> &_inPtPool, SVArray<FVec3> &_outPtPool){
+void SVPenStroke::_updatePtPool(SVArray<FVec2> &_inPtPool, SVArray<SVStrokePoint> &_outPtPool){
     if (_inPtPool.size() <= 0)
         return;
     for (s32 i = 0; i<_inPtPool.size(); i++) {
         FVec2 t_pt = _inPtPool[i];
-        FVec3 t_n_pt = FVec3(t_pt.x, t_pt.y, 0.0f);
+        SVStrokePoint t_n_pt = SVStrokePoint(t_pt.x, t_pt.y, 0.0f);
         _outPtPool.append(t_n_pt);
     }
 }
 
+void SVPenStroke::_genPoints(){
+    for (s32 i = 0; i<m_screenPtPool.size(); i++) {
+        FVec2 t_pt = FVec2(m_screenPtPool[i].x,  m_screenPtPool[i].y);
+        SVStrokePoint t_worldPt;
+        _screenPointToWorld(t_pt, t_worldPt);
+        m_ptPool.append(t_worldPt);
+    }
+    m_screenPtPool.clear();
+}
+
 void SVPenStroke::_genPolygon(){
+    SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
+    FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
+    SVStrokePoint t_cameraTarget = SVStrokePoint(-t_cameraMatrix[2], -t_cameraMatrix[6], -t_cameraMatrix[10]);
+    t_cameraTarget = t_cameraTarget.normalize();
     s32 t_pt_num = m_ptPool.size();
-    if (t_pt_num <= 1){
-        if (t_pt_num == 1) {
-            _genRectangle();
-        }
-    }else{
-        f32 stroke = m_stroke*0.5f;
-        for (s32 i = 0; i<t_pt_num; i++) {
-            FVec2 t_pt1 = FVec2(m_ptPool[i].x, m_ptPool[i].y);
-            FVec2 t_perpVec;
-            bool  isRectangle = true;
-            if (i == 0) {
-                FVec2 t_pt2 = FVec2(m_ptPool[i+1].x, m_ptPool[i+1].y);
-                t_perpVec = (t_pt1 - t_pt2).normalize().getPerp();
-                if (m_lastEdge.p0.x == -10000) {
-                    isRectangle = false;
-                    t_perpVec = t_perpVec*stroke;
-                    FVec2 p0 = t_pt1 - t_perpVec;
-                    FVec2 p1 = t_pt1 + t_perpVec;
-                    SVStrokeEdge t_edge;
-                    t_edge.p0 = p0;
-                    t_edge.p1 = p1;
-                    m_lastEdge = t_edge;
-                }
-            }else if (i == t_pt_num - 1){
-                FVec2 t_pt0 = FVec2(m_ptPool[i-1].x, m_ptPool[i-1].y);
-                t_perpVec = (t_pt1 - t_pt0).normalize().getPerp();
+    if (t_pt_num == 0) {
+        return;
+    }
+//    if (m_isFirstTouch) {
+//        m_isFirstTouch = false;
+//        SVStrokePoint t_pt = m_ptPool[0];
+//        SVStrokeRectangle t_rectangle;
+//        SVStrokeEdge t_edge0;
+//        SVStrokeEdge t_edge1;
+//        t_edge0.p0 = SVStrokePoint(t_pt.x - m_stroke*0.5, t_pt.y + m_stroke*0.5, t_pt.z);
+//        t_edge0.p1 = SVStrokePoint(t_pt.x + m_stroke*0.5, t_pt.y + m_stroke*0.5, t_pt.z);
+//        t_edge1.p0 = SVStrokePoint(t_pt.x - m_stroke*0.5, t_pt.y - m_stroke*0.5, t_pt.z);
+//        t_edge1.p1 = SVStrokePoint(t_pt.x + m_stroke*0.5, t_pt.y - m_stroke*0.5, t_pt.z);
+//        t_rectangle.edge0 = t_edge0;
+//        t_rectangle.edge1 = t_edge1;
+//        m_lastEdge = t_edge1;
+//        m_rectanglePool.append(t_rectangle);
+//    }
+//    return;
+    if (m_lastPoint.x == -10000) {
+        SVStrokePoint t_pt = m_ptPool[0];
+        m_lastPoint = t_pt;
+    }
+    
+    if (t_pt_num == 1) {
+        SVStrokePoint t_pt = m_ptPool[0];
+        if (m_lastPoint != t_pt) {
+            SVStrokePoint t_pt0 = m_lastPoint;
+            SVStrokePoint t_pt1 = t_pt;
+            SVStrokePoint t_p1p0 = (t_pt1 - t_pt0).normalize();
+            SVStrokePoint t_perpVec = cross(t_p1p0, t_cameraTarget).normalize();
+            SVStrokePoint p0 = t_pt1 - t_perpVec*stroke;
+            SVStrokePoint p1 = t_pt1 + t_perpVec*stroke;
+            //判断两条边是否能够相交
+            FVec2 t_t_p0 = FVec2(p0.x, p0.y);
+            FVec2 t_t_p1 = FVec2(p1.x, p1.y);
+            FVec2 t_t_p3 = FVec2(m_lastEdge.p0.x, m_lastEdge.p0.y);
+            FVec2 t_t_p4 = FVec2(m_lastEdge.p1.x,m_lastEdge.p1.y);
+            SVStrokeEdge t_edge;
+            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
+                t_edge.p0 = p1;
+                t_edge.p1 = p0;
             }else{
-                FVec2 t_pt2 =  FVec2(m_ptPool[i+1].x, m_ptPool[i+1].y);;
-                FVec2 t_pt0 = FVec2(m_ptPool[i-1].x, m_ptPool[i-1].y);
-                
-                FVec2 t_p2p1 = (t_pt2 - t_pt1).normalize();
-                FVec2 t_p0p1 = (t_pt0 - t_pt1).normalize();
-                // Calculate angle between vectors
-                f32 angle = acosf(dot(t_p2p1, t_p0p1));
-                if(angle < degToRad(70.0)){
-                    FVec2 t_mid = FVec2((t_p2p1.x+t_p0p1.x)*0.5, (t_p2p1.y*t_p0p1.y)*0.5);
-                    t_perpVec = t_mid.normalize().getPerp();
-                }
-                else if(angle < degToRad(170.0)){
-                    FVec2 t_mid = FVec2((t_p2p1.x+t_p0p1.x)*0.5, (t_p2p1.y*t_p0p1.y)*0.5);
-                    t_perpVec = t_mid.normalize();
-                }
-                else{
-                    FVec2 t_vec = (t_pt2 - t_pt0);
-                    t_perpVec = t_vec.normalize().getPerp();
-                }
-            }
-            if (isRectangle) {
-                t_perpVec = t_perpVec*stroke;
-                FVec2 p0 = t_pt1 - t_perpVec;
-                FVec2 p1 = t_pt1 + t_perpVec;
-                SVStrokeEdge t_edge;
                 t_edge.p0 = p0;
                 t_edge.p1 = p1;
+            }
+            //
+            SVStrokeRectangle t_rectangle;
+            t_rectangle.edge0 = m_lastEdge;
+            t_rectangle.edge1 = t_edge;
+            m_lastEdge = t_edge;
+            m_rectanglePool.append(t_rectangle);
+        }
+    }else{
+        for (s32 i = 0; i<t_pt_num; i++) {
+            SVStrokePoint t_pt1 = m_ptPool[i];
+            SVStrokePoint t_perpVec;
+            f32 stroke = m_stroke*0.5f;
+            bool  isRectangle = true;
+            if (i == 0) {
+                SVStrokePoint t_pt2 = m_ptPool[i+1];
+                SVStrokePoint t_p2p1 = (t_pt2 - t_pt1).normalize();
+                t_perpVec = cross(t_p2p1, t_cameraTarget).normalize();
+            }else if (i == t_pt_num - 1){
+                SVStrokePoint t_pt0 = m_ptPool[i-1];
+                SVStrokePoint t_p1p0 = t_pt1 - t_pt0;
+                t_perpVec = cross(t_p1p0, t_cameraTarget).normalize();
+            }else{
+                SVStrokePoint t_pt2 = m_ptPool[i+1];
+                SVStrokePoint t_pt0 = m_ptPool[i-1];
+                SVStrokePoint t_p2p1 = (t_pt2 - t_pt1).normalize();
+                SVStrokePoint t_p1p0 = (t_pt1 - t_pt0).normalize();
+                SVStrokePoint t_tangent = (t_p1p0+t_p2p1).normalize();
+                SVStrokePoint t_normal = cross(t_p1p0, t_p2p1).normalize();
+                SVStrokePoint t_miter = cross(t_cameraTarget, t_tangent).normalize();
+                t_perpVec = cross(t_p1p0, t_cameraTarget).normalize();
+                stroke = m_stroke*0.5 / dot(t_miter, t_perpVec);
+            }
+            if (isRectangle) {
+                SVStrokePoint p0 = t_pt1 - t_perpVec*stroke;
+                SVStrokePoint p1 = t_pt1 + t_perpVec*stroke;
+                //判断两条边是否能够相交
+                FVec2 t_t_p0 = FVec2(p0.x, p0.y);
+                FVec2 t_t_p1 = FVec2(p1.x, p1.y);
+                FVec2 t_t_p3 = FVec2(m_lastEdge.p0.x, m_lastEdge.p0.y);
+                FVec2 t_t_p4 = FVec2(m_lastEdge.p1.x,m_lastEdge.p1.y);
+                SVStrokeEdge t_edge;
+                if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
+                    t_edge.p0 = p1;
+                    t_edge.p1 = p0;
+                }else{
+                    t_edge.p0 = p0;
+                    t_edge.p1 = p1;
+                }
+                //
                 SVStrokeRectangle t_rectangle;
                 t_rectangle.edge0 = m_lastEdge;
                 t_rectangle.edge1 = t_edge;
@@ -188,32 +250,18 @@ void SVPenStroke::_genPolygon(){
             }
             
         }
-        for(s32 i = 0; i<m_rectanglePool.size(); i++)
-        {
-            SVStrokeRectangle t_rectangle = m_rectanglePool[i];
-            FVec2 p0 = t_rectangle.edge0.p0;
-            FVec2 p1 = t_rectangle.edge0.p1;
-            FVec2 p3 = t_rectangle.edge1.p0;
-            FVec2 p4 = t_rectangle.edge1.p1;
-            if (!getTwoLinesIntersection(p0, p4, p1, p3)) {
-                SVStrokeEdge t_edge;
-                t_edge.p0 = p4;
-                t_edge.p1 = p3;
-                t_rectangle.edge1 = t_edge;
-                m_rectanglePool.set(i, t_rectangle);
-            }
-        }
     }
     m_ptPool.clear();
 }
 
 //生成矩形
 void SVPenStroke::_genRectangle(){
+    /*
     //
     SVStrokeRectangle t_rectangle;
     s32 t_pt_num = m_ptPool.size();
     for (s32 i = 0; i<t_pt_num; i++) {
-        FVec3 t_pt = m_ptPool[i];
+        SVStrokePoint t_pt = m_ptPool[i];
         //0
         FVec2 t_pt0 = FVec2(t_pt.x - m_stroke*0.5, t_pt.y - m_stroke*0.5);
         t_rectangle.edge0.p0 = t_pt0;
@@ -233,6 +281,7 @@ void SVPenStroke::_genRectangle(){
         m_rectanglePool.append(t_rectangle);
     }
     m_ptPool.clear();
+     */
 }
 
 //生成数据
@@ -245,26 +294,17 @@ void SVPenStroke::_genMesh() {
     V3_C_T0 *t_verts = verts;
     for (s32 i = 0; i<t_rectangle_num; i++) {
         SVStrokeRectangle t_rectangle = m_rectanglePool[i];
-        FVec2 t_t_pt;
         //0
-        FVec3 t_worldPt0;
-        t_t_pt = t_rectangle.edge0.p0;
-        _screenPointToWorld(t_t_pt, t_worldPt0);
+        SVStrokePoint t_worldPt0 = t_rectangle.edge0.p0;
         m_aabbBox.expand(t_worldPt0);
         //1
-        FVec3 t_worldPt1;
-        t_t_pt = t_rectangle.edge0.p1;
-        _screenPointToWorld(t_t_pt, t_worldPt1);
+        SVStrokePoint t_worldPt1 = t_rectangle.edge0.p1;
         m_aabbBox.expand(t_worldPt1);
         //2
-        FVec3 t_worldPt2;
-        t_t_pt = t_rectangle.edge1.p0;
-        _screenPointToWorld(t_t_pt, t_worldPt2);
+        SVStrokePoint t_worldPt2 = t_rectangle.edge1.p0;
         m_aabbBox.expand(t_worldPt2);
         //3
-        FVec3 t_worldPt3;
-        t_t_pt = t_rectangle.edge1.p1;
-        _screenPointToWorld(t_t_pt, t_worldPt3);
+        SVStrokePoint t_worldPt3 = t_rectangle.edge1.p1;
         m_aabbBox.expand(t_worldPt3);
         //
         t_verts[i*6 + 0].x = t_worldPt0.x;
@@ -340,9 +380,9 @@ void SVPenStroke::_drawMesh() {
             m_pMtl->setTexture(0, m_pTex);
             m_pMtl->setTexcoordFlip(1.0, -1.0);
         }
-        FVec3 t_min = m_aabbBox.getMin();
-        FVec3 t_max = m_aabbBox.getMax();
-        FVec3 t_posW = (t_max + t_min)*0.5f;
+        SVStrokePoint t_min = m_aabbBox.getMin();
+        SVStrokePoint t_max = m_aabbBox.getMax();
+        SVStrokePoint t_posW = (t_max + t_min)*0.5f;
         m_pMtl->setQuadPosW(t_posW);
         m_pMtl->setBlendEnable(true);
         m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -368,13 +408,13 @@ void SVPenStroke::_drawBoundBox(){
     t_mtl_geo3d->setModelMatrix( m_mat_unit.get() ); SVRenderObjInst::pushAABBCmd(t_rs,RST_DEBUG_INNER,m_aabbBox,t_mtl_geo3d,"SV3DBOX_aabb");
 }
 
-void SVPenStroke::_screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint){
+void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint){
     SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
     FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
-    FVec3 t_cameraEye = FVec3(t_cameraMatrix[12], t_cameraMatrix[13], t_cameraMatrix[14]);
+    SVStrokePoint t_cameraEye = SVStrokePoint(t_cameraMatrix[12], t_cameraMatrix[13], t_cameraMatrix[14]);
     FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], t_cameraEye.length()+0.05);
     SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
-    FVec3 t_pos;
+    SVStrokePoint t_pos;
     f32 t_pt_x = _point.x;
     f32 t_pt_y = _point.y;
     f32 t_pt_z = 0.0f;
@@ -383,7 +423,7 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint){
         t_pt_y = t_pos.y;
         t_pt_z = t_pos.z;
     }
-    _worldPoint = FVec3(t_pt_x, t_pt_y, t_pt_z);
+    _worldPoint = SVStrokePoint(t_pt_x, t_pt_y, t_pt_z);
 }
 
 bool SVPenStroke::_judgePolygonLineIntersect(SVStrokeRectangle &_rectangle, f32 *_t){
