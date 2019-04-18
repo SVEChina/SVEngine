@@ -20,43 +20,55 @@
 #include "../rendercore/SVVulkan/SVRendererVK.h"
 #include "../rendercore/renderer/SVContextBase.h"
 
-//创建渲染器
-SVOpCreateRenderder::SVOpCreateRenderder(SVInst *_app)
+#ifdef SV_IOS
+
+/*
+ METAL
+ */
+SVOpCreateRenderderMTL::SVOpCreateRenderderMTL(SVInst *_app)
 : SVOpBase(_app) {
-    m_type = E_RENDERER_GLES;
-    m_glContext = nullptr;
-    m_windows = nullptr;
-    m_pixelFormate = nullptr;
-    m_glVersion = 2;
-    m_w = 720;
-    m_h = 1280;
 }
 
-#if defined SV_IOS
+void SVOpCreateRenderderMTL::_process(float dt) {
+    SVRendererMetalPtr t_renderer = MakeSharedPtr<SVRendererMetal>(mApp);
+    mApp->getRenderMgr()->setRenderer(t_renderer);
+}
 
-void SVOpCreateRenderder::setGLParam(s32 _ver, void *_context, s32 _w, s32 _h) {
-    m_type = E_RENDERER_GLES;
+/*
+ GL-IOS
+ */
+SVOpCreateRenderderGLIOS::SVOpCreateRenderderGLIOS(SVInst *_app,
+                                                   s32 _ver,
+                                                   void *_context,
+                                                   s32 _w,
+                                                   s32 _h)
+: SVOpBase(_app) {
     m_glVersion = _ver;
     m_glContext = _context;
     m_w = _w;
     m_h = _h;
 }
 
-#elif defined SV_ANDROID
-
-void SVOpCreateRenderder::setGLParam(s32 _ver, void *_context, void *_windows, s32 _w, s32 _h) {
-    m_type = E_RENDERER_GLES;
-    m_glVersion = _ver;
-    m_glContext = _context;
-    m_windows = _windows;
-    m_w = _w;
-    m_h = _h;
+void SVOpCreateRenderderGLIOS::_process(float dt) {
+    SVRendererGLPtr t_renderer = MakeSharedPtr<SVRendererGL>(mApp);
+    mApp->getRenderMgr()->setRenderer(t_renderer);
+    t_renderer->init(m_glVersion, m_glContext, m_w, m_h);
+    mApp->getConfig()->setCameraDsp(m_w, m_h, 0);
 }
 
-#elif defined SV_OSX
+#endif
 
-void SVOpCreateRenderder::setGLParam(s32 _ver,void*_context,void* _pixelFormate,s32 _w,s32 _h) {
-    m_type = E_RENDERER_GLES;
+#ifdef SV_OSX
+/*
+ GL-MACOS
+ */
+SVOpCreateRenderderGLOSX::SVOpCreateRenderderGLOSX(SVInst *_app,
+                                                   s32 _ver,
+                                                   void*_context,
+                                                   void* _pixelFormate,
+                                                   s32 _w,
+                                                   s32 _h)
+: SVOpBase(_app) {
     m_glVersion = _ver;
     m_glContext = _context;
     m_pixelFormate = _pixelFormate;
@@ -64,40 +76,68 @@ void SVOpCreateRenderder::setGLParam(s32 _ver,void*_context,void* _pixelFormate,
     m_h = _h;
 }
 
+void SVOpCreateRenderderGLOSX::_process(float dt) {
+    //跨平台
+    SVRendererGLPtr t_renderer = MakeSharedPtr<SVRendererGL>(mApp);
+    mApp->getRenderMgr()->setRenderer(t_renderer);
+    t_renderer->init(m_glVersion,m_glContext,m_pixelFormate,m_w,m_h);
+}
 #endif
 
-void SVOpCreateRenderder::setVunkanParam() {
-    m_type = E_RENDERER_VUNKAN;
+#ifdef SV_ANDROID
+
+/*
+ VULKAN
+ */
+SVOpCreateRenderderVK::SVOpCreateRenderderVK(SVInst *_app)
+: SVOpBase(_app) {
 }
 
-void SVOpCreateRenderder::setMetalParam() {
-    m_type = E_RENDERER_METAL;
+void SVOpCreateRenderderVK::_process(float dt) {
+    SVRendererVKPtr t_renderer = MakeSharedPtr<SVRendererVK>(mApp);
+    mApp->getRenderMgr()->setRenderer(t_renderer);
 }
 
-void SVOpCreateRenderder::_process(f32 dt) {
-    if (m_type == E_RENDERER_GLES) {
-        //跨平台
-        SVRendererGLPtr t_renderer = MakeSharedPtr<SVRendererGL>(mApp);
-        mApp->getRenderMgr()->setRenderer(t_renderer);
-#if defined SV_IOS
-        t_renderer->init(m_glVersion, m_glContext, m_w, m_h);
-        mApp->getConfig()->setCameraDsp(m_w, m_h, 0);
-#elif defined SV_ANDROID
-        t_renderer->init(m_glVersion, m_windows, m_glContext, m_w, m_h);
-        mApp->getConfig()->setCameraDsp(m_w, m_h, 0);
-#elif defined SV_OSX
-        t_renderer->init(m_glVersion,m_glContext,m_pixelFormate,m_w, m_h);
+/*
+ GL-ANDRIOD
+ */
+SVOpCreateRenderderGLAND::SVOpCreateRenderderGLAND(SVInst *_app,
+                                                   s32 _ver,
+                                                   void*_context,
+                                                   void* _windows,
+                                                   s32 _w,
+                                                   s32 _h)
+: SVOpBase(_app) {
+    m_glVersion = _ver;
+    m_glContext = _context;
+    m_windows = _windows;
+    m_w = _w;
+    m_h = _h;
+}
+
+void SVOpCreateRenderderGLAND::_process(float dt) {
+    //跨平台
+    SVRendererGLPtr t_renderer = MakeSharedPtr<SVRendererGL>(mApp);
+    mApp->getRenderMgr()->setRenderer(t_renderer);
+    t_renderer->init(m_glVersion, m_windows, m_glContext, m_w, m_h);
+    mApp->getConfig()->setCameraDsp(m_w, m_h, 0);
+}
+
 #endif
-    } else if (m_type == E_RENDERER_VUNKAN) {
-        //andriod平台
-        SVRendererVKPtr t_renderer = MakeSharedPtr<SVRendererVK>(mApp);
-        mApp->getRenderMgr()->setRenderer(t_renderer);
-    } else if (m_type == E_RENDERER_METAL) {
-        //ios平台
-        SVRendererMetalPtr t_renderer = MakeSharedPtr<SVRendererMetal>(mApp);
-        mApp->getRenderMgr()->setRenderer(t_renderer);
-    }
+
+#ifdef SV_WIN
+/*
+ GL-WINDOWS
+ */
+SVOpCreateRenderderGLWIN::SVOpCreateRenderderGLWIN(SVInst *_app)
+: SVOpBase(_app) {
 }
+
+void SVOpCreateRenderderGLWIN::_process(float dt) {
+    
+}
+#endif
+
 
 //删除渲染器
 SVOpDestroyRenderder::SVOpDestroyRenderder(SVInst *_app)
