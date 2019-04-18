@@ -25,12 +25,14 @@
 /*
  METAL
  */
-SVOpCreateRenderderMTL::SVOpCreateRenderderMTL(SVInst *_app)
-: SVOpBase(_app) {
+SVOpCreateRenderderMTL::SVOpCreateRenderderMTL(SVInst *_app,void* _device)
+:SVOpBase(_app)
+,m_pDevice(_device){
 }
 
 void SVOpCreateRenderderMTL::_process(float dt) {
     SVRendererMetalPtr t_renderer = MakeSharedPtr<SVRendererMetal>(mApp);
+    t_renderer->init(m_pDevice,m_w,m_h);
     mApp->getRenderMgr()->setRenderer(t_renderer);
 }
 
