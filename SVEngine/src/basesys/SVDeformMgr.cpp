@@ -52,12 +52,11 @@ void SVDeformMgr::clear(){
 }
 
 void SVDeformMgr::removeEnd(){
-    m_deformArray.begin();
-    SVArray<SVDeformImageMovePtr>::Iterator it = m_deformArray.begin();
-    while ( it!=m_deformArray.end() ) {
-        if((*it)->m_rule){
-            m_deformArray.remove(it);
+    for(s32 i = 0; i < m_deformArray.size(); i++){
+        if(m_deformArray[i]->m_rule){
+            m_deformArray.remove(i);
+            i--;
+            continue;
         }
-        it++;
     }
 }
