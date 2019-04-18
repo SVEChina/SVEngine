@@ -10,19 +10,20 @@
 
 #include "SVOpBase.h"
 #include "../base/SVMat4.h"
+
 namespace sv {
     
 #ifdef SV_IOS
-    
     //创建Metal渲染器
     class SVOpCreateRenderderMTL : public SVOpBase {
     public:
-        SVOpCreateRenderderMTL(SVInst *_app);
+        SVOpCreateRenderderMTL(SVInst *_app,void* _device);
         
     protected:
         void _process(f32 dt);
         s32 m_w;
         s32 m_h;
+        void* m_pDevice;
     };
     //
     class SVOpCreateRenderderGLIOS : public SVOpBase {

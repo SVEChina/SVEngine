@@ -22,21 +22,20 @@ SVRendererMetal::~SVRendererMetal(){
 }
 
 //初始化
-void SVRendererMetal::init(s32 _ver,void* _windows,void* context,s32 _w,s32 _h){
-    m_pDevice = MTLCreateSystemDefaultDevice();
+void SVRendererMetal::init(void* _device,s32 _w,s32 _h){
+    m_pDevice = (__bridge id)_device;//MTLCreateSystemDefaultDevice();
     if (m_pDevice == nil) {
         SV_LOG_INFO("don't support metal !");
     }
     m_pCmdQueue = m_pDevice.newCommandQueue;
     m_pLibrary = [m_pDevice newDefaultLibrary];
     //创建主fbo
-//    m_inWidth = _w;
-//    m_inHeight = _h;
-//    m_glVersion = _ver;
+    m_inWidth = _w;
+    m_inHeight = _h;
 //    m_pRenderContext = MakeSharedPtr<SVContextIOS>(mApp,_context,_ver);
 //    //创建主纹理
-//    mApp->m_pGlobalParam->m_inner_width = _w;
-//    mApp->m_pGlobalParam->m_inner_height = _h;
+    mApp->m_pGlobalParam->m_inner_width = _w;
+    mApp->m_pGlobalParam->m_inner_height = _h;
 //    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
     //主FBO
 //    m_pRenderTex = MakeSharedPtr<SVResMetalRenderTexture>(mApp,
