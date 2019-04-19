@@ -14,8 +14,7 @@
 #include "../basesys/SVStreamOut.h"
 
 //设置ios相机
-SVOpCreateIOSInstream::SVOpCreateIOSInstream(SVInst *_app, cptr8 _name, s32 _format, s32 _w, s32 _h,
-                                             f32 _angle, bool _show)
+SVOpCreateIOSInstream::SVOpCreateIOSInstream(SVInst *_app, cptr8 _name, s32 _format, s32 _w, s32 _h,f32 _angle, bool _show)
         : SVOpBase(_app) {
     m_name = _name;
     m_formate = _format;
@@ -100,7 +99,6 @@ void SVOpOpenIOSOutstream::_process(f32 _dt) {
     }
 #endif
 }
-
 
 SVOpCloseIOSOutstream::SVOpCloseIOSOutstream(SVInst *_app)
         : SVOpBase(_app) {

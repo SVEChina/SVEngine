@@ -43,6 +43,8 @@ namespace sv {
             ~SVStreamIn();
             
             void createInStream(cptr8 _name,s32 _type,PICFORMATE _formate,s32 _w,s32 _h,f32 _angle, bool _show = false);
+            
+            void createInStream(cptr8 _name,s32 _type,PICFORMATE _formate,s32 _w,s32 _h,f32 _angle, SVTEXTYPE _tex, bool _show = false);
     
             void destroyInStream(cptr8 _name);
             
