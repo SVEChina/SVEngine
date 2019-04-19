@@ -251,7 +251,7 @@ void SVDeformImageMove::update(f32 _dt){
 void SVDeformImageMove::render(){
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (is_swith && t_rs && false  == t_rs->isSuspend() ) {
-        if(m_passDeform->m_pMtl){
+        if(m_passDeform && m_passDeform->m_pMtl){
             SVRenderCmdPassCollectionPtr t_cmd = MakeSharedPtr<SVRenderCmdPassCollection>();
             t_cmd->mTag = "SVBackGroundNode";
             t_cmd->setFbo(m_fbo);

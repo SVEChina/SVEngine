@@ -27,7 +27,7 @@ namespace sv {
             ~SVRendererMetal();
             
             //初始化
-            virtual void init(s32 _ver,void* _windows,void* context,s32 _w,s32 _h);
+            virtual void init(void* _device,s32 _w,s32 _h);
             //销毁
             virtual void destroy();
             //重置大小
