@@ -79,7 +79,7 @@ namespace sv {
             
         public:
             SVString m_mtlname;
-            u32 m_programID;
+            SVResShaderPtr m_pShader;
             s32 m_LogicMtlFlag0;                         //MTLFLAG0;
             SVMatrixParam m_LogicParamMatrix;            //矩阵信息
             SVTextureParam m_LogicParamTex;              //纹理参数
@@ -106,11 +106,13 @@ namespace sv {
             typedef SVArray<SVModifyPtr> MODPOOL;
             MODPOOL* m_renderPool;
             MODPOOL* m_logicPool;
+            
         public:
             virtual void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                                 RAPIDJSON_NAMESPACE::Value &_objValue);
             
             virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+        
         protected:
             virtual void _toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                                      RAPIDJSON_NAMESPACE::Value &locationObj);

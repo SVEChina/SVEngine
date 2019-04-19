@@ -94,7 +94,10 @@ namespace sv {
                                 RAPIDJSON_NAMESPACE::Value &_objValue);
             
             virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
-            
+        
+        public:
+            s32 m_rule;
+        
         protected:
             
             void _updateControl(V2 *t_data);

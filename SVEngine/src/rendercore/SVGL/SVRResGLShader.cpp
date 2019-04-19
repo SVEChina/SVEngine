@@ -19,6 +19,7 @@
 #include "../../rendercore/SVRenderMgr.h"
 #include "../renderer/SVContextBase.h"
 #include "../renderer/SVRendererBase.h"
+#include "../renderer/SVRenderState.h"
 #include "../SVGL/SVRendererGL.h"
 
 /*
@@ -391,4 +392,15 @@ void SVRResGLShader::destroy(SVRendererBasePtr _renderer) {
         glDeleteProgram(m_programm);
     }
     SVRObjBase::destroy(_renderer);
+}
+
+bool SVRResGLShader::active(SVRendererBasePtr _render) {
+    SVRenderStatePtr t_state = _render->getState();
+    if(m_programm>0) {
+        glUseProgram(m_programm);
+        t_state->m_shaderID = m_programm;
+        return true;
+    }
+    t_state->m_shaderID = 0;
+    return false;
 }

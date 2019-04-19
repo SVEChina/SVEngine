@@ -24,7 +24,6 @@
 SVInst::SVInst() {
     m_svst = SV_ST_NULL;
     m_engTimeState = ENG_TS_NOR;
-    m_outscreen = true;
 }
 
 SVInst::~SVInst() {

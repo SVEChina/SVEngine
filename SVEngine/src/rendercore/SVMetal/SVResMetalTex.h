@@ -60,6 +60,8 @@ namespace sv {
             
             virtual void destroy(SVRendererBasePtr _renderer);
             
+            virtual bool active(SVRendererBasePtr _render);
+            
         protected:
             id<MTLFunction> m_pVS;
             id<MTLFunction> m_pFS;

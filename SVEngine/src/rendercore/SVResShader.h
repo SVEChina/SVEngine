@@ -93,6 +93,8 @@ namespace sv {
             
             virtual void destroy(SVRendererBasePtr _renderer){}
             
+            virtual bool active(SVRendererBasePtr _render){ return false; }
+            
             void setProgrammeName(cptr8 _filename);
             
             cptr8 getProgrammeName();
@@ -110,9 +112,7 @@ namespace sv {
             void setTSCFName(cptr8 _filename);
             
             void setTSEFName(cptr8 _filename);
-            
-            u32 getProgramm();
-            
+
         protected:
             SVString m_programme_fname;
             
@@ -127,8 +127,6 @@ namespace sv {
             SVString m_tsc_fname;
             
             SVString m_tse_fname;
-            
-            u32 m_programm;
         };
         
     }//!namespace render

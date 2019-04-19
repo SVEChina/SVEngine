@@ -35,8 +35,6 @@ namespace sv {
             virtual void resize(s32 _w,s32 _);
             
         public:
-            //提交shader
-            virtual void submitShader(u32 _shader);
             //提交纹理
             virtual void submitTex(u32 _channel,TexUnit& _unit);
             //提交unifrom matrix

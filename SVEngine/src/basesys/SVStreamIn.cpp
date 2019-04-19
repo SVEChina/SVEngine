@@ -76,6 +76,39 @@ void StreamInCore::init(s32 _w,s32 _h,PICFORMATE _fromate,f32 _angle,bool _show)
     }
 }
 
+void StreamInCore::init(s32 _w,s32 _h,PICFORMATE _fromate,f32 _angle,bool _show,SVTEXTYPE _tex){
+            //创建内置纹理
+            m_tt = _tex;
+            if(_fromate == SV_PF_BGRA) {
+                mApp->getRenderer()->createSVTex(m_tt,_w,_h,GL_RGBA);
+            }else {
+                mApp->getRenderer()->createSVTex(m_tt,_w,_h,GL_RGBA);
+            }
+            //创建可视节点
+            
+            if(_show) {
+#ifdef SV_IOS
+                m_showNode = MakeSharedPtr<SVIOSInstreamNode>(mApp);
+                SVIOSInstreamNodePtr tmpNode = std::dynamic_pointer_cast<SVIOSInstreamNode>(m_showNode);
+                if(tmpNode){
+                    tmpNode->init(m_tt);
+                }
+#endif
+                
+#ifdef SV_ANDROID
+                m_showNode = MakeSharedPtr<SVSpriteNode>(mApp,(f32)_h,(f32)_w);
+                SVSpriteNodePtr tmpNode = std::dynamic_pointer_cast<SVSpriteNode>(m_showNode);
+                if(tmpNode){
+                    tmpNode->setTexture(m_tt);
+                    tmpNode->setRSType(RST_SKY);
+                }
+#endif
+            }
+            //创建转换器
+//            m_trans = MakeSharedPtr<SVTransGPU>(mApp);
+//            m_trans->init(_w, _h,_angle,_fromate,m_tt);
+}
+
 void StreamInCore::destroy() {
     //
     if(m_showNode) {
@@ -117,6 +150,19 @@ void SVStreamIn::createInStream(cptr8 _name,s32 _type,PICFORMATE _formate,s32 _w
     //PICFORMATE
     StreamInCorePtr t_incore =MakeSharedPtr<StreamInCore>(mApp);
     t_incore->init(_w,_h,_formate,_angle,_show);
+    m_TexMap.append(_name,t_incore);
+    m_streamLock->unlock();
+}
+
+void SVStreamIn::createInStream(cptr8 _name,s32 _type,PICFORMATE _formate,s32 _w,s32 _h,f32 _angle,SVTEXTYPE _tex, bool _show){
+    if(!mApp->getRenderer()) {
+        return ;
+    }
+    //默认要摘掉
+    m_streamLock->lock();
+    //PICFORMATE
+    StreamInCorePtr t_incore =MakeSharedPtr<StreamInCore>(mApp);
+    t_incore->init(_w,_h,_formate,_angle,_show,_tex);
     m_TexMap.append(_name,t_incore);
     m_streamLock->unlock();
 }

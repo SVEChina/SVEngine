@@ -25,8 +25,8 @@ namespace sv {
         void init();
         
         void destroy();
-        
-        u32 getProgramme(cptr8 _name);
+
+        SVResShaderPtr getShader(cptr8 _name);
         
     private:
         void loadAllShader();
@@ -34,7 +34,7 @@ namespace sv {
         void clearAllShader();
         
     protected:
-        typedef SVMap<SVString,render::SVResShaderPtr> SHADERPOOL;
+        typedef SVMap<SVString,SVResShaderPtr> SHADERPOOL;
         SHADERPOOL ShaderMap;
     };
     

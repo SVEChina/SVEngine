@@ -121,17 +121,10 @@ bool SVRResMetalTex::getbLoad() {
 
 SVRResMetalShader::SVRResMetalShader(SVInst* _app)
 :SVResShader(_app){
-    
 }
 
 SVRResMetalShader::~SVRResMetalShader() {
-    
 }
-
-
-//SVString m_vs_fname;
-//
-//SVString m_fs_fname;
 
 void SVRResMetalShader::create(SVRendererBasePtr _renderer) {
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
@@ -143,6 +136,7 @@ void SVRResMetalShader::create(SVRendererBasePtr _renderer) {
         MTLRenderPipelineDescriptor *t_dsp = [[MTLRenderPipelineDescriptor alloc] init];
         t_dsp.vertexFunction = m_pVS;
         t_dsp.fragmentFunction = m_pFS;
+        //t_dsp.colorAttachments[0].pixelFormat = ;
         //t_dsp.colorAttachments[0].pixelFormat = self.mtkView.colorPixelFormat;
         m_pProgram = [t_rendeMetalPtr->m_pDevice newRenderPipelineStateWithDescriptor:t_dsp error:nullptr];
     }
@@ -152,4 +146,8 @@ void SVRResMetalShader::create(SVRendererBasePtr _renderer) {
 
 void SVRResMetalShader::destroy(SVRendererBasePtr _renderer) {
     //
+}
+
+bool SVRResMetalShader::active(SVRendererBasePtr _render) {
+    return false;
 }

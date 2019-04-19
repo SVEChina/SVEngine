@@ -10,36 +10,105 @@
 
 #include "SVOpBase.h"
 #include "../base/SVMat4.h"
+
 namespace sv {
     
-    //创建渲染器
-    class SVOpCreateRenderder : public SVOpBase {
+#ifdef SV_IOS
+    //创建Metal渲染器
+    class SVOpCreateRenderderMTL : public SVOpBase {
     public:
-        SVOpCreateRenderder(SVInst *_app);
+        SVOpCreateRenderderMTL(SVInst *_app,void* _device);
         
-#if defined SV_IOS
-        void setGLParam(s32 _ver,void* _context,s32 _w,s32 _h);
-#elif defined SV_ANDROID
-        void setGLParam(s32 _ver,void*_context,void* _windows,s32 _w,s32 _h);
-#elif defined SV_OSX
-        void setGLParam(s32 _ver,void*_context,void* _pixelFormate,s32 _w,s32 _h);
-#endif
-        
-        void setVunkanParam();
-        
-        void setMetalParam();
+    protected:
+        void _process(f32 dt);
+        s32 m_w;
+        s32 m_h;
+        void* m_pDevice;
+    };
+    //
+    class SVOpCreateRenderderGLIOS : public SVOpBase {
+    public:
+        SVOpCreateRenderderGLIOS(SVInst *_app,
+                                 s32 _ver,
+                                 void *_context,
+                                 s32 _w,
+                                 s32 _h);
         
     protected:
         void _process(f32 dt);
         //
-        SV_RENDERER_TYPE m_type;
         void* m_glContext;
-        void* m_windows;
+        s32 m_glVersion;
+        s32 m_w;
+        s32 m_h;
+    };
+#endif
+
+#ifdef SV_WIN
+    //
+    class SVOpCreateRenderderGLWIN : public SVOpBase {
+    public:
+        SVOpCreateRenderderGLWIN(SVInst *_app);
+        
+    protected:
+        void _process(f32 dt);
+    };
+#endif
+    
+#ifdef SV_OSX
+    //
+    class SVOpCreateRenderderGLOSX : public SVOpBase {
+    public:
+        SVOpCreateRenderderGLOSX(SVInst *_app,
+                                 s32 _ver,
+                                 void*_context,
+                                 void* _pixelFormate,
+                                 s32 _w,
+                                 s32 _h);
+        
+    protected:
+        void _process(f32 dt);
+        
+        void* m_glContext;
         void* m_pixelFormate;
         s32 m_glVersion;
         s32 m_w;
         s32 m_h;
     };
+#endif
+    
+#ifdef SV_ANDROID
+    
+    //创建VK渲染器
+    class SVOpCreateRenderderVK : public SVOpBase {
+    public:
+        SVOpCreateRenderderVK(SVInst *_app);
+        
+    protected:
+        void _process(f32 dt);
+        s32 m_w;
+        s32 m_h;
+    };
+    
+    //
+    class SVOpCreateRenderderGLAND : public SVOpBase {
+    public:
+        SVOpCreateRenderderGLAND(SVInst *_app,
+                                 s32 _ver,
+                                 void*_context,
+                                 void* _windows,
+                                 s32 _w,
+                                 s32 _h);
+        
+    protected:
+        void _process(f32 dt);
+        void* m_glContext;
+        void* m_windows;
+        s32 m_glVersion;
+        s32 m_w;
+        s32 m_h;
+    };
+#endif
     
     //销毁渲染器
     class SVOpDestroyRenderder : public SVOpBase {
@@ -113,16 +182,17 @@ namespace sv {
         
         bool m_mirror;
     };
+    
     //更新默认矩阵栈里的矩阵
     class SVOpRefreshDefMat: public SVOpBase{
     public:
         SVOpRefreshDefMat(SVInst *_app, FMat4 _viewMat, FMat4 _projMat, FMat4 _vpMat);
+        
     protected:
         void _process(f32 dt);
         FMat4 m_viewMat;
         FMat4 m_projMat;
         FMat4 m_vpMat;
-        
     };
     
 }//!namespace sv

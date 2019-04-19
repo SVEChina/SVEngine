@@ -12,7 +12,6 @@
 
 SVResShader::SVResShader(SVInst* _app)
 :SVRObjBase(_app){
-    m_programm = 0;
 }
 
 SVResShader::~SVResShader(){
@@ -49,8 +48,3 @@ void SVResShader::setTSCFName(cptr8 _filename){
 void SVResShader::setTSEFName(cptr8 _filename){
     m_tse_fname = _filename;
 }
-
-u32 SVResShader::getProgramm(){
-    return m_programm;
-}
-
