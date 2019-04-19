@@ -7,6 +7,7 @@
 
 #include "SVRendererMetal.h"
 #include "SVResMetalFbo.h"
+#include "SVContextMetal.h"
 #include "../../app/SVInst.h"
 #include "../../base/SVDataSwap.h"
 
@@ -32,22 +33,25 @@ void SVRendererMetal::init(void* _device,s32 _w,s32 _h){
     //创建主fbo
     m_inWidth = _w;
     m_inHeight = _h;
-//    m_pRenderContext = MakeSharedPtr<SVContextIOS>(mApp,_context,_ver);
-//    //创建主纹理
+    //
+    m_pRenderContext = MakeSharedPtr<SVContextMetal>(mApp);
+    //创建主纹理
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
+//    //
 //    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
-    //主FBO
+//    //主FBO
 //    m_pRenderTex = MakeSharedPtr<SVResMetalRenderTexture>(mApp,
 //                                                  t_tex,
 //                                                  true,
 //                                                  true);
 //    mApp->getRenderMgr()->pushRCmdCreate(m_pRenderTex);
 }
+
 //销毁
 void SVRendererMetal::destroy(){
-    
 }
+
 //重置大小
 void SVRendererMetal::resize(s32 _w,s32 _h) {
 }
