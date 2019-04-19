@@ -21,6 +21,7 @@ SVPendraw::SVPendraw(SVInst *_app)
 
 SVPendraw::~SVPendraw() {
     m_curStroke = nullptr;
+    m_strokes.destroy();
 }
 
 void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) {
@@ -33,8 +34,9 @@ void SVPendraw::destroy() {
 
 void SVPendraw::update(f32 _dt) {
     SVGameBase::update(_dt);
-    if (m_curStroke) {
-        m_curStroke->update(_dt);
+    for (s32 i =0; i<m_strokes.size(); i++) {
+        SVPenStrokePtr stroke = m_strokes[i];
+        stroke->update(_dt);
     }
 }
 
@@ -51,6 +53,7 @@ bool SVPendraw::procEvent(SVEventPtr _event){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (!m_curStroke) {
             m_curStroke = MakeSharedPtr<SVPenStroke>(mApp);
+            m_strokes.append(m_curStroke);
         }
         m_curStroke->begin(t_touch->x,t_touch->y,0.0);
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_END){
@@ -58,7 +61,7 @@ bool SVPendraw::procEvent(SVEventPtr _event){
         if (t_touch && m_curStroke) {
             m_curStroke->end(t_touch->x,t_touch->y,0.0f);
         }
-//        m_curStroke = nullptr;
+        m_curStroke = nullptr;
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_MOVE){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (t_touch && m_curStroke) {
