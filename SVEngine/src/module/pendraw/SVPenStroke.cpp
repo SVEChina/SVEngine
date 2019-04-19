@@ -42,6 +42,7 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->setDrawMethod(E_DM_POINTS);
     m_pMesh->setDrawMethod(E_DM_LINES);
     m_pMesh->setDrawMethod(E_DM_TRIANGLE_STRIP);
+    m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_line.png",true);
     m_density = 0.05;
     m_vertexNum = 0;
     m_drawBox = false;
@@ -56,6 +57,7 @@ SVPenStroke::~SVPenStroke() {
     m_penCurve = nullptr;
     m_pVertData->reback();
     m_pVertData = nullptr;
+    m_pTex = nullptr;
     m_lock = nullptr;
     m_ptPool.clear();
     m_ptCachePool.clear();
@@ -231,8 +233,10 @@ void SVPenStroke::_drawMesh() {
     if (m_pMesh && m_pRenderObj && m_vertexNum > 0) {
         if (!m_pMtl) {
             m_pMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp);
-            m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_point.png",true);
             m_pMtl->setTexture(0, m_pTex);
+            m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
+            m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
+             //void setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value);
             m_pMtl->setTexcoordFlip(1.0, -1.0);
             m_pMtl->setLineSize(5.0f);
         }
