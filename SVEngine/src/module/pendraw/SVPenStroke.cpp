@@ -11,6 +11,7 @@
 #include "../SVGameRun.h"
 #include "../SVGameEnd.h"
 #include "../../core/SVVertDef.h"
+#include "../../base/SVVec3.h"
 #include "../../base/SVDataSwap.h"
 #include "../../rendercore/SVRenderObject.h"
 #include "../../rendercore/SVRenderMesh.h"
@@ -30,7 +31,6 @@ SVPenStroke::SVPenStroke(SVInst *_app)
 //    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptPool.clear();
     m_ptCachePool.clear();
-    m_screenPtPool.clear();
     m_rectVertexPool.clear();
     m_localMat.setIdentity();
     m_lock = MakeSharedPtr<SVLock>();
@@ -39,13 +39,17 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh = _app->getRenderMgr()->createMeshRObj();
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_C_T0);
-    m_pMesh->setDrawMethod(E_DM_TRIANGLES);
-    m_stroke = 0.006;
+    m_pMesh->setDrawMethod(E_DM_POINTS);
+    m_pMesh->setDrawMethod(E_DM_LINES);
+    m_pMesh->setDrawMethod(E_DM_TRIANGLE_STRIP);
     m_density = 0.05;
     m_vertexNum = 0;
     m_drawBox = false;
     m_isFirstTouch = true;
     setDrawBox(true);
+    m_point_dis_dert = 0.002f;
+    m_pen_width = 0.006f;
+    m_plane_dis = 0.2f;
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -53,7 +57,6 @@ SVPenStroke::~SVPenStroke() {
     m_pVertData->reback();
     m_pVertData = nullptr;
     m_lock = nullptr;
-    m_screenPtPool.clear();
     m_ptPool.clear();
     m_ptCachePool.clear();
     m_aabbBox.clear();
@@ -61,7 +64,7 @@ SVPenStroke::~SVPenStroke() {
 }
 
 void SVPenStroke::setStrokeWidth(f32 _width){
-    m_stroke = _width;
+    m_pen_width = _width;
 }
 
 void SVPenStroke::setDrawBox(bool _drawBox){
@@ -72,8 +75,6 @@ void SVPenStroke::setDrawBox(bool _drawBox){
 void SVPenStroke::update(f32 _dt) {
     m_lock->unlock();
     //转化成世界坐标系下的坐标点
-    _genPoints();
-    //
     _genPolygon();
     //插值生成面片
     _genMesh();
@@ -90,254 +91,140 @@ void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
     m_ptPool.append(t_worldPt);
-    //
-    m_screenPtPool.append(SVStrokePoint(_px,_py,_pz));
-    if (m_penCurve) {
-        m_penCurve->reset();
-        SVArray<FVec2> t_ptArray;
-        m_penCurve->addPoint(_px, _py, m_stroke, m_density, SVPenCurve::SV_ADD_DRAWBEGIN, t_ptArray);
-    }
     m_lock->unlock();
 }
 
 void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    if (m_penCurve) {
-        SVArray<FVec2> t_ptArray;
-        m_penCurve->addPoint(_px, _py, m_stroke, m_density, SVPenCurve::SV_ADD_DRAWEND, t_ptArray);
-        _updatePtPool(t_ptArray, m_screenPtPool);
-    }else{
-        m_screenPtPool.append(SVStrokePoint(_px,_py,_pz));
+    //二维点到三维点的转换
+    FVec2 t_pt = FVec2(_px, _py);
+    SVStrokePoint t_worldPt;
+    _screenPointToWorld(t_pt, t_worldPt);
+    //
+    s32 t_pt_num = m_ptPool.size();
+    SVStrokePoint t_lastpt = m_ptPool[t_pt_num-1];
+    if(length(t_lastpt.point - t_worldPt.point) > m_point_dis_dert ) {
+        m_ptPool.append(t_worldPt);
     }
+    //
     m_lock->unlock();
 }
 
 void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    if (m_penCurve) {
-        SVArray<FVec2> t_ptArray;
-        m_penCurve->addPoint(_px, _py, m_stroke, m_density, SVPenCurve::SV_ADD_DRAWING, t_ptArray);
-        _updatePtPool(t_ptArray, m_screenPtPool);
-    }else{
-        m_screenPtPool.append(SVStrokePoint(_px,_py,_pz));
+    //二维点到三维点的转换
+    FVec2 t_pt = FVec2(_px, _py);
+    SVStrokePoint t_worldPt;
+    _screenPointToWorld(t_pt, t_worldPt);
+    //
+    s32 t_pt_num = m_ptPool.size();
+    SVStrokePoint t_lastpt = m_ptPool[t_pt_num-1];
+    if(length(t_lastpt.point - t_worldPt.point) > m_point_dis_dert ) {
+        m_ptPool.append(t_worldPt);
     }
+    //
     m_lock->unlock();
 }
 
-void SVPenStroke::_updatePtPool(SVArray<FVec2> &_inPtPool, SVArray<SVStrokePoint> &_outPtPool){
-    if (_inPtPool.size() <= 0)
-        return;
-    for (s32 i = 0; i<_inPtPool.size(); i++) {
-        FVec2 t_pt = _inPtPool[i];
-        SVStrokePoint t_n_pt = SVStrokePoint(t_pt.x, t_pt.y, 0.0f);
-        _outPtPool.append(t_n_pt);
-    }
-}
-
-void SVPenStroke::_genPoints(){
-    for (s32 i = 0; i<m_screenPtPool.size(); i++) {
-        FVec2 t_pt = FVec2(m_screenPtPool[i].x,  m_screenPtPool[i].y);
-        SVStrokePoint t_worldPt;
-        _screenPointToWorld(t_pt, t_worldPt);
-        m_ptPool.append(t_worldPt);
-    }
-    m_screenPtPool.clear();
-}
-
+//生成mesh
 void SVPenStroke::_genPolygon(){
-    SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-    FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
-    SVStrokePoint t_cameraTarget = SVStrokePoint(-t_cameraMatrix[2], -t_cameraMatrix[6], -t_cameraMatrix[10]);
-    t_cameraTarget = t_cameraTarget.normalize();
     s32 t_pt_num = m_ptPool.size();
-    if (t_pt_num == 0) {
-        return;
-    }
+    if(t_pt_num<2)
+        return ;
     for (s32 i = 0; i<t_pt_num; i++) {
-        SVStrokePoint t_pt = m_ptPool[i];
-        m_ptCachePool.append(t_pt);
-        if (m_ptCachePool.size() == 1) {
-            //先什么都没有做
+        if(i == 0) {
+            //第一个点
+            SVStrokePoint pt0 = m_ptPool[i];
+            SVStrokePoint pt1 = m_ptPool[i+1];
+            FVec3 edage = pt1.point - pt0.point;
+            edage.normalize();
+            //求出轴
+            FVec3 t_axis;
+            cross(t_axis, pt0.normal,edage);
+            t_axis.normalize();
+            m_ptPool[i].ext0 = pt0.point + t_axis*m_pen_width;
+            m_ptPool[i].ext1 = pt0.point - t_axis*m_pen_width;
+        }else if(i == t_pt_num-1) {
+            //最后一个点
+            SVStrokePoint pt0 = m_ptPool[i-1];
+            SVStrokePoint pt1 = m_ptPool[i];
+            FVec3 edage = pt1.point - pt0.point;
+            edage.normalize();
+            //求出轴
+            FVec3 t_axis;
+            cross(t_axis, pt1.normal,edage);
+            t_axis.normalize();
+            m_ptPool[i].ext0 = pt0.point + t_axis*m_pen_width;
+            m_ptPool[i].ext1 = pt0.point - t_axis*m_pen_width;
+        }else{
+            //中间点
+            SVStrokePoint pt0 = m_ptPool[i-1];
+            SVStrokePoint pt1 = m_ptPool[i];
+            SVStrokePoint pt2 = m_ptPool[i+1];
+            //
+            FVec3 edage = pt2.point - pt0.point;
+            edage.normalize();
+            //求出轴
+            FVec3 t_axis;
+            cross(t_axis, pt1.normal,edage);
+            t_axis.normalize();
+            m_ptPool[i].ext0 = pt0.point + t_axis*m_pen_width;
+            m_ptPool[i].ext1 = pt0.point - t_axis*m_pen_width;
         }
-        if (m_ptCachePool.size() == 2) {
-            //当有两个点的时候
-            SVStrokePoint t_perpVec;
-            f32 stroke = m_stroke*0.5f;
-            SVStrokePoint t_pt1 = m_ptCachePool[1];
-            SVStrokePoint t_pt0 = m_ptCachePool[0];
-            SVStrokePoint t_p1p0 = (t_pt1 - t_pt0).normalize();
-            t_perpVec = cross(t_p1p0, t_cameraTarget).normalize();
-            SVStrokePoint t_0_p0 = t_pt0 - t_perpVec*stroke;
-            SVStrokePoint t_0_p1 = t_pt0 + t_perpVec*stroke;
-            SVStrokePoint t_1_p0 = t_pt1 - t_perpVec*stroke;
-            SVStrokePoint t_1_p1 = t_pt1 + t_perpVec*stroke;
-            //判断两条边是否能够相交
-//            FVec2 t_t_p0 = FVec2(t_0_p0.x, t_0_p0.y);
-//            FVec2 t_t_p1 = FVec2(t_0_p1.x, t_0_p1.y);
-//            FVec2 t_t_p3 = FVec2(t_1_p0.x, t_1_p0.y);
-//            FVec2 t_t_p4 = FVec2(t_1_p1.x, t_1_p1.y);
-//            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
-//                SVStrokePoint t_pt;
-//                t_pt = t_1_p0;
-//                t_1_p0 = t_1_p1;
-//                t_1_p1 = t_pt;
-//            }
-            m_rectVertexPool.append(t_0_p0);
-            m_rectVertexPool.append(t_0_p1);
-            m_rectVertexPool.append(t_1_p0);
-            m_rectVertexPool.append(t_1_p1);
-        }else if (m_ptCachePool.size() >= 2){
-            s32 t_index = m_ptCachePool.size();
-            SVStrokePoint t_pt0 = m_ptCachePool[t_index - 3];
-            SVStrokePoint t_pt1 = m_ptCachePool[t_index - 2];
-            SVStrokePoint t_pt2 = m_ptCachePool[t_index - 1];
-            SVStrokePoint t_p2p1 = (t_pt2 - t_pt1).normalize();
-            SVStrokePoint t_p1p0 = (t_pt1 - t_pt0).normalize();
-            
-            SVStrokePoint t_tangent = (t_p1p0+t_p2p1).normalize();
-            SVStrokePoint t_miter = cross(t_cameraTarget, t_tangent).normalize();
-            SVStrokePoint t_perpVec = cross(t_p2p1, t_cameraTarget).normalize();
-            f32 t_dot_a = fabsf(dot(t_miter, t_perpVec));
-            if (t_dot_a == 0) {
-                t_dot_a = 1.0;
-            }
-            f32 stroke = m_stroke*0.5 / t_dot_a;
-            SVStrokePoint t_0_p0 = t_pt1 - t_miter*stroke;
-            SVStrokePoint t_0_p1 = t_pt1 + t_miter*stroke;
-            
-            stroke = m_stroke*0.5;
-            SVStrokePoint t_1_p0 = t_pt2 - t_perpVec*stroke;
-            SVStrokePoint t_1_p1 = t_pt2 + t_perpVec*stroke;
-            //判断两条边是否能够相交
-//            FVec2 t_t_p0 = FVec2(t_0_p0.x, t_0_p0.y);
-//            FVec2 t_t_p1 = FVec2(t_0_p1.x, t_0_p1.y);
-//            FVec2 t_t_p3 = FVec2(t_1_p0.x, t_1_p0.y);
-//            FVec2 t_t_p4 = FVec2(t_1_p1.x, t_1_p1.y);
-//            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
-//                SVStrokePoint t_pt;
-//                t_pt = t_1_p0;
-//                t_1_p0 = t_1_p1;
-//                t_1_p1 = t_pt;
-//            }
-            //修改前两个点
-            m_rectVertexPool.set(m_rectVertexPool.size()-2, t_0_p0);
-            m_rectVertexPool.set(m_rectVertexPool.size()-1, t_0_p1);
-            m_rectVertexPool.append(t_1_p0);
-            m_rectVertexPool.append(t_1_p1);
-        }
-    }
-    m_ptPool.clear();
-    
-    
-    //
-    if (true) {
-        _fixRectVertexPoints();
     }
 }
 
 //生成数据
 void SVPenStroke::_genMesh() {
-    if (m_rectVertexPool.size() < 4) {
-        return;
-    }
-    //
-    s32 t_rect_num = (m_rectVertexPool.size() - 4)/2 + 1;
-    s32 t_vertex_num = t_rect_num*6;
-    s32 t_vertex_size = t_vertex_num*sizeof(V3_C_T0);
-    V3_C_T0 verts[t_vertex_num];
-    V3_C_T0 *t_verts = verts;
-    for (s32 i = 0; i<t_rect_num; i++) {
-        SVStrokePoint t_0_p0;
-        SVStrokePoint t_0_p1;
-        SVStrokePoint t_1_p0;
-        SVStrokePoint t_1_p1;
-        if (i == 0) {
-            t_0_p0 = m_rectVertexPool[0];
-            t_0_p1 = m_rectVertexPool[1];
-            t_1_p0 = m_rectVertexPool[2];
-            t_1_p1 = m_rectVertexPool[3];
-        }else{
-            t_0_p0 = m_rectVertexPool[i*2];
-            t_0_p1 = m_rectVertexPool[i*2+1];
-            t_1_p0 = m_rectVertexPool[i*2+2];
-            t_1_p1 = m_rectVertexPool[i*2+3];
+    s32 t_pt_num = m_ptPool.size();
+    if(true) {
+        V3_C_T0 verts[t_pt_num*2];
+        for (s32 i = 0; i<t_pt_num; i++) {
+            //下点
+            SVStrokePoint t_pt = m_ptPool[i];
+            verts[2*i].x = t_pt.ext0.x;
+            verts[2*i].y = t_pt.ext0.y;
+            verts[2*i].z = t_pt.ext0.z;
+            verts[2*i].t0x = i*1.0f;
+            verts[2*i].t0y = 0.0f;
+            verts[2*i].r = 0;
+            verts[2*i].g = 255;
+            verts[2*i].b = 0;
+            verts[2*i].a = 255;
+            //上点
+            verts[2*i+1].x = t_pt.ext1.x;
+            verts[2*i+1].y = t_pt.ext1.y;
+            verts[2*i+1].z = t_pt.ext1.z;
+            verts[2*i+1].t0x = i*1.0f;
+            verts[2*i+1].t0y = 1.0f;
+            verts[2*i+1].r = 0;
+            verts[2*i+1].g = 255;
+            verts[2*i+1].b = 0;
+            verts[2*i+1].a = 255;
         }
- 
-        //0
-        SVStrokePoint t_worldPt0 = t_0_p0;
-        m_aabbBox.expand(t_worldPt0);
-        //1
-        SVStrokePoint t_worldPt1 = t_0_p1;
-        m_aabbBox.expand(t_worldPt1);
-        //2
-        SVStrokePoint t_worldPt2 = t_1_p0;
-        m_aabbBox.expand(t_worldPt2);
-        //3
-        SVStrokePoint t_worldPt3 = t_1_p1;
-        m_aabbBox.expand(t_worldPt3);
         //
-        t_verts[i*6 + 0].x = t_worldPt0.x;
-        t_verts[i*6 + 0].y = t_worldPt0.y;
-        t_verts[i*6 + 0].z = t_worldPt0.z;
-        t_verts[i*6 + 0].t0x = 0.0f;
-        t_verts[i*6 + 0].t0y = 0.0f;
-        t_verts[i*6 + 0].r = 0.0f;
-        t_verts[i*6 + 0].g = 255.0f;
-        t_verts[i*6 + 0].b = 0.0f;
-        t_verts[i*6 + 0].a = 255.0f;
-
-        t_verts[i*6 + 1].x = t_worldPt1.x;
-        t_verts[i*6 + 1].y = t_worldPt1.y;
-        t_verts[i*6 + 1].z = t_worldPt1.z;
-        t_verts[i*6 + 1].t0x = 0.0f;
-        t_verts[i*6 + 1].t0y = 1.0f;
-        t_verts[i*6 + 1].r = 0.0f;
-        t_verts[i*6 + 1].g = 255.0f;
-        t_verts[i*6 + 1].b = 0.0f;
-        t_verts[i*6 + 1].a = 255.0f;
-
-        t_verts[i*6 + 2].x = t_worldPt2.x;
-        t_verts[i*6 + 2].y = t_worldPt2.y;
-        t_verts[i*6 + 2].z = t_worldPt2.z;
-        t_verts[i*6 + 2].t0x = 1.0f;
-        t_verts[i*6 + 2].t0y = 0.0f;
-        t_verts[i*6 + 2].r = 0.0f;
-        t_verts[i*6 + 2].g = 255.0f;
-        t_verts[i*6 + 2].b = 0.0f;
-        t_verts[i*6 + 2].a = 255.0f;
-
-        t_verts[i*6 + 3].x = t_worldPt2.x;
-        t_verts[i*6 + 3].y = t_worldPt2.y;
-        t_verts[i*6 + 3].z = t_worldPt2.z;
-        t_verts[i*6 + 3].t0x = 1.0f;
-        t_verts[i*6 + 3].t0y = 0.0f;
-        t_verts[i*6 + 3].r = 0.0f;
-        t_verts[i*6 + 3].g = 255.0f;
-        t_verts[i*6 + 3].b = 0.0f;
-        t_verts[i*6 + 3].a = 255.0f;
-
-        t_verts[i*6 + 4].x = t_worldPt1.x;
-        t_verts[i*6 + 4].y = t_worldPt1.y;
-        t_verts[i*6 + 4].z = t_worldPt1.z;
-        t_verts[i*6 + 4].t0x = 0.0f;
-        t_verts[i*6 + 4].t0y = 1.0f;
-        t_verts[i*6 + 4].r = 0.0f;
-        t_verts[i*6 + 4].g = 255.0f;
-        t_verts[i*6 + 4].b = 0.0f;
-        t_verts[i*6 + 4].a = 255.0f;
-
-        t_verts[i*6 + 5].x = t_worldPt3.x;
-        t_verts[i*6 + 5].y = t_worldPt3.y;
-        t_verts[i*6 + 5].z = t_worldPt3.z;
-        t_verts[i*6 + 5].t0x = 1.0f;
-        t_verts[i*6 + 5].t0y = 1.0f;
-        t_verts[i*6 + 5].r = 0.0f;
-        t_verts[i*6 + 5].g = 255.0f;
-        t_verts[i*6 + 5].b = 0.0f;
-        t_verts[i*6 + 5].a = 255.0f;
+        s32 t_vertex_size = t_pt_num*2*sizeof(V3_C_T0);
+        m_pVertData->writeData(verts, t_vertex_size);
+        m_vertexNum = t_pt_num*2;
+    }else{
+        V3_C_T0 verts[t_pt_num];
+        for (s32 i = 0; i<t_pt_num; i++) {
+            SVStrokePoint t_pt = m_ptPool[i];
+            verts[i].x = t_pt.point.x;
+            verts[i].y = t_pt.point.y;
+            verts[i].z = t_pt.point.z;
+            verts[i].t0x = 0.0f;
+            verts[i].t0y = 0.0f;
+            verts[i].r = 255;
+            verts[i].g = 0;
+            verts[i].b = 0;
+            verts[i].a = 255;
+        }
+        //
+        s32 t_vertex_size = t_pt_num*sizeof(V3_C_T0);
+        m_pVertData->writeData(verts, t_vertex_size);
+        m_vertexNum = t_pt_num;
     }
-    m_pVertData->writeData(t_verts, t_vertex_size);
-    m_vertexNum = t_vertex_num;
 }
 
 void SVPenStroke::_drawMesh() {
@@ -347,11 +234,8 @@ void SVPenStroke::_drawMesh() {
             m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_point.png",true);
             m_pMtl->setTexture(0, m_pTex);
             m_pMtl->setTexcoordFlip(1.0, -1.0);
+            m_pMtl->setLineSize(5.0f);
         }
-        SVStrokePoint t_min = m_aabbBox.getMin();
-        SVStrokePoint t_max = m_aabbBox.getMax();
-        SVStrokePoint t_posW = (t_max + t_min)*0.5f;
-        m_pMtl->setQuadPosW(t_posW);
         m_pMtl->setBlendEnable(true);
         m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         m_pMtl->setModelMatrix(m_localMat);
@@ -363,26 +247,29 @@ void SVPenStroke::_drawMesh() {
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         m_pRenderObj->pushCmd(t_rs, RST_FREETYPE, "SVPenStroke");
     }
-    if (m_drawBox) {
-        _drawBoundBox();
-    }
-}
-
-void SVPenStroke::_drawBoundBox(){
-    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    SVMtlGeo3dPtr t_mtl_geo3d = MakeSharedPtr<SVMtlGeo3d>(mApp);
-    t_mtl_geo3d->setColor(1.0f, 0.0f, 0.0f, 1.0f);
-    FMat4 m_mat_unit = FMat4_identity;
-    t_mtl_geo3d->setModelMatrix( m_mat_unit.get() ); SVRenderObjInst::pushAABBCmd(t_rs,RST_DEBUG_INNER,m_aabbBox,t_mtl_geo3d,"SV3DBOX_aabb");
 }
 
 void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint){
     SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
     FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
-    SVStrokePoint t_cameraEye = SVStrokePoint(t_cameraMatrix[12], t_cameraMatrix[13], t_cameraMatrix[14]);
-    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], t_cameraEye.length()+0.05);
+    FMat4 t_camRotInver = t_cameraMatrix;
+    t_camRotInver[12] = 0;
+    t_camRotInver[13] = 0;
+    t_camRotInver[14] = 0;
+    t_camRotInver =transpose(t_camRotInver);
+    FMat4 tmpMat = t_camRotInver*t_cameraMatrix;
+    //获取相机世界位置
+    FVec3 t_cameraEye = FVec3(-tmpMat[12], -tmpMat[13], -tmpMat[14]);
+    //构建虚拟平面
+    FVec3 t_cameraDir = FVec3(-t_cameraMatrix[2],
+                              -t_cameraMatrix[6],
+                              -t_cameraMatrix[10]);
+    FVec3 t_targetPos = t_cameraEye + t_cameraDir*m_plane_dis;
+    f32 t_dis = dot(t_targetPos,t_cameraDir);
+    FVec4 t_plane = FVec4(-t_cameraDir,t_dis);
     SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
-    SVStrokePoint t_pos;
+    //求交点
+    FVec3 t_pos;
     f32 t_pt_x = _point.x;
     f32 t_pt_y = _point.y;
     f32 t_pt_z = 0.0f;
@@ -391,51 +278,10 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
         t_pt_y = t_pos.y;
         t_pt_z = t_pos.z;
     }
-    _worldPoint = SVStrokePoint(t_pt_x, t_pt_y, t_pt_z);
-}
-
-void SVPenStroke::_fixRectVertexPoints(){
-    
-    s32 t_rect_num = (m_rectVertexPool.size() - 4)/2 + 1;
-    for (s32 i = 0; i<t_rect_num; i++) {
-        SVStrokePoint t_0_p0;
-        SVStrokePoint t_0_p1;
-        SVStrokePoint t_1_p0;
-        SVStrokePoint t_1_p1;
-        if (i == 0) {
-            t_0_p0 = m_rectVertexPool[0];
-            t_0_p1 = m_rectVertexPool[1];
-            t_1_p0 = m_rectVertexPool[2];
-            t_1_p1 = m_rectVertexPool[3];
-            FVec2 t_t_p0 = FVec2(t_0_p0.x, t_0_p0.y);
-            FVec2 t_t_p1 = FVec2(t_0_p1.x, t_0_p1.y);
-            FVec2 t_t_p3 = FVec2(t_1_p0.x, t_1_p0.y);
-            FVec2 t_t_p4 = FVec2(t_1_p1.x, t_1_p1.y);
-            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
-                SVStrokePoint t_pt;
-                t_pt = t_1_p0;
-                t_1_p0 = t_1_p1;
-                t_1_p1 = t_pt;
-                m_rectVertexPool.set(2, t_1_p0);
-                m_rectVertexPool.set(3, t_1_p1);
-            }
-        }else{
-            t_0_p0 = m_rectVertexPool[i*2];
-            t_0_p1 = m_rectVertexPool[i*2+1];
-            t_1_p0 = m_rectVertexPool[i*2+2];
-            t_1_p1 = m_rectVertexPool[i*2+3];
-            FVec2 t_t_p0 = FVec2(t_0_p0.x, t_0_p0.y);
-            FVec2 t_t_p1 = FVec2(t_0_p1.x, t_0_p1.y);
-            FVec2 t_t_p3 = FVec2(t_1_p0.x, t_1_p0.y);
-            FVec2 t_t_p4 = FVec2(t_1_p1.x, t_1_p1.y);
-            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
-                SVStrokePoint t_pt;
-                t_pt = t_1_p0;
-                t_1_p0 = t_1_p1;
-                t_1_p1 = t_pt;
-                m_rectVertexPool.set(i*2+2, t_1_p0);
-                m_rectVertexPool.set(i*2+3, t_1_p1);
-            }
-        }
-    }
+    //保存交点的位置和法线方向
+    _worldPoint.point = FVec3(t_pt_x,t_pt_y,t_pt_z);
+    _worldPoint.normal = -t_cameraDir;
+    //_worldPoint.normal.normalize();
+    _worldPoint.ext0 = FVec3(0.0f,0.0f,0.0f);
+    _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
 }
