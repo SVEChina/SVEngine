@@ -18,7 +18,7 @@ namespace sv{
     
     class SVPenStroke : public SVGameBase {
     public:
-        typedef FVec3 SVStrokePoint;
+        typedef SVStrokePoint
     
         SVPenStroke(SVInst* _app);
         
@@ -37,8 +37,12 @@ namespace sv{
         void setDrawBox(bool _drawBox);
     protected:
         void _genPoints();
+        
         void _updatePtPool(SVArray<FVec2> &_inPtPool, SVArray<FVec3> &_outPtPool);
+        
         void _screenPointToWorld(FVec2 &_point, FVec3 &_worldPoint);
+        //
+        void _fixRectVertexPoints();
         //
         void _genPolygon();
         //生成面片
@@ -57,8 +61,6 @@ namespace sv{
         PTPOOL m_ptCachePool;
         
         PTPOOL m_rectVertexPool;
-        
-        PTPOOL m_rectVertexCachePool;
         
         SVPenCurvePtr m_penCurve;
         //数据域

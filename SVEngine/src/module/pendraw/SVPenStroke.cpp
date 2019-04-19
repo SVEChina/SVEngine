@@ -32,7 +32,6 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_ptCachePool.clear();
     m_screenPtPool.clear();
     m_rectVertexPool.clear();
-    m_rectVertexCachePool.clear();
     m_localMat.setIdentity();
     m_lock = MakeSharedPtr<SVLock>();
     m_pVertData = MakeSharedPtr<SVDataSwap>();
@@ -51,6 +50,7 @@ SVPenStroke::SVPenStroke(SVInst *_app)
 
 SVPenStroke::~SVPenStroke() {
     m_penCurve = nullptr;
+    m_pVertData->reback();
     m_pVertData = nullptr;
     m_lock = nullptr;
     m_screenPtPool.clear();
@@ -58,7 +58,6 @@ SVPenStroke::~SVPenStroke() {
     m_ptCachePool.clear();
     m_aabbBox.clear();
     m_rectVertexPool.clear();
-    m_rectVertexCachePool.clear();
 }
 
 void SVPenStroke::setStrokeWidth(f32 _width){
@@ -86,6 +85,12 @@ void SVPenStroke::update(f32 _dt) {
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
     m_isFirstTouch = true;
+    //二维点到三维点的转换
+    FVec2 t_pt = FVec2(_px, _py);
+    SVStrokePoint t_worldPt;
+    _screenPointToWorld(t_pt, t_worldPt);
+    m_ptPool.append(t_worldPt);
+    //
     m_screenPtPool.append(SVStrokePoint(_px,_py,_pz));
     if (m_penCurve) {
         m_penCurve->reset();
@@ -167,16 +172,16 @@ void SVPenStroke::_genPolygon(){
             SVStrokePoint t_1_p0 = t_pt1 - t_perpVec*stroke;
             SVStrokePoint t_1_p1 = t_pt1 + t_perpVec*stroke;
             //判断两条边是否能够相交
-            FVec2 t_t_p0 = FVec2(t_0_p0.x, t_0_p0.y);
-            FVec2 t_t_p1 = FVec2(t_0_p1.x, t_0_p1.y);
-            FVec2 t_t_p3 = FVec2(t_1_p0.x, t_1_p0.y);
-            FVec2 t_t_p4 = FVec2(t_1_p1.x, t_1_p1.y);
-            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
-                SVStrokePoint t_pt;
-                t_pt = t_1_p0;
-                t_1_p0 = t_1_p1;
-                t_1_p1 = t_pt;
-            }
+//            FVec2 t_t_p0 = FVec2(t_0_p0.x, t_0_p0.y);
+//            FVec2 t_t_p1 = FVec2(t_0_p1.x, t_0_p1.y);
+//            FVec2 t_t_p3 = FVec2(t_1_p0.x, t_1_p0.y);
+//            FVec2 t_t_p4 = FVec2(t_1_p1.x, t_1_p1.y);
+//            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
+//                SVStrokePoint t_pt;
+//                t_pt = t_1_p0;
+//                t_1_p0 = t_1_p1;
+//                t_1_p1 = t_pt;
+//            }
             m_rectVertexPool.append(t_0_p0);
             m_rectVertexPool.append(t_0_p1);
             m_rectVertexPool.append(t_1_p0);
@@ -192,8 +197,11 @@ void SVPenStroke::_genPolygon(){
             SVStrokePoint t_tangent = (t_p1p0+t_p2p1).normalize();
             SVStrokePoint t_miter = cross(t_cameraTarget, t_tangent).normalize();
             SVStrokePoint t_perpVec = cross(t_p2p1, t_cameraTarget).normalize();
-            
-            f32 stroke = m_stroke*0.5 / fabsf(dot(t_miter, t_perpVec));
+            f32 t_dot_a = fabsf(dot(t_miter, t_perpVec));
+            if (t_dot_a == 0) {
+                t_dot_a = 1.0;
+            }
+            f32 stroke = m_stroke*0.5 / t_dot_a;
             SVStrokePoint t_0_p0 = t_pt1 - t_miter*stroke;
             SVStrokePoint t_0_p1 = t_pt1 + t_miter*stroke;
             
@@ -201,16 +209,17 @@ void SVPenStroke::_genPolygon(){
             SVStrokePoint t_1_p0 = t_pt2 - t_perpVec*stroke;
             SVStrokePoint t_1_p1 = t_pt2 + t_perpVec*stroke;
             //判断两条边是否能够相交
-            FVec2 t_t_p0 = FVec2(t_0_p0.x, t_0_p0.y);
-            FVec2 t_t_p1 = FVec2(t_0_p1.x, t_0_p1.y);
-            FVec2 t_t_p3 = FVec2(t_1_p0.x, t_1_p0.y);
-            FVec2 t_t_p4 = FVec2(t_1_p1.x, t_1_p1.y);
-            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
-                SVStrokePoint t_pt;
-                t_pt = t_1_p0;
-                t_1_p0 = t_1_p1;
-                t_1_p1 = t_pt;
-            }
+//            FVec2 t_t_p0 = FVec2(t_0_p0.x, t_0_p0.y);
+//            FVec2 t_t_p1 = FVec2(t_0_p1.x, t_0_p1.y);
+//            FVec2 t_t_p3 = FVec2(t_1_p0.x, t_1_p0.y);
+//            FVec2 t_t_p4 = FVec2(t_1_p1.x, t_1_p1.y);
+//            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
+//                SVStrokePoint t_pt;
+//                t_pt = t_1_p0;
+//                t_1_p0 = t_1_p1;
+//                t_1_p1 = t_pt;
+//            }
+            //修改前两个点
             m_rectVertexPool.set(m_rectVertexPool.size()-2, t_0_p0);
             m_rectVertexPool.set(m_rectVertexPool.size()-1, t_0_p1);
             m_rectVertexPool.append(t_1_p0);
@@ -218,6 +227,12 @@ void SVPenStroke::_genPolygon(){
         }
     }
     m_ptPool.clear();
+    
+    
+    //
+    if (true) {
+        _fixRectVertexPoints();
+    }
 }
 
 //生成数据
@@ -321,8 +336,8 @@ void SVPenStroke::_genMesh() {
         t_verts[i*6 + 5].b = 0.0f;
         t_verts[i*6 + 5].a = 255.0f;
     }
-    m_pVertData->appendData(t_verts, t_vertex_size);
-    m_vertexNum += t_vertex_num;
+    m_pVertData->writeData(t_verts, t_vertex_size);
+    m_vertexNum = t_vertex_num;
 }
 
 void SVPenStroke::_drawMesh() {
@@ -377,4 +392,50 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
         t_pt_z = t_pos.z;
     }
     _worldPoint = SVStrokePoint(t_pt_x, t_pt_y, t_pt_z);
+}
+
+void SVPenStroke::_fixRectVertexPoints(){
+    
+    s32 t_rect_num = (m_rectVertexPool.size() - 4)/2 + 1;
+    for (s32 i = 0; i<t_rect_num; i++) {
+        SVStrokePoint t_0_p0;
+        SVStrokePoint t_0_p1;
+        SVStrokePoint t_1_p0;
+        SVStrokePoint t_1_p1;
+        if (i == 0) {
+            t_0_p0 = m_rectVertexPool[0];
+            t_0_p1 = m_rectVertexPool[1];
+            t_1_p0 = m_rectVertexPool[2];
+            t_1_p1 = m_rectVertexPool[3];
+            FVec2 t_t_p0 = FVec2(t_0_p0.x, t_0_p0.y);
+            FVec2 t_t_p1 = FVec2(t_0_p1.x, t_0_p1.y);
+            FVec2 t_t_p3 = FVec2(t_1_p0.x, t_1_p0.y);
+            FVec2 t_t_p4 = FVec2(t_1_p1.x, t_1_p1.y);
+            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
+                SVStrokePoint t_pt;
+                t_pt = t_1_p0;
+                t_1_p0 = t_1_p1;
+                t_1_p1 = t_pt;
+                m_rectVertexPool.set(2, t_1_p0);
+                m_rectVertexPool.set(3, t_1_p1);
+            }
+        }else{
+            t_0_p0 = m_rectVertexPool[i*2];
+            t_0_p1 = m_rectVertexPool[i*2+1];
+            t_1_p0 = m_rectVertexPool[i*2+2];
+            t_1_p1 = m_rectVertexPool[i*2+3];
+            FVec2 t_t_p0 = FVec2(t_0_p0.x, t_0_p0.y);
+            FVec2 t_t_p1 = FVec2(t_0_p1.x, t_0_p1.y);
+            FVec2 t_t_p3 = FVec2(t_1_p0.x, t_1_p0.y);
+            FVec2 t_t_p4 = FVec2(t_1_p1.x, t_1_p1.y);
+            if (!getTwoLinesIntersection(t_t_p0, t_t_p4, t_t_p1, t_t_p3)) {
+                SVStrokePoint t_pt;
+                t_pt = t_1_p0;
+                t_1_p0 = t_1_p1;
+                t_1_p1 = t_pt;
+                m_rectVertexPool.set(i*2+2, t_1_p0);
+                m_rectVertexPool.set(i*2+3, t_1_p1);
+            }
+        }
+    }
 }
