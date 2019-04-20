@@ -40,9 +40,9 @@ namespace sv {
             
             void setPose(f32 _x, f32 _y, f32 _z);
             
-            void setViewMatrix(FMat4 &_mat);
+            void syncViewMatrix(FMat4 &_mat);
             
-            void setProjectMatrix(FMat4 &_mat);
+            void syncProjectMatrix(FMat4 &_mat);
             
             FVec3& getDirection();
             

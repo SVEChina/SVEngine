@@ -185,6 +185,16 @@ namespace sv {
         };
         
         //
+        class SVRenderCmdPopVPMat : public SVRenderCmd {
+        public:
+            SVRenderCmdPopVPMat();
+            
+            ~SVRenderCmdPopVPMat();
+            
+            virtual void render();
+        };
+        
+        //
         class SVRenderCmdPushMat : public SVRenderCmd {
         public:
             //0: vm 1:pm
@@ -212,6 +222,8 @@ namespace sv {
         protected:
             s32 m_type;
         };
+        
+       
     }//!namespace render
     
 }//!namespace sv

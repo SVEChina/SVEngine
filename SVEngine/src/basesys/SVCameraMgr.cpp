@@ -50,6 +50,8 @@ void SVCameraMgr::update(f32 dt) {
             FMat4 t_vm = m_mainCamera->getViewMatObj();
             FMat4 t_pm = m_mainCamera->getProjectMatObj();
             SVRenderCmdPushVPMatPtr t_cmd = MakeSharedPtr<SVRenderCmdPushVPMat>(t_vm,t_pm);
+            t_cmd->setRenderer(t_renderer);
+            t_cmd->mTag = "main_camera_begin";
             t_rs->pushRenderCmd(RST_SCENE_BEGIN, t_cmd);
         }
     }

@@ -250,9 +250,26 @@ SVRenderCmdPushVPMat::~SVRenderCmdPushVPMat() {
 }
 
 void SVRenderCmdPushVPMat::render() {
-    m_pRenderer->pushViewMat(m_vm);
-    m_pRenderer->pushProjMat(m_pm);
-    m_pRenderer->pushVPMat(m_pm*m_vm);
+    if(m_pRenderer) {
+        m_pRenderer->pushViewMat(m_vm);
+        m_pRenderer->pushProjMat(m_pm);
+        m_pRenderer->pushVPMat(m_pm*m_vm);
+    }
+}
+
+//
+SVRenderCmdPopVPMat::SVRenderCmdPopVPMat() {
+}
+
+SVRenderCmdPopVPMat::~SVRenderCmdPopVPMat() {
+}
+
+void SVRenderCmdPopVPMat::render() {
+    if(m_pRenderer) {
+        m_pRenderer->popViewMat();
+        m_pRenderer->popProjMat();
+        m_pRenderer->popVPMat();
+    }
 }
 
 //推入矩阵
@@ -265,10 +282,12 @@ SVRenderCmdPushMat::~SVRenderCmdPushMat(){
 }
 
 void SVRenderCmdPushMat::render() {
-    if(m_type==0 ) {
-        m_pRenderer->pushViewMat(m_mat);
-    }else if(m_type==1) {
-        m_pRenderer->pushProjMat(m_mat);
+    if(m_pRenderer) {
+        if(m_type==0 ) {
+            m_pRenderer->pushViewMat(m_mat);
+        }else if(m_type==1) {
+            m_pRenderer->pushProjMat(m_mat);
+        }
     }
 }
 
@@ -282,10 +301,12 @@ SVRenderCmdPopMat::~SVRenderCmdPopMat(){
 }
 
 void SVRenderCmdPopMat::render() {
-    if(m_type==0 ) {
-        m_pRenderer->popViewMat();
-    }else if(m_type==1) {
-        m_pRenderer->popProjMat();
+    if(m_pRenderer) {
+        if(m_type==0 ) {
+            m_pRenderer->popViewMat();
+        }else if(m_type==1) {
+            m_pRenderer->popProjMat();
+        }
     }
 }
 

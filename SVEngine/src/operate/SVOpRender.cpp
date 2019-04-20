@@ -242,20 +242,4 @@ void SVOpSetRenderMirror::setTargetParam(bool _mirror){
 void SVOpSetRenderMirror::_process(f32 dt){
     mApp->getConfig()->mirror = m_mirror;
 }
-//
-SVOpRefreshDefMat::SVOpRefreshDefMat(SVInst *_app, FMat4 _viewMat, FMat4 _projMat, FMat4 _vpMat)
-: SVOpBase(_app){
-    m_viewMat = _viewMat;
-    m_projMat = _projMat;
-    m_vpMat = _vpMat;
-}
 
-void SVOpRefreshDefMat::_process(f32 dt){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
-//    SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-//    if (mainCamera && t_renderer) {
-//        t_renderer->refreshDefMat(mainCamera->getViewMatObj(),
-//                                  mainCamera->getProjectMatObj(),
-//                                  mainCamera->getVPMatObj());
-//    }
-}

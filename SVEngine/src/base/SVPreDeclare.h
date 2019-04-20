@@ -148,7 +148,6 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpSetRenderTextureTarget);
     DECLARE_SHAREPTR(SVOpDestroyRenderTarget);
     DECLARE_SHAREPTR(SVOpSetRenderMirror);
-    DECLARE_SHAREPTR(SVOpRefreshDefMat);
     DECLARE_SHAREPTR(SVOpAppMode);
     
 

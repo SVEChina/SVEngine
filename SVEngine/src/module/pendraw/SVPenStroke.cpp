@@ -249,7 +249,7 @@ void SVPenStroke::_drawMesh() {
         m_pRenderObj->setMesh(m_pMesh);
         m_pRenderObj->setMtl(m_pMtl);
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-        m_pRenderObj->pushCmd(t_rs, RST_FREETYPE, "SVPenStroke");
+        m_pRenderObj->pushCmd(t_rs, RST_AR, "SVPenStroke");
     }
 }
 

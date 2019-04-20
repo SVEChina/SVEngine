@@ -145,15 +145,17 @@ void SVCameraNode::setPose(f32 _x, f32 _y, f32 _z){
 //    t_mat_rotZ*t_mat_rotY*t_mat_rotX
 }
 
-void SVCameraNode::setViewMatrix(FMat4 &_mat){
+void SVCameraNode::syncViewMatrix(FMat4 &_mat){
     m_mat_view = _mat;
+    //反算其他参数
     FMat4 t_matrix_invert = inverse(_mat);
     m_postion.set(t_matrix_invert[12], t_matrix_invert[13], t_matrix_invert[14]);
     m_mat_vp =m_mat_proj*m_mat_view;
 }
 
-void SVCameraNode::setProjectMatrix(FMat4 &_mat){
+void SVCameraNode::syncProjectMatrix(FMat4 &_mat){
     m_mat_proj = _mat;
+    //反算裁剪面
     m_mat_vp =m_mat_proj*m_mat_view;
 }
 
