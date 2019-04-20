@@ -24,8 +24,10 @@
 #include "../../node/SVCameraNode.h"
 #include "../../basesys/SVBasicSys.h"
 #include "../../basesys/SVPickProcess.h"
+#include "../../basesys/SVSensorProcess.h"
 #include "../../mtl/SVMtlStrokeBase.h"
 #include "../../mtl/SVMtlNocolor.h"
+
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
 //    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
@@ -254,8 +256,11 @@ void SVPenStroke::_drawMesh() {
 }
 
 void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint){
-    SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-    FMat4 t_cameraMatrix = mainCamera->getViewMatObj();
+    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
+    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
+    if(!t_arCam)
+        return ;
+    FMat4 t_cameraMatrix = t_arCam->getViewMatObj();
     FMat4 t_camRotInver = t_cameraMatrix;
     t_camRotInver[12] = 0;
     t_camRotInver[13] = 0;
@@ -277,7 +282,7 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
     f32 t_pt_x = _point.x;
     f32 t_pt_y = _point.y;
     f32 t_pt_z = 0.0f;
-    if(t_pickModule && t_pickModule->getCrossPointWithPlane(t_pt_x, t_pt_y,t_pos, t_plane) ){
+    if(t_pickModule && t_pickModule->getCrossPointWithPlane(t_arCam,t_pt_x, t_pt_y,t_pos, t_plane) ){
         t_pt_x = t_pos.x;
         t_pt_y = t_pos.y;
         t_pt_z = t_pos.z;

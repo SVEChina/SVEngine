@@ -27,6 +27,8 @@ namespace sv {
             
             void disableSensor();
             
+            SVCameraNodePtr getARCamera(){ return m_pARCamera; }
+            
             FVec3& getVelocity();
             
             FVec3& getDistance();

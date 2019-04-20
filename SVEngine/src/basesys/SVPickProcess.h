@@ -54,15 +54,17 @@ namespace sv {
             //
             void clear();
             //场景拾取
-            bool pickScene(s32 _sx,s32 _sy);
+            bool pickScene(SVCameraNodePtr _cam,s32 _sx,s32 _sy);
             //UI拾取
-            bool pickUI(s32 _sx,s32 _sy);
+            bool pickUI(SVCameraNodePtr _cam,s32 _sx,s32 _sy);
             //移动节点
-            void moveNode(s32 _sx,s32 _sy);
+            void moveNode(SVCameraNodePtr _cam,s32 _sx,s32 _sy);
             //获取交叉点
-            bool getCrossPoint(s32 _sx,s32 _sy,FVec3& _crosspt);
-            bool getCrossPointUI(s32 _sx,s32 _sy,FVec3& _crosspt);
-            bool getCrossPointWithPlane(s32 _sx,s32 _sy,FVec3& _crosspt, FVec4& _plane);
+            bool getCrossPoint(SVCameraNodePtr _cam,s32 _sx,s32 _sy,FVec3& _crosspt);
+            //
+            bool getCrossPointUI(SVCameraNodePtr _cam,s32 _sx,s32 _sy,FVec3& _crosspt);
+            //
+            bool getCrossPointWithPlane(SVCameraNodePtr _cam,s32 _sx,s32 _sy,FVec3& _crosspt, FVec4& _plane);
             //
             SVNodePtr getPickNode();
             //
@@ -72,8 +74,8 @@ namespace sv {
             //
             void _pick(SVNodePtr _node);
             //获取射线
-            bool _getRay(s32 _sx,s32 _sy,FVec3& _rayStart,FVec3& _rayEnd);
-            bool _getRayMat(FMat4 _vpMat,s32 _sx,s32 _sy,FVec3& _rayStart,FVec3& _rayEnd);
+            bool _getRay(SVCameraNodePtr _cam,s32 _sx,s32 _sy,FVec3& _rayStart,FVec3& _rayEnd);
+            bool _getRayMat(SVCameraNodePtr _cam,FMat4 _vpMat,s32 _sx,s32 _sy,FVec3& _rayStart,FVec3& _rayEnd);
             //
             bool m_enablePick;
             SVNodePtr m_curPickNode;
