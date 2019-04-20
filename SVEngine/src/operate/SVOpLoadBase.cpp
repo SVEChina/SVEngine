@@ -6,11 +6,13 @@
 //
 
 #include "SVOpLoadBase.h"
-#include "../node/SVNode.h"
 #include "../base/SVSign.h"
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVPickProcess.h"
 #include "../basesys/SVSceneMgr.h"
+#include "../basesys/SVCameraMgr.h"
+#include "../node/SVNode.h"
+#include "../node/SVCameraNode.h"
 
 SVOpLoadBase::SVOpLoadBase(SVInst *_app)
 : SVOpBase(_app) {
@@ -48,8 +50,8 @@ void SVOpPick::_process(f32 dt){
         f32 t_new_y = m_ui_y;
         //反适配
         mApp->getSceneMgr()->uiToScene(t_new_x,t_new_y);
-        //
-        if( t_pickModule->pickScene(t_new_x, t_new_y) ){
+        SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
+        if( t_pickModule->pickScene(t_camera,t_new_x, t_new_y) ){
             SVNodePtr t_pickNode = t_pickModule->getPickNode();
             if( t_pickNode ) {
                 t_pickNode->setdrawAABB(true);
