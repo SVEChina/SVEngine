@@ -49,24 +49,8 @@ namespace sv {
         void setRenderTarget(cptr8 _name,SVRenderTargetPtr _rt);
         
         SVRenderTargetPtr getRenderTarget(cptr8 _name);
-        //
-        void refreshDefMat(FMat4 _viewMat, FMat4 _projMat, FMat4 _vpMat);
-        //
-        void pushProjMat(FMat4 _mat);
-        FMat4 getProjMat();
-        void popProjMat();
-        //
-        void pushViewMat(FMat4 _mat);
-        FMat4 getViewMat();
-        void popViewMat();
-        //
-        void pushVPMat(FMat4 _mat);
-        FMat4 getVPMat();
-        void popVPMat();
-        
+    
     protected:
-        void _pushMatStack();
-        void _clearMatStack();
         void _adapt();
         s32 m_adaptMode;
         //渲染场景
@@ -81,15 +65,6 @@ namespace sv {
         //渲染目标Map
         typedef SVMap<SVString,SVRenderTargetPtr> TARGETPOOL;
         TARGETPOOL m_targetPool;
-        //
-        FMat4 m_viewMat;
-        FMat4 m_projMat;
-        FMat4 m_vpMat;
-        //
-        typedef SVStack<FMat4,10> MAT4STACK;//注意：栈最大支持的矩阵个数为10个
-        MAT4STACK m_stack_proj;
-        MAT4STACK m_stack_view;
-        MAT4STACK m_stack_vp;
         
     };//!namespace logic
 

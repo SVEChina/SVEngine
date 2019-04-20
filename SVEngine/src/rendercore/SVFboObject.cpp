@@ -75,10 +75,11 @@ void SVFboObject::bind() {
     SVRResGLFBOPtr t_tmp = std::dynamic_pointer_cast<SVRResGLFBO>(m_objFBOPtr);
     if (t_tmp) {
         t_tmp->bind();
-        if(m_link){
-            mApp->getRenderMgr()->pushViewMat(m_mat_view);
-            mApp->getRenderMgr()->pushProjMat(m_mat_proj);
-            mApp->getRenderMgr()->pushVPMat(m_mat_vp);
+        SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+        if(m_link && t_renderBasePtr){
+            t_renderBasePtr->pushViewMat(m_mat_view);
+            t_renderBasePtr->pushProjMat(m_mat_proj);
+            t_renderBasePtr->pushVPMat(m_mat_vp);
         }
     }
 }
@@ -94,10 +95,11 @@ void SVFboObject::unbind() {
     SVRResGLFBOPtr t_tmp = std::dynamic_pointer_cast<SVRResGLFBO>(m_objFBOPtr);
     if (t_tmp) {
         t_tmp->unbind();
-        if(m_link){
-            mApp->getRenderMgr()->popViewMat();
-            mApp->getRenderMgr()->popProjMat();
-            mApp->getRenderMgr()->popVPMat();
+        SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+        if(m_link && t_renderBasePtr){
+            t_renderBasePtr->popViewMat();
+            t_renderBasePtr->popProjMat();
+            t_renderBasePtr->popVPMat();
         }
     }
 }

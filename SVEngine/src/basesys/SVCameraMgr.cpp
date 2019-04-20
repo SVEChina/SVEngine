@@ -42,7 +42,9 @@ void SVCameraMgr::update(f32 dt) {
             m_mainCamera->addLinkFboObject( t_renderer->getRenderTexture() );
         }
         //这不知道要写到哪，先写这了. 晓帆
-        mApp->getRenderMgr()->refreshDefMat(m_mainCamera->getViewMatObj(), m_mainCamera->getProjectMatObj(), m_mainCamera->getVPMatObj());
+        t_renderer->refreshDefMat(m_mainCamera->getViewMatObj(),
+                                  m_mainCamera->getProjectMatObj(),
+                                  m_mainCamera->getVPMatObj());
     }
     m_cameraLock->lock();
     CAMERAPOOL::Iterator it = m_camerPool.begin();

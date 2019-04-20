@@ -10,6 +10,7 @@
 
 #include "SVRenderDef.h"
 #include "../base/SVGBase.h"
+#include "../base/SVMat4.h"
 #include "../base/SVArray.h"
 #include "../base/SVStack.h"
 #include "../core/SVVertDef.h"
@@ -67,6 +68,20 @@ namespace sv {
             SVRenderStatePtr getState();
             //重置状态
             void resetState();
+            //矩阵相关
+            void refreshDefMat(FMat4 _viewMat, FMat4 _projMat, FMat4 _vpMat);
+            //投影矩阵
+            void pushProjMat(FMat4 _mat);
+            FMat4 getProjMat();
+            void popProjMat();
+            //视矩阵
+            void pushViewMat(FMat4 _mat);
+            FMat4 getViewMat();
+            void popViewMat();
+            //vp矩阵
+            void pushVPMat(FMat4 _mat);
+            FMat4 getVPMat();
+            void popVPMat();
             
         protected:
             //渲染上下文
@@ -84,6 +99,20 @@ namespace sv {
             SVRenderStatePtr m_pRState;
             //渲染VP
             SVStack<VPParam,10> m_vpStack;  //viewport堆栈
+            //
+            FMat4 m_viewMat;
+            FMat4 m_projMat;
+            FMat4 m_vpMat;
+            //
+            typedef SVStack<FMat4,10> MAT4STACK;//注意：栈最大支持的矩阵个数为10个
+            MAT4STACK m_stack_proj;
+            MAT4STACK m_stack_view;
+            MAT4STACK m_stack_vp;
+            
+            void _pushMatStack();
+            
+            void _clearMatStack();
+            
             //inner size
             s32 m_inWidth;
             s32 m_inHeight;
