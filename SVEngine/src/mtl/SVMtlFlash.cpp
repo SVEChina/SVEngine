@@ -8,7 +8,7 @@
 
 #include "SVMtlFlash.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlFlash::SVMtlFlash(SVInst *_app)
 :SVMtlADFilterBase(_app,"filterflash") {

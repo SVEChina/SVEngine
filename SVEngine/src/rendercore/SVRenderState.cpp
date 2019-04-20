@@ -7,9 +7,9 @@
 
 
 #include "SVRenderState.h"
-#include "../../app/SVInst.h"
-#include "../SVRenderTarget.h"
-#include "../../basesys/SVSceneMgr.h"
+#include "SVRenderTarget.h"
+#include "../app/SVInst.h"
+#include "../basesys/SVSceneMgr.h"
 
 SVRenderState::SVRenderState(SVInst *_app)
 :SVGBase(_app){

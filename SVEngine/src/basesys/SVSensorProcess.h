@@ -30,8 +30,12 @@ namespace sv {
             FVec3& getVelocity();
             
             FVec3& getDistance();
+            
         protected:
             void _computePosition();
+            //
+            SVCameraNodePtr m_pARCamera;
+            //
             timeval m_timTagLast;
             f32 m_deltaTime;
             bool m_isFitst;

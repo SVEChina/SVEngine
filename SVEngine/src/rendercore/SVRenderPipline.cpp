@@ -9,6 +9,7 @@
 #include "SVRenderStream.h"
 #include "SVRenderCmd.h"
 #include "SVRenderMgr.h"
+#include "SVRendererBase.h"
 #include "../app/SVInst.h"
 #include "../base/SVLock.h"
 #include "../basesys/SVCameraMgr.h"
@@ -27,20 +28,24 @@ SVRenderPipline::~SVRenderPipline() {
     m_rstream_vec.destroy();
 }
 
+//fix by fyz 需要改掉
 void SVRenderPipline::render() {
     for (s32 i = RST_BEGIN; i <= RST_END; i++) {
-        if(i == RST_UI){
-            mApp->getRenderMgr()->pushProjMat(mApp->getCameraMgr()->getMainCamera()->getProjectMatObjUI());
-            mApp->getRenderMgr()->pushViewMat(mApp->getCameraMgr()->getMainCamera()->getViewMatObjUI());
-            mApp->getRenderMgr()->pushVPMat(mApp->getCameraMgr()->getMainCamera()->getVPMatObjUI());
+        if(mApp->getRenderer()) {
+            if(i == RST_UI){
+                mApp->getRenderer()->pushProjMat(mApp->getCameraMgr()->getMainCamera()->getProjectMatObjUI());
+                mApp->getRenderer()->pushViewMat(mApp->getCameraMgr()->getMainCamera()->getViewMatObjUI());
+                mApp->getRenderer()->pushVPMat(mApp->getCameraMgr()->getMainCamera()->getVPMatObjUI());
+            }
         }
         m_rstream_vec[i]->render();
-        if(i == RST_UI){
-            mApp->getRenderMgr()->popProjMat();
-            mApp->getRenderMgr()->popViewMat();
-            mApp->getRenderMgr()->popVPMat();
+        if(mApp->getRenderer()) {
+            if(i == RST_UI){
+                mApp->getRenderer()->popProjMat();
+                mApp->getRenderer()->popViewMat();
+                mApp->getRenderer()->popVPMat();
+            }
         }
-        
     }
     glFlush();
 }

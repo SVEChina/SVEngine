@@ -8,7 +8,7 @@
 
 #include "SVMtlDistorted.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlDistorted::SVMtlDistorted(SVInst *_app)
 :SVMtlADFilterBase(_app,"filterdistorted") {

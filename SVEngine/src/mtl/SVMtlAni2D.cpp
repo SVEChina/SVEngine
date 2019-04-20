@@ -7,7 +7,7 @@
 
 #include "SVMtlAni2D.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../rendercore/SVGL/SVRResGL.h"
 
 SVMtlAni2D::SVMtlAni2D(SVInst *_app)

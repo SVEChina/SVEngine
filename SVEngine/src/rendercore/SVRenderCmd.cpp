@@ -9,7 +9,7 @@
 #include "SVFboObject.h"
 #include "SVRenderScene.h"
 #include "SVRenderTexture.h"
-#include "renderer/SVRendererBase.h"
+#include "SVRendererBase.h"
 #include "../base/SVDataSwap.h"
 #include "../event/SVEvent.h"
 #include "../event/SVEventMgr.h"
@@ -102,8 +102,10 @@ void SVRenderCmdClear::setClearColor(f32 _r,f32 _g,f32 _b,f32 _a) {
 }
 
 void SVRenderCmdClear::render(){
-    glClearColor(m_color_r,m_color_g,m_color_b,m_color_a);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+    if(m_pRenderer){
+        m_pRenderer->svClearColor(m_color_r,m_color_g,m_color_b,m_color_a);
+        m_pRenderer->svClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+    }
 }
 
 //
@@ -122,8 +124,10 @@ void SVRenderCmdAdapt::setWinSize(s32 _w,s32 _h){
 
 void SVRenderCmdAdapt::render(){
     glViewport( 0, 0,m_winWidth,m_winHeight);
-    glClearColor(m_color_r,m_color_g,m_color_b,m_color_a);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+    m_pRenderer->svClearColor(m_color_r,m_color_g,m_color_b,m_color_a);
+    m_pRenderer->svClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+//    glClearColor(m_color_r,m_color_g,m_color_b,m_color_a);
+//    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
     SVRenderCmdNor::render();
 }
 
@@ -236,4 +240,74 @@ void SVRenderCmdFboUnbind::render() {
         m_fbo->unbind();
     }
 }
+
+SVRenderCmdPushVPMat::SVRenderCmdPushVPMat(FMat4& _vm,FMat4& _pm) {
+    m_vm = _vm;
+    m_pm = _pm;
+}
+
+SVRenderCmdPushVPMat::~SVRenderCmdPushVPMat() {
+}
+
+void SVRenderCmdPushVPMat::render() {
+    if(m_pRenderer) {
+        m_pRenderer->pushViewMat(m_vm);
+        m_pRenderer->pushProjMat(m_pm);
+        m_pRenderer->pushVPMat(m_pm*m_vm);
+    }
+}
+
+//
+SVRenderCmdPopVPMat::SVRenderCmdPopVPMat() {
+}
+
+SVRenderCmdPopVPMat::~SVRenderCmdPopVPMat() {
+}
+
+void SVRenderCmdPopVPMat::render() {
+    if(m_pRenderer) {
+        m_pRenderer->popViewMat();
+        m_pRenderer->popProjMat();
+        m_pRenderer->popVPMat();
+    }
+}
+
+//推入矩阵
+SVRenderCmdPushMat::SVRenderCmdPushMat(FMat4& _mat,s32 _type) {
+    m_mat = _mat;
+    m_type = _type;
+}
+
+SVRenderCmdPushMat::~SVRenderCmdPushMat(){
+}
+
+void SVRenderCmdPushMat::render() {
+    if(m_pRenderer) {
+        if(m_type==0 ) {
+            m_pRenderer->pushViewMat(m_mat);
+        }else if(m_type==1) {
+            m_pRenderer->pushProjMat(m_mat);
+        }
+    }
+}
+
+//
+//弹出矩阵
+SVRenderCmdPopMat::SVRenderCmdPopMat(s32 _type) {
+    m_type = _type;
+}
+
+SVRenderCmdPopMat::~SVRenderCmdPopMat(){
+}
+
+void SVRenderCmdPopMat::render() {
+    if(m_pRenderer) {
+        if(m_type==0 ) {
+            m_pRenderer->popViewMat();
+        }else if(m_type==1) {
+            m_pRenderer->popProjMat();
+        }
+    }
+}
+
 

@@ -25,7 +25,7 @@
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../basesys/SVConfig.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 //
 SVSpineNode::SVSpineNode(SVInst *_app)
 :SVNode(_app) {

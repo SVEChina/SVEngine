@@ -13,7 +13,7 @@
 #include "../detect/SVDetectBase.h"
 #include "../detect/SVDetectST.h"
 #include "../detect/SVPerson.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 f32 representParam[24][9]={
     {0,1,-0.688264,-0.666764,0.226535,0.450114,95,0.809862,0.4 },

@@ -152,7 +152,7 @@ void SVActFollowPerson::run(SVNodePtr _nodePtr, f32 dt){
             t_pt_x = t_pt_x + t_offsetX*t_personTracker->m_eyestd_scale;
             t_pt_y = t_pt_y + t_offsetY*t_personTracker->m_noisetd_scale;
             _nodePtr->setPosition(t_pt_x, t_pt_y, 0.0f);
-            _nodePtr->setScale(m_scaleX*t_personTracker->m_eyestd_scale, m_scaleY*t_personTracker->m_noisetd_scale, 1.0);
+            _nodePtr->setScale(m_scaleX*t_personTracker->m_eyestd_scale, m_scaleY*t_personTracker->m_eyestd_scale, 1.0);
             _nodePtr->setRotation(t_pitch, -t_yaw, t_roll);
         }else{
             _nodePtr->setvisible(false);

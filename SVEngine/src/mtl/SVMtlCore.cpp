@@ -13,7 +13,7 @@
 #include "../rendercore/SVRenderScene.h"
 #include "../rendercore/SVGL/SVRResGL.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../rendercore/SVResShader.h"
 
 SVMtlCoreParam::SVMtlCoreParam(){
@@ -176,18 +176,20 @@ void SVMtlCore::_loadShader() {
 }
 
 void SVMtlCore::_refreshMatrix(){
-    FMat4 t_mat_view = mApp->getRenderMgr()->getViewMat();
-    memcpy(m_LogicParamMatrix.m_mat_view, t_mat_view.get(), sizeof(f32) * 16);
-    m_LogicMtlFlag0 |= MTL_F0_MAT_V;
-    
-    FMat4 t_mat_proj = mApp->getRenderMgr()->getProjMat();
-    memcpy(m_LogicParamMatrix.m_mat_project, t_mat_proj.get(), sizeof(f32) * 16);
-    m_LogicMtlFlag0 |= MTL_F0_MAT_P;
-    
-    FMat4 t_mat_vp = mApp->getRenderMgr()->getVPMat();
-    memcpy(m_LogicParamMatrix.m_mat_vp, t_mat_vp.get(), sizeof(f32) * 16);
-    m_LogicMtlFlag0 |= MTL_F0_MAT_VP;
-    
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer){
+        FMat4 t_mat_view = t_renderer->getViewMat();
+        memcpy(m_LogicParamMatrix.m_mat_view, t_mat_view.get(), sizeof(f32) * 16);
+        m_LogicMtlFlag0 |= MTL_F0_MAT_V;
+        
+        FMat4 t_mat_proj = t_renderer->getProjMat();
+        memcpy(m_LogicParamMatrix.m_mat_project, t_mat_proj.get(), sizeof(f32) * 16);
+        m_LogicMtlFlag0 |= MTL_F0_MAT_P;
+        
+        FMat4 t_mat_vp = t_renderer->getVPMat();
+        memcpy(m_LogicParamMatrix.m_mat_vp, t_mat_vp.get(), sizeof(f32) * 16);
+        m_LogicMtlFlag0 |= MTL_F0_MAT_VP;
+    }
 }
 
 //执行修正系统

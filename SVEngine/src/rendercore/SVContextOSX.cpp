@@ -7,7 +7,7 @@
 
 
 #include "SVContextOSX.h"
-#include "../../app/SVInst.h"
+#include "../app/SVInst.h"
 
 #ifdef SV_OSX
 

@@ -8,12 +8,13 @@
 #ifndef SV_RENDERER_BASE_H
 #define SV_RENDERER_BASE_H
 
-#include "../SVRenderDef.h"
-#include "../../base/SVGBase.h"
-#include "../../base/SVArray.h"
-#include "../../base/SVStack.h"
-#include "../../core/SVVertDef.h"
-#include "../../mtl/SVMtlParamBase.h"
+#include "SVRenderDef.h"
+#include "../base/SVGBase.h"
+#include "../base/SVMat4.h"
+#include "../base/SVArray.h"
+#include "../base/SVStack.h"
+#include "../core/SVVertDef.h"
+#include "../mtl/SVMtlParamBase.h"
 
 namespace sv {
     
@@ -39,6 +40,10 @@ namespace sv {
             virtual void destroy();
             //重置大小
             virtual void resize(s32 _w,s32 _h);
+            //
+            virtual void renderBegin();
+            //
+            virtual void renderEnd();
             //增加渲染内核资源
             void addRes(SVRObjBasePtr _res);
             //移除渲染内核资源
@@ -67,7 +72,20 @@ namespace sv {
             SVRenderStatePtr getState();
             //重置状态
             void resetState();
-            
+            //投影矩阵
+            void pushProjMat(FMat4 _mat);
+            FMat4 getProjMat();
+            void popProjMat();
+            //视矩阵
+            void pushViewMat(FMat4 _mat);
+            FMat4 getViewMat();
+            void popViewMat();
+            //vp矩阵
+            void pushVPMat(FMat4 _mat);
+            FMat4 getVPMat();
+            void popVPMat();
+            //
+            void clearMatStack();
         protected:
             //渲染上下文
             SVContextBasePtr m_pRenderContext;
@@ -84,6 +102,12 @@ namespace sv {
             SVRenderStatePtr m_pRState;
             //渲染VP
             SVStack<VPParam,10> m_vpStack;  //viewport堆栈
+            //
+            typedef SVStack<FMat4,10> MAT4STACK;//注意：栈最大支持的矩阵个数为10个
+            MAT4STACK m_stack_proj;
+            MAT4STACK m_stack_view;
+            MAT4STACK m_stack_vp;
+
             //inner size
             s32 m_inWidth;
             s32 m_inHeight;
@@ -158,6 +182,10 @@ namespace sv {
             virtual void svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h);
             //退出视口
             virtual void svPopViewPort();
+            //设置清理颜色
+            virtual void svClearColor(f32 _r,f32 _g,f32 _b,f32 _a){}
+            //设置清理掩码
+            virtual void svClear(s32 _mask){}
         };
     
     }//!namespace render

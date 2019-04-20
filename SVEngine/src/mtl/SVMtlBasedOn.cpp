@@ -7,7 +7,7 @@
 
 #include "SVMtlBasedOn.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlBasedOn::SVMtlBasedOn(SVInst *_app)
 :SVMtlCore(_app,"baseFilterAdjustment") {

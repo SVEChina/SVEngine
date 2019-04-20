@@ -11,8 +11,8 @@
 #include "SVRenderStream.h"
 #include "SVRenderTarget.h"
 #include "SVRenderPipline.h"
-#include "renderer/SVRendererBase.h"
-#include "renderer/SVContextBase.h"
+#include "SVRendererBase.h"
+#include "SVContextBase.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtlCore.h"
 #include "../base/SVLock.h"
@@ -121,8 +121,8 @@ void SVRenderMgr::render(){
     if(m_pRenderer && m_pRenderScene ){
         SVContextBasePtr t_context = m_pRenderer->getRenderContext();
         if( t_context && t_context->activeContext() ){
+            m_pRenderer->renderBegin();
             _adapt();
-            _pushMatStack();
             SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
             if( t_context->activeRenderTarget( t_rt ) ){
                 m_pRenderScene->render();
@@ -132,7 +132,7 @@ void SVRenderMgr::render(){
                 m_pRenderScene->clearRenderCmd();
             }
             m_pRenderer->removeUnuseRes();  //资源释放
-            _clearMatStack();
+            m_pRenderer->renderEnd();
         }
     }
     m_renderLock->unlock();
@@ -154,6 +154,7 @@ void SVRenderMgr::_adapt() {
             }
             SVRenderCmdAdaptPtr t_cmd = MakeSharedPtr<SVRenderCmdAdapt>();
             t_cmd->mTag = "adaptscene";
+            t_cmd->setRenderer(m_pRenderer);
             t_cmd->setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             t_cmd->setWinSize(mApp->m_pGlobalParam->m_inner_width,mApp->m_pGlobalParam->m_inner_height);
             t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
@@ -184,9 +185,6 @@ void SVRenderMgr::clear() {
         m_pRenderScene = nullptr;
     }
     m_targetPool.clear();
-    m_stack_proj.destroy();
-    m_stack_view.destroy();
-    m_stack_vp.destroy();
     m_renderLock->unlock();
 }
 
@@ -195,58 +193,4 @@ void SVRenderMgr::recycleRes() {
     if( m_pRenderer ) {
         m_pRenderer->clearRes();
     }
-}
-
-void SVRenderMgr::refreshDefMat(FMat4 _viewMat, FMat4 _projMat, FMat4 _vpMat){
-    m_viewMat = _vpMat;
-    m_projMat = _projMat;
-    m_vpMat = _vpMat;
-}
-
-void SVRenderMgr::pushProjMat(FMat4 _mat){
-    FMat4 mat4 = _mat;
-    m_stack_proj.push(mat4);
-}
-FMat4 SVRenderMgr::getProjMat(){
-    FMat4 mat4Proj = m_stack_proj.top();
-    return mat4Proj;
-}
-void SVRenderMgr::popProjMat(){
-    m_stack_proj.pop();
-}
-//
-void SVRenderMgr::pushViewMat(FMat4 _mat){
-    FMat4 mat4 = _mat;
-    m_stack_view.push(mat4);
-}
-FMat4 SVRenderMgr::getViewMat(){
-    FMat4 mat4View = m_stack_view.top();;
-    return mat4View;
-}
-void SVRenderMgr::popViewMat(){
-    m_stack_view.pop();
-}
-//
-void SVRenderMgr::pushVPMat(FMat4 _mat){
-    FMat4 mat4 = _mat;
-    m_stack_vp.push(mat4);
-}
-FMat4 SVRenderMgr::getVPMat(){
-    FMat4 mat4VP = m_stack_vp.top();;
-    return mat4VP;
-}
-void SVRenderMgr::popVPMat(){
-    m_stack_vp.pop();
-}
-
-void SVRenderMgr::_clearMatStack(){
-    m_stack_proj.clear();
-    m_stack_view.clear();
-    m_stack_vp.clear();
-}
-
-void SVRenderMgr::_pushMatStack(){
-    pushProjMat(m_projMat);
-    pushViewMat(m_viewMat);
-    pushVPMat(m_vpMat);
 }

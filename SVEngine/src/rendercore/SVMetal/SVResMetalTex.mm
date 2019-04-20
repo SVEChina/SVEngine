@@ -16,8 +16,8 @@
 #include "../../base/SVDataSwap.h"
 #include "../../base/SVLock.h"
 #include "../../rendercore/SVRenderMgr.h"
-#include "../renderer/SVContextBase.h"
-#include "../renderer/SVRendererBase.h"
+#include "../SVContextBase.h"
+#include "../SVRendererBase.h"
 
 //tex资源
 SVRResMetalTex::SVRResMetalTex(SVInst* _app)

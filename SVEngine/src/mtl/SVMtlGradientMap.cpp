@@ -7,7 +7,7 @@
 //
 
 #include "SVMtlGradientMap.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 
 SVMtlGradientMap::SVMtlGradientMap(SVInst *_app)

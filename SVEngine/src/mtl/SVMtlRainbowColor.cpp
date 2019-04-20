@@ -8,7 +8,7 @@
 
 #include "SVMtlRainbowColor.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlRainbowColor::SVMtlRainbowColor(SVInst *_app)
 :SVMtlADFilterBase(_app,"filterrainbowcolor") {

@@ -8,7 +8,7 @@
 
 #include "SVMtlGlitch.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlGlitch::SVMtlGlitch(SVInst *_app)
 :SVMtlADFilterBase(_app,"filterglitch") {

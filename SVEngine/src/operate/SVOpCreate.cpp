@@ -15,7 +15,7 @@
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../node/SVCameraNode.h"
 #include "../node/SVFrameOutNode.h"
 #include "../node/SVNodeVisit.h"

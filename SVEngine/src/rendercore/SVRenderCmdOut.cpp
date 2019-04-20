@@ -13,7 +13,7 @@
 #include "../base/SVDataSwap.h"
 #include "SVRenderMgr.h"
 #include "SVRenderTexture.h"
-#include "renderer/SVRendererBase.h"
+#include "SVRendererBase.h"
 #include <sys/time.h>
 #include "SVGL/SVRResGL.h"
 #include "SVFboObject.h"

@@ -8,7 +8,7 @@
 #ifndef SV_RENDERERVULKAN_H
 #define SV_RENDERERVULKAN_H
 
-#include "../renderer/SVRendererBase.h"
+#include "../SVRendererBase.h"
 
 namespace sv {
     

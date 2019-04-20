@@ -6,15 +6,15 @@
 //
 
 #include "SVRendererBase.h"
-#include "../../app/SVInst.h"
-#include "../../base/SVLock.h"
-#include "../../mtl/SVTexMgr.h"
-#include "../../mtl/SVTexture.h"
-#include "../../mtl/SVTextureIOS.h"
-#include "../SVRenderMgr.h"
-#include "../SVRenderTarget.h"
-#include "../SVRenderTexture.h"
-#include "../SVRObjBase.h"
+#include "../app/SVInst.h"
+#include "../base/SVLock.h"
+#include "../mtl/SVTexMgr.h"
+#include "../mtl/SVTexture.h"
+#include "../mtl/SVTextureIOS.h"
+#include "SVRenderMgr.h"
+#include "SVRenderTarget.h"
+#include "SVRenderTexture.h"
+#include "SVRObjBase.h"
 #include "SVRenderState.h"
 
 SVRendererBase::SVRendererBase(SVInst* _app)
@@ -47,7 +47,22 @@ void SVRendererBase::destroy(){
         m_svTex[i] = nullptr;
     }
     clearRes();
+    //
+    m_stack_proj.destroy();
+    m_stack_view.destroy();
+    m_stack_vp.destroy();
+    //
     m_resLock = nullptr;
+}
+
+//
+void SVRendererBase::renderBegin() {
+    clearMatStack();
+}
+
+//
+void SVRendererBase::renderEnd() {
+    
 }
 
 //获取状态
@@ -219,4 +234,47 @@ void SVRendererBase::svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h) {
 //退出视口
 void SVRendererBase::svPopViewPort() {
     m_vpStack.pop();
+}
+
+//
+void SVRendererBase::pushProjMat(FMat4 _mat){
+    FMat4 mat4 = _mat;
+    m_stack_proj.push(mat4);
+}
+FMat4 SVRendererBase::getProjMat(){
+    FMat4 mat4Proj = m_stack_proj.top();
+    return mat4Proj;
+}
+void SVRendererBase::popProjMat(){
+    m_stack_proj.pop();
+}
+//
+void SVRendererBase::pushViewMat(FMat4 _mat){
+    FMat4 mat4 = _mat;
+    m_stack_view.push(mat4);
+}
+FMat4 SVRendererBase::getViewMat(){
+    FMat4 mat4View = m_stack_view.top();;
+    return mat4View;
+}
+void SVRendererBase::popViewMat(){
+    m_stack_view.pop();
+}
+//
+void SVRendererBase::pushVPMat(FMat4 _mat){
+    FMat4 mat4 = _mat;
+    m_stack_vp.push(mat4);
+}
+FMat4 SVRendererBase::getVPMat(){
+    FMat4 mat4VP = m_stack_vp.top();;
+    return mat4VP;
+}
+void SVRendererBase::popVPMat(){
+    m_stack_vp.pop();
+}
+
+void SVRendererBase::clearMatStack(){
+    m_stack_proj.clear();
+    m_stack_view.clear();
+    m_stack_vp.clear();
 }

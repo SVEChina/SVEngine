@@ -10,9 +10,9 @@
 #include "SVRResGL.h"
 #include "../../app/SVInst.h"
 #include "../../app/SVGlobalParam.h"
-#include "../renderer/SVContextIOS.h"
-#include "../renderer/SVContextOSX.h"
-#include "../renderer/SVEGLContext.h"
+#include "../SVContextIOS.h"
+#include "../SVContextOSX.h"
+#include "../SVEGLContext.h"
 #include "../SVRenderMgr.h"
 #include "../SVRenderTarget.h"
 #include "../SVRenderTexture.h"
@@ -557,6 +557,16 @@ void SVRendererGL::svPopViewPort() {
         VPParam t_vp = m_vpStack.top();
         glViewport(t_vp.m_x, t_vp.m_y, t_vp.m_width, t_vp.m_height);
     }
+}
+
+//设置清理颜色
+void SVRendererGL::svClearColor(f32 _r,f32 _g,f32 _b,f32 _a) {
+    glClearColor(_r,_g,_b,_a);
+}
+
+//设置清理掩码
+void SVRendererGL::svClear(s32 _mask) {
+    glClear(_mask);
 }
 
 void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf) {

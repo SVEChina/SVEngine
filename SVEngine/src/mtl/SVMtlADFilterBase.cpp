@@ -8,7 +8,7 @@
 
 #include "SVMtlADFilterBase.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlADFilterBase::SVMtlADFilterBase(SVInst *_app, cptr8 _shader)
 :SVMtlCore(_app,_shader) {

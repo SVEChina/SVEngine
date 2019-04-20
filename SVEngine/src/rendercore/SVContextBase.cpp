@@ -6,11 +6,11 @@
 //
 
 #include "SVContextBase.h"
-#include "../../app/SVInst.h"
-#include "../SVRenderMgr.h"
+#include "../app/SVInst.h"
+#include "SVRenderMgr.h"
 #include "SVRendererBase.h"
-#include "../SVGL/SVRendererGL.h"
-#include "../SVRenderTarget.h"
+#include "SVGL/SVRendererGL.h"
+#include "SVRenderTarget.h"
 
 SVContextBase::SVContextBase(SVInst *_app)
 :SVGBase(_app)
