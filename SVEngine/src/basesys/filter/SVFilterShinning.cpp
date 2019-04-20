@@ -11,7 +11,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../mtl/SVMtlBasedOn.h"
-#include "../../rendercore/renderer/SVRendererBase.h"
+#include "../../rendercore/SVRendererBase.h"
 #include "../../mtl/SVMtlShinning.h"
 #include "../../rendercore/SVRenderMgr.h"
 SVFilterShinning::SVFilterShinning(SVInst *_app)

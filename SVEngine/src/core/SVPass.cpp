@@ -9,7 +9,7 @@
 #include "../app/SVInst.h"
 #include "../mtl/SVMtlCore.h"
 #include "../rendercore/SVRenderTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVPass::SVPass(){
     m_pMtl = nullptr;

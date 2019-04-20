@@ -7,7 +7,7 @@
 //
 
 #include "SVMtlSmooth.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 
 SVMtlSmooth::SVMtlSmooth(SVInst *_app , SVString _name)

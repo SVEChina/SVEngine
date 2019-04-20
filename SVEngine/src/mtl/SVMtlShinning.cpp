@@ -8,7 +8,7 @@
 
 #include "SVMtlShinning.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlShinning::SVMtlShinning(SVInst *_app)
 :SVMtlADFilterBase(_app,"filtershinning") {

@@ -6,15 +6,15 @@
 //
 
 #include "SVRendererBase.h"
-#include "../../app/SVInst.h"
-#include "../../base/SVLock.h"
-#include "../../mtl/SVTexMgr.h"
-#include "../../mtl/SVTexture.h"
-#include "../../mtl/SVTextureIOS.h"
-#include "../SVRenderMgr.h"
-#include "../SVRenderTarget.h"
-#include "../SVRenderTexture.h"
-#include "../SVRObjBase.h"
+#include "../app/SVInst.h"
+#include "../base/SVLock.h"
+#include "../mtl/SVTexMgr.h"
+#include "../mtl/SVTexture.h"
+#include "../mtl/SVTextureIOS.h"
+#include "SVRenderMgr.h"
+#include "SVRenderTarget.h"
+#include "SVRenderTexture.h"
+#include "SVRObjBase.h"
 #include "SVRenderState.h"
 
 SVRendererBase::SVRendererBase(SVInst* _app)

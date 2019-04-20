@@ -21,7 +21,7 @@
 #include "../node/SVShapeVariedNode.h"
 #include "../node/SVSpriteNode.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../mtl/SVTexture.h"
 
 //

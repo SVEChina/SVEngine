@@ -8,12 +8,12 @@
 #ifndef SV_RENDERER_BASE_H
 #define SV_RENDERER_BASE_H
 
-#include "../SVRenderDef.h"
-#include "../../base/SVGBase.h"
-#include "../../base/SVArray.h"
-#include "../../base/SVStack.h"
-#include "../../core/SVVertDef.h"
-#include "../../mtl/SVMtlParamBase.h"
+#include "SVRenderDef.h"
+#include "../base/SVGBase.h"
+#include "../base/SVArray.h"
+#include "../base/SVStack.h"
+#include "../core/SVVertDef.h"
+#include "../mtl/SVMtlParamBase.h"
 
 namespace sv {
     
@@ -158,6 +158,10 @@ namespace sv {
             virtual void svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h);
             //退出视口
             virtual void svPopViewPort();
+            //设置清理颜色
+            virtual void svClearColor(f32 _r,f32 _g,f32 _b,f32 _a){}
+            //设置清理掩码
+            virtual void svClear(s32 _mask){}
         };
     
     }//!namespace render

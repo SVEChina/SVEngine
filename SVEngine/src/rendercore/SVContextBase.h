@@ -8,8 +8,8 @@
 #ifndef SV_CONTEXTBASE_H
 #define SV_CONTEXTBASE_H
 
-#include "../../base/SVGBase.h"
-#include "../SVRenderDef.h"
+#include "../base/SVGBase.h"
+#include "SVRenderDef.h"
 
 namespace sv {
     

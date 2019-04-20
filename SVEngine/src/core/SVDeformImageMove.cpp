@@ -20,7 +20,7 @@
 #include "../rendercore/SVRenderTexture.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRenderScene.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../core/SVGeoGen.h"
 #include "../core/SVPass.h"
 #include "../app/SVGlobalMgr.h"

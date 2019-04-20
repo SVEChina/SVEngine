@@ -7,7 +7,7 @@
 
 #include "SVMtlBillboard.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVCameraNode.h"
 SVMtlBillboard::SVMtlBillboard(SVInst *_app)

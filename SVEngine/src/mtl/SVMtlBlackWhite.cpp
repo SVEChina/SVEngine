@@ -8,7 +8,7 @@
 
 #include "SVMtlBlackWhite.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlBlackWhite::SVMtlBlackWhite(SVInst *_app)
 :SVMtlCore(_app,"filterblackwhite") {

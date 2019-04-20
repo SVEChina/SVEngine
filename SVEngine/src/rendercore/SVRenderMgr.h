@@ -85,6 +85,7 @@ namespace sv {
         FMat4 m_viewMat;
         FMat4 m_projMat;
         FMat4 m_vpMat;
+        //
         typedef SVStack<FMat4,10> MAT4STACK;//注意：栈最大支持的矩阵个数为10个
         MAT4STACK m_stack_proj;
         MAT4STACK m_stack_view;

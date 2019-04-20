@@ -8,7 +8,7 @@
 #include "SVMtl3D.h"
 #include "../basesys/SVCameraMgr.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../node/SVCameraNode.h"
 SVMtl3D::SVMtl3D(SVInst *_app, cptr8 _shader)
 :SVMtlCore(_app, _shader) {

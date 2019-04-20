@@ -18,7 +18,7 @@
 #include "../rendercore/SVGL/SVRendererGL.h"
 #include "../rendercore/SVMetal/SVRendererMetal.h"
 #include "../rendercore/SVVulkan/SVRendererVK.h"
-#include "../rendercore/renderer/SVContextBase.h"
+#include "../rendercore/SVContextBase.h"
 
 #ifdef SV_IOS
 
@@ -253,6 +253,8 @@ SVOpRefreshDefMat::SVOpRefreshDefMat(SVInst *_app, FMat4 _viewMat, FMat4 _projMa
 void SVOpRefreshDefMat::_process(f32 dt){
     SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
     if (mainCamera) {
-        mApp->getRenderMgr()->refreshDefMat(mainCamera->getViewMatObj(), mainCamera->getProjectMatObj(), mainCamera->getVPMatObj());
+        mApp->getRenderMgr()->refreshDefMat(mainCamera->getViewMatObj(),
+                                            mainCamera->getProjectMatObj(),
+                                            mainCamera->getVPMatObj());
     }
 }

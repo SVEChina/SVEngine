@@ -8,7 +8,7 @@
 #include "SVResTex.h"
 #include "../app/SVInst.h"
 #include "../base/SVLock.h"
-#include "renderer/SVRendererBase.h"
+#include "SVRendererBase.h"
 
 SVResTex::SVResTex(SVInst* _app)
 :SVRObjBase(_app){

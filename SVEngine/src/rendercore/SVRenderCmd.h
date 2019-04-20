@@ -11,8 +11,10 @@
 #include "SVRenderDef.h"
 #include "SVRenderMesh.h"
 #include "../base/SVObject.h"
+#include "../base/SVMat4.h"
 #include "../base/SVPreDeclare.h"
 #include "../mtl/SVMtlDeclare.h"
+
 namespace sv {
     
     namespace render{
@@ -166,6 +168,21 @@ namespace sv {
             virtual void render();
         protected:
             SVFboObjectPtr m_fbo;
+        };
+        
+        //修改矩阵
+        class SVRenderCmdmModifyMat : public SVRenderCmd {
+        public:
+            //0: vm 1:pm
+            SVRenderCmdmModifyMat(FMat4& _mat,s32 _type);
+            
+            ~SVRenderCmdmModifyMat();
+            
+            virtual void render();
+            
+        protected:
+            FMat4 m_mat;
+            s32 m_type;
         };
         
     }//!namespace render

@@ -8,7 +8,7 @@
 #include "SVMtlFair1.h"
 #include "../app/SVInst.h"
 #include "../app/SVGlobalParam.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 //
 SVMtlFilterBrilaterl::SVMtlFilterBrilaterl(SVInst *_app)

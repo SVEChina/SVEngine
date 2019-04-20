@@ -7,7 +7,7 @@
 
 #include "SVMtlRGB2YUV.h"
 #include "../app/SVInst.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlRGB2YUV::SVMtlRGB2YUV(SVInst *_app, SV_OUTSTEAMFORMATE formate)
 :SVMtlCore(_app,"rgb2yuvnv21") {

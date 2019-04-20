@@ -7,7 +7,7 @@
 
 #include "SVMtlStrokeBase.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVCameraNode.h"
 SVMtlStrokeBase::SVMtlStrokeBase(SVInst *_app)

@@ -6,7 +6,7 @@
 //
 
 #include "SVGlobalParam.h"
-#include "../rendercore/renderer/SVRenderState.h"
+#include "../rendercore/SVRenderState.h"
 #include "../rendercore/SVGL/SVRenderStateGL.h"
 
 SVGlobalParam::SVGlobalParam(SVInst *_app)

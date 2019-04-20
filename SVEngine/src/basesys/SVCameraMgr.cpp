@@ -10,7 +10,7 @@
 #include "../node/SVCameraNode.h"
 #include "../base/SVLock.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../rendercore/SVRenderTexture.h"
 
 SVCameraMgr::SVCameraMgr(SVInst *_app)

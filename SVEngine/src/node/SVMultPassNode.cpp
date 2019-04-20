@@ -16,7 +16,7 @@
 #include "../rendercore/SVRenderTexture.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRenderScene.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../mtl/SVTexMgr.h"
 #include "../core/SVPass.h"
 

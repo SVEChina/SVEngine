@@ -13,7 +13,7 @@
 #include "../rendercore/SVRenderScene.h"
 #include "../rendercore/SVGL/SVRResGL.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../rendercore/SVResShader.h"
 
 SVMtlCoreParam::SVMtlCoreParam(){

@@ -7,7 +7,7 @@
 
 #include "SVMtlBeauty.h"
 #include "../mtl/SVTexMgr.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 //
 SVMtlBeauty::SVMtlBeauty(SVInst *_app)

@@ -12,7 +12,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../mtl/SVMtlBasedOn.h"
-#include "../../rendercore/renderer/SVRendererBase.h"
+#include "../../rendercore/SVRendererBase.h"
 #include "../../mtl/SVMtlFilterEx.h"
 #include "../../mtl/SVMtlGradientMap.h"
 #include "../../rendercore/SVRenderMgr.h"

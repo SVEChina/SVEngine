@@ -8,7 +8,7 @@
 
 #include "SVMtlFilterEx.h"
 #include "../mtl/SVTexMgr.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlBrightnessContrast::SVMtlBrightnessContrast(SVInst *_app)
 :SVMtlCore(_app,"BrightnessContrast") {

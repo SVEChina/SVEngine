@@ -19,7 +19,7 @@
 #include "../app/SVInst.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../basesys/SVStaticData.h"
 //
 SVBillboardNode::SVBillboardNode(SVInst *_app)

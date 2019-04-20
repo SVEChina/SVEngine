@@ -14,7 +14,7 @@
 #include "../basesys/SVStaticData.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderScene.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../event/SVEventMgr.h"
@@ -271,6 +271,7 @@ void SVScene::update(f32 dt) {
             //
             SVRenderCmdClearPtr t_clear = MakeSharedPtr<SVRenderCmdClear>();
             t_clear->mTag = "main_frame_clear";
+            t_clear->setRenderer(t_renderer);
             t_clear->setClearColor(m_color.r, m_color.g, m_color.b, m_color.a);
             m_pRenderScene->pushRenderCmd(RST_SCENE_BEGIN, t_clear);
             //

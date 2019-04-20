@@ -9,7 +9,7 @@
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectST.h"
 #include "../detect/SVPerson.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlFaceShape::SVMtlFaceShape(SVInst *_app)
 :SVMtlCore(_app,"faceShape"){

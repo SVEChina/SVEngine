@@ -8,7 +8,7 @@
 
 #include "SVMtlStreak.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 SVMtlStreak::SVMtlStreak(SVInst *_app)
 :SVMtlADFilterBase(_app,"filterstreak2") {

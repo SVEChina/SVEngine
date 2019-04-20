@@ -12,7 +12,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../mtl/SVMtlSmooth.h"
-#include "../../rendercore/renderer/SVRendererBase.h"
+#include "../../rendercore/SVRendererBase.h"
 #include "../../rendercore/SVRenderMgr.h"
 
 

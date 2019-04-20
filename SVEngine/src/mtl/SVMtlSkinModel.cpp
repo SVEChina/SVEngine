@@ -6,7 +6,7 @@
 //
 
 #include "SVMtlSkinModel.h"
-#include "../rendercore/renderer/SVRendererBase.h"
+#include "../rendercore/SVRendererBase.h"
 
 #ifdef CONFIG_IS_LOAD_ASSIMP
 

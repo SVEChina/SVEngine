@@ -8,7 +8,7 @@
 #ifndef SV_RENDERER_METAL_H
 #define SV_RENDERER_METAL_H
 
-#include "../renderer/SVRendererBase.h"
+#include "../SVRendererBase.h"
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <QuartzCore/CAMetalLayer.h>

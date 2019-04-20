@@ -4552,7 +4552,14 @@
 		5F7D5ECB215F407700803BCF /* rendercore */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5ED8215F407700803BCF /* renderer */,
+				5F7D5EE1215F407700803BCF /* SVContextBase.cpp */,
+				5F7D5EDB215F407700803BCF /* SVContextBase.h */,
+				5F7D5ED9215F407700803BCF /* SVContextIOS.cpp */,
+				5F7D5EDC215F407700803BCF /* SVContextIOS.h */,
+				5F7D5EDD215F407700803BCF /* SVContextOSX.cpp */,
+				5F7D5EE2215F407700803BCF /* SVContextOSX.h */,
+				5F7D5EDA215F407700803BCF /* SVEGLContext.cpp */,
+				5F7D5EE4215F407700803BCF /* SVEGLContext.h */,
 				5F7D5EF6215F407700803BCF /* SVFboObject.cpp */,
 				5F7D5EF2215F407700803BCF /* SVFboObject.h */,
 				5F7D5ECD215F407700803BCF /* SVGL */,
@@ -4566,6 +4573,8 @@
 				5F7D5ED5215F407700803BCF /* SVRenderCmdOut.h */,
 				5F7D5F00215F407700803BCF /* SVRenderDeclare.h */,
 				5F7D5EE6215F407700803BCF /* SVRenderDef.h */,
+				5F7D5EE0215F407700803BCF /* SVRendererBase.cpp */,
+				5F7D5EDF215F407700803BCF /* SVRendererBase.h */,
 				5F7D5EF0215F407700803BCF /* SVRenderMesh.cpp */,
 				5F7D5F01215F407700803BCF /* SVRenderMesh.h */,
 				5F7D5EF5215F407700803BCF /* SVRenderMgr.cpp */,
@@ -4576,6 +4585,8 @@
 				5F7D5EFC215F407700803BCF /* SVRenderPipline.h */,
 				5F7D5EFD215F407700803BCF /* SVRenderScene.cpp */,
 				5F7D5EF1215F407700803BCF /* SVRenderScene.h */,
+				5F7D5EE3215F407700803BCF /* SVRenderState.cpp */,
+				5F7D5EDE215F407700803BCF /* SVRenderState.h */,
 				5F7D5F04215F407700803BCF /* SVRenderStream.cpp */,
 				5F7D5EEE215F407700803BCF /* SVRenderStream.h */,
 				5F7D5F03215F407700803BCF /* SVRenderTarget.cpp */,
@@ -4612,25 +4623,6 @@
 				5FD9B05C2265F5A600522317 /* SVRResGLShader.h */,
 			);
 			path = SVGL;
-			sourceTree = "<group>";
-		};
-		5F7D5ED8215F407700803BCF /* renderer */ = {
-			isa = PBXGroup;
-			children = (
-				5F7D5EE1215F407700803BCF /* SVContextBase.cpp */,
-				5F7D5EDB215F407700803BCF /* SVContextBase.h */,
-				5F7D5ED9215F407700803BCF /* SVContextIOS.cpp */,
-				5F7D5EDC215F407700803BCF /* SVContextIOS.h */,
-				5F7D5EDD215F407700803BCF /* SVContextOSX.cpp */,
-				5F7D5EE2215F407700803BCF /* SVContextOSX.h */,
-				5F7D5EDA215F407700803BCF /* SVEGLContext.cpp */,
-				5F7D5EE4215F407700803BCF /* SVEGLContext.h */,
-				5F7D5EE0215F407700803BCF /* SVRendererBase.cpp */,
-				5F7D5EDF215F407700803BCF /* SVRendererBase.h */,
-				5F7D5EE3215F407700803BCF /* SVRenderState.cpp */,
-				5F7D5EDE215F407700803BCF /* SVRenderState.h */,
-			);
-			path = renderer;
 			sourceTree = "<group>";
 		};
 		5F7D5EE8215F407700803BCF /* SVMetal */ = {
