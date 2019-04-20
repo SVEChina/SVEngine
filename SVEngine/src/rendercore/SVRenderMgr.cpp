@@ -121,8 +121,8 @@ void SVRenderMgr::render(){
     if(m_pRenderer && m_pRenderScene ){
         SVContextBasePtr t_context = m_pRenderer->getRenderContext();
         if( t_context && t_context->activeContext() ){
+            m_pRenderer->renderBegin();
             _adapt();
-            //_pushMatStack();
             SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
             if( t_context->activeRenderTarget( t_rt ) ){
                 m_pRenderScene->render();
@@ -132,7 +132,7 @@ void SVRenderMgr::render(){
                 m_pRenderScene->clearRenderCmd();
             }
             m_pRenderer->removeUnuseRes();  //资源释放
-            //_clearMatStack();
+            m_pRenderer->renderEnd();
         }
     }
     m_renderLock->unlock();

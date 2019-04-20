@@ -241,22 +241,52 @@ void SVRenderCmdFboUnbind::render() {
     }
 }
 
-//
-//修改矩阵
-SVRenderCmdmModifyMat::SVRenderCmdmModifyMat(FMat4& _mat,s32 _type) {
+SVRenderCmdPushVPMat::SVRenderCmdPushVPMat(FMat4& _vm,FMat4& _pm) {
+    m_vm = _vm;
+    m_pm = _pm;
+}
+
+SVRenderCmdPushVPMat::~SVRenderCmdPushVPMat() {
+}
+
+void SVRenderCmdPushVPMat::render() {
+    m_pRenderer->pushViewMat(m_vm);
+    m_pRenderer->pushProjMat(m_pm);
+    m_pRenderer->pushVPMat(m_pm*m_vm);
+}
+
+//推入矩阵
+SVRenderCmdPushMat::SVRenderCmdPushMat(FMat4& _mat,s32 _type) {
     m_mat = _mat;
     m_type = _type;
 }
 
-SVRenderCmdmModifyMat::~SVRenderCmdmModifyMat(){
+SVRenderCmdPushMat::~SVRenderCmdPushMat(){
 }
 
-void SVRenderCmdmModifyMat::render() {
+void SVRenderCmdPushMat::render() {
     if(m_type==0 ) {
-//        mApp->getRenderMgr()->pushViewMat(m_mat_view);
-//        mApp->getRenderMgr()->pushProjMat(m_mat_proj);
-//        mApp->getRenderMgr()->pushVPMat(m_mat_vp);
+        m_pRenderer->pushViewMat(m_mat);
     }else if(m_type==1) {
-        
+        m_pRenderer->pushProjMat(m_mat);
     }
 }
+
+//
+//弹出矩阵
+SVRenderCmdPopMat::SVRenderCmdPopMat(s32 _type) {
+    m_type = _type;
+}
+
+SVRenderCmdPopMat::~SVRenderCmdPopMat(){
+}
+
+void SVRenderCmdPopMat::render() {
+    if(m_type==0 ) {
+        m_pRenderer->popViewMat();
+    }else if(m_type==1) {
+        m_pRenderer->popProjMat();
+    }
+}
+
+

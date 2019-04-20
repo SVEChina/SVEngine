@@ -83,6 +83,9 @@ namespace sv {
         
         //rendercmd
         DECLARE_SHAREPTR(SVRenderCmd);
+        DECLARE_SHAREPTR(SVRenderCmdPushVPMat);
+        DECLARE_SHAREPTR(SVRenderCmdPushMat);
+        DECLARE_SHAREPTR(SVRenderCmdPopMat);
         DECLARE_SHAREPTR(SVRenderCmdLine);
         DECLARE_SHAREPTR(SVRenderCmdRect);
         DECLARE_SHAREPTR(SVRenderCmdAABB);
@@ -102,6 +105,8 @@ namespace sv {
         DECLARE_SHAREPTR(SVRenderCmdCurve);
         DECLARE_SHAREPTR(SVRenderCmdCircle);
         DECLARE_SHAREPTR(SVRenderCmdCircleSolid);
+        
+        
 
         //renderobject
         DECLARE_SHAREPTR(SVRObjBase);

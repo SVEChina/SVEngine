@@ -170,13 +170,27 @@ namespace sv {
             SVFboObjectPtr m_fbo;
         };
         
-        //修改矩阵
-        class SVRenderCmdmModifyMat : public SVRenderCmd {
+        //
+        class SVRenderCmdPushVPMat : public SVRenderCmd {
+        public:
+            SVRenderCmdPushVPMat(FMat4& _vm,FMat4& _pm);
+            
+            ~SVRenderCmdPushVPMat();
+            
+            virtual void render();
+            
+        protected:
+            FMat4 m_vm;
+            FMat4 m_pm;
+        };
+        
+        //
+        class SVRenderCmdPushMat : public SVRenderCmd {
         public:
             //0: vm 1:pm
-            SVRenderCmdmModifyMat(FMat4& _mat,s32 _type);
+            SVRenderCmdPushMat(FMat4& _mat,s32 _type);
             
-            ~SVRenderCmdmModifyMat();
+            ~SVRenderCmdPushMat();
             
             virtual void render();
             
@@ -185,6 +199,19 @@ namespace sv {
             s32 m_type;
         };
         
+        //
+        class SVRenderCmdPopMat : public SVRenderCmd {
+        public:
+            //0: vm 1:pm
+            SVRenderCmdPopMat(s32 _type);
+            
+            ~SVRenderCmdPopMat();
+            
+            virtual void render();
+            
+        protected:
+            s32 m_type;
+        };
     }//!namespace render
     
 }//!namespace sv

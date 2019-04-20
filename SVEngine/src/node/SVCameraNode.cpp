@@ -39,7 +39,7 @@ void SVCameraNode::update(f32 _dt) {
     if(m_pCtrl) {
         m_pCtrl->run(THIS_TO_SHAREPTR(SVCameraNode),_dt);
     }
-    
+    //
     if (m_dirty) {
         //更新本地矩阵
         m_dirty = false;

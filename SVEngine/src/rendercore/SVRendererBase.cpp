@@ -55,6 +55,16 @@ void SVRendererBase::destroy(){
     m_resLock = nullptr;
 }
 
+//
+void SVRendererBase::renderBegin() {
+    clearMatStack();
+}
+
+//
+void SVRendererBase::renderEnd() {
+    
+}
+
 //获取状态
 SVRenderStatePtr SVRendererBase::getState(){
     return m_pRState;
@@ -226,11 +236,6 @@ void SVRendererBase::svPopViewPort() {
     m_vpStack.pop();
 }
 
-void SVRendererBase::refreshDefMat(FMat4 _viewMat, FMat4 _projMat, FMat4 _vpMat){
-    m_viewMat = _vpMat;
-    m_projMat = _projMat;
-    m_vpMat = _vpMat;
-}
 //
 void SVRendererBase::pushProjMat(FMat4 _mat){
     FMat4 mat4 = _mat;
@@ -268,14 +273,8 @@ void SVRendererBase::popVPMat(){
     m_stack_vp.pop();
 }
 
-void SVRendererBase::_clearMatStack(){
+void SVRendererBase::clearMatStack(){
     m_stack_proj.clear();
     m_stack_view.clear();
     m_stack_vp.clear();
-}
-
-void SVRendererBase::_pushMatStack(){
-    pushProjMat(m_projMat);
-    pushViewMat(m_viewMat);
-    pushVPMat(m_vpMat);
 }

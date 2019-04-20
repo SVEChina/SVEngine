@@ -12,6 +12,8 @@
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRendererBase.h"
 #include "../rendercore/SVRenderTexture.h"
+#include "../rendercore/SVRenderScene.h"
+#include "../rendercore/SVRenderCmd.h"
 
 SVCameraMgr::SVCameraMgr(SVInst *_app)
 :SVSysBase(_app) {
@@ -34,22 +36,29 @@ void SVCameraMgr::destroy() {
 
 //更新
 void SVCameraMgr::update(f32 dt) {
+     //主相机更新
     if(m_mainCamera){
         m_mainCamera->update(dt);
-        // 
+        //
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         SVRendererBasePtr t_renderer = mApp->getRenderer();
         if(t_renderer && t_renderer->getRenderTexture() ) {
             m_mainCamera->addLinkFboObject( t_renderer->getRenderTexture() );
         }
-        //这不知道要写到哪，先写这了. 晓帆
-        t_renderer->refreshDefMat(m_mainCamera->getViewMatObj(),
-                                  m_mainCamera->getProjectMatObj(),
-                                  m_mainCamera->getVPMatObj());
+        if(t_rs && t_renderer) {
+            //这不知道要写到哪，先写这了. 晓帆
+            FMat4 t_vm = m_mainCamera->getViewMatObj();
+            FMat4 t_pm = m_mainCamera->getProjectMatObj();
+            SVRenderCmdPushVPMatPtr t_cmd = MakeSharedPtr<SVRenderCmdPushVPMat>(t_vm,t_pm);
+            t_rs->pushRenderCmd(RST_SCENE_BEGIN, t_cmd);
+        }
     }
+    //更新其他相机
     m_cameraLock->lock();
     CAMERAPOOL::Iterator it = m_camerPool.begin();
     while ( it!=m_camerPool.end() ) {
-        it->data->update(dt);
+        SVCameraNodePtr t_camNode = it->data;
+        t_camNode->update(dt);
         it++;
     }
     m_cameraLock->unlock();
