@@ -288,6 +288,11 @@ void SVDeformImageMove::render(){
             t_cmd->setFbo(m_fbo);
             t_cmd->setTexture(m_passBack->m_outTex);
             t_cmd->setMesh(m_passBack->m_pMesh);
+            if(m_flip){
+                m_passBack->m_pMtl->setTexcoordFlip(1.0f, -1.0f);
+            }else{
+                m_passBack->m_pMtl->setTexcoordFlip(1.0f, 1.0f);
+            }
             t_cmd->setMaterial(m_passBack->m_pMtl);
             t_rs->pushRenderCmd(RST_FACEMORPH, t_cmd);
         }
