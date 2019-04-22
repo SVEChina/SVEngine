@@ -6,7 +6,6 @@
 //
 
 #include "SVPenStroke.h"
-#include "SVPenCurve.h"
 #include "../SVGameReady.h"
 #include "../SVGameRun.h"
 #include "../SVGameEnd.h"
@@ -30,7 +29,7 @@
 
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
-//    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
+    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptPool.clear();
     m_localMat.setIdentity();
     m_lock = MakeSharedPtr<SVLock>();
@@ -43,11 +42,11 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->setDrawMethod(E_DM_LINES);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_line.png",true);
+    m_lerpMethod = SV_LERP_BALANCE;
     m_density = 0.05;
     m_vertexNum = 0;
+    m_lastVertexIndex = 0;
     m_drawBox = false;
-    m_isFirstTouch = true;
-    setDrawBox(true);
     m_point_dis_dert = 0.002f;
     m_pen_width = 0.006f;
     m_plane_dis = 0.2f;
@@ -85,11 +84,15 @@ void SVPenStroke::update(f32 _dt) {
 
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    m_isFirstTouch = true;
     //二维点到三维点的转换
     FVec2 t_pt = FVec2(_px, _py);
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
+    if (m_penCurve) {
+        m_penCurve->reset();
+        SVArray<FVec3> t_ptArray;
+        m_penCurve->addPoint(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWBEGIN, t_ptArray);
+    }
     m_ptPool.append(t_worldPt);
     m_lock->unlock();
 }
@@ -101,9 +104,23 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
     //
-    s32 t_pt_num = m_ptPool.size();
-    SVStrokePoint t_lastpt = m_ptPool[t_pt_num-1];
-    if(length(t_lastpt.point - t_worldPt.point) > m_point_dis_dert ) {
+    if (m_penCurve) {
+        SVArray<FVec3> t_ptArray;
+        if (m_lerpMethod == SV_LERP_BALANCE) {
+            m_penCurve->addPointB(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWEND, t_ptArray);
+        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
+            m_penCurve->addPoint(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWEND, t_ptArray);
+        }
+        for (s32 i = 0; i<t_ptArray.size(); i++) {
+            FVec3 t_pt = t_ptArray[i];
+            SVStrokePoint t_n_worldPt;
+            t_n_worldPt.point = t_pt;
+            t_n_worldPt.normal = t_worldPt.normal;
+            t_n_worldPt.ext0 = t_worldPt.ext0;
+            t_n_worldPt.ext1 = t_worldPt.ext1;
+            m_ptPool.append(t_n_worldPt);
+        }
+    }else{
         m_ptPool.append(t_worldPt);
     }
     //
@@ -117,9 +134,23 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
     //
-    s32 t_pt_num = m_ptPool.size();
-    SVStrokePoint t_lastpt = m_ptPool[t_pt_num-1];
-    if(length(t_lastpt.point - t_worldPt.point) > m_point_dis_dert ) {
+    if (m_penCurve) {
+        SVArray<FVec3> t_ptArray;
+        if (m_lerpMethod == SV_LERP_BALANCE) {
+            m_penCurve->addPointB(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWEND, t_ptArray);
+        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
+            m_penCurve->addPoint(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWEND, t_ptArray);
+        }
+        for (s32 i = 0; i<t_ptArray.size(); i++) {
+            FVec3 t_pt = t_ptArray[i];
+            SVStrokePoint t_n_worldPt;
+            t_n_worldPt.point = t_pt;
+            t_n_worldPt.normal = t_worldPt.normal;
+            t_n_worldPt.ext0 = t_worldPt.ext0;
+            t_n_worldPt.ext1 = t_worldPt.ext1;
+            m_ptPool.append(t_n_worldPt);
+        }
+    }else{
         m_ptPool.append(t_worldPt);
     }
     //
@@ -178,10 +209,11 @@ void SVPenStroke::_genPolygon(){
 //生成数据
 void SVPenStroke::_genMesh() {
     s32 t_pt_num = m_ptPool.size();
-    m_pVertData->resize(t_pt_num*36*sizeof(V3_C_T0));
-    for (s32 i = 0; i<t_pt_num; i++) {
+    s32 t_index = m_lastVertexIndex;
+    for (s32 i = t_index; i<t_pt_num; i++) {
         SVStrokePoint t_pt = m_ptPool[i];
         _genBox(t_pt.point);
+        m_lastVertexIndex++;
     }
     m_vertexNum = t_pt_num*36;//6个面 一个面6个点
 }
@@ -610,3 +642,4 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
     _worldPoint.ext0 = FVec3(0.0f,0.0f,0.0f);
     _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
 }
+

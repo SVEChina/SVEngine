@@ -10,31 +10,50 @@
 
 #include "../../base/SVGBase.h"
 #include "../../base/SVVec2.h"
+#include "../../base/SVVec3.h"
 #include "../../base/SVArray.h"
 namespace sv{
     
+    //插值方法
+    enum LERPMETHOD {
+        SV_LERP_BALANCE= 0,
+        SV_LERP_NOTBALANCE
+    };
+    
+    enum ADDPOINTACTION {
+        SV_ADD_DRAWBEGIN = 0,
+        SV_ADD_DRAWING,
+        SV_ADD_DRAWEND
+    };
+    
     class SVPenCurve : public SVGBase {
     public:
-        enum ADDPOINTACTION {
-            SV_ADD_DRAWBEGIN = 0,
-            SV_ADD_DRAWING,
-            SV_ADD_DRAWEND
-        };
         SVPenCurve(SVInst *_app);
         
         ~SVPenCurve();
         
         void reset();
         
-        bool addPoint(f32 x, f32 y, f32 _width, f32 _density, ADDPOINTACTION _action, SVArray<FVec2> &_outPtPool);
+        bool addPoint(FVec3 &_pt, f32 _width, f32 _density, ADDPOINTACTION _action, SVArray<FVec3> &_outPtPool);
+        
+        bool addPointB(FVec3 &_pt, f32 _width, f32 _density, ADDPOINTACTION _action, SVArray<FVec3> &_outPtPool);
         
     protected:
          void
-        _lerpNor(f32 _width, f32 _density, SVArray<FVec2> &_outPtPool, bool _useLast3);
+        _lerpNor(f32 _width, f32 _density, SVArray<FVec3> &_outPtPool, bool _useLast3);
+        
         void
-        _lineLerp(f32 _width, f32 _density, SVArray<FVec2> &_outPtPool);
-        void _onePt(f32 _width, f32 _density, SVArray<FVec2> &_outPtPool);
-        typedef SVArray<FVec2> PTPOOL;
+        _lineLerp(f32 _width, f32 _density, SVArray<FVec3> &_outPtPool);
+        
+        void _lineForLerp(FVec3 _p1, FVec3 _p2, f32 _width, f32 _density, ADDPOINTACTION _action,
+                                      SVArray<FVec3> &_outPtPool);
+        
+        void
+        _lerp(f32 _width, f32 _density, ADDPOINTACTION _action, SVArray<FVec3> &_outPtPool, bool _useLast3);
+        
+        void _onePt(f32 _width, f32 _density, SVArray<FVec3> &_outPtPool);
+        
+        typedef SVArray<FVec3> PTPOOL;
         PTPOOL m_ptPool;
         bool m_bPushSamePoint;
     };
