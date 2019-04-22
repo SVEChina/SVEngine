@@ -34,7 +34,7 @@ void SVFacePointNode::init(){
     m_pMesh = mApp->getRenderMgr()->createMeshRObj();
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
     SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
-    t_data->writeData(t_person->getFaceDataOriginal(), 212*sizeof(float));
+    t_data->writeData(t_person->getFaceDataOriginal(), 212*sizeof(f32));
     m_pMesh->setVertexDataNum(106);
     m_pMesh->setVertexData(t_data);
     m_pMesh->setVertexType(E_VF_V2);
@@ -57,10 +57,12 @@ void SVFacePointNode::update(f32 _dt){
         m_pMtl->setTexcoordFlip(1.0, 1.0);
         SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
         SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
-        t_data->writeData(t_person->getFaceDataOriginal(), 212*sizeof(float));
+        t_data->writeData(t_person->getFaceDataOriginal(), 212*sizeof(f32));
         m_pMesh->setVertexDataNum(106);
         m_pMesh->setVertexData(t_data);
         m_pRenderObj->setMtl(m_pMtl);
+        
+        
         m_pRenderObj->setMesh(m_pMesh);
     }
 }
