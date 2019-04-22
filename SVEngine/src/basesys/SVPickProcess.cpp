@@ -135,7 +135,7 @@ bool SVPickProcess::pickScene(SVCameraNodePtr _cam,s32 _sx,s32 _sy){
     SVScenePtr t_sc = mApp->getSceneMgr()->getScene();
     if (_cam && t_sc) {
         FVec3 t_start,t_end;
-        if( _getRay(_cam,_sx,_sy,t_start,t_end) ){
+        if( _getRayMat(_cam,_cam->getVPMatObj(),_sx,_sy,t_start,t_end) ){
             //射线求交
             SVVisitRayPickPtr t_visit = MakeSharedPtr<SVVisitRayPick>(t_start,t_end);
             t_sc->visit(t_visit);

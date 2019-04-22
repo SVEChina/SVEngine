@@ -73,7 +73,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpBase);
     DECLARE_SHAREPTR(SVOpCreateScene);
     DECLARE_SHAREPTR(SVOpCreateTest);
-    DECLARE_SHAREPTR(SVOpCreateTestSpine);
+    DECLARE_SHAREPTR(SVOpCreateDebugFacePt);
     DECLARE_SHAREPTR(SVOpOpenDelaySuspend);
     DECLARE_SHAREPTR(SVOpCreateDivision);
     DECLARE_SHAREPTR(SVOpCreateMark);
@@ -129,7 +129,6 @@ namespace sv {
     
     DECLARE_SHAREPTR(SVOpDestroyEffect);
     DECLARE_SHAREPTR(SVOpDestroyDivision);
-
 #if defined SV_IOS
     DECLARE_SHAREPTR(SVOpCreateRenderderMTL);
     DECLARE_SHAREPTR(SVOpCreateRenderderGLIOS);

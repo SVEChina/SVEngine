@@ -67,7 +67,7 @@ void SVDetectST::_parseData(void *data) {
         memcpy(&stDataOriginal[i].rectbottom,t_data_point, off_len);
         t_data_point += off_len;
 
-        int data_len = sizeof(float) * 2 * 106;
+        s32 data_len = sizeof(f32) * 2 * 106;
         memcpy(stData[i].pointdata,t_data_point, data_len);
         memcpy(stDataOriginal[i].pointdata,t_data_point, data_len);
         t_data_point+=data_len;
@@ -88,13 +88,13 @@ PERSON_STDATA *SVDetectST::getDataOriginal(s32 _personid) {
 }
 
 void SVDetectST::_transformToCenter(PERSON_STDATA *_stData){
-    f32 t_camera_w = mApp->getConfig()->getCameraWidth();
-    f32 t_camera_h = mApp->getConfig()->getCameraHeight();
+    f32 t_camera_w = mApp->getConfig()->getCameraWidth()*1.0f;
+    f32 t_camera_h = mApp->getConfig()->getCameraHeight()*1.0f;
     _stData->rectleft = _stData->rectleft - t_camera_w*0.5;
     _stData->rectright = _stData->rectright - t_camera_w*0.5;
     _stData->recttop = t_camera_h*0.5 - _stData->recttop;
     _stData->rectbottom = t_camera_h*0.5 - _stData->rectbottom;
-    for (int j=0; j<106; j++) {
+    for (s32 j=0; j<106; j++) {
         _stData->pointdata[j].x = _stData->pointdata[j].x - t_camera_w*0.5;
         _stData->pointdata[j].y =  t_camera_h*0.5 - _stData->pointdata[j].y;
     }

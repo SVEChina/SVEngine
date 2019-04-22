@@ -36,6 +36,7 @@
 #include "../module/SVMark.h"
 #include "../file/SVBMFontLoader.h"
 #include "../node/SVBMFontNode.h"
+#include "../node/SVFacePointNode.h"
 #include "../core/SVBMFont.h"
 #include "../core/SVglTF.h"
 #include "../node/SVGLTFModelNode.h"
@@ -276,45 +277,35 @@ void SVOpCreateTest::_process(f32 dt) {
         
 //    }
     
-    SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
-    billboardNode->setPosition(0, 0, 100);
-    cptr8 file = "svres/sprite/HollowKnight.png";
-    SVTexturePtr texture = mApp->getTexMgr()->getTexture(file,true);
-    billboardNode->setTexture(texture);
-    billboardNode->setSize(500, 500);
-    t_pScene->addNode(billboardNode);
+//    SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
+//    billboardNode->setPosition(0, 0, 100);
+//    cptr8 file = "svres/sprite/HollowKnight.png";
+//    SVTexturePtr texture = mApp->getTexMgr()->getTexture(file,true);
+//    billboardNode->setTexture(texture);
+//    billboardNode->setSize(500, 500);
+//    t_pScene->addNode(billboardNode);
 
-    
 }
+
 
 //测试操作
-SVOpCreateTestSpine::SVOpCreateTestSpine(SVInst *_app, cptr8 _path)
+SVOpCreateDebugFacePt::SVOpCreateDebugFacePt(SVInst *_app)
 : SVOpBase(_app){
-    m_path = _path;
+
 }
 
-SVOpCreateTestSpine::~SVOpCreateTestSpine(){
+SVOpCreateDebugFacePt::~SVOpCreateDebugFacePt(){
     
 }
 
-void SVOpCreateTestSpine::_process(f32 dt) {
-    
-    SVSpineNodePtr t_spineNode = MakeSharedPtr<SVSpineNode>(mApp);
-    SVString t_spine_json = m_path + "/" + "jiesuan.json";
-    SVString t_spine_atlas = m_path + "/" + "jiesuan.atlas";
-    SVSpinePtr t_spine = SVSpine::createSpine(mApp, t_spine_json.c_str(), t_spine_atlas.c_str(), 1.0f);
-    if ( t_spine ) {
-        t_spine->setSpineName(t_spine_atlas.c_str());
-        t_spineNode->setSpine(t_spine);
-    }
+void SVOpCreateDebugFacePt::_process(f32 dt) {
     //创建逻辑场景
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
-        t_pScene->addNode(t_spineNode);
-        t_spineNode->setloop(true);
-        t_spineNode->play("jiesuan");
-        t_spineNode->setScale(2.0, 2.0, 0.0);
+        SVFacePointNodePtr t_facePtNode = MakeSharedPtr<SVFacePointNode>(mApp);
+        t_pScene->addNode(t_facePtNode);
     }
+    
 }
 
 SVOpCreateDivision::SVOpCreateDivision(SVInst *_app) :  SVOpBase(_app){

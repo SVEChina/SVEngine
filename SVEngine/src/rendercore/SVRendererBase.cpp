@@ -57,12 +57,11 @@ void SVRendererBase::destroy(){
 
 //
 void SVRendererBase::renderBegin() {
-    clearMatStack();
 }
 
 //
 void SVRendererBase::renderEnd() {
-    
+    clearMatStack();
 }
 
 //获取状态
