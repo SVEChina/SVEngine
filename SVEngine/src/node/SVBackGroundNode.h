@@ -49,6 +49,8 @@ namespace sv {
             
             void setTexture(SVTEXTYPE _textype);
             
+            void setTexture(SVTexturePtr _tex);
+            
             SVTEXTYPE getUseInnerTex(){ return m_useTexType; }
             
             //形变相关接口

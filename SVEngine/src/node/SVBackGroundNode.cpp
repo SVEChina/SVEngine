@@ -119,6 +119,16 @@ void SVBackGroundNode::setTexture(cptr8 _path) {
     m_useTexType = E_TEX_END;
 }
 
+void SVBackGroundNode::setTexture(SVTexturePtr _tex) {
+    if(_tex) {
+        m_pTex = _tex;
+        if(m_isSyncTex){
+            syncTexSize();
+        }
+    }
+    m_useTexType = E_TEX_END;
+}
+
 void SVBackGroundNode:: setTexture(SVTEXTYPE _textype) {
     m_useTexType = _textype;
     m_pTex = nullptr;
@@ -132,16 +142,7 @@ SVDeformImageMovePtr SVBackGroundNode::getDeform(){
 }
 
 bool SVBackGroundNode::enableDeform() {
-    SVTexturePtr t_innerTex = mApp->getRenderer()->getSVTex(E_TEX_MAIN);
-    SVRendererBasePtr t_renderer =  mApp->getRenderer();
-    t_renderer->createSVTex(E_TEX_FILTER_DEFORM01, t_innerTex->getwidth(), t_innerTex->getheight(), GL_RGBA);
-    SVTexturePtr t_innerTexout = mApp->getRenderer()->getSVTex(E_TEX_FILTER_DEFORM01);
-    
-    if(!m_pDeform){
-        m_pDeform=MakeSharedPtr<SVDeformImageMove>(mApp);
-    }
-    m_pDeform->init(t_innerTex,t_innerTexout);
-    setTexture(E_TEX_FILTER_DEFORM01);
+  
     return true;
 }
 
