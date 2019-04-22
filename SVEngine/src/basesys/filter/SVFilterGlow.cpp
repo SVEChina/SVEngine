@@ -49,7 +49,7 @@ bool SVFilterGlow::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->setname("SVFilterGlowNode");
     m_pPassNode->create(t_w, t_h);
-    m_pPassNode->setRSType(RST_LASTFILTER);
+    m_pPassNode->setRSType(RST_IMGFILTER);
     //创建pass
     SVPassPtr t_pass1 = MakeSharedPtr<SVPass>();
     SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
