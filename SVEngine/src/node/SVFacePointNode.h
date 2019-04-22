@@ -21,10 +21,6 @@ namespace sv {
             
             ~SVFacePointNode();
             
-            void init();
-            
-            void destroy();
-            
             void update(f32 _dt);
             
             void render();

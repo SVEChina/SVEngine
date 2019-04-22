@@ -22,29 +22,19 @@ SVFacePointNode::SVFacePointNode(SVInst *_app)
     ntype = "SVFacePointNode";
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"debugFacePt");
-    m_pMesh = nullptr;
-}
-
-
-SVFacePointNode::~SVFacePointNode(){
-    
-}
-
-void SVFacePointNode::init(){
     m_pMesh = mApp->getRenderMgr()->createMeshRObj();
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
     SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
-    t_data->writeData(t_person->getFaceDataOriginal(), 212*sizeof(float));
+    t_data->writeData(t_person->getFaceData(), 212*sizeof(f32));
     m_pMesh->setVertexDataNum(106);
     m_pMesh->setVertexData(t_data);
     m_pMesh->setVertexType(E_VF_V2);
     m_pMesh->setDrawMethod(E_DM_POINTS);
     m_pMesh->createMesh();
-  //  m_pMesh = SVGeoGen::genRect(mApp,100,100,0,0,100,100,m_aabbBox);
-    // m_pMesh->setDrawMethod(E_DM_POINTS);
 }
 
-void SVFacePointNode::destroy(){
+
+SVFacePointNode::~SVFacePointNode(){
     
 }
 
@@ -57,19 +47,24 @@ void SVFacePointNode::update(f32 _dt){
         m_pMtl->setTexcoordFlip(1.0, 1.0);
         SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
         SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
-        t_data->writeData(t_person->getFaceDataOriginal(), 212*sizeof(float));
-        m_pMesh->setVertexDataNum(106);
-        m_pMesh->setVertexData(t_data);
-        m_pRenderObj->setMtl(m_pMtl);
-        m_pRenderObj->setMesh(m_pMesh);
+        if (t_person->getExist()) {
+            t_data->writeData(t_person->getFaceData(), 212*sizeof(f32));
+            m_pMesh->setVertexDataNum(106);
+            m_pMesh->setVertexData(t_data);
+            m_pRenderObj->setMtl(m_pMtl);
+            m_pRenderObj->setMesh(m_pMesh);
+        }
     }
 }
 
 void SVFacePointNode::render(){
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
-    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    if (m_pRenderObj ) {
-        m_pRenderObj->pushCmd(t_rs, RST_FACEMORPH, "SVFacePointNode");
+    SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
+    if (t_person->getExist()) {
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+        if (m_pRenderObj ) {
+            m_pRenderObj->pushCmd(t_rs, RST_DEBUG, "SVFacePointNode");
+        }
     }
 }

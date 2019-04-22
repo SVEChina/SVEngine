@@ -132,18 +132,18 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
-    //操作测试spine
-    class SVOpCreateTestSpine : public SVOpBase {
+    
+    //测试操作
+    class SVOpCreateDebugFacePt : public SVOpBase {
     public:
-        SVOpCreateTestSpine(SVInst *_app, cptr8 _path);
+        SVOpCreateDebugFacePt(SVInst *_app);
         
-        ~SVOpCreateTestSpine();
+        ~SVOpCreateDebugFacePt();
         
     protected:
         void _process(f32 dt);
-        
-        SVString m_path;
     };
+   
     //分屏
     class SVOpCreateDivision : public SVOpBase {
     public:
