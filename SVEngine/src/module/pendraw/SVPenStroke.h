@@ -47,17 +47,14 @@ namespace sv{
         void _genPolygon();
         //生成面片
         void _genMesh();
-        
+        //
+        void _genBox(FVec3& _pt);
+        //
         void _drawMesh();
         //
         typedef SVArray<SVStrokePoint> PTPOOL;
         
         PTPOOL m_ptPool;
-        
-        PTPOOL m_ptCachePool;
-        
-        PTPOOL m_rectVertexPool;
-        
         SVPenCurvePtr m_penCurve;
         //数据域
         SVDataSwapPtr m_pVertData;  //mesh
