@@ -14,6 +14,7 @@
 #include "../../rendercore/SVRenderDeclare.h"
 #include "../../mtl/SVMtlDeclare.h"
 #include "../../base/SVBounds.h"
+#include "SVPenCurve.h"
 namespace sv{
     
     struct SVStrokePoint {
@@ -65,13 +66,14 @@ namespace sv{
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
         FMat4 m_localMat;
-        f32 m_density;
         s32 m_vertexNum;
-        bool m_drawBox;
-        bool m_isFirstTouch;
+        s32 m_lastVertexIndex;
+        f32 m_density;
         f32 m_point_dis_dert;
         f32 m_pen_width;
         f32 m_plane_dis;
+        LERPMETHOD m_lerpMethod;
+        bool m_drawBox;
     };
     
 }//!namespace sv
