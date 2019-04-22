@@ -15,6 +15,7 @@
 #include "../../mtl/SVMtlDeclare.h"
 #include "../../base/SVBounds.h"
 #include "SVPenCurve.h"
+#include "../../node/SVMultPassNode.h"
 namespace sv{
     
     struct SVStrokePoint {
@@ -56,6 +57,8 @@ namespace sv{
         typedef SVArray<SVStrokePoint> PTPOOL;
         
         PTPOOL m_ptPool;
+        SVMultPassNodePtr m_pPassNode;
+        SVPassPtr m_pass;
         SVPenCurvePtr m_penCurve;
         //数据域
         SVDataSwapPtr m_pVertData;  //mesh

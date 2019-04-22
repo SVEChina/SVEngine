@@ -26,7 +26,11 @@
 #include "../../basesys/SVSensorProcess.h"
 #include "../../mtl/SVMtlStrokeBase.h"
 #include "../../mtl/SVMtlNocolor.h"
-
+#include "../../rendercore/SVRendererBase.h"
+#include "../../core/SVPass.h"
+#include "../../basesys/SVBasicSys.h"
+#include "../../basesys/SVPictureProcess.h"
+#include "../../basesys/filter/SVFilterGlow.h"
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
     m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
@@ -43,13 +47,38 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_line.png",true);
     m_lerpMethod = SV_LERP_BALANCE;
-    m_density = 0.05;
+    m_density = 0.1;
     m_vertexNum = 0;
     m_lastVertexIndex = 0;
     m_drawBox = false;
     m_point_dis_dert = 0.002f;
     m_pen_width = 0.006f;
     m_plane_dis = 0.2f;
+    //
+    /*
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(t_renderer){
+        SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_HELP0);
+        s32 t_w = t_tex->getwidth();
+        s32 t_h = t_tex->getheight();
+        //创建多passnode
+        m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
+        m_pPassNode->setname("SVPenStrokePassNode");
+        m_pPassNode->create(t_w, t_h);
+        m_pPassNode->setRSType(RST_AR);
+        //创建pass
+        m_pass = MakeSharedPtr<SVPass>();
+        m_pass->setInTex(0,E_TEX_MAIN);
+        m_pass->setOutTex(E_TEX_HELP0);
+        m_pPassNode->addPass(m_pass);
+        //
+        SVPictureProcessPtr t_pic = _app->getBasicSys()->getPicProc();
+        SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(_app);
+        t_glow->create(E_TEX_HELP0, E_TEX_MAIN);
+        t_pic->addFilter(t_glow);
+        t_pic->openFilter(t_glow);
+    }
+     */
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -60,6 +89,11 @@ SVPenStroke::~SVPenStroke() {
     m_lock = nullptr;
     m_ptPool.clear();
     m_aabbBox.clear();
+    if(m_pPassNode){
+        m_pPassNode->removeFromParent();
+        m_pPassNode = nullptr;
+        m_pass = nullptr;
+    }
 }
 
 void SVPenStroke::setStrokeWidth(f32 _width){
@@ -593,6 +627,9 @@ void SVPenStroke::_drawMesh() {
         m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         m_pMtl->setCullEnable(false);
         m_pMtl->setModelMatrix(m_localMat);
+        if (m_pass) {
+            m_pass->setMtl(m_pMtl);
+        }
         //更新顶点数据
         m_pMesh->setVertexDataNum(m_vertexNum);
         m_pMesh->setVertexData(m_pVertData);

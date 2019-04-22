@@ -16,7 +16,6 @@
 SVPendraw::SVPendraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
-    
 }
 
 SVPendraw::~SVPendraw() {
