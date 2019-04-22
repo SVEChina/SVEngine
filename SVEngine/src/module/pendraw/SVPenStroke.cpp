@@ -43,7 +43,7 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_line.png",true);
     m_lerpMethod = SV_LERP_BALANCE;
-    m_density = 0.1;
+    m_density = 0.05;
     m_vertexNum = 0;
     m_lastVertexIndex = 0;
     m_drawBox = false;
