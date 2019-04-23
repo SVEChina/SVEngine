@@ -30,12 +30,6 @@
 #include "../../mtl/SVMtlNocolor.h"
 #include "../../rendercore/SVRendererBase.h"
 #include "../../rendercore/SVRenderTexture.h"
-#include "../../rendercore/SVRenderCmd.h"
-#include "../../rendercore/SVRenderScene.h"
-#include "../../basesys/SVBasicSys.h"
-#include "../../basesys/filter/SVFilterGlow.h"
-#include "../../basesys/SVPictureProcess.h"
-#include "../../basesys/SVStaticData.h"
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
     m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
@@ -59,42 +53,6 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_point_dis_dert = 0.002f;
     m_pen_width = 0.006f;
     m_plane_dis = 0.2f;
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
-    if (t_renderer) {
-        SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
-        s32 t_w = t_tex->getwidth();
-        s32 t_h = t_tex->getheight();
-        //创建多passnode
-        m_multPass = MakeSharedPtr<SVMultPassNode>(mApp);
-        m_multPass->setname("SVPenStrokeMultPass");
-        m_multPass->create(t_w, t_h);
-        m_multPass->setRSType(RST_AR_END);
-        if (t_renderer->hasSVTex(E_TEX_HELP0)) {
-            m_pFboTex = t_renderer->getSVTex(E_TEX_HELP0);
-        }else{
-            m_pFboTex = t_renderer->createSVTex(E_TEX_HELP0, t_w, t_h, GL_RGBA);
-        }
-        
-        if (t_renderer->hasSVTex(E_TEX_HELP1)) {
-            m_pOutTex = t_renderer->getSVTex(E_TEX_HELP1);
-        }else{
-            m_pOutTex = t_renderer->createSVTex(E_TEX_HELP1, t_w, t_h, GL_RGBA);
-        }
-        
-        m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,nullptr,false,false);
-        SVCameraNodePtr t_arCamera = mApp->getBasicSys()->getSensorModule()->getARCamera();
-//        m_fbo->setLink(true);
-//        m_fbo->setProjMat(t_arCamera->getProjectMatObj());
-//        m_fbo->setViewMat(t_arCamera->getViewMatObj());
-        mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
-    }
-    
-    //做辉光效果处理
-    SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
-    SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(mApp);
-    t_glow->create(E_TEX_HELP0, E_TEX_HELP1);
-    t_pic->addFilter(t_glow);
-    t_pic->openFilter(t_glow);
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -102,24 +60,18 @@ SVPenStroke::~SVPenStroke() {
     m_pVertData->reback();
     m_pVertData = nullptr;
     m_pTex = nullptr;
-    m_pFboTex = nullptr;
     m_lock = nullptr;
     m_ptPool.clear();
     m_aabbBox.clear();
-    m_fbo = nullptr;
     m_pRenderObj = nullptr;
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
-    if (t_renderer) {
-        t_renderer->destroySVTex(E_TEX_HELP0);
-    }
-    if(m_multPass){
-        m_multPass->removeFromParent();
-        m_multPass = nullptr;
-    }
 }
 
 void SVPenStroke::setStrokeWidth(f32 _width){
     m_pen_width = _width;
+}
+
+void SVPenStroke::setStrokeColor(FVec4 &_color){
+    m_strokeColor = _color;
 }
 
 void SVPenStroke::setDrawBox(bool _drawBox){
@@ -276,8 +228,6 @@ void SVPenStroke::_genMesh() {
 
 void SVPenStroke::_genBox(FVec3& _pt) {
     V3_C_T0 t_ver[36];
-//    m_pVertData->appendData(t_ver, 24*sizeof(V3_C_T0));
-//    return ;
     f32 t_half_w = m_pen_width*0.5f;
     FVec3 t_pt0 = _pt + FVec3(-1.0f,-1.0f,-1.0f)*t_half_w;
     FVec3 t_pt1 = _pt + FVec3(1.0f,-1.0f,-1.0f)*t_half_w;
@@ -291,10 +241,10 @@ void SVPenStroke::_genBox(FVec3& _pt) {
     FVec2 t_t1 = FVec2(1.0f,0.0f);
     FVec2 t_t2 = FVec2(0.0f,1.0f);
     FVec2 t_t3 = FVec2(1.0f,1.0f);
-    u8 t_r = 255;
-    u8 t_g = 0;
-    u8 t_b = 255;
-    u8 t_a = 255;
+    u8 t_r = m_strokeColor.x;
+    u8 t_g = m_strokeColor.y;
+    u8 t_b = m_strokeColor.z;
+    u8 t_a = m_strokeColor.w;
     //0,1,4,5
     t_ver[0].x = t_pt0.x;
     t_ver[0].y = t_pt0.y;
@@ -654,27 +604,9 @@ void SVPenStroke::_drawMesh() {
         //更新顶点数据
         m_pMesh->setVertexDataNum(m_vertexNum);
         m_pMesh->setVertexData(m_pVertData);
-        //在一个FBO上画画笔
-        SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
-        t_cmd->setRenderer(t_renderer);
-        t_cmd->mTag = "SVPenStrokeRender";
-        t_cmd->setFbo(m_fbo);
-        if (m_pFboTex) {
-            t_cmd->setTexture(m_pFboTex);
-        }
-        t_cmd->setMesh(m_pMesh);
-        t_cmd->setMaterial(m_pMtl);
-        t_rs->pushRenderCmd(RST_AR, t_cmd);
-
-        //再画回主纹理
-        SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
-        t_lkMtl->setTexcoordFlip(1.0f, 1.0f);
-        t_lkMtl->setTexture(0, E_TEX_HELP1);
-        SVTexturePtr mainTex = t_renderer->getSVTex(E_TEX_MAIN);
-        SVRenderMeshPtr t_mesh = mApp->getDataMgr()->m_screenMesh;
-        m_pRenderObj->setMesh(t_mesh);
-        m_pRenderObj->setMtl(t_lkMtl);
-        m_pRenderObj->pushCmd(t_rs, RST_AR_END, "SVPenStrokeRenderBack");
+        m_pRenderObj->setMesh(m_pMesh);
+        m_pRenderObj->setMtl(m_pMtl);
+        m_pRenderObj->pushCmd(t_rs, RST_AR, "SVPenStrokeRender");
     }
 }
 

@@ -167,6 +167,19 @@ void SVConfig::loadConfig() {
                 RAPIDJSON_NAMESPACE::Value &t_value = t_param["usepbo"];
 //                designWidth = t_value.GetInt();
             }
+            if (t_param.HasMember("stroke_width") && t_param["stroke_width"].IsFloat()) {
+                RAPIDJSON_NAMESPACE::Value &t_value = t_param["stroke_width"];
+                m_strokeWidth = t_value.GetFloat();
+            }
+            if (t_param.HasMember("stroke_color") && t_param["stroke_color"].IsArray()) {
+                RAPIDJSON_NAMESPACE::Value &t_values = t_param["stroke_color"];
+                if (t_values.Size() > 3) {
+                    m_strokeColor.x = t_values[0].GetFloat();
+                    m_strokeColor.y = t_values[1].GetFloat();
+                    m_strokeColor.z = t_values[2].GetFloat();
+                    m_strokeColor.w = t_values[3].GetFloat();
+                }
+            }
         }
     }
     if (doc.HasMember("filter")) {

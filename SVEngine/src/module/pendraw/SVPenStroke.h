@@ -15,7 +15,6 @@
 #include "../../mtl/SVMtlDeclare.h"
 #include "../../base/SVBounds.h"
 #include "SVPenCurve.h"
-#include "../../node/SVMultPassNode.h"
 namespace sv{
     
     struct SVStrokePoint {
@@ -41,6 +40,8 @@ namespace sv{
         
         void setStrokeWidth(f32 _width);
         
+        void setStrokeColor(FVec4 &_color);
+        
         void setDrawBox(bool _drawBox);
         
     protected:
@@ -57,20 +58,17 @@ namespace sv{
         typedef SVArray<SVStrokePoint> PTPOOL;
         
         PTPOOL m_ptPool;
-        SVRenderTexturePtr m_fbo;
         SVPenCurvePtr m_penCurve;
         //数据域
         SVDataSwapPtr m_pVertData;  //mesh
         SVRenderMeshPtr m_pMesh;
         SVRenderObjectPtr m_pRenderObj;
         SVMtlStrokeBasePtr m_pMtl;
-        SVMultPassNodePtr m_multPass;
         SVTexturePtr m_pTex;
-        SVTexturePtr m_pFboTex;
-        SVTexturePtr m_pOutTex;
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
         FMat4 m_localMat;
+        FVec4 m_strokeColor;
         s32 m_vertexNum;
         s32 m_lastVertexIndex;
         f32 m_density;
