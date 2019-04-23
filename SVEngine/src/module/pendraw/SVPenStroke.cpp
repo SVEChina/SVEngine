@@ -193,9 +193,9 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     if (m_penCurve) {
         SVArray<FVec3> t_ptArray;
         if (m_lerpMethod == SV_LERP_BALANCE) {
-            m_penCurve->addPointB(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWEND, t_ptArray);
+            m_penCurve->addPointB(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWING, t_ptArray);
         }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-            m_penCurve->addPoint(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWEND, t_ptArray);
+            m_penCurve->addPoint(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWING, t_ptArray);
         }
         for (s32 i = 0; i<t_ptArray.size(); i++) {
             FVec3 t_pt = t_ptArray[i];

@@ -119,7 +119,7 @@ bool SVPenCurve::addPointB(FVec3 &_pt, f32 _width, f32 _density, ADDPOINTACTION 
     } else {//如果插入点跟上一个点相同，不推入：
         if (t_ptSize == 1) {
             if (_action == SV_ADD_DRAWEND) {
-                _lineLerp(_width, _density, _outPtPool);
+                _onePt(_width, _density, _outPtPool);
             }
         } else if (t_ptSize == 2) {
             if (_action == SV_ADD_DRAWEND) {
