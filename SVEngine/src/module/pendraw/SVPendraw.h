@@ -10,7 +10,8 @@
 
 #include "../SVGameBase.h"
 #include "../../event/SVEvent.h"
-
+#include "../../mtl/SVMtlDeclare.h"
+#include "../../rendercore/SVRenderDeclare.h"
 namespace sv{
     
     //绘制事件
@@ -37,6 +38,10 @@ namespace sv{
         typedef SVArray<SVPenStrokePtr> STROKEPOOL;
         STROKEPOOL m_strokes;
         SVPenStrokePtr m_curStroke;
+        SVRenderTexturePtr m_fbo;
+        SVRenderObjectPtr m_pRenderObj;
+        SVTexturePtr m_pInTex;
+        SVTexturePtr m_pOutTex;
     };
     
 }//!namespace sv
