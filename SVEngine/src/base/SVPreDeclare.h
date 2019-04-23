@@ -152,18 +152,18 @@ namespace sv {
 
     //核心实用库
     namespace util {
-        DECLARE_SHAREPTR(ModelRenderData);
-        DECLARE_SHAREPTR(SVGLTFScene);
-        DECLARE_SHAREPTR(SVGLTFMesh);
-        DECLARE_SHAREPTR(SVGLTFSubMesh);
-        DECLARE_SHAREPTR(SVGLTFMaterial);
-        DECLARE_SHAREPTR(SVGLTFAccessor);
-        DECLARE_SHAREPTR(SVGLTFNode);
-        DECLARE_SHAREPTR(SVGLTFAnimation);
-        DECLARE_SHAREPTR(SVGLTFAnimationChannel);
-        DECLARE_SHAREPTR(SVGLTFAnimationSampler);
-        DECLARE_SHAREPTR(SVGLTFJoint);
-        DECLARE_SHAREPTR(SVGLTFSkin);
+//        DECLARE_SHAREPTR(ModelRenderData);
+//        DECLARE_SHAREPTR(SVGLTFScene);
+//        DECLARE_SHAREPTR(SVGLTFMesh);
+//        DECLARE_SHAREPTR(SVGLTFSubMesh);
+//        DECLARE_SHAREPTR(SVGLTFMaterial);
+//        DECLARE_SHAREPTR(SVGLTFAccessor);
+//        DECLARE_SHAREPTR(SVGLTFNode);
+//        DECLARE_SHAREPTR(SVGLTFAnimation);
+//        DECLARE_SHAREPTR(SVGLTFAnimationChannel);
+//        DECLARE_SHAREPTR(SVGLTFAnimationSampler);
+//        DECLARE_SHAREPTR(SVGLTFJoint);
+//        DECLARE_SHAREPTR(SVGLTFSkin);
         DECLARE_SHAREPTR(SpineMeshData);
         DECLARE_SHAREPTR(SVAnimateSkin);
         DECLARE_SHAREPTR(SVAnimateMorph);

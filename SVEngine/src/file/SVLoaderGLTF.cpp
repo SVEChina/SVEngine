@@ -1732,186 +1732,186 @@ void SVLoaderGLTF::_loadSkinsData(){
 }
 
 void SVLoaderGLTF::_loadModelNodeData(){
-    if (!_model) {
-        return;
-    }
-    SVArray<s32> sceneNodes = m_gltf.scenes[m_gltf.defaultScene].nodes;
-    for (s32 i = 0; i<sceneNodes.size(); i++) {
-        s32 nodeIndex = sceneNodes[i];
-        Node node = m_gltf.nodes[nodeIndex];
-        FMat4 mat;
-        mat.setIdentity();
-        _refreshMeshGlobalMat(_model, node, mat);
-    }
+//    if (!_model) {
+//        return;
+//    }
+//    SVArray<s32> sceneNodes = m_gltf.scenes[m_gltf.defaultScene].nodes;
+//    for (s32 i = 0; i<sceneNodes.size(); i++) {
+//        s32 nodeIndex = sceneNodes[i];
+//        Node node = m_gltf.nodes[nodeIndex];
+//        FMat4 mat;
+//        mat.setIdentity();
+//        _refreshMeshGlobalMat(_model, node, mat);
+//    }
 }
 
 void SVLoaderGLTF::_refreshMeshGlobalMat(Node _node, FMat4 _mat4){
-    FMat4 localTransform;
-    localTransform.setIdentity();
-    //translate
-    FMat4 matT;
-    matT.setIdentity();
-    if (_node.translation.size() > 0) {
-        matT.setTranslate(FVec3(_node.translation[0], _node.translation[1], _node.translation[2]));
-    }
-    //rotation
-    FMat4 matR;
-    matR.setIdentity();
-    if (_node.rotation.size() > 0) {
-        matR.set(SVQuat(FVec4(_node.rotation[0], _node.rotation[1], _node.rotation[2], _node.rotation[3])));
-    }
-    //scale
-    FMat4 matS;
-    matS.setIdentity();
-    if (_node.scale.size() > 0) {
-        matS.setScale(FVec3(_node.scale[0], _node.scale[1], _node.scale[2]));
-    }
-    localTransform = matT * matR * matS;
-    //matrix
-    if (_node.matrix.size() > 0) {
-        FVec4 col0(_node.matrix[0], _node.matrix[1], _node.matrix[2], _node.matrix[3]);
-        FVec4 col1(_node.matrix[4], _node.matrix[5], _node.matrix[6], _node.matrix[7]);
-        FVec4 col2(_node.matrix[8], _node.matrix[9], _node.matrix[10], _node.matrix[11]);
-        FVec4 col3(_node.matrix[12], _node.matrix[13], _node.matrix[14], _node.matrix[15]);
-        localTransform.setColumn(0, col0);
-        localTransform.setColumn(1, col1);
-        localTransform.setColumn(2, col2);
-        localTransform.setColumn(3, col3);
-    }
-    //
-    FMat4 mat = _mat4 * localTransform;
-    if (_node.mesh >= 0) {
-        ModelRenderDataPtr renderData = m_gltf.m_renderMeshData[_node.mesh];
-        renderData->m_globalTransform = mat;
-        renderData->m_boundBox.setTransform(mat);
-        ModelRenderDataPtr debugRenderData = m_gltf.m_renderDebugMeshData[_node.mesh];
-        debugRenderData->m_globalTransform = mat;
-        debugRenderData->m_boundBox.setTransform(mat);
-    }
-    //
-    for (s32 i = 0; i<_node.children.size(); i++) {
-        s32 childIndex = _node.children[i];
-        Node node = m_gltf.nodes[childIndex];
-        _refreshMeshGlobalMat(_model, node, mat);
-    }
+//    FMat4 localTransform;
+//    localTransform.setIdentity();
+//    //translate
+//    FMat4 matT;
+//    matT.setIdentity();
+//    if (_node.translation.size() > 0) {
+//        matT.setTranslate(FVec3(_node.translation[0], _node.translation[1], _node.translation[2]));
+//    }
+//    //rotation
+//    FMat4 matR;
+//    matR.setIdentity();
+//    if (_node.rotation.size() > 0) {
+//        matR.set(SVQuat(FVec4(_node.rotation[0], _node.rotation[1], _node.rotation[2], _node.rotation[3])));
+//    }
+//    //scale
+//    FMat4 matS;
+//    matS.setIdentity();
+//    if (_node.scale.size() > 0) {
+//        matS.setScale(FVec3(_node.scale[0], _node.scale[1], _node.scale[2]));
+//    }
+//    localTransform = matT * matR * matS;
+//    //matrix
+//    if (_node.matrix.size() > 0) {
+//        FVec4 col0(_node.matrix[0], _node.matrix[1], _node.matrix[2], _node.matrix[3]);
+//        FVec4 col1(_node.matrix[4], _node.matrix[5], _node.matrix[6], _node.matrix[7]);
+//        FVec4 col2(_node.matrix[8], _node.matrix[9], _node.matrix[10], _node.matrix[11]);
+//        FVec4 col3(_node.matrix[12], _node.matrix[13], _node.matrix[14], _node.matrix[15]);
+//        localTransform.setColumn(0, col0);
+//        localTransform.setColumn(1, col1);
+//        localTransform.setColumn(2, col2);
+//        localTransform.setColumn(3, col3);
+//    }
+//    //
+//    FMat4 mat = _mat4 * localTransform;
+//    if (_node.mesh >= 0) {
+//        ModelRenderDataPtr renderData = m_gltf.m_renderMeshData[_node.mesh];
+//        renderData->m_globalTransform = mat;
+//        renderData->m_boundBox.setTransform(mat);
+//        ModelRenderDataPtr debugRenderData = m_gltf.m_renderDebugMeshData[_node.mesh];
+//        debugRenderData->m_globalTransform = mat;
+//        debugRenderData->m_boundBox.setTransform(mat);
+//    }
+//    //
+//    for (s32 i = 0; i<_node.children.size(); i++) {
+//        s32 childIndex = _node.children[i];
+//        Node node = m_gltf.nodes[childIndex];
+//        _refreshMeshGlobalMat(_model, node, mat);
+//    }
 }
 
+////
+//SVGLTFScene::SVGLTFScene(){
+//    
+//}
 //
-SVGLTFScene::SVGLTFScene(){
-    
-}
-
-SVGLTFScene::~SVGLTFScene(){
-    
-}
+//SVGLTFScene::~SVGLTFScene(){
+//    
+//}
+////
+//SVGLTFMesh::SVGLTFMesh(){
+//    
+//}
 //
-SVGLTFMesh::SVGLTFMesh(){
-    
-}
-
-SVGLTFMesh::~SVGLTFMesh(){
-    m_meshes.destroy();
-}
+//SVGLTFMesh::~SVGLTFMesh(){
+//    m_meshes.destroy();
+//}
+////
+//SVGLTFSubMesh::SVGLTFSubMesh(){
+//    m_material = nullptr;
+//    m_indexAccessor = nullptr;
+//}
 //
-SVGLTFSubMesh::SVGLTFSubMesh(){
-    m_material = nullptr;
-    m_indexAccessor = nullptr;
-}
-
-SVGLTFSubMesh::~SVGLTFSubMesh(){
-    m_material = nullptr;
-    m_indexAccessor = nullptr;
-    m_accessorsForAttributes.clear();
-}
+//SVGLTFSubMesh::~SVGLTFSubMesh(){
+//    m_material = nullptr;
+//    m_indexAccessor = nullptr;
+//    m_accessorsForAttributes.clear();
+//}
+////
+//SVGLTFAccessor::SVGLTFAccessor(){
+//    m_bufferData = nullptr;
+//}
 //
-SVGLTFAccessor::SVGLTFAccessor(){
-    m_bufferData = nullptr;
-}
-
-SVGLTFAccessor::~SVGLTFAccessor(){
-    m_bufferData = nullptr;
-}
+//SVGLTFAccessor::~SVGLTFAccessor(){
+//    m_bufferData = nullptr;
+//}
+////
+//SVGLTFMaterial::SVGLTFMaterial(){
+//    m_baseColorTexture = nullptr;
+//    m_metallicRoughnessTexture = nullptr;
+//    m_normalTexture = nullptr;
+//    m_emissiveTexture = nullptr;
+//    m_occlusionTexture = nullptr;
+//}
 //
-SVGLTFMaterial::SVGLTFMaterial(){
-    m_baseColorTexture = nullptr;
-    m_metallicRoughnessTexture = nullptr;
-    m_normalTexture = nullptr;
-    m_emissiveTexture = nullptr;
-    m_occlusionTexture = nullptr;
-}
-
-SVGLTFMaterial::~SVGLTFMaterial(){
-    m_baseColorTexture = nullptr;
-    m_metallicRoughnessTexture = nullptr;
-    m_normalTexture = nullptr;
-    m_emissiveTexture = nullptr;
-    m_occlusionTexture = nullptr;
-}
+//SVGLTFMaterial::~SVGLTFMaterial(){
+//    m_baseColorTexture = nullptr;
+//    m_metallicRoughnessTexture = nullptr;
+//    m_normalTexture = nullptr;
+//    m_emissiveTexture = nullptr;
+//    m_occlusionTexture = nullptr;
+//}
+////
+//SVGLTFNode::SVGLTFNode(){
+//    
+//}
 //
-SVGLTFNode::SVGLTFNode(){
-    
-}
-
-SVGLTFNode::~SVGLTFNode(){
-    
-}
+//SVGLTFNode::~SVGLTFNode(){
+//    
+//}
+////
+//SVGLTFSkin::SVGLTFSkin(){
+//    
+//}
 //
-SVGLTFSkin::SVGLTFSkin(){
-    
-}
-
-SVGLTFSkin::~SVGLTFSkin(){
-    
-}
+//SVGLTFSkin::~SVGLTFSkin(){
+//    
+//}
+////
+//SVGLTFJoint::SVGLTFJoint(){
+//    
+//}
 //
-SVGLTFJoint::SVGLTFJoint(){
-    
-}
-
-SVGLTFJoint::~SVGLTFJoint(){
-    
-}
+//SVGLTFJoint::~SVGLTFJoint(){
+//    
+//}
+////
+//SVGLTFAnimation::SVGLTFAnimation(){
+//    
+//}
 //
-SVGLTFAnimation::SVGLTFAnimation(){
-    
-}
-
-SVGLTFAnimation::~SVGLTFAnimation(){
-    m_channels.destroy();
-    m_samplers.clear();
-}
-
-SVGLTFAnimationChannel::SVGLTFAnimationChannel(){
-    
-}
-
-SVGLTFAnimationChannel::~SVGLTFAnimationChannel(){
-    
-}
-
-SVGLTFAnimationSampler::SVGLTFAnimationSampler(){
-    
-}
-
-SVGLTFAnimationSampler::~SVGLTFAnimationSampler(){
-    
-}
-
-ModelRenderData::ModelRenderData(){
-    m_indexCount    = 0;
-    m_vertexCount   = 0;
-    m_pRenderVertex = nullptr;
-    m_pRenderIndex  = nullptr;
-    m_pMtl = nullptr;
-    m_pMesh = nullptr;
-    m_globalTransform.setIdentity();
-}
-
-ModelRenderData::~ModelRenderData(){
-    m_indexCount    = 0;
-    m_vertexCount   = 0;
-    m_pRenderVertex = nullptr;
-    m_pRenderIndex  = nullptr;
-    m_pMtl = nullptr;
-    m_pMesh = nullptr;
-}
+//SVGLTFAnimation::~SVGLTFAnimation(){
+//    m_channels.destroy();
+//    m_samplers.clear();
+//}
+//
+//SVGLTFAnimationChannel::SVGLTFAnimationChannel(){
+//    
+//}
+//
+//SVGLTFAnimationChannel::~SVGLTFAnimationChannel(){
+//    
+//}
+//
+//SVGLTFAnimationSampler::SVGLTFAnimationSampler(){
+//    
+//}
+//
+//SVGLTFAnimationSampler::~SVGLTFAnimationSampler(){
+//    
+//}
+//
+//ModelRenderData::ModelRenderData(){
+//    m_indexCount    = 0;
+//    m_vertexCount   = 0;
+//    m_pRenderVertex = nullptr;
+//    m_pRenderIndex  = nullptr;
+//    m_pMtl = nullptr;
+//    m_pMesh = nullptr;
+//    m_globalTransform.setIdentity();
+//}
+//
+//ModelRenderData::~ModelRenderData(){
+//    m_indexCount    = 0;
+//    m_vertexCount   = 0;
+//    m_pRenderVertex = nullptr;
+//    m_pRenderIndex  = nullptr;
+//    m_pMtl = nullptr;
+//    m_pMesh = nullptr;
+//}
