@@ -1,5 +1,5 @@
 //
-// SVObjLoader.h
+// SVLoaderObj.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
@@ -12,9 +12,9 @@
 
 namespace sv {
     
-    class SVObjLoader : public SVFileLoader {
+    class SVLoaderObj : public SVFileLoader {
     public:
-        SVObjLoader(SVInst *_app);
+        SVLoaderObj(SVInst *_app);
         
         SVModelPtr loadModel(cptr8 _fname);
     };

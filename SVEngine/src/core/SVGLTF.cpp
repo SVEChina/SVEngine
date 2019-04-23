@@ -5,7 +5,7 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVglTF.h"
+#include "SVGLTF.h"
 #include "../file/SVParseDef.h"
 #include "../base/SVDataChunk.h"
 #include "../file/SVFileMgr.h"
@@ -16,6 +16,7 @@
 #include "../base/SVQuat.h"
 #include "../mtl/SVMtl3D.h"
 #include "../rendercore/SVRenderMesh.h"
+
 SVGLTF::SVGLTF(SVInst *_app)
 :SVGBase(_app) {
 }

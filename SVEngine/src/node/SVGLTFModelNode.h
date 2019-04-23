@@ -34,9 +34,10 @@ namespace sv {
             void enableDebugNormal(bool _enable);
             
             bool getDebugNormalEnable();
+            
         protected:
             void _showDebugNormalLines();
-        protected:
+
             GLTFModelPtr m_model;
             
             SVMultMeshMtlRenderObjectPtr m_pRObj;
