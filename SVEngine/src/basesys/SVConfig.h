@@ -12,7 +12,7 @@
 #include "../base/SVDatatDef.h"
 #include "../rendercore/SVRenderDef.h"
 #include "../base/SVVec3.h"
-
+#include "../base/SVVec4.h"
 #define KEY_SCREEN_WIDTH  "width"
 #define KEY_SCREEN_HEIGHT "height"
 #define KEY_DESIGN_WIDTH  "designwidth"
@@ -113,6 +113,9 @@ namespace sv {
         s32 cameraAngle;        //相机转角度
         PICFORMATE cameraFormate;       //相机输出格式
         SV_OUTSTEAMFORMATE dataoutFormate;            //数据输出格式
+        //画笔参数相关
+        f32 m_strokeWidth;
+        FVec4 m_strokeColor;
         //适配模式
         ADAPT_MODE adaptmode;
         s32 glVersion;
