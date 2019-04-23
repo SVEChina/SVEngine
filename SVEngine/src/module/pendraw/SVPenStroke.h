@@ -15,7 +15,6 @@
 #include "../../mtl/SVMtlDeclare.h"
 #include "../../base/SVBounds.h"
 #include "SVPenCurve.h"
-#include "../../node/SVMultPassNode.h"
 namespace sv{
     
     struct SVStrokePoint {
@@ -64,10 +63,7 @@ namespace sv{
         SVRenderMeshPtr m_pMesh;
         SVRenderObjectPtr m_pRenderObj;
         SVMtlStrokeBasePtr m_pMtl;
-        SVMultPassNodePtr m_multPass;
         SVTexturePtr m_pTex;
-        SVTexturePtr m_pFboTex;
-        SVTexturePtr m_pOutTex;
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
         FMat4 m_localMat;

@@ -1,5 +1,5 @@
 //
-// SVPngLoader.h
+// SVLoaderPng.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
@@ -19,13 +19,13 @@ namespace sv {
         s32 offset;
     } tImageSource;
     
-    class SVPngLoader : public SVFileLoader {
+    class SVLoaderPng : public SVFileLoader {
     public:
         friend class SVOpTexLoad;
         
-        SVPngLoader(SVInst *_app);
+        SVLoaderPng(SVInst *_app);
         
-        ~SVPngLoader();
+        ~SVLoaderPng();
         
         void loadData(cptr8 name, u8 **data);
         

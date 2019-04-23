@@ -9,7 +9,7 @@
 #include "SVTexturePList.h"
 #include "SVTexture.h"
 #include "../third/rapidjson/document.h"
-#include "../file/SVPngLoader.h"
+#include "../file/SVLoaderPng.h"
 #include "../file/SVFileMgr.h"
 #include "../base/SVDataChunk.h"
 #include "../app/SVInst.h"

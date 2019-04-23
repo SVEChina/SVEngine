@@ -1,11 +1,11 @@
 //
-// SVPngLoader.cpp
+// SVLoaderPng.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVPngLoader.h"
+#include "SVLoaderPng.h"
 #include "SVFileMgr.h"
 #include "../base/SVDataChunk.h"
 #include "../mtl/SVTexMgr.h"
@@ -28,7 +28,7 @@ static void pngReadCallback(png_structp png_ptr, png_bytep data, png_size_t leng
     ((unsigned)((unsigned char)(vb) * ((unsigned char)(va) + 1) >> 8) << 16) | \
     ((unsigned)(unsigned char)(va) << 24))
 
-SVPngLoader::SVPngLoader(SVInst *_app)
+SVLoaderPng::SVLoaderPng(SVInst *_app)
 :SVFileLoader(_app) {
     m_iHeight = 0;
     m_iWidth = 0;
@@ -36,14 +36,14 @@ SVPngLoader::SVPngLoader(SVInst *_app)
     m_iDataType = -1;
 }
 
-SVPngLoader::~SVPngLoader() {
+SVLoaderPng::~SVLoaderPng() {
     m_iHeight = 0;
     m_iWidth = 0;
     m_iDataLength = 0;
     m_iDataType = -1;
 }
 
-void SVPngLoader::loadData(cptr8 name, u8 **data) {
+void SVLoaderPng::loadData(cptr8 name, u8 **data) {
     SVDataChunk tSVDataChunk;
     bool t_flag = mApp->getFileMgr()->loadFileContent(&tSVDataChunk, name);
     if (t_flag) {
@@ -51,7 +51,7 @@ void SVPngLoader::loadData(cptr8 name, u8 **data) {
     }
 }
 
-void SVPngLoader::_premultipliedAlpha(u8 *_data, s32 _width, s32 _height) {
+void SVLoaderPng::_premultipliedAlpha(u8 *_data, s32 _width, s32 _height) {
     u32 *fourBytes = (u32 *) _data;
     for (u32 i = 0; i < _width * _height; i++) {
         u8 *p = _data + i * 4;
@@ -59,7 +59,7 @@ void SVPngLoader::_premultipliedAlpha(u8 *_data, s32 _width, s32 _height) {
     }
 }
 
-void SVPngLoader::_readPngFromStream(void *instream, s32 dataLen, cptr8 fname,u8 **data) {
+void SVLoaderPng::_readPngFromStream(void *instream, s32 dataLen, cptr8 fname,u8 **data) {
     // length of bytes to check if it is a valid png file
 #define PNGSIGSIZE  8
     if (dataLen < PNGSIGSIZE)
