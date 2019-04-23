@@ -57,15 +57,16 @@ namespace sv{
         typedef SVArray<SVStrokePoint> PTPOOL;
         
         PTPOOL m_ptPool;
-        SVMultPassNodePtr m_pPassNode;
-        SVPassPtr m_pass;
+        SVRenderTexturePtr m_fbo;
         SVPenCurvePtr m_penCurve;
         //数据域
         SVDataSwapPtr m_pVertData;  //mesh
         SVRenderMeshPtr m_pMesh;
         SVRenderObjectPtr m_pRenderObj;
         SVMtlStrokeBasePtr m_pMtl;
+        SVMultPassNodePtr m_multPass;
         SVTexturePtr m_pTex;
+        SVTexturePtr m_pFboTex;
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
         FMat4 m_localMat;

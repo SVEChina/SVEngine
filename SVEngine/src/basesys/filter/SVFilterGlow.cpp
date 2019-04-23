@@ -31,7 +31,7 @@ bool SVFilterGlow::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
-    SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
+    SVTexturePtr t_tex = t_renderer->getSVTex(_inType);
     s32 t_w = t_tex->getwidth();
     s32 t_h = t_tex->getheight();
     
@@ -49,7 +49,7 @@ bool SVFilterGlow::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->setname("SVFilterGlowNode");
     m_pPassNode->create(t_w, t_h);
-    m_pPassNode->setRSType(RST_IMGFILTER);
+    m_pPassNode->setRSType(RST_AR);
     //创建pass
     SVPassPtr t_pass1 = MakeSharedPtr<SVPass>();
     SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
