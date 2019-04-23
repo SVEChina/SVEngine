@@ -29,6 +29,8 @@
 SVPendraw::SVPendraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
+    m_strokeWidth = 0.005f;
+    m_strokeColor.set(255.0f, 0.0f, 255.0f, 255.0f);
 }
 
 SVPendraw::~SVPendraw() {
@@ -59,7 +61,6 @@ void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
             m_pOutTex = t_renderer->createSVTex(E_TEX_HELP1, t_w, t_h, GL_RGBA);
         }
     }
-    
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,nullptr,false,false);
     mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
@@ -122,11 +123,21 @@ void SVPendraw::close() {
     SVGameBase::close();
 }
 
+void SVPendraw::setStrokeWidth(f32 _width){
+    m_strokeWidth = _width;
+}
+
+void SVPendraw::setStrokeColor(FVec4 &_color){
+    m_strokeColor = _color;
+}
+
 bool SVPendraw::procEvent(SVEventPtr _event){
     if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_BEGIN){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (!m_curStroke) {
             m_curStroke = MakeSharedPtr<SVPenStroke>(mApp);
+            m_curStroke->setStrokeWidth(m_strokeWidth);
+            m_curStroke->setStrokeColor(m_strokeColor);
             m_strokes.append(m_curStroke);
         }
         m_curStroke->begin(t_touch->x,t_touch->y,0.0);

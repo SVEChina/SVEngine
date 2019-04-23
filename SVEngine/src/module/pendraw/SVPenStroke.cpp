@@ -63,16 +63,15 @@ SVPenStroke::~SVPenStroke() {
     m_lock = nullptr;
     m_ptPool.clear();
     m_aabbBox.clear();
-    m_fbo = nullptr;
     m_pRenderObj = nullptr;
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
-    if (t_renderer) {
-        t_renderer->destroySVTex(E_TEX_HELP0);
-    }
 }
 
 void SVPenStroke::setStrokeWidth(f32 _width){
     m_pen_width = _width;
+}
+
+void SVPenStroke::setStrokeColor(FVec4 &_color){
+    m_strokeColor = _color;
 }
 
 void SVPenStroke::setDrawBox(bool _drawBox){
@@ -229,8 +228,6 @@ void SVPenStroke::_genMesh() {
 
 void SVPenStroke::_genBox(FVec3& _pt) {
     V3_C_T0 t_ver[36];
-//    m_pVertData->appendData(t_ver, 24*sizeof(V3_C_T0));
-//    return ;
     f32 t_half_w = m_pen_width*0.5f;
     FVec3 t_pt0 = _pt + FVec3(-1.0f,-1.0f,-1.0f)*t_half_w;
     FVec3 t_pt1 = _pt + FVec3(1.0f,-1.0f,-1.0f)*t_half_w;
@@ -244,10 +241,10 @@ void SVPenStroke::_genBox(FVec3& _pt) {
     FVec2 t_t1 = FVec2(1.0f,0.0f);
     FVec2 t_t2 = FVec2(0.0f,1.0f);
     FVec2 t_t3 = FVec2(1.0f,1.0f);
-    u8 t_r = 255;
-    u8 t_g = 0;
-    u8 t_b = 255;
-    u8 t_a = 255;
+    u8 t_r = m_strokeColor.x;
+    u8 t_g = m_strokeColor.y;
+    u8 t_b = m_strokeColor.z;
+    u8 t_a = m_strokeColor.w;
     //0,1,4,5
     t_ver[0].x = t_pt0.x;
     t_ver[0].y = t_pt0.y;

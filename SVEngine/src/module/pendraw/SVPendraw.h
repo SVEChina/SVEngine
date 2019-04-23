@@ -9,6 +9,7 @@
 #define SV_PENDRAW_H
 
 #include "../SVGameBase.h"
+#include "../../base/SVVec4.h"
 #include "../../event/SVEvent.h"
 #include "../../mtl/SVMtlDeclare.h"
 #include "../../rendercore/SVRenderDeclare.h"
@@ -34,6 +35,10 @@ namespace sv{
         
         virtual bool procEvent(SVEventPtr _event);
         
+        void setStrokeWidth(f32 _width);
+        
+        void setStrokeColor(FVec4 &_color);
+        
     protected:
         typedef SVArray<SVPenStrokePtr> STROKEPOOL;
         STROKEPOOL m_strokes;
@@ -42,6 +47,8 @@ namespace sv{
         SVRenderObjectPtr m_pRenderObj;
         SVTexturePtr m_pInTex;
         SVTexturePtr m_pOutTex;
+        f32 m_strokeWidth;
+        FVec4 m_strokeColor;
     };
     
 }//!namespace sv
