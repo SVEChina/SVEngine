@@ -164,8 +164,9 @@ namespace sv {
         DECLARE_SHAREPTR(SVGLTFAnimationSampler);
         DECLARE_SHAREPTR(SVGLTFJoint);
         DECLARE_SHAREPTR(SVGLTFSkin);
-        DECLARE_SHAREPTR(GLTFModel);
         DECLARE_SHAREPTR(SpineMeshData);
+        DECLARE_SHAREPTR(SVAnimateSkin);
+        DECLARE_SHAREPTR(SVAnimateMorph);
         DECLARE_SHAREPTR(SVSpine);
         DECLARE_SHAREPTR(SVParticlesWorldBase);
         DECLARE_SHAREPTR(SVParticles);
