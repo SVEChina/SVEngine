@@ -11,7 +11,7 @@
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVCameraNode.h"
 SVMtlStrokeBase::SVMtlStrokeBase(SVInst *_app)
-:SVMtlCore(_app,"penstroke_texture") {
+:SVMtlCore(_app,"penstroke_base") {
     m_quadPosW.set(0, 0, 0);
 }
 

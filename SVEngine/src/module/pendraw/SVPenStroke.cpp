@@ -6,11 +6,12 @@
 //
 
 #include "SVPenStroke.h"
-#include "SVPenCurve.h"
 #include "../SVGameReady.h"
 #include "../SVGameRun.h"
 #include "../SVGameEnd.h"
 #include "../../core/SVVertDef.h"
+#include "../../core/SVGeoGen.h"
+#include "../../core/SVPass.h"
 #include "../../base/SVVec3.h"
 #include "../../base/SVDataSwap.h"
 #include "../../rendercore/SVRenderObject.h"
@@ -27,10 +28,17 @@
 #include "../../basesys/SVSensorProcess.h"
 #include "../../mtl/SVMtlStrokeBase.h"
 #include "../../mtl/SVMtlNocolor.h"
-
+#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderTexture.h"
+#include "../../rendercore/SVRenderCmd.h"
+#include "../../rendercore/SVRenderScene.h"
+#include "../../basesys/SVBasicSys.h"
+#include "../../basesys/filter/SVFilterGlow.h"
+#include "../../basesys/SVPictureProcess.h"
+#include "../../basesys/SVStaticData.h"
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
-//    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
+    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptPool.clear();
     m_localMat.setIdentity();
     m_lock = MakeSharedPtr<SVLock>();
@@ -43,14 +51,50 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->setDrawMethod(E_DM_LINES);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_line.png",true);
-    m_density = 0.05;
+    m_lerpMethod = SV_LERP_BALANCE;
+    m_density = 0.1;
     m_vertexNum = 0;
+    m_lastVertexIndex = 0;
     m_drawBox = false;
-    m_isFirstTouch = true;
-    setDrawBox(true);
     m_point_dis_dert = 0.002f;
     m_pen_width = 0.006f;
     m_plane_dis = 0.2f;
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if (t_renderer) {
+        SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
+        s32 t_w = t_tex->getwidth();
+        s32 t_h = t_tex->getheight();
+        //创建多passnode
+        m_multPass = MakeSharedPtr<SVMultPassNode>(mApp);
+        m_multPass->setname("SVPenStrokeMultPass");
+        m_multPass->create(t_w, t_h);
+        m_multPass->setRSType(RST_AR_END);
+        if (t_renderer->hasSVTex(E_TEX_HELP0)) {
+            m_pFboTex = t_renderer->getSVTex(E_TEX_HELP0);
+        }else{
+            m_pFboTex = t_renderer->createSVTex(E_TEX_HELP0, t_w, t_h, GL_RGBA);
+        }
+        
+        if (t_renderer->hasSVTex(E_TEX_HELP1)) {
+            m_pOutTex = t_renderer->getSVTex(E_TEX_HELP1);
+        }else{
+            m_pOutTex = t_renderer->createSVTex(E_TEX_HELP1, t_w, t_h, GL_RGBA);
+        }
+        
+        m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,nullptr,false,false);
+        SVCameraNodePtr t_arCamera = mApp->getBasicSys()->getSensorModule()->getARCamera();
+//        m_fbo->setLink(true);
+//        m_fbo->setProjMat(t_arCamera->getProjectMatObj());
+//        m_fbo->setViewMat(t_arCamera->getViewMatObj());
+        mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
+    }
+    
+    //做辉光效果处理
+    SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
+    SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(mApp);
+    t_glow->create(E_TEX_HELP0, E_TEX_HELP1);
+    t_pic->addFilter(t_glow);
+    t_pic->openFilter(t_glow);
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -58,9 +102,20 @@ SVPenStroke::~SVPenStroke() {
     m_pVertData->reback();
     m_pVertData = nullptr;
     m_pTex = nullptr;
+    m_pFboTex = nullptr;
     m_lock = nullptr;
     m_ptPool.clear();
     m_aabbBox.clear();
+    m_fbo = nullptr;
+    m_pRenderObj = nullptr;
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if (t_renderer) {
+        t_renderer->destroySVTex(E_TEX_HELP0);
+    }
+    if(m_multPass){
+        m_multPass->removeFromParent();
+        m_multPass = nullptr;
+    }
 }
 
 void SVPenStroke::setStrokeWidth(f32 _width){
@@ -85,11 +140,15 @@ void SVPenStroke::update(f32 _dt) {
 
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
-    m_isFirstTouch = true;
     //二维点到三维点的转换
     FVec2 t_pt = FVec2(_px, _py);
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
+    if (m_penCurve) {
+        m_penCurve->reset();
+        SVArray<FVec3> t_ptArray;
+        m_penCurve->addPoint(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWBEGIN, t_ptArray);
+    }
     m_ptPool.append(t_worldPt);
     m_lock->unlock();
 }
@@ -101,9 +160,23 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
     //
-    s32 t_pt_num = m_ptPool.size();
-    SVStrokePoint t_lastpt = m_ptPool[t_pt_num-1];
-    if(length(t_lastpt.point - t_worldPt.point) > m_point_dis_dert ) {
+    if (m_penCurve) {
+        SVArray<FVec3> t_ptArray;
+        if (m_lerpMethod == SV_LERP_BALANCE) {
+            m_penCurve->addPointB(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWEND, t_ptArray);
+        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
+            m_penCurve->addPoint(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWEND, t_ptArray);
+        }
+        for (s32 i = 0; i<t_ptArray.size(); i++) {
+            FVec3 t_pt = t_ptArray[i];
+            SVStrokePoint t_n_worldPt;
+            t_n_worldPt.point = t_pt;
+            t_n_worldPt.normal = t_worldPt.normal;
+            t_n_worldPt.ext0 = t_worldPt.ext0;
+            t_n_worldPt.ext1 = t_worldPt.ext1;
+            m_ptPool.append(t_n_worldPt);
+        }
+    }else{
         m_ptPool.append(t_worldPt);
     }
     //
@@ -117,9 +190,23 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
     //
-    s32 t_pt_num = m_ptPool.size();
-    SVStrokePoint t_lastpt = m_ptPool[t_pt_num-1];
-    if(length(t_lastpt.point - t_worldPt.point) > m_point_dis_dert ) {
+    if (m_penCurve) {
+        SVArray<FVec3> t_ptArray;
+        if (m_lerpMethod == SV_LERP_BALANCE) {
+            m_penCurve->addPointB(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWING, t_ptArray);
+        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
+            m_penCurve->addPoint(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWING, t_ptArray);
+        }
+        for (s32 i = 0; i<t_ptArray.size(); i++) {
+            FVec3 t_pt = t_ptArray[i];
+            SVStrokePoint t_n_worldPt;
+            t_n_worldPt.point = t_pt;
+            t_n_worldPt.normal = t_worldPt.normal;
+            t_n_worldPt.ext0 = t_worldPt.ext0;
+            t_n_worldPt.ext1 = t_worldPt.ext1;
+            m_ptPool.append(t_n_worldPt);
+        }
+    }else{
         m_ptPool.append(t_worldPt);
     }
     //
@@ -178,10 +265,11 @@ void SVPenStroke::_genPolygon(){
 //生成数据
 void SVPenStroke::_genMesh() {
     s32 t_pt_num = m_ptPool.size();
-    m_pVertData->resize(t_pt_num*36*sizeof(V3_C_T0));
-    for (s32 i = 0; i<t_pt_num; i++) {
+    s32 t_index = m_lastVertexIndex;
+    for (s32 i = t_index; i<t_pt_num; i++) {
         SVStrokePoint t_pt = m_ptPool[i];
         _genBox(t_pt.point);
+        m_lastVertexIndex++;
     }
     m_vertexNum = t_pt_num*36;//6个面 一个面6个点
 }
@@ -547,10 +635,12 @@ void SVPenStroke::_genBox(FVec3& _pt) {
 }
 
 void SVPenStroke::_drawMesh() {
-    if (m_pMesh && m_pRenderObj && m_vertexNum > 0) {
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    if (t_renderer && t_rs && m_pRenderObj && m_pMesh && m_vertexNum > 0) {
         if (!m_pMtl) {
             m_pMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp);
-            m_pMtl->setTexture(0, m_pTex);
+//            m_pMtl->setTexture(0, m_pTex);
             m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
             m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
              //void setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value);
@@ -564,10 +654,27 @@ void SVPenStroke::_drawMesh() {
         //更新顶点数据
         m_pMesh->setVertexDataNum(m_vertexNum);
         m_pMesh->setVertexData(m_pVertData);
-        m_pRenderObj->setMesh(m_pMesh);
-        m_pRenderObj->setMtl(m_pMtl);
-        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-        m_pRenderObj->pushCmd(t_rs, RST_AR, "SVPenStroke");
+        //在一个FBO上画画笔
+        SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
+        t_cmd->setRenderer(t_renderer);
+        t_cmd->mTag = "SVPenStrokeRender";
+        t_cmd->setFbo(m_fbo);
+        if (m_pFboTex) {
+            t_cmd->setTexture(m_pFboTex);
+        }
+        t_cmd->setMesh(m_pMesh);
+        t_cmd->setMaterial(m_pMtl);
+        t_rs->pushRenderCmd(RST_AR, t_cmd);
+
+        //再画回主纹理
+        SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
+        t_lkMtl->setTexcoordFlip(1.0f, 1.0f);
+        t_lkMtl->setTexture(0, E_TEX_HELP1);
+        SVTexturePtr mainTex = t_renderer->getSVTex(E_TEX_MAIN);
+        SVRenderMeshPtr t_mesh = mApp->getDataMgr()->m_screenMesh;
+        m_pRenderObj->setMesh(t_mesh);
+        m_pRenderObj->setMtl(t_lkMtl);
+        m_pRenderObj->pushCmd(t_rs, RST_AR_END, "SVPenStrokeRenderBack");
     }
 }
 
@@ -610,3 +717,4 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
     _worldPoint.ext0 = FVec3(0.0f,0.0f,0.0f);
     _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
 }
+
