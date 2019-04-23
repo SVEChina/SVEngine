@@ -67,6 +67,7 @@ namespace sv{
         SVMultPassNodePtr m_multPass;
         SVTexturePtr m_pTex;
         SVTexturePtr m_pFboTex;
+        SVTexturePtr m_pOutTex;
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
         FMat4 m_localMat;

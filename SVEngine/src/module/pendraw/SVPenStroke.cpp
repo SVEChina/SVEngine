@@ -74,6 +74,13 @@ SVPenStroke::SVPenStroke(SVInst *_app)
         }else{
             m_pFboTex = t_renderer->createSVTex(E_TEX_HELP0, t_w, t_h, GL_RGBA);
         }
+        
+        if (t_renderer->hasSVTex(E_TEX_HELP1)) {
+            m_pOutTex = t_renderer->getSVTex(E_TEX_HELP1);
+        }else{
+            m_pOutTex = t_renderer->createSVTex(E_TEX_HELP1, t_w, t_h, GL_RGBA);
+        }
+        
         m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,nullptr,false,false);
         SVCameraNodePtr t_arCamera = mApp->getBasicSys()->getSensorModule()->getARCamera();
 //        m_fbo->setLink(true);
@@ -81,6 +88,13 @@ SVPenStroke::SVPenStroke(SVInst *_app)
 //        m_fbo->setViewMat(t_arCamera->getViewMatObj());
         mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
     }
+    
+    //做辉光效果处理
+    SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
+    SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(mApp);
+    t_glow->create(E_TEX_HELP0, E_TEX_HELP1);
+    t_pic->addFilter(t_glow);
+    t_pic->openFilter(t_glow);
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -651,16 +665,11 @@ void SVPenStroke::_drawMesh() {
         t_cmd->setMesh(m_pMesh);
         t_cmd->setMaterial(m_pMtl);
         t_rs->pushRenderCmd(RST_AR, t_cmd);
-        //做辉光效果处理
-        SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
-        SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(mApp);
-        t_glow->create(E_TEX_HELP0, E_TEX_HELP0);
-        t_pic->addFilter(t_glow);
-        t_pic->openFilter(t_glow);
+
         //再画回主纹理
         SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
         t_lkMtl->setTexcoordFlip(1.0f, 1.0f);
-        t_lkMtl->setTexture(0, E_TEX_HELP0);
+        t_lkMtl->setTexture(0, E_TEX_HELP1);
         SVTexturePtr mainTex = t_renderer->getSVTex(E_TEX_MAIN);
         SVRenderMeshPtr t_mesh = mApp->getDataMgr()->m_screenMesh;
         m_pRenderObj->setMesh(t_mesh);
