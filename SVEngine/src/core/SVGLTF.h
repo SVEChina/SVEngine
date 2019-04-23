@@ -4,8 +4,9 @@
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
-#ifndef SVglTF_h
-#define SVglTF_h
+#ifndef SV_GLTF_H
+#define SV_GLTF_H
+
 #include "../base/SVGBase.h"
 #include "../base/SVVec2.h"
 #include "../base/SVVec3.h"
@@ -21,6 +22,7 @@
 #include "../mtl/SVMtlDeclare.h"
 #include "../core/SVVertDef.h"
 #include "../rendercore/SVRenderDeclare.h"
+
 #ifndef SVGLTF_EMBREE
 #define SVGLTF_EMBREE 1
 #endif
@@ -28,8 +30,10 @@
 #ifndef SVGLTF_QUADS_AS_TRIANGLES
 #define SVGLTF_QUADS_AS_TRIANGLES 1
 #endif
+
 namespace sv {
     namespace util{
+        
 #define SVGLTF_MODE_POINTS (0)
 #define SVGLTF_MODE_LINE (1)
 #define SVGLTF_MODE_LINE_LOOP (2)
@@ -69,6 +73,7 @@ namespace sv {
 #define SVGLTF_TYPE_SCALAR (64 + 1)
 #define SVGLTF_TYPE_VECTOR (64 + 4)
 #define SVGLTF_TYPE_MATRIX (64 + 16)
+        
         typedef enum {
             NULL_TYPE = 0,
             NUMBER_TYPE = 1,
@@ -732,7 +737,8 @@ namespace sv {
             s32                     m_indexCount;
             s32                     m_vertexCount;
         };
+        
     } // util
 }  // namespace sv
 
-#endif
+#endif //SV_GLTF_H

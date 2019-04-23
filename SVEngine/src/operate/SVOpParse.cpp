@@ -18,7 +18,7 @@
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../file/SVParseData.h"
-#include "../file/SVPngLoader.h"
+#include "../file/SVLoaderPng.h"
 #include "../basesys/SVConfig.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../module/SVModuleBase.h"
@@ -133,7 +133,7 @@ SVOpTexLoad::~SVOpTexLoad() {
 
 void SVOpTexLoad::_process(f32 dt) {
     SV_LOG_INFO("load texture: %s \n",mFilename.c_str() );
-    SVPngLoader pngLoad(mApp);
+    SVLoaderPng pngLoad(mApp);
     u8 *pTexData = nullptr;
     pngLoad.loadData(mFilename.c_str(), &pTexData);
     if (pTexData) {
