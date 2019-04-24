@@ -61,7 +61,7 @@ namespace sv{
         //
         void _drawBoundBox();
         //
-        void _updateGlow();
+        void _drawGlow();
         //
         typedef SVArray<SVStrokePoint> PTPOOL;
         

@@ -1,36 +1,31 @@
 //
-// SVMtlBillboard.h
+// SVMtlPenStrokeGlow.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_MTL_BILLBOARD_H
-#define SV_MTL_BILLBOARD_H
+#ifndef SV_MTL_PENSTROKEGLOW_H
+#define SV_MTL_PENSTROKEGLOW_H
 
 
-#include "SVMtlCore.h"
+#include "SVMtlBillboard.h"
 namespace sv {
     
     namespace mtl{
         
-        class SVMtlBillboard : public SVMtlCore {
+        class SVMtlPenStrokeGlow : public SVMtlBillboard {
         public:
-            SVMtlBillboard(SVInst *_app);
+            SVMtlPenStrokeGlow(SVInst *_app);
             
-            SVMtlBillboard(SVMtlBillboard *_mtl);
+            SVMtlPenStrokeGlow(SVMtlPenStrokeGlow *_mtl);
             
-            ~SVMtlBillboard();
+            ~SVMtlPenStrokeGlow();
             
             virtual void reset();
             
             virtual SVMtlCorePtr clone();
-            
-            void setObjectPos(FVec3 &_pos);//物体世界位置
-            
-            void setViewPos(FVec3 &_viewPos);
-            
-            void setUp(FVec3 &_up);
+    
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
             FVec3 m_objPos;
@@ -43,4 +38,4 @@ namespace sv {
 }//!namespace sv
 
 
-#endif //SV_MTL_BILLBOARD_H
+#endif //SV_MTL_PENSTROKEGLOW_H

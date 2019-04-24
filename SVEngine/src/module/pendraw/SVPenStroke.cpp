@@ -21,7 +21,7 @@
 #include "../../mtl/SVMtlCore.h"
 #include "../../mtl/SVTexMgr.h"
 #include "../../mtl/SVTexture.h"
-#include "../../mtl/SVMtlBillboard.h"
+#include "../../mtl/SVMtlPenStrokeGlow.h"
 #include "../../basesys/SVCameraMgr.h"
 #include "../../node/SVCameraNode.h"
 #include "../../basesys/SVBasicSys.h"
@@ -78,10 +78,6 @@ SVPenStroke::~SVPenStroke() {
     m_ptPool.clear();
     m_ptOriginalPool.clear();
     m_aabbBox.clear();
-    for (s32 i = 0; i<m_glowStroke.size(); i++) {
-        SVBillboardNodePtr t_node = m_glowStroke[i];
-        t_node->removeFromParent();
-    }
     m_glowStroke.destroy();
 }
 
@@ -103,7 +99,7 @@ void SVPenStroke::update(f32 _dt) {
     //插值生成面片
     _genMesh();
     //更新
-    _updateGlow();
+    _drawGlow();
     //绘制dataswap
     _drawMesh();
     m_lock->unlock();
@@ -238,20 +234,18 @@ void SVPenStroke::_genPolygon(){
 
 //生成数据
 void SVPenStroke::_genMesh() {
-    s32 t_index = 0;
-    s32 t_pt_num = 0;
     //公告板网格
-    t_pt_num = m_ptOriginalPool.size();
-    t_index = m_lastGlowVertexIndex;
-    for (s32 i = t_index; i<t_pt_num; i++) {
+    s32 t_pt_original_num = m_ptOriginalPool.size();
+    s32 t_original_index = m_lastGlowVertexIndex;
+    for (s32 i = t_original_index; i<t_pt_original_num; i++) {
         SVStrokePoint t_pt = m_ptOriginalPool[i];
         _genGlow(t_pt.point);
         m_aabbBox.expand(t_pt.point);
         m_lastGlowVertexIndex++;
     }
     //三位盒子网格
-    t_pt_num = m_ptPool.size();
-    t_index = m_lastVertexIndex;
+    s32 t_pt_num = m_ptPool.size();
+    s32 t_index = m_lastVertexIndex;
     for (s32 i = t_index; i<t_pt_num; i++) {
         SVStrokePoint t_pt = m_ptPool[i];
         _genBox(t_pt.point);
@@ -261,26 +255,23 @@ void SVPenStroke::_genMesh() {
 }
 
 void SVPenStroke::_genGlow(FVec3 &_pt){
-    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-    if (t_pScene) {
-        SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
-        billboardNode->setRSType(RST_AR);
-//        SVSpriteNodePtr billboardNode = MakeSharedPtr<SVSpriteNode>(mApp);
-        FVec3 t_position = _pt;
-        billboardNode->setPosition(t_position.x, t_position.y, t_position.z);
-        billboardNode->setTexture(m_pGlowTex);
-        billboardNode->setScale(0.0001, 0.0001, 0.0001);
-        billboardNode->setSize(500, 500);
-        m_glowStroke.append(billboardNode);
-    }
+    SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
+    billboardNode->setRSType(RST_AR);
+    FVec3 t_position = _pt;
+    billboardNode->setPosition(t_position.x, t_position.y, t_position.z);
+    billboardNode->setTexture(m_pGlowTex);
+    billboardNode->setScale(0.0001, 0.0001, 0.0001);
+    billboardNode->setSize(500, 500);
+    SVMtlPenStrokeGlowPtr t_glowMtl = MakeSharedPtr<SVMtlPenStrokeGlow>(mApp);
+    billboardNode->setMtl(t_glowMtl);
+    m_glowStroke.append(billboardNode);
 }
 
-void SVPenStroke::_updateGlow(){
+void SVPenStroke::_drawGlow(){
     SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
     SVCameraNodePtr t_arCam = t_sensor->getARCamera();
     if(!t_arCam)
         return ;
-    FMat4 t_cameraMatrix = t_arCam->getViewMatObj();
     for (s32 i = 0; i<m_glowStroke.size(); i++) {
         SVBillboardNodePtr t_node = m_glowStroke[i];
         t_node->setViewPos(t_arCam->getPosition());

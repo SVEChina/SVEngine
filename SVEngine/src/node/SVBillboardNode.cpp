@@ -124,14 +124,20 @@ void SVBillboardNode::setMesh(SVRenderMeshPtr _mesh){
     }
 }
 
+void SVBillboardNode::setMtl(SVMtlCorePtr _mtl){
+    if (_mtl) {
+        m_pMtl = _mtl;
+    }
+}
+
 void SVBillboardNode::update(f32 dt) {
     SVNode::update(dt);
     if (m_pRenderObj && m_pMesh) {
         if(m_pMtl){
             SVMtlBillboardPtr t_billboard = DYN_TO_SHAREPTR(SVMtlBillboard, m_pMtl);
             if (t_billboard) {
-                t_billboard->setQuadPosW(getPosition());
-                t_billboard->setViewPosW(m_viewPos);
+                t_billboard->setObjectPos(getPosition());
+                t_billboard->setViewPos(m_viewPos);
                 t_billboard->setUp(m_up);
             }
             m_pMtl->setDepthEnable(false);
@@ -169,10 +175,10 @@ void SVBillboardNode::update(f32 dt) {
 }
 
 void SVBillboardNode::render() {
-    if (m_visible ){
+    if (m_visible){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj) {
-            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVSpriteNode");
+            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVBillboardNode");
         }
     }
     SVNode::render();

@@ -12,15 +12,15 @@
 #include "../node/SVCameraNode.h"
 SVMtlBillboard::SVMtlBillboard(SVInst *_app)
 :SVMtlCore(_app,"normal3d_billboard") {
-    m_quadPosW.set(0, 0, 0);
-    m_viewPosW.set(0, 0, 0);
+    m_objPos.set(0, 0, 0);
+    m_viewPos.set(0, 0, 0);
     m_up.set(0, 0, 0);
 }
 
 SVMtlBillboard::SVMtlBillboard(SVMtlBillboard *_mtl)
 :SVMtlCore(_mtl){
-    m_quadPosW = _mtl->m_quadPosW;
-    m_viewPosW = _mtl->m_viewPosW;
+    m_objPos = _mtl->m_objPos;
+    m_viewPos = _mtl->m_viewPos;
     m_up = _mtl->m_up;
 }
 
@@ -36,12 +36,12 @@ void SVMtlBillboard::reset() {
     SVMtlCore::reset();
 }
 
-void SVMtlBillboard::setQuadPosW(FVec3 &_quadPosW){
-    m_quadPosW.set(_quadPosW);
+void SVMtlBillboard::setObjectPos(FVec3 &_pos){
+    m_objPos.set(_pos);
 }
 
-void SVMtlBillboard::setViewPosW(FVec3 &_viewPosW){
-    m_viewPosW.set(_viewPosW);
+void SVMtlBillboard::setViewPos(FVec3 &_viewPos){
+    m_viewPos.set(_viewPos);
 }
 
 void SVMtlBillboard::setUp(FVec3 &_up){
@@ -51,7 +51,7 @@ void SVMtlBillboard::setUp(FVec3 &_up){
 void SVMtlBillboard::_submitUniform(SVRendererBasePtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf3v("u_up", m_up.get());
-    _render->submitUniformf3v("u_viewPos", m_viewPosW.get());
-    _render->submitUniformf3v("u_quadPosW", m_quadPosW.get());
+    _render->submitUniformf3v("u_viewPos", m_viewPos.get());
+    _render->submitUniformf3v("u_objPos", m_objPos.get());
 }
 

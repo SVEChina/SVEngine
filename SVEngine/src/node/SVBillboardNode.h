@@ -46,6 +46,8 @@ namespace sv {
             
             void setMesh(SVRenderMeshPtr _mesh);
             
+            void setMtl(SVMtlCorePtr _mtl);
+            
             void setViewPos(FVec3 &_pos);
             
             void setUp(FVec3 &_up);
