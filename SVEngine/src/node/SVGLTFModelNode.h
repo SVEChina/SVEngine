@@ -9,7 +9,7 @@
 #define SV_GLTFMODELNODE_H
 
 #include "SVNode.h"
-#include "../core/SVglTF.h"
+#include "../file/SVLoaderGLTF.h"
 
 namespace sv {
     
@@ -25,9 +25,9 @@ namespace sv {
             
             void render();
             
-            void setModel(GLTFModelPtr _model);
-            
-            GLTFModelPtr getModel();
+//            void setModel(GLTFModelPtr _model);
+//
+//            GLTFModelPtr getModel();
             
             void destroyModel();
             
@@ -38,7 +38,7 @@ namespace sv {
         protected:
             void _showDebugNormalLines();
 
-            GLTFModelPtr m_model;
+            //GLTFModelPtr m_model;
             
             SVMultMeshMtlRenderObjectPtr m_pRObj;
             

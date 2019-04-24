@@ -27,12 +27,23 @@ namespace sv {
             
             cptr8 getName();
             
+            void addMesh(SVMeshPtr _mesh);
+            
+            void removeMesh(cptr8 _name);
+            
+            void clearMesh();
+            
+            void setData(SVDataSwapPtr _data,VFTYPE _vtf);
+            
         protected:
             SVString m_name;
             //顶点数据
-            SVDataChunk m_data;
+            SVDataSwapPtr m_pDataSwap;
             //顶点类型
             VFTYPE m_vertType;
+            //
+            typedef SVArray<SVMeshPtr> MESHPOOL;
+            MESHPOOL m_meshPool;
         };
         
     }//!namespace util
