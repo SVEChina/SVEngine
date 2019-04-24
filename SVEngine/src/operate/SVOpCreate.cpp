@@ -38,7 +38,7 @@
 #include "../node/SVBMFontNode.h"
 #include "../node/SVFacePointNode.h"
 #include "../core/SVBMFont.h"
-#include "../core/SVglTF.h"
+#include "../file/SVLoaderGLTF.h"
 #include "../node/SVGLTFModelNode.h"
 #include "../module/SVEffectPackage.h"
 #include "../module/pendraw/SVPendraw.h"

@@ -25,13 +25,13 @@ namespace sv {
             
             void clear();
             
-            void addMesh(SVMeshPtr _mesh);
+            void setMesh(SVMeshPtr _mesh);
+        
+            SVMeshPtr getMesh();
             
-            void removeMesh(SVMeshPtr _mesh);
+            void clearMesh();
             
-            SVMeshPtr getMesh(cptr8 _name);
-            
-            SVBoundBox getMaBox();
+            SVBoundBox getBox();
             
             cptr8 getName();
             
@@ -40,8 +40,7 @@ namespace sv {
         protected:
             SVString m_name;
             SVBoundBox m_box;
-            typedef SVArray<SVMeshPtr> MESHPOOL;
-            MESHPOOL meshPool;
+            SVMeshPtr m_pMesh;
         };
         
     }//!namespace util

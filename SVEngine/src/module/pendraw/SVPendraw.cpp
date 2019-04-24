@@ -26,11 +26,13 @@
 #include "../../basesys/SVStaticData.h"
 #include "../../mtl/SVTexMgr.h"
 #include "../../mtl/SVTexture.h"
+#include "../../basesys/SVConfig.h"
+#include "../../app/SVGlobalMgr.h"
 SVPendraw::SVPendraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
-    m_strokeWidth = 0.005f;
-    m_strokeColor.set(255.0f, 0.0f, 255.0f, 255.0f);
+    m_strokeWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeWidth;
+    m_strokeColor.set(mApp->m_pGlobalMgr->m_pConfig->m_strokeColor);
 }
 
 SVPendraw::~SVPendraw() {

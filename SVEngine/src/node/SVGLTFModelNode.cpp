@@ -25,7 +25,7 @@
 SVGLTFModelNode::SVGLTFModelNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVGLTFModelNode";
-    m_model = nullptr;
+    //m_model = nullptr;
     m_enableDebugNormal = false;
 }
 
@@ -34,81 +34,81 @@ SVGLTFModelNode::~SVGLTFModelNode() {
     
 }
 
-void SVGLTFModelNode::setModel(GLTFModelPtr _model) {
-    if (m_model == _model) {
-        return;
-    }
-    if (m_model) {
-        destroyModel();
-    }
-    m_model = _model;
-    if(!m_pRObj){
-        m_pRObj = MakeSharedPtr<SVMultMeshMtlRenderObject>();
-    }
-    m_pRObj->clearMesh();
-}
-
-GLTFModelPtr SVGLTFModelNode::getModel() {
-    return m_model;
-}
+//void SVGLTFModelNode::setModel(GLTFModelPtr _model) {
+//    if (m_model == _model) {
+//        return;
+//    }
+//    if (m_model) {
+//        destroyModel();
+//    }
+//    m_model = _model;
+//    if(!m_pRObj){
+//        m_pRObj = MakeSharedPtr<SVMultMeshMtlRenderObject>();
+//    }
+//    m_pRObj->clearMesh();
+//}
+//
+//GLTFModelPtr SVGLTFModelNode::getModel() {
+//    return m_model;
+//}
 
 void SVGLTFModelNode::destroyModel() {
-    if (m_model) {
-        m_model = nullptr;
-    }
+//    if (m_model) {
+//        m_model = nullptr;
+//    }
 }
 
 void SVGLTFModelNode::update(f32 dt) {
-    if( m_pRObj && m_model) {
-        SVNode::update(dt);
-        m_visible = true;
-        m_drawBox = true;
-        m_canSelect = true;
-        //
-        m_aabbBox.clear();
-        m_pRObj->clearMesh();
-        for (s32 i = 0; i<m_model->m_renderMeshData.size(); i++) {
-            ModelRenderDataPtr renderData = m_model->m_renderMeshData[i];
-            //计算包围盒
-            m_aabbBox.expand(renderData->m_boundBox.getMin());
-            m_aabbBox.expand(renderData->m_boundBox.getMax());
-            //mesh
-            SVRenderMeshPtr renderMesh = renderData->m_pMesh;
-            renderMesh->setDrawMethod(E_DM_TRIANGLES);
-            renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
-            renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
-            renderMesh->setVertexType(E_VF_V3_N_C_T0);
-            renderMesh->setIndexData(renderData->m_pRenderIndex, renderData->m_indexCount);
-            renderMesh->setVertexData(renderData->m_pRenderVertex);
-            renderMesh->setVertexDataNum(renderData->m_vertexCount);
-            renderMesh->createMesh();
-            //material
-            SVMtl3DPtr t_mtl = DYN_TO_SHAREPTR(SVMtl3D, renderData->m_pMtl);
-            FMat4 matrix =  m_absolutMat * renderData->m_globalTransform;
-            t_mtl->setModelMatrix(matrix.get());
-            t_mtl->setDepthEnable(true);
-            t_mtl->setBlendEnable(true);
-            t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-            m_pRObj->addRenderObj(renderMesh,t_mtl);
-        }
-        if (m_enableDebugNormal) {
-            _showDebugNormalLines();
-        }
-    }else{
-        m_visible = false;
-    }
+//    if( m_pRObj) {
+//        SVNode::update(dt);
+//        m_visible = true;
+//        m_drawBox = true;
+//        m_canSelect = true;
+//        //
+//        m_aabbBox.clear();
+//        m_pRObj->clearMesh();
+//        for (s32 i = 0; i<m_model->m_renderMeshData.size(); i++) {
+//            ModelRenderDataPtr renderData = m_model->m_renderMeshData[i];
+//            //计算包围盒
+//            m_aabbBox.expand(renderData->m_boundBox.getMin());
+//            m_aabbBox.expand(renderData->m_boundBox.getMax());
+//            //mesh
+//            SVRenderMeshPtr renderMesh = renderData->m_pMesh;
+//            renderMesh->setDrawMethod(E_DM_TRIANGLES);
+//            renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
+//            renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
+//            renderMesh->setVertexType(E_VF_V3_N_C_T0);
+//            renderMesh->setIndexData(renderData->m_pRenderIndex, renderData->m_indexCount);
+//            renderMesh->setVertexData(renderData->m_pRenderVertex);
+//            renderMesh->setVertexDataNum(renderData->m_vertexCount);
+//            renderMesh->createMesh();
+//            //material
+//            SVMtl3DPtr t_mtl = DYN_TO_SHAREPTR(SVMtl3D, renderData->m_pMtl);
+//            FMat4 matrix =  m_absolutMat * renderData->m_globalTransform;
+//            t_mtl->setModelMatrix(matrix.get());
+//            t_mtl->setDepthEnable(true);
+//            t_mtl->setBlendEnable(true);
+//            t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+//            m_pRObj->addRenderObj(renderMesh,t_mtl);
+//        }
+//        if (m_enableDebugNormal) {
+//            _showDebugNormalLines();
+//        }
+//    }else{
+//        m_visible = false;
+//    }
 }
 
 void SVGLTFModelNode::render() {
-    if (!m_visible)
-        return;
-    if (!mApp->m_pGlobalParam->m_curScene)
-        return;
-    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    if (m_pRObj) {
-        m_pRObj->pushCmd(t_rs, m_rsType, ntype);
-    }
-    SVNode::render();
+//    if (!m_visible)
+//        return;
+//    if (!mApp->m_pGlobalParam->m_curScene)
+//        return;
+//    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+//    if (m_pRObj) {
+//        m_pRObj->pushCmd(t_rs, m_rsType, ntype);
+//    }
+//    SVNode::render();
 }
 
 /*
@@ -165,27 +165,27 @@ void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
  */
 
 void SVGLTFModelNode::_showDebugNormalLines(){
-    for (s32 i = 0; i<m_model->m_renderDebugMeshData.size(); i++) {
-        ModelRenderDataPtr debugRenderData = m_model->m_renderDebugMeshData[i];
-        //mesh
-        SVRenderMeshPtr renderMesh = debugRenderData->m_pMesh;
-        renderMesh->setDrawMethod(E_DM_LINES);
-        renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
-//        renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
-        renderMesh->setVertexType(E_VF_V3_C);
-//        renderMesh->setIndexData(debugRenderData->m_pRenderIndex, debugRenderData->m_indexCount);
-        renderMesh->setVertexData(debugRenderData->m_pRenderVertex);
-        renderMesh->setVertexDataNum(debugRenderData->m_vertexCount);
-        renderMesh->createMesh();
-        //material
-        SVMtlCorePtr t_mtl = DYN_TO_SHAREPTR(SVMtlCore, debugRenderData->m_pMtl);
-        FMat4 matrix =  m_absolutMat * debugRenderData->m_globalTransform;
-        t_mtl->setModelMatrix(matrix.get());
-        t_mtl->setDepthEnable(true);
-        t_mtl->setBlendEnable(true);
-        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        m_pRObj->addRenderObj(renderMesh,t_mtl);
-    }
+//    for (s32 i = 0; i<m_model->m_renderDebugMeshData.size(); i++) {
+//        ModelRenderDataPtr debugRenderData = m_model->m_renderDebugMeshData[i];
+//        //mesh
+//        SVRenderMeshPtr renderMesh = debugRenderData->m_pMesh;
+//        renderMesh->setDrawMethod(E_DM_LINES);
+//        renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
+////        renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
+//        renderMesh->setVertexType(E_VF_V3_C);
+////        renderMesh->setIndexData(debugRenderData->m_pRenderIndex, debugRenderData->m_indexCount);
+//        renderMesh->setVertexData(debugRenderData->m_pRenderVertex);
+//        renderMesh->setVertexDataNum(debugRenderData->m_vertexCount);
+//        renderMesh->createMesh();
+//        //material
+//        SVMtlCorePtr t_mtl = DYN_TO_SHAREPTR(SVMtlCore, debugRenderData->m_pMtl);
+//        FMat4 matrix =  m_absolutMat * debugRenderData->m_globalTransform;
+//        t_mtl->setModelMatrix(matrix.get());
+//        t_mtl->setDepthEnable(true);
+//        t_mtl->setBlendEnable(true);
+//        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+//        m_pRObj->addRenderObj(renderMesh,t_mtl);
+//    }
 }
 
 void SVGLTFModelNode::enableDebugNormal(bool _enable){
