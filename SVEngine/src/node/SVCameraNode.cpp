@@ -147,16 +147,29 @@ void SVCameraNode::setPose(f32 _x, f32 _y, f32 _z){
 
 void SVCameraNode::syncViewMatrix(FMat4 &_mat){
     m_mat_view = _mat;
-    //反算其他参数
-    FMat4 t_matrix_invert = inverse(_mat);
-    m_postion.set(t_matrix_invert[12], t_matrix_invert[13], t_matrix_invert[14]);
     m_mat_vp =m_mat_proj*m_mat_view;
+    //反算其他参数
+    FMat4 t_camRotInver = m_mat_view;
+    t_camRotInver[12] = 0;
+    t_camRotInver[13] = 0;
+    t_camRotInver[14] = 0;
+    t_camRotInver =transpose(t_camRotInver);
+    FMat4 tmpMat = t_camRotInver*m_mat_view;
+    //获取相机世界位置
+    FVec3 t_cameraEye = FVec3(-tmpMat[12], -tmpMat[13], -tmpMat[14]);
+    m_postion.set(t_cameraEye);
+    //获取up
+    m_upEx.set(m_mat_view[0], m_mat_view[4], m_mat_view[8]);
 }
 
 void SVCameraNode::syncProjectMatrix(FMat4 &_mat){
     m_mat_proj = _mat;
-    //反算裁剪面
     m_mat_vp =m_mat_proj*m_mat_view;
+    //反算裁剪面
+}
+
+FVec3& SVCameraNode::getUp(){
+    return m_upEx;
 }
 
 FVec3& SVCameraNode::getDirection(){

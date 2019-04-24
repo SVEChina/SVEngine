@@ -53,11 +53,21 @@ namespace sv{
         //
         void _genBox(FVec3& _pt);
         //
+        void _genGlow(FVec3& _pt);
+        //
         void _drawMesh();
+        //
+        void _drawStroke();
+        //
+        void _drawBoundBox();
+        //
+        void _updateGlow();
         //
         typedef SVArray<SVStrokePoint> PTPOOL;
         
         PTPOOL m_ptPool;
+        PTPOOL m_ptOriginalPool;
+        SVArray<SVBillboardNodePtr> m_glowStroke;
         SVPenCurvePtr m_penCurve;
         //数据域
         SVDataSwapPtr m_pVertData;  //mesh
@@ -67,6 +77,11 @@ namespace sv{
         SVTexturePtr m_pTex;
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
+        //画发光公告板相关
+        s32 m_lastGlowVertexIndex;
+        f32 m_GlowStrokeWidth;
+        SVTexturePtr m_pGlowTex;
+        //
         FMat4 m_localMat;
         FVec4 m_strokeColor;
         s32 m_vertexNum;

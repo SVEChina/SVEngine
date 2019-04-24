@@ -26,10 +26,16 @@ namespace sv {
             
             virtual SVMtlCorePtr clone();
             
-            void setQuadPosW(FVec3 &_quadPosW);
+            void setQuadPosW(FVec3 &_quadPosW);//物体世界位置
+            
+            void setViewPosW(FVec3 &_viewPosW);
+            
+            void setUp(FVec3 &_up);
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
             FVec3 m_quadPosW;
+            FVec3 m_viewPosW;
+            FVec3 m_up;
         };
 
     }//!namespace mtl

@@ -46,6 +46,8 @@ namespace sv {
             
             FVec3& getDirection();
             
+            FVec3& getUp();
+            
             f32 *getProjectMat();
             
             f32 *getCameraMat();

@@ -46,6 +46,10 @@ namespace sv {
             
             void setMesh(SVRenderMeshPtr _mesh);
             
+            void setViewPos(FVec3 &_pos);
+            
+            void setUp(FVec3 &_up);
+            
             //序列化接口
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             
@@ -55,6 +59,8 @@ namespace sv {
             f32 m_height;
             f32 m_texcoordX;
             f32 m_texcoordY;
+            FVec3 m_viewPos;
+            FVec3 m_up;
             SVString m_pTexPath;
             SVTEXTYPE m_inTexType;
             //运行时属性
