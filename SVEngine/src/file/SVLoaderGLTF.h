@@ -172,8 +172,10 @@ namespace sv {
         s32 sampler;              // required
         s32 target_node;          // required (index of the node to target)
         SVString target_path;     // required in ["translation", "rotation", "scale", "weights"]
-        
-        AnimationChannel() : sampler(-1), target_node(-1) {}
+        AnimationChannel()
+        : sampler(-1)
+        , target_node(-1) {
+        }
         bool operator==(const AnimationChannel &) const;
     };
     
@@ -181,8 +183,11 @@ namespace sv {
         s32 input;                 // required
         s32 output;                // required
         SVString interpolation;    // in ["LINEAR", "STEP", "CATMULLROMSPLINE", "CUBICSPLINE"], default "LINEAR"
-        
-        AnimationSampler() : input(-1), output(-1), interpolation("LINEAR") {}
+        AnimationSampler()
+        : input(-1)
+        , output(-1)
+        , interpolation("LINEAR") {
+        }
         bool operator==(const AnimationSampler &) const;
     };
     
@@ -190,7 +195,6 @@ namespace sv {
         SVString name;
         SVArray<AnimationChannel> channels;
         SVArray<AnimationSampler> samplers;
-        
         bool operator==(const Animation &) const;
     };
     
@@ -199,10 +203,9 @@ namespace sv {
         s32 inverseBindMatrices;  // required here but not in the spec
         s32 skeleton;             // The index of the node used as a skeleton root
         SVArray<s32> joints;      // Indices of skeleton nodes
-        
-        Skin() {
-            inverseBindMatrices = -1;
-            skeleton = -1;
+        Skin()
+        :inverseBindMatrices(-1)
+        ,skeleton(-1){
         }
         bool operator==(const Skin &) const;
     };
@@ -215,20 +218,22 @@ namespace sv {
         s32 wrapT;      // ["CLAMP_TO_EDGE", "MIRRORED_REPEAT", "REPEAT"], default // "REPEAT"
         s32 wrapR;      // TinyGLTF extension
         
-        Sampler() : wrapS(SVGLTF_TEXTURE_WRAP_REPEAT), wrapT(SVGLTF_TEXTURE_WRAP_REPEAT) {}
+        Sampler()
+        : wrapS(SVGLTF_TEXTURE_WRAP_REPEAT)
+        , wrapT(SVGLTF_TEXTURE_WRAP_REPEAT) {
+        }
         bool operator==(const Sampler &) const;
     };
     
     struct Image {
         SVString name;
+        SVString mimeType;     // (required if no uri) ["image/jpeg", "image/png", "image/bmp", "image/gif"]
+        SVString uri;          // (required if no mimeType)
         s32 width;
         s32 height;
         s32 component;
-        SVTexturePtr texture;
         s32 bufferView;        // (required if no uri)
-        SVString mimeType;     // (required if no uri) ["image/jpeg", "image/png", "image/bmp", "image/gif"]
-        SVString uri;          // (required if no mimeType)
-        
+        SVTexturePtr texture;
         // When this flag is true, data is stored to `image` in as-is format(e.g. jpeg
         // compressed for "image/jpeg" mime) This feature is good if you use custom
         // image loader function. (e.g. delayed decoding of images for faster glTF
@@ -237,11 +242,12 @@ namespace sv {
         // function)
         bool as_is;
         
-        Image() : as_is(false) {
-            bufferView = -1;
-            width = -1;
-            height = -1;
-            component = -1;
+        Image()
+        : as_is(false)
+        , bufferView(-1)
+        , width(-1)
+        , height(-1)
+        , component(-1){
         }
         bool operator==(const Image &) const;
     };
@@ -250,8 +256,10 @@ namespace sv {
         SVString name;
         s32 sampler;
         s32 source;
-        
-        Texture() : sampler(-1), source(-1) {}
+        Texture()
+        : sampler(-1)
+        , source(-1) {
+        }
         bool operator==(const Texture &) const;
     };
     
@@ -260,33 +268,34 @@ namespace sv {
     // to keep a single material model
     struct Material {
         SVString name;
-        
         ParameterMap values;            // PBR metal/roughness workflow
         ParameterMap additionalValues;  // normal/occlusion/emissive values
-        
         bool operator==(const Material &) const;
     };
     
     struct BufferView {
         SVString name;
+        s32 target;         // ["ARRAY_BUFFER", "ELEMENT_ARRAY_BUFFER"]
         s32 buffer;         // Required
         s64 byteOffset;  // minimum 0, default 0
         s64 byteLength;  // required, minimum 1
         s64 byteStride;  // minimum 4, maximum 252 (multiple of 4), default 0 = understood to be tightly packed
-        s32 target;         // ["ARRAY_BUFFER", "ELEMENT_ARRAY_BUFFER"]
         
-        BufferView() : byteOffset(0), byteStride(0) {}
+        BufferView()
+        : byteOffset(0)
+        , byteStride(0) {
+        }
         bool operator==(const BufferView &) const;
     };
     
     struct Accessor {
-        s32 bufferView;  // optional in spec but required here since sparse accessor are not supported
         SVString name;
-        s64 byteOffset;
         bool normalized;    // optinal.
+        s32 bufferView;  // optional in spec but required here since sparse accessor are not supported
+        s64 byteOffset;
         s32 componentType;  // (required) One of SVGLTF_COMPONENT_TYPE_***
-        s64 count;       // required
         s32 type;           // (required) One of SVGLTF_TYPE_***   ..
+        s64 count;       // required
         
         SVArray<f64> minValues;  // optional
         SVArray<f64> maxValues;  // optional
@@ -320,41 +329,52 @@ namespace sv {
             return 0;
         }
         
-        Accessor() { bufferView = -1; }
+        Accessor()
+        :bufferView(-1){
+        }
         bool operator==(const Accessor &) const;
     };
-    
+    //
     struct PerspectiveCamera {
         f64 aspectRatio;  // min > 0
         f64 yfov;         // required. min > 0
         f64 zfar;         // min > 0
         f64 znear;        // required. min > 0
-        PerspectiveCamera() : aspectRatio(0.0), yfov(0.0), zfar(0.0)  // 0 = use infinite projecton matrix
-        ,znear(0.0) {}
+        PerspectiveCamera()
+        : aspectRatio(0.0)
+        , yfov(0.0)
+        , zfar(0.0)  // 0 = use infinite projecton matrix
+        , znear(0.0) {
+        }
         bool operator==(const PerspectiveCamera &) const;
     };
-    
-    
+    //
     struct OrthographicCamera {
         f64 xmag;   // required. must not be zero.
         f64 ymag;   // required. must not be zero.
         f64 zfar;   // required. `zfar` must be greater than `znear`.
         f64 znear;  // required
         
-        OrthographicCamera() : xmag(0.0), ymag(0.0), zfar(0.0), znear(0.0) {}
+        OrthographicCamera()
+        : xmag(0.0)
+        , ymag(0.0)
+        , zfar(0.0)
+        , znear(0.0) {
+        }
         bool operator==(const OrthographicCamera &) const;
         
     };
-    
+    //
     struct Camera {
         SVString type;  // required. "perspective" or "orthographic"
         SVString name;
         PerspectiveCamera perspective;
         OrthographicCamera orthographic;
-        Camera() {}
+        Camera() {
+        }
         bool operator==(const Camera &) const;
     };
-    
+    //
     struct Primitive {
         SVMap<SVString, s32> attributes;
         s32 material;
@@ -364,23 +384,22 @@ namespace sv {
         // where each target is a dict with attribues in ["POSITION, "NORMAL",
         // "TANGENT"] pointing
         // to their corresponding accessors
-        
-        Primitive() {
-            material = -1;
-            indices = -1;
+        Primitive()
+        : material(-1)
+        , indices(-1){
         }
         bool operator==(const Primitive &) const;
     };
-    
+    //
     struct Mesh {
         SVString name;
         SVArray<Primitive> primitives;
-        SVArray<f64> weights;  // weights to be applied to the Morph Targets
+        SVArray<f64> weights;  //weights to be applied to the Morph Targets
         SVArray<SVMap<SVString, s32> > targets;
-        
         bool operator==(const Mesh &) const;
     };
     
+    //主体
     class Node {
     public:
         Node()
@@ -388,7 +407,6 @@ namespace sv {
         , skin(-1)
         , mesh(-1) {
         }
-        
         Node(const Node &rhs) {
             camera = rhs.camera;
             name = rhs.name;
@@ -401,14 +419,12 @@ namespace sv {
             matrix = rhs.matrix;
             weights = rhs.weights;
         }
-        
         ~Node() {
         }
         bool operator==(const Node &) const;
         
-        s32 camera;  // the index of the camera referenced by this node
-        
         SVString name;
+        s32 camera;  // the index of the camera referenced by this node
         s32 skin;
         s32 mesh;
         SVArray<s32> children;
@@ -421,9 +437,8 @@ namespace sv {
     
     struct Buffer {
         SVString name;
-        SVDataSwapPtr data = MakeSharedPtr<SVDataSwap>();
         SVString uri;  // considered as required here but not in the spec (need to clarify)
-        
+        SVDataSwapPtr data = MakeSharedPtr<SVDataSwap>();
         bool operator==(const Buffer &) const;
     };
     
@@ -443,8 +458,8 @@ namespace sv {
     
     struct Light {
         SVString name;
-        SVArray<f64> color;
         SVString type;
+        SVArray<f64> color;
         bool operator==(const Light &) const;
     };
     
@@ -489,17 +504,11 @@ namespace sv {
         SVArray<Camera> cameras;
         SVArray<Scene> scenes;
         SVArray<Light> lights;
-        s32 defaultScene;
         SVArray<SVString> extensionsUsed;
         SVArray<SVString> extensionsRequired;
         Asset asset;
+        s32 defaultScene;
         s32 m_defaultSceneIndex;
-//        SVArray<ModelRenderDataPtr>  m_renderMeshData;
-//        SVArray<ModelRenderDataPtr>  m_renderDebugMeshData;
-//        SVArray<SVGLTFScenePtr> m_scenes;
-//        SVArray<SVGLTFMeshPtr> m_meshes;
-//        SVArray<SVGLTFAnimationPtr> m_animations;
-//        SVArray<SVGLTFSkinPtr> m_skins;
     };
     
     //
