@@ -8,9 +8,10 @@
 #ifndef SV_ANIMATE_SKIN_H
 #define SV_ANIMATE_SKIN_H
 
-#include "../base/SVObject.h"
+#include "../base/SVGBase.h"
 #include "../base/SVVec3.h"
-
+#include "../base/svstr.h"
+#include "../base/SVMap.h"
 
 namespace sv {
     
@@ -19,13 +20,31 @@ namespace sv {
         /*
             蒙皮动画
          */
-        
         class SVAnimateSkin : public SVObject{
         public:
-            SVAnimateSkin();
+            SVAnimateSkin(cptr8 _name);
 
             ~SVAnimateSkin();
-
+            
+            cptr8 getName();
+        protected:
+            SVString m_name;
+        };
+        
+        //骨架池
+        class SVSkinMgr : public SVGBase{
+        public:
+            SVSkinMgr(SVInst* _app);
+            
+            ~SVSkinMgr();
+            
+            void addSkin(SVAnimateSkinPtr _skin);
+            
+            void remvoeSkin(cptr8 _name);
+            
+        protected:
+            typedef SVMap<SVString,SVAnimateSkinPtr> SKINPOOL;
+            SKINPOOL m_skinPool;
         };
 
     }//namespace util

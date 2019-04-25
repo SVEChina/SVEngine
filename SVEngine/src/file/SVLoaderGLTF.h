@@ -146,7 +146,6 @@ namespace sv {
         // accessing, these are either valid or not
         // If this parameter represent a texture map in a material, will return the
         // texture index
-        
         /// Return the index of a texture if this Parameter is a texture map.
         /// Returned value is only valid if the parameter represent a texture from a
         /// material
@@ -157,7 +156,6 @@ namespace sv {
             }
             return -1;
         }
-        
         /// Material factor, like the roughness or metalness of a material
         /// Returned value is only valid if the parameter represent a texture from a
         /// material
@@ -291,11 +289,11 @@ namespace sv {
     struct Accessor {
         SVString name;
         bool normalized;    // optinal.
-        s32 bufferView;  // optional in spec but required here since sparse accessor are not supported
-        s64 byteOffset;
+        s32 bufferView;     // optional in spec but required here since sparse accessor are not supported
+        s64 byteOffset;     // 偏移
         s32 componentType;  // (required) One of SVGLTF_COMPONENT_TYPE_***
         s32 type;           // (required) One of SVGLTF_TYPE_***   ..
-        s64 count;       // required
+        s64 count;          // required
         
         SVArray<f64> minValues;  // optional
         SVArray<f64> maxValues;  // optional
@@ -398,7 +396,6 @@ namespace sv {
         SVArray<SVMap<SVString, s32> > targets;
         bool operator==(const Mesh &) const;
     };
-    
     //主体
     class Node {
     public:
@@ -466,7 +463,9 @@ namespace sv {
     //
     class GLTFModel {
     public:
-        GLTFModel() {}
+        GLTFModel() {
+        }
+        
         ~GLTFModel() {
             accessors.destroy();
             animations.destroy();
@@ -485,8 +484,6 @@ namespace sv {
             extensionsUsed.destroy();
             extensionsRequired.destroy();
             defaultScene = -1;
-            //m_renderMeshData.destroy();
-            //m_animations.destroy();
         }
         bool operator==(const GLTFModel &) const;
         //
@@ -520,7 +517,7 @@ namespace sv {
         
         bool loadFromFile(cptr8 _filename);
         
-        SVModelPtr toModel();
+        void building();
         
     protected:
         GLTFModel m_gltf;

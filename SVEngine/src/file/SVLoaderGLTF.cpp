@@ -7,18 +7,15 @@
 
 #include "SVLoaderGLTF.h"
 #include "SVFileMgr.h"
-#include "../base/SVDataChunk.h"
-#include "../mtl/SVTexMgr.h"
 #include "../app/SVInst.h"
-#include "../file/SVParseDef.h"
 #include "../base/SVDataChunk.h"
-#include "../file/SVFileMgr.h"
-#include "../mtl/SVTexMgr.h"
-#include "../mtl/SVTexture.h"
-#include "../app/SVInst.h"
 #include "../base/SVDataSwap.h"
 #include "../base/SVQuat.h"
+#include "../mtl/SVTexMgr.h"
+#include "../mtl/SVTexture.h"
 #include "../mtl/SVMtl3D.h"
+#include "../file/SVParseDef.h"
+#include "../file/SVFileMgr.h"
 #include "../rendercore/SVRenderMesh.h"
 
 SVLoaderGLTF::SVLoaderGLTF(SVInst *_app)
@@ -26,7 +23,6 @@ SVLoaderGLTF::SVLoaderGLTF(SVInst *_app)
 }
 
 SVLoaderGLTF::~SVLoaderGLTF() {
-    
 }
 
 bool SVLoaderGLTF::loadFromFile(cptr8 _filename){
@@ -337,14 +333,16 @@ bool SVLoaderGLTF::loadFromFile(cptr8 _filename){
     return true;
 }
 
-//
-SVModelPtr SVLoaderGLTF::toModel() {
-    //load mesh data
-    _loadMeshData();
-    //load animation
-    _loadAnimationData();
-    //
-    return nullptr;
+//构建
+void SVLoaderGLTF::building() {
+    //构建model
+    
+    //构建皮肤
+    
+    //构建动画
+    
+    //构建材质
+    
 }
 
 bool SVLoaderGLTF::_parseAsset(Asset *_asset , RAPIDJSON_NAMESPACE::Value &_item){

@@ -43,6 +43,15 @@ namespace sv {
             SVMeshPtr m_pMesh;
         };
         
+        //模型池
+        class SVModelMgr : public SVGBase{
+        public:
+            SVModelMgr(SVInst* _app);
+            
+            ~SVModelMgr();
+            
+        };
+        
     }//!namespace util
     
 }//!namespace sv
