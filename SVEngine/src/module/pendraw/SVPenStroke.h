@@ -66,8 +66,8 @@ namespace sv{
         typedef SVArray<SVStrokePoint> PTPOOL;
         
         PTPOOL m_ptPool;
-        PTPOOL m_ptOriginalPool;
-        SVArray<SVBillboardNodePtr> m_glowStroke;
+        PTPOOL m_ptGlowPool;
+        SVArray<SVBillboardNodePtr> m_glowStrokes;
         SVPenCurvePtr m_penCurve;
         //数据域
         SVDataSwapPtr m_pVertData;  //mesh
@@ -79,7 +79,8 @@ namespace sv{
         SVBoundBox m_aabbBox;   //AABB包围盒
         //画发光公告板相关
         s32 m_lastGlowVertexIndex;
-        f32 m_GlowStrokeWidth;
+        f32 m_glowStrokeWidth;
+        f32 m_glowDensity;
         SVTexturePtr m_pGlowTex;
         //
         FMat4 m_localMat;

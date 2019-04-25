@@ -101,7 +101,7 @@ void SVPendraw::update(f32 _dt) {
         //再画回主纹理
         SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
         t_lkMtl->setTexcoordFlip(1.0f, 1.0f);
-        t_lkMtl->setTexture(0, E_TEX_HELP0);
+        t_lkMtl->setTexture(0, E_TEX_HELP1);
         t_lkMtl->setBlendEnable(true);
         t_lkMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
         SVRenderMeshPtr t_mesh = mApp->getDataMgr()->m_screenMesh;

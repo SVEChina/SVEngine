@@ -35,7 +35,7 @@ SVBillboardNode::SVBillboardNode(SVInst *_app)
     m_viewPos.set(0.0f, 0.0f, 0.0f);
     m_up.set(0.0f, 0.0f, 0.0f);
     setTexcoord(1.0,-1.0);
-    setSize(100,100);
+//    setSize(100,100);
     m_pMtl = MakeSharedPtr<SVMtlBillboard>(_app);
 }
 

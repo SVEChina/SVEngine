@@ -46,23 +46,23 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh = _app->getRenderMgr()->createMeshRObj();
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_C_T0);
-    m_pMesh->setDrawMethod(E_DM_POINTS);
-    m_pMesh->setDrawMethod(E_DM_LINES);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_line.png",true);
     m_pGlowTex = mApp->getTexMgr()->getTexture("svres/textures/a_point.png",true);
 //    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/HollowKnight.png",true);
     //
     m_lerpMethod = SV_LERP_BALANCE;
-    m_density = 0.1;
+    m_drawBox = false;
     m_vertexNum = 0;
     m_lastVertexIndex = 0;
     m_lastGlowVertexIndex = 0;
-    m_drawBox = false;
     m_point_dis_dert = 0.002f;
-    m_pen_width = 0.006f;
     m_plane_dis = 0.2f;
-    setDrawBox(true);
+    m_glowDensity = 0.1;
+    m_glowStrokeWidth = 0.05f;
+    m_density = 0.05;
+    m_pen_width = 0.006f;
+//    setDrawBox(true);
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -76,9 +76,9 @@ SVPenStroke::~SVPenStroke() {
     m_pGlowTex = nullptr;
     m_lock = nullptr;
     m_ptPool.clear();
-    m_ptOriginalPool.clear();
+    m_ptGlowPool.clear();
     m_aabbBox.clear();
-    m_glowStroke.destroy();
+    m_glowStrokes.destroy();
 }
 
 void SVPenStroke::setStrokeWidth(f32 _width){
@@ -113,10 +113,14 @@ void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     _screenPointToWorld(t_pt, t_worldPt);
     if (m_penCurve) {
         m_penCurve->reset();
+        //画笔补点
         SVArray<FVec3> t_ptArray;
         m_penCurve->addPoint(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWBEGIN, t_ptArray);
+        //光晕补点
+        SVArray<FVec3> t_ptGlowArray;
+        m_penCurve->addPoint(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWBEGIN, t_ptGlowArray);
     }
-    m_ptOriginalPool.append(t_worldPt);
+    m_ptGlowPool.append(t_worldPt);
     m_ptPool.append(t_worldPt);
     m_lock->unlock();
 }
@@ -127,9 +131,9 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     FVec2 t_pt = FVec2(_px, _py);
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
-    m_ptOriginalPool.append(t_worldPt);
     //
     if (m_penCurve) {
+        //画笔补点
         SVArray<FVec3> t_ptArray;
         if (m_lerpMethod == SV_LERP_BALANCE) {
             m_penCurve->addPointB(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWEND, t_ptArray);
@@ -145,8 +149,26 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
             t_n_worldPt.ext1 = t_worldPt.ext1;
             m_ptPool.append(t_n_worldPt);
         }
+        
+        //光晕补点
+        SVArray<FVec3> t_ptGlowArray;
+        if (m_lerpMethod == SV_LERP_BALANCE) {
+            m_penCurve->addPointB(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWEND, t_ptGlowArray);
+        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
+            m_penCurve->addPoint(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWEND, t_ptGlowArray);
+        }
+        for (s32 i = 0; i<t_ptGlowArray.size(); i++) {
+            FVec3 t_pt = t_ptGlowArray[i];
+            SVStrokePoint t_n_worldPt;
+            t_n_worldPt.point = t_pt;
+            t_n_worldPt.normal = t_worldPt.normal;
+            t_n_worldPt.ext0 = t_worldPt.ext0;
+            t_n_worldPt.ext1 = t_worldPt.ext1;
+            m_ptGlowPool.append(t_n_worldPt);
+        }
     }else{
         m_ptPool.append(t_worldPt);
+        m_ptGlowPool.append(t_worldPt);
     }
     //
     m_lock->unlock();
@@ -158,7 +180,6 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     FVec2 t_pt = FVec2(_px, _py);
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
-    m_ptOriginalPool.append(t_worldPt);
     //
     if (m_penCurve) {
         SVArray<FVec3> t_ptArray;
@@ -176,8 +197,26 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
             t_n_worldPt.ext1 = t_worldPt.ext1;
             m_ptPool.append(t_n_worldPt);
         }
+        
+        //光晕补点
+        SVArray<FVec3> t_ptGlowArray;
+        if (m_lerpMethod == SV_LERP_BALANCE) {
+            m_penCurve->addPointB(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWEND, t_ptGlowArray);
+        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
+            m_penCurve->addPoint(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWEND, t_ptGlowArray);
+        }
+        for (s32 i = 0; i<t_ptGlowArray.size(); i++) {
+            FVec3 t_pt = t_ptGlowArray[i];
+            SVStrokePoint t_n_worldPt;
+            t_n_worldPt.point = t_pt;
+            t_n_worldPt.normal = t_worldPt.normal;
+            t_n_worldPt.ext0 = t_worldPt.ext0;
+            t_n_worldPt.ext1 = t_worldPt.ext1;
+            m_ptGlowPool.append(t_n_worldPt);
+        }
     }else{
         m_ptPool.append(t_worldPt);
+        m_ptGlowPool.append(t_worldPt);
     }
     //
     m_lock->unlock();
@@ -235,10 +274,10 @@ void SVPenStroke::_genPolygon(){
 //生成数据
 void SVPenStroke::_genMesh() {
     //公告板网格
-    s32 t_pt_original_num = m_ptOriginalPool.size();
+    s32 t_pt_original_num = m_ptGlowPool.size();
     s32 t_original_index = m_lastGlowVertexIndex;
     for (s32 i = t_original_index; i<t_pt_original_num; i++) {
-        SVStrokePoint t_pt = m_ptOriginalPool[i];
+        SVStrokePoint t_pt = m_ptGlowPool[i];
         _genGlow(t_pt.point);
         m_aabbBox.expand(t_pt.point);
         m_lastGlowVertexIndex++;
@@ -260,11 +299,12 @@ void SVPenStroke::_genGlow(FVec3 &_pt){
     FVec3 t_position = _pt;
     billboardNode->setPosition(t_position.x, t_position.y, t_position.z);
     billboardNode->setTexture(m_pGlowTex);
-    billboardNode->setScale(0.0001, 0.0001, 0.0001);
-    billboardNode->setSize(500, 500);
+    f32 t_width = 100;
+    billboardNode->setScale(m_glowStrokeWidth/t_width, m_glowStrokeWidth/t_width, m_glowStrokeWidth/t_width);
+    billboardNode->setSize(t_width, t_width);
     SVMtlPenStrokeGlowPtr t_glowMtl = MakeSharedPtr<SVMtlPenStrokeGlow>(mApp);
     billboardNode->setMtl(t_glowMtl);
-    m_glowStroke.append(billboardNode);
+    m_glowStrokes.append(billboardNode);
 }
 
 void SVPenStroke::_drawGlow(){
@@ -272,8 +312,8 @@ void SVPenStroke::_drawGlow(){
     SVCameraNodePtr t_arCam = t_sensor->getARCamera();
     if(!t_arCam)
         return ;
-    for (s32 i = 0; i<m_glowStroke.size(); i++) {
-        SVBillboardNodePtr t_node = m_glowStroke[i];
+    for (s32 i = 0; i<m_glowStrokes.size(); i++) {
+        SVBillboardNodePtr t_node = m_glowStrokes[i];
         t_node->setViewPos(t_arCam->getPosition());
         t_node->setUp(t_arCam->getUp());
         t_node->update(0.0f);
