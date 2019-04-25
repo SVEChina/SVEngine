@@ -10,8 +10,8 @@
 #include "../rendercore/SVRendererBase.h"
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVCameraNode.h"
-SVMtlStrokeBase::SVMtlStrokeBase(SVInst *_app)
-:SVMtlCore(_app,"penstroke_base") {
+SVMtlStrokeBase::SVMtlStrokeBase(SVInst *_app, cptr8 _shader)
+:SVMtlCore(_app,_shader) {
     m_quadPosW.set(0, 0, 0);
 }
 

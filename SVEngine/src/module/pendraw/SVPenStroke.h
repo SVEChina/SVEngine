@@ -71,17 +71,22 @@ namespace sv{
         SVPenCurvePtr m_penCurve;
         //数据域
         SVDataSwapPtr m_pVertData;  //mesh
-        SVRenderMeshPtr m_pMesh;
         SVRenderObjectPtr m_pRenderObj;
+        SVRenderMeshPtr m_pMesh;
         SVMtlStrokeBasePtr m_pMtl;
         SVTexturePtr m_pTex;
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
         //画发光公告板相关
+        SVDataSwapPtr m_pGlowVertData;  //mesh
+        SVTexturePtr m_pGlowTex;
+        SVRenderMeshPtr m_pGlowMesh;
+        SVMtlStrokeBasePtr m_pGlowMtl;
+        FVec4 m_glowColor;
         s32 m_lastGlowVertexIndex;
         f32 m_glowStrokeWidth;
         f32 m_glowDensity;
-        SVTexturePtr m_pGlowTex;
+        s32 m_glowVertexNum;
         //
         FMat4 m_localMat;
         FVec4 m_strokeColor;
