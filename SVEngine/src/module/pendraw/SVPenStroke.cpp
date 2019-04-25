@@ -58,8 +58,8 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_lastGlowVertexIndex = 0;
     m_point_dis_dert = 0.002f;
     m_plane_dis = 0.2f;
-    m_glowDensity = 0.1;
-    m_glowStrokeWidth = 0.05f;
+    m_glowDensity = 0.5;
+    m_glowStrokeWidth = 0.06f;
     m_density = 0.05;
     m_pen_width = 0.006f;
 //    setDrawBox(true);
@@ -280,7 +280,7 @@ void SVPenStroke::_genMesh() {
         m_aabbBox.expand(t_pt.point);
         m_lastGlowVertexIndex++;
     }
-    //三位盒子网格
+    //三维盒子网格
     s32 t_pt_num = m_ptPool.size();
     s32 t_index = m_lastVertexIndex;
     for (s32 i = t_index; i<t_pt_num; i++) {

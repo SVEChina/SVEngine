@@ -13,7 +13,7 @@
 SVMtlPenStrokeGlow::SVMtlPenStrokeGlow(SVInst *_app)
 :SVMtlBillboard(_app) {
     m_mtlname = "penstrokeglow";
-    m_strokeColor.set(0.15, 0.65, 0.15, 1.0);
+    m_strokeColor.set(38, 165, 38, 100);
 }
 
 SVMtlPenStrokeGlow::SVMtlPenStrokeGlow(SVMtlPenStrokeGlow *_mtl)
@@ -39,6 +39,7 @@ void SVMtlPenStrokeGlow::setColor(FVec4 &_color){
 
 void SVMtlPenStrokeGlow::_submitUniform(SVRendererBasePtr _render) {
     SVMtlBillboard::_submitUniform(_render);
-    _render->submitUniformf4v("u_strokecolor", m_strokeColor.get());
+    FVec4 t_color = m_strokeColor/255.0;
+    _render->submitUniformf4v("u_strokecolor", t_color.get());
 }
 
