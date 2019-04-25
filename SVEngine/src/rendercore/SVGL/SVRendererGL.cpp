@@ -457,7 +457,6 @@ void SVRendererGL::submitDepth(SVDepthParam& _param){
         if (!glIsEnabled(GL_DEPTH_TEST)) {
             glEnable(GL_DEPTH_TEST);
         }
-        //glDepthFunc(_param.testMethod);
     } else {
         if (glIsEnabled(GL_DEPTH_TEST)) {
             glDisable(GL_DEPTH_TEST);

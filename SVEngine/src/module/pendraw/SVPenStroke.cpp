@@ -48,8 +48,8 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->setVertexType(E_VF_V3_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_line.png",true);
-//    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/textures/a_point.png",true);
-    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/HollowKnight.png",true);
+    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/textures/a_point.png",true);
+//    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/HollowKnight.png",true);
     //
     m_lerpMethod = SV_LERP_BALANCE;
     m_drawBox = false;
@@ -297,8 +297,6 @@ void SVPenStroke::_genGlow(FVec3 &_pt){
     FVec3 t_position = _pt;
     billboardNode->setPosition(t_position.x, t_position.y, t_position.z);
     billboardNode->setTexture(m_pGlowTex);
-//    f32 t_width = 100;
-//    billboardNode->setScale(m_glowStrokeWidth/t_width, m_glowStrokeWidth/t_width, m_glowStrokeWidth/t_width);
     billboardNode->setSize(m_glowStrokeWidth, m_glowStrokeWidth);
     SVMtlPenStrokeGlowPtr t_glowMtl = MakeSharedPtr<SVMtlPenStrokeGlow>(mApp);
     t_glowMtl->setDepthEnable(false);
@@ -702,7 +700,7 @@ void SVPenStroke::_drawStroke(){
             m_pMtl->setTexcoordFlip(1.0, -1.0);
             m_pMtl->setLineSize(5.0f);
         }
-        m_pMtl->setDepthEnable(false);
+        m_pMtl->setDepthEnable(true);
         m_pMtl->setBlendEnable(true);
         m_pMtl->setBlendState(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         m_pMtl->setCullEnable(false);
