@@ -48,8 +48,8 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh->setVertexType(E_VF_V3_C_T0);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_line.png",true);
-    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/textures/a_point.png",true);
-//    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/HollowKnight.png",true);
+//    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/textures/a_point.png",true);
+    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/HollowKnight.png",true);
     //
     m_lerpMethod = SV_LERP_BALANCE;
     m_drawBox = false;
@@ -98,9 +98,7 @@ void SVPenStroke::update(f32 _dt) {
     m_lock->unlock();
     //插值生成面片
     _genMesh();
-    //更新
-    _drawGlow();
-    //绘制dataswap
+    //绘制
     _drawMesh();
     m_lock->unlock();
 }
@@ -299,10 +297,14 @@ void SVPenStroke::_genGlow(FVec3 &_pt){
     FVec3 t_position = _pt;
     billboardNode->setPosition(t_position.x, t_position.y, t_position.z);
     billboardNode->setTexture(m_pGlowTex);
-    f32 t_width = 100;
-    billboardNode->setScale(m_glowStrokeWidth/t_width, m_glowStrokeWidth/t_width, m_glowStrokeWidth/t_width);
-    billboardNode->setSize(t_width, t_width);
+//    f32 t_width = 100;
+//    billboardNode->setScale(m_glowStrokeWidth/t_width, m_glowStrokeWidth/t_width, m_glowStrokeWidth/t_width);
+    billboardNode->setSize(m_glowStrokeWidth, m_glowStrokeWidth);
     SVMtlPenStrokeGlowPtr t_glowMtl = MakeSharedPtr<SVMtlPenStrokeGlow>(mApp);
+    t_glowMtl->setDepthEnable(false);
+    t_glowMtl->setBlendEnable(true);
+    t_glowMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
+    t_glowMtl->setTexcoordFlip(1.0, 1.0);
     billboardNode->setMtl(t_glowMtl);
     m_glowStrokes.append(billboardNode);
 }
@@ -680,6 +682,7 @@ void SVPenStroke::_genBox(FVec3& _pt) {
 }
 
 void SVPenStroke::_drawMesh() {
+    _drawGlow();
     _drawStroke();
     if (m_drawBox) {
         _drawBoundBox();
@@ -699,6 +702,7 @@ void SVPenStroke::_drawStroke(){
             m_pMtl->setTexcoordFlip(1.0, -1.0);
             m_pMtl->setLineSize(5.0f);
         }
+        m_pMtl->setDepthEnable(false);
         m_pMtl->setBlendEnable(true);
         m_pMtl->setBlendState(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         m_pMtl->setCullEnable(false);
