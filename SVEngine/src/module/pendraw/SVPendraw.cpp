@@ -64,14 +64,14 @@ void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
         }
     }
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
-    m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,nullptr,false,false);
+    m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,m_pInTex,true,true);
     mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
     //做辉光效果处理
-    SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
-    SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(mApp);
-    t_glow->create(E_TEX_HELP0, E_TEX_HELP1);
-    t_pic->addFilter(t_glow);
-    t_pic->openFilter(t_glow);
+//    SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
+//    SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(mApp);
+//    t_glow->create(E_TEX_HELP0, E_TEX_HELP1);
+//    t_pic->addFilter(t_glow);
+//    t_pic->openFilter(t_glow);
 }
 
 void SVPendraw::destroy() {
@@ -83,7 +83,6 @@ void SVPendraw::update(f32 _dt) {
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (t_rs && t_renderer && m_pRenderObj && m_fbo) {
-        m_fbo->setTexture(m_pInTex);
         SVRenderCmdFboBindPtr t_fbo_bind = MakeSharedPtr<SVRenderCmdFboBind>(m_fbo);
         t_fbo_bind->mTag = "pen_draw_bind";
         t_rs->pushRenderCmd(RST_AR_BEGIN, t_fbo_bind);
@@ -91,7 +90,7 @@ void SVPendraw::update(f32 _dt) {
         SVRenderCmdClearPtr t_clear = MakeSharedPtr<SVRenderCmdClear>();
         t_clear->mTag = "pen_draw_clear";
         t_clear->setRenderer(t_renderer);
-        t_clear->setClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+        t_clear->setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         t_rs->pushRenderCmd(RST_AR_BEGIN, t_clear);
         
         SVRenderCmdFboUnbindPtr t_fbo_unbind = MakeSharedPtr<SVRenderCmdFboUnbind>(m_fbo);
@@ -101,9 +100,9 @@ void SVPendraw::update(f32 _dt) {
         //再画回主纹理
         SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
         t_lkMtl->setTexcoordFlip(1.0f, 1.0f);
-        t_lkMtl->setTexture(0, E_TEX_HELP1);
+        t_lkMtl->setTexture(0, E_TEX_HELP0);
         t_lkMtl->setBlendEnable(true);
-        t_lkMtl->setBlendState(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        t_lkMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
         SVRenderMeshPtr t_mesh = mApp->getDataMgr()->m_screenMesh;
         m_pRenderObj->setMesh(t_mesh);
         m_pRenderObj->setMtl(t_lkMtl);

@@ -21,6 +21,7 @@
 #include "../../mtl/SVMtlCore.h"
 #include "../../mtl/SVTexMgr.h"
 #include "../../mtl/SVTexture.h"
+#include "../../mtl/SVMtlPenStrokeGlow.h"
 #include "../../basesys/SVCameraMgr.h"
 #include "../../node/SVCameraNode.h"
 #include "../../basesys/SVBasicSys.h"
@@ -30,6 +31,10 @@
 #include "../../mtl/SVMtlNocolor.h"
 #include "../../rendercore/SVRendererBase.h"
 #include "../../rendercore/SVRenderTexture.h"
+#include "../../node/SVBillboardNode.h"
+#include "../../node/SVSpriteNode.h"
+#include "../../basesys/SVSceneMgr.h"
+#include "../../node/SVScene.h"
 SVPenStroke::SVPenStroke(SVInst *_app)
 :SVGameBase(_app) {
     m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
@@ -41,29 +46,39 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_pMesh = _app->getRenderMgr()->createMeshRObj();
     m_pMesh->createMesh();
     m_pMesh->setVertexType(E_VF_V3_C_T0);
-    m_pMesh->setDrawMethod(E_DM_POINTS);
-    m_pMesh->setDrawMethod(E_DM_LINES);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pTex = mApp->getTexMgr()->getTexture("svres/textures/a_line.png",true);
+//    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/textures/a_point.png",true);
+    m_pGlowTex = mApp->getTexMgr()->getTexture("svres/HollowKnight.png",true);
+    //
     m_lerpMethod = SV_LERP_BALANCE;
-    m_density = 0.1;
+    m_drawBox = false;
     m_vertexNum = 0;
     m_lastVertexIndex = 0;
-    m_drawBox = false;
+    m_lastGlowVertexIndex = 0;
     m_point_dis_dert = 0.002f;
-    m_pen_width = 0.006f;
     m_plane_dis = 0.2f;
+    m_glowDensity = 0.1;
+    m_glowStrokeWidth = 0.05f;
+    m_density = 0.05;
+    m_pen_width = 0.006f;
+//    setDrawBox(true);
 }
 
 SVPenStroke::~SVPenStroke() {
     m_penCurve = nullptr;
     m_pVertData->reback();
     m_pVertData = nullptr;
+    m_pRenderObj = nullptr;
+    m_pMesh = nullptr;
+    m_pMtl = nullptr;
     m_pTex = nullptr;
+    m_pGlowTex = nullptr;
     m_lock = nullptr;
     m_ptPool.clear();
+    m_ptGlowPool.clear();
     m_aabbBox.clear();
-    m_pRenderObj = nullptr;
+    m_glowStrokes.destroy();
 }
 
 void SVPenStroke::setStrokeWidth(f32 _width){
@@ -81,11 +96,9 @@ void SVPenStroke::setDrawBox(bool _drawBox){
 //绘制一笔
 void SVPenStroke::update(f32 _dt) {
     m_lock->unlock();
-    //转化成世界坐标系下的坐标点
-    _genPolygon();
     //插值生成面片
     _genMesh();
-    //绘制dataswap
+    //绘制
     _drawMesh();
     m_lock->unlock();
 }
@@ -98,9 +111,14 @@ void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     _screenPointToWorld(t_pt, t_worldPt);
     if (m_penCurve) {
         m_penCurve->reset();
+        //画笔补点
         SVArray<FVec3> t_ptArray;
         m_penCurve->addPoint(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWBEGIN, t_ptArray);
+        //光晕补点
+        SVArray<FVec3> t_ptGlowArray;
+        m_penCurve->addPoint(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWBEGIN, t_ptGlowArray);
     }
+    m_ptGlowPool.append(t_worldPt);
     m_ptPool.append(t_worldPt);
     m_lock->unlock();
 }
@@ -113,6 +131,7 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     _screenPointToWorld(t_pt, t_worldPt);
     //
     if (m_penCurve) {
+        //画笔补点
         SVArray<FVec3> t_ptArray;
         if (m_lerpMethod == SV_LERP_BALANCE) {
             m_penCurve->addPointB(t_worldPt.point, m_pen_width, m_density, SV_ADD_DRAWEND, t_ptArray);
@@ -128,8 +147,26 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
             t_n_worldPt.ext1 = t_worldPt.ext1;
             m_ptPool.append(t_n_worldPt);
         }
+        
+        //光晕补点
+        SVArray<FVec3> t_ptGlowArray;
+        if (m_lerpMethod == SV_LERP_BALANCE) {
+            m_penCurve->addPointB(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWEND, t_ptGlowArray);
+        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
+            m_penCurve->addPoint(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWEND, t_ptGlowArray);
+        }
+        for (s32 i = 0; i<t_ptGlowArray.size(); i++) {
+            FVec3 t_pt = t_ptGlowArray[i];
+            SVStrokePoint t_n_worldPt;
+            t_n_worldPt.point = t_pt;
+            t_n_worldPt.normal = t_worldPt.normal;
+            t_n_worldPt.ext0 = t_worldPt.ext0;
+            t_n_worldPt.ext1 = t_worldPt.ext1;
+            m_ptGlowPool.append(t_n_worldPt);
+        }
     }else{
         m_ptPool.append(t_worldPt);
+        m_ptGlowPool.append(t_worldPt);
     }
     //
     m_lock->unlock();
@@ -158,8 +195,26 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
             t_n_worldPt.ext1 = t_worldPt.ext1;
             m_ptPool.append(t_n_worldPt);
         }
+        
+        //光晕补点
+        SVArray<FVec3> t_ptGlowArray;
+        if (m_lerpMethod == SV_LERP_BALANCE) {
+            m_penCurve->addPointB(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWEND, t_ptGlowArray);
+        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
+            m_penCurve->addPoint(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWEND, t_ptGlowArray);
+        }
+        for (s32 i = 0; i<t_ptGlowArray.size(); i++) {
+            FVec3 t_pt = t_ptGlowArray[i];
+            SVStrokePoint t_n_worldPt;
+            t_n_worldPt.point = t_pt;
+            t_n_worldPt.normal = t_worldPt.normal;
+            t_n_worldPt.ext0 = t_worldPt.ext0;
+            t_n_worldPt.ext1 = t_worldPt.ext1;
+            m_ptGlowPool.append(t_n_worldPt);
+        }
     }else{
         m_ptPool.append(t_worldPt);
+        m_ptGlowPool.append(t_worldPt);
     }
     //
     m_lock->unlock();
@@ -216,6 +271,16 @@ void SVPenStroke::_genPolygon(){
 
 //生成数据
 void SVPenStroke::_genMesh() {
+    //公告板网格
+    s32 t_pt_original_num = m_ptGlowPool.size();
+    s32 t_original_index = m_lastGlowVertexIndex;
+    for (s32 i = t_original_index; i<t_pt_original_num; i++) {
+        SVStrokePoint t_pt = m_ptGlowPool[i];
+        _genGlow(t_pt.point);
+        m_aabbBox.expand(t_pt.point);
+        m_lastGlowVertexIndex++;
+    }
+    //三位盒子网格
     s32 t_pt_num = m_ptPool.size();
     s32 t_index = m_lastVertexIndex;
     for (s32 i = t_index; i<t_pt_num; i++) {
@@ -224,6 +289,38 @@ void SVPenStroke::_genMesh() {
         m_lastVertexIndex++;
     }
     m_vertexNum = t_pt_num*36;//6个面 一个面6个点
+}
+
+void SVPenStroke::_genGlow(FVec3 &_pt){
+    SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
+    billboardNode->setRSType(RST_AR);
+    FVec3 t_position = _pt;
+    billboardNode->setPosition(t_position.x, t_position.y, t_position.z);
+    billboardNode->setTexture(m_pGlowTex);
+//    f32 t_width = 100;
+//    billboardNode->setScale(m_glowStrokeWidth/t_width, m_glowStrokeWidth/t_width, m_glowStrokeWidth/t_width);
+    billboardNode->setSize(m_glowStrokeWidth, m_glowStrokeWidth);
+    SVMtlPenStrokeGlowPtr t_glowMtl = MakeSharedPtr<SVMtlPenStrokeGlow>(mApp);
+    t_glowMtl->setDepthEnable(false);
+    t_glowMtl->setBlendEnable(true);
+    t_glowMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
+    t_glowMtl->setTexcoordFlip(1.0, 1.0);
+    billboardNode->setMtl(t_glowMtl);
+    m_glowStrokes.append(billboardNode);
+}
+
+void SVPenStroke::_drawGlow(){
+    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
+    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
+    if(!t_arCam)
+        return ;
+    for (s32 i = 0; i<m_glowStrokes.size(); i++) {
+        SVBillboardNodePtr t_node = m_glowStrokes[i];
+        t_node->setViewPos(t_arCam->getPosition());
+        t_node->setUp(t_arCam->getUp());
+        t_node->update(0.0f);
+        t_node->render();
+    }
 }
 
 void SVPenStroke::_genBox(FVec3& _pt) {
@@ -585,20 +682,29 @@ void SVPenStroke::_genBox(FVec3& _pt) {
 }
 
 void SVPenStroke::_drawMesh() {
+    _drawGlow();
+    _drawStroke();
+    if (m_drawBox) {
+        _drawBoundBox();
+    }
+}
+
+void SVPenStroke::_drawStroke(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (t_renderer && t_rs && m_pRenderObj && m_pMesh && m_vertexNum > 0) {
         if (!m_pMtl) {
             m_pMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp);
-//            m_pMtl->setTexture(0, m_pTex);
+            //            m_pMtl->setTexture(0, m_pTex);
             m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
             m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
-             //void setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value);
+            //void setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value);
             m_pMtl->setTexcoordFlip(1.0, -1.0);
             m_pMtl->setLineSize(5.0f);
         }
+        m_pMtl->setDepthEnable(false);
         m_pMtl->setBlendEnable(true);
-        m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        m_pMtl->setBlendState(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         m_pMtl->setCullEnable(false);
         m_pMtl->setModelMatrix(m_localMat);
         //更新顶点数据
@@ -610,20 +716,21 @@ void SVPenStroke::_drawMesh() {
     }
 }
 
+void SVPenStroke::_drawBoundBox(){
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    SVMtlGeo3dPtr t_mtl_geo3d = MakeSharedPtr<SVMtlGeo3d>(mApp);
+    t_mtl_geo3d->setColor(1.0f, 0.0f, 0.0f, 1.0f);
+    FMat4 m_mat_unit = FMat4_identity;
+    t_mtl_geo3d->setModelMatrix( m_mat_unit.get() ); SVRenderObjInst::pushAABBCmd(t_rs,RST_AR_END,m_aabbBox,t_mtl_geo3d,"SV3DBOX_aabb");
+}
+
 void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint){
     SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
     SVCameraNodePtr t_arCam = t_sensor->getARCamera();
     if(!t_arCam)
         return ;
     FMat4 t_cameraMatrix = t_arCam->getViewMatObj();
-    FMat4 t_camRotInver = t_cameraMatrix;
-    t_camRotInver[12] = 0;
-    t_camRotInver[13] = 0;
-    t_camRotInver[14] = 0;
-    t_camRotInver =transpose(t_camRotInver);
-    FMat4 tmpMat = t_camRotInver*t_cameraMatrix;
-    //获取相机世界位置
-    FVec3 t_cameraEye = FVec3(-tmpMat[12], -tmpMat[13], -tmpMat[14]);
+    FVec3 t_cameraEye = t_arCam->getPosition();
     //构建虚拟平面
     FVec3 t_cameraDir = FVec3(-t_cameraMatrix[2],
                               -t_cameraMatrix[6],

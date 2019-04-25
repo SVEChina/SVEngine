@@ -32,9 +32,14 @@ SVBillboardNode::SVBillboardNode(SVInst *_app)
     m_canSelect = false;
     m_pTex = nullptr;
     m_pMesh = nullptr;
+    m_viewPos.set(0.0f, 0.0f, 0.0f);
+    m_up.set(0.0f, 0.0f, 0.0f);
     setTexcoord(1.0,-1.0);
-    setSize(100,100);
+//    setSize(100,100);
     m_pMtl = MakeSharedPtr<SVMtlBillboard>(_app);
+    m_pMtl->setDepthEnable(false);
+    m_pMtl->setBlendEnable(true);
+    m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 SVBillboardNode::SVBillboardNode(SVInst *_app,f32 _w,f32 _h)
@@ -90,6 +95,14 @@ void SVBillboardNode::setTexture(cptr8 _path, bool enableMipMap){
     }
 }
 
+void SVBillboardNode::setViewPos(FVec3 &_pos){
+    m_viewPos = _pos;
+}
+
+void SVBillboardNode::setUp(FVec3 &_up){
+    m_up = _up;
+}
+
 cptr8 SVBillboardNode::getTexturePath(){
     if (m_pTex) {
         return m_pTex->getname();
@@ -114,16 +127,22 @@ void SVBillboardNode::setMesh(SVRenderMeshPtr _mesh){
     }
 }
 
+void SVBillboardNode::setMtl(SVMtlCorePtr _mtl){
+    if (_mtl) {
+        m_pMtl = _mtl;
+    }
+}
+
 void SVBillboardNode::update(f32 dt) {
     SVNode::update(dt);
     if (m_pRenderObj && m_pMesh) {
         if(m_pMtl){
             SVMtlBillboardPtr t_billboard = DYN_TO_SHAREPTR(SVMtlBillboard, m_pMtl);
             if (t_billboard) {
-                t_billboard->setQuadPosW(getPosition());
+                t_billboard->setObjectPos(getPosition());
+                t_billboard->setViewPos(m_viewPos);
+                t_billboard->setUp(m_up);
             }
-            m_pMtl->setBlendEnable(true);
-            m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
             m_pMtl->setModelMatrix(m_absolutMat.get());
             m_pMtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
             if(m_inTexType == E_TEX_END) {
@@ -156,10 +175,10 @@ void SVBillboardNode::update(f32 dt) {
 }
 
 void SVBillboardNode::render() {
-    if (mApp->m_pGlobalParam->m_curScene && m_visible ){
+    if (m_visible){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj) {
-            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVSpriteNode");
+            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVBillboardNode");
         }
     }
     SVNode::render();

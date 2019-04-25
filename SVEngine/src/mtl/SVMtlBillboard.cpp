@@ -11,13 +11,17 @@
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVCameraNode.h"
 SVMtlBillboard::SVMtlBillboard(SVInst *_app)
-:SVMtlCore(_app,"normal2d_billboard") {
-    m_quadPosW.set(0, 0, 0);
+:SVMtlCore(_app,"normal3d_billboard") {
+    m_objPos.set(0, 0, 0);
+    m_viewPos.set(0, 0, 0);
+    m_up.set(0, 0, 0);
 }
 
 SVMtlBillboard::SVMtlBillboard(SVMtlBillboard *_mtl)
 :SVMtlCore(_mtl){
-    m_quadPosW = _mtl->m_quadPosW;
+    m_objPos = _mtl->m_objPos;
+    m_viewPos = _mtl->m_viewPos;
+    m_up = _mtl->m_up;
 }
 
 SVMtlBillboard::~SVMtlBillboard() {
@@ -30,19 +34,24 @@ SVMtlCorePtr SVMtlBillboard::clone() {
 
 void SVMtlBillboard::reset() {
     SVMtlCore::reset();
-    
 }
 
-void SVMtlBillboard::setQuadPosW(FVec3 &_quadPosW){
-    m_quadPosW.set(_quadPosW.x, _quadPosW.y, _quadPosW.z);
+void SVMtlBillboard::setObjectPos(FVec3 &_pos){
+    m_objPos.set(_pos);
+}
+
+void SVMtlBillboard::setViewPos(FVec3 &_viewPos){
+    m_viewPos.set(_viewPos);
+}
+
+void SVMtlBillboard::setUp(FVec3 &_up){
+    m_up.set(_up);
 }
 
 void SVMtlBillboard::_submitUniform(SVRendererBasePtr _render) {
     SVMtlCore::_submitUniform(_render);
-    SVCameraNodePtr t_cameraNode = mApp->getCameraMgr()->getMainCamera();
-    FVec3 cameraPos = t_cameraNode->getPosition();
-//    FVec3 cameraPos = FVec3(0.0f, 0.0f, 0.0f);
-    _render->submitUniformf3v("u_viewPos", cameraPos.get());
-    _render->submitUniformf3v("u_quadPosW", m_quadPosW.get());
+    _render->submitUniformf3v("u_up", m_up.get());
+    _render->submitUniformf3v("u_viewPos", m_viewPos.get());
+    _render->submitUniformf3v("u_objPos", m_objPos.get());
 }
 

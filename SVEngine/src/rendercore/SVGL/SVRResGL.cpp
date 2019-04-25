@@ -446,7 +446,8 @@ void SVRResGLFBO::_bindDepth() {
 }
 
 void SVRResGLFBO::refresh() {
-
+    _bindColor();
+    _bindDepth();
 }
 
 void SVRResGLFBO::bind() {
@@ -607,8 +608,5 @@ void SVResGLRenderTexture::setTexture(SVRResGLTexPtr _tex) {
 }
 
 void SVResGLRenderTexture::refresh() {
-    if(m_fboID>0 && m_tex) {
-        glBindFramebuffer(GL_FRAMEBUFFER, m_fboID);
-        glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,m_tex->getTexID(),0);
-    }
+    SVRResGLFBO::refresh();
 }
