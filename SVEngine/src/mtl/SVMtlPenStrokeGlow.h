@@ -26,11 +26,10 @@ namespace sv {
             
             virtual SVMtlCorePtr clone();
     
+            void setColor(FVec4 &_color);
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
-            FVec3 m_objPos;
-            FVec3 m_viewPos;
-            FVec3 m_up;
+            FVec4 m_strokeColor;
         };
 
     }//!namespace mtl

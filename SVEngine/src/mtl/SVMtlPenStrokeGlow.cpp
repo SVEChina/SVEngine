@@ -13,16 +13,12 @@
 SVMtlPenStrokeGlow::SVMtlPenStrokeGlow(SVInst *_app)
 :SVMtlBillboard(_app) {
     m_mtlname = "penstrokeglow";
-    m_objPos.set(0, 0, 0);
-    m_viewPos.set(0, 0, 0);
-    m_up.set(0, 0, 0);
+    m_strokeColor.set(38, 165, 38, 100);
 }
 
 SVMtlPenStrokeGlow::SVMtlPenStrokeGlow(SVMtlPenStrokeGlow *_mtl)
 :SVMtlBillboard(_mtl){
-    m_objPos = _mtl->m_objPos;
-    m_viewPos = _mtl->m_viewPos;
-    m_up = _mtl->m_up;
+    m_strokeColor = _mtl->m_strokeColor;
 }
 
 SVMtlPenStrokeGlow::~SVMtlPenStrokeGlow() {
@@ -37,7 +33,13 @@ void SVMtlPenStrokeGlow::reset() {
     SVMtlBillboard::reset();
 }
 
+void SVMtlPenStrokeGlow::setColor(FVec4 &_color){
+    m_strokeColor = _color;
+}
+
 void SVMtlPenStrokeGlow::_submitUniform(SVRendererBasePtr _render) {
     SVMtlBillboard::_submitUniform(_render);
+    FVec4 t_color = m_strokeColor/255.0;
+    _render->submitUniformf4v("u_strokecolor", t_color.get());
 }
 
