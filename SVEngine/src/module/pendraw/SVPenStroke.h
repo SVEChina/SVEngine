@@ -83,7 +83,7 @@ namespace sv{
         SVRenderMeshDvidPtr m_pGlowMesh;
         SVMtlStrokeBasePtr m_pGlowMtl;
         FVec4 m_glowColor;
-        s32 m_lastGlowVertexIndex;
+        s32 m_lastGlowInstanceIndex;
         f32 m_glowStrokeWidth;
         f32 m_glowDensity;
         s32 m_glowInstanceCount;
@@ -91,7 +91,7 @@ namespace sv{
         FMat4 m_localMat;
         FVec4 m_strokeColor;
         s32 m_instanceCount;
-        s32 m_lastVertexIndex;
+        s32 m_lastInstanceIndex;
         f32 m_density;
         f32 m_point_dis_dert;
         f32 m_pen_width;

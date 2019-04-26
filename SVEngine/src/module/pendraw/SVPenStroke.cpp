@@ -52,8 +52,8 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_lerpMethod = SV_LERP_BALANCE;
     m_drawBox = false;
     m_instanceCount = 0;
-    m_lastVertexIndex = 0;
-    m_lastGlowVertexIndex = 0;
+    m_lastInstanceIndex = 0;
+    m_lastGlowInstanceIndex = 0;
     m_point_dis_dert = 0.002f;
     m_plane_dis = 0.2f;
     m_glowDensity = 0.1;
@@ -275,34 +275,45 @@ void SVPenStroke::_genPolygon(){
     }
 }
 
-//生成数据
 void SVPenStroke::_genInstances() {
-    //荧光
+    //荧光实例
     s32 t_pt_original_num = m_ptGlowPool.size();
-    V3 t_glowPoints[t_pt_original_num];
-    for (s32 i = 0; i<t_pt_original_num; i++) {
-        SVStrokePoint t_pt = m_ptGlowPool[i];
-        t_glowPoints[i].x = t_pt.point.x;
-        t_glowPoints[i].y = t_pt.point.y;
-        t_glowPoints[i].z = t_pt.point.z;
-        m_aabbBox.expand(t_pt.point);
+    s32 t_glow_deltCount = t_pt_original_num - m_lastGlowInstanceIndex;
+    if (t_glow_deltCount > 0) {
+        V3 t_glowPoints[t_glow_deltCount];
+        s32 t_index = m_lastGlowInstanceIndex;
+        s32 j = 0;
+        for (s32 i = t_index; i<t_pt_original_num; i++) {
+            SVStrokePoint t_pt = m_ptGlowPool[i];
+            t_glowPoints[j].x = t_pt.point.x;
+            t_glowPoints[j].y = t_pt.point.y;
+            t_glowPoints[j].z = t_pt.point.z;
+            m_aabbBox.expand(t_pt.point);
+            j++;
+            m_lastGlowInstanceIndex++;
+        }
+        m_glowInstanceCount = t_pt_original_num;
+        m_pGlowInstanceOffsetData->appendData(t_glowPoints, t_glow_deltCount*sizeof(V3));
     }
-    m_glowInstanceCount = t_pt_original_num;
-    m_pGlowInstanceOffsetData->resize(m_instanceCount*sizeof(V3));
-    m_pGlowInstanceOffsetData->writeData(t_glowPoints, m_glowInstanceCount*sizeof(V3));
     
-    //三维盒子
+    //三维盒子实例子
     s32 t_pt_num = m_ptPool.size();
-    V3 t_points[t_pt_num];
-    for (s32 i = 0; i<t_pt_num; i++) {
-        SVStrokePoint t_pt = m_ptPool[i];
-        t_points[i].x = t_pt.point.x;
-        t_points[i].y = t_pt.point.y;
-        t_points[i].z = t_pt.point.z;
+    s32 t_pt_deltCount = t_pt_num - m_lastInstanceIndex;
+    if (t_pt_deltCount > 0) {
+        V3 t_points[t_pt_deltCount];
+        s32 t_index = m_lastInstanceIndex;
+        s32 j = 0;
+        for (s32 i = t_index; i<t_pt_num; i++) {
+            SVStrokePoint t_pt = m_ptPool[i];
+            t_points[j].x = t_pt.point.x;
+            t_points[j].y = t_pt.point.y;
+            t_points[j].z = t_pt.point.z;
+            j++;
+            m_lastInstanceIndex++;
+        }
+        m_instanceCount = t_pt_num;
+        m_pInstanceOffsetData->appendData(t_points, t_pt_deltCount*sizeof(V3));
     }
-    m_instanceCount = t_pt_num;
-    m_pInstanceOffsetData->resize(m_instanceCount*sizeof(V3));
-    m_pInstanceOffsetData->writeData(t_points, m_instanceCount*sizeof(V3));
 }
 
 void SVPenStroke::_createGlowMesh(){
