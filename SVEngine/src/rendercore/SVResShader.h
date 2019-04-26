@@ -28,6 +28,7 @@
 #define CHANNEL_TEXCOORD3   3
 #define CHANNEL_BONE_ID     3
 #define CHANNEL_BONE_WEIGHT 4
+#define CHANNEL_INSOFFSET   8
 //
 #define CHANNEL_ATTRI_0     0
 #define CHANNEL_ATTRI_1     1
@@ -47,6 +48,7 @@
 #define NAME_TEXCOORD1  "aTexcoord1"
 #define NAME_TEXCOORD2  "aTexcoord2"
 #define NAME_TEXCOORD3  "aTexcoord3"
+#define NAME_INSOFFSET  "aInsOffset"
 //骨骼动画
 #define NAME_BONE_ID     "aBoneID"
 #define NAME_BONE_WEIGHT "aBoneWeight"

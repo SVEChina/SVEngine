@@ -265,6 +265,9 @@ void SVResGLRenderMeshDvid::_reset(){
     normalID = 0;
     tagentID = 0;
     btagentID = 0;
+    instanceOffsetID = 0;
+    m_instacneCount = 0;
+    m_useIntance = false;
 }
 
 void SVResGLRenderMeshDvid::create(SVRendererBasePtr _renderer){
@@ -313,6 +316,10 @@ void SVResGLRenderMeshDvid::destroy(SVRendererBasePtr _renderer) {
         glDeleteBuffers(1, &btagentID);
         btagentID = 0;
     }
+    if (instanceOffsetID != 0) {
+        glDeleteBuffers(1, &instanceOffsetID);
+        instanceOffsetID = 0;
+    }
 }
 
 //流格式
@@ -357,6 +364,17 @@ void SVResGLRenderMeshDvid::_updateVertDsp() {
         glEnableVertexAttribArray(CHANNEL_TEXCOORD2);
         glVertexAttribPointer(CHANNEL_TEXCOORD2, 2, GL_FLOAT, GL_FALSE, 0, 0);
     }
+#ifdef __gl3_h_
+    if (m_useIntance) {
+        if (m_vftype & D_VF_INSOFFSET) {
+            glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
+            glEnableVertexAttribArray(CHANNEL_INSOFFSET);
+            glVertexAttribPointer(CHANNEL_INSOFFSET, 3, GL_FLOAT, GL_FALSE, 0, 0);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glVertexAttribDivisor(CHANNEL_INSOFFSET, 1);
+        }
+    }
+#endif
 }
 
 void SVResGLRenderMeshDvid::setVertex2Data(SVDataSwapPtr _pdata){
@@ -489,6 +507,39 @@ void SVResGLRenderMeshDvid::setBTagentData(SVDataSwapPtr _pdata){
     }
 }
 
+#ifdef __gl3_h_
+void SVResGLRenderMeshDvid::setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount){
+    if(_pdata){
+        if(_instanceCount>m_instacneCount) {
+            if (instanceOffsetID > 0) {
+                glDeleteBuffers(1, &instanceOffsetID);
+                instanceOffsetID = 0;
+            }
+        }
+        if(instanceOffsetID == 0) {
+            glGenBuffers(1, &instanceOffsetID);
+            glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+        m_instacneCount = _instanceCount;
+    }
+    
+}
+
+void SVResGLRenderMeshDvid::setInstanceEnable(bool _enable){
+    m_useIntance = _enable;
+}
+
+#endif
+
+void SVResGLRenderMeshDvid::updateConf(RENDERMESHCONF& _conf){
+    SVResGLRenderMesh::updateConf(_conf);
+    setInstanceEnable(_conf.useInstance);
+}
+
 void SVResGLRenderMeshDvid::updateData(RENDERMESHDATA& _data) {
     setVertexDataNum(_data.pointNum);
     setVertex2Data(_data.pDataV2);
@@ -502,6 +553,7 @@ void SVResGLRenderMeshDvid::updateData(RENDERMESHDATA& _data) {
     setTagentData(_data.pDataTag);
     setBTagentData(_data.pDataBTor);
     setIndexData(_data.pDataIndex, _data.indexNum);
+    setInstanceOffsetData(_data.pDataInsOffset, _data.instanceCount);
 }
 
 void SVResGLRenderMeshDvid::render(SVRendererBasePtr _renderer){
@@ -510,11 +562,22 @@ void SVResGLRenderMeshDvid::render(SVRendererBasePtr _renderer){
     if(t_rendererGL) {
         _updateVertDsp();
         _bindVerts();
-        if ( m_indexID>0 ) {
-            glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
-        } else {
-            glDrawArrays(m_drawmethod, 0, m_pointNum);
+        if (m_useIntance) {
+#ifdef __gl3_h_
+            if ( m_indexID>0 ) {
+                glDrawElementsInstanced(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0, m_instacneCount);//NUM_FACE_MESHVER
+            } else {
+                glDrawArraysInstanced(m_drawmethod, 0, m_pointNum, m_instacneCount);
+            }
+#endif
+        }else{
+            if ( m_indexID>0 ) {
+                glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
+            } else {
+                glDrawArrays(m_drawmethod, 0, m_pointNum);
+            }
         }
         _unbindVerts();
     }
+    
 }

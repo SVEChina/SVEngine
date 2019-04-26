@@ -48,12 +48,12 @@ namespace sv{
         void _screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint);
         //
         void _genPolygon();
-        //生成面片
-        void _genMesh();
         //
-        void _genBox(FVec3& _pt);
+        void _genInstances();
         //
-        void _genGlow(FVec3& _pt);
+        void _createStrokeMesh();
+        //
+        void _createGlowMesh();
         //
         void _drawMesh();
         //
@@ -69,29 +69,29 @@ namespace sv{
         PTPOOL m_ptGlowPool;
         SVArray<SVBillboardNodePtr> m_glowStrokes;
         SVPenCurvePtr m_penCurve;
-        //数据域
-        SVDataSwapPtr m_pVertData;  //mesh
+        //盒子相关
+        SVDataSwapPtr m_pInstanceOffsetData;
         SVRenderObjectPtr m_pRenderObj;
-        SVRenderMeshPtr m_pMesh;
+        SVRenderMeshDvidPtr m_pBoxMesh;
         SVMtlStrokeBasePtr m_pMtl;
         SVTexturePtr m_pTex;
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
-        //画发光公告板相关
-        SVDataSwapPtr m_pGlowVertData;  //mesh
+        //画光圈相关
+        SVDataSwapPtr m_pGlowInstanceOffsetData;  //mesh
         SVTexturePtr m_pGlowTex;
-        SVRenderMeshPtr m_pGlowMesh;
+        SVRenderMeshDvidPtr m_pGlowMesh;
         SVMtlStrokeBasePtr m_pGlowMtl;
         FVec4 m_glowColor;
-        s32 m_lastGlowVertexIndex;
+        s32 m_lastGlowInstanceIndex;
         f32 m_glowStrokeWidth;
         f32 m_glowDensity;
-        s32 m_glowVertexNum;
+        s32 m_glowInstanceCount;
         //
         FMat4 m_localMat;
         FVec4 m_strokeColor;
-        s32 m_vertexNum;
-        s32 m_lastVertexIndex;
+        s32 m_instanceCount;
+        s32 m_lastInstanceIndex;
         f32 m_density;
         f32 m_point_dis_dert;
         f32 m_pen_width;

@@ -20,6 +20,7 @@ namespace sv {
         struct RENDERMESHDATA{
             u32 indexNum;    //索引数量
             u32 pointNum;    //顶点数量
+            u32 instanceCount; //多实例数量
             SVDataSwapPtr pDataIndex;
             SVDataSwapPtr pDataVertex;
             //did数据
@@ -33,6 +34,7 @@ namespace sv {
             SVDataSwapPtr pDataNor;
             SVDataSwapPtr pDataTag;
             SVDataSwapPtr pDataBTor;
+            SVDataSwapPtr pDataInsOffset;
             bool dirty;
         };
         
@@ -43,6 +45,7 @@ namespace sv {
             u32 indexPoolType;
             DRAWMETHOD drawmethod;
             bool bVisible;
+            bool useInstance;
             bool dirty;
         };
         

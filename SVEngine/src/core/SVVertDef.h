@@ -223,6 +223,13 @@ typedef struct V3_N_T0_BONE4 {
     f32 weight3;
 } V3_N_T0_BONE4;
 
+typedef struct C {
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 a;
+} C;
+
 //
 struct V3_PARTICLE {
     union {
@@ -259,7 +266,7 @@ struct V3_PARTICLE {
 #define D_VF_BONE     0x00010000
 #define D_VF_BONE_W   0x00020000
 #define D_VF_PARTICLE 0x00100000
-
+#define D_VF_INSOFFSET 0x00200000
 enum VFTYPE {
     E_VF_BASE = 0,
     E_VF_V2 = D_VF_V2,
@@ -282,6 +289,8 @@ enum VFTYPE {
     E_VF_V3_N_C_T0 = D_VF_V3 | D_VF_NOR | D_VF_C0 | D_VF_T0,
     E_VF_V3_N_C_T0_T1 = D_VF_V3 | D_VF_NOR | D_VF_C0 | D_VF_T0 | D_VF_T1,
     E_VF_V3_N_T0_BONE_W = D_VF_V3 | D_VF_NOR | D_VF_T0 | D_VF_BONE |D_VF_BONE_W,
+    E_VF_V3_C_INS = D_VF_V3 | D_VF_C0 | D_VF_INSOFFSET,
+    E_VF_V3_C_BTAG = D_VF_V3 | D_VF_C0 | D_VF_BTAG,
     E_VF_V3_PARTICLE = D_VF_PARTICLE
 };
 
