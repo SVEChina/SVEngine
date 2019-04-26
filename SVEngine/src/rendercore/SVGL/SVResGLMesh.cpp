@@ -368,10 +368,10 @@ void SVResGLRenderMeshDvid::_updateVertDsp() {
     if (m_useIntance) {
         if (m_vftype & D_VF_INSOFFSET) {
             glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
-            glEnableVertexAttribArray(CHANNEL_NORMAL);
-            glVertexAttribPointer(CHANNEL_NORMAL, 3, GL_FLOAT, GL_FALSE, 0, 0);
+            glEnableVertexAttribArray(CHANNEL_INSOFFSET);
+            glVertexAttribPointer(CHANNEL_INSOFFSET, 3, GL_FLOAT, GL_FALSE, 0, 0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
-            glVertexAttribDivisor(CHANNEL_NORMAL, 1);
+            glVertexAttribDivisor(CHANNEL_INSOFFSET, 1);
         }
     }
 }

@@ -328,6 +328,7 @@ u32 SVRResGLShader::_createProgram(){
     glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD1, NAME_TEXCOORD1);
     glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD2, NAME_TEXCOORD2);
     glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD3, NAME_TEXCOORD3);
+    glBindAttribLocation(t_program_id, CHANNEL_INSOFFSET, NAME_INSOFFSET);
     //蒙皮动画相关
     glBindAttribLocation(t_program_id, CHANNEL_BONE_ID, NAME_BONE_ID);
     glBindAttribLocation(t_program_id, CHANNEL_BONE_WEIGHT, NAME_BONE_WEIGHT);
