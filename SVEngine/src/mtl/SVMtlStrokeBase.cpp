@@ -12,12 +12,14 @@
 #include "../node/SVCameraNode.h"
 SVMtlStrokeBase::SVMtlStrokeBase(SVInst *_app, cptr8 _shader)
 :SVMtlCore(_app,_shader) {
-    m_quadPosW.set(0, 0, 0);
+    m_viewPos.set(0, 0, 0);
+    m_up.set(0, 0, 0);
 }
 
 SVMtlStrokeBase::SVMtlStrokeBase(SVMtlStrokeBase *_mtl)
 :SVMtlCore(_mtl){
-    m_quadPosW = _mtl->m_quadPosW;
+    m_viewPos = _mtl->m_viewPos;
+    m_up = _mtl->m_up;
 }
 
 SVMtlStrokeBase::~SVMtlStrokeBase() {
@@ -33,16 +35,17 @@ void SVMtlStrokeBase::reset() {
     
 }
 
-void SVMtlStrokeBase::setQuadPosW(FVec3 &_quadPosW){
-    m_quadPosW.set(_quadPosW.x, _quadPosW.y, _quadPosW.z);
+void SVMtlStrokeBase::setViewPos(FVec3 &_viewPos){
+    m_viewPos = _viewPos;
+}
+
+void SVMtlStrokeBase::setUp(FVec3 &_up){
+    m_up = _up;
 }
 
 void SVMtlStrokeBase::_submitUniform(SVRendererBasePtr _render) {
     SVMtlCore::_submitUniform(_render);
-    SVCameraNodePtr t_cameraNode = mApp->getCameraMgr()->getMainCamera();
-    FVec3 cameraPos = t_cameraNode->getPosition();
-//    FVec3 cameraPos = FVec3(0.0f, 0.0f, 0.0f);
-    _render->submitUniformf3v("u_viewPos", cameraPos.get());
-    _render->submitUniformf3v("u_quadPosW", m_quadPosW.get());
+    _render->submitUniformf3v("u_viewPos", m_viewPos.get());
+    _render->submitUniformf3v("u_up", m_up.get());
 }
 

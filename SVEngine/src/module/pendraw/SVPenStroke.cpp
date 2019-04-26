@@ -54,12 +54,12 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_instanceCount = 0;
     m_lastInstanceIndex = 0;
     m_lastGlowInstanceIndex = 0;
-    m_plane_dis = 0.2f;
-    m_glowDensity = 0.2;
-    m_glowStrokeWidth = 0.08f;
-    m_density = 0.2;
-    m_pen_width = 0.016f;
-    m_glowColor.set(0, 255, 0, 200);
+    m_plane_dis = 0.3f;
+    m_glowDensity = 0.1;
+    m_glowStrokeWidth = 0.5f;
+    m_density = 0.05;
+    m_pen_width = 0.02f;
+    m_glowColor.set(0, 255, 0, 255);
     m_strokeColor.set(255, 255, 255, 255);
     _createStrokeMesh();
     _createGlowMesh();
@@ -533,6 +533,8 @@ void SVPenStroke::_createGlowMesh(){
 void SVPenStroke::_drawGlow(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
+    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
     if (t_renderer && t_rs && m_pRenderObj && m_pGlowMesh && m_glowInstanceCount > 0) {
         if (!m_pGlowMtl) {
             m_pGlowMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp, "penstroke_texture");
@@ -542,10 +544,12 @@ void SVPenStroke::_drawGlow(){
             //void setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value);
             m_pGlowMtl->setTexcoordFlip(1.0, -1.0);
             m_pGlowMtl->setLineSize(5.0f);
+            m_pGlowMtl->setViewPos(t_arCam->getPosition());
+            m_pGlowMtl->setUp(t_arCam->getUp());
         }
         m_pGlowMtl->setDepthEnable(false);
         m_pGlowMtl->setBlendEnable(true);
-        m_pGlowMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
+        m_pGlowMtl->setBlendState(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         m_pGlowMtl->setCullEnable(false);
         m_pGlowMtl->setModelMatrix(m_localMat);
         //更新顶点数据
@@ -783,6 +787,8 @@ void SVPenStroke::_drawMesh() {
 void SVPenStroke::_drawStroke(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
+    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
     if (t_renderer && t_rs && m_pRenderObj && m_pBoxMesh && m_instanceCount > 0) {
         if (!m_pMtl) {
             m_pMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp, "penstroke_texture");
@@ -792,6 +798,8 @@ void SVPenStroke::_drawStroke(){
             //void setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value);
             m_pMtl->setTexcoordFlip(1.0, -1.0);
             m_pMtl->setLineSize(5.0f);
+            m_pMtl->setViewPos(t_arCam->getPosition());
+            m_pMtl->setUp(t_arCam->getUp());
         }
         m_pMtl->setDepthEnable(false);
         m_pMtl->setBlendEnable(true);
@@ -803,7 +811,7 @@ void SVPenStroke::_drawStroke(){
         m_pBoxMesh->setInstanceOffsetData(m_pInstanceOffsetData, m_instanceCount);
         m_pRenderObj->setMesh(m_pBoxMesh);
         m_pRenderObj->setMtl(m_pMtl);
-        m_pRenderObj->pushCmd(t_rs, RST_AR, "SVPenStrokeRender");
+        m_pRenderObj->pushCmd(t_rs, RST_AR1, "SVPenStrokeRender");
     }
 }
 
