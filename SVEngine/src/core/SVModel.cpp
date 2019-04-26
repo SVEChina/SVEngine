@@ -38,3 +38,13 @@ void SVModel::clearMesh() {
 SVBoundBox SVModel::getBox() {
     return m_box;
 }
+
+//
+SVModelMgr::SVModelMgr(SVInst* _app)
+:SVGBase(_app){
+    
+}
+
+SVModelMgr::~SVModelMgr() {
+    
+}
