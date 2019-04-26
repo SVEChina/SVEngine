@@ -60,7 +60,7 @@
 #include <GLKit/GLKit.h>
 #include <OpenGLES/ES3/gl.h>
 #include <OpenGLES/ES3/glext.h>
-
+#define __gl3_h_
 #elif TARGET_OS_MAC
 
 #define SV_OSX

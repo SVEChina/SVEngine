@@ -316,7 +316,7 @@ void SVRenderMeshDvid::setBTagentData(SVDataSwapPtr _pdata){
         m_renderMeshData.dirty = true;
     }
 }
-
+#ifdef __gl3_h_
 void SVRenderMeshDvid::setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount){
     if (_pdata) {
         m_renderMeshData.pDataInsOffset = _pdata;
@@ -329,3 +329,4 @@ void SVRenderMeshDvid::setInstanceEnable(bool _enable){
     m_renderMeshConf.useInstance = _enable;
     m_renderMeshConf.dirty = true;
 }
+#endif

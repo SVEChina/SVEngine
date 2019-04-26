@@ -364,7 +364,7 @@ void SVResGLRenderMeshDvid::_updateVertDsp() {
         glEnableVertexAttribArray(CHANNEL_TEXCOORD2);
         glVertexAttribPointer(CHANNEL_TEXCOORD2, 2, GL_FLOAT, GL_FALSE, 0, 0);
     }
-    
+#ifdef __gl3_h_
     if (m_useIntance) {
         if (m_vftype & D_VF_INSOFFSET) {
             glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
@@ -374,6 +374,7 @@ void SVResGLRenderMeshDvid::_updateVertDsp() {
             glVertexAttribDivisor(CHANNEL_INSOFFSET, 1);
         }
     }
+#endif
 }
 
 void SVResGLRenderMeshDvid::setVertex2Data(SVDataSwapPtr _pdata){
@@ -506,6 +507,7 @@ void SVResGLRenderMeshDvid::setBTagentData(SVDataSwapPtr _pdata){
     }
 }
 
+#ifdef __gl3_h_
 void SVResGLRenderMeshDvid::setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount){
     if(_pdata){
         if(_instanceCount>m_instacneCount) {
@@ -530,6 +532,8 @@ void SVResGLRenderMeshDvid::setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _ins
 void SVResGLRenderMeshDvid::setInstanceEnable(bool _enable){
     m_useIntance = _enable;
 }
+
+#endif
 
 void SVResGLRenderMeshDvid::updateConf(RENDERMESHCONF& _conf){
     SVResGLRenderMesh::updateConf(_conf);
@@ -559,11 +563,13 @@ void SVResGLRenderMeshDvid::render(SVRendererBasePtr _renderer){
         _updateVertDsp();
         _bindVerts();
         if (m_useIntance) {
+#ifdef __gl3_h_
             if ( m_indexID>0 ) {
                 glDrawElementsInstanced(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0, m_instacneCount);//NUM_FACE_MESHVER
             } else {
                 glDrawArraysInstanced(m_drawmethod, 0, m_pointNum, m_instacneCount);
             }
+#endif
         }else{
             if ( m_indexID>0 ) {
                 glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
