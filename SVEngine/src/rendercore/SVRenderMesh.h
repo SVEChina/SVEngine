@@ -106,6 +106,9 @@ namespace sv {
             
             void setBTagentData(SVDataSwapPtr _pdata);
             
+            void setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount);
+            
+            void setInstanceEnable(bool _enable);
         protected:
             virtual void _resetMeshData();
         };

@@ -98,6 +98,8 @@ namespace sv {
             
             virtual void updateData(RENDERMESHDATA& _data);
 
+            virtual void updateConf(RENDERMESHCONF& _conf);
+            
             void setVertex2Data(SVDataSwapPtr _pdata);
 
             void setVertex3Data(SVDataSwapPtr _pdata);
@@ -118,6 +120,10 @@ namespace sv {
 
             void setBTagentData(SVDataSwapPtr _pdata);
 
+            void setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount);
+            
+            void setInstanceEnable(bool _enable);
+
         protected:
             void _reset();
         
@@ -136,8 +142,10 @@ namespace sv {
             u32 normalID;
             u32 tagentID;
             u32 btagentID;
+            u32 instanceOffsetID;
+            u32 m_instacneCount;
+            bool m_useIntance;
         };
-        
        
     }//!namespace render
 
