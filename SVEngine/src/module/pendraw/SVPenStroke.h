@@ -93,7 +93,6 @@ namespace sv{
         s32 m_instanceCount;
         s32 m_lastInstanceIndex;
         f32 m_density;
-        f32 m_point_dis_dert;
         f32 m_pen_width;
         f32 m_plane_dis;
         LERPMETHOD m_lerpMethod;

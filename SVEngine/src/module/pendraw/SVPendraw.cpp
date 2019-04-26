@@ -51,7 +51,7 @@ void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
         SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
         s32 t_w = t_tex->getwidth();
         s32 t_h = t_tex->getheight();
-        if (t_renderer->hasSVTex(E_TEX_HELP0)) {
+        if (t_renderer->hasSVTex(E_TEX_HELP1)) {
             m_pInTex = t_renderer->getSVTex(E_TEX_HELP0);
         }else{
             m_pInTex = t_renderer->createSVTex(E_TEX_HELP0, t_w, t_h, GL_RGBA);
