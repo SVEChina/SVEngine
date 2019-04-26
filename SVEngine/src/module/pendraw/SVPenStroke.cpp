@@ -56,10 +56,10 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_lastGlowInstanceIndex = 0;
     m_plane_dis = 0.3f;
     m_glowDensity = 0.1;
-    m_glowStrokeWidth = 0.5f;
+    m_glowStrokeWidth = 0.1f;
     m_density = 0.05;
-    m_pen_width = 0.02f;
-    m_glowColor.set(0, 255, 0, 255);
+    m_pen_width = 0.03f;
+    m_glowColor.set(100, 10, 10, 255);
     m_strokeColor.set(255, 255, 255, 255);
     _createStrokeMesh();
     _createGlowMesh();
@@ -549,7 +549,7 @@ void SVPenStroke::_drawGlow(){
         }
         m_pGlowMtl->setDepthEnable(false);
         m_pGlowMtl->setBlendEnable(true);
-        m_pGlowMtl->setBlendState(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        m_pGlowMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
         m_pGlowMtl->setCullEnable(false);
         m_pGlowMtl->setModelMatrix(m_localMat);
         //更新顶点数据
