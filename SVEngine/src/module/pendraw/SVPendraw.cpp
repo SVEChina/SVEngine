@@ -51,7 +51,7 @@ void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
         SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
         s32 t_w = t_tex->getwidth();
         s32 t_h = t_tex->getheight();
-        if (t_renderer->hasSVTex(E_TEX_HELP1)) {
+        if (t_renderer->hasSVTex(E_TEX_HELP0)) {
             m_pInTex = t_renderer->getSVTex(E_TEX_HELP0);
         }else{
             m_pInTex = t_renderer->createSVTex(E_TEX_HELP0, t_w, t_h, GL_RGBA);
@@ -67,11 +67,11 @@ void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
     m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,m_pInTex,true,true);
     mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
     //做辉光效果处理
-//    SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
-//    SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(mApp);
-//    t_glow->create(E_TEX_HELP0, E_TEX_HELP1);
-//    t_pic->addFilter(t_glow);
-//    t_pic->openFilter(t_glow);
+    SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
+    SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(mApp);
+    t_glow->create(E_TEX_HELP0, E_TEX_HELP1);
+    t_pic->addFilter(t_glow);
+    t_pic->openFilter(t_glow);
 }
 
 void SVPendraw::destroy() {
@@ -100,7 +100,7 @@ void SVPendraw::update(f32 _dt) {
         //再画回主纹理
         SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
         t_lkMtl->setTexcoordFlip(1.0f, 1.0f);
-        t_lkMtl->setTexture(0, E_TEX_HELP0);
+        t_lkMtl->setTexture(0, E_TEX_HELP1);
         t_lkMtl->setDepthEnable(false);
         t_lkMtl->setBlendEnable(true);
         t_lkMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);

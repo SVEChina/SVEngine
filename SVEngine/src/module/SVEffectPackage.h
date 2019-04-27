@@ -65,6 +65,8 @@ namespace sv{
         
         void addFilter(SVFilterBasePtr _filter);
         
+        void addDefrom(SVDeformImageMovePtr _deform);
+        
         SVTexAttachmentPtr getTexAttachment(s32 _channel);
     protected:
         EFFECTANISTATE m_aniState;
@@ -74,6 +76,8 @@ namespace sv{
         SVATTACHMENTPOOL m_attachmentPool;
         typedef SVArray<SVFilterBasePtr> SVFILTERPOOL;
         SVFILTERPOOL m_filterBasePool;
+        typedef SVArray<SVDeformImageMovePtr> SVDEFORMPOOL;
+        SVDEFORMPOOL m_deformPool;
         SVLockPtr m_lock;
     };
     

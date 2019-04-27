@@ -18,7 +18,5 @@ SVNodePtr SVParseBackground::parseDeform(SVInst *app, RAPIDJSON_NAMESPACE::Value
     t_node->setZOrder(0);
     t_node->setTexture(E_TEX_MAIN);
     t_node->fromJSON(item);
-    t_node->getDeform()->setFlip(true);
-    t_node->getDeform()->setIsDetect(true);
     return t_node;
 }
