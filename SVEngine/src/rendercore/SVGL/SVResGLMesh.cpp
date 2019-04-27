@@ -342,12 +342,12 @@ void SVResGLRenderMeshDvid::_updateVertDsp() {
     if (m_vftype & D_VF_C0) {
         glBindBuffer(GL_ARRAY_BUFFER, color0ID);
         glEnableVertexAttribArray(CHANNEL_COLOR0);
-        glVertexAttribPointer(CHANNEL_COLOR0, 4, GL_UNSIGNED_BYTE, GL_FALSE, 0, 0);
+        glVertexAttribPointer(CHANNEL_COLOR0, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, 0);
     }
     if (m_vftype & D_VF_C1) {
         glBindBuffer(GL_ARRAY_BUFFER, color1ID);
         glEnableVertexAttribArray(CHANNEL_COLOR1);
-        glVertexAttribPointer(CHANNEL_COLOR1, 4, GL_UNSIGNED_BYTE, GL_FALSE, 0, 0);
+        glVertexAttribPointer(CHANNEL_COLOR1, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, 0);
     }
     if (m_vftype & D_VF_T0) {
         glBindBuffer(GL_ARRAY_BUFFER, texcoord0ID);

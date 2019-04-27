@@ -69,7 +69,8 @@ void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
     //做辉光效果处理
     SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
     SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(mApp);
-    t_glow->create(E_TEX_HELP0, E_TEX_HELP1);
+    t_glow->setRSType(RST_AR1);
+    t_glow->create(E_TEX_HELP0, E_TEX_HELP0);
     t_pic->addFilter(t_glow);
     t_pic->openFilter(t_glow);
 }
@@ -100,7 +101,7 @@ void SVPendraw::update(f32 _dt) {
         //再画回主纹理
         SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
         t_lkMtl->setTexcoordFlip(1.0f, 1.0f);
-        t_lkMtl->setTexture(0, E_TEX_HELP1);
+        t_lkMtl->setTexture(0, E_TEX_HELP0);
         t_lkMtl->setDepthEnable(false);
         t_lkMtl->setBlendEnable(true);
         t_lkMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
