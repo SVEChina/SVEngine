@@ -116,6 +116,8 @@ namespace sv {
         //画笔参数相关
         f32 m_strokeWidth;
         FVec4 m_strokeColor;
+        f32 m_strokeGlowWidth;
+        FVec4 m_strokeGlowColor;
         //适配模式
         ADAPT_MODE adaptmode;
         s32 glVersion;

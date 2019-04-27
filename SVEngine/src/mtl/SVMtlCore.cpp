@@ -152,6 +152,41 @@ bool SVMtlCore::submitMtl() {
     return true;
 }
 
+void SVMtlCore::recoverMtl() {
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    if(!t_renderer)
+        return ;
+    //状态回滚 先
+    //融合
+    if((m_LogicMtlFlag0&MTL_F0_BLEND)>0){
+        m_LogicParamBlend.enable = false;
+        t_renderer->submitBlend(m_LogicParamBlend);
+    }
+    //隐藏面消除
+    if((m_LogicMtlFlag0&MTL_F0_CULL)>0){
+        m_LogicParamCull.enable = false;
+        t_renderer->submitCull(m_LogicParamCull);
+    }
+    //模板测试
+    if((m_LogicMtlFlag0&MTL_F0_STENCIL)>0){
+        m_LogicParamStencil.enable = false;
+        t_renderer->submitStencil(m_LogicParamStencil);
+    }
+    //alpha测试
+    if((m_LogicMtlFlag0&MTL_F0_ALPHA)>0){
+    }
+    //深度测试
+    if((m_LogicMtlFlag0&MTL_F0_DEPTH)>0){
+        m_LogicParamDepth.enable = false;
+        t_renderer->submitDepth(m_LogicParamDepth);
+    }
+    //Z冲突
+    if((m_LogicMtlFlag0&MTL_F0_ZOFF)>0){
+        m_LogicParamZOff.enable = false;
+        t_renderer->submitZOff(m_LogicParamZOff);
+    }
+}
+
 //增加修正
 void SVMtlCore::addModify(SVModifyPtr _modify) {
     if(_modify && m_logicPool){

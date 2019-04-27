@@ -45,6 +45,8 @@ namespace sv {
             
             virtual bool submitMtl();
             
+            virtual void recoverMtl();
+            
             void swap();
                         
             void setTexture(s32 _chanel,SVTexturePtr _texture);

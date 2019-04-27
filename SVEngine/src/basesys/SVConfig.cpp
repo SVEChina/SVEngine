@@ -180,6 +180,19 @@ void SVConfig::loadConfig() {
                     m_strokeColor.w = t_values[3].GetFloat();
                 }
             }
+            if (t_param.HasMember("stroke_glowidth") && t_param["stroke_glowidth"].IsFloat()) {
+                RAPIDJSON_NAMESPACE::Value &t_value = t_param["stroke_glowidth"];
+                m_strokeGlowWidth = t_value.GetFloat();
+            }
+            if (t_param.HasMember("stroke_glowcolor") && t_param["stroke_glowcolor"].IsArray()) {
+                RAPIDJSON_NAMESPACE::Value &t_values = t_param["stroke_glowcolor"];
+                if (t_values.Size() > 3) {
+                    m_strokeGlowColor.x = t_values[0].GetFloat();
+                    m_strokeGlowColor.y = t_values[1].GetFloat();
+                    m_strokeGlowColor.z = t_values[2].GetFloat();
+                    m_strokeGlowColor.w = t_values[3].GetFloat();
+                }
+            }
         }
     }
     if (doc.HasMember("filter")) {
