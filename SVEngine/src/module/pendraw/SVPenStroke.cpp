@@ -538,7 +538,7 @@ void SVPenStroke::_drawGlow(){
             m_pGlowMtl->setViewPos(t_arCam->getPosition());
             m_pGlowMtl->setUp(t_arCam->getUp());
         }
-        m_pGlowMtl->setDepthEnable(false);
+        m_pGlowMtl->setDepthEnable(true);
         m_pGlowMtl->setBlendEnable(true);
         m_pGlowMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
         m_pGlowMtl->setCullEnable(false);
