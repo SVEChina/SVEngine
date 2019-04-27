@@ -35,7 +35,7 @@
 #include "../../node/SVSpriteNode.h"
 #include "../../basesys/SVSceneMgr.h"
 #include "../../node/SVScene.h"
-SVPenStroke::SVPenStroke(SVInst *_app)
+SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor)
 :SVGameBase(_app) {
     m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptPool.clear();
@@ -52,15 +52,16 @@ SVPenStroke::SVPenStroke(SVInst *_app)
     m_lerpMethod = SV_LERP_BALANCE;
     m_drawBox = false;
     m_instanceCount = 0;
+    m_glowInstanceCount = 0;
     m_lastInstanceIndex = 0;
     m_lastGlowInstanceIndex = 0;
     m_plane_dis = 0.3f;
     m_glowDensity = 0.1;
-    m_glowStrokeWidth = 0.1f;
+    m_glowStrokeWidth = _glowWidth;
     m_density = 0.05;
-    m_pen_width = 0.005f;
-    m_glowColor.set(100, 10, 10, 255);
-    m_strokeColor.set(255, 255, 255, 255);
+    m_pen_width = _strokeWidth;
+    m_glowColor = _glowColor;
+    m_strokeColor = _strokeColor;
     _createStrokeMesh();
     _createGlowMesh();
 //    setDrawBox(true);
@@ -86,14 +87,6 @@ SVPenStroke::~SVPenStroke() {
     m_glowStrokes.destroy();
 }
 
-void SVPenStroke::setStrokeWidth(f32 _width){
-    m_pen_width = _width;
-}
-
-void SVPenStroke::setStrokeColor(FVec4 &_color){
-    m_strokeColor = _color;
-}
-
 void SVPenStroke::setDrawBox(bool _drawBox){
     m_drawBox = _drawBox;
 }
@@ -103,8 +96,6 @@ void SVPenStroke::update(f32 _dt) {
     m_lock->unlock();
     //创建实例
     _genInstances();
-    //绘制
-    _drawMesh();
     m_lock->unlock();
 }
 
@@ -932,13 +923,6 @@ void SVPenStroke::_createStrokeMesh() {
     m_pBoxMesh->setColor0Data(t_pColorData);
 }
 
-void SVPenStroke::_drawMesh() {
-    _drawGlow();
-    _drawStroke();
-    if (m_drawBox) {
-        _drawBoundBox();
-    }
-}
 
 void SVPenStroke::_drawStroke(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
@@ -948,10 +932,8 @@ void SVPenStroke::_drawStroke(){
     if (t_renderer && t_rs && m_pRenderObj && m_pBoxMesh && m_instanceCount > 0) {
         if (!m_pMtl) {
             m_pMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp, "penstroke_base");
-//            m_pMtl->setTexture(0, m_pTex);
             m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
             m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
-            //void setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value);
             m_pMtl->setTexcoordFlip(1.0, -1.0);
             m_pMtl->setLineSize(5.0f);
             m_pMtl->setViewPos(t_arCam->getPosition());
@@ -966,7 +948,7 @@ void SVPenStroke::_drawStroke(){
         m_pBoxMesh->setInstanceOffsetData(m_pInstanceOffsetData, m_instanceCount);
         m_pRenderObj->setMesh(m_pBoxMesh);
         m_pRenderObj->setMtl(m_pMtl);
-        m_pRenderObj->pushCmd(t_rs, RST_AR2, "SVPenStrokeRender");
+        m_pRenderObj->pushCmd(t_rs, RST_AR, "SVPenStrokeRender");
     }
 }
 
@@ -1011,3 +993,16 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
     _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
 }
 
+void SVPenStroke::renderStroke(){
+    _drawStroke();
+}
+
+void SVPenStroke::renderGlow(){
+    _drawGlow();
+}
+
+void SVPenStroke::renderBoundingBox(){
+    if (m_drawBox) {
+        _drawBoundBox();
+    }
+}

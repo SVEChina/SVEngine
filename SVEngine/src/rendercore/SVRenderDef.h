@@ -39,8 +39,6 @@ enum RENDERSTREAMTYPE {
     RST_SOLID_2D,           //跟人2d先绘制
     RST_AR_BEGIN,           //ar开始
     RST_AR,                 //ar相关
-    RST_AR1,
-    RST_AR2,
     RST_AR_END,             //ar结束
     RST_SOLID_3D,           //正常固体
     RST_ALPHA_3D,           //正常透明

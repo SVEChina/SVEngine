@@ -39,16 +39,25 @@ namespace sv{
         
         void setStrokeColor(FVec4 &_color);
         
+        void setGlowWidth(f32 _width);
+        
+        void setGlowColor(FVec4 &_color);
+        
     protected:
         typedef SVArray<SVPenStrokePtr> STROKEPOOL;
         STROKEPOOL m_strokes;
         SVPenStrokePtr m_curStroke;
         SVRenderTexturePtr m_fbo;
         SVRenderObjectPtr m_pRenderObj;
+        SVMtlCorePtr m_lkMtl;
+        SVRenderMeshPtr m_mesh;
         SVTexturePtr m_pInTex;
         SVTexturePtr m_pOutTex;
+        SVFilterGlowPtr m_glowFilter;
         f32 m_strokeWidth;
         FVec4 m_strokeColor;
+        f32 m_glowWidth;
+        FVec4 m_glowColor;
     };
     
 }//!namespace sv
