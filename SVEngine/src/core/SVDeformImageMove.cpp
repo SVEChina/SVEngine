@@ -461,7 +461,7 @@ void SVDeformImageMove::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_al
         it++;
     }
     t_obj.AddMember("ptoff", t_array, _aloc);
-    _objValue.AddMember("sv_deform", t_obj, _aloc);
+    _objValue.AddMember("SVDeform", t_obj, _aloc);
 }
 
 void SVDeformImageMove::fromJSON(RAPIDJSON_NAMESPACE::Value &item){

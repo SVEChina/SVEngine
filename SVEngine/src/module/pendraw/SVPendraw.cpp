@@ -22,17 +22,20 @@
 #include "../../rendercore/SVRendererBase.h"
 #include "../../basesys/SVBasicSys.h"
 #include "../../basesys/filter/SVFilterGlow.h"
-#include "../../basesys/SVPictureProcess.h"
+#include "../../basesys/filter/SVFilterBase.h"
 #include "../../basesys/SVStaticData.h"
 #include "../../mtl/SVTexMgr.h"
 #include "../../mtl/SVTexture.h"
 #include "../../basesys/SVConfig.h"
 #include "../../app/SVGlobalMgr.h"
+#include "../../node/SVMultPassNode.h"
 SVPendraw::SVPendraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
-    m_strokeWidth = 1.0;
-    m_strokeColor.set(mApp->m_pGlobalMgr->m_pConfig->m_strokeColor);
+    m_strokeWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeWidth;
+    m_strokeColor = mApp->m_pGlobalMgr->m_pConfig->m_strokeColor;
+    m_glowWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeGlowWidth;
+    m_glowColor = mApp->m_pGlobalMgr->m_pConfig->m_strokeGlowColor;
 }
 
 SVPendraw::~SVPendraw() {
@@ -41,6 +44,9 @@ SVPendraw::~SVPendraw() {
     m_fbo = nullptr;
     m_pInTex = nullptr;
     m_pOutTex = nullptr;
+    m_mesh = nullptr;
+    m_lkMtl = nullptr;
+    m_glowFilter = nullptr;
     m_strokes.destroy();
 }
 
@@ -51,7 +57,7 @@ void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
         SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
         s32 t_w = t_tex->getwidth();
         s32 t_h = t_tex->getheight();
-        if (t_renderer->hasSVTex(E_TEX_HELP1)) {
+        if (t_renderer->hasSVTex(E_TEX_HELP0)) {
             m_pInTex = t_renderer->getSVTex(E_TEX_HELP0);
         }else{
             m_pInTex = t_renderer->createSVTex(E_TEX_HELP0, t_w, t_h, GL_RGBA);
@@ -63,15 +69,20 @@ void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
             m_pOutTex = t_renderer->createSVTex(E_TEX_HELP1, t_w, t_h, GL_RGBA);
         }
     }
-    m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,m_pInTex,true,true);
     mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
+    m_pRenderObj = MakeSharedPtr<SVRenderObject>();
+    m_lkMtl = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
+    m_lkMtl->setTexcoordFlip(1.0f, 1.0f);
+    m_lkMtl->setTexture(0, E_TEX_HELP0);
+    m_lkMtl->setDepthEnable(false);
+    m_lkMtl->setBlendEnable(true);
+    m_lkMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
+    m_mesh = mApp->getDataMgr()->m_screenMesh;
     //做辉光效果处理
-    SVPictureProcessPtr t_pic = mApp->getBasicSys()->getPicProc();
-    SVFilterGlowPtr t_glow=MakeSharedPtr<SVFilterGlow>(mApp);
-    t_glow->create(E_TEX_HELP0, E_TEX_HELP1);
-    t_pic->addFilter(t_glow);
-    t_pic->openFilter(t_glow);
+    m_glowFilter = MakeSharedPtr<SVFilterGlow>(mApp);
+    m_glowFilter->setRSType(RST_AR);
+    m_glowFilter->create(E_TEX_HELP0, E_TEX_HELP0);
 }
 
 void SVPendraw::destroy() {
@@ -96,23 +107,36 @@ void SVPendraw::update(f32 _dt) {
         SVRenderCmdFboUnbindPtr t_fbo_unbind = MakeSharedPtr<SVRenderCmdFboUnbind>(m_fbo);
         t_fbo_unbind->mTag = "pen_draw_unbind";
         t_rs->pushRenderCmd(RST_AR_END, t_fbo_unbind);
-        
-        //再画回主纹理
-        SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
-        t_lkMtl->setTexcoordFlip(1.0f, 1.0f);
-        t_lkMtl->setTexture(0, E_TEX_HELP1);
-        t_lkMtl->setDepthEnable(false);
-        t_lkMtl->setBlendEnable(true);
-        t_lkMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
-        SVRenderMeshPtr t_mesh = mApp->getDataMgr()->m_screenMesh;
-        m_pRenderObj->setMesh(t_mesh);
-        m_pRenderObj->setMtl(t_lkMtl);
-        m_pRenderObj->pushCmd(t_rs, RST_AR_END, "SVPenStrokeRenderReback");
-        
-        //画画笔
+        //更新画笔
         for (s32 i =0; i<m_strokes.size(); i++) {
             SVPenStrokePtr stroke = m_strokes[i];
             stroke->update(_dt);
+        }
+        //画荧光背景
+        for (s32 i =0; i<m_strokes.size(); i++) {
+            SVPenStrokePtr stroke = m_strokes[i];
+            stroke->renderGlow();
+        }
+        //做荧光模糊处理
+        if (m_glowFilter) {
+            SVNodePtr t_node = m_glowFilter->getNode();
+            SVMultPassNodePtr t_passNode = DYN_TO_SHAREPTR(SVMultPassNode, t_node)
+            if (t_passNode) {
+                t_passNode->update(_dt);
+                t_passNode->render();
+            }
+        }
+        //画笔触
+        for (s32 i =0; i<m_strokes.size(); i++) {
+            SVPenStrokePtr stroke = m_strokes[i];
+            stroke->renderStroke();
+        }
+        //再画回主纹理
+        if (m_lkMtl && m_pRenderObj && m_mesh) {
+            SVRenderMeshPtr t_mesh = mApp->getDataMgr()->m_screenMesh;
+            m_pRenderObj->setMesh(m_mesh);
+            m_pRenderObj->setMtl(m_lkMtl);
+            m_pRenderObj->pushCmd(t_rs, RST_AR_END, "SVPenStrokeRenderReback");
         }
     }
 }
@@ -133,13 +157,19 @@ void SVPendraw::setStrokeColor(FVec4 &_color){
     m_strokeColor = _color;
 }
 
+void SVPendraw::setGlowWidth(f32 _width){
+    m_glowWidth = _width;
+}
+
+void SVPendraw::setGlowColor(FVec4 &_color){
+    m_glowColor = _color;
+}
+
 bool SVPendraw::procEvent(SVEventPtr _event){
     if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_BEGIN){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (!m_curStroke) {
-            m_curStroke = MakeSharedPtr<SVPenStroke>(mApp);
-            m_curStroke->setStrokeWidth(m_strokeWidth);
-            m_curStroke->setStrokeColor(m_strokeColor);
+            m_curStroke = MakeSharedPtr<SVPenStroke>(mApp, m_strokeWidth, m_strokeColor, m_glowWidth, m_glowColor);
             m_strokes.append(m_curStroke);
         }
         m_curStroke->begin(t_touch->x,t_touch->y,0.0);

@@ -45,7 +45,6 @@ namespace sv {
             u32 indexPoolType;
             DRAWMETHOD drawmethod;
             bool bVisible;
-            bool useInstance;
             bool dirty;
         };
         

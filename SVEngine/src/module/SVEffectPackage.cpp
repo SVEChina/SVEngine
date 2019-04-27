@@ -26,6 +26,8 @@
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVPictureProcess.h"
 #include "../basesys/filter/SVFilterLUT.h"
+#include "../basesys/SVDeformMgr.h"
+#include "../core/SVDeformImageMove.h"
 void spinenode_callback(SVSpineNodePtr _node,void* _obj,s32 _status) {
     SVEffectUnit *t_unit = (SVEffectUnit*)(_obj);
     if(_status == 2) {
@@ -136,8 +138,16 @@ void SVEffectPackage::destroy(){
             t_picproc->clearFilter(t_filterBase);
         }
     }
+    
+    for (s32 i = 0; i<m_deformPool.size(); i++) {
+        SVDeformImageMovePtr t_deform = m_deformPool[i];
+        SVDeformMgrPtr t_deformMgr = mApp->getDeformMgr();
+        t_deform->m_rule=1;
+    }
+    
     m_filterBasePool.destroy();
     m_attachmentPool.destroy();
+    m_deformPool.destroy();
     m_lock->unlock();
     SVModuleBase::destroy();
     if (m_cb) {
@@ -213,6 +223,15 @@ void SVEffectPackage::addFilter(SVFilterBasePtr _filter){
         t_picproc->openFilter(_filter);
         m_filterBasePool.append(_filter);
     }
+}
+
+void SVEffectPackage::addDefrom(SVDeformImageMovePtr _deform){
+    SVDeformMgrPtr t_deformMrg = mApp->getDeformMgr();
+    if(_deform && t_deformMrg){
+        t_deformMrg->pushDeform(_deform);
+        m_deformPool.append(_deform);
+    }
+    
 }
 
 SVTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){

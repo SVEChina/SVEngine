@@ -26,7 +26,7 @@ namespace sv{
     
     class SVPenStroke : public SVGameBase {
     public:
-        SVPenStroke(SVInst* _app);
+        SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor);
         
         ~SVPenStroke();
         
@@ -38,12 +38,13 @@ namespace sv{
         
         void draw(f32 _px,f32 _py,f32 _pz);
         
-        void setStrokeWidth(f32 _width);
-        
-        void setStrokeColor(FVec4 &_color);
-        
         void setDrawBox(bool _drawBox);
         
+        void renderStroke();
+        
+        void renderGlow();
+        
+        void renderBoundingBox();
     protected:
         void _screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint);
         //
@@ -54,8 +55,6 @@ namespace sv{
         void _createStrokeMesh();
         //
         void _createGlowMesh();
-        //
-        void _drawMesh();
         //
         void _drawStroke();
         //

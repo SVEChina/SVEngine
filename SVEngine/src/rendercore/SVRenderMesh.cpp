@@ -39,6 +39,7 @@ void SVRenderMesh::_resetMeshData(){
     m_renderMeshData.instanceCount = 0;
     m_renderMeshData.pDataIndex = nullptr;
     m_renderMeshData.pDataVertex = nullptr;
+    m_renderMeshData.pDataInsOffset = nullptr;
     m_renderMeshData.dirty = false;
 }
 
@@ -48,7 +49,6 @@ void SVRenderMesh::_resetMeshConf(){
     m_renderMeshConf.vertPoolType = GL_STATIC_DRAW;
     m_renderMeshConf.indexPoolType = GL_STATIC_DRAW;
     m_renderMeshConf.bVisible = true;
-    m_renderMeshConf.useInstance = false;
     m_renderMeshConf.dirty = false;
 }
 
@@ -152,6 +152,14 @@ void SVRenderMesh::setVertexDataNum(s32 _vertexNum){
 void SVRenderMesh::setVertexData(SVDataSwapPtr _data){
     if (_data) {  
         m_renderMeshData.pDataVertex = _data;
+        m_renderMeshData.dirty = true;
+    }
+}
+
+void SVRenderMesh::setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount){
+    if (_pdata) {
+        m_renderMeshData.pDataInsOffset = _pdata;
+        m_renderMeshData.instanceCount = _instanceCount;
         m_renderMeshData.dirty = true;
     }
 }
@@ -316,17 +324,3 @@ void SVRenderMeshDvid::setBTagentData(SVDataSwapPtr _pdata){
         m_renderMeshData.dirty = true;
     }
 }
-#ifdef __gl3_h_
-void SVRenderMeshDvid::setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount){
-    if (_pdata) {
-        m_renderMeshData.pDataInsOffset = _pdata;
-        m_renderMeshData.instanceCount = _instanceCount;
-        m_renderMeshData.dirty = true;
-    }
-}
-
-void SVRenderMeshDvid::setInstanceEnable(bool _enable){
-    m_renderMeshConf.useInstance = _enable;
-    m_renderMeshConf.dirty = true;
-}
-#endif

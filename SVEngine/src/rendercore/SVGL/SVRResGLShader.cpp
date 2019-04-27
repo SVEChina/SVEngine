@@ -284,8 +284,7 @@ u32 SVRResGLShader::_loadFS(cptr8 _filename){
             char *log = (char *) malloc(logLen);
             GLsizei written;
             glGetShaderInfoLog(m_fs_id, logLen, &written, log);
-            SV_LOG_DEBUG("fs shader compile error log : \n %s fname:%s \n", log, _filename);
-            free(log);
+            SV_LOG_DEBUG("fs shader compile error log : \n %s fname:%s \n", log, _filename);            free(log);
         }
         m_fs_id = 0;
     }else{
