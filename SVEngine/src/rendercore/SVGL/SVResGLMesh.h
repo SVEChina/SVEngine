@@ -63,6 +63,7 @@ namespace sv {
             
             virtual void setVertexData(SVDataSwapPtr _data);
 
+            virtual void setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount);
         protected:
             void _reset();
             
@@ -70,6 +71,8 @@ namespace sv {
 
             virtual void _updateVertDsp();
 
+            virtual void _updateInstanceDsp();
+            
             virtual void _unbindVerts();
 
             VFTYPE m_vftype;
@@ -81,6 +84,9 @@ namespace sv {
             u32 m_vertPoolType;
             u32 m_indexPoolType;
             DRAWMETHOD m_drawmethod;
+            u32 instanceOffsetID;
+            u32 m_instacneCount;
+            bool m_useIntance;
             bool m_useVAO;
         };
 
@@ -119,11 +125,6 @@ namespace sv {
             void setTagentData(SVDataSwapPtr _pdata);
 
             void setBTagentData(SVDataSwapPtr _pdata);
-#ifdef __gl3_h_
-            void setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount);
-            
-            void setInstanceEnable(bool _enable);
-#endif
         protected:
             void _reset();
         
@@ -142,9 +143,6 @@ namespace sv {
             u32 normalID;
             u32 tagentID;
             u32 btagentID;
-            u32 instanceOffsetID;
-            u32 m_instacneCount;
-            bool m_useIntance;
         };
        
     }//!namespace render

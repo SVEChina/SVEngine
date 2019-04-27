@@ -51,6 +51,8 @@ namespace sv {
             
             virtual void setVertexData(SVDataSwapPtr _data);
             
+            void setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount);
+            
             void createMesh();
             
         protected:
@@ -105,11 +107,6 @@ namespace sv {
             void setTagentData(SVDataSwapPtr _pdata);
             
             void setBTagentData(SVDataSwapPtr _pdata);
-#ifdef __gl3_h_
-            void setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount);
-            
-            void setInstanceEnable(bool _enable);
-#endif
         protected:
             virtual void _resetMeshData();
         };

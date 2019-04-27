@@ -61,6 +61,9 @@ void SVResGLRenderMesh::_reset(){
     m_drawmethod = E_DM_TRIANGLES;
     m_vertPoolType = GL_STATIC_DRAW;
     m_indexPoolType = GL_STATIC_DRAW;
+    instanceOffsetID = 0;
+    m_instacneCount = 0;
+    m_useIntance = false;
     m_useVAO = false;
 }
 
@@ -76,6 +79,10 @@ void SVResGLRenderMesh::destroy(SVRendererBasePtr _renderer) {
     if (m_vboID > 0) {
         glDeleteBuffers(1, &m_vboID);
         m_vboID = 0;
+    }
+    if (instanceOffsetID > 0) {
+        glDeleteBuffers(1, &instanceOffsetID);
+        instanceOffsetID = 0;
     }
     SVResGLVBO::destroy(_renderer);
 }
@@ -94,6 +101,9 @@ void SVResGLRenderMesh::updateData(RENDERMESHDATA& _data) {
     if (_data.pDataVertex) {
         setVertexDataNum(_data.pointNum);
         setVertexData(_data.pDataVertex);
+    }
+    if (_data.pDataInsOffset) {
+        setInstanceOffsetData(_data.pDataInsOffset, _data.instanceCount);
     }
 }
 
@@ -153,6 +163,28 @@ void SVResGLRenderMesh::setVertexDataNum(s32 _vertexNum){
     m_pointNum = _vertexNum;
 }
 
+void SVResGLRenderMesh::setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount){
+    if(_pdata){
+        if(_instanceCount>m_instacneCount) {
+            if (instanceOffsetID > 0) {
+                glDeleteBuffers(1, &instanceOffsetID);
+                instanceOffsetID = 0;
+            }
+        }
+        if(instanceOffsetID == 0) {
+            glGenBuffers(1, &instanceOffsetID);
+            glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
+            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
+        }else{
+            glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
+        }
+        m_useIntance = true;
+        m_instacneCount = _instanceCount;
+    }
+    
+}
+
 void SVResGLRenderMesh::setVertexData(SVDataSwapPtr _data){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(_data && t_renderer){
@@ -172,32 +204,68 @@ void SVResGLRenderMesh::render(SVRendererBasePtr _renderer) {
     if(!t_renderer) {
         return ;
     }
-    if(m_useVAO) {
-        //使用vao
-        if(m_indexID>0) {
-            //索引模式
-        }else{
-            //非索引模式
-            glDrawArrays(m_drawmethod, 0, m_pointNum);
-        }
-    }else{
-        //使用vbo
-        if(m_vboID>0) {
+    if (m_useIntance) {
+#ifdef __gl3_h_
+        if(m_useVAO) {
+            //使用vao
             if(m_indexID>0) {
-                //索引绘制
-                //因为索引这块可能大于65536 所以需要分批渲染 by fyz
-                t_renderer->svBindIndexBuffer(m_indexID);
-                t_renderer->svBindVertexBuffer(m_vboID);
-                _updateVertDsp();
-                glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
-                t_renderer->svBindVertexBuffer(0);
-                t_renderer->svBindIndexBuffer(0);
-            } else {
-                //非索引绘制
-                t_renderer->svBindVertexBuffer(m_vboID);
-                _updateVertDsp();
+                //索引模式
+            }else{
+                //非索引模式
+                glDrawArraysInstanced(m_drawmethod, 0, m_pointNum, m_instacneCount);
+            }
+        }else{
+            //使用vbo
+            if(m_vboID>0) {
+                if(m_indexID>0) {
+                    //索引绘制
+                    //因为索引这块可能大于65536 所以需要分批渲染 by fyz
+                    t_renderer->svBindIndexBuffer(m_indexID);
+                    t_renderer->svBindVertexBuffer(m_vboID);
+                    _updateVertDsp();
+                    _updateInstanceDsp();
+                    glDrawElementsInstanced(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0, m_instacneCount);//NUM_FACE_MESHVER
+                    t_renderer->svBindVertexBuffer(0);
+                    t_renderer->svBindIndexBuffer(0);
+                } else {
+                    //非索引绘制
+                    t_renderer->svBindVertexBuffer(m_vboID);
+                    _updateVertDsp();
+                    _updateInstanceDsp();
+                    glDrawArraysInstanced(m_drawmethod, 0, m_pointNum, m_instacneCount);
+                    t_renderer->svBindVertexBuffer(0);
+                }
+            }
+        }
+#endif
+    }else{
+        if(m_useVAO) {
+            //使用vao
+            if(m_indexID>0) {
+                //索引模式
+            }else{
+                //非索引模式
                 glDrawArrays(m_drawmethod, 0, m_pointNum);
-                t_renderer->svBindVertexBuffer(0);
+            }
+        }else{
+            //使用vbo
+            if(m_vboID>0) {
+                if(m_indexID>0) {
+                    //索引绘制
+                    //因为索引这块可能大于65536 所以需要分批渲染 by fyz
+                    t_renderer->svBindIndexBuffer(m_indexID);
+                    t_renderer->svBindVertexBuffer(m_vboID);
+                    _updateVertDsp();
+                    glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
+                    t_renderer->svBindVertexBuffer(0);
+                    t_renderer->svBindIndexBuffer(0);
+                } else {
+                    //非索引绘制
+                    t_renderer->svBindVertexBuffer(m_vboID);
+                    _updateVertDsp();
+                    glDrawArrays(m_drawmethod, 0, m_pointNum);
+                    t_renderer->svBindVertexBuffer(0);
+                }
             }
         }
     }
@@ -208,6 +276,19 @@ void SVResGLRenderMesh::_updateVertDsp() {
     if(t_renderer) {
         t_renderer->svUpdateVertexFormate(m_vftype);
     }
+}
+
+void SVResGLRenderMesh::_updateInstanceDsp(){
+#ifdef __gl3_h_
+    if (m_useIntance) {
+        if (instanceOffsetID > 0) {
+            glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
+            glEnableVertexAttribArray(CHANNEL_INSOFFSET);
+            glVertexAttribPointer(CHANNEL_INSOFFSET, 3, GL_FLOAT, GL_FALSE, 0, 0);
+            glVertexAttribDivisor(CHANNEL_INSOFFSET, 1);
+        }
+    }
+#endif
 }
 
 void SVResGLRenderMesh::_bindVerts(){
@@ -265,9 +346,6 @@ void SVResGLRenderMeshDvid::_reset(){
     normalID = 0;
     tagentID = 0;
     btagentID = 0;
-    instanceOffsetID = 0;
-    m_instacneCount = 0;
-    m_useIntance = false;
 }
 
 void SVResGLRenderMeshDvid::create(SVRendererBasePtr _renderer){
@@ -316,10 +394,6 @@ void SVResGLRenderMeshDvid::destroy(SVRendererBasePtr _renderer) {
         glDeleteBuffers(1, &btagentID);
         btagentID = 0;
     }
-    if (instanceOffsetID != 0) {
-        glDeleteBuffers(1, &instanceOffsetID);
-        instanceOffsetID = 0;
-    }
 }
 
 //流格式
@@ -364,17 +438,6 @@ void SVResGLRenderMeshDvid::_updateVertDsp() {
         glEnableVertexAttribArray(CHANNEL_TEXCOORD2);
         glVertexAttribPointer(CHANNEL_TEXCOORD2, 2, GL_FLOAT, GL_FALSE, 0, 0);
     }
-#ifdef __gl3_h_
-    if (m_useIntance) {
-        if (m_vftype & D_VF_INSOFFSET) {
-            glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
-            glEnableVertexAttribArray(CHANNEL_INSOFFSET);
-            glVertexAttribPointer(CHANNEL_INSOFFSET, 3, GL_FLOAT, GL_FALSE, 0, 0);
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-            glVertexAttribDivisor(CHANNEL_INSOFFSET, 1);
-        }
-    }
-#endif
 }
 
 void SVResGLRenderMeshDvid::setVertex2Data(SVDataSwapPtr _pdata){
@@ -507,37 +570,8 @@ void SVResGLRenderMeshDvid::setBTagentData(SVDataSwapPtr _pdata){
     }
 }
 
-#ifdef __gl3_h_
-void SVResGLRenderMeshDvid::setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount){
-    if(_pdata){
-        if(_instanceCount>m_instacneCount) {
-            if (instanceOffsetID > 0) {
-                glDeleteBuffers(1, &instanceOffsetID);
-                instanceOffsetID = 0;
-            }
-        }
-        if(instanceOffsetID == 0) {
-            glGenBuffers(1, &instanceOffsetID);
-            glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
-            glBufferData(GL_ARRAY_BUFFER,_pdata->getSize(), _pdata->getData(),m_vertPoolType);
-        }else{
-            glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetID);
-            glBufferSubData(GL_ARRAY_BUFFER, 0, _pdata->getSize(), _pdata->getData());
-        }
-        m_instacneCount = _instanceCount;
-    }
-    
-}
-
-void SVResGLRenderMeshDvid::setInstanceEnable(bool _enable){
-    m_useIntance = _enable;
-}
-
-#endif
-
 void SVResGLRenderMeshDvid::updateConf(RENDERMESHCONF& _conf){
     SVResGLRenderMesh::updateConf(_conf);
-    setInstanceEnable(_conf.useInstance);
 }
 
 void SVResGLRenderMeshDvid::updateData(RENDERMESHDATA& _data) {
@@ -560,24 +594,29 @@ void SVResGLRenderMeshDvid::render(SVRendererBasePtr _renderer){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
     if(t_rendererGL) {
-        _updateVertDsp();
-        _bindVerts();
+        
         if (m_useIntance) {
 #ifdef __gl3_h_
+            _updateVertDsp();
+            _updateInstanceDsp();
+            _bindVerts();
             if ( m_indexID>0 ) {
                 glDrawElementsInstanced(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0, m_instacneCount);//NUM_FACE_MESHVER
             } else {
                 glDrawArraysInstanced(m_drawmethod, 0, m_pointNum, m_instacneCount);
             }
+            _unbindVerts();
 #endif
         }else{
+            _updateVertDsp();
+            _bindVerts();
             if ( m_indexID>0 ) {
                 glDrawElements(m_drawmethod, m_indexNum, GL_UNSIGNED_SHORT, 0);//NUM_FACE_MESHVER
             } else {
                 glDrawArrays(m_drawmethod, 0, m_pointNum);
             }
+            _unbindVerts();
         }
-        _unbindVerts();
     }
     
 }

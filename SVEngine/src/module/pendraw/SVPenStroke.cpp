@@ -318,7 +318,7 @@ void SVPenStroke::_genInstances() {
 void SVPenStroke::_createGlowMesh(){
     m_pGlowMesh = MakeSharedPtr<SVRenderMeshDvid>(mApp);
     m_pGlowMesh->createMesh();
-    m_pGlowMesh->setVertexType(E_VF_V3_C_T0_INS);
+    m_pGlowMesh->setVertexType(E_VF_V3_C_T0);
     m_pGlowMesh->setDrawMethod(E_DM_TRIANGLES);
     V3 t_ver[vn_glow];
     V2 t_texcoord[vn_glow];
@@ -553,7 +553,6 @@ void SVPenStroke::_drawGlow(){
         m_pGlowMtl->setCullEnable(false);
         m_pGlowMtl->setModelMatrix(m_localMat);
         //更新顶点数据
-        m_pGlowMesh->setInstanceEnable(true);
         m_pGlowMesh->setInstanceOffsetData(m_pGlowInstanceOffsetData, m_glowInstanceCount);
         m_pRenderObj->setMesh(m_pGlowMesh);
         m_pRenderObj->setMtl(m_pGlowMtl);
@@ -565,7 +564,7 @@ void SVPenStroke::_drawGlow(){
 void SVPenStroke::_createStrokeMesh() {
     m_pBoxMesh = MakeSharedPtr<SVRenderMeshDvid>(mApp);
     m_pBoxMesh->createMesh();
-    m_pBoxMesh->setVertexType(E_VF_V3_C_INS);
+    m_pBoxMesh->setVertexType(E_VF_V3_C);
     m_pBoxMesh->setDrawMethod(E_DM_TRIANGLES);
     V3 t_ver[vn_stroke];
     V2 t_texcoord[vn_stroke];
@@ -964,7 +963,6 @@ void SVPenStroke::_drawStroke(){
         m_pMtl->setCullEnable(false);
         m_pMtl->setModelMatrix(m_localMat);
         //更新顶点数据
-        m_pBoxMesh->setInstanceEnable(true);
         m_pBoxMesh->setInstanceOffsetData(m_pInstanceOffsetData, m_instanceCount);
         m_pRenderObj->setMesh(m_pBoxMesh);
         m_pRenderObj->setMtl(m_pMtl);
