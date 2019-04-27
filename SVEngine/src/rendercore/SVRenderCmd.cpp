@@ -79,6 +79,7 @@ void SVRenderCmdNor::render() {
     if (m_pMtl && m_pMesh) {
         if (m_pMtl->submitMtl()) {
             m_pMesh->render(m_pRenderer);
+            m_pMtl->recoverMtl();
         }
     }
 }
@@ -160,6 +161,7 @@ void SVRenderCmdPass::render() {
         if(m_pMtl && m_pMesh) {
             if (m_pMtl->submitMtl()) {
                 m_pMesh->render(m_pRenderer);
+                m_pMtl->recoverMtl();
             }
         }
         m_fbo->unbind();
@@ -191,6 +193,7 @@ void SVRenderCmdPassCollection::render(){
             if(t_mtl && t_mesh) {
                 if (t_mtl->submitMtl()) {
                     t_mesh->render(m_pRenderer);
+                    t_mtl->recoverMtl();
                 }
             }
         }

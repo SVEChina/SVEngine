@@ -201,6 +201,8 @@ void SVResGLRenderMesh::render(SVRendererBasePtr _renderer) {
             }
         }
     }
+    //
+    _unbindVerts();
 }
 
 void SVResGLRenderMesh::_updateVertDsp() {

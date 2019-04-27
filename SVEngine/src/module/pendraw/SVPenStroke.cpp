@@ -122,7 +122,7 @@ void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
         //光晕补点
         SVArray<FVec3> t_ptGlowArray;
         m_penCurve->addPoint(t_worldPt.point, m_glowStrokeWidth, m_glowDensity, SV_ADD_DRAWBEGIN, t_ptGlowArray);
-    }
+    } 
     m_ptGlowPool.append(t_worldPt);
     m_ptPool.append(t_worldPt);
     m_lock->unlock();

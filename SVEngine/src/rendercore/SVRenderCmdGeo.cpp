@@ -23,6 +23,7 @@ void SVRenderCmdGeo::render(){
     if (m_pMtl ) {
         if (m_pMtl->submitMtl()) {
            _render();
+            m_pMtl->recoverMtl();
         }
     }
 }

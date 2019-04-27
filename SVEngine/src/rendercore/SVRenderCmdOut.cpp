@@ -53,6 +53,7 @@ void SVRenderCmdStreamOutNor::render() {
         m_fbo->bind();
         if (m_pMtl->submitMtl()) {
             m_pMesh->render(m_pRenderer);
+            m_pMtl->recoverMtl();
         }
         _fectchdata();
         m_fbo->unbind();

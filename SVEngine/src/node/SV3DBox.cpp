@@ -34,6 +34,7 @@ SV3DBox::~SV3DBox() {
 }
 
 void SV3DBox::randomInit(){
+    //
     f32 t_sc = 1.0 + rand()%300*0.01f;
     t_sc = 1.0f;
     setScale(t_sc, t_sc, t_sc);
@@ -42,6 +43,7 @@ void SV3DBox::randomInit(){
     f32 t_y = rand()%1000 - 640.0f;
     f32 t_z = rand()%1000 - 500.0f;
     setPosition(t_x, t_y, -t_z);
+    setPosition(0.0f,0.0f,0.0f);
     //
     f32 t_rotx = rand()%360;
     f32 t_roty = rand()%360;
@@ -68,9 +70,9 @@ void SV3DBox::update(f32 dt) {
         t_mtl_box->update(dt * 0.001f);
         t_mtl_box->setModelMatrix(m_absolutMat.get());
         t_mtl_box->setTexcoordFlip(1.0, -1.0f);
+        t_mtl_box->setDepthEnable(true);
         t_mtl_box->setBlendEnable(true);
         t_mtl_box->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-        t_mtl_box->setDepthEnable(false);
         m_pRenderObj->setMesh(m_pMesh);
         m_pRenderObj->setMtl(t_mtl_box);
     }
