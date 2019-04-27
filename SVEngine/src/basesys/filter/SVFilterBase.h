@@ -14,11 +14,12 @@
 #include "../../mtl/SVMtlDeclare.h"
 #include "../../node/SVNodeDeclare.h"
 #include "../../third/rapidjson/rapidjson.h"
+#include "../../rendercore/SVRenderDef.h"
 
 namespace sv {
     
     namespace logic {
-        
+       
         class SVFilterBase : public SVGBase {
         public:
             SVFilterBase(SVInst *_app);
@@ -44,6 +45,10 @@ namespace sv {
             
             virtual void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
             
+            void setRSType(RENDERSTREAMTYPE _rstype){
+                    m_rstype=_rstype;
+            }
+            
             inline SVString getName(){
                 return m_name;
             }
@@ -57,6 +62,7 @@ namespace sv {
             SVMtlCorePtr m_mtl;
             SVString m_name;
             SVFILTERFUNCTYPE m_type;
+            RENDERSTREAMTYPE m_rstype;
         };
         
     };//!namespace logic

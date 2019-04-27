@@ -15,6 +15,7 @@ SVFilterBase::SVFilterBase(SVInst *_app)
     m_mtl=nullptr;
     m_name="SVFilterBase";
     m_type=SV_FUNC_NONE;
+    m_rstype=RST_IMGFILTER;
 }
 
 SVFilterBase::~SVFilterBase(){
