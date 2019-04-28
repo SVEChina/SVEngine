@@ -25,14 +25,8 @@ namespace sv {
             virtual void reset();
             
             virtual SVMtlCorePtr clone();
-            
-            void setViewPos(FVec3 &_viewPos);
-            
-            void setUp(FVec3 &_up);
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
-            FVec3 m_viewPos;
-            FVec3 m_up;
         };
 
     }//!namespace mtl

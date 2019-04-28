@@ -48,11 +48,13 @@ namespace sv{
         STROKEPOOL m_strokes;
         SVPenStrokePtr m_curStroke;
         SVRenderTexturePtr m_fbo;
-        SVRenderObjectPtr m_pRenderObj;
-        SVMtlCorePtr m_lkMtl;
-        SVRenderMeshPtr m_mesh;
-        SVTexturePtr m_pInTex;
-        SVTexturePtr m_pOutTex;
+        SVMultMeshMtlRenderObjectPtr m_pRenderObj;
+        SVMtlCorePtr m_mtl1;
+        SVRenderMeshPtr m_mesh1;
+        SVMtlCorePtr m_mtl2;
+        SVRenderMeshPtr m_mesh2;
+        SVTexturePtr m_pTex1;
+        SVTexturePtr m_pTex2;
         SVFilterGlowPtr m_glowFilter;
         f32 m_strokeWidth;
         FVec4 m_strokeColor;

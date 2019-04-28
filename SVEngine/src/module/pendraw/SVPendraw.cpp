@@ -42,10 +42,12 @@ SVPendraw::~SVPendraw() {
     m_curStroke = nullptr;
     m_pRenderObj = nullptr;
     m_fbo = nullptr;
-    m_pInTex = nullptr;
-    m_pOutTex = nullptr;
-    m_mesh = nullptr;
-    m_lkMtl = nullptr;
+    m_pTex1 = nullptr;
+    m_pTex2 = nullptr;
+    m_mtl1 = nullptr;
+    m_mesh1 = nullptr;
+    m_mtl2 = nullptr;
+    m_mesh2 = nullptr;
     m_glowFilter = nullptr;
     m_strokes.destroy();
 }
@@ -58,27 +60,34 @@ void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
         s32 t_w = t_tex->getwidth();
         s32 t_h = t_tex->getheight();
         if (t_renderer->hasSVTex(E_TEX_HELP0)) {
-            m_pInTex = t_renderer->getSVTex(E_TEX_HELP0);
+            m_pTex1 = t_renderer->getSVTex(E_TEX_HELP0);
         }else{
-            m_pInTex = t_renderer->createSVTex(E_TEX_HELP0, t_w, t_h, GL_RGBA);
+            m_pTex1 = t_renderer->createSVTex(E_TEX_HELP0, t_w, t_h, GL_RGBA);
         }
         
         if (t_renderer->hasSVTex(E_TEX_HELP1)) {
-            m_pOutTex = t_renderer->getSVTex(E_TEX_HELP1);
+            m_pTex2 = t_renderer->getSVTex(E_TEX_HELP1);
         }else{
-            m_pOutTex = t_renderer->createSVTex(E_TEX_HELP1, t_w, t_h, GL_RGBA);
+            m_pTex2 = t_renderer->createSVTex(E_TEX_HELP1, t_w, t_h, GL_RGBA);
         }
     }
-    m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,m_pInTex,true,true);
+    m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,m_pTex1,true,true);
     mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
-    m_pRenderObj = MakeSharedPtr<SVRenderObject>();
-    m_lkMtl = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
-    m_lkMtl->setTexcoordFlip(1.0f, 1.0f);
-    m_lkMtl->setTexture(0, E_TEX_HELP0);
-    m_lkMtl->setDepthEnable(false);
-    m_lkMtl->setBlendEnable(true);
-    m_lkMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
-    m_mesh = mApp->getDataMgr()->m_screenMesh;
+    m_pRenderObj = MakeSharedPtr<SVMultMeshMtlRenderObject>();
+    m_mtl1 = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
+    m_mtl1->setTexcoordFlip(1.0f, 1.0f);
+    m_mtl1->setTexture(0, E_TEX_HELP0);
+    m_mtl1->setDepthEnable(false);
+    m_mtl1->setBlendEnable(true);
+    m_mtl1->setBlendState(GL_SRC_ALPHA, GL_ONE);
+    m_mesh1 = mApp->getDataMgr()->m_screenMesh;
+    m_mtl2 = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
+    m_mtl2->setTexcoordFlip(1.0f, 1.0f);
+    m_mtl2->setTexture(0, E_TEX_HELP1);
+    m_mtl2->setDepthEnable(false);
+    m_mtl2->setBlendEnable(true);
+    m_mtl2->setBlendState(GL_SRC_ALPHA, GL_ONE);
+    m_mesh2 = mApp->getDataMgr()->m_screenMesh;
     //做辉光效果处理
     m_glowFilter = MakeSharedPtr<SVFilterGlow>(mApp);
     m_glowFilter->setRSType(RST_AR);
@@ -112,30 +121,43 @@ void SVPendraw::update(f32 _dt) {
             SVPenStrokePtr stroke = m_strokes[i];
             stroke->update(_dt);
         }
+        /*
         //画荧光背景
-        for (s32 i =0; i<m_strokes.size(); i++) {
-            SVPenStrokePtr stroke = m_strokes[i];
-            stroke->renderGlow();
-        }
-        //做荧光模糊处理
-        if (m_glowFilter) {
-            SVNodePtr t_node = m_glowFilter->getNode();
-            SVMultPassNodePtr t_passNode = DYN_TO_SHAREPTR(SVMultPassNode, t_node)
-            if (t_passNode) {
-                t_passNode->update(_dt);
-                t_passNode->render();
+        {
+            //切换到纹理1
+            m_fbo->setTexture(m_pTex1);
+            //
+            for (s32 i =0; i<m_strokes.size(); i++) {
+                SVPenStrokePtr stroke = m_strokes[i];
+                stroke->renderGlow();
+            }
+            //做荧光模糊处理
+            if (m_glowFilter) {
+                SVNodePtr t_node = m_glowFilter->getNode();
+                SVMultPassNodePtr t_passNode = DYN_TO_SHAREPTR(SVMultPassNode, t_node)
+                if (t_passNode) {
+                    t_passNode->update(_dt);
+                    t_passNode->render();
+                }
             }
         }
+        */
         //画笔触
-        for (s32 i =0; i<m_strokes.size(); i++) {
-            SVPenStrokePtr stroke = m_strokes[i];
-            stroke->renderStroke();
+        {
+            //切换换到纹理2
+            m_fbo->setTexture(m_pTex2);
+            //
+            for (s32 i =0; i<m_strokes.size(); i++) {
+                SVPenStrokePtr stroke = m_strokes[i];
+                stroke->renderStroke();
+            }
         }
+        
         //再画回主纹理
-        if (m_lkMtl && m_pRenderObj && m_mesh) {
-            SVRenderMeshPtr t_mesh = mApp->getDataMgr()->m_screenMesh;
-            m_pRenderObj->setMesh(m_mesh);
-            m_pRenderObj->setMtl(m_lkMtl);
+        if (m_mtl1 && m_mesh1 && m_mtl2 && m_mesh2 && m_pRenderObj) {
+            m_pRenderObj->clearMesh();
+//            m_pRenderObj->addRenderObj(m_mesh1, m_mtl1);
+            m_pRenderObj->addRenderObj(m_mesh2, m_mtl2);
             m_pRenderObj->pushCmd(t_rs, RST_AR_END, "SVPenStrokeRenderReback");
         }
     }

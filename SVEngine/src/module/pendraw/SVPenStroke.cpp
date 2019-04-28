@@ -532,11 +532,8 @@ void SVPenStroke::_drawGlow(){
             m_pGlowMtl->setTexture(0, m_pGlowTex);
             m_pGlowMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
             m_pGlowMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
-            //void setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value);
             m_pGlowMtl->setTexcoordFlip(1.0, -1.0);
             m_pGlowMtl->setLineSize(5.0f);
-            m_pGlowMtl->setViewPos(t_arCam->getPosition());
-            m_pGlowMtl->setUp(t_arCam->getUp());
         }
         m_pGlowMtl->setDepthEnable(false);
         m_pGlowMtl->setBlendEnable(true);
@@ -936,8 +933,6 @@ void SVPenStroke::_drawStroke(){
             m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
             m_pMtl->setTexcoordFlip(1.0, -1.0);
             m_pMtl->setLineSize(5.0f);
-            m_pMtl->setViewPos(t_arCam->getPosition());
-            m_pMtl->setUp(t_arCam->getUp());
         }
         m_pMtl->setDepthEnable(false);
         m_pMtl->setBlendEnable(true);
