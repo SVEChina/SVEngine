@@ -220,7 +220,7 @@ SVOpCreateTest::~SVOpCreateTest(){
 
 void SVOpCreateTest::_process(f32 dt) {
     //return;
-//    //创建逻辑场景
+    //创建逻辑场景
 //    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
 //    if (t_pScene) {
 //        //创建测试盒子®

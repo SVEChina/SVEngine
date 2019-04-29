@@ -67,35 +67,25 @@ void StreamInCore::init(s32 _w,s32 _h,PICFORMATE _fromate,f32 _angle,bool _show,
     if(_fromate == SV_PF_GRAY8) {
         //m_gray
         m_tex0 = mApp->getTexMgr()->createUnctrlTexture(_w,_h,GL_LUMINANCE,GL_LUMINANCE);
-        mApp->getRenderMgr()->pushRCmdCreate(m_tex0);
     }else if(_fromate == SV_PF_YV12) {
         //m_texY
         m_tex0 = mApp->getTexMgr()->createUnctrlTexture(_w, _h, GL_LUMINANCE,GL_LUMINANCE);
         //m_texUV
         m_tex1 = mApp->getTexMgr()->createUnctrlTexture(_w/2, _h/2,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA);
-        mApp->getRenderMgr()->pushRCmdCreate(m_tex0);
-        mApp->getRenderMgr()->pushRCmdCreate(m_tex1);
     }else if(_fromate == SV_PF_I420) {
         m_tex0 = mApp->getTexMgr()->createUnctrlTexture(_w, _h, GL_LUMINANCE, GL_LUMINANCE);
         m_tex1 = mApp->getTexMgr()->createUnctrlTexture(_w,_h,  GL_LUMINANCE, GL_LUMINANCE);
         m_tex2 = mApp->getTexMgr()->createUnctrlTexture(_w, _h, GL_LUMINANCE, GL_LUMINANCE);
-        mApp->getRenderMgr()->pushRCmdCreate(m_tex0);
-        mApp->getRenderMgr()->pushRCmdCreate(m_tex1);
-        mApp->getRenderMgr()->pushRCmdCreate(m_tex2);
     }else if(_fromate == SV_PF_NV12) {
         //m_texY
         m_tex0 = mApp->getTexMgr()->createUnctrlTexture(_w,  _h, GL_LUMINANCE, GL_LUMINANCE);
         //m_texUV
         m_tex1 = mApp->getTexMgr()->createUnctrlTexture(_w / 2,_h / 2, GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA);
-        mApp->getRenderMgr()->pushRCmdCreate(m_tex0);
-        mApp->getRenderMgr()->pushRCmdCreate(m_tex1);
     }else if(_fromate == SV_PF_NV21) {
         //m_texY
         m_tex0 = mApp->getTexMgr()->createUnctrlTexture(_w, _h, GL_LUMINANCE, GL_LUMINANCE);
         //m_texUV
         m_tex1 = mApp->getTexMgr()->createUnctrlTexture(_w / 2, _h / 2, GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA);
-        mApp->getRenderMgr()->pushRCmdCreate(m_tex0);
-        mApp->getRenderMgr()->pushRCmdCreate(m_tex1);
     }else if(_fromate == SV_PF_BGRA) {
         m_tex0 = mApp->getTexMgr()->createUnctrlTexture(_w,_h,GL_BGRA,GL_RGBA);
     }else if(_fromate == SV_PF_RGBA) {
