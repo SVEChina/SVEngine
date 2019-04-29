@@ -23,15 +23,16 @@
 #include "../mtl/SVMtlCore.h"
 #include "../core/SVGeoGen.h"
 
-SVTransGPU::SVTransGPU(SVInst *_app)
-        : SVTrans(_app) {
-    m_texY = nullptr;
-    m_texU = nullptr;
-    m_texV = nullptr;
-    m_texUV = nullptr;
-    m_texGray = nullptr;
-    m_texBGRA = nullptr;
-    //
+SVTransGPU::SVTransGPU(SVInst *_app,
+                       SVTexturePtr _t0,
+                       SVTexturePtr _t1,
+                       SVTexturePtr _t2,
+                       SVTexturePtr _tOut)
+:SVTrans(_app)
+,m_tex0(_t0)
+,m_tex1(_t1)
+,m_tex2(_t2)
+,m_texOut(_tOut){
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_passNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_passNode->setRSType(RST_IMGFILTER);
@@ -48,132 +49,79 @@ SVTransGPU::~SVTransGPU() {
 
 void SVTransGPU::init(s32 _w, s32 _h, f32 _angle, PICFORMATE _picformate, SVTEXTYPE _tt) {
     SVTrans::init(_w, _h, _angle, _picformate, _tt);
-    //
     if (_picformate == SV_PF_GRAY8) {
-        m_texGray = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w,
-                                                                       _h,
-                                                                       GL_LUMINANCE,
-                                                                       GL_LUMINANCE);
-        mApp->getRenderMgr()->pushRCmdCreate(m_texGray);
         m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "yuv2y");
-        m_pMtl->setTexture(0, m_texY);
+        m_pMtl->setTexture(0, m_tex0);
         createPass(_w,_h,_angle,_tt);
     } else if (_picformate == SV_PF_YV12) {
-        m_texY = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w,
-                                                                    _h,
-                                                                    GL_LUMINANCE,
-                                                                    GL_LUMINANCE);
-        m_texUV = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w / 2,
-                                                                     _h / 2,
-                                                                     GL_LUMINANCE_ALPHA,
-                                                                     GL_LUMINANCE_ALPHA);
-        mApp->getRenderMgr()->pushRCmdCreate(m_texY);
-        mApp->getRenderMgr()->pushRCmdCreate(m_texUV);
         m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "yuv2rgbyv12");
-        m_pMtl->setTexture(0, m_texY);
-        m_pMtl->setTexture(1, m_texU);
-        m_pMtl->setTexture(2, m_texV);
+        m_pMtl->setTexture(0, m_tex0);
+        m_pMtl->setTexture(1, m_tex1);
+        m_pMtl->setTexture(2, m_tex2);
         createPass(_w,_h,_angle,_tt);
     } else if (_picformate == SV_PF_I420) {
-        m_texY = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w,
-                                                                    _h,
-                                                                    GL_LUMINANCE,
-                                                                    GL_LUMINANCE);
-        m_texU = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w,
-                                                                    _h,
-                                                                    GL_LUMINANCE,
-                                                                    GL_LUMINANCE);
-        m_texV = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w,
-                                                                    _h,
-                                                                    GL_LUMINANCE,
-                                                                    GL_LUMINANCE);
-        mApp->getRenderMgr()->pushRCmdCreate(m_texY);
-        mApp->getRenderMgr()->pushRCmdCreate(m_texU);
-        mApp->getRenderMgr()->pushRCmdCreate(m_texV);
         m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "yuv2rgbi420");
-        m_pMtl->setTexture(0, m_texY);
-        m_pMtl->setTexture(1, m_texU);
-        m_pMtl->setTexture(2, m_texV);
+        m_pMtl->setTexture(0, m_tex0);
+        m_pMtl->setTexture(1, m_tex1);
+        m_pMtl->setTexture(2, m_tex2);
         createPass(_w,_h,_angle,_tt);
     } else if (_picformate == SV_PF_NV12) {
-        m_texY = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w,
-                                                                    _h,
-                                                                    GL_LUMINANCE,
-                                                                    GL_LUMINANCE);
-        m_texUV = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w / 2,
-                                                                     _h / 2,
-                                                                     GL_LUMINANCE_ALPHA,
-                                                                     GL_LUMINANCE_ALPHA);
-        //
-        mApp->getRenderMgr()->pushRCmdCreate(m_texY);
-        mApp->getRenderMgr()->pushRCmdCreate(m_texUV);
         m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "yuv2rgb12");
-        m_pMtl->setTexture(0, m_texY);
-        m_pMtl->setTexture(1, m_texUV);
+        m_pMtl->setTexture(0, m_tex0);
+        m_pMtl->setTexture(1, m_tex1);
         createPass(_w,_h,_angle,_tt);
     } else if (_picformate == SV_PF_NV21) {
-        m_texY = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w,
-                                                                    _h,
-                                                                    GL_LUMINANCE,
-                                                                    GL_LUMINANCE);
-        m_texUV = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w / 2,
-                                                                     _h / 2,
-                                                                     GL_LUMINANCE_ALPHA,
-                                                                     GL_LUMINANCE_ALPHA);
-        mApp->getRenderMgr()->pushRCmdCreate(m_texY);
-        mApp->getRenderMgr()->pushRCmdCreate(m_texUV);
         m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "yuv2rgb21");
-        m_pMtl->setTexture(0, m_texY);
-        m_pMtl->setTexture(1, m_texUV);
+        m_pMtl->setTexture(0, m_tex0);
+        m_pMtl->setTexture(1, m_tex1);
         createPass(_w,_h,_angle,_tt);
     } else if (_picformate == SV_PF_BGRA) {
-//        m_texBGRA = mApp->m_pGlobalMgr->m_pTexMgr->createUnctrlTexture(_w,_h,GL_BGRA,GL_RGBA);
-//        m_pMesh = mApp->getDataMgr()->m_screenMeshRot90;
-//        mApp->getRenderMgr()->pushRCmdCreate(m_texBGRA);
-//        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"yuv2rgb21");
+        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "yuv2rgb21");
+        m_pMtl->setTexture(0, m_tex0);
     } else if (_picformate == SV_PF_RGBA) {
-
+        m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "yuv2rgb21");
+        m_pMtl->setTexture(0, m_tex0);
     } else if (_picformate == SV_PF_RGB) {
     }
-//    //
-
 }
 
 void SVTransGPU::destroy() {
-    m_texY = nullptr;
-    m_texUV = nullptr;
+    m_tex0 = nullptr;
+    m_tex1 = nullptr;
+    m_tex2 = nullptr;
+    m_texOut = nullptr;
     m_passNode = nullptr;
 }
 
 void SVTransGPU::pushData(u8 *_srcPtr) {
-    m_beload = true;
-    if (m_picformate == SV_PF_GRAY8) {
-
-    } else if (m_picformate == SV_PF_YV12) {
-        m_texY->setTexData(_srcPtr, m_width * m_height);
-        m_texUV->setTexData(_srcPtr + m_width * m_height, m_width * m_height / 2);
-    } else if (m_picformate == SV_PF_I420) {
-        m_texY->setTexData(_srcPtr, m_width * m_height);
-//        m_texU->setTexData(_srcPtr+m_width*m_height,m_width*m_height/2);
-//        m_texV->setTexData(_srcPtr+m_width*m_height,m_width*m_height/2);
-    } else if (m_picformate == SV_PF_NV12) {
-        m_texY->setTexData(_srcPtr, m_width * m_height);
-        m_texUV->setTexData(_srcPtr + m_width * m_height, m_width * m_height / 2);
-    } else if (m_picformate == SV_PF_NV21) {
-        m_texY->setTexData(_srcPtr, m_width * m_height);
-        m_texUV->setTexData(_srcPtr + m_width * m_height, m_width * m_height / 2);
-    } else if (m_picformate == SV_PF_BGRA) {
-        SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(m_texTT);
-        if (t_tex) {
-            t_tex->pushData(_srcPtr, m_width, m_height, GL_RGBA);
-        }
-    } else if (m_picformate == SV_PF_RGBA) {
-        SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(m_texTT);
-        if (t_tex) {
-            t_tex->pushData(_srcPtr, m_width, m_height, GL_RGBA);
-        }
-    } else if (m_picformate == SV_PF_RGB) {
-    }
+//    m_beload = true;
+//    if (m_picformate == SV_PF_GRAY8) {
+//
+//    } else if (m_picformate == SV_PF_YV12) {
+//        m_texY->setTexData(_srcPtr, m_width * m_height);
+//        m_texUV->setTexData(_srcPtr + m_width * m_height, m_width * m_height / 2);
+//    } else if (m_picformate == SV_PF_I420) {
+//        m_texY->setTexData(_srcPtr, m_width * m_height);
+////        m_texU->setTexData(_srcPtr+m_width*m_height,m_width*m_height/2);
+////        m_texV->setTexData(_srcPtr+m_width*m_height,m_width*m_height/2);
+//    } else if (m_picformate == SV_PF_NV12) {
+//        m_texY->setTexData(_srcPtr, m_width * m_height);
+//        m_texUV->setTexData(_srcPtr + m_width * m_height, m_width * m_height / 2);
+//    } else if (m_picformate == SV_PF_NV21) {
+//        m_texY->setTexData(_srcPtr, m_width * m_height);
+//        m_texUV->setTexData(_srcPtr + m_width * m_height, m_width * m_height / 2);
+//    } else if (m_picformate == SV_PF_BGRA) {
+//        SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(m_texTT);
+//        if (t_tex) {
+//            t_tex->pushData(_srcPtr, m_width, m_height, GL_RGBA);
+//        }
+//    } else if (m_picformate == SV_PF_RGBA) {
+//        SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(m_texTT);
+//        if (t_tex) {
+//            t_tex->pushData(_srcPtr, m_width, m_height, GL_RGBA);
+//        }
+//    } else if (m_picformate == SV_PF_RGB) {
+//    }
 }
 
 void SVTransGPU::update(f32 dt) {
@@ -186,34 +134,37 @@ void SVTransGPU::update(f32 dt) {
 
         } else if (m_picformate == SV_PF_YV12) {
             m_pMtl->setTexcoordFlip(1.0,1.0);
-            m_pMtl->setTexture(0, m_texY);
-            m_pMtl->setTexSizeIndex(0, 1.0f / m_texY->getwidth(), 1.0f / m_texY->getheight());
-            m_pMtl->setTexture(1, m_texUV);
-            m_pMtl->setTexSizeIndex(1, 1.0f / (m_texUV->getwidth() / 2),
-                                    1.0f / (m_texUV->getheight() / 2));
+            m_pMtl->setTexture(0, m_tex0);
+            m_pMtl->setTexSizeIndex(0, 1.0f / m_tex0->getwidth(), 1.0f / m_tex0->getheight());
+            m_pMtl->setTexture(1, m_tex1);
+            m_pMtl->setTexSizeIndex(1, 1.0f / (m_tex1->getwidth() / 2),
+                                    1.0f / (m_tex1->getheight() / 2));
         } else if (m_picformate == SV_PF_I420) {
             m_pMtl->setTexcoordFlip(1.0,1.0);
-            m_pMtl->setTexture(0, m_texY);
-            m_pMtl->setTexSizeIndex(0, 1.0f / m_texY->getwidth(), 1.0f / m_texY->getheight());
-            m_pMtl->setTexture(1, m_texUV);
-            m_pMtl->setTexSizeIndex(1, 1.0f / (m_texUV->getwidth() / 2),
-                                    1.0f / (m_texUV->getheight() / 2));
+            m_pMtl->setTexture(0, m_tex0);
+            m_pMtl->setTexSizeIndex(0, 1.0f / m_tex0->getwidth(), 1.0f / m_tex0->getheight());
+            m_pMtl->setTexture(1, m_tex1);
+            m_pMtl->setTexSizeIndex(1, 1.0f / (m_tex1->getwidth() / 2),
+                                    1.0f / (m_tex1->getheight() / 2));
+            m_pMtl->setTexture(1, m_tex2);
+            m_pMtl->setTexSizeIndex(1, 1.0f / (m_tex2->getwidth() / 2),
+                                    1.0f / (m_tex2->getheight() / 2));
         } else if (m_picformate == SV_PF_NV12) {
             m_pMtl->setTexcoordFlip(1.0,1.0);
-            m_pMtl->setTexture(0, m_texY);
-            m_pMtl->setTexSizeIndex(0, 1.0f / m_texY->getwidth(), 1.0f / m_texY->getheight());
-            m_pMtl->setTexture(1, m_texUV);
-            m_pMtl->setTexSizeIndex(1, 1.0f / (m_texUV->getwidth() / 2),
-                                    1.0f / (m_texUV->getheight() / 2));
+            m_pMtl->setTexture(0, m_tex0);
+            m_pMtl->setTexSizeIndex(0, 1.0f / m_tex0->getwidth(), 1.0f / m_tex0->getheight());
+            m_pMtl->setTexture(1, m_tex1);
+            m_pMtl->setTexSizeIndex(1, 1.0f / (m_tex1->getwidth() / 2),
+                                    1.0f / (m_tex1->getheight() / 2));
         } else if (m_picformate == SV_PF_NV21) {
             m_pMtl->setTexcoordFlip(1.0,1.0);
-            m_pMtl->setTexture(0, m_texY);
-            m_pMtl->setTexSizeIndex(0, 1.0f / m_texY->getwidth(), 1.0f / m_texY->getheight());
-            m_pMtl->setTexture(1, m_texUV);
-            m_pMtl->setTexSizeIndex(1, 1.0f / (m_texUV->getwidth() / 2),
-                                    1.0f / (m_texUV->getheight() / 2));
+            m_pMtl->setTexture(0, m_tex0);
+            m_pMtl->setTexSizeIndex(0, 1.0f / m_tex0->getwidth(), 1.0f / m_tex0->getheight());
+            m_pMtl->setTexture(1, m_tex0);
+            m_pMtl->setTexSizeIndex(1, 1.0f / (m_tex1->getwidth() / 2),
+                                    1.0f / (m_tex1->getheight() / 2));
         } else if (m_picformate == SV_PF_BGRA) {
-            return;
+            
         } else if (m_picformate == SV_PF_RGBA) {
             return;
         } else if (m_picformate == SV_PF_RGB) {

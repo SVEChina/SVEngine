@@ -60,8 +60,12 @@ namespace sv {
             SVRenderTexturePtr getRenderTexture();
             //创建内置纹理
             virtual SVTexturePtr createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate, bool _enableMipMap = false);
-            
+            //创建内置纹理
             virtual SVTexturePtr createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate, bool _enableMipMap = false);
+            //创建内置纹理
+            virtual SVTexturePtr createSVTexIOS(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate, bool _enableMipMap = false);
+            //创建内置纹理 ios
+            virtual SVTexturePtr createSVTexIOS(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate, bool _enableMipMap = false);
             //销毁内置纹理
             void destroySVTex(SVTEXTYPE _type);
             //获取内置纹理

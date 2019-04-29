@@ -20,6 +20,7 @@
 #include "../rendercore/SVRenderTexture.h"
 #include "../mtl/SVMtlCore.h"
 #include "../basesys/SVConfig.h"
+
 #ifdef SV_IOS
 
 SVFrameOutIOS::SVFrameOutIOS(SVInst *_app)
@@ -41,7 +42,7 @@ void SVFrameOutIOS::init(SV_OUTSTEAMFORMATE _outformate,s32 _w,s32 _h) {
     //创建输出纹理
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if( t_renderer ) {
-        SVTexturePtr t_tex = t_renderer->createSVTex(E_TEX_OUTSTREAM,_w,_h,GL_RGBA); //GL_RGBA
+        SVTexturePtr t_tex = t_renderer->createSVTexIOS(E_TEX_OUTSTREAM,_w,_h,GL_RGBA); //GL_RGBA
         m_outStreamFbo = MakeSharedPtr<SVRenderTexture>(mApp,t_tex,false,false);
         mApp->getRenderMgr()->pushRCmdCreate(m_outStreamFbo);
     }
