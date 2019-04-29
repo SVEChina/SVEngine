@@ -57,7 +57,7 @@ void SVMultPassNode::render() {
         for(s32 i=0;i<m_passPool.size();i++){
             if(m_passPool[i]->m_pMtl){
                 SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();
-                t_cmd->mTag = m_name;
+                t_cmd->mTag = m_passPool[i]->mTag;
                 t_cmd->setFbo(m_fbo);
                 if( m_passPool[i]->m_outTexType == E_TEX_END ) {
                     t_cmd->setTexture(m_passPool[i]->m_outTex);

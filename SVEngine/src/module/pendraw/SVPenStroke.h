@@ -40,7 +40,11 @@ namespace sv{
         
         void setDrawBox(bool _drawBox);
         
+        void updateStroke(float _dt);
+        
         void renderStroke();
+        
+        void updateGlow(float _dt);
         
         void renderGlow();
         
@@ -50,17 +54,11 @@ namespace sv{
         //
         void _genPolygon();
         //
-        void _genInstances();
-        //
         void _createStrokeMesh();
         //
         void _createGlowMesh();
         //
-        void _drawStroke();
-        //
         void _drawBoundBox();
-        //
-        void _drawGlow();
         //
         typedef SVArray<SVStrokePoint> PTPOOL;
         

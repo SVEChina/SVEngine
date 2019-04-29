@@ -12,6 +12,7 @@
 #include "../rendercore/SVRendererBase.h"
 
 SVPass::SVPass(){
+    mTag = "SVPass";
     m_pMtl = nullptr;
     m_outTex = nullptr;
     m_pMesh= nullptr;

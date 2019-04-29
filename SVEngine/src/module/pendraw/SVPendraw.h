@@ -44,10 +44,14 @@ namespace sv{
         void setGlowColor(FVec4 &_color);
         
     protected:
+        void _drawStroke();//画笔触
+        void _drawGlow();//画荧光
+        void _drawReback();//画回主纹理
         typedef SVArray<SVPenStrokePtr> STROKEPOOL;
         STROKEPOOL m_strokes;
         SVPenStrokePtr m_curStroke;
-        SVRenderTexturePtr m_fbo;
+        SVRenderTexturePtr m_fbo1;
+        SVRenderTexturePtr m_fbo2;
         SVMultMeshMtlRenderObjectPtr m_pRenderObj;
         SVMtlCorePtr m_mtl1;
         SVRenderMeshPtr m_mesh1;
@@ -56,6 +60,7 @@ namespace sv{
         SVTexturePtr m_pTex1;
         SVTexturePtr m_pTex2;
         SVFilterGlowPtr m_glowFilter;
+        SVFilterBlurPtr m_blurFilter;
         f32 m_strokeWidth;
         FVec4 m_strokeColor;
         f32 m_glowWidth;

@@ -43,6 +43,8 @@ namespace sv {
             SVRenderMeshPtr m_pMesh;
             
             SVTEXTYPE m_outTexType;
+            
+            SVString mTag;
         };
     };
 };

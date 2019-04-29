@@ -138,6 +138,14 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
         }
     }
     
+    if (doc.HasMember("SVDeform") && doc["SVDeform"].IsObject()) {
+        RAPIDJSON_NAMESPACE::Value &deformObj = doc["SVDeform"];
+        SVDeformImageMovePtr t_deform = SVParseDeform::parseDeform(mApp, deformObj, resid, t_path.get());
+        if (t_deform) {
+            t_bundle->addDefrom(t_deform);
+        }
+    }
+    
     SV_LOG_ERROR("SVParseMain::parse end\n");
     return t_bundle;
 }

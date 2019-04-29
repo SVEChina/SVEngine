@@ -426,6 +426,8 @@ void SVRResGLFBO::destroy(SVRendererBasePtr _renderer){
         }
         glDeleteRenderbuffers(1, &m_depthID);
         glDeleteFramebuffers(1,&m_fboID);
+        m_depthID = 0;
+        m_fboID = 0;
     }
     SVRObjBase::destroy(_renderer);
 }
@@ -435,13 +437,22 @@ void SVRResGLFBO::_bindColor() {
 
 void SVRResGLFBO::_bindDepth() {
     if(m_depth && m_width>0 && m_height>0) {
-        glGenRenderbuffers(1, &m_depthID);
+        if (m_depthID == 0) {
+            glGenRenderbuffers(1, &m_depthID);
+        }
         glBindRenderbuffer(GL_RENDERBUFFER, m_depthID);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_width, m_height);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthID);
         if( m_stencil ) {
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_depthID);
         }
+    }else{
+        if (m_depthID > 0) {
+            glDeleteRenderbuffers(1, &m_depthID);
+            m_depthID = 0;
+        }
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER,0);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER,0);
     }
 }
 

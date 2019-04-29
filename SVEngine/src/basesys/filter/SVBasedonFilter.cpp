@@ -76,12 +76,14 @@ bool SVBasedonFilter::create() {
     SVTexturePtr teximg = mApp->getTexMgr()->getTextureSync("svres/filterimg/facewhitefilter.png", true);
     t_pass1->setInTex(1,teximg);
     t_pass1->setOutTex(E_TEX_HELP0);
+    t_pass1->mTag = "filter-baseon";
     m_pPassNode->addPass(t_pass1);
     //
     SVPassPtr t_pass2 = MakeSharedPtr<SVPass>();
     t_pass2->setMtl(m_acutancemtl);
     t_pass2->setInTex(0, E_TEX_HELP0);
     t_pass2->setOutTex(E_TEX_MAIN);
+    t_pass2->mTag = "write-back";
     m_pPassNode->addPass(t_pass2);
     return true;
 }
