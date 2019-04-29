@@ -35,10 +35,12 @@ SVRResGLTex::SVRResGLTex(SVInst* _app)
 }
 
 SVRResGLTex::~SVRResGLTex(){
+    SV_LOG_INFO("SVRResGLTex destroy %d ",m_uid);
 }
 
 void SVRResGLTex:: create(SVRendererBasePtr _renderer) {
     SVRObjBase::create(_renderer);
+    SV_LOG_INFO("SVRResGLTex create %d ",m_uid);
     if( m_id == 0 ){
         m_bLoad = true;
         glGenTextures(1, &m_id);
