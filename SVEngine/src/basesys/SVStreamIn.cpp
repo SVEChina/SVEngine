@@ -53,6 +53,7 @@ void StreamInCore::init(s32 _w,s32 _h,PICFORMATE _fromate,f32 _angle,bool _show)
     for(s32 t_tt = E_TEX_INSTREAM ;t_tt<E_TEX_OUTSTREAM; t_tt++ ) {
         if(!mApp->getRenderer()->getSVTex( SVTEXTYPE(t_tt) ) ){
             init(_w,_h,_fromate,_angle,_show,SVTEXTYPE(t_tt) );
+            return ;
         }
     }
 }
