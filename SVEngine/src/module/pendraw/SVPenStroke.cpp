@@ -91,13 +91,11 @@ void SVPenStroke::setDrawBox(bool _drawBox){
     m_drawBox = _drawBox;
 }
 
-//绘制一笔
+
 void SVPenStroke::update(f32 _dt) {
-    m_lock->unlock();
-    //创建实例
-    _genInstances();
-    m_lock->unlock();
+    
 }
+
 
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     m_lock->lock();
@@ -265,46 +263,6 @@ void SVPenStroke::_genPolygon(){
     }
 }
 
-void SVPenStroke::_genInstances() {
-    //荧光实例
-    s32 t_pt_original_num = m_ptGlowPool.size();
-    s32 t_glow_deltCount = t_pt_original_num - m_lastGlowInstanceIndex;
-    if (t_glow_deltCount > 0) {
-        V3 t_glowPoints[t_glow_deltCount];
-        s32 t_index = m_lastGlowInstanceIndex;
-        s32 j = 0;
-        for (s32 i = t_index; i<t_pt_original_num; i++) {
-            SVStrokePoint t_pt = m_ptGlowPool[i];
-            t_glowPoints[j].x = t_pt.point.x;
-            t_glowPoints[j].y = t_pt.point.y;
-            t_glowPoints[j].z = t_pt.point.z;
-            m_aabbBox.expand(t_pt.point);
-            j++;
-            m_lastGlowInstanceIndex++;
-        }
-        m_glowInstanceCount = t_pt_original_num;
-        m_pGlowInstanceOffsetData->appendData(t_glowPoints, t_glow_deltCount*sizeof(V3));
-    }
-    
-    //三维盒子实例子
-    s32 t_pt_num = m_ptPool.size();
-    s32 t_pt_deltCount = t_pt_num - m_lastInstanceIndex;
-    if (t_pt_deltCount > 0) {
-        V3 t_points[t_pt_deltCount];
-        s32 t_index = m_lastInstanceIndex;
-        s32 j = 0;
-        for (s32 i = t_index; i<t_pt_num; i++) {
-            SVStrokePoint t_pt = m_ptPool[i];
-            t_points[j].x = t_pt.point.x;
-            t_points[j].y = t_pt.point.y;
-            t_points[j].z = t_pt.point.z;
-            j++;
-            m_lastInstanceIndex++;
-        }
-        m_instanceCount = t_pt_num;
-        m_pInstanceOffsetData->appendData(t_points, t_pt_deltCount*sizeof(V3));
-    }
-}
 #define vn_glow 18
 void SVPenStroke::_createGlowMesh(){
     m_pGlowMesh = MakeSharedPtr<SVRenderMeshDvid>(mApp);
@@ -519,36 +477,6 @@ void SVPenStroke::_createGlowMesh(){
     t_pTexcoordData->resize(vn_glow*sizeof(V2));
     t_pTexcoordData->writeData(t_texcoord, vn_glow*sizeof(V2));
     m_pGlowMesh->setTexcoord0Data(t_pTexcoordData);
-}
-
-void SVPenStroke::_drawGlow(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
-    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
-    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
-    if (t_renderer && t_rs && m_pRenderObj && m_pGlowMesh && m_glowInstanceCount > 0) {
-        if (!m_pGlowMtl) {
-            m_pGlowMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp, "penstroke_texture");
-            m_pGlowMtl->setTexture(0, m_pGlowTex);
-            m_pGlowMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
-            m_pGlowMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
-            //void setTextureParam(s32 _chanel,TEXTUREPARAM _type,s32 _value);
-            m_pGlowMtl->setTexcoordFlip(1.0, -1.0);
-            m_pGlowMtl->setLineSize(5.0f);
-            m_pGlowMtl->setViewPos(t_arCam->getPosition());
-            m_pGlowMtl->setUp(t_arCam->getUp());
-        }
-        m_pGlowMtl->setDepthEnable(true);
-        m_pGlowMtl->setBlendEnable(true);
-        m_pGlowMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
-        m_pGlowMtl->setCullEnable(false);
-        m_pGlowMtl->setModelMatrix(m_localMat);
-        //更新顶点数据
-        m_pGlowMesh->setInstanceOffsetData(m_pGlowInstanceOffsetData, m_glowInstanceCount);
-        m_pRenderObj->setMesh(m_pGlowMesh);
-        m_pRenderObj->setMtl(m_pGlowMtl);
-        m_pRenderObj->pushCmd(t_rs, RST_AR, "SVPenStrokeRenderGlow");
-    }
 }
 
 #define vn_stroke 36
@@ -923,43 +851,6 @@ void SVPenStroke::_createStrokeMesh() {
     m_pBoxMesh->setColor0Data(t_pColorData);
 }
 
-
-void SVPenStroke::_drawStroke(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
-    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
-    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
-    if (t_renderer && t_rs && m_pRenderObj && m_pBoxMesh && m_instanceCount > 0) {
-        if (!m_pMtl) {
-            m_pMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp, "penstroke_base");
-            m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
-            m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
-            m_pMtl->setTexcoordFlip(1.0, -1.0);
-            m_pMtl->setLineSize(5.0f);
-            m_pMtl->setViewPos(t_arCam->getPosition());
-            m_pMtl->setUp(t_arCam->getUp());
-        }
-        m_pMtl->setDepthEnable(false);
-        m_pMtl->setBlendEnable(true);
-        m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        m_pMtl->setCullEnable(false);
-        m_pMtl->setModelMatrix(m_localMat);
-        //更新顶点数据
-        m_pBoxMesh->setInstanceOffsetData(m_pInstanceOffsetData, m_instanceCount);
-        m_pRenderObj->setMesh(m_pBoxMesh);
-        m_pRenderObj->setMtl(m_pMtl);
-        m_pRenderObj->pushCmd(t_rs, RST_AR, "SVPenStrokeRender");
-    }
-}
-
-void SVPenStroke::_drawBoundBox(){
-    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    SVMtlGeo3dPtr t_mtl_geo3d = MakeSharedPtr<SVMtlGeo3d>(mApp);
-    t_mtl_geo3d->setColor(1.0f, 0.0f, 0.0f, 1.0f);
-    FMat4 m_mat_unit = FMat4_identity;
-    t_mtl_geo3d->setModelMatrix( m_mat_unit.get() ); SVRenderObjInst::pushAABBCmd(t_rs,RST_AR_END,m_aabbBox,t_mtl_geo3d,"SV3DBOX_aabb");
-}
-
 void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint){
     SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
     SVCameraNodePtr t_arCam = t_sensor->getARCamera();
@@ -993,16 +884,115 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
     _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
 }
 
+
+void SVPenStroke::updateStroke(float _dt){
+    m_lock->unlock();
+    //三维盒子实例子
+    s32 t_pt_num = m_ptPool.size();
+    s32 t_pt_deltCount = t_pt_num - m_lastInstanceIndex;
+    if (t_pt_deltCount > 0) {
+        V3 t_points[t_pt_deltCount];
+        s32 t_index = m_lastInstanceIndex;
+        s32 j = 0;
+        for (s32 i = t_index; i<t_pt_num; i++) {
+            SVStrokePoint t_pt = m_ptPool[i];
+            t_points[j].x = t_pt.point.x;
+            t_points[j].y = t_pt.point.y;
+            t_points[j].z = t_pt.point.z;
+            j++;
+            m_lastInstanceIndex++;
+        }
+        m_instanceCount = t_pt_num;
+        m_pInstanceOffsetData->appendData(t_points, t_pt_deltCount*sizeof(V3));
+    }
+    m_lock->unlock();
+}
+
+
+
 void SVPenStroke::renderStroke(){
-    _drawStroke();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
+    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
+    if (t_renderer && t_rs && m_pRenderObj && m_pBoxMesh && m_instanceCount > 0) {
+        if (!m_pMtl) {
+            m_pMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp, "penstroke_base");
+            m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
+            m_pMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
+            m_pMtl->setTexcoordFlip(1.0, -1.0);
+            m_pMtl->setLineSize(5.0f);
+        }
+        m_pMtl->setDepthEnable(false);
+        m_pMtl->setBlendEnable(true);
+        m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        m_pMtl->setCullEnable(false);
+        m_pMtl->setModelMatrix(m_localMat);
+        //更新顶点数据
+        m_pBoxMesh->setInstanceOffsetData(m_pInstanceOffsetData, m_instanceCount);
+        m_pRenderObj->setMesh(m_pBoxMesh);
+        m_pRenderObj->setMtl(m_pMtl);
+        m_pRenderObj->pushCmd(t_rs, RST_AR, "SVPenStrokeRender");
+    }
+}
+
+void SVPenStroke::updateGlow(float _dt){
+    m_lock->unlock();
+    //荧光实例
+    s32 t_pt_original_num = m_ptGlowPool.size();
+    s32 t_glow_deltCount = t_pt_original_num - m_lastGlowInstanceIndex;
+    if (t_glow_deltCount > 0) {
+        V3 t_glowPoints[t_glow_deltCount];
+        s32 t_index = m_lastGlowInstanceIndex;
+        s32 j = 0;
+        for (s32 i = t_index; i<t_pt_original_num; i++) {
+            SVStrokePoint t_pt = m_ptGlowPool[i];
+            t_glowPoints[j].x = t_pt.point.x;
+            t_glowPoints[j].y = t_pt.point.y;
+            t_glowPoints[j].z = t_pt.point.z;
+            m_aabbBox.expand(t_pt.point);
+            j++;
+            m_lastGlowInstanceIndex++;
+        }
+        m_glowInstanceCount = t_pt_original_num;
+        m_pGlowInstanceOffsetData->appendData(t_glowPoints, t_glow_deltCount*sizeof(V3));
+    }
+    m_lock->unlock();
 }
 
 void SVPenStroke::renderGlow(){
-    _drawGlow();
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
+    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
+    if (t_renderer && t_rs && m_pRenderObj && m_pGlowMesh && m_glowInstanceCount > 0) {
+        if (!m_pGlowMtl) {
+            m_pGlowMtl = MakeSharedPtr<SVMtlStrokeBase>(mApp, "penstroke_texture");
+            m_pGlowMtl->setTexture(0, m_pGlowTex);
+            m_pGlowMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
+            m_pGlowMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
+            m_pGlowMtl->setTexcoordFlip(1.0, -1.0);
+            m_pGlowMtl->setLineSize(5.0f);
+        }
+        m_pGlowMtl->setDepthEnable(false);
+        m_pGlowMtl->setBlendEnable(true);
+        m_pGlowMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
+        m_pGlowMtl->setCullEnable(false);
+        m_pGlowMtl->setModelMatrix(m_localMat);
+        //更新顶点数据
+        m_pGlowMesh->setInstanceOffsetData(m_pGlowInstanceOffsetData, m_glowInstanceCount);
+        m_pRenderObj->setMesh(m_pGlowMesh);
+        m_pRenderObj->setMtl(m_pGlowMtl);
+        m_pRenderObj->pushCmd(t_rs, RST_AR, "SVPenStrokeRenderGlow");
+    }
 }
 
 void SVPenStroke::renderBoundingBox(){
     if (m_drawBox) {
-        _drawBoundBox();
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+        SVMtlGeo3dPtr t_mtl_geo3d = MakeSharedPtr<SVMtlGeo3d>(mApp);
+        t_mtl_geo3d->setColor(1.0f, 0.0f, 0.0f, 1.0f);
+        FMat4 m_mat_unit = FMat4_identity;
+        t_mtl_geo3d->setModelMatrix( m_mat_unit.get() ); SVRenderObjInst::pushAABBCmd(t_rs,RST_AR_END,m_aabbBox,t_mtl_geo3d,"SV3DBOX_aabb");
     }
 }
