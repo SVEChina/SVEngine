@@ -171,12 +171,14 @@ bool SVFairDataBlur::create() {
     t_pass->setMtl(m_mtl_a);
     t_pass->setInTex(0, E_TEX_MAIN);
     t_pass->setOutTex(E_TEX_HELP0);
+    t_pass->mTag = "blur_fair_01";
     m_pPassNode->addPass(t_pass);
 
     t_pass = MakeSharedPtr<SVPass>();
     t_pass->setMtl(m_mtl_b);
     t_pass->setInTex(0,E_TEX_HELP0);
     t_pass->setOutTex(E_TEX_HELP1);
+    t_pass->mTag = "blur_fair_01";
     m_pPassNode->addPass(t_pass);
     //
     t_pass = MakeSharedPtr<SVPass>();
@@ -184,6 +186,7 @@ bool SVFairDataBlur::create() {
     t_pass->setInTex(0, E_TEX_MAIN);
     t_pass->setInTex(1, E_TEX_HELP1);
     t_pass->setOutTex(E_TEX_HELP2);
+    t_pass->mTag = "blur_fair_mean";
     m_pPassNode->addPass(t_pass);
     //
     t_pass = MakeSharedPtr<SVPass>();
@@ -196,6 +199,7 @@ bool SVFairDataBlur::create() {
     t_pass->setMtl(m_mtl_f);
     t_pass->setInTex(0, E_TEX_HELP0);
     t_pass->setOutTex(E_TEX_HELP2);
+    t_pass->mTag = "blur_fair_01";
     m_pPassNode->addPass(t_pass);
     //
     t_pass = MakeSharedPtr<SVPass>();
@@ -204,12 +208,14 @@ bool SVFairDataBlur::create() {
     t_pass->setInTex(1,  E_TEX_HELP1);
     t_pass->setInTex(2,  E_TEX_HELP2);
     t_pass->setOutTex(E_TEX_HELP0);
+    t_pass->mTag = "SVMtlBlurFair";
     m_pPassNode->addPass(t_pass);
     //写回
     t_pass = MakeSharedPtr<SVPass>();
     t_pass->setMtl(m_mtl_back);
     t_pass->setInTex(0, E_TEX_HELP0);
     t_pass->setOutTex( E_TEX_MAIN );
+    t_pass->mTag = "writeback";
     m_pPassNode->addPass(t_pass);
     return true;
 }

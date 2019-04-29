@@ -241,7 +241,15 @@ void SVTransGPU::createPass(s32 _w, s32 _h, f32 _angle, SVTEXTYPE _tt) {
     m_passNode->create(_w, _h);
     SVPassPtr t_pass = MakeSharedPtr<SVPass>();
     m_pMtl->setTexcoordFlip(1.0,1.0);
+    m_pMtl->setDepthEnable(false);
+    m_pMtl->setTextureParam(0,E_T_PARAM_WRAP_S,E_T_WRAP_CLAMP_TO_EDAGE);
+    m_pMtl->setTextureParam(0,E_T_PARAM_WRAP_T,E_T_WRAP_CLAMP_TO_EDAGE);
+    m_pMtl->setTextureParam(1,E_T_PARAM_WRAP_S,E_T_WRAP_CLAMP_TO_EDAGE);
+    m_pMtl->setTextureParam(1,E_T_PARAM_WRAP_T,E_T_WRAP_CLAMP_TO_EDAGE);
+    m_pMtl->setTextureParam(2,E_T_PARAM_WRAP_S,E_T_WRAP_CLAMP_TO_EDAGE);
+    m_pMtl->setTextureParam(2,E_T_PARAM_WRAP_T,E_T_WRAP_CLAMP_TO_EDAGE);
     t_pass->setMtl(m_pMtl);
+    t_pass->mTag = "SVTransGPU";
     if (_angle == 90) {
         t_pass->setMesh(mApp->getDataMgr()->m_screenMeshRot90);
     } else if (_angle == 270) {
