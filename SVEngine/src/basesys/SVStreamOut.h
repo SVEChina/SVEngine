@@ -12,7 +12,7 @@
 #include "../node/SVNodeDeclare.h"
 #include "out/SVOutMission.h"
 #include "../base/SVArray.h"
-
+#include "../rendercore/SVRenderDef.h"
 namespace sv {
 
     namespace logic {
@@ -49,8 +49,8 @@ namespace sv {
             
             void setOutFormat(SV_OUTSTEAMFORMATE _format);
             
-            //加了个StreamType 当为0的时候正常读取输出流数据，当为1的时候只读取美颜完之前的数据
-            void createOutStream(cptr8 _name, s32 _type, s32 _format, s32 _steamType = 0);
+            //加了个StreamType,控制对外输出到哪个流。默认RST_DATATRANS这个流
+            void createOutStream(cptr8 _name, s32 _type, s32 _format, RENDERSTREAMTYPE _steamType = RST_DATATRANS);
             
             void destroyOutStream();
             

@@ -87,7 +87,7 @@ void StreamInCore::init(s32 _w,s32 _h,PICFORMATE _fromate,f32 _angle,bool _show,
         //m_texUV
         m_tex1 = mApp->getTexMgr()->createUnctrlTexture(_w / 2, _h / 2, GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA);
     }else if(_fromate == SV_PF_BGRA) {
-        m_tex0 = mApp->getTexMgr()->createUnctrlTexture(_w,_h,GL_BGRA,GL_RGBA);
+        m_tex0 = mApp->getTexMgr()->createUnctrlTexture(_w,_h,GL_RGBA,GL_RGBA);
     }else if(_fromate == SV_PF_RGBA) {
         m_tex0 = mApp->getTexMgr()->createUnctrlTexture(_w,_h,GL_RGBA,GL_RGBA);
     }
@@ -179,9 +179,9 @@ void StreamInCore::pushData(u8* _srcPtr,s32 width,s32 height,s32 pixelFormat,s32
         m_tex0->setTexData(_srcPtr, width * height);
         m_tex1->setTexData(_srcPtr + width * height, width * height / 2);
     } else if (m_formate == SV_PF_BGRA) {
-        m_tex0->pushData(_srcPtr, width, height, GL_RGBA);
+        m_tex0->setTexData(_srcPtr, width*height*4);
     } else if (m_formate == SV_PF_RGBA) {
-        m_tex0->pushData(_srcPtr, width, height, GL_RGBA);
+        m_tex0->setTexData(_srcPtr, width*height*4);
     } else if (m_formate == SV_PF_RGB) {
     }
 }
