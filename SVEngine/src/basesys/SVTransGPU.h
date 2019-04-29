@@ -30,8 +30,6 @@ namespace sv {
             
             void destroy();
             
-            void pushData(u8 *_srcPtr);
-            
             void update(f32 dt);
 
             void setAngle(f32 _angle);
@@ -45,7 +43,6 @@ namespace sv {
             SVMultPassNodePtr m_passNode;
             SVRenderObjectPtr m_pRenderObj;
             SVRenderMeshPtr m_pMesh;
-            bool  m_beload;
             SVMtlCorePtr m_pMtl;
 
             void createPass(s32 _w, s32 _h, f32 _angle, SVTEXTYPE _tt);

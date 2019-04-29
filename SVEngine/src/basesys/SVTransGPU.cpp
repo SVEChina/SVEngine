@@ -38,7 +38,6 @@ SVTransGPU::SVTransGPU(SVInst *_app,
     m_passNode->setRSType(RST_IMGFILTER);
     m_pMtl = nullptr;
     m_pMesh = nullptr;
-    m_beload = false;
 }
 
 SVTransGPU::~SVTransGPU() {
@@ -93,41 +92,7 @@ void SVTransGPU::destroy() {
     m_passNode = nullptr;
 }
 
-void SVTransGPU::pushData(u8 *_srcPtr) {
-//    m_beload = true;
-//    if (m_picformate == SV_PF_GRAY8) {
-//
-//    } else if (m_picformate == SV_PF_YV12) {
-//        m_texY->setTexData(_srcPtr, m_width * m_height);
-//        m_texUV->setTexData(_srcPtr + m_width * m_height, m_width * m_height / 2);
-//    } else if (m_picformate == SV_PF_I420) {
-//        m_texY->setTexData(_srcPtr, m_width * m_height);
-////        m_texU->setTexData(_srcPtr+m_width*m_height,m_width*m_height/2);
-////        m_texV->setTexData(_srcPtr+m_width*m_height,m_width*m_height/2);
-//    } else if (m_picformate == SV_PF_NV12) {
-//        m_texY->setTexData(_srcPtr, m_width * m_height);
-//        m_texUV->setTexData(_srcPtr + m_width * m_height, m_width * m_height / 2);
-//    } else if (m_picformate == SV_PF_NV21) {
-//        m_texY->setTexData(_srcPtr, m_width * m_height);
-//        m_texUV->setTexData(_srcPtr + m_width * m_height, m_width * m_height / 2);
-//    } else if (m_picformate == SV_PF_BGRA) {
-//        SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(m_texTT);
-//        if (t_tex) {
-//            t_tex->pushData(_srcPtr, m_width, m_height, GL_RGBA);
-//        }
-//    } else if (m_picformate == SV_PF_RGBA) {
-//        SVTexturePtr t_tex = mApp->getRenderer()->getSVTex(m_texTT);
-//        if (t_tex) {
-//            t_tex->pushData(_srcPtr, m_width, m_height, GL_RGBA);
-//        }
-//    } else if (m_picformate == SV_PF_RGB) {
-//    }
-}
-
 void SVTransGPU::update(f32 dt) {
-    if (!m_beload) {
-        return;
-    }
     if (m_pMtl) {
         m_pMtl->setTexcoordFlip(1.0f, -1.0f);
         if (m_picformate == SV_PF_GRAY8) {

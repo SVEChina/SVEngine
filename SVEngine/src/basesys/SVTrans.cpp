@@ -33,8 +33,5 @@ void SVTrans::setAngle(f32 _angle){
 void SVTrans::destroy(){
 }
 
-void SVTrans::pushData(u8* _srcPtr){
-}
-
 void SVTrans::update(f32 dt) {
 }

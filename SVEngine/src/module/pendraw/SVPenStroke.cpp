@@ -923,7 +923,7 @@ void SVPenStroke::renderStroke(){
             m_pMtl->setTexcoordFlip(1.0, -1.0);
             m_pMtl->setLineSize(5.0f);
         }
-        m_pMtl->setDepthEnable(false);
+        m_pMtl->setDepthEnable(true);
         m_pMtl->setBlendEnable(true);
         m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         m_pMtl->setCullEnable(false);
