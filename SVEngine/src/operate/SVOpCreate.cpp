@@ -42,7 +42,7 @@
 #include "../module/SVDivisonFilter.h"
 #include "../module/SVMark.h"
 #include "../module/SVEffectPackage.h"
-#include "../module/pendraw/SVPendraw.h"
+#include "../module/pendraw/SVPenDraw.h"
 #include "../act/SVTexAttachment.h"
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
@@ -524,7 +524,7 @@ void SVOpOpenPen::_process(f32 dt) {
     SVString t_name = "sv_pen_module";
     SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
     if (t_modulePtr == nullptr) {
-        t_modulePtr = MakeSharedPtr<SVPendraw>(mApp);
+        t_modulePtr = MakeSharedPtr<SVPenDraw>(mApp);
         SVGameBasePtr gameBasePtr = DYN_TO_SHAREPTR(SVGameBase, t_modulePtr);
         if (gameBasePtr) {
             gameBasePtr->init(nullptr, nullptr, nullptr);
@@ -546,4 +546,61 @@ SVOpSetPenEffcet::~SVOpSetPenEffcet() {
 void SVOpSetPenEffcet::_process(f32 dt) {
     SVParsePen t_parssPen(mApp);
     t_parssPen.parse(m_strPath.c_str(),123);
+}
+
+SVOpClearPen::SVOpClearPen(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpClearPen::~SVOpClearPen(){
+    
+}
+
+void SVOpClearPen::_process(f32 dt) {
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            t_penDraw->clear();
+        }
+    }
+}
+
+SVOpPenUndo::SVOpPenUndo(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpPenUndo::~SVOpPenUndo(){
+    
+}
+
+void SVOpPenUndo::_process(f32 dt) {
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            t_penDraw->undo();
+        }
+    }
+}
+
+SVOpPenRedo::SVOpPenRedo(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpPenRedo::~SVOpPenRedo(){
+    
+}
+
+void SVOpPenRedo::_process(f32 dt) {
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            t_penDraw->redo();
+        }
+    }
 }

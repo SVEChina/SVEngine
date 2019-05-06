@@ -10,7 +10,7 @@
 #include "../file/SVFileMgr.h"
 #include "../operate/SVOpCreate.h"
 #include "../operate/SVOpParse.h"
-#include "../module/pendraw/SVPendraw.h"
+#include "../module/pendraw/SVPenDraw.h"
 #include "../module/SVModuleSys.h"
 SVParsePen::SVParsePen(SVInst *_app)
 :SVParseData(_app) {
@@ -95,7 +95,7 @@ SVParsePen::_parsePen(SVInst *_app, RAPIDJSON_NAMESPACE::Value &_item, s32 _resi
     SVString t_name = "sv_pen_module";
     SVModuleBasePtr t_module = mApp->getModuleSys()->getModule(t_name.c_str());
     if (t_module) {
-        SVPendrawPtr penDraw = DYN_TO_SHAREPTR(SVPendraw, t_module);
+        SVPenDrawPtr penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_module);
         if (penDraw) {
             penDraw->setStrokeWidth(t_strokeWidth);
             penDraw->setStrokeColor(t_strokeColor);

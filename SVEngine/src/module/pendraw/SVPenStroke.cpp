@@ -81,10 +81,9 @@ SVPenStroke::~SVPenStroke() {
     m_lock = nullptr;
     m_pGlowMesh = nullptr;
     m_pGlowMtl = nullptr;
-    m_ptPool.clear();
-    m_ptGlowPool.clear();
+    m_ptPool.destroy();
+    m_ptGlowPool.destroy();
     m_aabbBox.clear();
-    m_glowStrokes.destroy();
 }
 
 void SVPenStroke::setDrawBox(bool _drawBox){

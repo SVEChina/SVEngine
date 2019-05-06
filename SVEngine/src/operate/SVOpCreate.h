@@ -288,6 +288,36 @@ namespace sv {
         
         SVString m_strPath;
     };
+    //
+    class SVOpClearPen : public SVOpBase {
+    public:
+        SVOpClearPen(SVInst *_app);
+        
+        ~SVOpClearPen();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    //
+    class SVOpPenUndo : public SVOpBase {
+    public:
+        SVOpPenUndo(SVInst *_app);
+        
+        ~SVOpPenUndo();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    //
+    class SVOpPenRedo : public SVOpBase {
+    public:
+        SVOpPenRedo(SVInst *_app);
+        
+        ~SVOpPenRedo();
+        
+    protected:
+        void _process(f32 dt);
+    };
 }//!namespace sv
 
 
