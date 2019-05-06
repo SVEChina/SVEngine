@@ -189,7 +189,7 @@ void SVStreamOut::createOutStream(cptr8 _name, s32 _type, s32 _format, RENDERSTR
 void SVStreamOut::destroyOutStream() {
     if(m_pFrameOut) {
         m_pFrameOut->removeFromParent();
-        m_pFrameOut = nullptr;
+        m_pFrameOut = nullptr; 
     }
 }
 
