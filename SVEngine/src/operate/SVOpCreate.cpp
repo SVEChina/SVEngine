@@ -8,14 +8,18 @@
 #include "SVOpCreate.h"
 #include "../app/SVInst.h"
 #include "../app/SVGlobalParam.h"
+#include "../core/SVSpine.h"
+#include "../core/SVBMFont.h"
+#include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/SVRendererBase.h"
+#include "../base/SVDataSwap.h"
 #include "../basesys/SVSceneMgr.h"
 #include "../basesys/SVConfig.h"
 #include "../basesys/SVBasicSys.h"
+#include "../basesys/SVPickProcess.h"
 #include "../event/SVEventMgr.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/SVRendererBase.h"
 #include "../node/SVCameraNode.h"
 #include "../node/SVFrameOutNode.h"
 #include "../node/SVNodeVisit.h"
@@ -25,21 +29,18 @@
 #include "../node/SVBillboardNode.h"
 #include "../node/SVParticlesNode.h"
 #include "../node/SVFreeTypeNode.h"
-#include "../core/SVSpine.h"
-#include "../base/SVDataSwap.h"
+#include "../node/SVBMFontNode.h"
+#include "../node/SVFacePointNode.h"
+#include "../node/SVGLTFModelNode.h"
 #include "../file/SVParseMain.h"
+#include "../file/SVBMFontLoader.h"
+#include "../file/SVLoaderGLTF.h"
+#include "../file/SVParsePen.h"
 #include "../module/SVModuleSys.h"
 #include "../module/SVModuleBase.h"
-#include "../basesys/SVPickProcess.h"
 #include "../module/SVModuleDelaySuspend.h"
 #include "../module/SVDivisonFilter.h"
 #include "../module/SVMark.h"
-#include "../file/SVBMFontLoader.h"
-#include "../node/SVBMFontNode.h"
-#include "../node/SVFacePointNode.h"
-#include "../core/SVBMFont.h"
-#include "../file/SVLoaderGLTF.h"
-#include "../node/SVGLTFModelNode.h"
 #include "../module/SVEffectPackage.h"
 #include "../module/pendraw/SVPendraw.h"
 #include "../act/SVTexAttachment.h"
@@ -532,4 +533,17 @@ void SVOpOpenPen::_process(f32 dt) {
         }
 
     }
+}
+
+SVOpSetPenEffcet::SVOpSetPenEffcet(SVInst *_app,cptr8 pStrPath)
+: SVOpBase(_app)
+, m_strPath(pStrPath) {
+}
+
+SVOpSetPenEffcet::~SVOpSetPenEffcet() {
+}
+
+void SVOpSetPenEffcet::_process(f32 dt) {
+    SVParsePen t_parssPen(mApp);
+    t_parssPen.parse(m_strPath.c_str(),123);
 }

@@ -106,6 +106,7 @@ namespace sv {
     //
     DECLARE_SHAREPTR(SVOpOpenPen);
     DECLARE_SHAREPTR(SVOpClosePen);
+    DECLARE_SHAREPTR(SVOpSetPenEffcet);
     //
     DECLARE_SHAREPTR(SVOpCreateIOSInstream);
     DECLARE_SHAREPTR(SVOpDestroyIOSInstream);
