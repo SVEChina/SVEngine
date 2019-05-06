@@ -604,3 +604,53 @@ void SVOpPenRedo::_process(f32 dt) {
         }
     }
 }
+
+SVOpPenUndoIsEnable::SVOpPenUndoIsEnable(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpPenUndoIsEnable::~SVOpPenUndoIsEnable(){
+    
+}
+
+void SVOpPenUndoIsEnable::_process(f32 dt) {
+    SVString result = "false";
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            if (t_penDraw->isUndoEnable()) {
+                result = "true";
+            }
+        }
+    }
+    if (m_pCB) {
+        (*m_pCB)(result);
+    }
+}
+
+SVOpPenRedoIsEnable::SVOpPenRedoIsEnable(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpPenRedoIsEnable::~SVOpPenRedoIsEnable(){
+    
+}
+
+void SVOpPenRedoIsEnable::_process(f32 dt) {
+    SVString result = "false";
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            if (t_penDraw->isRedoEnable()) {
+                result = "true";
+            }
+        }
+    }
+    if (m_pCB) {
+        (*m_pCB)(result);
+    }
+}

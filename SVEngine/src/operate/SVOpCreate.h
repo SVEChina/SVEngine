@@ -318,6 +318,26 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
+    //
+    class SVOpPenUndoIsEnable : public SVOpBase {
+    public:
+        SVOpPenUndoIsEnable(SVInst *_app);
+        
+        ~SVOpPenUndoIsEnable();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    //
+    class SVOpPenRedoIsEnable : public SVOpBase {
+    public:
+        SVOpPenRedoIsEnable(SVInst *_app);
+        
+        ~SVOpPenRedoIsEnable();
+        
+    protected:
+        void _process(f32 dt);
+    };
 }//!namespace sv
 
 
