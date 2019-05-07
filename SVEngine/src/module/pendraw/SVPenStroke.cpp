@@ -58,7 +58,7 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
     m_plane_dis = 0.3f;
     m_glowDensity = 0.05;
     m_glowStrokeWidth = _glowWidth;
-    m_density = 0.08;
+    m_density = 0.06;
     m_pen_width = _strokeWidth;
     m_glowColor = _glowColor;
     m_strokeColor = _strokeColor;

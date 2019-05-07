@@ -106,7 +106,7 @@ void SVPenDraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
     //模糊效果处理
     m_blurFilter = MakeSharedPtr<SVFilterBlur>(mApp);
     m_blurFilter->setRSType(RST_AR);
-    m_blurFilter->setSmooth(10.0);
+    m_blurFilter->setSmooth(50.0);
     m_blurFilter->create(E_TEX_HELP1, E_TEX_HELP1);
     
 }
