@@ -21,7 +21,7 @@ SVFilterBlur::SVFilterBlur(SVInst *_app)
 :SVFilterBase(_app){
     m_type=SV_FUNC_BLUR;
     m_name="SVFilterBlur";
-    m_smooth=100.0f;
+    m_smooth=1.0f;
     m_pPassNode = nullptr;
 }
 
@@ -49,7 +49,7 @@ bool SVFilterBlur::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     SVPassPtr t_pass1 = MakeSharedPtr<SVPass>();
     m_lkMtl01=MakeSharedPtr<SVMtlSmooth>(mApp,"newblur");
     m_lkMtl01->setTexcoordFlip(1.0f, 1.0f);
-    m_lkMtl01->setImgWH(1.0/(t_w/4),0.0);
+    m_lkMtl01->setImgWH(1.0/(t_w/2),0.0);
     m_lkMtl01->setSmooth(m_smooth);
     t_pass1->setMtl(m_lkMtl01);
     t_pass1->setInTex(0,_inType);
@@ -58,7 +58,7 @@ bool SVFilterBlur::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     //
     m_lkMtl02=MakeSharedPtr<SVMtlSmooth>(mApp,"newblur");
     m_lkMtl02->setTexcoordFlip(1.0f, 1.0f);
-    m_lkMtl02->setImgWH(0.0 ,1.0/(t_h/4));
+    m_lkMtl02->setImgWH(0.0 ,1.0/(t_h/2));
     m_lkMtl02->setSmooth(m_smooth);
     t_pass1 = MakeSharedPtr<SVPass>();
     t_pass1->setMtl(m_lkMtl02);
