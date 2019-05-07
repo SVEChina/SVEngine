@@ -346,12 +346,12 @@ void SVDeformImageMove::pointMove(V2 *t_data){
     f32 _smooth = (leng/240.0);
     FVec2 t_eyel = eyer-eyel;
     f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
-    m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
-    m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
-    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
-    m_pIUMP->setTargetControl(FVec2(m_tt_w,m_tt_h));
-    m_pIUMP->setControl(FVec2(m_tt_w,0.0));
-    m_pIUMP->setTargetControl(FVec2(m_tt_w,0.0));
+//    m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
+//    m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
+//    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
+//    m_pIUMP->setTargetControl(FVec2(m_tt_w,m_tt_h));
+//    m_pIUMP->setControl(FVec2(m_tt_w,0.0));
+//    m_pIUMP->setTargetControl(FVec2(m_tt_w,0.0));
     
     FVec2 t_rangleV2(t_outlinePoints[46].x,t_outlinePoints[46].y);
     //迭代偏移值
@@ -379,12 +379,12 @@ void SVDeformImageMove::pointMove(V2 *t_data){
             t_targetData[i].y = m_pointScreen[i].y;
         }else{
             FVec2 t_xy=m_pIUMP->MLS(FVec2(m_pointScreen[i].x,m_pointScreen[i].y));
-            t_targetData[i].x=t_xy.x;
-            t_targetData[i].y=t_xy.y;
+            t_targetData[i].x=m_pointScreen[i].x-(t_xy.x-m_pointScreen[i].x);
+            t_targetData[i].y=m_pointScreen[i].y-(t_xy.y-m_pointScreen[i].y);
         }
     }
     //
-    _refreshScreenRectMesh(t_targetData, m_pointScreen);
+    _refreshScreenRectMesh(m_pointScreen,t_targetData);
 }
 
 void SVDeformImageMove::_updateControl(V2 *t_data){
