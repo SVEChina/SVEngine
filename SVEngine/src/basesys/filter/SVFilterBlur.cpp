@@ -21,7 +21,7 @@ SVFilterBlur::SVFilterBlur(SVInst *_app)
 :SVFilterBase(_app){
     m_type=SV_FUNC_BLUR;
     m_name="SVFilterBlur";
-    m_smooth=0.0f;
+    m_smooth=100.0f;
     m_pPassNode = nullptr;
 }
 
@@ -38,8 +38,8 @@ bool SVFilterBlur::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     
     if(! t_renderer->getSVTex(E_TEX_FILTER_GLOW_2) ){
         t_renderer->createSVTex(E_TEX_FILTER_GLOW_2,t_w/2, t_h/2, GL_RGBA);
+        t_renderer->createSVTex(E_TEX_FILTER_GLOW_3,t_w/2, t_h/2, GL_RGBA);
     }
-
     //创建多passnode
     m_pPassNode = MakeSharedPtr<SVMultPassNode>(mApp);
     m_pPassNode->setname("SVFilterBlurNode");
@@ -49,9 +49,8 @@ bool SVFilterBlur::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     SVPassPtr t_pass1 = MakeSharedPtr<SVPass>();
     m_lkMtl01=MakeSharedPtr<SVMtlSmooth>(mApp,"newblur");
     m_lkMtl01->setTexcoordFlip(1.0f, 1.0f);
-    m_lkMtl01->setImgWH(1.0/t_w,0.0);
-    m_lkMtl01->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
-    m_lkMtl01->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
+    m_lkMtl01->setImgWH(1.0/(t_w/4),0.0);
+    m_lkMtl01->setSmooth(m_smooth);
     t_pass1->setMtl(m_lkMtl01);
     t_pass1->setInTex(0,_inType);
     t_pass1->setOutTex(E_TEX_FILTER_GLOW_2);
@@ -59,12 +58,22 @@ bool SVFilterBlur::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     //
     m_lkMtl02=MakeSharedPtr<SVMtlSmooth>(mApp,"newblur");
     m_lkMtl02->setTexcoordFlip(1.0f, 1.0f);
-    m_lkMtl02->setImgWH(0.0 ,1.0/t_h);
+    m_lkMtl02->setImgWH(0.0 ,1.0/(t_h/4));
+    m_lkMtl02->setSmooth(m_smooth);
     t_pass1 = MakeSharedPtr<SVPass>();
     t_pass1->setMtl(m_lkMtl02);
     t_pass1->setInTex(0,E_TEX_FILTER_GLOW_2);
+    t_pass1->setOutTex(E_TEX_FILTER_GLOW_3);
+    m_pPassNode->addPass(t_pass1);
+    
+    SVMtlCorePtr t_lkMtl=MakeSharedPtr<SVMtlCore>(mApp,"screennor");
+    t_lkMtl->setTexcoordFlip(1.0f, 1.0f);
+    t_pass1 = MakeSharedPtr<SVPass>();
+    t_pass1->setMtl(t_lkMtl);
+    t_pass1->setInTex(0,E_TEX_FILTER_GLOW_3);
     t_pass1->setOutTex(_outType);
     m_pPassNode->addPass(t_pass1);
+   
     return true;
 }
 
