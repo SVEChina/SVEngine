@@ -8,14 +8,18 @@
 #include "SVOpCreate.h"
 #include "../app/SVInst.h"
 #include "../app/SVGlobalParam.h"
+#include "../core/SVSpine.h"
+#include "../core/SVBMFont.h"
+#include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/SVRendererBase.h"
+#include "../base/SVDataSwap.h"
 #include "../basesys/SVSceneMgr.h"
 #include "../basesys/SVConfig.h"
 #include "../basesys/SVBasicSys.h"
+#include "../basesys/SVPickProcess.h"
 #include "../event/SVEventMgr.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/SVRendererBase.h"
 #include "../node/SVCameraNode.h"
 #include "../node/SVFrameOutNode.h"
 #include "../node/SVNodeVisit.h"
@@ -25,23 +29,20 @@
 #include "../node/SVBillboardNode.h"
 #include "../node/SVParticlesNode.h"
 #include "../node/SVFreeTypeNode.h"
-#include "../core/SVSpine.h"
-#include "../base/SVDataSwap.h"
+#include "../node/SVBMFontNode.h"
+#include "../node/SVFacePointNode.h"
+#include "../node/SVGLTFModelNode.h"
 #include "../file/SVParseMain.h"
+#include "../file/SVBMFontLoader.h"
+#include "../file/SVLoaderGLTF.h"
+#include "../file/SVParsePen.h"
 #include "../module/SVModuleSys.h"
 #include "../module/SVModuleBase.h"
-#include "../basesys/SVPickProcess.h"
 #include "../module/SVModuleDelaySuspend.h"
 #include "../module/SVDivisonFilter.h"
 #include "../module/SVMark.h"
-#include "../file/SVBMFontLoader.h"
-#include "../node/SVBMFontNode.h"
-#include "../node/SVFacePointNode.h"
-#include "../core/SVBMFont.h"
-#include "../file/SVLoaderGLTF.h"
-#include "../node/SVGLTFModelNode.h"
 #include "../module/SVEffectPackage.h"
-#include "../module/pendraw/SVPendraw.h"
+#include "../module/pendraw/SVPenDraw.h"
 #include "../act/SVTexAttachment.h"
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
@@ -220,16 +221,16 @@ SVOpCreateTest::~SVOpCreateTest(){
 
 void SVOpCreateTest::_process(f32 dt) {
     //return;
-//    //创建逻辑场景
-//    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-//    if (t_pScene) {
-//        //创建测试盒子®
-//        for(s32 i=0;i<1;i++){
-//            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-//            t_testBox->randomInit();
-//            t_pScene->addNode(t_testBox);
-//        }
-//    }
+    //创建逻辑场景
+    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+    if (t_pScene) {
+        //创建测试盒子®
+        for(s32 i=0;i<1;i++){
+            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+            t_testBox->randomInit();
+            t_pScene->addNode(t_testBox);
+        }
+    }
     
 //#ifdef SV_IOS
 //        SVSpriteNodePtr spriteNode = MakeSharedPtr<SVSpriteNode>(mApp);
@@ -523,7 +524,7 @@ void SVOpOpenPen::_process(f32 dt) {
     SVString t_name = "sv_pen_module";
     SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
     if (t_modulePtr == nullptr) {
-        t_modulePtr = MakeSharedPtr<SVPendraw>(mApp);
+        t_modulePtr = MakeSharedPtr<SVPenDraw>(mApp);
         SVGameBasePtr gameBasePtr = DYN_TO_SHAREPTR(SVGameBase, t_modulePtr);
         if (gameBasePtr) {
             gameBasePtr->init(nullptr, nullptr, nullptr);
@@ -531,5 +532,125 @@ void SVOpOpenPen::_process(f32 dt) {
             mApp->getModuleSys()->regist(gameBasePtr, t_name.c_str());
         }
 
+    }
+}
+
+SVOpSetPenEffcet::SVOpSetPenEffcet(SVInst *_app,cptr8 pStrPath)
+: SVOpBase(_app)
+, m_strPath(pStrPath) {
+}
+
+SVOpSetPenEffcet::~SVOpSetPenEffcet() {
+}
+
+void SVOpSetPenEffcet::_process(f32 dt) {
+    SVParsePen t_parssPen(mApp);
+    t_parssPen.parse(m_strPath.c_str(),123);
+}
+
+SVOpClearPen::SVOpClearPen(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpClearPen::~SVOpClearPen(){
+    
+}
+
+void SVOpClearPen::_process(f32 dt) {
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            t_penDraw->clear();
+        }
+    }
+}
+
+SVOpPenUndo::SVOpPenUndo(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpPenUndo::~SVOpPenUndo(){
+    
+}
+
+void SVOpPenUndo::_process(f32 dt) {
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            t_penDraw->undo();
+        }
+    }
+}
+
+SVOpPenRedo::SVOpPenRedo(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpPenRedo::~SVOpPenRedo(){
+    
+}
+
+void SVOpPenRedo::_process(f32 dt) {
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            t_penDraw->redo();
+        }
+    }
+}
+
+SVOpPenUndoIsEnable::SVOpPenUndoIsEnable(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpPenUndoIsEnable::~SVOpPenUndoIsEnable(){
+    
+}
+
+void SVOpPenUndoIsEnable::_process(f32 dt) {
+    SVString result = "false";
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            if (t_penDraw->isUndoEnable()) {
+                result = "true";
+            }
+        }
+    }
+    if (m_pCB) {
+        (*m_pCB)(result);
+    }
+}
+
+SVOpPenRedoIsEnable::SVOpPenRedoIsEnable(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpPenRedoIsEnable::~SVOpPenRedoIsEnable(){
+    
+}
+
+void SVOpPenRedoIsEnable::_process(f32 dt) {
+    SVString result = "false";
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            if (t_penDraw->isRedoEnable()) {
+                result = "true";
+            }
+        }
+    }
+    if (m_pCB) {
+        (*m_pCB)(result);
     }
 }

@@ -30,9 +30,25 @@ namespace sv {
             
             void destroy();
             
+            void active();
+            
+            void unactive();
+            
+            void update(f32 _dt);
+            
+            void pushData(u8* _srcPtr,s32 width,s32 height,s32 pixelFormat,s32 _angle);
+            
+        protected:
+            bool m_useGPU;
             SVTransPtr m_trans;
             SVNodePtr m_showNode;
             SVTEXTYPE m_tt;
+            PICFORMATE m_formate;
+            //
+            SVTexturePtr m_texResult;
+            SVTexturePtr m_tex0;
+            SVTexturePtr m_tex1;
+            SVTexturePtr m_tex2;
         };
         
         //

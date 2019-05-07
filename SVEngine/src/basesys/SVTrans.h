@@ -24,8 +24,6 @@ namespace sv {
 
             virtual void destroy();
             
-            virtual void pushData(u8 *_srcPtr);
-            
             virtual void update(f32 dt);
 
             virtual void setAngle(f32 _angle);

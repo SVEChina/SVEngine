@@ -21,8 +21,5 @@ void SVTransCPU::init(s32 _w, s32 _h,f32 _angle,PICFORMATE _picformate,SVTEXTYPE
 void SVTransCPU::destroy(){
 }
 
-void SVTransCPU::pushData(u8* _srcPtr){
-}
-
 void SVTransCPU::update(f32 dt) {
 }

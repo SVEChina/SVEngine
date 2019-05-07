@@ -166,7 +166,7 @@ void SVStreamOut::_refreshOutStream() {
 }
 
 //
-void SVStreamOut::createOutStream(cptr8 _name, s32 _type, s32 _format, s32 _steamType) {
+void SVStreamOut::createOutStream(cptr8 _name, s32 _type, s32 _format, RENDERSTREAMTYPE _steamType) {
     if(_type == 0){
 #ifdef SV_IOS
         m_pFrameOut = MakeSharedPtr<SVFrameOutIOS>(mApp);
@@ -175,9 +175,7 @@ void SVStreamOut::createOutStream(cptr8 _name, s32 _type, s32 _format, s32 _stea
             s32 _w = mApp->m_pGlobalParam->m_inner_width;
             s32 _h = mApp->m_pGlobalParam->m_inner_height;
             t_streamNode->init(SV_OUTSTEAMFORMATE(_format),_w,_h);
-            if (_steamType) {
-                t_streamNode->setRSType(RST_MASK2D);
-            }
+            t_streamNode->setRSType(_steamType);
         }
 #endif
     }else if(_type == 1){
@@ -191,7 +189,7 @@ void SVStreamOut::createOutStream(cptr8 _name, s32 _type, s32 _format, s32 _stea
 void SVStreamOut::destroyOutStream() {
     if(m_pFrameOut) {
         m_pFrameOut->removeFromParent();
-        m_pFrameOut = nullptr;
+        m_pFrameOut = nullptr; 
     }
 }
 

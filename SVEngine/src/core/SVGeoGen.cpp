@@ -326,7 +326,7 @@ SVRenderMeshPtr SVGeoGen::createRectMesh(SVInst* _app,f32 _w ,f32 _h , s32 _wPoi
             iIndexIndex += 6;
         }
     }
-   SVRenderMeshPtr  pRenderMesh =  _app->getRenderMgr()->createMeshRObj();
+    SVRenderMeshPtr  pRenderMesh =  _app->getRenderMgr()->createMeshRObj();
     SVDataSwapPtr t_index = MakeSharedPtr<SVDataSwap>();
     t_index->writeData(dataIndex, iIndexCount * sizeof(u16));
     pRenderMesh->setIndexData(t_index, iIndexCount);

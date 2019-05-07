@@ -12,7 +12,7 @@
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVStreamIn.h"
 #include "../basesys/SVStreamOut.h"
-
+#include "../rendercore/SVRenderDef.h"
 //设置ios相机
 SVOpCreateIOSInstream::SVOpCreateIOSInstream(SVInst *_app, cptr8 _name, s32 _format, s32 _w, s32 _h,f32 _angle, bool _show)
         : SVOpBase(_app) {
@@ -52,18 +52,18 @@ void SVOpDestroyIOSInstream::_process(f32 _dt) {
 }
 
 
-SVOpCreateIOSOutstream::SVOpCreateIOSOutstream(SVInst *_app, cptr8 _name, s32 _format, s32 _streamType)
+SVOpCreateIOSOutstream::SVOpCreateIOSOutstream(SVInst *_app, cptr8 _name, s32 _format, s32 _steamType)
         : SVOpBase(_app) {
     m_name = _name;
     m_formate = _format;
-    m_streamType = _streamType;
+    m_streamType = _steamType;
 }
 
 void SVOpCreateIOSOutstream::_process(f32 _dt) {
 #ifdef SV_IOS
     SVStreamOutPtr t_streamout = mApp->getBasicSys()->getStreamOut();
     if( t_streamout ) {
-        t_streamout->createOutStream(m_name.c_str(), 0, m_formate, m_streamType);
+        t_streamout->createOutStream(m_name.c_str(), 0, m_formate, RENDERSTREAMTYPE(m_streamType));
     }
 #endif
 }

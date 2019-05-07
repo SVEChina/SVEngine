@@ -137,6 +137,7 @@ enum SVTEXTYPE {
     E_TEX_FILTER_2,
     E_TEX_FILTER_3,
     E_TEX_FILTER_4,
+    E_TEX_INSTREAM_BEGIN,
     E_TEX_END = 64
 };
 

@@ -24,8 +24,6 @@ namespace sv {
             
             void destroy();
             
-            void pushData(u8 *_srcPtr);
-            
             void update(f32 dt);
             
         };

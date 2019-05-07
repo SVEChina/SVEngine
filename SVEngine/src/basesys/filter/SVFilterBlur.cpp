@@ -47,7 +47,7 @@ bool SVFilterBlur::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     m_pPassNode->setRSType(m_rstype);
     //创建pass
     SVPassPtr t_pass1 = MakeSharedPtr<SVPass>();
-    m_lkMtl01=MakeSharedPtr<SVMtlSmooth>(mApp,"blurtex");
+    m_lkMtl01=MakeSharedPtr<SVMtlSmooth>(mApp,"newblur");
     m_lkMtl01->setTexcoordFlip(1.0f, 1.0f);
     m_lkMtl01->setImgWH(1.0/t_w,0.0);
     m_lkMtl01->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
@@ -57,7 +57,7 @@ bool SVFilterBlur::create(SVTEXTYPE _inType,SVTEXTYPE _outType){
     t_pass1->setOutTex(E_TEX_FILTER_GLOW_2);
     m_pPassNode->addPass(t_pass1);
     //
-    m_lkMtl02=MakeSharedPtr<SVMtlSmooth>(mApp,"blurtex");
+    m_lkMtl02=MakeSharedPtr<SVMtlSmooth>(mApp,"newblur");
     m_lkMtl02->setTexcoordFlip(1.0f, 1.0f);
     m_lkMtl02->setImgWH(0.0 ,1.0/t_h);
     t_pass1 = MakeSharedPtr<SVPass>();

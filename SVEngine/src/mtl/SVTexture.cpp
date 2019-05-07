@@ -32,6 +32,7 @@ SVTexture::SVTexture(SVInst*_app)
     m_type = GL_TEXTURE_2D;
     m_informate = GL_RGBA;
     m_dataformate = GL_RGBA;
+    m_objTexPtr = nullptr;
     m_pData = MakeSharedPtr<SVDataSwap>();
 }
 
@@ -41,13 +42,13 @@ SVTexture::~SVTexture() {
 }
 
 void SVTexture::create(SVRendererBasePtr _renderer){
+    SV_LOG_INFO("texture create id %d \n",m_uid);
     SVRObjBase::create(_renderer);
     SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
         m_objTexPtr = MakeSharedPtr<SVRResGLTex>(mApp);
-        
     }
     SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
     if (t_rendeVKPtr) {
@@ -164,11 +165,9 @@ s32 SVTexture::getdataformate(){
 }
 
 void SVTexture::_updateData(){
-    if (m_objTexPtr) {
-        if (m_bData) {
-            m_objTexPtr->setTexData(m_pData->getData(), m_pData->getSize());
-            m_bData = false;
-        }
+    if (m_objTexPtr && m_bData) {
+        m_objTexPtr->setTexData(m_pData->getData(), m_pData->getSize());
+        m_bData = false;
     }
 }
 

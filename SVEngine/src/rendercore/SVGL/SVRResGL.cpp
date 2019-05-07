@@ -35,10 +35,12 @@ SVRResGLTex::SVRResGLTex(SVInst* _app)
 }
 
 SVRResGLTex::~SVRResGLTex(){
+    SV_LOG_INFO("SVRResGLTex destroy %d ",m_uid);
 }
 
 void SVRResGLTex:: create(SVRendererBasePtr _renderer) {
     SVRObjBase::create(_renderer);
+    SV_LOG_INFO("SVRResGLTex create %d ",m_uid);
     if( m_id == 0 ){
         m_bLoad = true;
         glGenTextures(1, &m_id);
@@ -426,6 +428,8 @@ void SVRResGLFBO::destroy(SVRendererBasePtr _renderer){
         }
         glDeleteRenderbuffers(1, &m_depthID);
         glDeleteFramebuffers(1,&m_fboID);
+        m_depthID = 0;
+        m_fboID = 0;
     }
     SVRObjBase::destroy(_renderer);
 }
@@ -435,12 +439,21 @@ void SVRResGLFBO::_bindColor() {
 
 void SVRResGLFBO::_bindDepth() {
     if(m_depth && m_width>0 && m_height>0) {
-        glGenRenderbuffers(1, &m_depthID);
+        if (m_depthID == 0) {
+            glGenRenderbuffers(1, &m_depthID);
+        }
         glBindRenderbuffer(GL_RENDERBUFFER, m_depthID);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_width, m_height);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthID);
         if( m_stencil ) {
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_depthID);
+        }
+    }else{
+        if (m_depthID > 0) {
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER,0);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER,0);
+            glDeleteRenderbuffers(1, &m_depthID);
+            m_depthID = 0;
         }
     }
 }
