@@ -96,7 +96,7 @@ namespace sv {
             //索引缓存
             virtual void svBindIndexBuffer(u32 _id);
             //顶点格式更新
-            virtual void svUpdateVertexFormate(VFTYPE _vf);
+            virtual void svUpdateVertexFormate(VFTYPE _vf,s32 _count = 0,s32 _mode = 1);
             //视口
             virtual void svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h);
             //退出视口

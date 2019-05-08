@@ -177,7 +177,7 @@ void SVRendererMetal::resize(s32 _w,s32 _h) {
      
  }
 //顶点格式更新
- void SVRendererMetal::svUpdateVertexFormate(VFTYPE _vf){
+ void SVRendererMetal::svUpdateVertexFormate(VFTYPE _vf,s32 _count,s32 _mode){
      
  }
 //视口

@@ -31,7 +31,7 @@
 #include "../node/SVFreeTypeNode.h"
 #include "../node/SVBMFontNode.h"
 #include "../node/SVFacePointNode.h"
-#include "../node/SVGLTFModelNode.h"
+#include "../node/SVSkinNode.h"
 #include "../file/SVParseMain.h"
 #include "../file/SVBMFontLoader.h"
 #include "../file/SVLoaderGLTF.h"
@@ -220,17 +220,18 @@ SVOpCreateTest::~SVOpCreateTest(){
 }
 
 void SVOpCreateTest::_process(f32 dt) {
-    //return;
-    //创建逻辑场景
-    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-    if (t_pScene) {
-        //创建测试盒子®
-        for(s32 i=0;i<1;i++){
-            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-            t_testBox->randomInit();
-            t_pScene->addNode(t_testBox);
-        }
-    }
+    SVLoaderGLTF t_load(mApp);
+    t_load.loadFromFile("svres/gltf/Cube/Cube.gltf");
+    t_load.building();
+//    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+//    if (t_pScene) {
+//        //创建测试盒子®
+//        for(s32 i=0;i<1;i++){
+//            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+//            t_testBox->randomInit();
+//            t_pScene->addNode(t_testBox);
+//        }
+//    }
     
 //#ifdef SV_IOS
 //        SVSpriteNodePtr spriteNode = MakeSharedPtr<SVSpriteNode>(mApp);
@@ -269,7 +270,7 @@ void SVOpCreateTest::_process(f32 dt) {
 //        SVGLTF glTFLoader(mApp);
 //        GLTFModelPtr t_model =  glTFLoader.loadFromFile([t_resPath UTF8String]);
 //        if (t_model) {
-//            SVGLTFModelNodePtr t_node3d = MakeSharedPtr<SVGLTFModelNode>(mApp);
+//            SVSkinNodePtr t_node3d = MakeSharedPtr<SVSkinNode>(mApp);
 //            t_node3d->setPosition(0, 0, 0);
 //            t_node3d->setRotation(45, 45, 0);
 //            t_node3d->setScale(10.0, 10.0, 10.0);

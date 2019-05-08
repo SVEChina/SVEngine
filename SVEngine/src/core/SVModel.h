@@ -23,7 +23,7 @@ namespace sv {
             
             ~SVModel();
             
-            void clear();
+            void clear(){};
             
             void setMesh(SVMeshPtr _mesh);
         
@@ -36,6 +36,10 @@ namespace sv {
             cptr8 getName();
             
             void setName(cptr8 _name);
+            
+            void update(f32 _dt);
+            
+            void render();
             
         protected:
             SVString m_name;

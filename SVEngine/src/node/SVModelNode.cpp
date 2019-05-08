@@ -6,184 +6,167 @@
 //
 
 #include "SVModelNode.h"
-
-#ifdef CONFIG_IS_LOAD_ASSIMP
-
-#include "../event/SVEventMgr.h"
-#include "../basesys/SVConfig.h"
 #include "SVCameraNode.h"
 #include "SVScene.h"
-#include "../core/SVBasicModel.h"
-#include "../core/SVSkinModel.h"
-#include "../mtl/SVMtlSkinModel.h"
+#include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/SVRenderScene.h"
+#include "../rendercore/SVRenderMesh.h"
+#include "../rendercore/SVRenderObject.h"
+#include "../event/SVEventMgr.h"
+#include "../event/SVEvent.h"
+#include "../event/SVOpEvent.h"
+#include "../mtl/SVMtl3D.h"
+#include "../mtl/SVTexMgr.h"
+#include "../mtl/SVTexture.h"
+#include "../basesys/SVConfig.h"
+#include "../rendercore/SVRendererBase.h"
 
+//
 SVModelNode::SVModelNode(SVInst *_app)
-:SVNode(_app){
+:SVNode(_app) {
     ntype = "SVModelNode";
+    m_enableDebugNormal = false;
     m_pModel = nullptr;
-    m_fAniPlayedTime = 0.0f;
-    m_iCurrentAnimateIndex = 0;
-    m_renderObject = MakeSharePtr<SVMultMeshMtlRenderObject>();
 }
 
 SVModelNode::~SVModelNode() {
-    m_meshMap.clear();
-    m_matMap.clear();
-    m_renderObject = nullptr;
     m_pModel = nullptr;
 }
 
 void SVModelNode::update(f32 dt) {
     SVNode::update(dt);
-    if (!m_pModel)
-        return;
-    if (m_state == tANI_STATE_PAUSE) {
-        dt = 0.0f;
-    }
-    _updateRenderMesh(dt);
+//    if( m_pRObj) {
+//        SVNode::update(dt);
+//        m_visible = true;
+//        m_drawBox = true;
+//        m_canSelect = true;
+//        //
+//        m_aabbBox.clear();
+//        m_pRObj->clearMesh();
+//        for (s32 i = 0; i<m_model->m_renderMeshData.size(); i++) {
+//            ModelRenderDataPtr renderData = m_model->m_renderMeshData[i];
+//            //计算包围盒
+//            m_aabbBox.expand(renderData->m_boundBox.getMin());
+//            m_aabbBox.expand(renderData->m_boundBox.getMax());
+//            //mesh
+//            SVRenderMeshPtr renderMesh = renderData->m_pMesh;
+//            renderMesh->setDrawMethod(E_DM_TRIANGLES);
+//            renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
+//            renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
+//            renderMesh->setVertexType(E_VF_V3_N_C_T0);
+//            renderMesh->setIndexData(renderData->m_pRenderIndex, renderData->m_indexCount);
+//            renderMesh->setVertexData(renderData->m_pRenderVertex);
+//            renderMesh->setVertexDataNum(renderData->m_vertexCount);
+//            renderMesh->createMesh();
+//            //material
+//            SVMtl3DPtr t_mtl = DYN_TO_SHAREPTR(SVMtl3D, renderData->m_pMtl);
+//            FMat4 matrix =  m_absolutMat * renderData->m_globalTransform;
+//            t_mtl->setModelMatrix(matrix.get());
+//            t_mtl->setDepthEnable(true);
+//            t_mtl->setBlendEnable(true);
+//            t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+//            m_pRObj->addRenderObj(renderMesh,t_mtl);
+//        }
+//        if (m_enableDebugNormal) {
+//            _showDebugNormalLines();
+//        }
+//    }else{
+//        m_visible = false;
+//    }
 }
 
 void SVModelNode::render() {
-    if(!mApp->m_pGlobalParam->m_curScene)
+    if (!m_visible)
         return;
-    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    if (m_renderObject) {
-        m_renderObject->pushCmd(t_rs,RST_SOLID_3D, "skinModelRender");
+    if (!mApp->m_pGlobalParam->m_curScene)
+        return;
+    if(m_pModel) {
+        //m_pModel->render();
     }
+    SVNode::render();
 }
 
-void SVModelNode::loadModel(cptr8 pPath ,cptr8 pDir) {
-//    if (m_pModel)
-//        return;
-//    //
-//    m_pModel = new SVSkinModel(mApp);
-//    bool bSuccess = m_pModel->LoadModel(pPath , pDir);
-//    if (!bSuccess){
-//        return;
-//    }
-//    //
-//    SVMultMeshMtlRenderObject *t_multmesh_obj = (SVMultMeshMtlRenderObject *)m_renderObject;
-//    for (s32 i = 0, n = m_pModel->getModelData()->mNumMeshes; i < n; i++) {
-//        u32 iVertexNum, iVertexSize, iMaterialIndex;
-//        s64 iVertexPoint , iIndexPoint;
-//        
-//        SVTexture* pTexDiffuse = nullptr;
-//        m_pModel->getMeshInfo(i,(void **)(&iVertexPoint),iVertexNum,iVertexSize,iMaterialIndex);
-//        m_pModel->getMaterialInfo(iMaterialIndex, &pTexDiffuse);
-//        
-//        SVRenderMeshPtr rmesh = MakeSharedPtr<SVRenderMesh>(mApp);
-//        rmesh->setVertexPoolType(GL_DYNAMIC_DRAW);
-//        rmesh->setIndexPoolType(GL_DYNAMIC_DRAW);
-//        rmesh->setVertexType(E_VF_V3_N_T0_BONE_W);
-//        rmesh->setVertexNum(iVertexNum);
-//        //rmesh->setVertexData((void *) iVertexPoint, iVertexSize);
-//        //rmesh->setDrawMethod(E_DM_LINES);
-//
-//        u32 iIndexNum, iIndexSize;
-//        m_pModel->getIndexInfo(i, (void **) (&iIndexPoint), iIndexNum, iIndexSize);
-//        //rmesh->setIndexData((void *) iIndexPoint, iIndexSize, iIndexNum);
-//
-//        SVMtlSkinModel *pMaterialSkin = new SVMtlSkinModel(mApp);
-//        pMaterialSkin->init();
-//        pMaterialSkin->setTexture(0,pTexDiffuse);
-//        //
-//        SVMatSkinModelSelect *pMaterialSkinSelect = new SVMatSkinModelSelect(mApp);
-//        pMaterialSkinSelect->init();
-//        pMaterialSkinSelect->setColor(uid);
-//        //
-//        t_multmesh_obj->addRenderObj(rmesh, pMaterialSkin);
-//        //加入本地map
-//        m_matMap.insert(i, pMaterialSkin);
-//        m_meshMap.insert(i, rmesh);        //外部的逻辑结构
-//        m_matSelectMap.insert(i, pMaterialSkinSelect);
-//    }
+/*
+//序列化
+void SVSpineNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    _toJsonData(_allocator, locationObj);
+    //
+    locationObj.AddMember("aniname", RAPIDJSON_NAMESPACE::StringRef(m_cur_aniname.c_str()), _allocator);
+    bool m_hasSpine = false;
+    if(m_spine){
+        //有spine
+        m_hasSpine = true;
+        locationObj.AddMember("ske_atlas", RAPIDJSON_NAMESPACE::StringRef(m_spine->m_spine_atlas.c_str()), _allocator);
+        locationObj.AddMember("ske_json", RAPIDJSON_NAMESPACE::StringRef(m_spine->m_spine_json.c_str()), _allocator);
+    }
+    locationObj.AddMember("loop", m_loop, _allocator);
+    locationObj.AddMember("spine", m_hasSpine, _allocator);
+    _objValue.AddMember("SVSpineNode", locationObj, _allocator);
 }
 
-void SVModelNode::addAnimate(cptr8 pName , s32 iIndex ,s32 iStart,s32 iEnd){
-//    SKINANIMATE::Node* pSkinAni = m_skinAniMap.find(pName);
-//    if (!pSkinAni){
-//        stuAnimate ani;
-//        ani.m_iIndex = iIndex;
-//        ani.m_iEnd   = iEnd;
-//        ani.m_iStart = iStart;
-//        m_skinAniMap.insert(pName , ani);
-//    }
-}
-
-void SVModelNode::setstate(E_ANISTATE _state){
-    m_state = _state;
-}
-
-E_ANISTATE SVModelNode::getstate(){
-    return m_state;
-}
-
-//
-void SVModelNode::setModel(SVSkinModelPtr _model) {
-    m_pModel = _model;
-}
-
-SVSkinModel *SVModelNode::getModel() {
-    return m_pModel;
-}
-
-void SVModelNode::play() {
-}
-
-void SVModelNode::play(cptr8 actname) {
-//    stuAnimate t_ani = m_skinAniMap[actname];
-//    if (t_ani == nullptr)
-//        return;
-//    m_iCurrentAnimateIndex = t_ani.m_iIndex;
-//    if (m_pModel){
-//        m_pModel->setAnimateIndex(m_iCurrentAnimateIndex);
-//    }
-}
-
-void SVModelNode::pause() {
-}
-
-void SVModelNode::stop() {
-}
-
-void SVModelNode::complete() {
-}
-
-void SVModelNode::reset() {
-}
-
-void SVModelNode::_updateRenderMesh(f32 dt) {
-    m_fAniPlayedTime += dt;
-    //m_pModel->BoneTransform(m_fAniPlayedTime / 1000.0f, Transforms);
-    m_pModel->UpdateModel(m_fAniPlayedTime);
-    for (s32 i = 0, n = m_matMap.size(); i < n; ++i) {
-        SVArray<aiMatrix4x4> Transforms;
-        m_pModel->BoneTransform(i , Transforms);
-        SVMtlSkinModelPtr pMat = m_matMap[i];
-        if (i == 0){
-            pMat->m_LogicParamDepth.clear = true;
+void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    _fromJsonData(item);
+    if (item.HasMember("aniname") && item["aniname"].IsString()) {
+        m_cur_aniname = item["aniname"].GetString();
+    }
+    if (item.HasMember("loop") && item["loop"].IsBool()) {
+        m_loop = item["loop"].GetBool();
+    }
+    bool m_hasSpine = false;
+    if (item.HasMember("spine") && item["spine"].IsBool()) {
+        m_hasSpine = item["spine"].GetBool();
+    }
+    if(m_hasSpine){
+        //有spine
+        SVString t_atlas;
+        SVString t_json;
+        if (item.HasMember("ske_atlas") && item["ske_atlas"].IsString()) {
+            t_atlas = item["ske_atlas"].GetString();
         }
-        pMat->setModelMatrix(m_absolutMat.get());
-        pMat->setVPMatrix(mApp->m_pGlobalParam->m_mat_vp.get());
-        pMat->m_LogicParamBlend.enable = true;
-        pMat->m_LogicParamBlend.srcParam = GL_ONE;
-        pMat->m_LogicParamBlend.dstParam = GL_ONE_MINUS_SRC_ALPHA;
-
-        for (u32 j = 0; j< Transforms.size(); j++) {
-            pMat->setBoneTransform(j, Transforms[j]);
+        if (item.HasMember("ske_json") && item["ske_json"].IsString()) {
+            t_json = item["ske_json"].GetString();
         }
-        //select
-        SVMtlSkinModelPtr pMatSelect = m_matSelectMap[i];
-        pMatSelect->setModelMatrix(m_absolutMat.get());
-        pMatSelect->setVPMatrix(mApp->m_pGlobalParam->m_mat_vp.get());
-        pMatSelect->m_LogicParamBlend.enable = false;
-        pMatSelect->m_LogicParamBlend.srcParam = GL_ONE;
-        pMatSelect->m_LogicParamBlend.dstParam = GL_ONE_MINUS_SRC_ALPHA;
-        for (u32 j = 0; j < Transforms.size(); j++) {
-            pMatSelect->setBoneTransform(j, Transforms[j]);
+        SVSpinePtr t_spine = SVSpine::createSpine(mApp, m_rootPath + t_json, m_rootPath + t_atlas, 1.0f);
+        if ( t_spine ) {
+            s32 len = t_atlas.size();
+            s32 pos = t_atlas.rfind('.');
+            SVString t_spineName = SVString::substr(t_atlas.c_str(), 0, pos);
+            t_spine->setSpineName(t_spineName.c_str());
+            setSpine(t_spine);
         }
     }
 }
+ */
 
+void SVModelNode::_showDebugNormalLines(){
+//    for (s32 i = 0; i<m_model->m_renderDebugMeshData.size(); i++) {
+//        ModelRenderDataPtr debugRenderData = m_model->m_renderDebugMeshData[i];
+//        //mesh
+//        SVRenderMeshPtr renderMesh = debugRenderData->m_pMesh;
+//        renderMesh->setDrawMethod(E_DM_LINES);
+//        renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
+////        renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
+//        renderMesh->setVertexType(E_VF_V3_C);
+////        renderMesh->setIndexData(debugRenderData->m_pRenderIndex, debugRenderData->m_indexCount);
+//        renderMesh->setVertexData(debugRenderData->m_pRenderVertex);
+//        renderMesh->setVertexDataNum(debugRenderData->m_vertexCount);
+//        renderMesh->createMesh();
+//        //material
+//        SVMtlCorePtr t_mtl = DYN_TO_SHAREPTR(SVMtlCore, debugRenderData->m_pMtl);
+//        FMat4 matrix =  m_absolutMat * debugRenderData->m_globalTransform;
+//        t_mtl->setModelMatrix(matrix.get());
+//        t_mtl->setDepthEnable(true);
+//        t_mtl->setBlendEnable(true);
+//        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+//        m_pRObj->addRenderObj(renderMesh,t_mtl);
+//    }
+}
 
-#endif
+void SVModelNode::enableDebugNormal(bool _enable){
+    m_enableDebugNormal = _enable;
+}
+
+bool SVModelNode::getDebugNormalEnable(){
+    return m_enableDebugNormal;
+}

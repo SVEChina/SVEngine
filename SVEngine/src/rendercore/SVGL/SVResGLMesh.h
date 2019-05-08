@@ -81,6 +81,7 @@ namespace sv {
             u32 m_indexID;
             u32 m_indexNum;    //索引数量
             u32 m_pointNum;    //顶点数量
+            u8 m_seqMode;       //序列模式 1 cross 2 plane
             u32 m_vertPoolType;
             u32 m_indexPoolType;
             DRAWMETHOD m_drawmethod;
