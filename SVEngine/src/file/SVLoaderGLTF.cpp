@@ -335,9 +335,8 @@ bool SVLoaderGLTF::loadFromFile(cptr8 _filename){
 //
 void SVLoaderGLTF::building() {
     //构建buf 在parse的时候 已经构建了
-    for(s32 i=0;i<m_gltf.buffers.size();i++) {
-        //m_gltf.buffers[i].
-    }
+//    for(s32 i=0;i<m_gltf.buffers.size();i++) {
+//    }
     //这就是一个gltf对象
     for(s32 i=0;i<m_gltf.meshes.size();i++) {
         SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>();
@@ -360,6 +359,21 @@ void SVLoaderGLTF::building() {
     //构建材质
     for(s32 i=0;i<m_gltf.materials.size();i++) {
         int a = 0;
+    }
+    //构建节点
+    for(s32 i=0;i<m_gltf.nodes.size();i++) {
+        Node* t_node = &(m_gltf.nodes[i]);
+//        SVString name;
+//        s32 camera;  // the index of the camera referenced by this node
+//        s32 skin;
+//        s32 mesh;
+//        SVArray<s32> children;
+//        SVArray<f64> rotation;     // length must be 0 or 4
+//        SVArray<f64> scale;        // length must be 0 or 3
+//        SVArray<f64> translation;  // length must be 0 or 3
+//        SVArray<f64> matrix;       // length must be 0 or 16
+//        SVArray<f64> weights;  // The weights of the instantiated Morph Target
+        //int a = 0;
     }
 }
 

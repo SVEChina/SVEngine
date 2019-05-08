@@ -31,7 +31,7 @@
 #include "../node/SVFreeTypeNode.h"
 #include "../node/SVBMFontNode.h"
 #include "../node/SVFacePointNode.h"
-#include "../node/SVGLTFModelNode.h"
+#include "../node/SVSkinNode.h"
 #include "../file/SVParseMain.h"
 #include "../file/SVBMFontLoader.h"
 #include "../file/SVLoaderGLTF.h"
@@ -270,7 +270,7 @@ void SVOpCreateTest::_process(f32 dt) {
 //        SVGLTF glTFLoader(mApp);
 //        GLTFModelPtr t_model =  glTFLoader.loadFromFile([t_resPath UTF8String]);
 //        if (t_model) {
-//            SVGLTFModelNodePtr t_node3d = MakeSharedPtr<SVGLTFModelNode>(mApp);
+//            SVSkinNodePtr t_node3d = MakeSharedPtr<SVSkinNode>(mApp);
 //            t_node3d->setPosition(0, 0, 0);
 //            t_node3d->setRotation(45, 45, 0);
 //            t_node3d->setScale(10.0, 10.0, 10.0);
