@@ -64,7 +64,6 @@ namespace sv{
         
         PTPOOL m_ptPool;
         PTPOOL m_ptGlowPool;
-        SVArray<SVBillboardNodePtr> m_glowStrokes;
         SVPenCurvePtr m_penCurve;
         //盒子相关
         SVDataSwapPtr m_pInstanceOffsetData;

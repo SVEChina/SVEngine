@@ -1,11 +1,11 @@
 //
-// SVPendraw.cpp
+// SVPenDraw.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVPendraw.h"
+#include "SVPenDraw.h"
 #include "SVPenStroke.h"
 #include "../../event/SVOpEvent.h"
 #include "../SVGameReady.h"
@@ -30,17 +30,19 @@
 #include "../../basesys/SVConfig.h"
 #include "../../app/SVGlobalMgr.h"
 #include "../../node/SVMultPassNode.h"
-SVPendraw::SVPendraw(SVInst *_app)
+SVPenDraw::SVPenDraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
     m_strokeWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeWidth;
     m_strokeColor = mApp->m_pGlobalMgr->m_pConfig->m_strokeColor;
     m_glowWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeGlowWidth;
     m_glowColor = mApp->m_pGlobalMgr->m_pConfig->m_strokeGlowColor;
+    m_lock = MakeSharedPtr<SVLock>();
 }
 
-SVPendraw::~SVPendraw() {
+SVPenDraw::~SVPenDraw() {
     m_curStroke = nullptr;
+    m_lock = nullptr;
     if(m_pRenderObj){
         m_pRenderObj->clearMesh();
         m_pRenderObj = nullptr;
@@ -56,9 +58,10 @@ SVPendraw::~SVPendraw() {
     m_glowFilter = nullptr;
     m_blurFilter = nullptr;
     m_strokes.destroy();
+    m_strokesCache.destroy();
 }
 
-void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) {
+void SVPenDraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) {
     SVGameBase::init(_ready,_run,_end);
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if (t_renderer) {
@@ -103,22 +106,27 @@ void SVPendraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
     //模糊效果处理
     m_blurFilter = MakeSharedPtr<SVFilterBlur>(mApp);
     m_blurFilter->setRSType(RST_AR);
+    m_blurFilter->setSmooth(1.3);
     m_blurFilter->create(E_TEX_HELP1, E_TEX_HELP1);
     
 }
 
-void SVPendraw::destroy() {
+void SVPenDraw::destroy() {
     SVGameBase::destroy();
 }
 
-void SVPendraw::update(f32 _dt) {
+void SVPenDraw::update(f32 _dt) {
+    m_lock->lock();
     SVGameBase::update(_dt);
-    _drawGlow();
-    _drawStroke();
-    _drawReback();
+    if (m_strokes.size() > 0) {
+        _drawGlow();
+        _drawStroke();
+        _drawReback();
+    }
+    m_lock->unlock();
 }
 
-void SVPendraw::_drawStroke(){
+void SVPenDraw::_drawStroke(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (t_rs && t_renderer && m_pRenderObj && m_fbo2) {
@@ -153,7 +161,7 @@ void SVPendraw::_drawStroke(){
         t_rs->pushRenderCmd(RST_AR, t_fbo_unbind);
     }
 }
-void SVPendraw::_drawGlow(){
+void SVPenDraw::_drawGlow(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (t_rs && t_renderer && m_pRenderObj && m_fbo1) {
@@ -191,7 +199,7 @@ void SVPendraw::_drawGlow(){
         
     }
 }
-void SVPendraw::_drawReback(){
+void SVPenDraw::_drawReback(){
     //再画回主纹理
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_mtl1 && m_mesh1 && m_mtl2 && m_mesh2 && m_pRenderObj) {
@@ -202,31 +210,67 @@ void SVPendraw::_drawReback(){
     }
 }
 
-void SVPendraw::open() {
+void SVPenDraw::open() {
     SVGameBase::open();
 }
 
-void SVPendraw::close() {
+void SVPenDraw::close() {
     SVGameBase::close();
 }
 
-void SVPendraw::setStrokeWidth(f32 _width){
+void SVPenDraw::setStrokeWidth(f32 _width){
     m_strokeWidth = _width;
 }
 
-void SVPendraw::setStrokeColor(FVec4 &_color){
+void SVPenDraw::setStrokeColor(FVec4 &_color){
     m_strokeColor = _color;
 }
 
-void SVPendraw::setGlowWidth(f32 _width){
+void SVPenDraw::setGlowWidth(f32 _width){
     m_glowWidth = _width;
 }
 
-void SVPendraw::setGlowColor(FVec4 &_color){
+void SVPenDraw::setGlowColor(FVec4 &_color){
     m_glowColor = _color;
 }
 
-bool SVPendraw::procEvent(SVEventPtr _event){
+void SVPenDraw::clear(){
+    m_lock->lock();
+    m_curStroke = nullptr;
+    m_strokes.destroy();
+    m_strokesCache.destroy();
+    m_lock->unlock();
+}
+
+void SVPenDraw::redo(){
+    m_lock->lock();
+    if (m_strokesCache.size() > 0) {
+        SVPenStrokePtr lastStroke = m_strokesCache.get(m_strokesCache.size() - 1);
+        m_strokes.append(lastStroke);
+        m_strokesCache.remove(m_strokesCache.size() - 1);
+    }
+    m_lock->unlock();
+}
+
+void SVPenDraw::undo(){
+    m_lock->lock();
+    if (m_strokes.size() > 0) {
+        SVPenStrokePtr lastStroke = m_strokes.get(m_strokes.size() - 1);
+        m_strokesCache.append(lastStroke);
+        m_strokes.remove(m_strokes.size() - 1);
+    }
+    m_lock->unlock();
+}
+
+bool SVPenDraw::isRedoEnable(){
+    return m_strokesCache.size();
+}
+
+bool SVPenDraw::isUndoEnable(){
+    return m_strokes.size();
+}
+
+bool SVPenDraw::procEvent(SVEventPtr _event){
     if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_BEGIN){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (!m_curStroke) {

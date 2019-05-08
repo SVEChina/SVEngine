@@ -113,6 +113,5 @@ namespace sv {
     }//!namespace render
     
 }//!namespace sv
-
 //
 #endif //SV_RENDERER_METAL_H

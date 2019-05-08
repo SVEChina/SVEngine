@@ -1,5 +1,5 @@
 //
-// SVPendraw.h
+// SVPenDraw.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
@@ -17,11 +17,11 @@ namespace sv{
     
     //绘制事件
 
-    class SVPendraw : public SVGameBase {
+    class SVPenDraw : public SVGameBase {
     public:
-        SVPendraw(SVInst* _app);
+        SVPenDraw(SVInst* _app);
         
-        ~SVPendraw();
+        ~SVPenDraw();
         
         virtual void init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end);
         
@@ -34,6 +34,16 @@ namespace sv{
         virtual void close();
         
         virtual bool procEvent(SVEventPtr _event);
+        
+        void clear();
+        
+        void redo();
+        
+        void undo();
+        
+        bool isRedoEnable();
+        
+        bool isUndoEnable();
         
         void setStrokeWidth(f32 _width);
         
@@ -49,6 +59,7 @@ namespace sv{
         void _drawReback();//画回主纹理
         typedef SVArray<SVPenStrokePtr> STROKEPOOL;
         STROKEPOOL m_strokes;
+        STROKEPOOL m_strokesCache;
         SVPenStrokePtr m_curStroke;
         SVRenderTexturePtr m_fbo1;
         SVRenderTexturePtr m_fbo2;
@@ -65,6 +76,7 @@ namespace sv{
         FVec4 m_strokeColor;
         f32 m_glowWidth;
         FVec4 m_glowColor;
+        SVLockPtr m_lock;
     };
     
 }//!namespace sv

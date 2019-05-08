@@ -8,6 +8,7 @@
 #ifndef SV_PREDECLARE_H
 #define SV_PREDECLARE_H
 
+#include "../base/SVCompileConfig.h"
 #include <memory>
 
 //定义shareptr宏
@@ -106,6 +107,12 @@ namespace sv {
     //
     DECLARE_SHAREPTR(SVOpOpenPen);
     DECLARE_SHAREPTR(SVOpClosePen);
+    DECLARE_SHAREPTR(SVOpSetPenEffcet);
+    DECLARE_SHAREPTR(SVOpClearPen);
+    DECLARE_SHAREPTR(SVOpPenUndo);
+    DECLARE_SHAREPTR(SVOpPenRedo);
+    DECLARE_SHAREPTR(SVOpPenUndoIsEnable);
+    DECLARE_SHAREPTR(SVOpPenRedoIsEnable);
     //
     DECLARE_SHAREPTR(SVOpCreateIOSInstream);
     DECLARE_SHAREPTR(SVOpDestroyIOSInstream);
@@ -129,15 +136,16 @@ namespace sv {
     
     DECLARE_SHAREPTR(SVOpDestroyEffect);
     DECLARE_SHAREPTR(SVOpDestroyDivision);
-#if defined SV_IOS
+
+#if defined(SV_IOS)
     DECLARE_SHAREPTR(SVOpCreateRenderderMTL);
     DECLARE_SHAREPTR(SVOpCreateRenderderGLIOS);
-#elif defined SV_ANDROID
+#elif defined(SV_ANDROID)
     DECLARE_SHAREPTR(SVOpCreateRenderderVK);
     DECLARE_SHAREPTR(SVOpCreateRenderderGLAND);
-#elif defined SV_OSX
+#elif defined(SV_OSX)
    DECLARE_SHAREPTR(SVOpCreateRenderderGLOSX);
-#elif defined SV_WIN
+#elif defined(SV_WIN)
     DECLARE_SHAREPTR(SVOpCreateRenderderGLWIN);
 #endif
     

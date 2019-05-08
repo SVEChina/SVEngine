@@ -267,7 +267,6 @@ namespace sv {
     };
     
     //
-    //mark
     class SVOpOpenPen : public SVOpBase {
     public:
         SVOpOpenPen(SVInst *_app);
@@ -277,7 +276,68 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
-
+    //
+    class SVOpSetPenEffcet : public SVOpBase {
+    public:
+        SVOpSetPenEffcet(SVInst *_app, cptr8 pStrPath);
+        
+        ~SVOpSetPenEffcet();
+        
+    protected:
+        void _process(f32 dt);
+        
+        SVString m_strPath;
+    };
+    //
+    class SVOpClearPen : public SVOpBase {
+    public:
+        SVOpClearPen(SVInst *_app);
+        
+        ~SVOpClearPen();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    //
+    class SVOpPenUndo : public SVOpBase {
+    public:
+        SVOpPenUndo(SVInst *_app);
+        
+        ~SVOpPenUndo();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    //
+    class SVOpPenRedo : public SVOpBase {
+    public:
+        SVOpPenRedo(SVInst *_app);
+        
+        ~SVOpPenRedo();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    //
+    class SVOpPenUndoIsEnable : public SVOpBase {
+    public:
+        SVOpPenUndoIsEnable(SVInst *_app);
+        
+        ~SVOpPenUndoIsEnable();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    //
+    class SVOpPenRedoIsEnable : public SVOpBase {
+    public:
+        SVOpPenRedoIsEnable(SVInst *_app);
+        
+        ~SVOpPenRedoIsEnable();
+        
+    protected:
+        void _process(f32 dt);
+    };
 }//!namespace sv
 
 
