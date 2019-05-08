@@ -184,19 +184,6 @@ void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     //二维点到三维点的转换
     FVec2 t_pt = FVec2(_px, _py);
     SVStrokePoint t_worldPt;
-    /*
-    if (m_penMode == SV_ARMODE) {
-        _screenPointToWorld(t_pt, t_worldPt);
-    }else if (m_penMode == SV_FACEMODE){
-        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
-        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
-        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
-    }else if (m_penMode == SV_NORMAL){
-        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
-        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
-        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
-    }
-     */
     _screenPointToWorld(t_pt, t_worldPt);
     if (m_penCurve) {
         m_penCurve->reset();
@@ -217,19 +204,6 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     //二维点到三维点的转换
     FVec2 t_pt = FVec2(_px, _py);
     SVStrokePoint t_worldPt;
-    /*
-    if (m_penMode == SV_ARMODE) {
-        _screenPointToWorld(t_pt, t_worldPt);
-    }else if (m_penMode == SV_FACEMODE){
-        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
-        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
-        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
-    }else if (m_penMode == SV_NORMAL){
-        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
-        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
-        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
-    }
-     */
     _screenPointToWorld(t_pt, t_worldPt);
     //
     if (m_penCurve) {
@@ -279,19 +253,6 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     //二维点到三维点的转换
     FVec2 t_pt = FVec2(_px, _py);
     SVStrokePoint t_worldPt;
-    /*
-    if (m_penMode == SV_ARMODE) {
-        _screenPointToWorld(t_pt, t_worldPt);
-    }else if (m_penMode == SV_FACEMODE){
-        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
-        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
-        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
-    }else if (m_penMode == SV_NORMAL){
-        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
-        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
-        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
-    }
-     */
     _screenPointToWorld(t_pt, t_worldPt);
     //
     if (m_penCurve) {
@@ -972,40 +933,6 @@ void SVPenStroke::_createStrokeMesh() {
     m_pBoxMesh->setColor0Data(t_pColorData);
 }
 
-void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint){
-    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
-    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
-    if(!t_arCam)
-        return ;
-    FMat4 t_cameraMatrix = t_arCam->getViewMatObj();
-    FVec3 t_cameraEye = t_arCam->getPosition();
-    //构建虚拟平面
-    FVec3 t_cameraDir = FVec3(-t_cameraMatrix[2],
-                              -t_cameraMatrix[6],
-                              -t_cameraMatrix[10]);
-    FVec3 t_targetPos = t_cameraEye + t_cameraDir*m_plane_dis;
-    f32 t_dis = dot(t_targetPos,t_cameraDir);
-    FVec4 t_plane = FVec4(-t_cameraDir,t_dis);
-    SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
-    //求交点
-    FVec3 t_pos;
-    f32 t_pt_x = _point.x;
-    f32 t_pt_y = _point.y;
-    f32 t_pt_z = 0.0f;
-    if(t_pickModule && t_pickModule->getCrossPointWithPlane(t_arCam,t_pt_x, t_pt_y,t_pos, t_plane) ){
-        t_pt_x = t_pos.x;
-        t_pt_y = t_pos.y;
-        t_pt_z = t_pos.z;
-    }
-    //保存交点的位置和法线方向
-    _worldPoint.point = FVec3(t_pt_x,t_pt_y,t_pt_z);
-    _worldPoint.normal = -t_cameraDir;
-    //_worldPoint.normal.normalize();
-    _worldPoint.ext0 = FVec3(0.0f,0.0f,0.0f);
-    _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
-}
-
-
 void SVPenStroke::updateStroke(float _dt){
     m_lock->unlock();
     //三维盒子实例子
@@ -1116,4 +1043,37 @@ void SVPenStroke::renderBoundingBox(){
         FMat4 m_mat_unit = FMat4_identity;
         t_mtl_geo3d->setModelMatrix( m_mat_unit.get() ); SVRenderObjInst::pushAABBCmd(t_rs,RST_AR_END,m_aabbBox,t_mtl_geo3d,"SV3DBOX_aabb");
     }
+}
+
+void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint){
+    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
+    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
+    if(!t_arCam)
+        return ;
+    FMat4 t_cameraMatrix = t_arCam->getViewMatObj();
+    FVec3 t_cameraEye = t_arCam->getPosition();
+    //构建虚拟平面
+    FVec3 t_cameraDir = FVec3(-t_cameraMatrix[2],
+                              -t_cameraMatrix[6],
+                              -t_cameraMatrix[10]);
+    FVec3 t_targetPos = t_cameraEye + t_cameraDir*m_plane_dis;
+    f32 t_dis = dot(t_targetPos,t_cameraDir);
+    FVec4 t_plane = FVec4(-t_cameraDir,t_dis);
+    SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
+    //求交点
+    FVec3 t_pos;
+    f32 t_pt_x = _point.x;
+    f32 t_pt_y = _point.y;
+    f32 t_pt_z = 0.0f;
+    if(t_pickModule && t_pickModule->getCrossPointWithPlane(t_arCam,t_pt_x, t_pt_y,t_pos, t_plane) ){
+        t_pt_x = t_pos.x;
+        t_pt_y = t_pos.y;
+        t_pt_z = t_pos.z;
+    }
+    //保存交点的位置和法线方向
+    _worldPoint.point = FVec3(t_pt_x,t_pt_y,t_pt_z);
+    _worldPoint.normal = -t_cameraDir;
+    //_worldPoint.normal.normalize();
+    _worldPoint.ext0 = FVec3(0.0f,0.0f,0.0f);
+    _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
 }

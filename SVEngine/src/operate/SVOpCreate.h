@@ -341,12 +341,13 @@ namespace sv {
     //
     class SVOpPenMode : public SVOpBase {
     public:
-        SVOpPenMode(SVInst *_app);
+        SVOpPenMode(SVInst *_app, s32 _mode);
         
         ~SVOpPenMode();
         
     protected:
         void _process(f32 dt);
+        s32 m_mode;
     };
 }//!namespace sv
 

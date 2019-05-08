@@ -49,8 +49,6 @@ void SVBasicSys::init() {
     //
     m_pSensorModule = MakeSharedPtr<SVSensorProcess>(mApp);
     m_pSensorModule->startListen();
-    m_pSensorModule->startSensor();
-    
 }
 
 void SVBasicSys::destroy() {
