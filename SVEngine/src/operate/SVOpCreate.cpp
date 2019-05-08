@@ -654,3 +654,23 @@ void SVOpPenRedoIsEnable::_process(f32 dt) {
         (*m_pCB)(result);
     }
 }
+
+SVOpPenMode::SVOpPenMode(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpPenMode::~SVOpPenMode(){
+    
+}
+
+void SVOpPenMode::_process(f32 dt) {
+    SVString result = "false";
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            
+        }
+    }
+}

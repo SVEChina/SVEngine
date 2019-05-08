@@ -49,11 +49,15 @@ namespace sv {
             
             f32 *getFaceData();
             
-            f32 *getFaceDataOriginal();
-            
             f32 getFaceDataX(s32 _index);
             
-            f32 getFaceDataY(s32 index);
+            f32 getFaceDataY(s32 _index);
+            
+            f32 *getFaceDataOriginal();
+            
+            f32 getFaceDataOriginalX(s32 _index);
+            
+            f32 getFaceDataOriginalY(s32 _index);
             
             s32 getFacePtNum();
             

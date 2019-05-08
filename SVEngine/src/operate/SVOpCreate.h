@@ -338,6 +338,16 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
+    //
+    class SVOpPenMode : public SVOpBase {
+    public:
+        SVOpPenMode(SVInst *_app);
+        
+        ~SVOpPenMode();
+        
+    protected:
+        void _process(f32 dt);
+    };
 }//!namespace sv
 
 
