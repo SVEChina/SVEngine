@@ -61,11 +61,12 @@ namespace sv {
         DECLARE_SHAREPTR(SVResGLRenderMeshData);
         
         //metal
+        #if defined(SV_IOS) || defined(SV_OSX)
         DECLARE_SHAREPTR(SVRendererMetal);
         DECLARE_SHAREPTR(SVRResMetalTex);
         DECLARE_SHAREPTR(SVRResMetalShader);
         DECLARE_SHAREPTR(SVResMetalRenderMesh);
-        
+        #endif
         //vulkan
         DECLARE_SHAREPTR(SVRendererVK);
         

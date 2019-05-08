@@ -15,8 +15,10 @@
 #include "SVGL/SVRResGL.h"
 #include "SVGL/SVResGLMesh.h"
 //
+#if defined(SV_IOS) || defined(SV_OSX)
 #include "SVMetal/SVRendererMetal.h"
 #include "SVMetal/SVResMetalMesh.h"
+#endif
 //
 #include "SVVulkan/SVRendererVK.h"
 
@@ -65,11 +67,13 @@ void SVRenderMesh::create(SVRendererBasePtr _renderer){
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
     }
+    #if defined(SV_IOS) || defined(SV_OSX)
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
     if (t_rendeMetalPtr) {
         //渲染器类型E_RENDERER_METAL
         m_objVBOPtr = MakeSharedPtr<SVResMetalRenderMesh>(mApp);
     }
+    #endif
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();
@@ -232,10 +236,12 @@ void SVRenderMeshDvid::create(SVRendererBasePtr _renderer){
 //    if (t_rendeVKPtr) {
 //        //渲染器类型E_RENDERER_VUNKAN,
 //    }
+    #if defined(SV_IOS) || defined(SV_OSX)
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
     if (t_rendeMetalPtr) {
         //渲染器类型E_RENDERER_METAL,
     }
+    #endif
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();

@@ -9,7 +9,9 @@
 #include "SVRenderScene.h"
 #include "SVRenderMgr.h"
 #include "SVGL/SVRResGL.h"
+#if defined(SV_IOS) || defined(SV_OSX)
 #include "SVMetal/SVRendererMetal.h"
+#endif
 #include "SVVulkan/SVRendererVK.h"
 #include "SVGL/SVRendererGL.h"
 #include "../mtl/SVTexture.h"

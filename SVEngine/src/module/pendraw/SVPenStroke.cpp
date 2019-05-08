@@ -35,7 +35,7 @@
 #include "../../node/SVSpriteNode.h"
 #include "../../basesys/SVSceneMgr.h"
 #include "../../node/SVScene.h"
-SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor)
+SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor, SVPENMODE _mode)
 :SVGameBase(_app) {
     m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptPool.clear();
@@ -51,17 +51,42 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
     //
     m_lerpMethod = SV_LERP_BALANCE;
     m_drawBox = false;
+    m_dirty = false;
+    m_enableTranslation = false;
     m_instanceCount = 0;
     m_glowInstanceCount = 0;
     m_lastInstanceIndex = 0;
     m_lastGlowInstanceIndex = 0;
     m_plane_dis = 0.3f;
-    m_glowDensity = 0.05;
-    m_glowStrokeWidth = _glowWidth;
-    m_density = 0.06;
-    m_pen_width = _strokeWidth;
-    m_glowColor = _glowColor;
-    m_strokeColor = _strokeColor;
+    m_position.set(0.0f, 0.0f, 0.0f);
+    m_rotation.set(0.0f, 0.0f, 0.0f);
+    m_scale = 1.0f;
+    m_originalPosition.set(0.0f, 0.0f, 0.0f);
+    m_originalRotation.set(0.0f, 0.0f, 0.0f);
+    m_originalScale = 1.0f;
+    m_penMode = _mode;
+    if (m_penMode == SV_ARMODE) {
+        m_glowDensity = 0.05;
+        m_glowStrokeWidth = _glowWidth;
+        m_density = 0.06;
+        m_pen_width = _strokeWidth;
+        m_glowColor = _glowColor;
+        m_strokeColor = _strokeColor;
+    }else if (m_penMode == SV_FACEMODE){
+        m_glowDensity = 0.25;
+        m_glowStrokeWidth = _glowWidth*5;
+        m_density = 0.1;
+        m_pen_width = _strokeWidth*8;
+        m_glowColor = _glowColor;
+        m_strokeColor = _strokeColor;
+    }else if (m_penMode == SV_NORMAL){
+        m_glowDensity = 0.25;
+        m_glowStrokeWidth = _glowWidth*5;
+        m_density = 0.1;
+        m_pen_width = _strokeWidth*8;
+        m_glowColor = _glowColor;
+        m_strokeColor = _strokeColor;
+    }
     _createStrokeMesh();
     _createGlowMesh();
 //    setDrawBox(true);
@@ -90,9 +115,67 @@ void SVPenStroke::setDrawBox(bool _drawBox){
     m_drawBox = _drawBox;
 }
 
+void SVPenStroke::setPosition(FVec3 &_position){
+    SVStrokePoint t_worldPt;
+    FVec2 t_pt = FVec2(_position.x, _position.y);
+    _screenPointToWorld(t_pt, t_worldPt);
+    FVec3 t_new_position = t_worldPt.point;
+    if (m_position != t_new_position) {
+        m_dirty = true;
+        m_position = t_new_position;
+    }
+}
+
+void SVPenStroke::setScale(f32 _scale){
+    if (m_scale != _scale) {
+        m_dirty = true;
+        m_scale = _scale;
+    }
+}
+
+void SVPenStroke::setRotation(FVec3 &_rotation){
+    if (m_rotation != _rotation) {
+        m_dirty = true;
+        m_rotation = _rotation;
+    }
+}
+
+void SVPenStroke::setOriginalPosition(FVec3 &_position){
+    SVStrokePoint t_worldPt;
+    FVec2 t_pt = FVec2(_position.x, _position.y);
+    _screenPointToWorld(t_pt, t_worldPt);
+    FVec3 t_new_position = t_worldPt.point;
+    m_originalPosition = t_new_position;
+}
+
+void SVPenStroke::setOriginalScale(f32 _scale){
+    m_originalScale = _scale;
+}
+
+void SVPenStroke::setOriginalRotation(FVec3 &_rotation){
+    m_originalRotation = _rotation;
+}
+
+void SVPenStroke::setEnableTranslation(bool _enable){
+    m_enableTranslation = _enable;
+}
 
 void SVPenStroke::update(f32 _dt) {
-    
+    if (m_dirty && m_enableTranslation) {
+        m_localMat.setIdentity();
+        FMat4 t_mat_scale = FMat4_identity;
+        FMat4 t_mat_rotX = FMat4_identity;
+        FMat4 t_mat_rotY = FMat4_identity;
+        FMat4 t_mat_rotZ = FMat4_identity;
+        FMat4 t_mat_trans = FMat4_identity;
+        t_mat_scale.setScale(FVec3(m_scale/m_originalScale, m_scale/m_originalScale, m_scale/m_originalScale));
+        t_mat_rotX.setRotateX(m_rotation.x - m_originalRotation.x);
+        t_mat_rotY.setRotateY(m_rotation.y - m_originalRotation.y);
+        t_mat_rotZ.setRotateZ(m_rotation.z - m_originalRotation.z);
+        t_mat_trans.setTranslate(m_position - m_originalPosition);
+        m_localMat = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
+        m_dirty = false;
+    }
 }
 
 
@@ -101,6 +184,19 @@ void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
     //二维点到三维点的转换
     FVec2 t_pt = FVec2(_px, _py);
     SVStrokePoint t_worldPt;
+    /*
+    if (m_penMode == SV_ARMODE) {
+        _screenPointToWorld(t_pt, t_worldPt);
+    }else if (m_penMode == SV_FACEMODE){
+        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
+        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
+        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
+    }else if (m_penMode == SV_NORMAL){
+        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
+        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
+        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
+    }
+     */
     _screenPointToWorld(t_pt, t_worldPt);
     if (m_penCurve) {
         m_penCurve->reset();
@@ -121,6 +217,19 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     //二维点到三维点的转换
     FVec2 t_pt = FVec2(_px, _py);
     SVStrokePoint t_worldPt;
+    /*
+    if (m_penMode == SV_ARMODE) {
+        _screenPointToWorld(t_pt, t_worldPt);
+    }else if (m_penMode == SV_FACEMODE){
+        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
+        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
+        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
+    }else if (m_penMode == SV_NORMAL){
+        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
+        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
+        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
+    }
+     */
     _screenPointToWorld(t_pt, t_worldPt);
     //
     if (m_penCurve) {
@@ -170,6 +279,19 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     //二维点到三维点的转换
     FVec2 t_pt = FVec2(_px, _py);
     SVStrokePoint t_worldPt;
+    /*
+    if (m_penMode == SV_ARMODE) {
+        _screenPointToWorld(t_pt, t_worldPt);
+    }else if (m_penMode == SV_FACEMODE){
+        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
+        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
+        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
+    }else if (m_penMode == SV_NORMAL){
+        f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
+        f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
+        t_worldPt.point = FVec3(t_pt.x - m_screenW*0.5f, t_pt.y - m_screenH*0.5f, 0.0);
+    }
+     */
     _screenPointToWorld(t_pt, t_worldPt);
     //
     if (m_penCurve) {

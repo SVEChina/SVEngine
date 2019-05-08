@@ -13,10 +13,8 @@
 #include "../../event/SVEvent.h"
 #include "../../mtl/SVMtlDeclare.h"
 #include "../../rendercore/SVRenderDeclare.h"
+#include "SVPenStroke.h"
 namespace sv{
-    
-    //绘制事件
-
     class SVPenDraw : public SVGameBase {
     public:
         SVPenDraw(SVInst* _app);
@@ -53,13 +51,17 @@ namespace sv{
         
         void setGlowColor(FVec4 &_color);
         
+        void setPenMode(SVPENMODE _mode);
     protected:
         void _drawStroke();//画笔触
         void _drawGlow();//画荧光
         void _drawReback();//画回主纹理
+        void _updateTranslation();
+        void _resetTranslation();
         typedef SVArray<SVPenStrokePtr> STROKEPOOL;
         STROKEPOOL m_strokes;
         STROKEPOOL m_strokesCache;
+        SVLockPtr m_lock;
         SVPenStrokePtr m_curStroke;
         SVRenderTexturePtr m_fbo1;
         SVRenderTexturePtr m_fbo2;
@@ -73,10 +75,14 @@ namespace sv{
         SVFilterGlowPtr m_glowFilter;
         SVFilterBlurPtr m_blurFilter;
         f32 m_strokeWidth;
-        FVec4 m_strokeColor;
         f32 m_glowWidth;
+        FVec4 m_strokeColor;
         FVec4 m_glowColor;
-        SVLockPtr m_lock;
+        FVec3 m_position;
+        FVec3 m_scale;
+        FVec3 m_rotation;
+        f32   m_faceEyeWidth;
+        SVPENMODE m_mode;
     };
     
 }//!namespace sv

@@ -55,7 +55,7 @@ void SVSensorProcess::disableSensor(){
 }
 
 void SVSensorProcess::update(f32 _dt){
-    if(m_pARCamera) {
+    if(m_pARCamera && m_isEnable) {
         m_pARCamera->update(_dt);
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         SVRendererBasePtr t_renderer = mApp->getRenderer();

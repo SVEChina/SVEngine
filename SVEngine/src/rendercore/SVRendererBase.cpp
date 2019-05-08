@@ -151,7 +151,11 @@ SVTexturePtr SVRendererBase::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _form
     SVTexturePtr t_tex = MakeSharedPtr<SVTexture>(mApp);;
     SVString t_str("");
     t_str.printf("intexture_%d",s32(_type));
+    #if defined(SV_ANDROID)
+    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_RGBA,_enableMipMap);
+    #else
     t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_BGRA,_enableMipMap);
+    #endif
     mApp->getRenderMgr()->pushRCmdCreate(t_tex);
     m_svTex[_type] = t_tex;
     return m_svTex[_type];
