@@ -32,16 +32,11 @@ cptr8 SVMesh::getName(){
 //数据操作
 void SVMesh::setData(SVDataSwapPtr _data,VFTYPE _vtf,s32 _count,s32 _seqMode) {
     m_pRenderMesh = MakeSharedPtr<SVRenderMesh>(mApp);
+    m_pRenderMesh->setVertexType(_vtf);
+    m_pRenderMesh->setSeqMode(_seqMode);
+    m_pRenderMesh->setVertexDataNum(_count);
+    m_pRenderMesh->setVertexData(_data);
     m_pRenderMesh->createMesh();
-//    SVDataSwapPtr m_pDataSwap;  //顶点数据
-//    VFTYPE m_vertType;          //顶点类型
-//    s32 m_verCount;
-//    s32 m_seqMode; //1.代表cross模式 2.代表plane模式
-    
-//    MeshData tMeshData;
-//    tMeshData.m_vertType = _vtf;
-//    tMeshData.m_pDataSwap = _data;
-//    m_dataMap.append(_weight,tMeshData);
 }
 
 //子mesh操作

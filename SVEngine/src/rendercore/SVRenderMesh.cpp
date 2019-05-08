@@ -45,6 +45,7 @@ void SVRenderMesh::_resetMeshData(){
 
 void SVRenderMesh::_resetMeshConf(){
     m_renderMeshConf.vftype = E_VF_V2;
+    m_renderMeshConf.seqMode = 1;
     m_renderMeshConf.drawmethod = E_DM_TRIANGLES;
     m_renderMeshConf.vertPoolType = GL_STATIC_DRAW;
     m_renderMeshConf.indexPoolType = GL_STATIC_DRAW;
@@ -153,6 +154,13 @@ void SVRenderMesh::setVertexData(SVDataSwapPtr _data){
     if (_data) {  
         m_renderMeshData.pDataVertex = _data;
         m_renderMeshData.dirty = true;
+    }
+}
+
+void SVRenderMesh::setSeqMode(s32 _mode) {
+    if( m_renderMeshConf.seqMode!=_mode) {
+        m_renderMeshConf.seqMode = _mode;
+        m_renderMeshConf.dirty = true;
     }
 }
 

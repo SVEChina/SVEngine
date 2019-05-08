@@ -374,6 +374,7 @@ void SVResMetalRenderMesh::render(SVRendererBasePtr _renderer) {
 void SVResMetalRenderMesh::updateConf(RENDERMESHCONF& _conf) {
     m_drawmethod = _conf.drawmethod;
     m_vftype = _conf.vftype;
+    m_seqMode = _conf.seqMode;
 }
 
 void SVResMetalRenderMesh::updateData(RENDERMESHDATA& _data) {

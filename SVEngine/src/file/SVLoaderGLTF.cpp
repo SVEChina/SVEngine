@@ -18,6 +18,9 @@
 #include "../file/SVParseDef.h"
 #include "../file/SVFileMgr.h"
 #include "../rendercore/SVRenderMesh.h"
+#include "../node/SVSkinNode.h"
+#include "../node/SVModelNode.h"
+#include "../node/SVMorphNode.h"
 
 SVLoaderGLTF::SVLoaderGLTF(SVInst *_app)
 :SVGBase(_app) {
@@ -335,19 +338,17 @@ bool SVLoaderGLTF::loadFromFile(cptr8 _filename){
 //
 void SVLoaderGLTF::building() {
     //构建buf 在parse的时候 已经构建了
-//    for(s32 i=0;i<m_gltf.buffers.size();i++) {
-//    }
-    //这就是一个gltf对象
-    for(s32 i=0;i<m_gltf.meshes.size();i++) {
-        SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
-        t_mesh->setName(m_gltf.meshes[i].name.c_str());
-        //非权重方式
-        for(s32 j=0;j<m_gltf.meshes[i].primitives.size();j++) {
-            Primitive* t_pri = &(m_gltf.meshes[i].primitives[j]);
-            _buildPrimitive(t_mesh,t_pri);
-        }
-    }
     
+//    //这就是一个gltf对象
+//    for(s32 i=0;i<m_gltf.meshes.size();i++) {
+//        SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
+//        t_mesh->setName(m_gltf.meshes[i].name.c_str());
+//        //非权重方式
+//        for(s32 j=0;j<m_gltf.meshes[i].primitives.size();j++) {
+//            Primitive* t_pri = &(m_gltf.meshes[i].primitives[j]);
+//            _buildPrimitive(t_mesh,t_pri);
+//        }
+//    }
     //构建皮肤
     for(s32 i=0;i<m_gltf.skins.size();i++) {
         int a = 0;
@@ -361,20 +362,66 @@ void SVLoaderGLTF::building() {
         int a = 0;
     }
     //构建节点
-    for(s32 i=0;i<m_gltf.nodes.size();i++) {
-        Node* t_node = &(m_gltf.nodes[i]);
-//        SVString name;
-//        s32 camera;  // the index of the camera referenced by this node
-//        s32 skin;
-//        s32 mesh;
-//        SVArray<s32> children;
-//        SVArray<f64> rotation;     // length must be 0 or 4
-//        SVArray<f64> scale;        // length must be 0 or 3
-//        SVArray<f64> translation;  // length must be 0 or 3
-//        SVArray<f64> matrix;       // length must be 0 or 16
-//        SVArray<f64> weights;  // The weights of the instantiated Morph Target
-        //int a = 0;
+    for(s32 i=0;i<m_gltf.scenes.size();i++) {
+        Scene* t_scene = &(m_gltf.scenes[i]);
+        for(s32 j=0;j<t_scene->nodes.size();j++) {
+            s32 t_index = t_scene->nodes[j];
+            SVNodePtr t_rootNode = MakeSharedPtr<SVNode>(mApp);
+            Node* t_node = &(m_gltf.nodes[t_index]);
+            _buildNode(t_node,t_rootNode);
+        }
     }
+}
+
+void SVLoaderGLTF::_buildNode(Node* _node,SVNodePtr _rootNode) {
+    //构建自己 构建子
+    SVNodePtr t_model_node = nullptr;
+    if(_node->skin>=0) {
+        //SKINNODE
+        SVSkinNodePtr tNode = MakeSharedPtr<SVSkinNode>(mApp);
+        t_model_node = tNode;
+    }else {
+        //MESHNODE
+        //s32 tt = t_node->mesh;
+        SVModelNodePtr tNode = MakeSharedPtr<SVModelNode>(mApp);
+        SVModelPtr tModel = MakeSharedPtr<SVModel>();
+        tNode->setModel(tModel);
+        //
+        SVMeshPtr t_mesh = _buildMesh(_node->mesh);
+        tModel->setMesh(t_mesh);
+        t_model_node = tNode;
+    }
+    if(t_model_node) {
+        t_model_node->setname(_node->name.c_str());
+        if(_node->translation.size() == 3){
+            t_model_node->setPosition(_node->translation[0], _node->translation[1], _node->translation[2]);
+        }
+        if(_node->scale.size() == 3){
+            t_model_node->setScale(_node->scale[0], _node->scale[1], _node->scale[2]);
+        }
+        if(_node->rotation.size() == 4){
+            //t_model_node->setRotation(_node->rotation[0], _node->rotation[1], _node->rotation[2],_node->rotation[3]);
+        }
+        _rootNode->addChild(t_model_node);
+        //
+        for(s32 i=0;i<_node->children.size();i++){
+            s32 t_index = _node->children[i];
+            Node* t_node = &(m_gltf.nodes[t_index]);
+            _buildNode(t_node,t_model_node);
+        }
+    }
+}
+
+SVMeshPtr SVLoaderGLTF::_buildMesh(s32 _index){
+    Mesh* t_meshdata = &(m_gltf.meshes[_index]);
+    SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
+    t_mesh->setName(t_meshdata->name.c_str());
+    //非权重方式
+    for(s32 i=0;i<t_meshdata->primitives.size();i++) {
+        Primitive* t_pri = &(t_meshdata->primitives[i]);
+        _buildPrimitive(t_mesh,t_pri);
+    }
+    return t_mesh;
 }
 
 void SVLoaderGLTF::_buildPrimitive(SVMeshPtr _mesh,Primitive* _prim) {

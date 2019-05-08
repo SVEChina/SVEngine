@@ -573,6 +573,10 @@ namespace sv {
         void _loadAnimationData();
         
     private:
+        void _buildNode(Node* _node,SVNodePtr _rootNode);
+        
+        SVMeshPtr _buildMesh(s32 _index);
+        
         void _buildPrimitive(SVMeshPtr t_mesh,Primitive* _prim);
         
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
