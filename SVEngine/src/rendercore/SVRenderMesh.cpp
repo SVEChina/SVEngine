@@ -15,8 +15,10 @@
 #include "SVGL/SVRResGL.h"
 #include "SVGL/SVResGLMesh.h"
 //
+#if defined(SV_IOS) || defined(SV_OSX)
 #include "SVMetal/SVRendererMetal.h"
 #include "SVMetal/SVResMetalMesh.h"
+#endif
 //
 #include "SVVulkan/SVRendererVK.h"
 
@@ -45,6 +47,7 @@ void SVRenderMesh::_resetMeshData(){
 
 void SVRenderMesh::_resetMeshConf(){
     m_renderMeshConf.vftype = E_VF_V2;
+    m_renderMeshConf.seqMode = 1;
     m_renderMeshConf.drawmethod = E_DM_TRIANGLES;
     m_renderMeshConf.vertPoolType = GL_STATIC_DRAW;
     m_renderMeshConf.indexPoolType = GL_STATIC_DRAW;
@@ -64,11 +67,13 @@ void SVRenderMesh::create(SVRendererBasePtr _renderer){
     if (t_rendeVKPtr) {
         //渲染器类型E_RENDERER_VUNKAN,
     }
+    #if defined(SV_IOS) || defined(SV_OSX)
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
     if (t_rendeMetalPtr) {
         //渲染器类型E_RENDERER_METAL
         m_objVBOPtr = MakeSharedPtr<SVResMetalRenderMesh>(mApp);
     }
+    #endif
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();
@@ -156,6 +161,13 @@ void SVRenderMesh::setVertexData(SVDataSwapPtr _data){
     }
 }
 
+void SVRenderMesh::setSeqMode(s32 _mode) {
+    if( m_renderMeshConf.seqMode!=_mode) {
+        m_renderMeshConf.seqMode = _mode;
+        m_renderMeshConf.dirty = true;
+    }
+}
+
 void SVRenderMesh::setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount){
     if (_pdata) {
         m_renderMeshData.pDataInsOffset = _pdata;
@@ -224,10 +236,12 @@ void SVRenderMeshDvid::create(SVRendererBasePtr _renderer){
 //    if (t_rendeVKPtr) {
 //        //渲染器类型E_RENDERER_VUNKAN,
 //    }
+    #if defined(SV_IOS) || defined(SV_OSX)
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
     if (t_rendeMetalPtr) {
         //渲染器类型E_RENDERER_METAL,
     }
+    #endif
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();

@@ -41,6 +41,8 @@ namespace sv {
             
             void setVertexType(VFTYPE type);
             
+            void setSeqMode(s32 _mode);    //数据排列模式
+            
             void setDrawMethod(DRAWMETHOD drawtype);
             
             void setvisible(bool bVis);

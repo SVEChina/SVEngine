@@ -43,6 +43,7 @@ namespace sv {
             VFTYPE vftype;
             u32 vertPoolType;
             u32 indexPoolType;
+            s32 seqMode;
             DRAWMETHOD drawmethod;
             bool bVisible;
             bool dirty;

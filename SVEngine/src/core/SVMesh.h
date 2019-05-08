@@ -10,6 +10,7 @@
 
 #include "../base/SVGBase.h"
 #include "../base/SVPreDeclare.h"
+#include "../mtl/SVMtlDeclare.h"
 #include "../base/SVDataChunk.h"
 #include "../base/SVMap.h"
 #include "../rendercore/SVRenderDeclare.h"
@@ -37,20 +38,21 @@ namespace sv {
             
             void setData(SVDataSwapPtr _data,VFTYPE _vtf,s32 _count,s32 _seqMode);
             
+            void setMtl(SVMtlCorePtr _mtl);
+            
+            void update(f32 _dt);
+            
             void render();
             
         protected:
             SVString m_name;
-            SVDataSwapPtr m_pDataSwap;  //顶点数据
-            VFTYPE m_vertType;          //顶点类型
-            s32 m_verCount;
-            s32 m_seqMode; //1.代表cross模式 2.代表plane模式
+            SVLockPtr m_lock;
+            SVRenderMeshPtr m_pRenderMesh;
+            SVMtlCorePtr m_pMtl;
             //子mesh
             typedef SVArray<SVMeshPtr> MESHPOOL;
             MESHPOOL m_meshPool;
-            //
-            SVLockPtr m_lock;
-            SVRenderMeshPtr m_pRenderMesh;
+            
         };
         
         

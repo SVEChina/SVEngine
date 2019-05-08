@@ -20,6 +20,8 @@
 #include "../mtl/SVTexture.h"
 #include "../basesys/SVConfig.h"
 #include "../rendercore/SVRendererBase.h"
+#include "../core/SVModel.h"
+#include "../core/SVMesh.h"
 
 //
 SVModelNode::SVModelNode(SVInst *_app)
@@ -35,6 +37,9 @@ SVModelNode::~SVModelNode() {
 
 void SVModelNode::update(f32 dt) {
     SVNode::update(dt);
+    if(m_pModel) {
+        m_pModel->update(dt);
+    }
 //    if( m_pRObj) {
 //        SVNode::update(dt);
 //        m_visible = true;
@@ -81,11 +86,18 @@ void SVModelNode::render() {
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
     if(m_pModel) {
-        //m_pModel->render();
+        m_pModel->render();
     }
     SVNode::render();
 }
 
+void SVModelNode::setModel(SVModelPtr _model) {
+    m_pModel = _model;
+}
+
+SVModelPtr SVModelNode::getModel() {
+    return m_pModel;
+}
 /*
 //序列化
 void SVSpineNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){

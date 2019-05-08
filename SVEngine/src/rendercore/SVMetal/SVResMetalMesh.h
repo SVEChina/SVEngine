@@ -53,6 +53,7 @@ namespace sv {
             DRAWMETHOD m_drawmethod;
             u32 m_indexNum;    //索引数量
             u32 m_pointNum;    //顶点数量
+            s32 m_seqMode;
             VFTYPE vftype;
             u32 vertPoolType;
             u32 indexPoolType;

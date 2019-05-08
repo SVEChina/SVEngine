@@ -11,7 +11,6 @@
 #include "../base/SVLock.h"
 #include "../rendercore/SVGL/SVRendererGL.h"
 #include "../rendercore/SVGL/SVRResGL.h"
-#include "../rendercore/SVMetal/SVRendererMetal.h"
 #include "../rendercore/SVVulkan/SVRendererVK.h"
 
 SVTexturePList::SVTexturePList(SVInst *_app)
