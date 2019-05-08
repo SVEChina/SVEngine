@@ -9,12 +9,12 @@
 #include "../base/SVDataSwap.h"
 
 SVMesh::SVMesh(){
-    m_pDataSwap = MakeSharedPtr<SVDataSwap>();
-    m_vertType = E_VF_V3;
+//    m_pDataSwap = MakeSharedPtr<SVDataSwap>();
+//    m_vertType = E_VF_V3;
 }
 
 SVMesh::~SVMesh() {
-    m_pDataSwap = nullptr;
+    //m_pDataSwap = nullptr;
 }
 
 void SVMesh::setName(cptr8 _name) {
@@ -25,11 +25,15 @@ cptr8 SVMesh::getName(){
     return m_name.c_str();
 }
 
-void SVMesh::setData(SVDataSwapPtr _data,VFTYPE _vtf) {
-    m_pDataSwap = _data;
-    m_vertType = _vtf;
+//数据操作
+void SVMesh::setData(SVDataSwapPtr _data,VFTYPE _vtf,f32 _weight) {
+    MeshData tMeshData;
+    tMeshData.m_vertType = _vtf;
+    tMeshData.m_pDataSwap = _data;
+    m_dataMap.append(_weight,tMeshData);
 }
 
+//子mesh操作
 void SVMesh::addMesh(SVMeshPtr _mesh) {
     if(_mesh) {
         m_meshPool.append(_mesh);

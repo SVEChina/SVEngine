@@ -11,6 +11,7 @@
 #include "../base/SVObject.h"
 #include "../base/SVPreDeclare.h"
 #include "../base/SVDataChunk.h"
+#include "../base/SVMap.h"
 #include "SVVertDef.h"
 
 namespace sv {
@@ -33,15 +34,19 @@ namespace sv {
             
             void clearMesh();
             
-            void setData(SVDataSwapPtr _data,VFTYPE _vtf);
+            void setData(SVDataSwapPtr _data,VFTYPE _vtf,f32 _weight = 0.0f);
             
         protected:
             SVString m_name;
-            //顶点数据
-            SVDataSwapPtr m_pDataSwap;
-            //顶点类型
-            VFTYPE m_vertType;
-            //
+            struct MeshData {
+                SVDataSwapPtr m_pDataSwap;  //顶点数据
+                VFTYPE m_vertType;          //顶点类型
+                s32 m_mode;     //1.代表cross模式 2.代表plane模式
+            };
+            //数据
+            typedef SVMap<f32,MeshData> DATAMAP;
+            DATAMAP m_dataMap;
+            //子mesh
             typedef SVArray<SVMeshPtr> MESHPOOL;
             MESHPOOL m_meshPool;
         };

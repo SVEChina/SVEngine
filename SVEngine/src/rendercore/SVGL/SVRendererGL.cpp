@@ -568,70 +568,121 @@ void SVRendererGL::svClear(s32 _mask) {
     glClear(_mask);
 }
 
-void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf) {
+void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf,s32 _count,s32 _mode) {
     SVRenderStateGLPtr m_pRStateGL = std::dynamic_pointer_cast<SVRenderStateGL>(m_pRState);
     m_pRStateGL->m_VFType = _vf;
-    s32 t_ver_len = SVResVBO::getVertexFormateSize(_vf);
-    s32 t_off = 0;
-    if (_vf == E_VF_V3_PARTICLE) {
-        //骨骼权重
-        glVertexAttribPointer(CHANNEL_ATTRI_0, 3, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-        t_off += 3*sizeof(f32);
-        glVertexAttribPointer(CHANNEL_ATTRI_1, 4, GL_UNSIGNED_BYTE, GL_TRUE, t_ver_len,(void *)t_off);//需要归一化
-        t_off += sizeof(u32);
-        glVertexAttribPointer(CHANNEL_ATTRI_2, 3, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-        
-        glEnableVertexAttribArray(CHANNEL_ATTRI_0);
-        glEnableVertexAttribArray(CHANNEL_ATTRI_1);
-        glEnableVertexAttribArray(CHANNEL_ATTRI_2);
-        //
-        glDisableVertexAttribArray(CHANNEL_ATTRI_3);
-        glDisableVertexAttribArray(CHANNEL_ATTRI_4);
-        glDisableVertexAttribArray(CHANNEL_ATTRI_5);
-        glDisableVertexAttribArray(CHANNEL_ATTRI_6);
-        glDisableVertexAttribArray(CHANNEL_ATTRI_7);
-    }else {
-        if (_vf & D_VF_V2) {
-            glEnableVertexAttribArray(CHANNEL_POSITION);
-            glVertexAttribPointer(CHANNEL_POSITION, 2, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-            t_off += 2 * sizeof(f32);
-        }
-        if (_vf & D_VF_V3) {
-            glEnableVertexAttribArray(CHANNEL_POSITION);
-            glVertexAttribPointer(CHANNEL_POSITION, 3, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-            t_off += 3 * sizeof(f32);
-        }
-        if (_vf & D_VF_NOR) {
-            glEnableVertexAttribArray(CHANNEL_NORMAL);
-            glVertexAttribPointer(CHANNEL_NORMAL, 3, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-            t_off += 3 * sizeof(f32);
-        }
-        if (_vf & D_VF_C0) {
-            glEnableVertexAttribArray(CHANNEL_COLOR0);
-            glVertexAttribPointer(CHANNEL_COLOR0, 4, GL_UNSIGNED_BYTE, GL_TRUE, t_ver_len, (void *)t_off);
-            t_off += 4 * sizeof(u8);
-        }
-        if (_vf & D_VF_T0) {
-            glEnableVertexAttribArray(CHANNEL_TEXCOORD0);
-            glVertexAttribPointer(CHANNEL_TEXCOORD0, 2, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-            t_off += 2 * sizeof(f32);
-        }
-        if (_vf & D_VF_T1) {
-            glEnableVertexAttribArray(CHANNEL_TEXCOORD1);
-            glVertexAttribPointer(CHANNEL_TEXCOORD1, 2, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-            t_off += 2 * sizeof(f32);
-        }
-        if (_vf & D_VF_BONE) {
-            //骨骼ID
-            glEnableVertexAttribArray(CHANNEL_BONE_ID);
-            glVertexAttribPointer(CHANNEL_BONE_ID, 4, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-            t_off += 4 * sizeof(f32);
-        }
-        if (_vf & D_VF_BONE_W) {
+    if( _mode == 1 ) {
+        s32 t_ver_len = SVResVBO::getVertexFormateSize(_vf);
+        s32 t_off = 0;
+        if (_vf == E_VF_V3_PARTICLE) {
             //骨骼权重
-            glEnableVertexAttribArray(CHANNEL_BONE_WEIGHT);
-            glVertexAttribPointer(CHANNEL_BONE_WEIGHT, 4, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-            t_off += 4 * sizeof(f32);
+            glVertexAttribPointer(CHANNEL_ATTRI_0, 3, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+            t_off += 3*sizeof(f32);
+            glVertexAttribPointer(CHANNEL_ATTRI_1, 4, GL_UNSIGNED_BYTE, GL_TRUE, t_ver_len,(void *)t_off);//需要归一化
+            t_off += sizeof(u32);
+            glVertexAttribPointer(CHANNEL_ATTRI_2, 3, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+            
+            glEnableVertexAttribArray(CHANNEL_ATTRI_0);
+            glEnableVertexAttribArray(CHANNEL_ATTRI_1);
+            glEnableVertexAttribArray(CHANNEL_ATTRI_2);
+            //
+            glDisableVertexAttribArray(CHANNEL_ATTRI_3);
+            glDisableVertexAttribArray(CHANNEL_ATTRI_4);
+            glDisableVertexAttribArray(CHANNEL_ATTRI_5);
+            glDisableVertexAttribArray(CHANNEL_ATTRI_6);
+            glDisableVertexAttribArray(CHANNEL_ATTRI_7);
+        }else {
+            if (_vf & D_VF_V2) {
+                glEnableVertexAttribArray(CHANNEL_POSITION);
+                glVertexAttribPointer(CHANNEL_POSITION, 2, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+                t_off += 2 * sizeof(f32);
+            }
+            if (_vf & D_VF_V3) {
+                glEnableVertexAttribArray(CHANNEL_POSITION);
+                glVertexAttribPointer(CHANNEL_POSITION, 3, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+                t_off += 3 * sizeof(f32);
+            }
+            if (_vf & D_VF_NOR) {
+                glEnableVertexAttribArray(CHANNEL_NORMAL);
+                glVertexAttribPointer(CHANNEL_NORMAL, 3, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+                t_off += 3 * sizeof(f32);
+            }
+            if (_vf & D_VF_C0) {
+                glEnableVertexAttribArray(CHANNEL_COLOR0);
+                glVertexAttribPointer(CHANNEL_COLOR0, 4, GL_UNSIGNED_BYTE, GL_TRUE, t_ver_len, (void *)t_off);
+                t_off += 4 * sizeof(u8);
+            }
+            if (_vf & D_VF_T0) {
+                glEnableVertexAttribArray(CHANNEL_TEXCOORD0);
+                glVertexAttribPointer(CHANNEL_TEXCOORD0, 2, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+                t_off += 2 * sizeof(f32);
+            }
+            if (_vf & D_VF_T1) {
+                glEnableVertexAttribArray(CHANNEL_TEXCOORD1);
+                glVertexAttribPointer(CHANNEL_TEXCOORD1, 2, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+                t_off += 2 * sizeof(f32);
+            }
+            if (_vf & D_VF_BONE) {
+                //骨骼ID
+                glEnableVertexAttribArray(CHANNEL_BONE_ID);
+                glVertexAttribPointer(CHANNEL_BONE_ID, 4, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+                t_off += 4 * sizeof(f32);
+            }
+            if (_vf & D_VF_BONE_W) {
+                //骨骼权重
+                glEnableVertexAttribArray(CHANNEL_BONE_WEIGHT);
+                glVertexAttribPointer(CHANNEL_BONE_WEIGHT, 4, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+                t_off += 4 * sizeof(f32);
+            }
+        }
+    }else if(_mode == 2) {
+        s32 t_ver_len = SVResVBO::getVertexFormateSize(_vf);
+        s32 t_off = 0;
+        if (_vf == E_VF_V3_PARTICLE) {
+            
+        }else {
+            if (_vf & D_VF_V2) {
+                glEnableVertexAttribArray(CHANNEL_POSITION);
+                glVertexAttribPointer(CHANNEL_POSITION, 2, GL_FLOAT, GL_FALSE, 0,(void *)t_off);
+                t_off += 2 * sizeof(f32) * _count;
+            }
+            if (_vf & D_VF_V3) {
+                glEnableVertexAttribArray(CHANNEL_POSITION);
+                glVertexAttribPointer(CHANNEL_POSITION, 3, GL_FLOAT, GL_FALSE, 0,(void *)t_off);
+                t_off += 3 * sizeof(f32) * _count;
+            }
+            if (_vf & D_VF_NOR) {
+                glEnableVertexAttribArray(CHANNEL_NORMAL);
+                glVertexAttribPointer(CHANNEL_NORMAL, 3, GL_FLOAT, GL_FALSE, 0,(void *)t_off);
+                t_off += 3 * sizeof(f32) * _count;
+            }
+            if (_vf & D_VF_C0) {
+                glEnableVertexAttribArray(CHANNEL_COLOR0);
+                glVertexAttribPointer(CHANNEL_COLOR0, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, (void *)t_off);
+                t_off += 4 * sizeof(u8) * _count;
+            }
+            if (_vf & D_VF_T0) {
+                glEnableVertexAttribArray(CHANNEL_TEXCOORD0);
+                glVertexAttribPointer(CHANNEL_TEXCOORD0, 2, GL_FLOAT, GL_FALSE, 0,(void *)t_off);
+                t_off += 2 * sizeof(f32) * _count;
+            }
+            if (_vf & D_VF_T1) {
+                glEnableVertexAttribArray(CHANNEL_TEXCOORD1);
+                glVertexAttribPointer(CHANNEL_TEXCOORD1, 2, GL_FLOAT, GL_FALSE, 0,(void *)t_off);
+                t_off += 2 * sizeof(f32) * _count;
+            }
+            if (_vf & D_VF_BONE) {
+                //骨骼ID
+                glEnableVertexAttribArray(CHANNEL_BONE_ID);
+                glVertexAttribPointer(CHANNEL_BONE_ID, 4, GL_FLOAT, GL_FALSE, 0,(void *)t_off);
+                t_off += 4 * sizeof(f32) * _count;
+            }
+            if (_vf & D_VF_BONE_W) {
+                //骨骼权重
+                glEnableVertexAttribArray(CHANNEL_BONE_WEIGHT);
+                glVertexAttribPointer(CHANNEL_BONE_WEIGHT, 4, GL_FLOAT, GL_FALSE, 0,(void *)t_off);
+                t_off += 4 * sizeof(f32) * _count;
+            }
         }
     }
 }

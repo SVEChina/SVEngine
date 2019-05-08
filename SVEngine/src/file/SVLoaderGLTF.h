@@ -571,6 +571,11 @@ namespace sv {
         void _refreshMeshGlobalMat(Node _node, FMat4 _mat4);
         
         void _loadAnimationData();
+        
+    private:
+        void _buildPrimitive(SVMeshPtr t_mesh,Primitive* _prim);
+        
+        void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
     };
     
 //    //

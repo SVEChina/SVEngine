@@ -250,6 +250,7 @@ struct V3_PARTICLE {
 
 //
 //顶点格式索引
+#define D_VF_NULL 0x0000
 #define D_VF_V2   0x0001
 #define D_VF_V3   0x0002
 #define D_VF_NOR  0x0010

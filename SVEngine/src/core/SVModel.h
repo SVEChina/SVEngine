@@ -23,7 +23,7 @@ namespace sv {
             
             ~SVModel();
             
-            void clear();
+            void clear(){};
             
             void setMesh(SVMeshPtr _mesh);
         

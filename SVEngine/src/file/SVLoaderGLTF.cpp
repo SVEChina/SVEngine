@@ -11,6 +11,7 @@
 #include "../base/SVDataChunk.h"
 #include "../base/SVDataSwap.h"
 #include "../base/SVQuat.h"
+#include "../core/SVModel.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtl3D.h"
@@ -328,21 +329,155 @@ bool SVLoaderGLTF::loadFromFile(cptr8 _filename){
 //            model->cameras.push_back(camera);
 //        }
 //    }
-    
-    //
     return true;
 }
 
-//构建
+//
 void SVLoaderGLTF::building() {
-    //构建model
+    //构建buf 在parse的时候 已经构建了
+    for(s32 i=0;i<m_gltf.buffers.size();i++) {
+        //m_gltf.buffers[i].
+    }
+    //这就是一个gltf对象
+    for(s32 i=0;i<m_gltf.meshes.size();i++) {
+        SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>();
+        t_mesh->setName(m_gltf.meshes[i].name.c_str());
+        //非权重方式
+        for(s32 j=0;j<m_gltf.meshes[i].primitives.size();j++) {
+            Primitive* t_pri = &(m_gltf.meshes[i].primitives[j]);
+            _buildPrimitive(t_mesh,t_pri);
+        }
+    }
     
     //构建皮肤
-    
+    for(s32 i=0;i<m_gltf.skins.size();i++) {
+        int a = 0;
+    }
     //构建动画
-    
+    for(s32 i=0;i<m_gltf.animations.size();i++) {
+        int a = 0;
+    }
     //构建材质
-    
+    for(s32 i=0;i<m_gltf.materials.size();i++) {
+        int a = 0;
+    }
+}
+
+void SVLoaderGLTF::_buildPrimitive(SVMeshPtr _mesh,Primitive* _prim) {
+    //遍历基础属性,做数据拼接
+    Accessor* accV2 = nullptr;
+    Accessor* accV3 = nullptr;
+    Accessor* accNOR = nullptr;
+    Accessor* accTAG = nullptr;
+    Accessor* accC0 = nullptr;
+    Accessor* accT0 = nullptr;
+    Accessor* accT1 = nullptr;
+    Accessor* accB = nullptr;
+    Accessor* accW = nullptr;
+    //
+    s32 t_vtf = E_VF_BASE;
+    SVMap<SVString, s32>::Iterator it= _prim->attributes.begin();
+    while( it!=_prim->attributes.end() ) {
+        if(it->key == "POSITION" ) {
+            t_vtf |= D_VF_V3;
+            s32 t_index = it->data;
+            accV3 = &(m_gltf.accessors[t_index]);
+        }else if(it->key == "NORMAL" ) {
+            //
+            t_vtf |= D_VF_NOR;
+            s32 t_index = it->data;
+            accNOR = &(m_gltf.accessors[t_index]);
+        }else if(it->key == "TANGENT" ) {
+            //
+            t_vtf |= D_VF_TAG;
+            s32 t_index = it->data;
+            accTAG = &(m_gltf.accessors[t_index]);
+        }else if(it->key == "TEXCOORD_0" ) {
+            //
+            t_vtf |= D_VF_T0;
+            s32 t_index = it->data;
+            accT0 = &(m_gltf.accessors[t_index]);
+        }
+        it++;
+    }
+    //
+    SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
+    if (t_vtf & D_VF_V2 ) {
+        if(accV2) {
+            _fetchDataFromAcc(t_data,accV2);
+        }
+    }
+    if (t_vtf & D_VF_V3) {
+        if(accV3) {
+            _fetchDataFromAcc(t_data,accV3);
+        }
+    }
+    if (t_vtf & D_VF_NOR) {
+        if(accNOR) {
+            _fetchDataFromAcc(t_data,accNOR);
+        }
+    }
+    if (t_vtf & D_VF_TAG) {
+        if(accTAG) {
+            _fetchDataFromAcc(t_data,accTAG);
+        }
+    }
+    if (t_vtf & D_VF_C0) {
+        if(accC0) {
+            _fetchDataFromAcc(t_data,accC0);
+        }
+    }
+    if (t_vtf & D_VF_T0) {
+        if(accT0) {
+            _fetchDataFromAcc(t_data,accT0);
+        }
+    }
+    if (t_vtf & D_VF_T1) {
+        if(accT1) {
+            _fetchDataFromAcc(t_data,accT1);
+        }
+    }
+    if (t_vtf & D_VF_BONE) {
+        if(accB) {
+            _fetchDataFromAcc(t_data,(accB));
+        }
+    }
+    if (t_vtf & D_VF_BONE_W) {
+        if(accW) {
+            _fetchDataFromAcc(t_data,accW);
+        }
+    }
+    _mesh->setData( t_data,VFTYPE(t_vtf) );
+}
+
+void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
+    s32 t_viewID = _accessor->bufferView;
+    BufferView* t_bufview = &(m_gltf.bufferViews[t_viewID]);
+    if(t_bufview) {
+        s32 t_bufID = t_bufview->buffer;
+        s32 t_view_off = t_bufview->byteOffset;
+        s32 t_len = t_bufview->byteLength;
+        s32 t_view_stride = t_bufview->byteStride;
+        s32 t_acc_off = _accessor->byteOffset;
+        Buffer* t_buf = &(m_gltf.buffers[t_bufID]);
+        t_buf->data->lockData();
+        char* p = (char*)(t_buf->data->getData());
+        p += t_view_off;
+        p += t_acc_off;
+        s32 t_s_size = 0;
+        t_s_size = _getComponentSizeInBytes(_accessor->componentType);
+        t_s_size *= _getTypeSizeInBytes(_accessor->type);
+        //
+        s32 t_total_len = _accessor->count*t_s_size;
+        s32 t_aim_size = _data->getSize() + t_total_len;
+        _data->extendSize(t_aim_size);
+        //拷贝数据
+        for(s32 i=0;i<_accessor->count;i++) {
+            _data->appendData(p, t_s_size);
+            p += t_view_stride + t_s_size;
+        }
+        t_buf->data->unlockData();
+    }
 }
 
 bool SVLoaderGLTF::_parseAsset(Asset *_asset , RAPIDJSON_NAMESPACE::Value &_item){
@@ -359,7 +494,6 @@ bool SVLoaderGLTF::_parseAsset(Asset *_asset , RAPIDJSON_NAMESPACE::Value &_item
 }
 
 bool SVLoaderGLTF::_parseBuffer(Buffer *_buffer, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir){
-    
     f64 byteLength;
     if (_item.HasMember("byteLength") && _item["byteLength"].IsNumber()) {
         byteLength = _item["byteLength"].GetDouble();
@@ -395,11 +529,10 @@ bool SVLoaderGLTF::_parseBuffer(Buffer *_buffer, RAPIDJSON_NAMESPACE::Value &_it
         SVString t_baseDir = _basedir;
         s32 t_pos = t_baseDir.rfind('/');
         SVString t_bufferUri = SVString::substr(t_baseDir.c_str(), 0, t_pos+1) + _buffer->uri;
-        if (!_loadExternalFile(_buffer->data, t_bufferUri.c_str(), bytes)) {
+        if (!_loadExternalFile(_buffer->data, t_bufferUri.c_str(), bytes)) {    //直接打开数据文件，做数据读取了
             return false;
         }
     }
-    
     return true;
 }
 
