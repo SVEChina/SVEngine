@@ -7,14 +7,18 @@
 
 #include "SVMesh.h"
 #include "../base/SVDataSwap.h"
+#include "../base/SVLock.h"
+#include "../rendercore/SVRenderMesh.h"
 
-SVMesh::SVMesh(){
-    m_pDataSwap = MakeSharedPtr<SVDataSwap>();
-    m_vertType = E_VF_V3;
+SVMesh::SVMesh(SVInst* _app)
+:SVGBase(_app){
+    m_pRenderMesh = nullptr;
+    m_lock = MakeSharedPtr<SVLock>();
 }
 
 SVMesh::~SVMesh() {
-    m_pDataSwap = nullptr;
+    m_pRenderMesh = nullptr;
+    m_lock = nullptr;
 }
 
 void SVMesh::setName(cptr8 _name) {
@@ -25,33 +29,65 @@ cptr8 SVMesh::getName(){
     return m_name.c_str();
 }
 
-void SVMesh::setData(SVDataSwapPtr _data,VFTYPE _vtf) {
-    m_pDataSwap = _data;
-    m_vertType = _vtf;
+//数据操作
+void SVMesh::setData(SVDataSwapPtr _data,VFTYPE _vtf,s32 _count,s32 _seqMode) {
+    m_pRenderMesh = MakeSharedPtr<SVRenderMesh>(mApp);
+    m_pRenderMesh->createMesh();
+//    SVDataSwapPtr m_pDataSwap;  //顶点数据
+//    VFTYPE m_vertType;          //顶点类型
+//    s32 m_verCount;
+//    s32 m_seqMode; //1.代表cross模式 2.代表plane模式
+    
+//    MeshData tMeshData;
+//    tMeshData.m_vertType = _vtf;
+//    tMeshData.m_pDataSwap = _data;
+//    m_dataMap.append(_weight,tMeshData);
 }
 
+//子mesh操作
 void SVMesh::addMesh(SVMeshPtr _mesh) {
+    m_lock->lock();
     if(_mesh) {
         m_meshPool.append(_mesh);
     }
+    m_lock->unlock();
 }
 
 void SVMesh::removeMesh(cptr8 _name) {
+    m_lock->lock();
     for(s32 i=0;i<m_meshPool.size();i++){
         if(strcmp( m_meshPool[i]->getName(), _name) == 0){
             m_meshPool.removeForce(i);
-            return ;
+            break;
         }
     }
+    m_lock->unlock();
 }
 
 void SVMesh::clearMesh() {
+    m_lock->lock();
     m_meshPool.destroy();
+    m_lock->unlock();
 }
 
+void SVMesh::render() {
+    //先渲染自己
+    //DATAMAP m_dataMap;
+    m_lock->lock();
+    for(s32 i=0;i<m_meshPool.size();i++) {
+        m_meshPool[i]->render();
+    }
+    m_lock->unlock();
+}
 
+//Morph动画的mesh
+SVMorphMesh::SVMorphMesh(SVInst* _app)
+:SVMesh(_app){
+    
+}
 
-
-
+SVMorphMesh::~SVMorphMesh() {
+    
+}
 
 

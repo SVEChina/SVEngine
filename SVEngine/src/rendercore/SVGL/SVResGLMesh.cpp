@@ -57,6 +57,7 @@ void SVResGLRenderMesh::_reset(){
     m_indexID = 0;
     m_indexNum = 0;
     m_pointNum = 0;
+    m_seqMode = 1;
     m_vftype = E_VF_V3;
     m_drawmethod = E_DM_TRIANGLES;
     m_vertPoolType = GL_STATIC_DRAW;
@@ -276,7 +277,7 @@ void SVResGLRenderMesh::render(SVRendererBasePtr _renderer) {
 void SVResGLRenderMesh::_updateVertDsp() {
      SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
-        t_renderer->svUpdateVertexFormate(m_vftype);
+        t_renderer->svUpdateVertexFormate(m_vftype,m_pointNum,m_seqMode);
     }
 }
 
