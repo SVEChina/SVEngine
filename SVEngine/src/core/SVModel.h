@@ -37,6 +37,10 @@ namespace sv {
             
             void setName(cptr8 _name);
             
+            void update(f32 _dt);
+            
+            void render();
+            
         protected:
             SVString m_name;
             SVBoundBox m_box;

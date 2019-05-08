@@ -76,15 +76,14 @@ void SVModelNode::update(f32 dt) {
 }
 
 void SVModelNode::render() {
-//    if (!m_visible)
-//        return;
-//    if (!mApp->m_pGlobalParam->m_curScene)
-//        return;
-//    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-//    if (m_pRObj) {
-//        m_pRObj->pushCmd(t_rs, m_rsType, ntype);
-//    }
-//    SVNode::render();
+    if (!m_visible)
+        return;
+    if (!mApp->m_pGlobalParam->m_curScene)
+        return;
+    if(m_pModel) {
+        //m_pModel->render();
+    }
+    SVNode::render();
 }
 
 /*

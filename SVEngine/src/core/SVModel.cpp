@@ -39,6 +39,16 @@ SVBoundBox SVModel::getBox() {
     return m_box;
 }
 
+void SVModel::update(f32 _dt) {
+    
+}
+
+void SVModel::render() {
+//    if( m_pMesh ) {
+//        m_pMesh->render();
+//    }
+}
+
 //
 SVModelMgr::SVModelMgr(SVInst* _app)
 :SVGBase(_app){

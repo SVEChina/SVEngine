@@ -339,7 +339,7 @@ void SVLoaderGLTF::building() {
 //    }
     //这就是一个gltf对象
     for(s32 i=0;i<m_gltf.meshes.size();i++) {
-        SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>();
+        SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
         t_mesh->setName(m_gltf.meshes[i].name.c_str());
         //非权重方式
         for(s32 j=0;j<m_gltf.meshes[i].primitives.size();j++) {
@@ -416,52 +416,62 @@ void SVLoaderGLTF::_buildPrimitive(SVMeshPtr _mesh,Primitive* _prim) {
     }
     //
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
+    s64 t_count = 0;
     if (t_vtf & D_VF_V2 ) {
         if(accV2) {
             _fetchDataFromAcc(t_data,accV2);
+            t_count = accV2->count;
         }
     }
     if (t_vtf & D_VF_V3) {
         if(accV3) {
             _fetchDataFromAcc(t_data,accV3);
+            t_count = accV3->count;
         }
     }
     if (t_vtf & D_VF_NOR) {
         if(accNOR) {
             _fetchDataFromAcc(t_data,accNOR);
+            t_count = accNOR->count;
         }
     }
     if (t_vtf & D_VF_TAG) {
         if(accTAG) {
             _fetchDataFromAcc(t_data,accTAG);
+            t_count = accTAG->count;
         }
     }
     if (t_vtf & D_VF_C0) {
         if(accC0) {
             _fetchDataFromAcc(t_data,accC0);
+            t_count = accC0->count;
         }
     }
     if (t_vtf & D_VF_T0) {
         if(accT0) {
             _fetchDataFromAcc(t_data,accT0);
+            t_count = accT0->count;
         }
     }
     if (t_vtf & D_VF_T1) {
         if(accT1) {
             _fetchDataFromAcc(t_data,accT1);
+            t_count = accT1->count;
         }
     }
     if (t_vtf & D_VF_BONE) {
         if(accB) {
             _fetchDataFromAcc(t_data,(accB));
+            t_count = accB->count;
         }
     }
     if (t_vtf & D_VF_BONE_W) {
         if(accW) {
             _fetchDataFromAcc(t_data,accW);
+            t_count = accW->count;
         }
     }
-    _mesh->setData( t_data,VFTYPE(t_vtf) );
+    _mesh->setData(t_data,VFTYPE(t_vtf),t_count,2);
 }
 
 void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
