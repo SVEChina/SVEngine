@@ -116,10 +116,6 @@ f32 *SVPerson::getFaceData() {
     return m_pFaceData;
 }
 
-f32 *SVPerson::getFaceDataOriginal(){
-     return m_pFaceDataOriginal;
-}
-
 f32 SVPerson::getFaceDataX(s32 _index) {
     if (_index >= 0 && _index < m_facePtNum) {
         return m_pFaceData[2 * _index];
@@ -136,6 +132,24 @@ f32 SVPerson::getFaceDataY(s32 _index) {
 
 s32 SVPerson::getFacePtNum() {
     return m_facePtNum;
+}
+
+f32 *SVPerson::getFaceDataOriginal(){
+    return m_pFaceDataOriginal;
+}
+
+f32 SVPerson::getFaceDataOriginalX(s32 _index){
+    if (_index >= 0 && _index < m_facePtNum) {
+        return m_pFaceDataOriginal[2 * _index];
+    }
+    return 0.0f;
+}
+
+f32 SVPerson::getFaceDataOriginalY(s32 _index){
+    if (_index >= 0 && _index < m_facePtNum) {
+        return m_pFaceDataOriginal[2 * _index + 1];
+    }
+    return 0.0f;
 }
 
 SVPersonTrackerPtr SVPerson::getTracker() {

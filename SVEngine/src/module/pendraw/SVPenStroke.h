@@ -16,6 +16,12 @@
 #include "../../base/SVBounds.h"
 #include "SVPenCurve.h"
 namespace sv{
+    //绘制事件
+    enum SVPENMODE{
+        SV_ARMODE,
+        SV_FACEMODE,
+        SV_NORMAL
+    };
     
     struct SVStrokePoint {
         FVec3 point;
@@ -26,7 +32,7 @@ namespace sv{
     
     class SVPenStroke : public SVGameBase {
     public:
-        SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor);
+        SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor, SVPENMODE _mode);
         
         ~SVPenStroke();
         
@@ -49,6 +55,20 @@ namespace sv{
         void renderGlow();
         
         void renderBoundingBox();
+        
+        void setPosition(FVec3 &_position);
+        
+        void setScale(f32 _scale);
+        
+        void setRotation(FVec3 &_rotation);
+        
+        void setOriginalPosition(FVec3 &_position);
+        
+        void setOriginalScale(f32 _scale);
+        
+        void setOriginalRotation(FVec3 &_rotation);
+        
+        void setEnableTranslation(bool _enable);
     protected:
         void _screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint);
         //
@@ -92,7 +112,16 @@ namespace sv{
         f32 m_pen_width;
         f32 m_plane_dis;
         LERPMETHOD m_lerpMethod;
-        bool m_drawBox;
+        SVPENMODE m_penMode;
+        FVec3 m_position;
+        f32 m_scale;
+        FVec3 m_rotation;
+        FVec3 m_originalPosition;
+        f32 m_originalScale;
+        FVec3 m_originalRotation;
+        bool  m_enableTranslation;
+        bool  m_dirty;
+        bool  m_drawBox;
     };
     
 }//!namespace sv
