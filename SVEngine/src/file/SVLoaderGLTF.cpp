@@ -15,6 +15,7 @@
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtl3D.h"
+#include "../mtl/SVMtlGLTF.h"
 #include "../file/SVParseDef.h"
 #include "../file/SVFileMgr.h"
 #include "../rendercore/SVRenderMesh.h"
@@ -425,7 +426,7 @@ SVMeshPtr SVLoaderGLTF::_buildMesh(s32 _index){
 }
 
 void SVLoaderGLTF::_buildPrimitive(SVMeshPtr _mesh,Primitive* _prim) {
-    //遍历基础属性,做数据拼接
+    //构建数据
     Accessor* accV2 = nullptr;
     Accessor* accV3 = nullptr;
     Accessor* accNOR = nullptr;
@@ -519,6 +520,47 @@ void SVLoaderGLTF::_buildPrimitive(SVMeshPtr _mesh,Primitive* _prim) {
         }
     }
     _mesh->setData(t_data,VFTYPE(t_vtf),t_count,2);
+    //构建材质
+    SVMtlCorePtr t_mtl = _buildMtl(_prim->material);
+}
+
+SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
+    //构建材质
+    Material* t_mtl = &(m_gltf.materials[_index]);
+    SVMtlGLTFPtr tMtl = MakeSharedPtr<SVMtlGLTF>(mApp);
+    //
+    ParameterMap::Iterator it1 = t_mtl->values.begin();
+    while (it1!=t_mtl->values.end()) {
+        SVString t_key = it1->key;
+        if(t_key == "baseColorTexture") {
+            int a = 0;
+        }else if(t_key == "baseColorFactor") {
+            int a = 0;
+        }else if(t_key == "metallicRoughnessTexture") {
+            int a = 0;
+        }else if(t_key == "metallicFactor") {
+            int a = 0;
+        }else if(t_key == "roughnessFactor") {
+            int a = 0;
+        }
+        it1++;
+    }
+    //
+    ParameterMap::Iterator it2 = t_mtl->additionalValues.begin();
+    while (it2!=t_mtl->additionalValues.end()) {
+        SVString t_key = it2->key;
+        if(t_key == "normalTexture") {
+            int a = 0;
+        }else if(t_key == "occlusionTexture") {
+            int a = 0;
+        }else if(t_key == "emissiveTexture") {
+            int a = 0;
+        }else if(t_key == "emissiveFactor") {
+            int a = 0;
+        }
+        it2++;
+    }
+    return tMtl;
 }
 
 void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
@@ -1450,6 +1492,7 @@ void SVLoaderGLTF::_loadMeshData(){
 //            SVGLTFSubMeshPtr gltfSubMesh = MakeSharedPtr<SVGLTFSubMesh>();
 //            Primitive primitive = mesh.primitives[j];
 //            gltfSubMesh->m_primitiveType = primitive.mode;
+    
 //            //basetexture
 //            SVGLTFMaterialPtr gltfMaterial = MakeSharedPtr<SVGLTFMaterial>();
 //            s32 materialID = primitive.material;
@@ -1475,6 +1518,7 @@ void SVLoaderGLTF::_loadMeshData(){
 //                color.set(colorFactor[0], colorFactor[1], colorFactor[2], colorFactor[3]);
 //                gltfMaterial->m_baseColorFactor = color;
 //            }
+
 //            Accessor indicesAccessor = m_gltf.accessors[primitive.indices];
 //            BufferView bufferView = m_gltf.bufferViews[indicesAccessor.bufferView];
 //            Buffer buffer = m_gltf.buffers[bufferView.buffer];

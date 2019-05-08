@@ -40,13 +40,15 @@ SVBoundBox SVModel::getBox() {
 }
 
 void SVModel::update(f32 _dt) {
-    
+    if(m_pMesh) {
+        m_pMesh->update(_dt);
+    }
 }
 
 void SVModel::render() {
-//    if( m_pMesh ) {
-//        m_pMesh->render();
-//    }
+    if( m_pMesh ) {
+        m_pMesh->render();
+    }
 }
 
 //

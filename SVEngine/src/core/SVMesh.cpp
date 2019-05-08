@@ -13,11 +13,13 @@
 SVMesh::SVMesh(SVInst* _app)
 :SVGBase(_app){
     m_pRenderMesh = nullptr;
+    m_pMtl = nullptr;
     m_lock = MakeSharedPtr<SVLock>();
 }
 
 SVMesh::~SVMesh() {
     m_pRenderMesh = nullptr;
+    m_pMtl = nullptr;
     m_lock = nullptr;
 }
 
@@ -37,6 +39,10 @@ void SVMesh::setData(SVDataSwapPtr _data,VFTYPE _vtf,s32 _count,s32 _seqMode) {
     m_pRenderMesh->setVertexDataNum(_count);
     m_pRenderMesh->setVertexData(_data);
     m_pRenderMesh->createMesh();
+}
+
+void SVMesh::setMtl(SVMtlCorePtr _mtl) {
+    m_pMtl = _mtl;
 }
 
 //子mesh操作
@@ -63,6 +69,10 @@ void SVMesh::clearMesh() {
     m_lock->lock();
     m_meshPool.destroy();
     m_lock->unlock();
+}
+
+void SVMesh::update(f32 _dt) {
+    
 }
 
 void SVMesh::render() {
