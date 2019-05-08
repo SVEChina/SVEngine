@@ -522,6 +522,7 @@ void SVLoaderGLTF::_buildPrimitive(SVMeshPtr _mesh,Primitive* _prim) {
     _mesh->setData(t_data,VFTYPE(t_vtf),t_count,2);
     //构建材质
     SVMtlCorePtr t_mtl = _buildMtl(_prim->material);
+    _mesh->setMtl(t_mtl);
 }
 
 SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
@@ -533,15 +534,31 @@ SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
     while (it1!=t_mtl->values.end()) {
         SVString t_key = it1->key;
         if(t_key == "baseColorTexture") {
-            int a = 0;
+            Parameter* t_param = &(it1->data);
+            s32 textureIndex = t_param->TextureIndex();
+            Texture* texture = &(m_gltf.textures[textureIndex]);
+            Image* image = &(m_gltf.images[texture->source]);
+            tMtl->m_pBaseColorTex = image->texture;
         }else if(t_key == "baseColorFactor") {
-            int a = 0;
+            Parameter* t_param = &(it1->data);
+            if(t_param->number_array.size() ==3) {
+                tMtl->m_baseColorFactor.set(t_param->number_array[0],
+                                            t_param->number_array[1],
+                                            t_param->number_array[2],
+                                            t_param->number_array[3]);
+            }
         }else if(t_key == "metallicRoughnessTexture") {
-            int a = 0;
+            Parameter* t_param = &(it1->data);
+            s32 textureIndex = t_param->TextureIndex();
+            Texture* texture = &(m_gltf.textures[textureIndex]);
+            Image* image = &(m_gltf.images[texture->source]);
+            tMtl->m_pMetallicRoughnessTex = image->texture;
         }else if(t_key == "metallicFactor") {
-            int a = 0;
+            Parameter* t_param = &(it1->data);
+            tMtl->m_roughtnessFactor = t_param->Factor();
         }else if(t_key == "roughnessFactor") {
-            int a = 0;
+            Parameter* t_param = &(it1->data);
+            tMtl->m_metallicFactor = t_param->Factor();
         }
         it1++;
     }
@@ -550,13 +567,34 @@ SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
     while (it2!=t_mtl->additionalValues.end()) {
         SVString t_key = it2->key;
         if(t_key == "normalTexture") {
-            int a = 0;
+            Parameter* t_param = &(it1->data);
+            s32 textureIndex = t_param->TextureIndex();
+            Texture* texture = &(m_gltf.textures[textureIndex]);
+            Image* image = &(m_gltf.images[texture->source]);
+            tMtl->m_pNormalTex = image->texture;
+            //
+            tMtl->m_normalScale = t_param->ParamValue("scale");
         }else if(t_key == "occlusionTexture") {
-            int a = 0;
+            Parameter* t_param = &(it1->data);
+            s32 textureIndex = t_param->TextureIndex();
+            Texture* texture = &(m_gltf.textures[textureIndex]);
+            Image* image = &(m_gltf.images[texture->source]);
+            tMtl->m_pOcclusionTex = image->texture;
+            //
+            tMtl->m_occlusionStrength = t_param->ParamValue("strength");
         }else if(t_key == "emissiveTexture") {
-            int a = 0;
+            Parameter* t_param = &(it1->data);
+            s32 textureIndex = t_param->TextureIndex();
+            Texture* texture = &(m_gltf.textures[textureIndex]);
+            Image* image = &(m_gltf.images[texture->source]);
+            tMtl->m_pEmissiveTex = image->texture;
         }else if(t_key == "emissiveFactor") {
-            int a = 0;
+            Parameter* t_param = &(it1->data);
+            if(t_param->number_array.size() ==3) {
+                tMtl->m_emissiveFactor.set(t_param->number_array[0],
+                                           t_param->number_array[1],
+                                           t_param->number_array[2]);
+            }
         }
         it2++;
     }
