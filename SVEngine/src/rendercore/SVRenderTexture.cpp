@@ -13,7 +13,9 @@
 #include "SVRenderMgr.h"
 #include "SVGL/SVRResGL.h"
 #include "SVGL/SVRendererGL.h"
+#if defined(SV_IOS) || defined(SV_OSX)
 #include "SVMetal/SVRendererMetal.h"
+#endif
 #include "SVVulkan/SVRendererVK.h"
 #include <iostream>
 #include <memory>
