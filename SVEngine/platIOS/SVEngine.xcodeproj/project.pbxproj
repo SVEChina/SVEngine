@@ -240,6 +240,22 @@
 		0288FA12217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
 		0288FA13217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
 		0288FA14217B04090089E61C /* SVParseBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 0288FA0C217B04090089E61C /* SVParseBMFont.h */; };
+		02A16A5022842C5C00FE2B99 /* SVEffectMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A4E22842C5B00FE2B99 /* SVEffectMusic.h */; };
+		02A16A5122842C5C00FE2B99 /* SVEffectMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A4E22842C5B00FE2B99 /* SVEffectMusic.h */; };
+		02A16A5222842C5C00FE2B99 /* SVEffectMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A4E22842C5B00FE2B99 /* SVEffectMusic.h */; };
+		02A16A5322842C5C00FE2B99 /* SVEffectMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A4E22842C5B00FE2B99 /* SVEffectMusic.h */; };
+		02A16A5422842C5C00FE2B99 /* SVEffectMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A16A4F22842C5C00FE2B99 /* SVEffectMusic.cpp */; };
+		02A16A5522842C5C00FE2B99 /* SVEffectMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A16A4F22842C5C00FE2B99 /* SVEffectMusic.cpp */; };
+		02A16A5622842C5C00FE2B99 /* SVEffectMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A16A4F22842C5C00FE2B99 /* SVEffectMusic.cpp */; };
+		02A16A5722842C5C00FE2B99 /* SVEffectMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A16A4F22842C5C00FE2B99 /* SVEffectMusic.cpp */; };
+		02A16A5A2284427500FE2B99 /* SVParseMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A16A582284427400FE2B99 /* SVParseMusic.cpp */; };
+		02A16A5B2284427500FE2B99 /* SVParseMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A16A582284427400FE2B99 /* SVParseMusic.cpp */; };
+		02A16A5C2284427500FE2B99 /* SVParseMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A16A582284427400FE2B99 /* SVParseMusic.cpp */; };
+		02A16A5D2284427500FE2B99 /* SVParseMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A16A582284427400FE2B99 /* SVParseMusic.cpp */; };
+		02A16A5E2284427500FE2B99 /* SVParseMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A592284427500FE2B99 /* SVParseMusic.h */; };
+		02A16A5F2284427500FE2B99 /* SVParseMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A592284427500FE2B99 /* SVParseMusic.h */; };
+		02A16A602284427500FE2B99 /* SVParseMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A592284427500FE2B99 /* SVParseMusic.h */; };
+		02A16A612284427500FE2B99 /* SVParseMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A592284427500FE2B99 /* SVParseMusic.h */; };
 		02AD982C21EF44A800130131 /* SVMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 02AD982A21EF44A800130131 /* SVMark.h */; };
 		02AD982D21EF44A800130131 /* SVMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 02AD982A21EF44A800130131 /* SVMark.h */; };
 		02AD982E21EF44A800130131 /* SVMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 02AD982A21EF44A800130131 /* SVMark.h */; };
@@ -3204,6 +3220,10 @@
 		0288FA022178A8430089E61C /* SVBMFontNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBMFontNode.h; sourceTree = "<group>"; };
 		0288FA0B217B04090089E61C /* SVParseBMFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseBMFont.cpp; sourceTree = "<group>"; };
 		0288FA0C217B04090089E61C /* SVParseBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseBMFont.h; sourceTree = "<group>"; };
+		02A16A4E22842C5B00FE2B99 /* SVEffectMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEffectMusic.h; sourceTree = "<group>"; };
+		02A16A4F22842C5C00FE2B99 /* SVEffectMusic.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVEffectMusic.cpp; sourceTree = "<group>"; };
+		02A16A582284427400FE2B99 /* SVParseMusic.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseMusic.cpp; sourceTree = "<group>"; };
+		02A16A592284427500FE2B99 /* SVParseMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseMusic.h; sourceTree = "<group>"; };
 		02AD982A21EF44A800130131 /* SVMark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMark.h; sourceTree = "<group>"; };
 		02AD982B21EF44A800130131 /* SVMark.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMark.cpp; sourceTree = "<group>"; };
 		02C92B41224C99A60065216F /* SVMtlADFilterBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlADFilterBase.h; sourceTree = "<group>"; };
@@ -4287,6 +4307,8 @@
 				5F7D5DD4215F407700803BCF /* SVParseDef.h */,
 				5CA05D4321873B4600D1C033 /* SVParseDeform.cpp */,
 				5CA05D4421873B4600D1C033 /* SVParseDeform.h */,
+				02A16A582284427400FE2B99 /* SVParseMusic.cpp */,
+				02A16A592284427500FE2B99 /* SVParseMusic.h */,
 				02381EDA2243625600584EEF /* SVParseFilter.cpp */,
 				02381ED92243625600584EEF /* SVParseFilter.h */,
 				5F7D5DC7215F407700803BCF /* SVParseMain.cpp */,
@@ -4542,6 +4564,8 @@
 				5F7D5E8D215F407700803BCF /* SVDivisonFilter.h */,
 				5F7D5E82215F407700803BCF /* SVEffectPackage.cpp */,
 				5F7D5E87215F407700803BCF /* SVEffectPackage.h */,
+				02A16A4F22842C5C00FE2B99 /* SVEffectMusic.cpp */,
+				02A16A4E22842C5B00FE2B99 /* SVEffectMusic.h */,
 				5F7D5E8B215F407700803BCF /* SVGameBase.cpp */,
 				5F7D5E7E215F407700803BCF /* SVGameBase.h */,
 				5F7D5E86215F407700803BCF /* SVGameEnd.cpp */,
@@ -5155,6 +5179,7 @@
 				5F7D6455215F407800803BCF /* SVGameReady.h in Headers */,
 				5F7D6069215F407700803BCF /* SVCameraMgr.h in Headers */,
 				5F7D67A3215F407900803BCF /* SVBackGroundNode.h in Headers */,
+				02A16A612284427500FE2B99 /* SVParseMusic.h in Headers */,
 				5F7D691F215F407900803BCF /* SVPreDeclare.h in Headers */,
 				5F7D68CB215F407900803BCF /* SVListenBase.h in Headers */,
 				5F7D6763215F407900803BCF /* SV3DBox.h in Headers */,
@@ -5392,6 +5417,7 @@
 				5F7D66AF215F407900803BCF /* SVTextureIOS.h in Headers */,
 				5F44287F21848CBC00AF4A5B /* SVFrameOutRead.h in Headers */,
 				5F7D6431215F407800803BCF /* SVGamePart.h in Headers */,
+				02A16A5322842C5C00FE2B99 /* SVEffectMusic.h in Headers */,
 				5F7D625D215F407800803BCF /* EventData.h in Headers */,
 				5F7D6221215F407800803BCF /* png.h in Headers */,
 				5F7D6507215F407800803BCF /* SVOpCreate.h in Headers */,
@@ -5585,6 +5611,7 @@
 				5F7D6453215F407800803BCF /* SVGameReady.h in Headers */,
 				5F7D6067215F407700803BCF /* SVCameraMgr.h in Headers */,
 				5F7D67A1215F407900803BCF /* SVBackGroundNode.h in Headers */,
+				02A16A5F2284427500FE2B99 /* SVParseMusic.h in Headers */,
 				5F7D691D215F407900803BCF /* SVPreDeclare.h in Headers */,
 				5F7D68C9215F407900803BCF /* SVListenBase.h in Headers */,
 				5F7D6761215F407900803BCF /* SV3DBox.h in Headers */,
@@ -5822,6 +5849,7 @@
 				5F7D66AD215F407900803BCF /* SVTextureIOS.h in Headers */,
 				5F44287D21848CBC00AF4A5B /* SVFrameOutRead.h in Headers */,
 				5F7D642F215F407800803BCF /* SVGamePart.h in Headers */,
+				02A16A5122842C5C00FE2B99 /* SVEffectMusic.h in Headers */,
 				5F7D625B215F407800803BCF /* EventData.h in Headers */,
 				5F7D621F215F407800803BCF /* png.h in Headers */,
 				5F7D6505215F407800803BCF /* SVOpCreate.h in Headers */,
@@ -6014,6 +6042,7 @@
 				5F7D60AA215F407700803BCF /* SVRGBToneCurveCore.h in Headers */,
 				5F7D6600215F407800803BCF /* SVRenderPipline.h in Headers */,
 				5F7D693C215F407900803BCF /* SVThread.h in Headers */,
+				02A16A5E2284427500FE2B99 /* SVParseMusic.h in Headers */,
 				5F7D6924215F407900803BCF /* SVCoreMath.h in Headers */,
 				5F7D626E215F407800803BCF /* Event.h in Headers */,
 				5F7D672C215F407900803BCF /* SVSkinNode.h in Headers */,
@@ -6156,6 +6185,7 @@
 				5F7D6694215F407800803BCF /* SVMtlShapeVaried.h in Headers */,
 				5F7D62DE215F407800803BCF /* SkeletonBounds.h in Headers */,
 				5F7D62D6215F407800803BCF /* IkConstraint.h in Headers */,
+				02A16A5022842C5C00FE2B99 /* SVEffectMusic.h in Headers */,
 				5F7D61FA215F407700803BCF /* pnginfo.h in Headers */,
 				02381F2F2247AF8800584EEF /* SVMtlDistorted.h in Headers */,
 				5F7D65C4215F407800803BCF /* SVRenderStateMetal.h in Headers */,
@@ -6449,6 +6479,7 @@
 				5F7D6454215F407800803BCF /* SVGameReady.h in Headers */,
 				5F7D6068215F407700803BCF /* SVCameraMgr.h in Headers */,
 				5F7D67A2215F407900803BCF /* SVBackGroundNode.h in Headers */,
+				02A16A602284427500FE2B99 /* SVParseMusic.h in Headers */,
 				5F7D691E215F407900803BCF /* SVPreDeclare.h in Headers */,
 				5F7D68CA215F407900803BCF /* SVListenBase.h in Headers */,
 				5F7D6762215F407900803BCF /* SV3DBox.h in Headers */,
@@ -6686,6 +6717,7 @@
 				5F7D66AE215F407900803BCF /* SVTextureIOS.h in Headers */,
 				5F44287E21848CBC00AF4A5B /* SVFrameOutRead.h in Headers */,
 				5F7D6430215F407800803BCF /* SVGamePart.h in Headers */,
+				02A16A5222842C5C00FE2B99 /* SVEffectMusic.h in Headers */,
 				5F7D625C215F407800803BCF /* EventData.h in Headers */,
 				5F7D6220215F407800803BCF /* png.h in Headers */,
 				5F7D6506215F407800803BCF /* SVOpCreate.h in Headers */,
@@ -7195,6 +7227,7 @@
 				5F7D643D215F407800803BCF /* SVEffectPackage.cpp in Sources */,
 				5F7D6633215F407800803BCF /* SVRObjBase.cpp in Sources */,
 				5F7D682F215F407900803BCF /* SVEventVideo.cpp in Sources */,
+				02A16A5D2284427500FE2B99 /* SVParseMusic.cpp in Sources */,
 				5F7D692F215F407900803BCF /* SVDataSwap.cpp in Sources */,
 				5F7D656F215F407800803BCF /* SVRenderCmdGeo.cpp in Sources */,
 				5F44287B21848CBC00AF4A5B /* SVFrameOutRead.cpp in Sources */,
@@ -7281,6 +7314,7 @@
 				5F7D66D3215F407900803BCF /* SVMtlNocolor.cpp in Sources */,
 				5F7D64BD215F407800803BCF /* SVActionUnit.cpp in Sources */,
 				5FD9AFF62256096500522317 /* SVPenDraw.cpp in Sources */,
+				02A16A5722842C5C00FE2B99 /* SVEffectMusic.cpp in Sources */,
 				5F7D64EF215F407800803BCF /* SVKeyFrame.cpp in Sources */,
 				5F7D6305215F407800803BCF /* extension.c in Sources */,
 				5F7D6381215F407800803BCF /* AnimationStateData.c in Sources */,
@@ -7413,6 +7447,7 @@
 				5C0C606C219BFF790052A826 /* FIFOSampleBuffer.cpp in Sources */,
 				5FD9B04B22647DCC00522317 /* SVResGLMesh.cpp in Sources */,
 				5F7D6630215F407800803BCF /* SVRObjBase.cpp in Sources */,
+				02A16A5A2284427500FE2B99 /* SVParseMusic.cpp in Sources */,
 				5FD9B02322644DCC00522317 /* SVResMetalMesh.mm in Sources */,
 				5F7D624A215F407800803BCF /* pngrtran.c in Sources */,
 				5F7D66D0215F407900803BCF /* SVMtlNocolor.cpp in Sources */,
@@ -7470,6 +7505,7 @@
 				5F7D64EC215F407800803BCF /* SVKeyFrame.cpp in Sources */,
 				5F7D61EA215F407700803BCF /* SVParseMask.cpp in Sources */,
 				5F7D656C215F407800803BCF /* SVRenderCmdGeo.cpp in Sources */,
+				02A16A5422842C5C00FE2B99 /* SVEffectMusic.cpp in Sources */,
 				5F7D61C6215F407700803BCF /* SVParseData.cpp in Sources */,
 				5F44287821848CBC00AF4A5B /* SVFrameOutRead.cpp in Sources */,
 				5F7D632E215F407800803BCF /* MeshAttachment.c in Sources */,
@@ -7922,6 +7958,7 @@
 				5F7D643C215F407800803BCF /* SVEffectPackage.cpp in Sources */,
 				5F7D6632215F407800803BCF /* SVRObjBase.cpp in Sources */,
 				5F7D682E215F407900803BCF /* SVEventVideo.cpp in Sources */,
+				02A16A5C2284427500FE2B99 /* SVParseMusic.cpp in Sources */,
 				5F7D692E215F407900803BCF /* SVDataSwap.cpp in Sources */,
 				5F7D656E215F407800803BCF /* SVRenderCmdGeo.cpp in Sources */,
 				5F44287A21848CBC00AF4A5B /* SVFrameOutRead.cpp in Sources */,
@@ -8008,6 +8045,7 @@
 				5F7D66D2215F407900803BCF /* SVMtlNocolor.cpp in Sources */,
 				5F7D64BC215F407800803BCF /* SVActionUnit.cpp in Sources */,
 				5FD9AFF52256096500522317 /* SVPenDraw.cpp in Sources */,
+				02A16A5622842C5C00FE2B99 /* SVEffectMusic.cpp in Sources */,
 				5F7D64EE215F407800803BCF /* SVKeyFrame.cpp in Sources */,
 				5F7D6304215F407800803BCF /* extension.c in Sources */,
 				5F7D6380215F407800803BCF /* AnimationStateData.c in Sources */,
@@ -8284,6 +8322,7 @@
 				5F7D643B215F407800803BCF /* SVEffectPackage.cpp in Sources */,
 				5F7D6631215F407800803BCF /* SVRObjBase.cpp in Sources */,
 				5F7D682D215F407900803BCF /* SVEventVideo.cpp in Sources */,
+				02A16A5B2284427500FE2B99 /* SVParseMusic.cpp in Sources */,
 				5F7D692D215F407900803BCF /* SVDataSwap.cpp in Sources */,
 				5F7D656D215F407800803BCF /* SVRenderCmdGeo.cpp in Sources */,
 				5F44287921848CBC00AF4A5B /* SVFrameOutRead.cpp in Sources */,
@@ -8370,6 +8409,7 @@
 				5F7D66D1215F407900803BCF /* SVMtlNocolor.cpp in Sources */,
 				5F7D64BB215F407800803BCF /* SVActionUnit.cpp in Sources */,
 				5FD9AFF42256096500522317 /* SVPenDraw.cpp in Sources */,
+				02A16A5522842C5C00FE2B99 /* SVEffectMusic.cpp in Sources */,
 				5F7D64ED215F407800803BCF /* SVKeyFrame.cpp in Sources */,
 				5F7D6303215F407800803BCF /* extension.c in Sources */,
 				5F7D637F215F407800803BCF /* AnimationStateData.c in Sources */,

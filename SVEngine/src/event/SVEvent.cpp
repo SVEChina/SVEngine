@@ -145,3 +145,12 @@ SVRedPacketEvent::SVRedPacketEvent(){
 SVRedPacketEvent::~SVRedPacketEvent(){
     
 }
+
+SVEffectMusicEvent::SVEffectMusicEvent(){
+    eventType = EVN_T_EFFECT_MUSIC_LOAD;
+    eventName = "SVEffectMusicEvent";
+}
+
+SVEffectMusicEvent::~SVEffectMusicEvent(){
+    
+}
