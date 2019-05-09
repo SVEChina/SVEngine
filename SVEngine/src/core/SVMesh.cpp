@@ -84,12 +84,22 @@ void SVMesh::clearMesh() {
 
 void SVMesh::update(f32 _dt) {
     if(m_pMtl) {
-        FMat4 tMat;
-        tMat.setIdentity();
-        tMat.setScale(FVec3(200.0f,200.0f,200.0f));
+        FMat4 tMat_rotx;
+        tMat_rotx.setIdentity();
+        tMat_rotx.setRotateX(45.0f);
+        
+        FMat4 tMat_roty;
+        tMat_roty.setIdentity();
+        tMat_roty.setRotateY(45.0f);
+        
+        FMat4 tMat_sc;
+        tMat_sc.setIdentity();
+        tMat_sc.setScale(FVec3(200.0f,200.0f,200.0f));
+        //
+        FMat4 tMat = tMat_sc * tMat_roty * tMat_rotx;
         m_pMtl->setModelMatrix(tMat.get());
-        //m_pMtl->setTexture(0,pMeshData->m_pTex);
         m_pMtl->setBlendEnable(false);
+        m_pMtl->setDepthEnable(true);
         //m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         //m_pMtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_NORMAL);
         m_pMtl->update(_dt);
