@@ -515,6 +515,14 @@
 		5CE09B7F2179E04900C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
 		5CE09B802179E04A00C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
 		5CE09B812179E04A00C8DF25 /* SVFaceBeautyFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */; };
+		5CED28DB22840EF500A6817B /* SVDeformScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CED28D922840EF500A6817B /* SVDeformScale.cpp */; };
+		5CED28DC22840EF500A6817B /* SVDeformScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CED28D922840EF500A6817B /* SVDeformScale.cpp */; };
+		5CED28DD22840EF500A6817B /* SVDeformScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CED28D922840EF500A6817B /* SVDeformScale.cpp */; };
+		5CED28DE22840EF500A6817B /* SVDeformScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CED28D922840EF500A6817B /* SVDeformScale.cpp */; };
+		5CED28DF22840EF500A6817B /* SVDeformScale.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CED28DA22840EF500A6817B /* SVDeformScale.h */; };
+		5CED28E022840EF500A6817B /* SVDeformScale.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CED28DA22840EF500A6817B /* SVDeformScale.h */; };
+		5CED28E122840EF500A6817B /* SVDeformScale.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CED28DA22840EF500A6817B /* SVDeformScale.h */; };
+		5CED28E222840EF500A6817B /* SVDeformScale.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CED28DA22840EF500A6817B /* SVDeformScale.h */; };
 		5CF0ABAC20BB367A009E673E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF0ABAB20BB367A009E673E /* CoreGraphics.framework */; };
 		5F1CA6772268AA72002373BF /* SVContextMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F1CA6752268AA72002373BF /* SVContextMetal.mm */; };
 		5F1CA6782268AA72002373BF /* SVContextMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F1CA6752268AA72002373BF /* SVContextMetal.mm */; };
@@ -3267,6 +3275,8 @@
 		5CABE7752261CF5F0037E8D2 /* SVDeformNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVDeformNode.h; sourceTree = "<group>"; };
 		5CE09B7B2179E04500C8DF25 /* SVFaceBeautyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceBeautyFilter.h; sourceTree = "<group>"; };
 		5CE09B7C2179E04600C8DF25 /* SVFaceBeautyFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = SVFaceBeautyFilter.cpp; sourceTree = "<group>"; };
+		5CED28D922840EF500A6817B /* SVDeformScale.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; path = SVDeformScale.cpp; sourceTree = "<group>"; };
+		5CED28DA22840EF500A6817B /* SVDeformScale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVDeformScale.h; sourceTree = "<group>"; };
 		5CF0ABAB20BB367A009E673E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		5F1B7DFB1FD0159C006A5D81 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F1CA6752268AA72002373BF /* SVContextMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVContextMetal.mm; sourceTree = "<group>"; };
@@ -4222,6 +4232,8 @@
 				0288F9F7217896AC0089E61C /* SVUnicode.h */,
 				5F7D5DAD215F407700803BCF /* SVVertDef.cpp */,
 				5F7D5DB7215F407700803BCF /* SVVertDef.h */,
+				5CED28D922840EF500A6817B /* SVDeformScale.cpp */,
+				5CED28DA22840EF500A6817B /* SVDeformScale.h */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -5506,6 +5518,7 @@
 				5F7D6663215F407800803BCF /* SVTexMgr.h in Headers */,
 				5F7D68D7215F407900803BCF /* SVMeshData.h in Headers */,
 				5F7D68AB215F407900803BCF /* SVRect.h in Headers */,
+				5CED28E222840EF500A6817B /* SVDeformScale.h in Headers */,
 				5F7D6693215F407800803BCF /* SVMtlBeauty.h in Headers */,
 				5F7D67CB215F407900803BCF /* SVNode.h in Headers */,
 				5F7D64D1215F407800803BCF /* SVActionUnit.h in Headers */,
@@ -5935,6 +5948,7 @@
 				5F7D6661215F407800803BCF /* SVTexMgr.h in Headers */,
 				5F7D68D5215F407900803BCF /* SVMeshData.h in Headers */,
 				5F7D68A9215F407900803BCF /* SVRect.h in Headers */,
+				5CED28E022840EF500A6817B /* SVDeformScale.h in Headers */,
 				5F7D6691215F407800803BCF /* SVMtlBeauty.h in Headers */,
 				5F7D67C9215F407900803BCF /* SVNode.h in Headers */,
 				5F7D64CF215F407800803BCF /* SVActionUnit.h in Headers */,
@@ -6209,6 +6223,7 @@
 				5F7D63F2215F407800803BCF /* schema.h in Headers */,
 				5F7D6644215F407800803BCF /* SVThreadWork.h in Headers */,
 				5F7D60FE215F407700803BCF /* SVSpine.h in Headers */,
+				5CED28DF22840EF500A6817B /* SVDeformScale.h in Headers */,
 				5F7D5FF2215F407700803BCF /* SVPerson.h in Headers */,
 				5F7D62CE215F407800803BCF /* extension.h in Headers */,
 				5F7D68F0215F407900803BCF /* SVCompileConfig.h in Headers */,
@@ -6797,6 +6812,7 @@
 				5F7D6662215F407800803BCF /* SVTexMgr.h in Headers */,
 				5F7D68D6215F407900803BCF /* SVMeshData.h in Headers */,
 				5F7D68AA215F407900803BCF /* SVRect.h in Headers */,
+				5CED28E122840EF500A6817B /* SVDeformScale.h in Headers */,
 				5F7D6692215F407800803BCF /* SVMtlBeauty.h in Headers */,
 				5F7D67CA215F407900803BCF /* SVNode.h in Headers */,
 				5F7D64D0215F407800803BCF /* SVActionUnit.h in Headers */,
@@ -7319,6 +7335,7 @@
 				5F7D6155215F407700803BCF /* SVGlobalMgr.cpp in Sources */,
 				5F7D68F7215F407900803BCF /* SVVec3.cpp in Sources */,
 				5F7D6339215F407800803BCF /* AtlasAttachmentLoader.c in Sources */,
+				5CED28DE22840EF500A6817B /* SVDeformScale.cpp in Sources */,
 				5F7D6249215F407800803BCF /* png.c in Sources */,
 				5F7D6181215F407700803BCF /* SVParseMain.cpp in Sources */,
 				5F7D67AF215F407900803BCF /* SVFrameOutIOS.cpp in Sources */,
@@ -7536,6 +7553,7 @@
 				5F7D6550215F407800803BCF /* SVResTex.cpp in Sources */,
 				5F7D665C215F407800803BCF /* SVThreadPool.cpp in Sources */,
 				5F7D6042215F407700803BCF /* SVStreamOut.cpp in Sources */,
+				5CED28DB22840EF500A6817B /* SVDeformScale.cpp in Sources */,
 				02381F0B224399F400584EEF /* SVMtlStreak.cpp in Sources */,
 				5F7D6472215F407800803BCF /* SVModuleDelaySuspend.cpp in Sources */,
 				5C0C6070219BFF790052A826 /* TDStretch.cpp in Sources */,
@@ -8044,6 +8062,7 @@
 				5F7D6154215F407700803BCF /* SVGlobalMgr.cpp in Sources */,
 				5F7D68F6215F407900803BCF /* SVVec3.cpp in Sources */,
 				5F7D6338215F407800803BCF /* AtlasAttachmentLoader.c in Sources */,
+				5CED28DD22840EF500A6817B /* SVDeformScale.cpp in Sources */,
 				5F7D6248215F407800803BCF /* png.c in Sources */,
 				5F7D6180215F407700803BCF /* SVParseMain.cpp in Sources */,
 				5F7D67AE215F407900803BCF /* SVFrameOutIOS.cpp in Sources */,
@@ -8405,6 +8424,7 @@
 				5F7D6153215F407700803BCF /* SVGlobalMgr.cpp in Sources */,
 				5F7D68F5215F407900803BCF /* SVVec3.cpp in Sources */,
 				5F7D6337215F407800803BCF /* AtlasAttachmentLoader.c in Sources */,
+				5CED28DC22840EF500A6817B /* SVDeformScale.cpp in Sources */,
 				5F7D6247215F407800803BCF /* png.c in Sources */,
 				5F7D617F215F407700803BCF /* SVParseMain.cpp in Sources */,
 				5F7D67AD215F407900803BCF /* SVFrameOutIOS.cpp in Sources */,

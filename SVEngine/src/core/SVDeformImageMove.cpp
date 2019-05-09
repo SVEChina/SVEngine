@@ -33,6 +33,7 @@
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectST.h"
 #include "../core/SVMathHelper.h"
+#include "SVDeformScale.h"
 
 
 SVParamDeform::SVParamDeform(){
@@ -45,6 +46,7 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
 :SVGBase(_app){
     m_pMtlBg  = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_pIUMP    = MakeSharedPtr<SVImageUsingMove>();
+    m_deformScale = MakeSharedPtr<SVDeformScale>();
     m_pPointTex = mApp->getTexMgr()->getTextureSync("svres/point.png",true);
     m_param = MakeSharedPtr<SVParamDeform>();
     m_param->reset();
@@ -139,6 +141,14 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
     }
 }
 
+void SVDeformImageMove::pushScaleCrl(u32 _postion){
+    m_scaleCtlArray.append(_postion);
+}
+
+void SVDeformImageMove::clearCrl(){
+    m_scaleCtlArray.clear();
+}
+
 void SVDeformImageMove::setPoint(V2 *_data){
     m_dataPoint = _data;
 }
@@ -146,6 +156,7 @@ void SVDeformImageMove::setPoint(V2 *_data){
 void SVDeformImageMove::updatePointMSL(){
     if(m_dataPoint){
         m_pIUMP->clearContrl();
+        m_deformScale->clearCtl();
         pointMove(m_dataPoint);
     }
 }
@@ -229,6 +240,7 @@ void SVDeformImageMove::update(f32 _dt){
  
     if(is_detect){
         m_pIUMP->clearContrl();
+        m_deformScale->clearCtl();
         for(int i=1;i<=4;i++){
             SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(i);
             if( t_person && t_person->getExist()){
@@ -334,11 +346,8 @@ void SVDeformImageMove::setTagAreaPoint(u32 _postion,V2 _point){
 }
 
 void SVDeformImageMove::pointMove(V2 *t_data){
-    V2 t_outlinePoints[106];
-    for(s32 i  = 0 ; i < 106 ; i++){
-        t_outlinePoints[i].x = t_data[i].x;
-        t_outlinePoints[i].y = t_data[i].y;
-    }
+    V2 *t_outlinePoints=t_data;
+
     FVec2 eyer = FVec2(t_outlinePoints[77].x,t_outlinePoints[77].y);
     FVec2 eyel = FVec2(t_outlinePoints[74].x,t_outlinePoints[74].y);
     
@@ -346,6 +355,9 @@ void SVDeformImageMove::pointMove(V2 *t_data){
     f32 _smooth = (leng/240.0);
     FVec2 t_eyel = eyer-eyel;
     f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
+    for(int j=0;j<m_scaleCtlArray.size();j++){
+        m_deformScale->pushCtl(t_data[m_scaleCtlArray[j]].x,t_data[m_scaleCtlArray[j]].y,leng*0.3);
+    }
 //    m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
 //    m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
 //    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
@@ -379,8 +391,11 @@ void SVDeformImageMove::pointMove(V2 *t_data){
             t_targetData[i].y = m_pointScreen[i].y;
         }else{
             FVec2 t_xy=m_pIUMP->MLS(FVec2(m_pointScreen[i].x,m_pointScreen[i].y));
-            t_targetData[i].x=m_pointScreen[i].x-(t_xy.x-m_pointScreen[i].x);
-            t_targetData[i].y=m_pointScreen[i].y-(t_xy.y-m_pointScreen[i].y);
+            t_xy.x=m_pointScreen[i].x-(t_xy.x-m_pointScreen[i].x);
+            t_xy.y=m_pointScreen[i].y-(t_xy.y-m_pointScreen[i].y);
+            t_xy=m_deformScale->getScalePostion(t_xy);
+            t_targetData[i].x=t_xy.x;
+            t_targetData[i].y=t_xy.y;
         }
     }
     //
@@ -388,11 +403,8 @@ void SVDeformImageMove::pointMove(V2 *t_data){
 }
 
 void SVDeformImageMove::_updateControl(V2 *t_data){
-    V2 t_outlinePoints[106];
-    for(s32 i  = 0 ; i < 106 ; i++){
-        t_outlinePoints[i].x = t_data[i].x;
-        t_outlinePoints[i].y = t_data[i].y;
-    }
+    V2 *t_outlinePoints=t_data;
+    
     FVec2 eyer = FVec2(t_outlinePoints[77].x,t_outlinePoints[77].y);
     FVec2 eyel = FVec2(t_outlinePoints[74].x,t_outlinePoints[74].y);
     
@@ -400,12 +412,16 @@ void SVDeformImageMove::_updateControl(V2 *t_data){
     f32 _smooth = (leng/240.0);
     FVec2 t_eyel = eyer-eyel;
     f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
-    m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
-    m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
-    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
-    m_pIUMP->setTargetControl(FVec2(m_tt_w,m_tt_h));
-    m_pIUMP->setControl(FVec2(m_tt_w,0.0));
-    m_pIUMP->setTargetControl(FVec2(m_tt_w,0.0));
+//    m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
+//    m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
+//    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
+//    m_pIUMP->setTargetControl(FVec2(m_tt_w,m_tt_h));
+//    m_pIUMP->setControl(FVec2(m_tt_w,0.0));
+//    m_pIUMP->setTargetControl(FVec2(m_tt_w,0.0));
+    for(int j=0;j<m_scaleCtlArray.size();j++){
+        m_deformScale->pushCtl(t_data[m_scaleCtlArray[j]].x,t_data[m_scaleCtlArray[j]].y,leng*0.3);
+    }
+
     FVec2 t_rangleV2(t_outlinePoints[46].x,t_outlinePoints[46].y);
     //迭代偏移值
     SVMap<u32,V2>::Iterator it = m_param->m_pointMap.begin();
@@ -436,12 +452,15 @@ void SVDeformImageMove::_updateMesh(){
             t_targetData[i].y = m_pointScreen[i].y;
         }else{
             FVec2 t_xy=m_pIUMP->MLS(FVec2(m_pointScreen[i].x,m_pointScreen[i].y));
+            t_xy.x=m_pointScreen[i].x-(t_xy.x-m_pointScreen[i].x);
+            t_xy.y=m_pointScreen[i].y-(t_xy.y-m_pointScreen[i].y);
+            t_xy=m_deformScale->getScalePostion(t_xy);
             t_targetData[i].x=t_xy.x;
             t_targetData[i].y=t_xy.y;
         }
     }
     //
-    _refreshScreenRectMesh(t_targetData,m_pointScreen );
+    _refreshScreenRectMesh(m_pointScreen,t_targetData);
 }
 
 //serial 序列化接口
