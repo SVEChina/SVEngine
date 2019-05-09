@@ -31,7 +31,9 @@ namespace sv {
             void destroy();
             
             void update(f32 dt);
-
+            
+            void render();
+            
             void setAngle(f32 _angle);
             
         protected:

@@ -13,6 +13,7 @@
 #include "../base/SVObject.h"
 #include "../base/SVMat4.h"
 #include "../base/SVPreDeclare.h"
+#include "../basesys/SVLogicDeclare.h"
 #include "../mtl/SVMtlDeclare.h"
 
 namespace sv {
@@ -47,6 +48,18 @@ namespace sv {
             
         protected:
             SVRObjBasePtr m_pRObj;
+        };
+        
+        //Trans
+        class SVRCmdTransRender : public SVRenderCmd {
+        public:
+            SVRCmdTransRender(SVTransPtr _trans);
+            
+            ~SVRCmdTransRender();
+            
+            virtual void render();
+        protected:
+            SVTransPtr m_trans;
         };
 
         //普通渲染命令

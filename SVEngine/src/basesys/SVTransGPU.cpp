@@ -35,7 +35,7 @@ SVTransGPU::SVTransGPU(SVInst *_app,
 ,m_texOut(_tOut){
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_passNode = MakeSharedPtr<SVMultPassNode>(mApp);
-    m_passNode->setRSType(RST_IMGFILTER);
+    m_passNode->setRSType(RST_SKY);
     m_pMtl = nullptr;
     m_pMesh = nullptr;
 }
@@ -140,8 +140,16 @@ void SVTransGPU::update(f32 dt) {
             m_pMtl->setTexSizeIndex(0, 1.0f / m_tex0->getwidth(), 1.0f / m_tex0->getheight());
         } else if (m_picformate == SV_PF_RGB) {
         }
-        //m_pMtl->setModelMatrix(m_absolutMat.get());
         m_pMtl->update(dt);
+    }
+    if (m_passNode) {
+        m_passNode->update(0.0f);
+    }
+}
+
+void SVTransGPU::render(){
+    if (m_passNode) {
+        m_passNode->render();
     }
 }
 
@@ -181,8 +189,4 @@ void SVTransGPU::createPass(s32 _w, s32 _h, f32 _angle, SVTEXTYPE _tt) {
     }
     t_pass->setOutTex(_tt);
     m_passNode->addPass(t_pass);
-    SVScenePtr t_sc = mApp->getSceneMgr()->getScene();
-    if (t_sc && m_passNode) {
-        t_sc->addNode(m_passNode);
-    }
 }

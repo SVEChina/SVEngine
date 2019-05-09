@@ -26,6 +26,8 @@ namespace sv {
             
             virtual void update(f32 dt);
 
+            virtual void render();
+            
             virtual void setAngle(f32 _angle);
             
         protected:

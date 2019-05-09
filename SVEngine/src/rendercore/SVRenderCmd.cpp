@@ -18,6 +18,7 @@
 #include "../mtl/SVMtlCore.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
+#include "../basesys/SVTrans.h"
 #include <sys/time.h>
 
 //
@@ -81,6 +82,21 @@ void SVRenderCmdNor::render() {
             m_pMesh->render(m_pRenderer);
             m_pMtl->recoverMtl();
         }
+    }
+}
+//
+SVRCmdTransRender::SVRCmdTransRender(SVTransPtr _trans) {
+    mTag = "SVRCmdTransRender";
+    m_trans = _trans;
+}
+
+SVRCmdTransRender::~SVRCmdTransRender() {
+    m_trans = nullptr;
+}
+
+void SVRCmdTransRender::render() {
+    if (m_trans) {
+        m_trans->render();
     }
 }
 
