@@ -23,3 +23,7 @@ void SVTransCPU::destroy(){
 
 void SVTransCPU::update(f32 dt) {
 }
+
+void SVTransCPU::render(){
+    
+}

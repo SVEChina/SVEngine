@@ -3028,6 +3028,14 @@
 		5F8268252282C456003D4476 /* SVMorphNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F82681F2282C455003D4476 /* SVMorphNode.h */; };
 		5F8268262282C456003D4476 /* SVMorphNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F82681F2282C455003D4476 /* SVMorphNode.h */; };
 		5F8268272282C456003D4476 /* SVMorphNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F82681F2282C455003D4476 /* SVMorphNode.h */; };
+		5F82682A2282FECB003D4476 /* SVMtlGLTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8268282282FECA003D4476 /* SVMtlGLTF.h */; };
+		5F82682B2282FECB003D4476 /* SVMtlGLTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8268282282FECA003D4476 /* SVMtlGLTF.h */; };
+		5F82682C2282FECB003D4476 /* SVMtlGLTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8268282282FECA003D4476 /* SVMtlGLTF.h */; };
+		5F82682D2282FECB003D4476 /* SVMtlGLTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8268282282FECA003D4476 /* SVMtlGLTF.h */; };
+		5F82682E2282FECB003D4476 /* SVMtlGLTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F8268292282FECA003D4476 /* SVMtlGLTF.cpp */; };
+		5F82682F2282FECB003D4476 /* SVMtlGLTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F8268292282FECA003D4476 /* SVMtlGLTF.cpp */; };
+		5F8268302282FECB003D4476 /* SVMtlGLTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F8268292282FECA003D4476 /* SVMtlGLTF.cpp */; };
+		5F8268312282FECB003D4476 /* SVMtlGLTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F8268292282FECA003D4476 /* SVMtlGLTF.cpp */; };
 		5FAB9DD82189AC6700B05ED5 /* SVAniBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */; };
 		5FAB9DD92189AC6700B05ED5 /* SVAniBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */; };
 		5FAB9DDA2189AC6700B05ED5 /* SVAniBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */; };
@@ -3905,6 +3913,8 @@
 		5F7F092C226F38F8000F51D2 /* SVAnimateMorph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAnimateMorph.h; sourceTree = "<group>"; };
 		5F82681E2282C455003D4476 /* SVMorphNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMorphNode.cpp; sourceTree = "<group>"; };
 		5F82681F2282C455003D4476 /* SVMorphNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMorphNode.h; sourceTree = "<group>"; };
+		5F8268282282FECA003D4476 /* SVMtlGLTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlGLTF.h; sourceTree = "<group>"; };
+		5F8268292282FECA003D4476 /* SVMtlGLTF.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlGLTF.cpp; sourceTree = "<group>"; };
 		5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVAniBase.cpp; sourceTree = "<group>"; };
 		5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAniBase.h; sourceTree = "<group>"; };
 		5FB61F842227E36A001EA141 /* libpython2.7.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpython2.7.tbd; path = usr/lib/libpython2.7.tbd; sourceTree = SDKROOT; };
@@ -4783,8 +4793,6 @@
 				5F7D5F2C215F407700803BCF /* SVMtlBasedOn.h */,
 				5F7D5F37215F407700803BCF /* SVMtlBeauty.cpp */,
 				5F7D5F22215F407700803BCF /* SVMtlBeauty.h */,
-				02690F99227073AF00EF1FFC /* SVMtlPenStrokeGlow.cpp */,
-				02690F98227073AE00EF1FFC /* SVMtlPenStrokeGlow.h */,
 				023FF3372253761000632659 /* SVMtlBillboard.cpp */,
 				023FF3382253761000632659 /* SVMtlBillboard.h */,
 				02381EFB22437FE300584EEF /* SVMtlBlackWhite.cpp */,
@@ -4807,12 +4815,16 @@
 				02381F192244C2DF00584EEF /* SVMtlFlash.h */,
 				02381F232246280000584EEF /* SVMtlGlitch.cpp */,
 				02381F242246280000584EEF /* SVMtlGlitch.h */,
+				5F8268292282FECA003D4476 /* SVMtlGLTF.cpp */,
+				5F8268282282FECA003D4476 /* SVMtlGLTF.h */,
 				5C56B6792248AF77007D7DC8 /* SVMtlGradientMap.cpp */,
 				5C56B6782248AF76007D7DC8 /* SVMtlGradientMap.h */,
 				5F7D5F32215F407700803BCF /* SVMtlNocolor.cpp */,
 				5F7D5F28215F407700803BCF /* SVMtlNocolor.h */,
 				5F7D5F3A215F407700803BCF /* SVMtlParamBase.cpp */,
 				5F7D5F1A215F407700803BCF /* SVMtlParamBase.h */,
+				02690F99227073AF00EF1FFC /* SVMtlPenStrokeGlow.cpp */,
+				02690F98227073AE00EF1FFC /* SVMtlPenStrokeGlow.h */,
 				02381F102244B88400584EEF /* SVMtlRainbowColor.cpp */,
 				02381F0F2244B88400584EEF /* SVMtlRainbowColor.h */,
 				5F7D5F1B215F407700803BCF /* SVMtlRGB2YUV.cpp */,
@@ -5502,6 +5514,7 @@
 				5F7D6957215F407900803BCF /* SVVec2.h in Headers */,
 				5F7D67CF215F407900803BCF /* SVFacePointNode.h in Headers */,
 				5F7D6803215F407900803BCF /* SVMultPassNode.h in Headers */,
+				5F82682D2282FECB003D4476 /* SVMtlGLTF.h in Headers */,
 				5F7D6703215F407900803BCF /* SVOpCallback.h in Headers */,
 				5F7D652B215F407800803BCF /* SVOpOutCamera.h in Headers */,
 				5F7D650B215F407800803BCF /* SVOpFilter.h in Headers */,
@@ -5932,6 +5945,7 @@
 				5F7D6955215F407900803BCF /* SVVec2.h in Headers */,
 				5F7D67CD215F407900803BCF /* SVFacePointNode.h in Headers */,
 				5F7D6801215F407900803BCF /* SVMultPassNode.h in Headers */,
+				5F82682B2282FECB003D4476 /* SVMtlGLTF.h in Headers */,
 				5F7D6701215F407900803BCF /* SVOpCallback.h in Headers */,
 				5F7D6529215F407800803BCF /* SVOpOutCamera.h in Headers */,
 				5F7D6509215F407800803BCF /* SVOpFilter.h in Headers */,
@@ -6246,6 +6260,7 @@
 				5F7D60BA215F407700803BCF /* SVFilterGenLUT.h in Headers */,
 				5F7D629A215F407800803BCF /* dll.h in Headers */,
 				02D562882242482600684A9E /* SVMtlShinning.h in Headers */,
+				5F82682A2282FECB003D4476 /* SVMtlGLTF.h in Headers */,
 				5F7D6660215F407800803BCF /* SVTexMgr.h in Headers */,
 				5F7D6296215F407800803BCF /* TransformConstraint.h in Headers */,
 				5F7D6112215F407700803BCF /* SVPass.h in Headers */,
@@ -6796,6 +6811,7 @@
 				5F7D6956215F407900803BCF /* SVVec2.h in Headers */,
 				5F7D67CE215F407900803BCF /* SVFacePointNode.h in Headers */,
 				5F7D6802215F407900803BCF /* SVMultPassNode.h in Headers */,
+				5F82682C2282FECB003D4476 /* SVMtlGLTF.h in Headers */,
 				5F7D6702215F407900803BCF /* SVOpCallback.h in Headers */,
 				5F7D652A215F407800803BCF /* SVOpOutCamera.h in Headers */,
 				5F7D650A215F407800803BCF /* SVOpFilter.h in Headers */,
@@ -7097,6 +7113,7 @@
 				5F7D6853215F407900803BCF /* SVModify.cpp in Sources */,
 				5F7D6583215F407800803BCF /* SVEGLContext.cpp in Sources */,
 				5F7D6767215F407900803BCF /* SVShapeVariedNode.cpp in Sources */,
+				5F8268312282FECB003D4476 /* SVMtlGLTF.cpp in Sources */,
 				5F7D697B215F407900803BCF /* SVMat3.cpp in Sources */,
 				02F27E5A218EF216007E85C3 /* SVModelNode.cpp in Sources */,
 				5F7D60DD215F407700803BCF /* SVSpineListen.cpp in Sources */,
@@ -7685,6 +7702,7 @@
 				5FD9B02D22644E9400522317 /* SVResMetalTex.mm in Sources */,
 				5F7D648A215F407800803BCF /* SVTimeLineMtl.cpp in Sources */,
 				5C0C6030219BFF790052A826 /* InterpolateLinear.cpp in Sources */,
+				5F82682E2282FECB003D4476 /* SVMtlGLTF.cpp in Sources */,
 				5F7D64FC215F407800803BCF /* SVOpCreate.cpp in Sources */,
 				5F7D624E215F407800803BCF /* pngrutil.c in Sources */,
 				5FD9B00F225F589600522317 /* SVResMetal.mm in Sources */,
@@ -7824,6 +7842,7 @@
 				5F7D6852215F407900803BCF /* SVModify.cpp in Sources */,
 				5F7D6582215F407800803BCF /* SVEGLContext.cpp in Sources */,
 				5F7D6766215F407900803BCF /* SVShapeVariedNode.cpp in Sources */,
+				5F8268302282FECB003D4476 /* SVMtlGLTF.cpp in Sources */,
 				5F7D697A215F407900803BCF /* SVMat3.cpp in Sources */,
 				02F27E59218EF216007E85C3 /* SVModelNode.cpp in Sources */,
 				5F7D60DC215F407700803BCF /* SVSpineListen.cpp in Sources */,
@@ -8186,6 +8205,7 @@
 				5F7D6851215F407900803BCF /* SVModify.cpp in Sources */,
 				5F7D6581215F407800803BCF /* SVEGLContext.cpp in Sources */,
 				5F7D6765215F407900803BCF /* SVShapeVariedNode.cpp in Sources */,
+				5F82682F2282FECB003D4476 /* SVMtlGLTF.cpp in Sources */,
 				5F7D6979215F407900803BCF /* SVMat3.cpp in Sources */,
 				02F27E58218EF216007E85C3 /* SVModelNode.cpp in Sources */,
 				5F7D60DB215F407700803BCF /* SVSpineListen.cpp in Sources */,

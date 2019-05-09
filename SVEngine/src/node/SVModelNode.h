@@ -19,14 +19,20 @@ namespace sv {
             SVModelNode(SVInst *_app);
             
             ~SVModelNode();
-            
-            void update(f32 dt);
-            
-            void render();
+
+            //更新
+            virtual void update(f32 dt);
+   
+            //渲染
+            virtual void render();
             
             void enableDebugNormal(bool _enable);
             
             bool getDebugNormalEnable();
+            
+            void setModel(SVModelPtr _model);
+            
+            SVModelPtr getModel();
             
         protected:
             void _showDebugNormalLines();

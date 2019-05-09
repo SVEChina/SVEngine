@@ -93,6 +93,8 @@ void SVResGLRenderMesh::updateConf(RENDERMESHCONF& _conf) {
     setVertexPoolType(_conf.vertPoolType);
     setDrawMethod(_conf.drawmethod);
     setVertexType(_conf.vftype);
+    //数据排列模式
+    m_seqMode = _conf.seqMode;
 }
 
 void SVResGLRenderMesh::updateData(RENDERMESHDATA& _data) {

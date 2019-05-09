@@ -63,6 +63,7 @@ namespace sv {
             s32   m_dataformate;
             bool  m_bData;
             bool  m_bEnableMipMap;
+            bool  m_bCreated;
             SVDataSwapPtr m_pData;
             u32   m_uid;          //唯一ID对象
             

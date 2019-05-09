@@ -23,10 +23,6 @@ namespace sv {
             
             void update(f32 _dt);
             
-            void startSensor();
-            
-            void disableSensor();
-            
             SVCameraNodePtr getARCamera(){ return m_pARCamera; }
             
             FVec3& getVelocity();
@@ -41,7 +37,6 @@ namespace sv {
             timeval m_timTagLast;
             f32 m_deltaTime;
             bool m_isFitst;
-            bool m_isEnable;
             FVec3 m_acc0;//加速度
             FVec3 m_acc1;//加速度
             FVec3 m_velocity0;//速度

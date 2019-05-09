@@ -142,13 +142,7 @@ namespace sv {
         SVArray<f64> number_array;
         SVMap<SVString, f64> json_double_value;
         f64 number_value = 0.0;
-        // context sensitive methods. depending the type of the Parameter you are
-        // accessing, these are either valid or not
-        // If this parameter represent a texture map in a material, will return the
-        // texture index
-        /// Return the index of a texture if this Parameter is a texture map.
-        /// Returned value is only valid if the parameter represent a texture from a
-        /// material
+        //
         s32 TextureIndex() const {
             SVMap<SVString, f64>::Iterator it = json_double_value.find("index");
             if(it!=json_double_value.end()){
@@ -156,9 +150,15 @@ namespace sv {
             }
             return -1;
         }
-        /// Material factor, like the roughness or metalness of a material
-        /// Returned value is only valid if the parameter represent a texture from a
-        /// material
+        
+        f32 ParamValue(cptr8 _key) {
+            SVMap<SVString, f64>::Iterator it = json_double_value.find(_key);
+            if(it!=json_double_value.end()){
+                return f32(it->data);
+            }
+            return 0.0f;
+        }
+        // metallicFactor or roughnessFactor
         f64 Factor() const { return number_value; }
         
         bool operator==(const Parameter &) const;
@@ -573,6 +573,12 @@ namespace sv {
         void _loadAnimationData();
         
     private:
+        void _buildNode(Node* _node,SVNodePtr _rootNode);
+        
+        SVMeshPtr _buildMesh(s32 _index);
+        
+        SVMtlCorePtr _buildMtl(s32 _index);
+        
         void _buildPrimitive(SVMeshPtr t_mesh,Primitive* _prim);
         
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);

@@ -84,6 +84,7 @@ namespace sv {
         
         //rendercmd
         DECLARE_SHAREPTR(SVRenderCmd);
+        DECLARE_SHAREPTR(SVRCmdTransRender);
         DECLARE_SHAREPTR(SVRenderCmdPushVPMat);
         DECLARE_SHAREPTR(SVRenderCmdPopVPMat);
         DECLARE_SHAREPTR(SVRenderCmdPushMat);

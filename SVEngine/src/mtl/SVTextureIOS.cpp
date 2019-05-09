@@ -15,7 +15,10 @@ SVTextureIOS::SVTextureIOS(SVInst *_app)
 }
 
 SVTextureIOS::~SVTextureIOS() {
-    
+    mApp->m_IDPool.returnUID(m_uid);
+    m_pData = nullptr;
+    m_objTexPtr = nullptr;
+    m_bCreated = false;
 }
 
 void SVTextureIOS::init(cptr8 _name, s32 _type, s32 _width, s32 _height, s32 _informate, s32 _dateformate, bool _enableMipMap){
@@ -30,22 +33,25 @@ void SVTextureIOS::init(cptr8 _name, s32 _type, s32 _width, s32 _height, s32 _in
 
 void SVTextureIOS::create(SVRendererBasePtr _renderer){
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
-    SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
-    if (t_renderGLPtr) {
-        //渲染器类型E_RENDERER_GLES,
-        m_objTexPtr = MakeSharedPtr<SVRResGLTexiOS>(mApp)  ;
-    }
-    
-    if (m_objTexPtr) {
-        m_objTexPtr->setname(m_name);
-        m_objTexPtr->settype(m_type);
-        m_objTexPtr->setwidth(m_width);
-        m_objTexPtr->setheight(m_height);
-        m_objTexPtr->setinformate(m_informate);
-        m_objTexPtr->setdataformate(m_dataformate);
-        _updateData();
-        m_objTexPtr->create(_renderer);
+    if (!m_bCreated) {
+        m_bCreated = true;
+        SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+        SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
+        if (t_renderGLPtr) {
+            //渲染器类型E_RENDERER_GLES,
+            m_objTexPtr = MakeSharedPtr<SVRResGLTexiOS>(mApp)  ;
+        }
+        
+        if (m_objTexPtr) {
+            m_objTexPtr->setname(m_name);
+            m_objTexPtr->settype(m_type);
+            m_objTexPtr->setwidth(m_width);
+            m_objTexPtr->setheight(m_height);
+            m_objTexPtr->setinformate(m_informate);
+            m_objTexPtr->setdataformate(m_dataformate);
+            _updateData();
+            m_objTexPtr->create(_renderer);
+        }
     }
 }
 

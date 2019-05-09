@@ -113,6 +113,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpPenRedo);
     DECLARE_SHAREPTR(SVOpPenUndoIsEnable);
     DECLARE_SHAREPTR(SVOpPenRedoIsEnable);
+    DECLARE_SHAREPTR(SVOpPenMode);
     //
     DECLARE_SHAREPTR(SVOpCreateIOSInstream);
     DECLARE_SHAREPTR(SVOpDestroyIOSInstream);

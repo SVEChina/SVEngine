@@ -28,7 +28,7 @@
 //
 SVSensorProcess::SVSensorProcess(SVInst *_app)
 :SVProcess(_app) {
-    m_pARCamera = nullptr;
+    m_pARCamera = MakeSharedPtr<SVCameraNode>(mApp);
     m_acc0.set(0.0f, 0.0f, 0.0f);
     m_acc1.set(0.0f, 0.0f, 0.0f);
     m_velocity0.set(0.0f, 0.0f, 0.0f);
@@ -36,26 +36,16 @@ SVSensorProcess::SVSensorProcess(SVInst *_app)
     m_distance0.set(0.0f, 0.0f, 0.0f);
     m_distance1.set(0.0f, 0.0f, 0.0f);
     m_isFitst = false;
-    m_isEnable= true;
     m_maxBox = 25;
 }
 
 SVSensorProcess::~SVSensorProcess() {
     m_3DBoxPool.destroy();
-}
-
-void SVSensorProcess::startSensor(){
-    m_isEnable = true;
-    m_pARCamera = MakeSharedPtr<SVCameraNode>(mApp);
-}
-
-void SVSensorProcess::disableSensor(){
-    m_isEnable = false;
     m_pARCamera = nullptr;
 }
 
 void SVSensorProcess::update(f32 _dt){
-    if(m_pARCamera && m_isEnable) {
+    if(m_pARCamera) {
         m_pARCamera->update(_dt);
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         SVRendererBasePtr t_renderer = mApp->getRenderer();
@@ -84,9 +74,6 @@ FVec3& SVSensorProcess::getDistance(){
 }
 
 bool SVSensorProcess::procEvent(SVEventPtr _event){
-    if (!m_isEnable) {
-        return false;
-    }
     if (_event->eventType == SV_EVENT_TYPE::EVN_T_CAMERA_OREN){
         SVCameraOrenEventPtr oren = std::dynamic_pointer_cast<SVCameraOrenEvent>(_event);
         if(m_pARCamera) {

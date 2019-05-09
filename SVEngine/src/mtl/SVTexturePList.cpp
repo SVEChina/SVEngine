@@ -26,6 +26,10 @@ SVTexturePList::SVTexturePList(SVInst *_app)
 }
 
 SVTexturePList::~SVTexturePList() {
+    mApp->m_IDPool.returnUID(m_uid);
+    m_pData = nullptr;
+    m_objTexPtr = nullptr;
+    m_bCreated = false;
     m_texset = nullptr;
 }
 
@@ -41,23 +45,26 @@ void SVTexturePList::init(cptr8 _name, s32 _type, s32 _width, s32 _height, s32 _
 
 void SVTexturePList::create(SVRendererBasePtr _renderer){
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
-    SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
-    if (t_renderGLPtr) {
-        //渲染器类型E_RENDERER_GLES,
-        m_objTexPtr = MakeSharedPtr<SVRResGLTexPlist>(mApp);
-        
+    if (!m_bCreated) {
+        m_bCreated = true;
+        SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+        SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
+        if (t_renderGLPtr) {
+            //渲染器类型E_RENDERER_GLES,
+            m_objTexPtr = MakeSharedPtr<SVRResGLTexPlist>(mApp);
+            
+        }
+        SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
+        if (t_rendeVKPtr) {
+            //渲染器类型E_RENDERER_VUNKAN,
+            
+        }
+        //    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+        //    if (t_rendeMetalPtr) {
+        //        //渲染器类型E_RENDERER_METAL,
+        //
+        //    }
     }
-    SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
-    if (t_rendeVKPtr) {
-        //渲染器类型E_RENDERER_VUNKAN,
-        
-    }
-//    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-//    if (t_rendeMetalPtr) {
-//        //渲染器类型E_RENDERER_METAL,
-//
-//    }
 }
 
 void SVTexturePList::destroy(SVRendererBasePtr _renderer){
