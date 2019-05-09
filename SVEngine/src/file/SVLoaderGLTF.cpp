@@ -622,6 +622,8 @@ SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
         }
         it2++;
     }
+    //
+    tMtl->refresh();
     return tMtl;
 }
 
