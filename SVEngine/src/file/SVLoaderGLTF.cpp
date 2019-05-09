@@ -22,6 +22,8 @@
 #include "../node/SVSkinNode.h"
 #include "../node/SVModelNode.h"
 #include "../node/SVMorphNode.h"
+#include "../node/SVScene.h"
+#include "../basesys/SVSceneMgr.h"
 
 SVLoaderGLTF::SVLoaderGLTF(SVInst *_app)
 :SVGBase(_app) {
@@ -338,30 +340,23 @@ bool SVLoaderGLTF::loadFromFile(cptr8 _filename){
 
 //
 void SVLoaderGLTF::building() {
+    SVScenePtr t_sc = mApp->getSceneMgr()->getScene();
+    if(!t_sc)
+        return ;
     //构建buf 在parse的时候 已经构建了
-    
-//    //这就是一个gltf对象
-//    for(s32 i=0;i<m_gltf.meshes.size();i++) {
-//        SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
-//        t_mesh->setName(m_gltf.meshes[i].name.c_str());
-//        //非权重方式
-//        for(s32 j=0;j<m_gltf.meshes[i].primitives.size();j++) {
-//            Primitive* t_pri = &(m_gltf.meshes[i].primitives[j]);
-//            _buildPrimitive(t_mesh,t_pri);
-//        }
-//    }
     //构建皮肤
     for(s32 i=0;i<m_gltf.skins.size();i++) {
-        int a = 0;
+        //int a = 0;
     }
     //构建动画
     for(s32 i=0;i<m_gltf.animations.size();i++) {
-        int a = 0;
+        //int a = 0;
     }
     //构建材质
     for(s32 i=0;i<m_gltf.materials.size();i++) {
-        int a = 0;
+        //int a = 0;
     }
+    
     //构建节点
     for(s32 i=0;i<m_gltf.scenes.size();i++) {
         Scene* t_scene = &(m_gltf.scenes[i]);
@@ -370,6 +365,7 @@ void SVLoaderGLTF::building() {
             SVNodePtr t_rootNode = MakeSharedPtr<SVNode>(mApp);
             Node* t_node = &(m_gltf.nodes[t_index]);
             _buildNode(t_node,t_rootNode);
+            t_sc->addNode(t_rootNode);
         }
     }
 }
@@ -519,8 +515,36 @@ void SVLoaderGLTF::_buildPrimitive(SVMeshPtr _mesh,Primitive* _prim) {
             t_count = accW->count;
         }
     }
-    _mesh->setData(t_data,VFTYPE(t_vtf),t_count,2);
-    //构建材质
+    SVRenderMeshPtr t_rMesh = MakeSharedPtr<SVRenderMesh>(mApp);
+    t_rMesh->setVertexType(VFTYPE(t_vtf));
+    t_rMesh->setSeqMode(2);
+    //顶点数据
+    t_rMesh->setVertexDataNum(t_count);
+    t_rMesh->setVertexData(t_data);
+    //索引数据
+    if( _prim->indices >=0) {
+        Accessor* accIndex = &(m_gltf.accessors[_prim->indices]);
+        SVDataSwapPtr pIndex = MakeSharedPtr<SVDataSwap>();
+        _fetchDataFromAcc(pIndex,accIndex);
+        t_rMesh->setIndexData(pIndex,accIndex->count);
+    }
+    //绘制模式
+    if(_prim->mode == SVGLTF_MODE_POINTS) {
+        t_rMesh->setDrawMethod(E_DM_POINTS);
+    }else if(_prim->mode == SVGLTF_MODE_LINE) {
+        t_rMesh->setDrawMethod(E_DM_LINES);
+    }else if(_prim->mode == SVGLTF_MODE_LINE_LOOP) {
+        t_rMesh->setDrawMethod(E_DM_LINE_LOOP);
+    }else if(_prim->mode == SVGLTF_MODE_TRIANGLES) {
+        t_rMesh->setDrawMethod(E_DM_TRIANGLES);
+    }else if(_prim->mode == SVGLTF_MODE_TRIANGLE_STRIP) {
+        t_rMesh->setDrawMethod(E_DM_TRIANGLE_STRIP);
+    }else if(_prim->mode == SVGLTF_MODE_TRIANGLE_FAN) {
+        t_rMesh->setDrawMethod(E_DM_TRIANGLE_FAN);
+    }
+    t_rMesh->createMesh();
+    _mesh->setRenderMesh(t_rMesh);
+    //材质
     SVMtlCorePtr t_mtl = _buildMtl(_prim->material);
     _mesh->setMtl(t_mtl);
 }

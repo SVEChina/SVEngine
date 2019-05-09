@@ -42,6 +42,7 @@
 //内置变量
 #define NAME_POSITION   "aPosition"
 #define NAME_NORMAL     "aNormal"
+#define NAME_TAGENT     "aTagent"
 #define NAME_COLOR      "aColor"
 #define NAME_COLOR1     "aColor1"
 #define NAME_TEXCOORD0  "aTexcoord0"

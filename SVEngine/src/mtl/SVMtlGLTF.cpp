@@ -9,7 +9,7 @@
 #include "../mtl/SVTexture.h"
 
 SVMtlGLTF::SVMtlGLTF(SVInst *_app)
-:SVMtlCore(_app,"mask2d") {
+:SVMtlCore(_app,"gltf") {
     m_pBaseColorTex = nullptr;
     m_pMetallicRoughnessTex = nullptr;
     m_pNormalTex = nullptr;
