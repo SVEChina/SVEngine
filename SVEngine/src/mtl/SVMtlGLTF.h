@@ -28,6 +28,11 @@ namespace sv {
             
             virtual SVMtlCorePtr clone();
             
+            void update(f32 dt);
+            
+            void refresh();
+            
+        public:
             SVTexturePtr m_pBaseColorTex;
             SVTexturePtr m_pMetallicRoughnessTex;
             SVTexturePtr m_pNormalTex;

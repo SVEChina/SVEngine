@@ -38,6 +38,8 @@ namespace sv {
             
             void setData(SVDataSwapPtr _data,VFTYPE _vtf,s32 _count,s32 _seqMode);
             
+            void setRenderMesh(SVRenderMeshPtr _rmesh);
+            
             void setMtl(SVMtlCorePtr _mtl);
             
             void update(f32 _dt);

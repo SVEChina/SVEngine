@@ -9,7 +9,7 @@
 #include "../mtl/SVTexture.h"
 
 SVMtlGLTF::SVMtlGLTF(SVInst *_app)
-:SVMtlCore(_app,"mask2d") {
+:SVMtlCore(_app,"gltf") {
     m_pBaseColorTex = nullptr;
     m_pMetallicRoughnessTex = nullptr;
     m_pNormalTex = nullptr;
@@ -45,5 +45,26 @@ SVMtlCorePtr SVMtlGLTF::clone() {
     return PointerSharedPtr<SVMtlGLTF>(new SVMtlGLTF(this));
 }
 
-//void SVMtlGLTF::update(float dt) {
-//}
+void SVMtlGLTF::update(f32 dt) {
+    SVMtlCore::update(dt);
+    //
+    
+}
+
+void SVMtlGLTF::refresh() {
+    if(m_pBaseColorTex) {
+        setTexture(0,m_pBaseColorTex);
+    }
+    if(m_pMetallicRoughnessTex) {
+        setTexture(1,m_pMetallicRoughnessTex);
+    }
+    if(m_pNormalTex) {
+        setTexture(2,m_pNormalTex);
+    }
+    if(m_pOcclusionTex) {
+        setTexture(3,m_pOcclusionTex);
+    }
+    if(m_pEmissiveTex) {
+        setTexture(4,m_pEmissiveTex);
+    }
+}

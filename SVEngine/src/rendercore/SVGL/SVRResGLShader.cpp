@@ -321,6 +321,7 @@ u32 SVRResGLShader::_createProgram(){
     //bind prop
     glBindAttribLocation(t_program_id, CHANNEL_POSITION, NAME_POSITION);
     glBindAttribLocation(t_program_id, CHANNEL_NORMAL, NAME_NORMAL);
+    glBindAttribLocation(t_program_id, CHANNEL_TAGENT, NAME_TAGENT);
     glBindAttribLocation(t_program_id, CHANNEL_COLOR0, NAME_COLOR);
     glBindAttribLocation(t_program_id, CHANNEL_COLOR1, NAME_COLOR1);
     glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD0, NAME_TEXCOORD0);
