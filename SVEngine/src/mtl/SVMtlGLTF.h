@@ -10,6 +10,8 @@
 
 
 #include "SVMtlCore.h"
+#include "../base/SVVec3.h"
+#include "../base/SVVec4.h"
 
 //GLTF材质
 namespace sv {
@@ -26,6 +28,17 @@ namespace sv {
             
             virtual SVMtlCorePtr clone();
             
+            SVTexturePtr m_pBaseColorTex;
+            SVTexturePtr m_pMetallicRoughnessTex;
+            SVTexturePtr m_pNormalTex;
+            SVTexturePtr m_pOcclusionTex;
+            SVTexturePtr m_pEmissiveTex;
+            FVec4 m_baseColorFactor;
+            f32 m_metallicFactor;
+            f32 m_roughtnessFactor;
+            f32 m_normalScale;
+            f32 m_occlusionStrength;
+            FVec3 m_emissiveFactor;
         };
 
     }//!namespace mtl
