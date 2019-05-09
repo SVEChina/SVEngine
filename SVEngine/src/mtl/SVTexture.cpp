@@ -29,6 +29,7 @@ SVTexture::SVTexture(SVInst*_app)
     m_name = "";
     m_bData = false;
     m_bEnableMipMap = false;
+    m_bCreated = false;
     m_width = 0;
     m_height = 0;
     m_type = GL_TEXTURE_2D;
@@ -41,41 +42,44 @@ SVTexture::SVTexture(SVInst*_app)
 SVTexture::~SVTexture() {
     mApp->m_IDPool.returnUID(m_uid);
     m_pData = nullptr;
+    m_objTexPtr = nullptr;
+    m_bCreated = false;
 }
 
 void SVTexture::create(SVRendererBasePtr _renderer){
     SV_LOG_INFO("texture create id %d \n",m_uid);
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
-    SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
-    if (t_renderGLPtr) {
-        //渲染器类型E_RENDERER_GLES,
-        m_objTexPtr = MakeSharedPtr<SVRResGLTex>(mApp);
-    }
-    SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
-    if (t_rendeVKPtr) {
-        //渲染器类型E_RENDERER_VUNKAN,
-        //m_objTexPtr = MakeSharedPtr<SVRResGLTex>(mApp);
-    }
-    #if defined(SV_IOS) || defined(SV_OSX)
-    SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
-    if (t_rendeMetalPtr) {
-        //渲染器类型E_RENDERER_METAL,
-
+    if (!m_bCreated) {
+        m_bCreated = true;
+        SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+        SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
+        if (t_renderGLPtr) {
+            //渲染器类型E_RENDERER_GLES,
+            m_objTexPtr = MakeSharedPtr<SVRResGLTex>(mApp);
+        }
+        SVRendererVKPtr t_rendeVKPtr = std::dynamic_pointer_cast<SVRendererVK>(t_renderBasePtr);
+        if (t_rendeVKPtr) {
+            //渲染器类型E_RENDERER_VUNKAN,
+            //m_objTexPtr = MakeSharedPtr<SVRResGLTex>(mApp);
+        }
+#if defined(SV_IOS) || defined(SV_OSX)
+        SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(t_renderBasePtr);
+        if (t_rendeMetalPtr) {
+            //渲染器类型E_RENDERER_METAL,
             m_objTexPtr = MakeSharedPtr<SVRResMetalTex>(mApp);
-
-    }
-    #endif
-    if (m_objTexPtr) {
-        m_objTexPtr->setname(m_name);
-        m_objTexPtr->settype(m_type);
-        m_objTexPtr->setwidth(m_width);
-        m_objTexPtr->setheight(m_height);
-        m_objTexPtr->setinformate(m_informate);
-        m_objTexPtr->setdataformate(m_dataformate);
-        m_objTexPtr->setEnableMipMap(m_bEnableMipMap);
-        _updateData();
-        m_objTexPtr->create(_renderer);
+        }
+#endif
+        if (m_objTexPtr) {
+            m_objTexPtr->setname(m_name);
+            m_objTexPtr->settype(m_type);
+            m_objTexPtr->setwidth(m_width);
+            m_objTexPtr->setheight(m_height);
+            m_objTexPtr->setinformate(m_informate);
+            m_objTexPtr->setdataformate(m_dataformate);
+            m_objTexPtr->setEnableMipMap(m_bEnableMipMap);
+            _updateData();
+            m_objTexPtr->create(_renderer);
+        }
     }
 }
 

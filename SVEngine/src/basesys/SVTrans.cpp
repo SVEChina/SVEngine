@@ -34,4 +34,9 @@ void SVTrans::destroy(){
 }
 
 void SVTrans::update(f32 dt) {
+    
+}
+
+void SVTrans::render() {
+    
 }

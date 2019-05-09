@@ -28,6 +28,7 @@
 #include "../../basesys/filter/SVFilterBase.h"
 #include "../../basesys/SVStaticData.h"
 #include "../../basesys/SVConfig.h"
+#include "../../basesys/SVSensorProcess.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../detect/SVDetectMgr.h"
 #include "../../detect/SVPersonTracker.h"
@@ -43,7 +44,7 @@ SVPenDraw::SVPenDraw(SVInst *_app)
     m_rotation.set(0.0f, 0.0f, 0.0f);
     m_scale.set(1.0f, 1.0f, 1.0f);
     m_faceEyeWidth = 1.0f;
-    m_mode = SV_FACEMODE;
+    m_mode = SV_ARMODE;
 }
 
 SVPenDraw::~SVPenDraw() {
@@ -124,16 +125,21 @@ void SVPenDraw::destroy() {
 void SVPenDraw::update(f32 _dt) {
     m_lock->lock();
     SVGameBase::update(_dt);
-    _resetTranslation();
-    if (m_mode == SV_FACEMODE) {
+    if (m_mode == SV_ARMODE) {
+        for (s32 i =0; i<m_strokes.size(); i++) {
+            SVPenStrokePtr stroke = m_strokes[i];
+            stroke->update(0.0f);
+        }
+    }else if (m_mode == SV_FACEMODE) {
+        _resetTranslation();
         _updateTranslation();
-    }
-    for (s32 i =0; i<m_strokes.size(); i++) {
-        SVPenStrokePtr stroke = m_strokes[i];
-        stroke->setPosition(m_position);
-        stroke->setScale(m_faceEyeWidth);
-        stroke->setRotation(m_rotation);
-        stroke->update(0.0f);
+        for (s32 i =0; i<m_strokes.size(); i++) {
+            SVPenStrokePtr stroke = m_strokes[i];
+            stroke->setPosition(m_position);
+            stroke->setScale(m_faceEyeWidth);
+            stroke->setRotation(m_rotation);
+            stroke->update(0.0f);
+        }
     }
     if (m_strokes.size() > 0) {
         _drawGlow();
@@ -297,18 +303,26 @@ bool SVPenDraw::procEvent(SVEventPtr _event){
         if (!m_curStroke) {
             m_curStroke = MakeSharedPtr<SVPenStroke>(mApp, m_strokeWidth, m_strokeColor, m_glowWidth, m_glowColor, m_mode);
             m_strokes.append(m_curStroke);
-            
         }
         m_curStroke->begin(t_touch->x,t_touch->y,0.0);
-        m_curStroke->setEnableTranslation(false);
+        if (m_mode == SV_ARMODE) {
+            m_curStroke->setEnableTranslation(false);
+        }else if (m_mode == SV_FACEMODE) {
+            m_curStroke->setEnableTranslation(false);
+        }
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_END){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (t_touch && m_curStroke) {
             m_curStroke->end(t_touch->x,t_touch->y,0.0f);
-            m_curStroke->setOriginalPosition(m_position);
-            m_curStroke->setOriginalScale(m_faceEyeWidth);
-            m_curStroke->setOriginalRotation(m_rotation);
-            m_curStroke->setEnableTranslation(true);
+            if (m_mode == SV_ARMODE) {
+                m_curStroke->setEnableTranslation(false);
+            }else if (m_mode == SV_FACEMODE) {
+                m_curStroke->setOriginalPosition(m_position);
+                m_curStroke->setOriginalScale(m_faceEyeWidth);
+                m_curStroke->setOriginalRotation(m_rotation);
+                m_curStroke->setEnableTranslation(true);
+            }
+            
         }
         m_curStroke = nullptr;
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_MOVE){

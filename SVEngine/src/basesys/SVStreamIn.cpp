@@ -22,9 +22,10 @@
 #include "../node/SVSpriteNode.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderCmd.h"
+#include "../rendercore/SVRenderScene.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVTexMgr.h"
-
 //
 StreamInCore::StreamInCore(SVInst* _app)
 :SVGBase(_app){
@@ -183,6 +184,14 @@ void StreamInCore::pushData(u8* _srcPtr,s32 width,s32 height,s32 pixelFormat,s32
     } else if (m_formate == SV_PF_RGBA) {
         m_tex0->setTexData(_srcPtr, width*height*4);
     } else if (m_formate == SV_PF_RGB) {
+    }
+    
+    //trans render
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    if (m_trans && t_rs) {
+        SVRCmdTransRenderPtr transRender = MakeSharedPtr<SVRCmdTransRender>(m_trans);
+        transRender->mTag = "SVTransGPU_Render";
+        t_rs->pushRenderCmd(RST_SKY, transRender);
     }
 }
 

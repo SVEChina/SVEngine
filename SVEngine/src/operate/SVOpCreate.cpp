@@ -656,8 +656,8 @@ void SVOpPenRedoIsEnable::_process(f32 dt) {
     }
 }
 
-SVOpPenMode::SVOpPenMode(SVInst *_app) :  SVOpBase(_app){
-    
+SVOpPenMode::SVOpPenMode(SVInst *_app, s32 _mode) :  SVOpBase(_app){
+    m_mode = _mode;
 }
 
 SVOpPenMode::~SVOpPenMode(){
@@ -671,7 +671,7 @@ void SVOpPenMode::_process(f32 dt) {
     if (t_modulePtr) {
         SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
         if (t_penDraw) {
-            
+            t_penDraw->setPenMode(SVPENMODE(m_mode));
         }
     }
 }

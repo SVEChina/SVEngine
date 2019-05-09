@@ -26,6 +26,7 @@ namespace sv {
             
             void update(f32 dt);
             
+            void render();
         };
         
     } //!namespace logic
