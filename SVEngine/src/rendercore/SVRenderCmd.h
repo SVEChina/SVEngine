@@ -49,18 +49,6 @@ namespace sv {
         protected:
             SVRObjBasePtr m_pRObj;
         };
-        
-        //Trans
-        class SVRCmdTransRender : public SVRenderCmd {
-        public:
-            SVRCmdTransRender(SVTransPtr _trans);
-            
-            ~SVRCmdTransRender();
-            
-            virtual void render();
-        protected:
-            SVTransPtr m_trans;
-        };
 
         //普通渲染命令
         class SVRenderCmdNor : public SVRenderCmd {

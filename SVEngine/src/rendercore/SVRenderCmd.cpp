@@ -84,21 +84,7 @@ void SVRenderCmdNor::render() {
         }
     }
 }
-//
-SVRCmdTransRender::SVRCmdTransRender(SVTransPtr _trans) {
-    mTag = "SVRCmdTransRender";
-    m_trans = _trans;
-}
 
-SVRCmdTransRender::~SVRCmdTransRender() {
-    m_trans = nullptr;
-}
-
-void SVRCmdTransRender::render() {
-    if (m_trans) {
-        m_trans->render();
-    }
-}
 
 //
 SVRenderCmdClear::SVRenderCmdClear()
