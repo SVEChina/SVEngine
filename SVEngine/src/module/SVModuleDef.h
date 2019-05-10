@@ -24,6 +24,7 @@ namespace sv {
     //
     DECLARE_SHAREPTR(SVEffectUnit);
     DECLARE_SHAREPTR(SVEffectPackage);
+    DECLARE_SHAREPTR(SVEffectMusic);
     DECLARE_SHAREPTR(SVDivisonFilter);
     DECLARE_SHAREPTR(SVMark);
     

@@ -6,28 +6,28 @@
 //
 
 #include "SVEffectPackage.h"
-#include "../node/SVNode.h"
+#include "../app/SVGlobalMgr.h"
+#include "../core/SVSpine.h"
+#include "../core/SVDeformImageMove.h"
 #include "../base/SVLock.h"
 #include "../base/SVPreDeclare.h"
-#include "../basesys/SVSceneMgr.h"
+#include "../node/SVNode.h"
 #include "../node/SVScene.h"
 #include "../node/SVSpineNode.h"
-#include "../node/SVNode.h"
-#include "../core/SVSpine.h"
 #include "../node/SVSpriteNode.h"
 #include "../node/SVBitFontNode.h"
-#include "../base/SVPreDeclare.h"
 #include "../act/SVTexAttachment.h"
 #include "../act/SVActFollow.h"
 #include "../act/SVActionSys.h"
-#include "../app/SVGlobalMgr.h"
 #include "../act/SVActionUnit.h"
+#include "../basesys/SVSceneMgr.h"
 #include "../basesys/filter/SVParseLUTFilter.h"
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVPictureProcess.h"
 #include "../basesys/filter/SVFilterLUT.h"
 #include "../basesys/SVDeformMgr.h"
-#include "../core/SVDeformImageMove.h"
+#include "../event/SVEvent.h"
+#include "SVEffectMusic.h"
 void spinenode_callback(SVSpineNodePtr _node,void* _obj,s32 _status) {
     SVEffectUnit *t_unit = (SVEffectUnit*)(_obj);
     if(_status == 2) {
@@ -114,10 +114,12 @@ SVEffectPackage::~SVEffectPackage(){
     if (m_lock) {
         m_lock = nullptr;
     }
+    m_music = nullptr;
 }
 
 void SVEffectPackage::init(){
     SVModuleBase::init();
+    startListen();
 }
 
 void SVEffectPackage::destroy(){
@@ -197,6 +199,31 @@ void SVEffectPackage::update(f32 _dt) {
 }
 
 bool SVEffectPackage::procEvent(SVEventPtr _event) {
+    if (_event->eventType == EVN_T_EFFECT_MUSIC_LOAD) {
+        SVEffectMusicEventPtr t_event = DYN_TO_SHAREPTR(SVEffectMusicEvent, _event);
+        if (t_event) {
+            if (m_cb) {
+                SVString msg = SVString::format("sveffectmusic_load_%s",t_event->path.c_str());
+                (*m_cb)(msg.c_str());
+            }
+        }
+    }else if (_event->eventType == EVN_T_EFFECT_MUSIC_UNLOAD) {
+        SVEffectMusicEventPtr t_event = DYN_TO_SHAREPTR(SVEffectMusicEvent, _event);
+        if (t_event) {
+            if (m_cb) {
+                SVString msg = SVString::format("sveffectmusic_unload_%s",t_event->path.c_str());
+                (*m_cb)(msg.c_str());
+            }
+        }
+    }else if (_event->eventType == EVN_T_EFFECT_MUSIC_PLAY) {
+        SVEffectMusicEventPtr t_event = DYN_TO_SHAREPTR(SVEffectMusicEvent, _event);
+        if (t_event) {
+            if (m_cb) {
+                SVString msg = SVString::format("sveffectmusic_play_%s",t_event->path.c_str());
+                (*m_cb)(msg.c_str());
+            }
+        }
+    }
     return  true;
 }
 
@@ -243,6 +270,12 @@ SVTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
         }
     }
     return nullptr;
+}
+
+void SVEffectPackage::setEffectMusic(SVEffectMusicPtr _music){
+    if (_music) {
+        m_music = _music;
+    }
 }
 
 SVNodePtr SVEffectPackage::getNode(cptr8 _name){

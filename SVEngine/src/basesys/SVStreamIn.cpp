@@ -187,11 +187,8 @@ void StreamInCore::pushData(u8* _srcPtr,s32 width,s32 height,s32 pixelFormat,s32
     }
     
     //trans render
-    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    if (m_trans && t_rs) {
-        SVRCmdTransRenderPtr transRender = MakeSharedPtr<SVRCmdTransRender>(m_trans);
-        transRender->mTag = "SVTransGPU_Render";
-        t_rs->pushRenderCmd(RST_SKY, transRender);
+    if(m_trans) {
+        m_trans->render();
     }
 }
 
