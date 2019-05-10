@@ -323,12 +323,10 @@ u32 SVRResGLShader::_createProgram(){
         glBindAttribLocation(t_program_id, CHANNEL_POSITION, NAME_POSITION);
         glBindAttribLocation(t_program_id, CHANNEL_NORMAL, NAME_NORMAL);
         glBindAttribLocation(t_program_id, CHANNEL_TAGENT, NAME_TAGENT);
+        glBindAttribLocation(t_program_id, CHANNEL_BTAGENT, NAME_BNOR);
         glBindAttribLocation(t_program_id, CHANNEL_COLOR0, NAME_COLOR);
-        glBindAttribLocation(t_program_id, CHANNEL_COLOR1, NAME_COLOR1);
         glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD0, NAME_TEXCOORD0);
         glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD1, NAME_TEXCOORD1);
-        glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD2, NAME_TEXCOORD2);
-        glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD3, NAME_TEXCOORD3);
         glBindAttribLocation(t_program_id, CHANNEL_INSOFFSET, NAME_INSOFFSET);
         //蒙皮动画相关
         glBindAttribLocation(t_program_id, CHANNEL_BONE_ID, NAME_BONE_ID);
@@ -355,19 +353,13 @@ u32 SVRResGLShader::_createProgram(){
             }else if( t_str == "T" ) {
                 glBindAttribLocation(t_program_id, CHANNEL_TAGENT, NAME_TAGENT);
             }else if( t_str == "BT" ) {
-                //glBindAttribLocation(t_program_id, CHANNEL_TAGENT, NAME_TAGENT);
+                glBindAttribLocation(t_program_id, CHANNEL_BTAGENT, NAME_BNOR);
             }else if( t_str == "T0" ) {
                 glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD0, NAME_TEXCOORD0);
             }else if( t_str == "T1" ) {
                 glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD1, NAME_TEXCOORD1);
-            }else if( t_str == "T2" ) {
-                glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD2, NAME_TEXCOORD2);
-            }else if( t_str == "T3" ) {
-                glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD3, NAME_TEXCOORD3);
             }else if( t_str == "C0" ) {
                 glBindAttribLocation(t_program_id, CHANNEL_COLOR0, NAME_COLOR);
-            }else if( t_str == "C1" ) {
-                glBindAttribLocation(t_program_id, CHANNEL_COLOR1, NAME_COLOR);
             }else if( t_str == "OFF" ) {
                 glBindAttribLocation(t_program_id, CHANNEL_INSOFFSET, NAME_INSOFFSET);
             }else if( t_str == "BONE" ) {

@@ -316,7 +316,7 @@ void SVResGLRenderMesh::_bindVerts(){
 void SVResGLRenderMesh::_unbindVerts(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
-        for(s32 i=0;i<9;i++){
+        for(s32 i=0;i<8;i++){
             glDisableVertexAttribArray(i);
         }
         if(m_indexID>0){
@@ -423,11 +423,6 @@ void SVResGLRenderMeshDvid::_updateVertDsp() {
         glEnableVertexAttribArray(CHANNEL_COLOR0);
         glVertexAttribPointer(CHANNEL_COLOR0, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, 0);
     }
-    if (m_vftype & D_VF_C1) {
-        glBindBuffer(GL_ARRAY_BUFFER, color1ID);
-        glEnableVertexAttribArray(CHANNEL_COLOR1);
-        glVertexAttribPointer(CHANNEL_COLOR1, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, 0);
-    }
     if (m_vftype & D_VF_T0) {
         glBindBuffer(GL_ARRAY_BUFFER, texcoord0ID);
         glEnableVertexAttribArray(CHANNEL_TEXCOORD0);
@@ -437,11 +432,6 @@ void SVResGLRenderMeshDvid::_updateVertDsp() {
         glBindBuffer(GL_ARRAY_BUFFER, texcoord1ID);
         glEnableVertexAttribArray(CHANNEL_TEXCOORD1);
         glVertexAttribPointer(CHANNEL_TEXCOORD1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-    }
-    if (m_vftype & D_VF_T2) {
-        glBindBuffer(GL_ARRAY_BUFFER, texcoord2ID);
-        glEnableVertexAttribArray(CHANNEL_TEXCOORD2);
-        glVertexAttribPointer(CHANNEL_TEXCOORD2, 2, GL_FLOAT, GL_FALSE, 0, 0);
     }
 }
 
