@@ -56,19 +56,9 @@ namespace sv{
         
         void renderBoundingBox();
         
-        void setPosition(FVec3 &_position);
+        void genFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);
         
-        void setScale(f32 _scale);
-        
-        void setRotation(FVec3 &_rotation);
-        
-        void setOriginalPosition(FVec3 &_position);
-        
-        void setOriginalScale(f32 _scale);
-        
-        void setOriginalRotation(FVec3 &_rotation);
-        
-        void setEnableTranslation(bool _enable);
+        void refreshFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);
     protected:
         void _screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint);
         //
@@ -115,14 +105,11 @@ namespace sv{
         f32 m_plane_dis;
         LERPMETHOD m_lerpMethod;
         SVPENMODE m_penMode;
-        FVec3 m_position;
-        f32 m_scale;
-        FVec3 m_rotation;
-        FVec3 m_originalPosition;
-        f32 m_originalScale;
-        FVec3 m_originalRotation;
-        bool  m_enableTranslation;
-        bool  m_dirty;
+        FMat4 m_faceCoordinateMat;
+        FVec3 m_noseCenter;
+        FVec3 m_faceRot;
+        f32   m_eyeDis;
+        bool  m_haveGenFaceCoord;
         bool  m_drawBox;
     };
     

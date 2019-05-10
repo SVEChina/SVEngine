@@ -51,19 +51,16 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
     //
     m_lerpMethod = SV_LERP_BALANCE;
     m_drawBox = false;
-    m_dirty = false;
-    m_enableTranslation = false;
+    m_haveGenFaceCoord = false;
     m_instanceCount = 0;
     m_glowInstanceCount = 0;
     m_lastInstanceIndex = 0;
     m_lastGlowInstanceIndex = 0;
     m_plane_dis = 0.3f;
-    m_position.set(0.0f, 0.0f, 0.0f);
-    m_rotation.set(0.0f, 0.0f, 0.0f);
-    m_scale = 1.0f;
-    m_originalPosition.set(0.0f, 0.0f, 0.0f);
-    m_originalRotation.set(0.0f, 0.0f, 0.0f);
-    m_originalScale = 1.0f;
+    m_faceCoordinateMat.setIdentity();
+    m_noseCenter.set(0.0f, 0.0f, 0.0f);
+    m_faceRot.set(0.0f, 0.0f, 0.0f);
+    m_eyeDis = 1.0;
     m_penMode = _mode;
     if (m_penMode == SV_ARMODE) {
         m_glowDensity = 0.05;
@@ -115,67 +112,8 @@ void SVPenStroke::setDrawBox(bool _drawBox){
     m_drawBox = _drawBox;
 }
 
-void SVPenStroke::setPosition(FVec3 &_position){
-    SVStrokePoint t_worldPt;
-    FVec2 t_pt = FVec2(_position.x, _position.y);
-    _screenPointToWorld(t_pt, t_worldPt);
-    FVec3 t_new_position = t_worldPt.point;
-    if (m_position != t_new_position) {
-        m_dirty = true;
-        m_position = t_new_position;
-    }
-}
-
-void SVPenStroke::setScale(f32 _scale){
-    if (m_scale != _scale) {
-        m_dirty = true;
-        m_scale = _scale;
-    }
-}
-
-void SVPenStroke::setRotation(FVec3 &_rotation){
-    if (m_rotation != _rotation) {
-        m_dirty = true;
-        m_rotation = _rotation;
-    }
-}
-
-void SVPenStroke::setOriginalPosition(FVec3 &_position){
-    SVStrokePoint t_worldPt;
-    FVec2 t_pt = FVec2(_position.x, _position.y);
-    _screenPointToWorld(t_pt, t_worldPt);
-    FVec3 t_new_position = t_worldPt.point;
-    m_originalPosition = t_new_position;
-}
-
-void SVPenStroke::setOriginalScale(f32 _scale){
-    m_originalScale = _scale;
-}
-
-void SVPenStroke::setOriginalRotation(FVec3 &_rotation){
-    m_originalRotation = _rotation;
-}
-
-void SVPenStroke::setEnableTranslation(bool _enable){
-    m_enableTranslation = _enable;
-}
-
 void SVPenStroke::update(f32 _dt) {
-    if (m_dirty && m_enableTranslation) {
-        m_localMat.setIdentity();
-        FMat4 t_mat_scale = FMat4_identity;
-        FMat4 t_mat_rotX = FMat4_identity;
-        FMat4 t_mat_rotY = FMat4_identity;
-        FMat4 t_mat_rotZ = FMat4_identity;
-        FMat4 t_mat_trans = FMat4_identity;
-        t_mat_scale.setScale(FVec3(m_scale/m_originalScale, m_scale/m_originalScale, m_scale/m_originalScale));
-        t_mat_rotX.setRotateX(m_rotation.x - m_originalRotation.x);
-        t_mat_rotY.setRotateY(m_rotation.y - m_originalRotation.y);
-        t_mat_rotZ.setRotateZ(m_rotation.z - m_originalRotation.z);
-        t_mat_trans.setTranslate(m_position - m_originalPosition);
-        m_localMat = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
-        m_dirty = false;
-    }
+    
 }
 
 
@@ -1076,4 +1014,47 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
     //_worldPoint.normal.normalize();
     _worldPoint.ext0 = FVec3(0.0f,0.0f,0.0f);
     _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
+}
+
+void SVPenStroke::genFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis){
+    if (!m_haveGenFaceCoord) {
+        SVStrokePoint t_worldPt;
+        FVec2 t_pt = FVec2(_noseCenter.x, _noseCenter.y);
+        _screenPointToWorld(t_pt, t_worldPt);
+        FVec3 t_new_position = t_worldPt.point;
+        m_noseCenter = t_new_position;
+        m_faceRot = _rotation;
+        if (_eyeDis != 0) {
+            m_eyeDis = _eyeDis;
+        }
+        m_haveGenFaceCoord = true;
+    }
+}
+
+void SVPenStroke::refreshFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis){
+    m_faceCoordinateMat.setIdentity();
+    if (m_haveGenFaceCoord) {
+        FMat4 t_mat_scale = FMat4_identity;
+        FMat4 t_mat_rotX = FMat4_identity;
+        FMat4 t_mat_rotY = FMat4_identity;
+        FMat4 t_mat_rotZ = FMat4_identity;
+        FMat4 t_mat_trans = FMat4_identity;
+        //scale
+        FVec3 t_scale = FVec3(_eyeDis/m_eyeDis, _eyeDis/m_eyeDis, _eyeDis/m_eyeDis);
+        t_mat_scale.setScale(t_scale);
+        //rotation
+        FVec3 t_rot = _rotation - m_faceRot;
+        t_mat_rotX.setRotateX(t_rot.x);
+        t_mat_rotY.setRotateY(t_rot.y);
+        t_mat_rotZ.setRotateZ(t_rot.z);
+        //translation
+        SVStrokePoint t_worldPt;
+        FVec2 t_pt = FVec2(_noseCenter.x, _noseCenter.y);
+        _screenPointToWorld(t_pt, t_worldPt);
+        FVec3 t_noseCenter = t_worldPt.point;
+        FVec3 t_pos = t_noseCenter - m_noseCenter;
+        t_mat_trans.setTranslate(t_pos);
+        m_faceCoordinateMat = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
+        m_localMat = m_faceCoordinateMat;
+    }
 }
