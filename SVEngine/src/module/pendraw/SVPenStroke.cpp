@@ -58,9 +58,12 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
     m_lastGlowInstanceIndex = 0;
     m_plane_dis = 0.3f;
     m_faceCoordinateMat.setIdentity();
-    m_noseCenter.set(0.0f, 0.0f, 0.0f);
-    m_faceRot.set(0.0f, 0.0f, 0.0f);
-    m_eyeDis = 1.0;
+    m_raw_faceParam.faceCenter.set(0.0f, 0.0f, 0.0f);
+    m_raw_faceParam.faceRot.set(0.0f, 0.0f, 0.0f);
+    m_raw_faceParam.eyeDis = 1.0;
+    m_faceParam.faceCenter.set(0.0f, 0.0f, 0.0f);
+    m_faceParam.faceRot.set(0.0f, 0.0f, 0.0f);
+    m_faceParam.eyeDis = 1.0;
     m_penMode = _mode;
     if (m_penMode == SV_ARMODE) {
         m_glowDensity = 0.05;
@@ -873,6 +876,7 @@ void SVPenStroke::_createStrokeMesh() {
 
 void SVPenStroke::updateStroke(float _dt){
     m_lock->unlock();
+    /*
     //三维盒子实例子
     s32 t_pt_num = m_ptPool.size();
     s32 t_pt_deltCount = t_pt_num - m_lastInstanceIndex;
@@ -891,6 +895,20 @@ void SVPenStroke::updateStroke(float _dt){
         m_instanceCount = t_pt_num;
         m_pInstanceOffsetData->appendData(t_points, t_pt_deltCount*sizeof(V3));
     }
+     */
+    s32 t_pt_num = m_ptPool.size();
+    if (t_pt_num > 0) {
+        V3 t_points[t_pt_num];
+        for (s32 i = 0; i<t_pt_num; i++) {
+            SVStrokePoint t_pt = m_ptPool[i];
+            
+            t_points[i].x = t_pt.point.x;
+            t_points[i].y = t_pt.point.y;
+            t_points[i].z = t_pt.point.z;
+        }
+         m_pInstanceOffsetData->writeData(t_points, t_pt_num*sizeof(V3));
+    }
+    m_instanceCount = t_pt_num;
     m_lock->unlock();
 }
 
@@ -1021,17 +1039,32 @@ void SVPenStroke::genFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32
         SVStrokePoint t_worldPt;
         FVec2 t_pt = FVec2(_noseCenter.x, _noseCenter.y);
         _screenPointToWorld(t_pt, t_worldPt);
-        FVec3 t_new_position = t_worldPt.point;
-        m_noseCenter = t_new_position;
-        m_faceRot = _rotation;
+        FVec3 t_faceCenter = t_worldPt.point;
+        FVec3 t_faceRot = _rotation;
+        f32 t_eyeDis = 1.0;
         if (_eyeDis != 0) {
-            m_eyeDis = _eyeDis;
+            t_eyeDis = _eyeDis;
         }
+        m_raw_faceParam.faceCenter = t_faceCenter;
+        m_raw_faceParam.faceRot = t_faceRot;
+        m_raw_faceParam.eyeDis = t_eyeDis;
         m_haveGenFaceCoord = true;
     }
 }
 
 void SVPenStroke::refreshFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis){
+    SVStrokePoint t_worldPt;
+    FVec2 t_pt = FVec2(_noseCenter.x, _noseCenter.y);
+    _screenPointToWorld(t_pt, t_worldPt);
+    FVec3 t_faceCenter = t_worldPt.point;
+    FVec3 t_faceRot = _rotation;
+    f32 t_eyeDis = 1.0;
+    if (_eyeDis != 0) {
+        t_eyeDis = _eyeDis;
+    }
+    m_faceParam.faceCenter = t_faceCenter;
+    m_faceParam.faceRot = t_faceRot;
+    m_faceParam.eyeDis = t_eyeDis;
     m_faceCoordinateMat.setIdentity();
     if (m_haveGenFaceCoord) {
         FMat4 t_mat_scale = FMat4_identity;
@@ -1040,19 +1073,15 @@ void SVPenStroke::refreshFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation,
         FMat4 t_mat_rotZ = FMat4_identity;
         FMat4 t_mat_trans = FMat4_identity;
         //scale
-        FVec3 t_scale = FVec3(_eyeDis/m_eyeDis, _eyeDis/m_eyeDis, _eyeDis/m_eyeDis);
+        FVec3 t_scale = FVec3(m_faceParam.eyeDis/m_raw_faceParam.eyeDis, m_faceParam.eyeDis/m_raw_faceParam.eyeDis, m_faceParam.eyeDis/m_raw_faceParam.eyeDis);
         t_mat_scale.setScale(t_scale);
         //rotation
-        FVec3 t_rot = _rotation - m_faceRot;
+        FVec3 t_rot = m_faceParam.faceRot - m_raw_faceParam.faceRot;
         t_mat_rotX.setRotateX(t_rot.x);
         t_mat_rotY.setRotateY(t_rot.y);
         t_mat_rotZ.setRotateZ(t_rot.z);
         //translation
-        SVStrokePoint t_worldPt;
-        FVec2 t_pt = FVec2(_noseCenter.x, _noseCenter.y);
-        _screenPointToWorld(t_pt, t_worldPt);
-        FVec3 t_noseCenter = t_worldPt.point;
-        FVec3 t_pos = t_noseCenter - m_noseCenter;
+        FVec3 t_pos = m_faceParam.faceCenter - m_raw_faceParam.faceCenter;
         t_mat_trans.setTranslate(t_pos);
         m_faceCoordinateMat = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
         m_localMat = m_faceCoordinateMat;

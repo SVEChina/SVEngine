@@ -30,6 +30,12 @@ namespace sv{
         FVec3 ext1;
     };
     
+    struct SVFaceParam {
+        FVec3 faceCenter;
+        FVec3 faceRot;
+        f32   eyeDis;
+    };
+    
     class SVPenStroke : public SVGameBase {
     public:
         SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor, SVPENMODE _mode);
@@ -106,9 +112,8 @@ namespace sv{
         LERPMETHOD m_lerpMethod;
         SVPENMODE m_penMode;
         FMat4 m_faceCoordinateMat;
-        FVec3 m_noseCenter;
-        FVec3 m_faceRot;
-        f32   m_eyeDis;
+        SVFaceParam m_raw_faceParam;
+        SVFaceParam m_faceParam;
         bool  m_haveGenFaceCoord;
         bool  m_drawBox;
     };
