@@ -177,6 +177,7 @@ namespace sv {
         //
         DECLARE_SHAREPTR(SVPass);
         DECLARE_SHAREPTR(SVParamDeform);
+        DECLARE_SHAREPTR(SVDeformScale);
         DECLARE_SHAREPTR(SVDeformImageMove);
         //font
         DECLARE_SHAREPTR(SVFont);

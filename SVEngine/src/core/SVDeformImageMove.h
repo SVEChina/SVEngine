@@ -34,6 +34,7 @@ namespace sv {
             void addTagPoint(u32 _postion,V2 _point){
                 m_pointMap.append(_postion, _point);
             }
+            
             SVMap<u32, V2> m_pointMap;
             SVMap<u32,V2> m_areaPoint;
             
@@ -57,6 +58,14 @@ namespace sv {
             void setParam(SVParamDeformPtr _param){
                 m_param->copy(_param);
             }
+            
+            void setScaleSmooth(f32 _smooth){
+                m_scaleSmooth = _smooth;
+            }
+            
+            void pushScaleCrl(u32 _postion);
+            
+            void clearCrl();
             
             void setTagPoint(u32 _postion,V2 _point);
             
@@ -115,11 +124,13 @@ namespace sv {
             SVRenderMeshPtr m_pMeshPoint;
             SVRenderTexturePtr m_fbo;
             SVImageUsingMovePtr m_pIUMP;
+            SVArray<u32> m_scaleCtlArray;
             SVPassPtr m_passDeform;
             SVPassPtr m_passPoint;
             SVPassPtr m_passBack;
             V2 m_pointScreen[51*64];     //31*81
             SVParamDeformPtr m_param;
+            SVDeformScalePtr m_deformScale;
 
             V2 *m_dataPoint;
             s32 m_wPointCount;
@@ -130,6 +141,7 @@ namespace sv {
             bool m_is_point;
             bool is_detect;
     
+            f32 m_scaleSmooth;
             s32 m_tt_w;
             s32 m_tt_h;
             s32 m_inw;
