@@ -48,12 +48,15 @@ SVMtlCorePtr SVMtlGLTF::clone() {
 void SVMtlGLTF::update(f32 dt) {
     SVMtlCore::update(dt);
     //
-    
+    setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
+    setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
 }
 
 void SVMtlGLTF::refresh() {
     if(m_pBaseColorTex) {
         setTexture(0,m_pBaseColorTex);
+        setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
+        setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
     }
     if(m_pMetallicRoughnessTex) {
         setTexture(1,m_pMetallicRoughnessTex);

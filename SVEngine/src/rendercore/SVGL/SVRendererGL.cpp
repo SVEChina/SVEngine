@@ -609,8 +609,8 @@ void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf,s32 _count,s32 _mode) {
             }
             if (_vf & D_VF_TAG) {
                 glEnableVertexAttribArray(CHANNEL_TAGENT);
-                glVertexAttribPointer(CHANNEL_TAGENT, 3, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-                t_off += 3 * sizeof(f32);
+                glVertexAttribPointer(CHANNEL_TAGENT, 4, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+                t_off += 4 * sizeof(f32);
             }
             if (_vf & D_VF_BTAG) {
                 //                glEnableVertexAttribArray(CHANNEL_NORMAL);
@@ -667,8 +667,8 @@ void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf,s32 _count,s32 _mode) {
             }
             if (_vf & D_VF_TAG) {
                 glEnableVertexAttribArray(CHANNEL_TAGENT);
-                glVertexAttribPointer(CHANNEL_TAGENT, 3, GL_FLOAT, GL_FALSE, 0,(void *)t_off);
-                t_off += 3 * sizeof(f32) * _count;
+                glVertexAttribPointer(CHANNEL_TAGENT, 4, GL_FLOAT, GL_FALSE, 0,(void *)t_off);
+                t_off += 4 * sizeof(f32) * _count;
             }
             if (_vf & D_VF_BTAG) {
 //                glEnableVertexAttribArray(CHANNEL_NORMAL);
