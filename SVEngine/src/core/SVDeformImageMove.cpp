@@ -360,10 +360,14 @@ void SVDeformImageMove::pointMove(V2 *t_data){
     }
 //    m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
 //    m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
-//    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
-//    m_pIUMP->setTargetControl(FVec2(m_tt_w,m_tt_h));
-//    m_pIUMP->setControl(FVec2(m_tt_w,0.0));
-//    m_pIUMP->setTargetControl(FVec2(m_tt_w,0.0));
+    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
+    m_pIUMP->setTargetControl(FVec2(m_tt_w,m_tt_h));
+    m_pIUMP->setControl(FVec2(m_tt_w,0.0));
+    m_pIUMP->setTargetControl(FVec2(m_tt_w,0.0));
+    m_pIUMP->setControl(FVec2(0.0,0.0));
+    m_pIUMP->setTargetControl(FVec2(0.0,0.0));
+    m_pIUMP->setControl(FVec2(0.0,m_tt_h));
+    m_pIUMP->setTargetControl(FVec2(0.0,m_tt_h));
     
     FVec2 t_rangleV2(t_outlinePoints[46].x,t_outlinePoints[46].y);
     //迭代偏移值
@@ -412,12 +416,14 @@ void SVDeformImageMove::_updateControl(V2 *t_data){
     f32 _smooth = (leng/240.0);
     FVec2 t_eyel = eyer-eyel;
     f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
-//    m_pIUMP->setControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
-//    m_pIUMP->setTargetControl(FVec2(m_tt_w*0.5f,m_tt_h*0.5f));
-//    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
-//    m_pIUMP->setTargetControl(FVec2(m_tt_w,m_tt_h));
-//    m_pIUMP->setControl(FVec2(m_tt_w,0.0));
-//    m_pIUMP->setTargetControl(FVec2(m_tt_w,0.0));
+    m_pIUMP->setControl(FVec2(m_tt_w,m_tt_h));
+    m_pIUMP->setTargetControl(FVec2(m_tt_w,m_tt_h));
+    m_pIUMP->setControl(FVec2(m_tt_w,0.0));
+    m_pIUMP->setTargetControl(FVec2(m_tt_w,0.0));
+    m_pIUMP->setControl(FVec2(0.0,0.0));
+    m_pIUMP->setTargetControl(FVec2(0.0,0.0));
+    m_pIUMP->setControl(FVec2(0.0,m_tt_h));
+    m_pIUMP->setTargetControl(FVec2(0.0,m_tt_h));
     for(int j=0;j<m_scaleCtlArray.size();j++){
         m_deformScale->pushCtl(t_data[m_scaleCtlArray[j]].x,t_data[m_scaleCtlArray[j]].y,leng*0.3);
     }

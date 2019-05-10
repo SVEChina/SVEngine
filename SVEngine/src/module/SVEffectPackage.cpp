@@ -258,7 +258,6 @@ void SVEffectPackage::addDefrom(SVDeformImageMovePtr _deform){
         t_deformMrg->pushDeform(_deform);
         m_deformPool.append(_deform);
     }
-    
 }
 
 SVTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
