@@ -61,8 +61,8 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_tt_h = 0;
     m_dataPoint = nullptr;
     m_fbo = nullptr;
-    m_wPointCount = 51;
-    m_hPointCont = 64;
+    m_wPointCount = 46;
+    m_hPointCont = 65;
     m_inw = 10;
     m_inh = 10;
     m_flip = false;
@@ -141,6 +141,12 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
     }
 }
 
+void SVDeformImageMove::setScaleSmooth(f32 _smooth){
+    m_scaleSmooth = _smooth;
+    m_deformScale->setSmooth(_smooth);
+}
+
+
 void SVDeformImageMove::pushScaleCrl(u32 _postion){
     m_scaleCtlArray.append(_postion);
 }
@@ -166,7 +172,7 @@ void SVDeformImageMove::_initPoint(){
         m_pMeshBg = mApp->getRenderMgr()->createMeshRObj();
     }
     //索引数据
-    u16 m_dataIndex[51*64*2*3];//41*81*2*3
+    u16 m_dataIndex[46*65*2*3];//41*81*2*3
     //
     s32 iWidthPoint = m_wPointCount , iHeightPoint = m_hPointCont;
     s32 iDataCount = iWidthPoint * iHeightPoint;

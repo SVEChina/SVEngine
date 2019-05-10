@@ -24,11 +24,15 @@ void SVDeformScale::setSmooth(f32 _smooth){
 }
 
 void SVDeformScale::pushCtl(f32 x , f32 y , f32 z){
+    m_lock->lock();
     m_controlArray.append(FVec3(x,y,z));
+    m_lock->unlock();
 }
 
 void SVDeformScale::clearCtl(){
+    m_lock->lock();
     m_controlArray.clear();
+    m_lock->unlock();
 }
 
 FVec2 SVDeformScale::getScalePostion(const FVec2& t){

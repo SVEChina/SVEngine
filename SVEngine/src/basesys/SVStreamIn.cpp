@@ -259,7 +259,6 @@ void SVStreamIn::unactive(cptr8 _name) {
         t_streamin->unactive();
     }
 }
-
 void SVStreamIn::update(f32 _dt) {
     //转换更新
     TEXMAP::Iterator it = m_TexMap.begin();
