@@ -98,6 +98,10 @@ namespace sv {
             
             virtual bool active(SVRendererBasePtr _render){ return false; }
             
+            void setAF(cptr8 _af);
+            
+            cptr8 getAF();
+            
             void setProgrammeName(cptr8 _filename);
             
             cptr8 getProgrammeName();
@@ -130,6 +134,8 @@ namespace sv {
             SVString m_tsc_fname;
             
             SVString m_tse_fname;
+            
+            SVString m_attri_formate;
         };
         
     }//!namespace render

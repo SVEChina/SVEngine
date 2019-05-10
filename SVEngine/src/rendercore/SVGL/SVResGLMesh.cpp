@@ -316,7 +316,7 @@ void SVResGLRenderMesh::_bindVerts(){
 void SVResGLRenderMesh::_unbindVerts(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
-        for(s32 i=0;i<8;i++){
+        for(s32 i=0;i<9;i++){
             glDisableVertexAttribArray(i);
         }
         if(m_indexID>0){
