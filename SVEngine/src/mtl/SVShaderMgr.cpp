@@ -75,7 +75,12 @@ void SVShaderMgr::loadAllShader() {
             if (shaderitem.HasMember("programme") && shaderitem["programme"].IsString()) {
                 t_programme_name = shaderitem["programme"].GetString();
             }
-            
+            //顶点格式描述
+            SVString t_attri_formate = "all";
+            if (shaderitem.HasMember("af") && shaderitem["af"].IsString()) {
+                t_attri_formate = shaderitem["af"].GetString();
+            }
+            //
             SVResShaderPtr t_resShader = nullptr;
             if( mApp->m_pGlobalParam->getEngCore() == SV_E_CORE_GL ) {
                 t_resShader = MakeSharedPtr<SVRResGLShader>(mApp);
@@ -89,6 +94,7 @@ void SVShaderMgr::loadAllShader() {
             //
             if(t_resShader) {
                 ShaderMap.append(t_programme_name, t_resShader);
+                t_resShader->setAF(t_attri_formate.c_str());
                 t_resShader->setVSFName(t_vs_fname.c_str());
                 t_resShader->setFSFName(t_fs_fname.c_str());
                 t_resShader->setProgrammeName(t_programme_name.c_str());

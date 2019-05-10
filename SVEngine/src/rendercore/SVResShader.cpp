@@ -12,9 +12,18 @@
 
 SVResShader::SVResShader(SVInst* _app)
 :SVRObjBase(_app){
+    m_attri_formate = "all";
 }
 
 SVResShader::~SVResShader(){
+}
+
+void SVResShader::setAF(cptr8 _af) {
+    m_attri_formate = _af;
+}
+
+cptr8 SVResShader::getAF() {
+    return m_attri_formate.c_str();
 }
 
 void SVResShader::setProgrammeName(cptr8 _filename) {

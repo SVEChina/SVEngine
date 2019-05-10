@@ -318,29 +318,65 @@ u32 SVRResGLShader::_createProgram(){
     u32 t_program_id = glCreateProgram();
     glAttachShader(t_program_id, m_vs);
     glAttachShader(t_program_id, m_fs);
-    //bind prop
-    glBindAttribLocation(t_program_id, CHANNEL_POSITION, NAME_POSITION);
-    glBindAttribLocation(t_program_id, CHANNEL_NORMAL, NAME_NORMAL);
-    glBindAttribLocation(t_program_id, CHANNEL_TAGENT, NAME_TAGENT);
-    glBindAttribLocation(t_program_id, CHANNEL_COLOR0, NAME_COLOR);
-    glBindAttribLocation(t_program_id, CHANNEL_COLOR1, NAME_COLOR1);
-    glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD0, NAME_TEXCOORD0);
-    glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD1, NAME_TEXCOORD1);
-    glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD2, NAME_TEXCOORD2);
-    glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD3, NAME_TEXCOORD3);
-    glBindAttribLocation(t_program_id, CHANNEL_INSOFFSET, NAME_INSOFFSET);
-    //蒙皮动画相关
-    glBindAttribLocation(t_program_id, CHANNEL_BONE_ID, NAME_BONE_ID);
-    glBindAttribLocation(t_program_id, CHANNEL_BONE_WEIGHT, NAME_BONE_WEIGHT);
-    //bind attri(new)
-    glBindAttribLocation(t_program_id, CHANNEL_ATTRI_0, "s_attribute_0");
-    glBindAttribLocation(t_program_id, CHANNEL_ATTRI_1, "s_attribute_1");
-    glBindAttribLocation(t_program_id, CHANNEL_ATTRI_2, "s_attribute_2");
-    glBindAttribLocation(t_program_id, CHANNEL_ATTRI_3, "s_attribute_3");
-    glBindAttribLocation(t_program_id, CHANNEL_ATTRI_4, "s_attribute_4");
-    glBindAttribLocation(t_program_id, CHANNEL_ATTRI_5, "s_attribute_5");
-    glBindAttribLocation(t_program_id, CHANNEL_ATTRI_6, "s_attribute_6");
-    glBindAttribLocation(t_program_id, CHANNEL_ATTRI_7, "s_attribute_7");
+    if( m_attri_formate == "all" ) {
+        //bind prop
+        glBindAttribLocation(t_program_id, CHANNEL_POSITION, NAME_POSITION);
+        glBindAttribLocation(t_program_id, CHANNEL_NORMAL, NAME_NORMAL);
+        glBindAttribLocation(t_program_id, CHANNEL_TAGENT, NAME_TAGENT);
+        glBindAttribLocation(t_program_id, CHANNEL_COLOR0, NAME_COLOR);
+        glBindAttribLocation(t_program_id, CHANNEL_COLOR1, NAME_COLOR1);
+        glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD0, NAME_TEXCOORD0);
+        glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD1, NAME_TEXCOORD1);
+        glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD2, NAME_TEXCOORD2);
+        glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD3, NAME_TEXCOORD3);
+        glBindAttribLocation(t_program_id, CHANNEL_INSOFFSET, NAME_INSOFFSET);
+        //蒙皮动画相关
+        glBindAttribLocation(t_program_id, CHANNEL_BONE_ID, NAME_BONE_ID);
+        glBindAttribLocation(t_program_id, CHANNEL_BONE_WEIGHT, NAME_BONE_WEIGHT);
+        //bind attri(new)
+        glBindAttribLocation(t_program_id, CHANNEL_ATTRI_0, "s_attribute_0");
+        glBindAttribLocation(t_program_id, CHANNEL_ATTRI_1, "s_attribute_1");
+        glBindAttribLocation(t_program_id, CHANNEL_ATTRI_2, "s_attribute_2");
+        glBindAttribLocation(t_program_id, CHANNEL_ATTRI_3, "s_attribute_3");
+        glBindAttribLocation(t_program_id, CHANNEL_ATTRI_4, "s_attribute_4");
+        glBindAttribLocation(t_program_id, CHANNEL_ATTRI_5, "s_attribute_5");
+        glBindAttribLocation(t_program_id, CHANNEL_ATTRI_6, "s_attribute_6");
+        glBindAttribLocation(t_program_id, CHANNEL_ATTRI_7, "s_attribute_7");
+    } else {
+        SVStringArray<> t_str_array = SVString::split(m_attri_formate.c_str(),"-");
+        for(s32 i=0;i<t_str_array.size();i++) {
+            SVString t_str = t_str_array[i];
+            if( t_str == "V2" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_POSITION, NAME_POSITION);
+            }else if( t_str == "V3" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_POSITION, NAME_POSITION);
+            }else if( t_str == "N" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_NORMAL, NAME_NORMAL);
+            }else if( t_str == "T" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_TAGENT, NAME_TAGENT);
+            }else if( t_str == "BT" ) {
+                //glBindAttribLocation(t_program_id, CHANNEL_TAGENT, NAME_TAGENT);
+            }else if( t_str == "T0" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD0, NAME_TEXCOORD0);
+            }else if( t_str == "T1" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD1, NAME_TEXCOORD1);
+            }else if( t_str == "T2" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD2, NAME_TEXCOORD2);
+            }else if( t_str == "T3" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_TEXCOORD3, NAME_TEXCOORD3);
+            }else if( t_str == "C0" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_COLOR0, NAME_COLOR);
+            }else if( t_str == "C1" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_COLOR1, NAME_COLOR);
+            }else if( t_str == "OFF" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_INSOFFSET, NAME_INSOFFSET);
+            }else if( t_str == "BONE" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_BONE_ID, NAME_BONE_ID);
+            }else if( t_str == "W" ) {
+                glBindAttribLocation(t_program_id, CHANNEL_BONE_WEIGHT, NAME_BONE_WEIGHT);
+            }
+        }
+    }
     glLinkProgram(t_program_id);
 
     GLint linkstatus;
