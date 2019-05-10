@@ -21,14 +21,12 @@
 #define CHANNEL_TAGENT      2
 #define CHANNEL_BTAGENT     3
 #define CHANNEL_COLOR0      4
-#define CHANNEL_COLOR1      5
-#define CHANNEL_TEXCOORD0   6
-#define CHANNEL_TEXCOORD1   7
-#define CHANNEL_TEXCOORD2   2
-#define CHANNEL_TEXCOORD3   3
+#define CHANNEL_TEXCOORD0   5
+#define CHANNEL_TEXCOORD1   6
+#define CHANNEL_INSOFFSET   7
 #define CHANNEL_BONE_ID     3
 #define CHANNEL_BONE_WEIGHT 4
-#define CHANNEL_INSOFFSET   8
+
 //
 #define CHANNEL_ATTRI_0     0
 #define CHANNEL_ATTRI_1     1
@@ -43,12 +41,10 @@
 #define NAME_POSITION   "aPosition"
 #define NAME_NORMAL     "aNormal"
 #define NAME_TAGENT     "aTagent"
+#define NAME_BNOR       "aBNormal"
 #define NAME_COLOR      "aColor"
-#define NAME_COLOR1     "aColor1"
 #define NAME_TEXCOORD0  "aTexcoord0"
 #define NAME_TEXCOORD1  "aTexcoord1"
-#define NAME_TEXCOORD2  "aTexcoord2"
-#define NAME_TEXCOORD3  "aTexcoord3"
 #define NAME_INSOFFSET  "aInsOffset"
 //骨骼动画
 #define NAME_BONE_ID     "aBoneID"

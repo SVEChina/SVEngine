@@ -72,6 +72,8 @@ namespace sv{
     protected:
         void _screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint);
         //
+        void _translateToFaceCoordinateSystem();
+        //
         void _genPolygon();
         //
         void _createStrokeMesh();
