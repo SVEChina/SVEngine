@@ -9,6 +9,7 @@
 #include "../SVGameReady.h"
 #include "../SVGameRun.h"
 #include "../SVGameEnd.h"
+#include "../../app/SVInst.h"
 #include "../../core/SVVertDef.h"
 #include "../../core/SVGeoGen.h"
 #include "../../core/SVPass.h"
@@ -16,24 +17,23 @@
 #include "../../base/SVDataSwap.h"
 #include "../../rendercore/SVRenderObject.h"
 #include "../../rendercore/SVRenderMesh.h"
-#include "../../app/SVInst.h"
 #include "../../rendercore/SVRenderMgr.h"
+#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderTexture.h"
 #include "../../mtl/SVMtlCore.h"
 #include "../../mtl/SVTexMgr.h"
 #include "../../mtl/SVTexture.h"
 #include "../../mtl/SVMtlPenStrokeGlow.h"
+#include "../../mtl/SVMtlStrokeBase.h"
+#include "../../mtl/SVMtlNocolor.h"
 #include "../../basesys/SVCameraMgr.h"
-#include "../../node/SVCameraNode.h"
 #include "../../basesys/SVBasicSys.h"
 #include "../../basesys/SVPickProcess.h"
 #include "../../basesys/SVSensorProcess.h"
-#include "../../mtl/SVMtlStrokeBase.h"
-#include "../../mtl/SVMtlNocolor.h"
-#include "../../rendercore/SVRendererBase.h"
-#include "../../rendercore/SVRenderTexture.h"
+#include "../../basesys/SVSceneMgr.h"
+#include "../../node/SVCameraNode.h"
 #include "../../node/SVBillboardNode.h"
 #include "../../node/SVSpriteNode.h"
-#include "../../basesys/SVSceneMgr.h"
 #include "../../node/SVScene.h"
 SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor, SVPENMODE _mode)
 :SVGameBase(_app) {
@@ -83,7 +83,7 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
     }
     _createStrokeMesh();
     _createGlowMesh();
-    setDrawBox(true);
+//    setDrawBox(true);
 }
 
 SVPenStroke::~SVPenStroke() {

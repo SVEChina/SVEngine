@@ -13,6 +13,7 @@ SVRenderStream::SVRenderStream() {
 }
 
 SVRenderStream::~SVRenderStream() {
+    m_lock = nullptr;
 }
 
 void SVRenderStream::addSVRenderCmd(SVRenderCmdPtr cmd) {
