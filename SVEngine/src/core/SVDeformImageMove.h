@@ -60,7 +60,12 @@ namespace sv {
             }
             
             void setScaleSmooth(f32 _smooth);
+            
             void pushScaleCrl(u32 _postion);
+            
+            void setSmooth(f32 _smooth){
+                m_smooth=_smooth;
+            }
             
             void clearCrl();
             
@@ -137,7 +142,8 @@ namespace sv {
             bool m_flip;
             bool m_is_point;
             bool is_detect;
-    
+            
+            f32 m_smooth;
             f32 m_scaleSmooth;
             s32 m_tt_w;
             s32 m_tt_h;
