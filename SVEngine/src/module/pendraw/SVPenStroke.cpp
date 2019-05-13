@@ -74,10 +74,10 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
         m_strokeColor = _strokeColor;
     }else if (m_penMode == SV_FACEMODE){
         m_plane_dis = 600.0f;
-        m_glowDensity = 0.45;
-        m_glowStrokeWidth = _glowWidth*1000;
+        m_glowDensity = 0.85;
+        m_glowStrokeWidth = _glowWidth*1800;
         m_density = 0.1;
-        m_pen_width = _strokeWidth*1500;
+        m_pen_width = _strokeWidth*800;
         m_glowColor = _glowColor;
         m_strokeColor = _strokeColor;
     }

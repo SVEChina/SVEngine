@@ -37,7 +37,22 @@ void SVRenderCmd::setRenderer(SVRendererBasePtr _renderer) {
 
 void SVRenderCmd::render() {
 }
+//
+SVRenderCmdTrans::SVRenderCmdTrans(SVTransPtr _trans) {
+    mTag = "SVRenderCmdTrans";
+    m_pTrans = _trans;
+}
 
+SVRenderCmdTrans::~SVRenderCmdTrans() {
+    m_pTrans = nullptr;
+}
+
+void SVRenderCmdTrans::render() {
+    if (m_pTrans) {
+        m_pTrans->update(0.0f);
+        m_pTrans->render();
+    }
+}
 //创建指令
 SVRCmdCreate::SVRCmdCreate(SVRObjBasePtr _robj) {
     m_pRObj = _robj;

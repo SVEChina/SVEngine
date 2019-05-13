@@ -154,9 +154,7 @@ void StreamInCore::unactive() {
 }
 
 void StreamInCore::update(f32 _dt) {
-    if(m_trans) {
-        m_trans->update(_dt);
-    }
+
 }
 
 void StreamInCore::pushData(u8* _srcPtr,s32 width,s32 height,s32 pixelFormat,s32 _angle) {
@@ -187,8 +185,11 @@ void StreamInCore::pushData(u8* _srcPtr,s32 width,s32 height,s32 pixelFormat,s32
     }
     
     //trans render
-    if(m_trans) {
-        m_trans->render();
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    SVRenderCmdTransPtr cmdTrans = MakeSharedPtr<SVRenderCmdTrans>(m_trans);
+    cmdTrans->mTag = "SVRenderCmdTrans";
+    if (t_rs) {
+        t_rs->pushRenderCmd(RST_SKY, cmdTrans);
     }
 }
 
