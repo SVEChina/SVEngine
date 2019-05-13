@@ -56,8 +56,7 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
     m_glowInstanceCount = 0;
     m_lastInstanceIndex = 0;
     m_lastGlowInstanceIndex = 0;
-    m_plane_dis = 0.3f;
-    m_faceCoordinateMat.setIdentity();
+    m_faceTransform.setIdentity();
     m_raw_faceParam.faceCenter.set(0.0f, 0.0f, 0.0f);
     m_raw_faceParam.faceRot.set(0.0f, 0.0f, 0.0f);
     m_raw_faceParam.eyeDis = 1.0;
@@ -66,6 +65,7 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
     m_faceParam.eyeDis = 1.0;
     m_penMode = _mode;
     if (m_penMode == SV_ARMODE) {
+        m_plane_dis = 0.3f;
         m_glowDensity = 0.05;
         m_glowStrokeWidth = _glowWidth;
         m_density = 0.06;
@@ -73,23 +73,17 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
         m_glowColor = _glowColor;
         m_strokeColor = _strokeColor;
     }else if (m_penMode == SV_FACEMODE){
-        m_glowDensity = 0.25;
-        m_glowStrokeWidth = _glowWidth*5;
+        m_plane_dis = 600.0f;
+        m_glowDensity = 0.45;
+        m_glowStrokeWidth = _glowWidth*1500;
         m_density = 0.1;
-        m_pen_width = _strokeWidth*8;
-        m_glowColor = _glowColor;
-        m_strokeColor = _strokeColor;
-    }else if (m_penMode == SV_NORMAL){
-        m_glowDensity = 0.25;
-        m_glowStrokeWidth = _glowWidth*5;
-        m_density = 0.1;
-        m_pen_width = _strokeWidth*8;
+        m_pen_width = _strokeWidth*2000;
         m_glowColor = _glowColor;
         m_strokeColor = _strokeColor;
     }
     _createStrokeMesh();
     _createGlowMesh();
-//    setDrawBox(true);
+    setDrawBox(true);
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -116,7 +110,7 @@ void SVPenStroke::setDrawBox(bool _drawBox){
 }
 
 void SVPenStroke::update(f32 _dt) {
-    
+    renderBoundingBox();
 }
 
 
@@ -875,8 +869,16 @@ void SVPenStroke::_createStrokeMesh() {
 }
 
 void SVPenStroke::updateStroke(float _dt){
+    if (m_penMode == SV_ARMODE) {
+        _updateARStroke(_dt);
+    }else if (m_penMode == SV_FACEMODE){
+        _updateARFaceStroke(_dt);
+    }
+    
+}
+
+void SVPenStroke::_updateARStroke(float _dt){
     m_lock->unlock();
-    /*
     //三维盒子实例子
     s32 t_pt_num = m_ptPool.size();
     s32 t_pt_deltCount = t_pt_num - m_lastInstanceIndex;
@@ -892,21 +894,31 @@ void SVPenStroke::updateStroke(float _dt){
             j++;
             m_lastInstanceIndex++;
         }
-        m_instanceCount = t_pt_num;
         m_pInstanceOffsetData->appendData(t_points, t_pt_deltCount*sizeof(V3));
     }
-     */
+    m_instanceCount = t_pt_num;
+}
+
+void SVPenStroke::_updateARFaceStroke(float _dt){
+    m_lock->unlock();
     s32 t_pt_num = m_ptPool.size();
     if (t_pt_num > 0) {
         V3 t_points[t_pt_num];
         for (s32 i = 0; i<t_pt_num; i++) {
+            //转换到脸部中心为原点的坐标系
             SVStrokePoint t_pt = m_ptPool[i];
-            
+            t_pt.point = t_pt.point - m_faceParam.faceCenter;
+            //变换
+            FVec4 t_n_point = FVec4(t_pt.point, 1.0);
+            t_n_point = m_faceTransform*t_n_point;
+            t_pt.point.set(t_n_point.x, t_n_point.y, t_n_point.z);
+            //转回到以屏幕中心为原点的坐标系
+            t_pt.point = t_pt.point + m_faceParam.faceCenter;
             t_points[i].x = t_pt.point.x;
             t_points[i].y = t_pt.point.y;
             t_points[i].z = t_pt.point.z;
         }
-         m_pInstanceOffsetData->writeData(t_points, t_pt_num*sizeof(V3));
+        m_pInstanceOffsetData->writeData(t_points, t_pt_num*sizeof(V3));
     }
     m_instanceCount = t_pt_num;
     m_lock->unlock();
@@ -941,26 +953,60 @@ void SVPenStroke::renderStroke(){
 }
 
 void SVPenStroke::updateGlow(float _dt){
+    if (m_penMode == SV_ARMODE) {
+        _updateARGlow(_dt);
+    }else if (m_penMode == SV_FACEMODE){
+        _updateARFaceGlow(_dt);
+    }
+}
+
+void SVPenStroke::_updateARGlow(float _dt){
     m_lock->unlock();
     //荧光实例
-    s32 t_pt_original_num = m_ptGlowPool.size();
-    s32 t_glow_deltCount = t_pt_original_num - m_lastGlowInstanceIndex;
+    s32 t_pt_num = m_ptGlowPool.size();
+    s32 t_glow_deltCount = t_pt_num - m_lastGlowInstanceIndex;
     if (t_glow_deltCount > 0) {
         V3 t_glowPoints[t_glow_deltCount];
         s32 t_index = m_lastGlowInstanceIndex;
         s32 j = 0;
-        for (s32 i = t_index; i<t_pt_original_num; i++) {
+        for (s32 i = t_index; i<t_pt_num; i++) {
             SVStrokePoint t_pt = m_ptGlowPool[i];
             t_glowPoints[j].x = t_pt.point.x;
             t_glowPoints[j].y = t_pt.point.y;
             t_glowPoints[j].z = t_pt.point.z;
-            m_aabbBox.expand(t_pt.point);
             j++;
             m_lastGlowInstanceIndex++;
         }
-        m_glowInstanceCount = t_pt_original_num;
         m_pGlowInstanceOffsetData->appendData(t_glowPoints, t_glow_deltCount*sizeof(V3));
     }
+    m_glowInstanceCount = t_pt_num;
+    m_lock->unlock();
+}
+
+void SVPenStroke::_updateARFaceGlow(float _dt){
+    m_lock->unlock();
+    //荧光实例
+    s32 t_pt_num = m_ptGlowPool.size();
+    if (t_pt_num > 0) {
+        V3 t_glowPoints[t_pt_num];
+        for (s32 i = 0; i<t_pt_num; i++) {
+            //转换到脸部中心为原点的坐标系
+            SVStrokePoint t_pt = m_ptGlowPool[i];
+            t_pt.point = t_pt.point - m_faceParam.faceCenter;
+            //变换
+            FVec4 t_n_point = FVec4(t_pt.point, 1.0);
+            t_n_point = m_faceTransform*t_n_point;
+            t_pt.point.set(t_n_point.x, t_n_point.y, t_n_point.z);
+            //转回到以屏幕中心为原点的坐标系
+            t_pt.point = t_pt.point + m_faceParam.faceCenter;
+            t_glowPoints[i].x = t_pt.point.x;
+            t_glowPoints[i].y = t_pt.point.y;
+            t_glowPoints[i].z = t_pt.point.z;
+            
+        }
+        m_pGlowInstanceOffsetData->writeData(t_glowPoints, t_pt_num*sizeof(V3));
+    }
+    m_glowInstanceCount = t_pt_num;
     m_lock->unlock();
 }
 
@@ -1034,7 +1080,7 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
     _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
 }
 
-void SVPenStroke::genFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis){
+void SVPenStroke::genFaceRawParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis){
     if (!m_haveGenFaceCoord) {
         SVStrokePoint t_worldPt;
         FVec2 t_pt = FVec2(_noseCenter.x, _noseCenter.y);
@@ -1052,7 +1098,7 @@ void SVPenStroke::genFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32
     }
 }
 
-void SVPenStroke::refreshFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis){
+void SVPenStroke::setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis){
     SVStrokePoint t_worldPt;
     FVec2 t_pt = FVec2(_noseCenter.x, _noseCenter.y);
     _screenPointToWorld(t_pt, t_worldPt);
@@ -1065,7 +1111,7 @@ void SVPenStroke::refreshFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation,
     m_faceParam.faceCenter = t_faceCenter;
     m_faceParam.faceRot = t_faceRot;
     m_faceParam.eyeDis = t_eyeDis;
-    m_faceCoordinateMat.setIdentity();
+    m_faceTransform.setIdentity();
     if (m_haveGenFaceCoord) {
         FMat4 t_mat_scale = FMat4_identity;
         FMat4 t_mat_rotX = FMat4_identity;
@@ -1083,7 +1129,6 @@ void SVPenStroke::refreshFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation,
         //translation
         FVec3 t_pos = m_faceParam.faceCenter - m_raw_faceParam.faceCenter;
         t_mat_trans.setTranslate(t_pos);
-        m_faceCoordinateMat = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
-        m_localMat = m_faceCoordinateMat;
+        m_faceTransform = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
     }
 }

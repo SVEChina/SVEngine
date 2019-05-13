@@ -133,12 +133,12 @@ void SVPenDraw::update(f32 _dt) {
         _updateFaceParam();
         for (s32 i =0; i<m_strokes.size(); i++) {
             SVPenStrokePtr stroke = m_strokes[i];
-            stroke->refreshFaceCoordinateSys(m_noseCenter, m_faceRot, m_faceEyeDis);
+            stroke->setFaceParam(m_noseCenter, m_faceRot, m_faceEyeDis);
             stroke->update(0.0f);
         }
     }
     if (m_strokes.size() > 0) {
-//        _drawGlow();
+        _drawGlow();
         _drawStroke();
         _drawReback();
     }
@@ -223,7 +223,7 @@ void SVPenDraw::_drawReback(){
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_mtl1 && m_mesh1 && m_mtl2 && m_mesh2 && m_pRenderObj) {
         m_pRenderObj->clearMesh();
-//        m_pRenderObj->addRenderObj(m_mesh1, m_mtl1);
+        m_pRenderObj->addRenderObj(m_mesh1, m_mtl1);
         m_pRenderObj->addRenderObj(m_mesh2, m_mtl2);
         m_pRenderObj->pushCmd(t_rs, RST_AR_END, "SVPenStrokeRenderReback");
     }
@@ -308,7 +308,7 @@ bool SVPenDraw::procEvent(SVEventPtr _event){
             if (m_mode == SV_ARMODE) {
                 
             }else if (m_mode == SV_FACEMODE) {
-                m_curStroke->genFaceCoordinateSys(m_noseCenter, m_faceRot, m_faceEyeDis);
+                m_curStroke->genFaceRawParam(m_noseCenter, m_faceRot, m_faceEyeDis);
             }
             
         }

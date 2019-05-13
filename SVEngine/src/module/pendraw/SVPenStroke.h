@@ -62,13 +62,19 @@ namespace sv{
         
         void renderBoundingBox();
         
-        void genFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);
+        void genFaceRawParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);//原始脸部数据
         
-        void refreshFaceCoordinateSys(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);
+        void setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);//实时脸部数据
     protected:
+        void _updateARStroke(float _dt);
+        
+        void _updateARFaceStroke(float _dt);
+        
+        void _updateARGlow(float _dt);
+        
+        void _updateARFaceGlow(float _dt);
+        
         void _screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint);
-        //
-        void _translateToFaceCoordinateSystem();
         //
         void _genPolygon();
         //
@@ -83,14 +89,19 @@ namespace sv{
         PTPOOL m_ptPool;
         PTPOOL m_ptGlowPool;
         SVPenCurvePtr m_penCurve;
-        //盒子相关
+        SVLockPtr m_lock;
+        SVBoundBox m_aabbBox;   //AABB包围盒
+        //画笔相关
         SVDataSwapPtr m_pInstanceOffsetData;
         SVRenderObjectPtr m_pRenderObj;
         SVRenderMeshDvidPtr m_pBoxMesh;
         SVMtlStrokeBasePtr m_pMtl;
         SVTexturePtr m_pTex;
-        SVLockPtr m_lock;
-        SVBoundBox m_aabbBox;   //AABB包围盒
+        FVec4 m_strokeColor;
+        s32 m_instanceCount;
+        s32 m_lastInstanceIndex;
+        f32 m_density;
+        f32 m_pen_width;
         //画光圈相关
         SVDataSwapPtr m_pGlowInstanceOffsetData;  //mesh
         SVTexturePtr m_pGlowTex;
@@ -103,15 +114,10 @@ namespace sv{
         s32 m_glowInstanceCount;
         //
         FMat4 m_localMat;
-        FVec4 m_strokeColor;
-        s32 m_instanceCount;
-        s32 m_lastInstanceIndex;
-        f32 m_density;
-        f32 m_pen_width;
         f32 m_plane_dis;
         LERPMETHOD m_lerpMethod;
         SVPENMODE m_penMode;
-        FMat4 m_faceCoordinateMat;
+        FMat4 m_faceTransform;
         SVFaceParam m_raw_faceParam;
         SVFaceParam m_faceParam;
         bool  m_haveGenFaceCoord;
