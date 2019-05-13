@@ -1129,6 +1129,7 @@ void SVPenStroke::setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis
         //translation
         FVec3 t_pos = m_faceParam.faceCenter - m_raw_faceParam.faceCenter;
         t_mat_trans.setTranslate(t_pos);
-        m_faceTransform = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
+        //这里要先做平移变换，再做旋转变换，跟shader里的运算不一样，shader是列主元--晓帆。
+        m_faceTransform = t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_trans*t_mat_scale;
     }
 }

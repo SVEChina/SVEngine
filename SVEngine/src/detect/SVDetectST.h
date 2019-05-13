@@ -49,7 +49,7 @@ namespace sv {
              PERSON_STDATA stDataOriginal[SUPPORT_MAX_PERSON_NUM];
         protected:
             //修正到以屏幕中心为原点的坐标系。
-            void _transformToCenter(PERSON_STDATA *_stData);
+            void _transformFaceDataToCenter(PERSON_STDATA *_stData);
             void _parseData(void *data);
         };
 
