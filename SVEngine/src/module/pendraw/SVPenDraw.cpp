@@ -40,10 +40,9 @@ SVPenDraw::SVPenDraw(SVInst *_app)
     m_strokeColor = mApp->m_pGlobalMgr->m_pConfig->m_strokeColor;
     m_glowWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeGlowWidth;
     m_glowColor = mApp->m_pGlobalMgr->m_pConfig->m_strokeGlowColor;
-    m_position.set(0.0f, 0.0f, 0.0f);
-    m_rotation.set(0.0f, 0.0f, 0.0f);
-    m_scale.set(1.0f, 1.0f, 1.0f);
-    m_faceEyeWidth = 1.0f;
+    m_faceRot.set(0.0f, 0.0f, 0.0f);
+    m_noseCenter.set(0.0f, 0.0f, 0.0f);
+    m_faceEyeDis = 1.0f;
     m_mode = SV_ARMODE;
 }
 
@@ -131,13 +130,10 @@ void SVPenDraw::update(f32 _dt) {
             stroke->update(0.0f);
         }
     }else if (m_mode == SV_FACEMODE) {
-        _resetTranslation();
-        _updateTranslation();
+        _updateFaceParam();
         for (s32 i =0; i<m_strokes.size(); i++) {
             SVPenStrokePtr stroke = m_strokes[i];
-            stroke->setPosition(m_position);
-            stroke->setScale(m_faceEyeWidth);
-            stroke->setRotation(m_rotation);
+            stroke->setFaceParam(m_noseCenter, m_faceRot, m_faceEyeDis);
             stroke->update(0.0f);
         }
     }
@@ -305,22 +301,14 @@ bool SVPenDraw::procEvent(SVEventPtr _event){
             m_strokes.append(m_curStroke);
         }
         m_curStroke->begin(t_touch->x,t_touch->y,0.0);
-        if (m_mode == SV_ARMODE) {
-            m_curStroke->setEnableTranslation(false);
-        }else if (m_mode == SV_FACEMODE) {
-            m_curStroke->setEnableTranslation(false);
-        }
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_END){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (t_touch && m_curStroke) {
             m_curStroke->end(t_touch->x,t_touch->y,0.0f);
             if (m_mode == SV_ARMODE) {
-                m_curStroke->setEnableTranslation(false);
+                
             }else if (m_mode == SV_FACEMODE) {
-                m_curStroke->setOriginalPosition(m_position);
-                m_curStroke->setOriginalScale(m_faceEyeWidth);
-                m_curStroke->setOriginalRotation(m_rotation);
-                m_curStroke->setEnableTranslation(true);
+                m_curStroke->genFaceRawParam(m_noseCenter, m_faceRot, m_faceEyeDis);
             }
             
         }
@@ -334,7 +322,7 @@ bool SVPenDraw::procEvent(SVEventPtr _event){
     return true;
 }
 
-void SVPenDraw::_updateTranslation(){
+void SVPenDraw::_updateFaceParam(){
     SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
     if (t_person && t_person->getExist()) {
         SVPersonTrackerPtr t_personTracker = t_person->getTracker();
@@ -344,14 +332,8 @@ void SVPenDraw::_updateTranslation(){
         f32 t_yaw = t_person->getFaceRot().y;
         f32 t_roll = t_person->getFaceRot().z;
         f32 t_pitch = t_person->getFaceRot().x;
-        m_position.set(t_pt_x, t_pt_y, 0.0f);
-        m_faceEyeWidth = t_personTracker->m_eyeDistance;
-        m_rotation.set(t_pitch, -t_yaw, t_roll);
+        m_noseCenter.set(t_pt_x, t_pt_y, 0.0f);
+        m_faceEyeDis = t_personTracker->m_eyeDistance;
+        m_faceRot.set(t_pitch, -t_yaw, t_roll);
     }
-}
-
-void SVPenDraw::_resetTranslation(){
-    m_position.set(0.0f, 0.0f, 0.0f);
-    m_scale.set(1.0f, 1.0f, 1.0f);
-    m_rotation.set(0.0f, 0.0f, 0.0f);
 }
