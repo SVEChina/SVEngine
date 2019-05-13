@@ -29,6 +29,9 @@
 SVSensorProcess::SVSensorProcess(SVInst *_app)
 :SVProcess(_app) {
     m_pARCamera = MakeSharedPtr<SVCameraNode>(mApp);
+    s32 m_sw = mApp->m_pGlobalParam->m_inner_width;
+    s32 m_sh = mApp->m_pGlobalParam->m_inner_height;
+    m_pARCamera->resetCamera(m_sw,m_sh);
     m_acc0.set(0.0f, 0.0f, 0.0f);
     m_acc1.set(0.0f, 0.0f, 0.0f);
     m_velocity0.set(0.0f, 0.0f, 0.0f);

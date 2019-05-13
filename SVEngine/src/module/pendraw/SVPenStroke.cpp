@@ -51,21 +51,21 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
     //
     m_lerpMethod = SV_LERP_BALANCE;
     m_drawBox = false;
-    m_dirty = false;
-    m_enableTranslation = false;
+    m_haveGenFaceCoord = false;
     m_instanceCount = 0;
     m_glowInstanceCount = 0;
     m_lastInstanceIndex = 0;
     m_lastGlowInstanceIndex = 0;
-    m_plane_dis = 0.3f;
-    m_position.set(0.0f, 0.0f, 0.0f);
-    m_rotation.set(0.0f, 0.0f, 0.0f);
-    m_scale = 1.0f;
-    m_originalPosition.set(0.0f, 0.0f, 0.0f);
-    m_originalRotation.set(0.0f, 0.0f, 0.0f);
-    m_originalScale = 1.0f;
+    m_faceTransform.setIdentity();
+    m_raw_faceParam.faceCenter.set(0.0f, 0.0f, 0.0f);
+    m_raw_faceParam.faceRot.set(0.0f, 0.0f, 0.0f);
+    m_raw_faceParam.eyeDis = 1.0;
+    m_faceParam.faceCenter.set(0.0f, 0.0f, 0.0f);
+    m_faceParam.faceRot.set(0.0f, 0.0f, 0.0f);
+    m_faceParam.eyeDis = 1.0;
     m_penMode = _mode;
     if (m_penMode == SV_ARMODE) {
+        m_plane_dis = 0.3f;
         m_glowDensity = 0.05;
         m_glowStrokeWidth = _glowWidth;
         m_density = 0.06;
@@ -73,23 +73,17 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
         m_glowColor = _glowColor;
         m_strokeColor = _strokeColor;
     }else if (m_penMode == SV_FACEMODE){
-        m_glowDensity = 0.25;
-        m_glowStrokeWidth = _glowWidth*5;
+        m_plane_dis = 600.0f;
+        m_glowDensity = 0.45;
+        m_glowStrokeWidth = _glowWidth*1000;
         m_density = 0.1;
-        m_pen_width = _strokeWidth*8;
-        m_glowColor = _glowColor;
-        m_strokeColor = _strokeColor;
-    }else if (m_penMode == SV_NORMAL){
-        m_glowDensity = 0.25;
-        m_glowStrokeWidth = _glowWidth*5;
-        m_density = 0.1;
-        m_pen_width = _strokeWidth*8;
+        m_pen_width = _strokeWidth*1500;
         m_glowColor = _glowColor;
         m_strokeColor = _strokeColor;
     }
     _createStrokeMesh();
     _createGlowMesh();
-//    setDrawBox(true);
+    setDrawBox(true);
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -115,67 +109,8 @@ void SVPenStroke::setDrawBox(bool _drawBox){
     m_drawBox = _drawBox;
 }
 
-void SVPenStroke::setPosition(FVec3 &_position){
-    SVStrokePoint t_worldPt;
-    FVec2 t_pt = FVec2(_position.x, _position.y);
-    _screenPointToWorld(t_pt, t_worldPt);
-    FVec3 t_new_position = t_worldPt.point;
-    if (m_position != t_new_position) {
-        m_dirty = true;
-        m_position = t_new_position;
-    }
-}
-
-void SVPenStroke::setScale(f32 _scale){
-    if (m_scale != _scale) {
-        m_dirty = true;
-        m_scale = _scale;
-    }
-}
-
-void SVPenStroke::setRotation(FVec3 &_rotation){
-    if (m_rotation != _rotation) {
-        m_dirty = true;
-        m_rotation = _rotation;
-    }
-}
-
-void SVPenStroke::setOriginalPosition(FVec3 &_position){
-    SVStrokePoint t_worldPt;
-    FVec2 t_pt = FVec2(_position.x, _position.y);
-    _screenPointToWorld(t_pt, t_worldPt);
-    FVec3 t_new_position = t_worldPt.point;
-    m_originalPosition = t_new_position;
-}
-
-void SVPenStroke::setOriginalScale(f32 _scale){
-    m_originalScale = _scale;
-}
-
-void SVPenStroke::setOriginalRotation(FVec3 &_rotation){
-    m_originalRotation = _rotation;
-}
-
-void SVPenStroke::setEnableTranslation(bool _enable){
-    m_enableTranslation = _enable;
-}
-
 void SVPenStroke::update(f32 _dt) {
-    if (m_dirty && m_enableTranslation) {
-        m_localMat.setIdentity();
-        FMat4 t_mat_scale = FMat4_identity;
-        FMat4 t_mat_rotX = FMat4_identity;
-        FMat4 t_mat_rotY = FMat4_identity;
-        FMat4 t_mat_rotZ = FMat4_identity;
-        FMat4 t_mat_trans = FMat4_identity;
-        t_mat_scale.setScale(FVec3(m_scale/m_originalScale, m_scale/m_originalScale, m_scale/m_originalScale));
-        t_mat_rotX.setRotateX(m_rotation.x - m_originalRotation.x);
-        t_mat_rotY.setRotateY(m_rotation.y - m_originalRotation.y);
-        t_mat_rotZ.setRotateZ(m_rotation.z - m_originalRotation.z);
-        t_mat_trans.setTranslate(m_position - m_originalPosition);
-        m_localMat = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
-        m_dirty = false;
-    }
+    renderBoundingBox();
 }
 
 
@@ -934,6 +869,15 @@ void SVPenStroke::_createStrokeMesh() {
 }
 
 void SVPenStroke::updateStroke(float _dt){
+    if (m_penMode == SV_ARMODE) {
+        _updateARStroke(_dt);
+    }else if (m_penMode == SV_FACEMODE){
+        _updateARFaceStroke(_dt);
+    }
+    
+}
+
+void SVPenStroke::_updateARStroke(float _dt){
     m_lock->unlock();
     //三维盒子实例子
     s32 t_pt_num = m_ptPool.size();
@@ -950,9 +894,33 @@ void SVPenStroke::updateStroke(float _dt){
             j++;
             m_lastInstanceIndex++;
         }
-        m_instanceCount = t_pt_num;
         m_pInstanceOffsetData->appendData(t_points, t_pt_deltCount*sizeof(V3));
     }
+    m_instanceCount = t_pt_num;
+}
+
+void SVPenStroke::_updateARFaceStroke(float _dt){
+    m_lock->unlock();
+    s32 t_pt_num = m_ptPool.size();
+    if (t_pt_num > 0) {
+        V3 t_points[t_pt_num];
+        for (s32 i = 0; i<t_pt_num; i++) {
+            //转换到脸部中心为原点的坐标系
+            SVStrokePoint t_pt = m_ptPool[i];
+            t_pt.point = t_pt.point - m_faceParam.faceCenter;
+            //变换
+            FVec4 t_n_point = FVec4(t_pt.point, 1.0);
+            t_n_point = m_faceTransform*t_n_point;
+            t_pt.point.set(t_n_point.x, t_n_point.y, t_n_point.z);
+            //转回到以屏幕中心为原点的坐标系
+            t_pt.point = t_pt.point + m_faceParam.faceCenter;
+            t_points[i].x = t_pt.point.x;
+            t_points[i].y = t_pt.point.y;
+            t_points[i].z = t_pt.point.z;
+        }
+        m_pInstanceOffsetData->writeData(t_points, t_pt_num*sizeof(V3));
+    }
+    m_instanceCount = t_pt_num;
     m_lock->unlock();
 }
 
@@ -985,26 +953,60 @@ void SVPenStroke::renderStroke(){
 }
 
 void SVPenStroke::updateGlow(float _dt){
+    if (m_penMode == SV_ARMODE) {
+        _updateARGlow(_dt);
+    }else if (m_penMode == SV_FACEMODE){
+        _updateARFaceGlow(_dt);
+    }
+}
+
+void SVPenStroke::_updateARGlow(float _dt){
     m_lock->unlock();
     //荧光实例
-    s32 t_pt_original_num = m_ptGlowPool.size();
-    s32 t_glow_deltCount = t_pt_original_num - m_lastGlowInstanceIndex;
+    s32 t_pt_num = m_ptGlowPool.size();
+    s32 t_glow_deltCount = t_pt_num - m_lastGlowInstanceIndex;
     if (t_glow_deltCount > 0) {
         V3 t_glowPoints[t_glow_deltCount];
         s32 t_index = m_lastGlowInstanceIndex;
         s32 j = 0;
-        for (s32 i = t_index; i<t_pt_original_num; i++) {
+        for (s32 i = t_index; i<t_pt_num; i++) {
             SVStrokePoint t_pt = m_ptGlowPool[i];
             t_glowPoints[j].x = t_pt.point.x;
             t_glowPoints[j].y = t_pt.point.y;
             t_glowPoints[j].z = t_pt.point.z;
-            m_aabbBox.expand(t_pt.point);
             j++;
             m_lastGlowInstanceIndex++;
         }
-        m_glowInstanceCount = t_pt_original_num;
         m_pGlowInstanceOffsetData->appendData(t_glowPoints, t_glow_deltCount*sizeof(V3));
     }
+    m_glowInstanceCount = t_pt_num;
+    m_lock->unlock();
+}
+
+void SVPenStroke::_updateARFaceGlow(float _dt){
+    m_lock->unlock();
+    //荧光实例
+    s32 t_pt_num = m_ptGlowPool.size();
+    if (t_pt_num > 0) {
+        V3 t_glowPoints[t_pt_num];
+        for (s32 i = 0; i<t_pt_num; i++) {
+            //转换到脸部中心为原点的坐标系
+            SVStrokePoint t_pt = m_ptGlowPool[i];
+            t_pt.point = t_pt.point - m_faceParam.faceCenter;
+            //变换
+            FVec4 t_n_point = FVec4(t_pt.point, 1.0);
+            t_n_point = m_faceTransform*t_n_point;
+            t_pt.point.set(t_n_point.x, t_n_point.y, t_n_point.z);
+            //转回到以屏幕中心为原点的坐标系
+            t_pt.point = t_pt.point + m_faceParam.faceCenter;
+            t_glowPoints[i].x = t_pt.point.x;
+            t_glowPoints[i].y = t_pt.point.y;
+            t_glowPoints[i].z = t_pt.point.z;
+            
+        }
+        m_pGlowInstanceOffsetData->writeData(t_glowPoints, t_pt_num*sizeof(V3));
+    }
+    m_glowInstanceCount = t_pt_num;
     m_lock->unlock();
 }
 
@@ -1076,4 +1078,58 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
     //_worldPoint.normal.normalize();
     _worldPoint.ext0 = FVec3(0.0f,0.0f,0.0f);
     _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
+}
+
+void SVPenStroke::genFaceRawParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis){
+    if (!m_haveGenFaceCoord) {
+        SVStrokePoint t_worldPt;
+        FVec2 t_pt = FVec2(_noseCenter.x, _noseCenter.y);
+        _screenPointToWorld(t_pt, t_worldPt);
+        FVec3 t_faceCenter = t_worldPt.point;
+        FVec3 t_faceRot = _rotation;
+        f32 t_eyeDis = 1.0;
+        if (_eyeDis != 0) {
+            t_eyeDis = _eyeDis;
+        }
+        m_raw_faceParam.faceCenter = t_faceCenter;
+        m_raw_faceParam.faceRot = t_faceRot;
+        m_raw_faceParam.eyeDis = t_eyeDis;
+        m_haveGenFaceCoord = true;
+    }
+}
+
+void SVPenStroke::setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis){
+    SVStrokePoint t_worldPt;
+    FVec2 t_pt = FVec2(_noseCenter.x, _noseCenter.y);
+    _screenPointToWorld(t_pt, t_worldPt);
+    FVec3 t_faceCenter = t_worldPt.point;
+    FVec3 t_faceRot = _rotation;
+    f32 t_eyeDis = 1.0;
+    if (_eyeDis != 0) {
+        t_eyeDis = _eyeDis;
+    }
+    m_faceParam.faceCenter = t_faceCenter;
+    m_faceParam.faceRot = t_faceRot;
+    m_faceParam.eyeDis = t_eyeDis;
+    m_faceTransform.setIdentity();
+    if (m_haveGenFaceCoord) {
+        FMat4 t_mat_scale = FMat4_identity;
+        FMat4 t_mat_rotX = FMat4_identity;
+        FMat4 t_mat_rotY = FMat4_identity;
+        FMat4 t_mat_rotZ = FMat4_identity;
+        FMat4 t_mat_trans = FMat4_identity;
+        //scale
+        FVec3 t_scale = FVec3(m_faceParam.eyeDis/m_raw_faceParam.eyeDis, m_faceParam.eyeDis/m_raw_faceParam.eyeDis, m_faceParam.eyeDis/m_raw_faceParam.eyeDis);
+        t_mat_scale.setScale(t_scale);
+        //rotation
+        FVec3 t_rot = m_faceParam.faceRot - m_raw_faceParam.faceRot;
+        t_mat_rotX.setRotateX(t_rot.x);
+        t_mat_rotY.setRotateY(t_rot.y);
+        t_mat_rotZ.setRotateZ(t_rot.z);
+        //translation
+        FVec3 t_pos = m_faceParam.faceCenter - m_raw_faceParam.faceCenter;
+        t_mat_trans.setTranslate(t_pos);
+        //这里要先做平移变换，再做旋转变换，跟shader里的运算不一样，shader是列主元--晓帆。
+        m_faceTransform = t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_trans*t_mat_scale;
+    }
 }
