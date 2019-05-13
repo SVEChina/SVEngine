@@ -65,6 +65,7 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_hPointCont = 65;
     m_inw = 10;
     m_inh = 10;
+    m_smooth=1.0f;
     m_flip = false;
     is_swith = true;
     m_is_point = false;
@@ -384,7 +385,7 @@ void SVDeformImageMove::pointMove(V2 *t_data){
         m_pIUMP->setControl(FVec2(t_outlinePoints[t_postion].x+1,t_outlinePoints[t_postion].y+1));
         FVec2 point_v = FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y);
         point_v = rotateBy(-angle,point_v,t_rangleV2);
-        point_v = FVec2(point_v.x+t_point.x*_smooth,point_v.y+t_point.y*_smooth);
+        point_v = FVec2(point_v.x+t_point.x*_smooth*m_smooth,point_v.y+t_point.y*_smooth*m_smooth);
         point_v = rotateBy(angle,point_v,t_rangleV2);
         m_pIUMP->setTargetControl(point_v);
         it++;
@@ -444,7 +445,7 @@ void SVDeformImageMove::_updateControl(V2 *t_data){
       //  if(t_point.x!=0.0&&t_point.y!=0.0){
             FVec2 point_v = FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y);
             point_v = rotateBy(-angle,point_v,t_rangleV2);
-            point_v = FVec2(point_v.x+t_point.x*_smooth,point_v.y+t_point.y*_smooth);
+            point_v = FVec2(point_v.x+t_point.x*_smooth*m_smooth,point_v.y+t_point.y*_smooth*m_smooth);
             point_v = rotateBy(angle,point_v,t_rangleV2);
             m_pIUMP->setTargetControl(point_v);
         //}
