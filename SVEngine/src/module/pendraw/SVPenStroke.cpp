@@ -1129,7 +1129,7 @@ void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     u32 t_offset = _packData->getDataLength();
     SVDataSwapPtr t_strokeData = MakeSharedPtr<SVDataSwap>();
     getStrokePt(t_strokeData);
-    if (_packData->savePenData(t_strokeData, _path)) {
+    if (_packData->appendPenStrokeData(t_strokeData, _path)) {
         locationObj.AddMember("stroke_data", "strokedata.bin", _allocator);
         locationObj.AddMember("stroke_data_offset", t_offset, _allocator);
         locationObj.AddMember("stroke_data_length", t_strokeData->getSize(), _allocator);
@@ -1146,7 +1146,7 @@ void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     t_offset = _packData->getDataLength();
     SVDataSwapPtr t_glowData = MakeSharedPtr<SVDataSwap>();
     getGlowPt(t_glowData);
-    if (_packData->savePenData(t_glowData, _path)) {
+    if (_packData->appendPenStrokeData(t_glowData, _path)) {
         locationObj.AddMember("stroke_glow_data", "strokedata.bin", _allocator);
         locationObj.AddMember("stroke_glow_data_offset", t_offset, _allocator);
         locationObj.AddMember("stroke_glow_data_length", t_glowData->getSize(), _allocator);

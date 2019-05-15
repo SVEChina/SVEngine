@@ -34,6 +34,7 @@
 #include "../../detect/SVPersonTracker.h"
 #include "../../file/SVFileMgr.h"
 #include "SVPenPackData.h"
+#include "../../file/SVDataBase.h"
 SVPenDraw::SVPenDraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
@@ -343,27 +344,35 @@ void SVPenDraw::_updateFaceParam(){
 }
 
 void SVPenDraw::save(cptr8 _path){
-    for (s32 i = 0; i<m_strokes.size(); i++) {
-        SVPenStrokePtr stroke = m_strokes[i];
-        SVDataSwapPtr t_dataSwap = MakeSharedPtr<SVDataSwap>();
-        stroke->getStrokePt(t_dataSwap);
-        bool t_flag = mApp->getFileMgr()->saveFileData(t_dataSwap, _path);
-        if (!t_flag) {
-            SV_LOG_ERROR("SVPenDraw::save points error");
-        }
+    if (!m_packData || m_strokes.size() == 0) {
+        return;
+    }
+    //生成Json串
+    RAPIDJSON_NAMESPACE::Document jsonDoc;    //生成一个dom元素Document
+    RAPIDJSON_NAMESPACE::Document::AllocatorType &allocator = jsonDoc.GetAllocator(); //获取分配器
+    jsonDoc.SetObject();    //将当前的Document设置为一个object，也就是说，整个Document是一个Object类型的dom元素
+    SVString t_path_pen_data = SVString(_path) + SVString("/pen.bin");
+    toJSON(allocator, jsonDoc, t_path_pen_data);
+    RAPIDJSON_NAMESPACE::StringBuffer buffer;
+    RAPIDJSON_NAMESPACE::Writer<RAPIDJSON_NAMESPACE::StringBuffer> writer(buffer);
+    jsonDoc.Accept(writer);
+    SVString strJson = buffer.GetString();
+    SVString new_strJson(SVDataBase::jsonFormat(strJson));
+    SVDataSwapPtr t_jsonData = MakeSharedPtr<SVDataSwap>();
+    t_jsonData->writeData((void *)new_strJson.c_str(), new_strJson.size());
+    SVString t_path_pen_json = SVString(_path) + SVString("/pen.json");
+    if (!m_packData->savePenJsonData(t_jsonData, t_path_pen_json)) {
+        SV_LOG_ERROR("SVPenDraw::Save Pen Json Error %s\n", t_path_pen_json);
     }
 }
 
 //序列化接口
 void SVPenDraw::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, cptr8 _path){
-    if (!m_packData) {
-        return;
-    }
     RAPIDJSON_NAMESPACE::Value t_array(RAPIDJSON_NAMESPACE::kArrayType);
     for (s32 i = 0; i<m_strokes.size(); i++) {
         SVPenStrokePtr stroke = m_strokes[i];
         RAPIDJSON_NAMESPACE::Value t_stroke(RAPIDJSON_NAMESPACE::kObjectType);
-        stroke->toJSON(_allocator, t_stroke, m_packData, _path);
+        stroke->toJSON(_allocator, t_array, m_packData, _path);
     }
     _objValue.AddMember("SVPen",t_array,_allocator);
 }

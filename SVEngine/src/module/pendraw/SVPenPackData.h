@@ -17,7 +17,9 @@ namespace sv{
         
         ~SVPenPackData();
         
-        bool savePenData(SVDataSwapPtr _data, cptr8 _path);
+        bool savePenJsonData(SVDataSwapPtr _data, cptr8 _path);
+        
+        bool appendPenStrokeData(SVDataSwapPtr _data, cptr8 _path);
         
         u32 getDataLength();
     protected:

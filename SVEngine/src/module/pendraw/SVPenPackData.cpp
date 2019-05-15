@@ -18,9 +18,20 @@ SVPenPackData::~SVPenPackData() {
     
 }
 
-bool SVPenPackData::savePenData(SVDataSwapPtr _data, cptr8 _path){
+bool SVPenPackData::savePenJsonData(SVDataSwapPtr _data, cptr8 _path){
     if (_data && _data->getSize()) {
-        bool t_flag = mApp->getFileMgr()->saveFileData(_data, _path);
+        bool t_flag = mApp->getFileMgr()->writeFileData(_data, _path);
+        if (!t_flag) {
+            SV_LOG_ERROR("SVPenPackData::Save Stroke Data Error %s\n", _path);
+            return false;
+        }
+    }
+    return true;
+}
+
+bool SVPenPackData::appendPenStrokeData(SVDataSwapPtr _data, cptr8 _path){
+    if (_data && _data->getSize()) {
+        bool t_flag = mApp->getFileMgr()->appendFileData(_data, _path);
         if (!t_flag) {
             SV_LOG_ERROR("SVPenPackData::Save Stroke Data Error %s\n", _path);
             return false;

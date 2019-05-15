@@ -55,15 +55,30 @@ void SVFileMgr::clearRespath(){
     m_searchPathPool.destroy();
 }
 
-bool SVFileMgr::saveFileData(SVDataSwapPtr _data, cptr8 _fname){
+bool SVFileMgr::appendFileData(SVDataSwapPtr _data, cptr8 _fpath){
     if (!_data)
         return false;
-    SVString t_fullname = getFileFullName(_fname);
-    SV_LOG_ERROR("SVFileMgr::saveFileData file name %s\n", t_fullname.c_str());
+    SVString t_fullname = _fpath;
+    if ( !t_fullname.empty() ) {
+        FILE *fp = fopen(t_fullname.c_str(), "a");
+        if (fp) {
+            fseek(fp, 0, SEEK_END);
+            fwrite((_data->getData()), sizeof(c8), _data->getSize(), fp);
+            fclose(fp);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool SVFileMgr::writeFileData(SVDataSwapPtr _data, cptr8 _fpath){
+    if (!_data)
+        return false;
+    SVString t_fullname = _fpath;
     if ( !t_fullname.empty() ) {
         FILE *fp = fopen(t_fullname.c_str(), "w");
         if (fp) {
-            fseek(fp, 0, SEEK_END);
+            fseek(fp, 0, SEEK_SET);
             fwrite((_data->getData()), sizeof(c8), _data->getSize(), fp);
             fclose(fp);
             return true;
