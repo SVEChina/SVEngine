@@ -289,6 +289,18 @@ namespace sv {
         SVString m_strPath;
     };
     //
+    class SVOpSavePenEffcet : public SVOpBase {
+    public:
+        SVOpSavePenEffcet(SVInst *_app, cptr8 pStrPath);
+        
+        ~SVOpSavePenEffcet();
+        
+    protected:
+        void _process(f32 dt);
+        
+        SVString m_strPath;
+    };
+    //
     class SVOpClearPen : public SVOpBase {
     public:
         SVOpClearPen(SVInst *_app);

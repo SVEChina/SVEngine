@@ -32,10 +32,13 @@
 #include "../../node/SVMultPassNode.h"
 #include "../../detect/SVDetectMgr.h"
 #include "../../detect/SVPersonTracker.h"
+#include "../../file/SVFileMgr.h"
+#include "SVPenPackData.h"
 SVPenDraw::SVPenDraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
     m_lock = MakeSharedPtr<SVLock>();
+    m_packData = MakeSharedPtr<SVPenPackData>(mApp);
     m_strokeWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeWidth;
     m_strokeColor = mApp->m_pGlobalMgr->m_pConfig->m_strokeColor;
     m_glowWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeGlowWidth;
@@ -48,6 +51,7 @@ SVPenDraw::SVPenDraw(SVInst *_app)
 
 SVPenDraw::~SVPenDraw() {
     m_curStroke = nullptr;
+    m_packData = nullptr;
     m_lock = nullptr;
     if(m_pRenderObj){
         m_pRenderObj->clearMesh();
@@ -336,4 +340,34 @@ void SVPenDraw::_updateFaceParam(){
         m_faceEyeDis = t_personTracker->m_eyeDistance;
         m_faceRot.set(t_pitch, -t_yaw, t_roll);
     }
+}
+
+void SVPenDraw::save(cptr8 _path){
+    for (s32 i = 0; i<m_strokes.size(); i++) {
+        SVPenStrokePtr stroke = m_strokes[i];
+        SVDataSwapPtr t_dataSwap = MakeSharedPtr<SVDataSwap>();
+        stroke->getStrokePt(t_dataSwap);
+        bool t_flag = mApp->getFileMgr()->saveFileData(t_dataSwap, _path);
+        if (!t_flag) {
+            SV_LOG_ERROR("SVPenDraw::save points error");
+        }
+    }
+}
+
+//序列化接口
+void SVPenDraw::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, cptr8 _path){
+    if (!m_packData) {
+        return;
+    }
+    RAPIDJSON_NAMESPACE::Value t_array(RAPIDJSON_NAMESPACE::kArrayType);
+    for (s32 i = 0; i<m_strokes.size(); i++) {
+        SVPenStrokePtr stroke = m_strokes[i];
+        RAPIDJSON_NAMESPACE::Value t_stroke(RAPIDJSON_NAMESPACE::kObjectType);
+        stroke->toJSON(_allocator, t_stroke, m_packData, _path);
+    }
+    _objValue.AddMember("SVPen",t_array,_allocator);
+}
+
+void SVPenDraw::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    
 }

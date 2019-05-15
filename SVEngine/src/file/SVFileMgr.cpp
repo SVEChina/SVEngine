@@ -7,7 +7,7 @@
 
 #include "SVFileMgr.h"
 #include "../base/SVLock.h"
-
+#include "../base/SVDataSwap.h"
 SVFileMgr::SVFileMgr(SVInst *_app)
 :SVSysBase(_app) {
     m_fileLock = MakeSharedPtr<SVLock>();
@@ -53,6 +53,23 @@ void SVFileMgr::delRespath(cptr8 _path) {
 
 void SVFileMgr::clearRespath(){
     m_searchPathPool.destroy();
+}
+
+bool SVFileMgr::saveFileData(SVDataSwapPtr _data, cptr8 _fname){
+    if (!_data)
+        return false;
+    SVString t_fullname = getFileFullName(_fname);
+    SV_LOG_ERROR("SVFileMgr::saveFileData file name %s\n", t_fullname.c_str());
+    if ( !t_fullname.empty() ) {
+        FILE *fp = fopen(t_fullname.c_str(), "w");
+        if (fp) {
+            fseek(fp, 0, SEEK_END);
+            fwrite((_data->getData()), sizeof(c8), _data->getSize(), fp);
+            fclose(fp);
+            return true;
+        }
+    }
+    return false;
 }
 
 bool SVFileMgr::loadFileContent(SVDataChunk *_datachunk,cptr8 _fname) {
