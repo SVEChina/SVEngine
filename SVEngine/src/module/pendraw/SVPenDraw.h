@@ -57,8 +57,9 @@ namespace sv{
         //序列化接口
         void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, cptr8 _path);
         
-        void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+        void fromJSON(RAPIDJSON_NAMESPACE::Value &_item, cptr8 _path);
     protected:
+        void _fromJSONBase(RAPIDJSON_NAMESPACE::Value &_item);
         void _drawStroke();//画笔触
         void _drawGlow();//画荧光
         void _drawReback();//画回主纹理

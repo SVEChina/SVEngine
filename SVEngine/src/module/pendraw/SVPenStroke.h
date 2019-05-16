@@ -36,18 +36,9 @@ namespace sv{
         f32   eyeDis;
     };
     
-    struct SVPenParam{
-        f32 strokeWidth;
-        f32 glowWidth;
-        f32 strokeCurve;
-        f32 glowCurve;
-        FVec4 strokeColor;
-        FVec4 glowColor;
-    };
-    
     class SVPenStroke : public SVGameBase {
     public:
-        SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor, SVPENMODE _mode);
+        SVPenStroke(SVInst* _app, SVPENMODE _mode);
         
         ~SVPenStroke();
         
@@ -59,7 +50,9 @@ namespace sv{
         
         void draw(f32 _px,f32 _py,f32 _pz);
         
-        void setDrawBox(bool _drawBox);
+        void createStrokeMesh(f32 _strokeWidth, FVec4 &_strokeColor);
+        
+        void createGlowMesh(f32 _glowWidth, FVec4 &_glowColor);
         
         void updateStroke(float _dt);
         
@@ -69,27 +62,27 @@ namespace sv{
         
         void renderGlow();
         
-        void renderBoundingBox();
-        
         void genFaceRawParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);//原始脸部数据
         
         void setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);//实时脸部数据
-        
-        void getPenParam(SVPenParam &_penParam);
         
         void getStrokePt(SVDataSwapPtr _dataSwap);
         
         void getGlowPt(SVDataSwapPtr _dataSwap);
         
+        void setStrokePt(SVDataSwapPtr _dataSwap, s32 _ptSize);
+        
+        void setGlowPt(SVDataSwapPtr _dataSwap, s32 _ptSize);
+        
+        void setDrawBox(bool _drawBox);
+        
+        void renderBoundingBox();
+        
         //序列化接口
         void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, SVPenPackDataPtr _packData, cptr8 _path);
         
-        void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+        void fromJSON(RAPIDJSON_NAMESPACE::Value &_item, SVPenPackDataPtr _packData, cptr8 _path);
     protected:
-        void _genARPenParam();
-        
-        void _genARFacePenParam();
-        
         void _updateARStroke(float _dt);
         
         void _updateARFaceStroke(float _dt);
@@ -99,10 +92,6 @@ namespace sv{
         void _updateARFaceGlow(float _dt);
         
         void _screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint);
-        //
-        void _createStrokeMesh();
-        //
-        void _createGlowMesh();
         //
         void _drawBoundBox();
         //
@@ -121,6 +110,8 @@ namespace sv{
         SVTexturePtr m_pTex;
         s32 m_instanceCount;
         s32 m_lastInstanceIndex;
+        f32 m_stroke_width;
+        FVec4 m_stroke_color;
         //画光圈相关
         SVDataSwapPtr m_pGlowInstanceOffsetData;  //mesh
         SVTexturePtr m_pGlowTex;
@@ -128,9 +119,13 @@ namespace sv{
         SVMtlStrokeBasePtr m_pGlowMtl;
         s32 m_lastGlowInstanceIndex;
         s32 m_glowInstanceCount;
+        f32 m_glow_width;
+        FVec4 m_glow_color;
         //画笔参数
-        SVPenParam m_penRawParam;
-        SVPenParam m_penParam;
+        f32 m_stroke_raw_width;
+        f32 m_glow_raw_width;
+        f32 m_stroke_curve;
+        f32 m_glow_curve;
         //
         FMat4 m_localMat;
         FMat4 m_faceTransform;

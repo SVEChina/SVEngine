@@ -55,6 +55,45 @@ void SVFileMgr::clearRespath(){
     m_searchPathPool.destroy();
 }
 
+u64  SVFileMgr::checkFileDataLength(cptr8 _fpath){
+    SVString t_fullname = _fpath;
+    if ( !t_fullname.empty() ) {
+        FILE *fp = fopen(t_fullname.c_str(), "r");
+        if (fp) {
+            fseek(fp, 0, SEEK_END);
+            s64 t_file_len = ftell(fp);
+            u64 t_length = (u64)t_file_len;
+            fseek(fp, 0, SEEK_SET);
+            fclose(fp);
+            return t_length;
+        }
+    }
+    return 0;
+}
+
+bool SVFileMgr::loadFileData(SVDataChunk *_datachunk, cptr8 _fpath, s32 _offset, s32 _length){
+    if (!_datachunk)
+        return false;
+    SVString t_fullname = _fpath;
+    if ( !t_fullname.empty() ) {
+        FILE *fp = fopen(t_fullname.c_str(), "r");
+        if (fp) {
+            s32 t_length = _length;
+            if (t_length < 0) {
+                fseek(fp, 0, SEEK_END);
+                s64 t_file_len = ftell(fp);
+                t_length = (s32)t_file_len;
+            }
+            fseek(fp, _offset, SEEK_SET);
+            _datachunk->apply(t_length);
+            fread(_datachunk->m_data, t_length, 1, fp);
+            fclose(fp);
+            return true;
+        }
+    }
+    return false;
+}
+
 bool SVFileMgr::appendFileData(SVDataSwapPtr _data, cptr8 _fpath){
     if (!_data)
         return false;

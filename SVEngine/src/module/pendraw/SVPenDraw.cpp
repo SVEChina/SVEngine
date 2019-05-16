@@ -302,7 +302,9 @@ bool SVPenDraw::procEvent(SVEventPtr _event){
     if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_BEGIN){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (!m_curStroke) {
-            m_curStroke = MakeSharedPtr<SVPenStroke>(mApp, m_strokeWidth, m_strokeColor, m_glowWidth, m_glowColor, m_mode);
+            m_curStroke = MakeSharedPtr<SVPenStroke>(mApp, m_mode);
+            m_curStroke->createStrokeMesh(m_strokeWidth, m_strokeColor);
+            m_curStroke->createGlowMesh(m_glowWidth, m_glowColor);
             m_strokes.append(m_curStroke);
         }
         m_curStroke->begin(t_touch->x,t_touch->y,0.0);
@@ -360,7 +362,7 @@ void SVPenDraw::save(cptr8 _path){
     SVString new_strJson(SVDataBase::jsonFormat(strJson));
     SVDataSwapPtr t_jsonData = MakeSharedPtr<SVDataSwap>();
     t_jsonData->writeData((void *)new_strJson.c_str(), new_strJson.size());
-    SVString t_path_pen_json = SVString(_path) + SVString("/pen.json");
+    SVString t_path_pen_json = SVString(_path) + SVString("/config.json");
     if (!m_packData->savePenJsonData(t_jsonData, t_path_pen_json)) {
         SV_LOG_ERROR("SVPenDraw::Save Pen Json Error %s\n", t_path_pen_json);
     }
@@ -372,11 +374,71 @@ void SVPenDraw::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
     for (s32 i = 0; i<m_strokes.size(); i++) {
         SVPenStrokePtr stroke = m_strokes[i];
         RAPIDJSON_NAMESPACE::Value t_stroke(RAPIDJSON_NAMESPACE::kObjectType);
-        stroke->toJSON(_allocator, t_array, m_packData, _path);
+        stroke->toJSON(_allocator, t_stroke, m_packData, _path);
+        t_array.PushBack(t_stroke, _allocator);
     }
     _objValue.AddMember("SVPen",t_array,_allocator);
 }
 
-void SVPenDraw::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+void SVPenDraw::_fromJSONBase(RAPIDJSON_NAMESPACE::Value &_item){
+    f32 t_strokeWidth = 0.005;
+    if (_item.HasMember("stroke_width") && _item["stroke_width"].IsFloat()) {
+        RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_width"];
+        t_strokeWidth = t_value.GetFloat();
+    }
+    FVec4 t_strokeColor;
+    t_strokeColor.set(255.0f, 255.0f, 255.0f, 255.0f);
+    if (_item.HasMember("stroke_color") && _item["stroke_color"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &t_values = _item["stroke_color"];
+        if (t_values.Size() > 3) {
+            t_strokeColor.x = t_values[0].GetFloat();
+            t_strokeColor.y = t_values[1].GetFloat();
+            t_strokeColor.z = t_values[2].GetFloat();
+            t_strokeColor.w = t_values[3].GetFloat();
+        }
+    }
+    f32 t_strokeGlowWidth = 0.1;
+    if (_item.HasMember("stroke_glowidth") && _item["stroke_glowidth"].IsFloat()) {
+        RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_glowidth"];
+        t_strokeGlowWidth = t_value.GetFloat();
+    }
+    FVec4 t_strokeGlowColor;
+    t_strokeGlowColor.set(0.0f, 255.0f, 127.0f, 255.0f);
+    if (_item.HasMember("stroke_glowcolor") && _item["stroke_glowcolor"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &t_values = _item["stroke_glowcolor"];
+        if (t_values.Size() > 3) {
+            t_strokeGlowColor.x = t_values[0].GetFloat();
+            t_strokeGlowColor.y = t_values[1].GetFloat();
+            t_strokeGlowColor.z = t_values[2].GetFloat();
+            t_strokeGlowColor.w = t_values[3].GetFloat();
+        }
+    }
+    m_strokeWidth = t_strokeWidth;
+    m_strokeColor = t_strokeColor;
+    m_glowWidth = t_strokeGlowWidth;
+    m_glowColor = t_strokeGlowColor;
+}
+
+void SVPenDraw::fromJSON(RAPIDJSON_NAMESPACE::Value &_item, cptr8 _path){
+    if (_item.IsArray()) {
+        for(s32 i = 0; i<_item.Size(); i++){
+            RAPIDJSON_NAMESPACE::Value &t_strokeValue = _item[i];
+            for(auto iter = t_strokeValue.MemberBegin(); iter != t_strokeValue.MemberEnd(); ++iter){
+                cptr8 key = (iter->name).GetString();
+                if (t_strokeValue.HasMember(key)) {
+                    RAPIDJSON_NAMESPACE::Value &t_strokeObj = iter->value;
+                    _fromJSONBase(t_strokeObj);
+                    m_curStroke = MakeSharedPtr<SVPenStroke>(mApp, m_mode);
+                    m_curStroke->createStrokeMesh(m_strokeWidth, m_strokeColor);
+                    m_curStroke->createGlowMesh(m_glowWidth, m_glowColor);
+                    m_curStroke->fromJSON(t_strokeObj, m_packData, _path);
+                    m_strokes.append(m_curStroke);
+                    
+                }
+            }
+        }
+    }else if (_item.IsObject()){
+        _fromJSONBase(_item);
+    }
     
 }

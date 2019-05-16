@@ -36,7 +36,7 @@
 #include "../../node/SVSpriteNode.h"
 #include "../../node/SVScene.h"
 #include "SVPenPackData.h"
-SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor, SVPENMODE _mode)
+SVPenStroke::SVPenStroke(SVInst* _app, SVPENMODE _mode)
 :SVGameBase(_app) {
     m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptStrokePool.clear();
@@ -68,20 +68,11 @@ SVPenStroke::SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f3
     m_faceParam.faceRot.set(0.0f, 0.0f, 0.0f);
     m_faceParam.eyeDis = 1.0;
     //pen param
-    m_penRawParam.strokeWidth = _strokeWidth;
-    m_penRawParam.strokeCurve = 0.05;
-    m_penRawParam.strokeColor = _strokeColor;
-    m_penRawParam.glowWidth = _glowWidth;
-    m_penRawParam.glowCurve = 0.06;
-    m_penRawParam.glowColor = _glowColor;
     if (m_penMode == SV_ARMODE) {
-        _genARPenParam();
+        m_plane_dis = 0.3f;
     }else if (m_penMode == SV_FACEMODE){
-        _genARFacePenParam();
+        m_plane_dis = 600.0f;
     }
-    _createStrokeMesh();
-    _createGlowMesh();
-//    setDrawBox(true);
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -123,10 +114,10 @@ void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
         m_penCurve->reset();
         //画笔补点
         SVArray<FVec3> t_ptArray;
-        m_penCurve->addPoint(t_worldPt.point, m_penParam.strokeWidth, m_penParam.strokeCurve, SV_ADD_DRAWBEGIN, t_ptArray);
+        m_penCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, SV_ADD_DRAWBEGIN, t_ptArray);
         //光晕补点
         SVArray<FVec3> t_ptGlowArray;
-        m_penCurve->addPoint(t_worldPt.point, m_penParam.glowWidth, m_penParam.glowCurve, SV_ADD_DRAWBEGIN, t_ptGlowArray);
+        m_penCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWBEGIN, t_ptGlowArray);
     } 
     m_ptGlowPool.append(t_worldPt);
     m_ptStrokePool.append(t_worldPt);
@@ -144,9 +135,9 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
         //画笔补点
         SVArray<FVec3> t_ptArray;
         if (m_lerpMethod == SV_LERP_BALANCE) {
-            m_penCurve->addPointB(t_worldPt.point, m_penParam.strokeWidth, m_penParam.strokeCurve, SV_ADD_DRAWEND, t_ptArray);
+            m_penCurve->addPointB(t_worldPt.point, m_stroke_width, m_stroke_curve, SV_ADD_DRAWEND, t_ptArray);
         }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-            m_penCurve->addPoint(t_worldPt.point, m_penParam.strokeWidth, m_penParam.strokeCurve, SV_ADD_DRAWEND, t_ptArray);
+            m_penCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, SV_ADD_DRAWEND, t_ptArray);
         }
         for (s32 i = 0; i<t_ptArray.size(); i++) {
             FVec3 t_pt = t_ptArray[i];
@@ -161,9 +152,9 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
         //光晕补点
         SVArray<FVec3> t_ptGlowArray;
         if (m_lerpMethod == SV_LERP_BALANCE) {
-            m_penCurve->addPointB(t_worldPt.point, m_penParam.glowWidth, m_penParam.glowCurve, SV_ADD_DRAWEND, t_ptGlowArray);
+            m_penCurve->addPointB(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
         }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-            m_penCurve->addPoint(t_worldPt.point, m_penParam.glowWidth, m_penParam.glowCurve, SV_ADD_DRAWEND, t_ptGlowArray);
+            m_penCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
         }
         for (s32 i = 0; i<t_ptGlowArray.size(); i++) {
             FVec3 t_pt = t_ptGlowArray[i];
@@ -192,9 +183,9 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     if (m_penCurve) {
         SVArray<FVec3> t_ptArray;
         if (m_lerpMethod == SV_LERP_BALANCE) {
-            m_penCurve->addPointB(t_worldPt.point, m_penParam.strokeWidth, m_penParam.strokeCurve, SV_ADD_DRAWING, t_ptArray);
+            m_penCurve->addPointB(t_worldPt.point, m_stroke_width, m_stroke_curve, SV_ADD_DRAWING, t_ptArray);
         }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-            m_penCurve->addPoint(t_worldPt.point, m_penParam.strokeWidth, m_penParam.strokeCurve, SV_ADD_DRAWING, t_ptArray);
+            m_penCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, SV_ADD_DRAWING, t_ptArray);
         }
         for (s32 i = 0; i<t_ptArray.size(); i++) {
             FVec3 t_pt = t_ptArray[i];
@@ -209,9 +200,9 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
         //光晕补点
         SVArray<FVec3> t_ptGlowArray;
         if (m_lerpMethod == SV_LERP_BALANCE) {
-            m_penCurve->addPointB(t_worldPt.point, m_penParam.glowWidth, m_penParam.glowCurve, SV_ADD_DRAWEND, t_ptGlowArray);
+            m_penCurve->addPointB(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
         }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-            m_penCurve->addPoint(t_worldPt.point, m_penParam.glowWidth, m_penParam.glowCurve, SV_ADD_DRAWEND, t_ptGlowArray);
+            m_penCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
         }
         for (s32 i = 0; i<t_ptGlowArray.size(); i++) {
             FVec3 t_pt = t_ptGlowArray[i];
@@ -230,239 +221,17 @@ void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
     m_lock->unlock();
 }
 
-void SVPenStroke::_genARPenParam(){
-    m_plane_dis = 0.3f;
-    m_penParam = m_penRawParam;
-}
-
-void SVPenStroke::_genARFacePenParam(){
-    m_plane_dis = 600.0f;
-    m_penParam.glowCurve = 0.85;
-    m_penParam.glowWidth = m_penRawParam.glowWidth*1800;
-    m_penParam.glowColor = m_penRawParam.glowColor;
-    m_penParam.strokeCurve = 0.1;
-    m_penParam.strokeWidth = m_penRawParam.strokeWidth*800;
-    m_penParam.strokeColor = m_penRawParam.strokeColor;
-}
-
-#define vn_glow 18
-void SVPenStroke::_createGlowMesh(){
-    m_pGlowMesh = MakeSharedPtr<SVRenderMeshDvid>(mApp);
-    m_pGlowMesh->createMesh();
-    m_pGlowMesh->setVertexType(E_VF_V3_C_T0);
-    m_pGlowMesh->setDrawMethod(E_DM_TRIANGLES);
-    V3 t_ver[vn_glow];
-    V2 t_texcoord[vn_glow];
-    C t_color[vn_glow];
-    f32 t_half_w = m_penParam.glowWidth*0.5f;
-    FVec2 t_t0 = FVec2(0.0f,0.0f);
-    FVec2 t_t1 = FVec2(1.0f,0.0f);
-    FVec2 t_t2 = FVec2(0.0f,1.0f);
-    FVec2 t_t3 = FVec2(1.0f,1.0f);
-    u8 t_r = m_penParam.glowColor.x;
-    u8 t_g = m_penParam.glowColor.y;
-    u8 t_b = m_penParam.glowColor.z;
-    u8 t_a = m_penParam.glowColor.w;
-    //x o z
-    FVec3 t_pt0 = FVec3(-1.0f, 0.0f, 1.0f)*t_half_w;
-    FVec3 t_pt1 = FVec3(1.0f, 0.0f, 1.0f)*t_half_w;
-    FVec3 t_pt2 = FVec3(-1.0f, 0.0f, -1.0f)*t_half_w;
-    FVec3 t_pt3 = FVec3(1.0f, 0.0f, -1.0f)*t_half_w;
-    //x o y
-    FVec3 t_pt4 = FVec3(-1.0f, -1.0f, 0.0f)*t_half_w;
-    FVec3 t_pt5 = FVec3(1.0f, -1.0f, 0.0f)*t_half_w;
-    FVec3 t_pt6 = FVec3(-1.0f, 1.0f, 0.0f)*t_half_w;
-    FVec3 t_pt7 = FVec3(1.0f, 1.0f, 0.0f)*t_half_w;
-    // y o z
-    FVec3 t_pt8 = FVec3(0.0f, -1.0f, 1.0f)*t_half_w;
-    FVec3 t_pt9 = FVec3(0.0f, -1.0f, -1.0f)*t_half_w;
-    FVec3 t_pt10 = FVec3(0.0f, 1.0f, 1.0f)*t_half_w;
-    FVec3 t_pt11 = FVec3(0.0f, 1.0f, -1.0f)*t_half_w;
-    
-    t_ver[0].x = t_pt0.x;
-    t_ver[0].y = t_pt0.y;
-    t_ver[0].z = t_pt0.z;
-    t_texcoord[0].x = t_t0.x;
-    t_texcoord[0].y = t_t0.y;
-    t_color[0].r = t_r;
-    t_color[0].g = t_g;
-    t_color[0].b = t_b;
-    t_color[0].a = t_a;
-    t_ver[1].x = t_pt1.x;
-    t_ver[1].y = t_pt1.y;
-    t_ver[1].z = t_pt1.z;
-    t_texcoord[1].x = t_t1.x;
-    t_texcoord[1].y = t_t1.y;
-    t_color[1].r = t_r;
-    t_color[1].g = t_g;
-    t_color[1].b = t_b;
-    t_color[1].a = t_a;
-    t_ver[2].x = t_pt2.x;
-    t_ver[2].y = t_pt2.y;
-    t_ver[2].z = t_pt2.z;
-    t_texcoord[2].x = t_t2.x;
-    t_texcoord[2].y = t_t2.y;
-    t_color[2].r = t_r;
-    t_color[2].g = t_g;
-    t_color[2].b = t_b;
-    t_color[2].a = t_a;
-    t_ver[3].x = t_pt2.x;
-    t_ver[3].y = t_pt2.y;
-    t_ver[3].z = t_pt2.z;
-    t_texcoord[3].x = t_t2.x;
-    t_texcoord[3].y = t_t2.y;
-    t_color[3].r = t_r;
-    t_color[3].g = t_g;
-    t_color[3].b = t_b;
-    t_color[3].a = t_a;
-    t_ver[4].x = t_pt1.x;
-    t_ver[4].y = t_pt1.y;
-    t_ver[4].z = t_pt1.z;
-    t_texcoord[4].x = t_t1.x;
-    t_texcoord[4].y = t_t1.y;
-    t_color[4].r = t_r;
-    t_color[4].g = t_g;
-    t_color[4].b = t_b;
-    t_color[4].a = t_a;
-    t_ver[5].x = t_pt3.x;
-    t_ver[5].y = t_pt3.y;
-    t_ver[5].z = t_pt3.z;
-    t_texcoord[5].x = t_t3.x;
-    t_texcoord[5].y = t_t3.y;
-    t_color[5].r = t_r;
-    t_color[5].g = t_g;
-    t_color[5].b = t_b;
-    t_color[5].a = t_a;
-    
-    s32 i=1;
-    t_ver[0+6*i].x = t_pt4.x;
-    t_ver[0+6*i].y = t_pt4.y;
-    t_ver[0+6*i].z = t_pt4.z;
-    t_texcoord[0+6*i].x = t_t0.x;
-    t_texcoord[0+6*i].y = t_t0.y;
-    t_color[0+6*i].r = t_r;
-    t_color[0+6*i].g = t_g;
-    t_color[0+6*i].b = t_b;
-    t_color[0+6*i].a = t_a;
-    t_ver[1+6*i].x = t_pt5.x;
-    t_ver[1+6*i].y = t_pt5.y;
-    t_ver[1+6*i].z = t_pt5.z;
-    t_texcoord[1+6*i].x = t_t1.x;
-    t_texcoord[1+6*i].y = t_t1.y;
-    t_color[1+6*i].r = t_r;
-    t_color[1+6*i].g = t_g;
-    t_color[1+6*i].b = t_b;
-    t_color[1+6*i].a = t_a;
-    t_ver[2+6*i].x = t_pt6.x;
-    t_ver[2+6*i].y = t_pt6.y;
-    t_ver[2+6*i].z = t_pt6.z;
-    t_texcoord[2+6*i].x = t_t2.x;
-    t_texcoord[2+6*i].y = t_t2.y;
-    t_color[2+6*i].r = t_r;
-    t_color[2+6*i].g = t_g;
-    t_color[2+6*i].b = t_b;
-    t_color[2+6*i].a = t_a;
-    t_ver[3+6*i].x = t_pt6.x;
-    t_ver[3+6*i].y = t_pt6.y;
-    t_ver[3+6*i].z = t_pt6.z;
-    t_texcoord[3+6*i].x = t_t2.x;
-    t_texcoord[3+6*i].y = t_t2.y;
-    t_color[3+6*i].r = t_r;
-    t_color[3+6*i].g = t_g;
-    t_color[3+6*i].b = t_b;
-    t_color[3+6*i].a = t_a;
-    t_ver[4+6*i].x = t_pt5.x;
-    t_ver[4+6*i].y = t_pt5.y;
-    t_ver[4+6*i].z = t_pt5.z;
-    t_texcoord[4+6*i].x = t_t1.x;
-    t_texcoord[4+6*i].y = t_t1.y;
-    t_color[4+6*i].r = t_r;
-    t_color[4+6*i].g = t_g;
-    t_color[4+6*i].b = t_b;
-    t_color[4+6*i].a = t_a;
-    t_ver[5+6*i].x = t_pt7.x;
-    t_ver[5+6*i].y = t_pt7.y;
-    t_ver[5+6*i].z = t_pt7.z;
-    t_texcoord[5+6*i].x = t_t3.x;
-    t_texcoord[5+6*i].y = t_t3.y;
-    t_color[5+6*i].r = t_r;
-    t_color[5+6*i].g = t_g;
-    t_color[5+6*i].b = t_b;
-    t_color[5+6*i].a = t_a;
-    
-    i=2;
-    t_ver[0+6*i].x = t_pt8.x;
-    t_ver[0+6*i].y = t_pt8.y;
-    t_ver[0+6*i].z = t_pt8.z;
-    t_texcoord[0+6*i].x = t_t0.x;
-    t_texcoord[0+6*i].y = t_t0.y;
-    t_color[0+6*i].r = t_r;
-    t_color[0+6*i].g = t_g;
-    t_color[0+6*i].b = t_b;
-    t_color[0+6*i].a = t_a;
-    t_ver[1+6*i].x = t_pt9.x;
-    t_ver[1+6*i].y = t_pt9.y;
-    t_ver[1+6*i].z = t_pt9.z;
-    t_texcoord[1+6*i].x = t_t1.x;
-    t_texcoord[1+6*i].y = t_t1.y;
-    t_color[1+6*i].r = t_r;
-    t_color[1+6*i].g = t_g;
-    t_color[1+6*i].b = t_b;
-    t_color[1+6*i].a = t_a;
-    t_ver[2+6*i].x = t_pt10.x;
-    t_ver[2+6*i].y = t_pt10.y;
-    t_ver[2+6*i].z = t_pt10.z;
-    t_texcoord[2+6*i].x = t_t2.x;
-    t_texcoord[2+6*i].y = t_t2.y;
-    t_color[2+6*i].r = t_r;
-    t_color[2+6*i].g = t_g;
-    t_color[2+6*i].b = t_b;
-    t_color[2+6*i].a = t_a;
-    t_ver[3+6*i].x = t_pt10.x;
-    t_ver[3+6*i].y = t_pt10.y;
-    t_ver[3+6*i].z = t_pt10.z;
-    t_texcoord[3+6*i].x = t_t2.x;
-    t_texcoord[3+6*i].y = t_t2.y;
-    t_color[3+6*i].r = t_r;
-    t_color[3+6*i].g = t_g;
-    t_color[3+6*i].b = t_b;
-    t_color[3+6*i].a = t_a;
-    t_ver[4+6*i].x = t_pt9.x;
-    t_ver[4+6*i].y = t_pt9.y;
-    t_ver[4+6*i].z = t_pt9.z;
-    t_texcoord[4+6*i].x = t_t1.x;
-    t_texcoord[4+6*i].y = t_t1.y;
-    t_color[4+6*i].r = t_r;
-    t_color[4+6*i].g = t_g;
-    t_color[4+6*i].b = t_b;
-    t_color[4+6*i].a = t_a;
-    t_ver[5+6*i].x = t_pt11.x;
-    t_ver[5+6*i].y = t_pt11.y;
-    t_ver[5+6*i].z = t_pt11.z;
-    t_texcoord[5+6*i].x = t_t3.x;
-    t_texcoord[5+6*i].y = t_t3.y;
-    t_color[5+6*i].r = t_r;
-    t_color[5+6*i].g = t_g;
-    t_color[5+6*i].b = t_b;
-    t_color[5+6*i].a = t_a;
-    
-    SVDataSwapPtr t_pVertexData = MakeSharedPtr<SVDataSwap>();
-    t_pVertexData->resize(vn_glow*sizeof(V3));
-    t_pVertexData->writeData(t_ver, vn_glow*sizeof(V3));
-    m_pGlowMesh->setVertex3Data(t_pVertexData);
-    m_pGlowMesh->setVertexDataNum(vn_glow);
-    SVDataSwapPtr t_pColorData = MakeSharedPtr<SVDataSwap>();
-    t_pColorData->resize(vn_glow*sizeof(C));
-    t_pColorData->writeData(t_color, vn_glow*sizeof(C));
-    m_pGlowMesh->setColor0Data(t_pColorData);
-    SVDataSwapPtr t_pTexcoordData = MakeSharedPtr<SVDataSwap>();
-    t_pTexcoordData->resize(vn_glow*sizeof(V2));
-    t_pTexcoordData->writeData(t_texcoord, vn_glow*sizeof(V2));
-    m_pGlowMesh->setTexcoord0Data(t_pTexcoordData);
-}
-
 #define vn_stroke 36
-void SVPenStroke::_createStrokeMesh() {
+void SVPenStroke::createStrokeMesh(f32 _strokeWidth, FVec4 &_strokeColor){
+    m_stroke_raw_width = _strokeWidth;
+    m_stroke_color = _strokeColor;
+    if (m_penMode == SV_ARMODE) {
+        m_stroke_width = m_stroke_raw_width;
+        m_stroke_curve = 0.05;
+    }else if (m_penMode == SV_FACEMODE){
+        m_stroke_width = m_stroke_raw_width*800;
+        m_stroke_curve = 0.1;
+    }
     m_pStrokeMesh = MakeSharedPtr<SVRenderMeshDvid>(mApp);
     m_pStrokeMesh->createMesh();
     m_pStrokeMesh->setVertexType(E_VF_V3_C);
@@ -470,7 +239,7 @@ void SVPenStroke::_createStrokeMesh() {
     V3 t_ver[vn_stroke];
     V2 t_texcoord[vn_stroke];
     C t_color[vn_stroke];
-    f32 t_half_w = m_penParam.strokeWidth*0.5f;
+    f32 t_half_w = m_stroke_width*0.5f;
     FVec3 t_pt0 = FVec3(-1.0f,-1.0f,-1.0f)*t_half_w;
     FVec3 t_pt1 = FVec3(1.0f,-1.0f,-1.0f)*t_half_w;
     FVec3 t_pt2 = FVec3(1.0f,-1.0f,1.0f)*t_half_w;
@@ -483,10 +252,10 @@ void SVPenStroke::_createStrokeMesh() {
     FVec2 t_t1 = FVec2(1.0f,0.0f);
     FVec2 t_t2 = FVec2(0.0f,1.0f);
     FVec2 t_t3 = FVec2(1.0f,1.0f);
-    u8 t_r = m_penParam.strokeColor.x;
-    u8 t_g = m_penParam.strokeColor.y;
-    u8 t_b = m_penParam.strokeColor.z;
-    u8 t_a = m_penParam.strokeColor.w;
+    u8 t_r = m_stroke_color.x;
+    u8 t_g = m_stroke_color.y;
+    u8 t_b = m_stroke_color.z;
+    u8 t_a = m_stroke_color.w;
     //0,1,4,5
     t_ver[0].x = t_pt0.x;
     t_ver[0].y = t_pt0.y;
@@ -833,6 +602,231 @@ void SVPenStroke::_createStrokeMesh() {
     m_pStrokeMesh->setColor0Data(t_pColorData);
 }
 
+#define vn_glow 18
+void SVPenStroke::createGlowMesh(f32 _glowWidth, FVec4 &_glowColor){
+    m_glow_raw_width = _glowWidth;
+    m_glow_color = _glowColor;
+    if (m_penMode == SV_ARMODE) {
+        m_glow_width = m_glow_raw_width;
+        m_glow_curve = 0.06;
+    }else if (m_penMode == SV_FACEMODE){
+        m_glow_width = m_glow_raw_width*1800;
+        m_glow_curve = 0.85;
+    }
+    m_pGlowMesh = MakeSharedPtr<SVRenderMeshDvid>(mApp);
+    m_pGlowMesh->createMesh();
+    m_pGlowMesh->setVertexType(E_VF_V3_C_T0);
+    m_pGlowMesh->setDrawMethod(E_DM_TRIANGLES);
+    V3 t_ver[vn_glow];
+    V2 t_texcoord[vn_glow];
+    C t_color[vn_glow];
+    f32 t_half_w = m_glow_width*0.5f;
+    FVec2 t_t0 = FVec2(0.0f,0.0f);
+    FVec2 t_t1 = FVec2(1.0f,0.0f);
+    FVec2 t_t2 = FVec2(0.0f,1.0f);
+    FVec2 t_t3 = FVec2(1.0f,1.0f);
+    u8 t_r = m_glow_color.x;
+    u8 t_g = m_glow_color.y;
+    u8 t_b = m_glow_color.z;
+    u8 t_a = m_glow_color.w;
+    //x o z
+    FVec3 t_pt0 = FVec3(-1.0f, 0.0f, 1.0f)*t_half_w;
+    FVec3 t_pt1 = FVec3(1.0f, 0.0f, 1.0f)*t_half_w;
+    FVec3 t_pt2 = FVec3(-1.0f, 0.0f, -1.0f)*t_half_w;
+    FVec3 t_pt3 = FVec3(1.0f, 0.0f, -1.0f)*t_half_w;
+    //x o y
+    FVec3 t_pt4 = FVec3(-1.0f, -1.0f, 0.0f)*t_half_w;
+    FVec3 t_pt5 = FVec3(1.0f, -1.0f, 0.0f)*t_half_w;
+    FVec3 t_pt6 = FVec3(-1.0f, 1.0f, 0.0f)*t_half_w;
+    FVec3 t_pt7 = FVec3(1.0f, 1.0f, 0.0f)*t_half_w;
+    // y o z
+    FVec3 t_pt8 = FVec3(0.0f, -1.0f, 1.0f)*t_half_w;
+    FVec3 t_pt9 = FVec3(0.0f, -1.0f, -1.0f)*t_half_w;
+    FVec3 t_pt10 = FVec3(0.0f, 1.0f, 1.0f)*t_half_w;
+    FVec3 t_pt11 = FVec3(0.0f, 1.0f, -1.0f)*t_half_w;
+    
+    t_ver[0].x = t_pt0.x;
+    t_ver[0].y = t_pt0.y;
+    t_ver[0].z = t_pt0.z;
+    t_texcoord[0].x = t_t0.x;
+    t_texcoord[0].y = t_t0.y;
+    t_color[0].r = t_r;
+    t_color[0].g = t_g;
+    t_color[0].b = t_b;
+    t_color[0].a = t_a;
+    t_ver[1].x = t_pt1.x;
+    t_ver[1].y = t_pt1.y;
+    t_ver[1].z = t_pt1.z;
+    t_texcoord[1].x = t_t1.x;
+    t_texcoord[1].y = t_t1.y;
+    t_color[1].r = t_r;
+    t_color[1].g = t_g;
+    t_color[1].b = t_b;
+    t_color[1].a = t_a;
+    t_ver[2].x = t_pt2.x;
+    t_ver[2].y = t_pt2.y;
+    t_ver[2].z = t_pt2.z;
+    t_texcoord[2].x = t_t2.x;
+    t_texcoord[2].y = t_t2.y;
+    t_color[2].r = t_r;
+    t_color[2].g = t_g;
+    t_color[2].b = t_b;
+    t_color[2].a = t_a;
+    t_ver[3].x = t_pt2.x;
+    t_ver[3].y = t_pt2.y;
+    t_ver[3].z = t_pt2.z;
+    t_texcoord[3].x = t_t2.x;
+    t_texcoord[3].y = t_t2.y;
+    t_color[3].r = t_r;
+    t_color[3].g = t_g;
+    t_color[3].b = t_b;
+    t_color[3].a = t_a;
+    t_ver[4].x = t_pt1.x;
+    t_ver[4].y = t_pt1.y;
+    t_ver[4].z = t_pt1.z;
+    t_texcoord[4].x = t_t1.x;
+    t_texcoord[4].y = t_t1.y;
+    t_color[4].r = t_r;
+    t_color[4].g = t_g;
+    t_color[4].b = t_b;
+    t_color[4].a = t_a;
+    t_ver[5].x = t_pt3.x;
+    t_ver[5].y = t_pt3.y;
+    t_ver[5].z = t_pt3.z;
+    t_texcoord[5].x = t_t3.x;
+    t_texcoord[5].y = t_t3.y;
+    t_color[5].r = t_r;
+    t_color[5].g = t_g;
+    t_color[5].b = t_b;
+    t_color[5].a = t_a;
+    
+    s32 i=1;
+    t_ver[0+6*i].x = t_pt4.x;
+    t_ver[0+6*i].y = t_pt4.y;
+    t_ver[0+6*i].z = t_pt4.z;
+    t_texcoord[0+6*i].x = t_t0.x;
+    t_texcoord[0+6*i].y = t_t0.y;
+    t_color[0+6*i].r = t_r;
+    t_color[0+6*i].g = t_g;
+    t_color[0+6*i].b = t_b;
+    t_color[0+6*i].a = t_a;
+    t_ver[1+6*i].x = t_pt5.x;
+    t_ver[1+6*i].y = t_pt5.y;
+    t_ver[1+6*i].z = t_pt5.z;
+    t_texcoord[1+6*i].x = t_t1.x;
+    t_texcoord[1+6*i].y = t_t1.y;
+    t_color[1+6*i].r = t_r;
+    t_color[1+6*i].g = t_g;
+    t_color[1+6*i].b = t_b;
+    t_color[1+6*i].a = t_a;
+    t_ver[2+6*i].x = t_pt6.x;
+    t_ver[2+6*i].y = t_pt6.y;
+    t_ver[2+6*i].z = t_pt6.z;
+    t_texcoord[2+6*i].x = t_t2.x;
+    t_texcoord[2+6*i].y = t_t2.y;
+    t_color[2+6*i].r = t_r;
+    t_color[2+6*i].g = t_g;
+    t_color[2+6*i].b = t_b;
+    t_color[2+6*i].a = t_a;
+    t_ver[3+6*i].x = t_pt6.x;
+    t_ver[3+6*i].y = t_pt6.y;
+    t_ver[3+6*i].z = t_pt6.z;
+    t_texcoord[3+6*i].x = t_t2.x;
+    t_texcoord[3+6*i].y = t_t2.y;
+    t_color[3+6*i].r = t_r;
+    t_color[3+6*i].g = t_g;
+    t_color[3+6*i].b = t_b;
+    t_color[3+6*i].a = t_a;
+    t_ver[4+6*i].x = t_pt5.x;
+    t_ver[4+6*i].y = t_pt5.y;
+    t_ver[4+6*i].z = t_pt5.z;
+    t_texcoord[4+6*i].x = t_t1.x;
+    t_texcoord[4+6*i].y = t_t1.y;
+    t_color[4+6*i].r = t_r;
+    t_color[4+6*i].g = t_g;
+    t_color[4+6*i].b = t_b;
+    t_color[4+6*i].a = t_a;
+    t_ver[5+6*i].x = t_pt7.x;
+    t_ver[5+6*i].y = t_pt7.y;
+    t_ver[5+6*i].z = t_pt7.z;
+    t_texcoord[5+6*i].x = t_t3.x;
+    t_texcoord[5+6*i].y = t_t3.y;
+    t_color[5+6*i].r = t_r;
+    t_color[5+6*i].g = t_g;
+    t_color[5+6*i].b = t_b;
+    t_color[5+6*i].a = t_a;
+    
+    i=2;
+    t_ver[0+6*i].x = t_pt8.x;
+    t_ver[0+6*i].y = t_pt8.y;
+    t_ver[0+6*i].z = t_pt8.z;
+    t_texcoord[0+6*i].x = t_t0.x;
+    t_texcoord[0+6*i].y = t_t0.y;
+    t_color[0+6*i].r = t_r;
+    t_color[0+6*i].g = t_g;
+    t_color[0+6*i].b = t_b;
+    t_color[0+6*i].a = t_a;
+    t_ver[1+6*i].x = t_pt9.x;
+    t_ver[1+6*i].y = t_pt9.y;
+    t_ver[1+6*i].z = t_pt9.z;
+    t_texcoord[1+6*i].x = t_t1.x;
+    t_texcoord[1+6*i].y = t_t1.y;
+    t_color[1+6*i].r = t_r;
+    t_color[1+6*i].g = t_g;
+    t_color[1+6*i].b = t_b;
+    t_color[1+6*i].a = t_a;
+    t_ver[2+6*i].x = t_pt10.x;
+    t_ver[2+6*i].y = t_pt10.y;
+    t_ver[2+6*i].z = t_pt10.z;
+    t_texcoord[2+6*i].x = t_t2.x;
+    t_texcoord[2+6*i].y = t_t2.y;
+    t_color[2+6*i].r = t_r;
+    t_color[2+6*i].g = t_g;
+    t_color[2+6*i].b = t_b;
+    t_color[2+6*i].a = t_a;
+    t_ver[3+6*i].x = t_pt10.x;
+    t_ver[3+6*i].y = t_pt10.y;
+    t_ver[3+6*i].z = t_pt10.z;
+    t_texcoord[3+6*i].x = t_t2.x;
+    t_texcoord[3+6*i].y = t_t2.y;
+    t_color[3+6*i].r = t_r;
+    t_color[3+6*i].g = t_g;
+    t_color[3+6*i].b = t_b;
+    t_color[3+6*i].a = t_a;
+    t_ver[4+6*i].x = t_pt9.x;
+    t_ver[4+6*i].y = t_pt9.y;
+    t_ver[4+6*i].z = t_pt9.z;
+    t_texcoord[4+6*i].x = t_t1.x;
+    t_texcoord[4+6*i].y = t_t1.y;
+    t_color[4+6*i].r = t_r;
+    t_color[4+6*i].g = t_g;
+    t_color[4+6*i].b = t_b;
+    t_color[4+6*i].a = t_a;
+    t_ver[5+6*i].x = t_pt11.x;
+    t_ver[5+6*i].y = t_pt11.y;
+    t_ver[5+6*i].z = t_pt11.z;
+    t_texcoord[5+6*i].x = t_t3.x;
+    t_texcoord[5+6*i].y = t_t3.y;
+    t_color[5+6*i].r = t_r;
+    t_color[5+6*i].g = t_g;
+    t_color[5+6*i].b = t_b;
+    t_color[5+6*i].a = t_a;
+    
+    SVDataSwapPtr t_pVertexData = MakeSharedPtr<SVDataSwap>();
+    t_pVertexData->resize(vn_glow*sizeof(V3));
+    t_pVertexData->writeData(t_ver, vn_glow*sizeof(V3));
+    m_pGlowMesh->setVertex3Data(t_pVertexData);
+    m_pGlowMesh->setVertexDataNum(vn_glow);
+    SVDataSwapPtr t_pColorData = MakeSharedPtr<SVDataSwap>();
+    t_pColorData->resize(vn_glow*sizeof(C));
+    t_pColorData->writeData(t_color, vn_glow*sizeof(C));
+    m_pGlowMesh->setColor0Data(t_pColorData);
+    SVDataSwapPtr t_pTexcoordData = MakeSharedPtr<SVDataSwap>();
+    t_pTexcoordData->resize(vn_glow*sizeof(V2));
+    t_pTexcoordData->writeData(t_texcoord, vn_glow*sizeof(V2));
+    m_pGlowMesh->setTexcoord0Data(t_pTexcoordData);
+}
+
 void SVPenStroke::updateStroke(float _dt){
     if (m_penMode == SV_ARMODE) {
         _updateARStroke(_dt);
@@ -1094,12 +1088,8 @@ void SVPenStroke::setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis
         FVec3 t_pos = m_faceParam.faceCenter - m_raw_faceParam.faceCenter;
         t_mat_trans.setTranslate(t_pos);
       //这里要先做平移变换，再做旋转变换，跟shader里的运算不一样，shader是列主元--晓帆。
-        m_faceTransform = t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_trans*t_mat_scale;
+//        m_faceTransform = t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_trans*t_mat_scale;
     }
-}
-
-void SVPenStroke::getPenParam(SVPenParam &_penParam){
-    _penParam = m_penRawParam;
 }
 
 void SVPenStroke::getStrokePt(SVDataSwapPtr _dataSwap){
@@ -1114,46 +1104,132 @@ void SVPenStroke::getGlowPt(SVDataSwapPtr _dataSwap){
     }
 }
 
+void SVPenStroke::setStrokePt(SVDataSwapPtr _dataSwap, s32 _ptSize){
+    if (_dataSwap && _ptSize) {
+        f32 *points = (f32 *)_dataSwap->getData();
+        for (s32 i = 0; i<_ptSize; i++) {
+            f32 t_pt_x = points[3*i];
+            f32 t_pt_y = points[3*i+1];
+            f32 t_pt_z = points[3*i+2];
+            SVStrokePoint t_pt;
+            t_pt.point.set(t_pt_x, t_pt_y, t_pt_z);
+            m_ptStrokePool.append(t_pt);
+        }
+        m_instanceCount = _ptSize;
+    }
+}
+
+void SVPenStroke::setGlowPt(SVDataSwapPtr _dataSwap, s32 _ptSize){
+    if (_dataSwap && _ptSize) {
+        f32 *points = (f32 *)_dataSwap->getData();
+        for (s32 i = 0; i<_ptSize; i++) {
+            f32 t_pt_x = points[3*i];
+            f32 t_pt_y = points[3*i+1];
+            f32 t_pt_z = points[3*i+2];
+            SVStrokePoint t_pt;
+            t_pt.point.set(t_pt_x, t_pt_y, t_pt_z);
+            m_ptGlowPool.append(t_pt);
+        }
+        m_glowInstanceCount = _ptSize;
+    }
+}
+
 //序列化接口
 void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, SVPenPackDataPtr _packData, cptr8 _path){
     RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
     locationObj.AddMember("name", "stroke", _allocator);
     //stroke
-    locationObj.AddMember("stroke_width", m_penRawParam.strokeWidth, _allocator);
+    locationObj.AddMember("stroke_width", m_stroke_raw_width, _allocator);
     RAPIDJSON_NAMESPACE::Value t_stroke_color(RAPIDJSON_NAMESPACE::kArrayType);
-    t_stroke_color.PushBack(m_penRawParam.strokeColor.x, _allocator);
-    t_stroke_color.PushBack(m_penRawParam.strokeColor.y, _allocator);
-    t_stroke_color.PushBack(m_penRawParam.strokeColor.z, _allocator);
-    t_stroke_color.PushBack(m_penRawParam.strokeColor.w, _allocator);
+    t_stroke_color.PushBack(m_stroke_color.x, _allocator);
+    t_stroke_color.PushBack(m_stroke_color.y, _allocator);
+    t_stroke_color.PushBack(m_stroke_color.z, _allocator);
+    t_stroke_color.PushBack(m_stroke_color.w, _allocator);
     locationObj.AddMember("stroke_color", t_stroke_color, _allocator);
-    u32 t_offset = _packData->getDataLength();
+    u32 t_offset = (u32)_packData->checkPenStrokeDataLength(_path);
     SVDataSwapPtr t_strokeData = MakeSharedPtr<SVDataSwap>();
     getStrokePt(t_strokeData);
     if (_packData->appendPenStrokeData(t_strokeData, _path)) {
-        locationObj.AddMember("stroke_data", "strokedata.bin", _allocator);
+        locationObj.AddMember("stroke_data", "pen.bin", _allocator);
         locationObj.AddMember("stroke_data_offset", t_offset, _allocator);
         locationObj.AddMember("stroke_data_length", t_strokeData->getSize(), _allocator);
+        locationObj.AddMember("stroke_pt_size", m_instanceCount, _allocator);
     };
     
     //glow
-    locationObj.AddMember("stroke_glowidth", m_penRawParam.glowWidth, _allocator);
+    locationObj.AddMember("stroke_glowidth", m_glow_raw_width, _allocator);
     RAPIDJSON_NAMESPACE::Value t_glow_color(RAPIDJSON_NAMESPACE::kArrayType);
-    t_glow_color.PushBack(m_penRawParam.glowColor.x, _allocator);
-    t_glow_color.PushBack(m_penRawParam.glowColor.y, _allocator);
-    t_glow_color.PushBack(m_penRawParam.glowColor.z, _allocator);
-    t_glow_color.PushBack(m_penRawParam.glowColor.w, _allocator);
+    t_glow_color.PushBack(m_glow_color.x, _allocator);
+    t_glow_color.PushBack(m_glow_color.y, _allocator);
+    t_glow_color.PushBack(m_glow_color.z, _allocator);
+    t_glow_color.PushBack(m_glow_color.w, _allocator);
     locationObj.AddMember("stroke_glowcolor", t_glow_color, _allocator);
-    t_offset = _packData->getDataLength();
+    t_offset = (u32)_packData->checkPenStrokeDataLength(_path);
     SVDataSwapPtr t_glowData = MakeSharedPtr<SVDataSwap>();
     getGlowPt(t_glowData);
     if (_packData->appendPenStrokeData(t_glowData, _path)) {
-        locationObj.AddMember("stroke_glow_data", "strokedata.bin", _allocator);
+        locationObj.AddMember("stroke_glow_data", "pen.bin", _allocator);
         locationObj.AddMember("stroke_glow_data_offset", t_offset, _allocator);
         locationObj.AddMember("stroke_glow_data_length", t_glowData->getSize(), _allocator);
+        locationObj.AddMember("stroke_glow_pt_size", m_glowInstanceCount, _allocator);
     }
-    _objValue.PushBack(locationObj, _allocator);
+    _objValue.AddMember("SVStroke", locationObj, _allocator);
 }
 
-void SVPenStroke::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
-    
+void SVPenStroke::fromJSON(RAPIDJSON_NAMESPACE::Value &_item, SVPenPackDataPtr _packData, cptr8 _path){
+    //stroke data
+    {
+        SVString t_strokeDataName = "";
+        if (_item.HasMember("stroke_data") && _item["stroke_data"].IsString()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_data"];
+            t_strokeDataName = t_value.GetString();
+        }
+        s32 t_strokeDataOffset = 0;
+        if (_item.HasMember("stroke_data_offset") && _item["stroke_data_offset"].IsInt()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_data_offset"];
+            t_strokeDataOffset = t_value.GetInt();
+        }
+        s32 t_strokeDataLength = 0;
+        if (_item.HasMember("stroke_data_length") && _item["stroke_data_length"].IsInt()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_data_length"];
+            t_strokeDataLength = t_value.GetInt();
+        }
+        s32 t_strokePtSize = 0;
+        if (_item.HasMember("stroke_pt_size") && _item["stroke_pt_size"].IsInt()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_pt_size"];
+            t_strokePtSize = t_value.GetInt();
+        }
+        SVDataSwapPtr t_strokeData = MakeSharedPtr<SVDataSwap>();
+        SVString t_stroke_data_path = SVString(_path) + "/" + t_strokeDataName;
+        _packData->loadPenStrokeData(t_strokeData, t_stroke_data_path, t_strokeDataOffset, t_strokeDataLength);
+        setStrokePt(t_strokeData, t_strokePtSize);
+    }
+    //glow data
+    {
+        SVString t_glowDataName = "";
+        if (_item.HasMember("stroke_glow_data") && _item["stroke_glow_data"].IsString()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_glow_data"];
+            t_glowDataName = t_value.GetString();
+        }
+        s32 t_glowDataOffset = 0;
+        if (_item.HasMember("stroke_glow_data_offset") && _item["stroke_glow_data_offset"].IsInt()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_glow_data_offset"];
+            t_glowDataOffset = t_value.GetInt();
+        }
+        s32 t_glowDataLength = 0;
+        if (_item.HasMember("stroke_glow_data_length") && _item["stroke_glow_data_length"].IsInt()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_glow_data_length"];
+            t_glowDataLength = t_value.GetInt();
+        }
+        s32 t_glowPtSize = 0;
+        if (_item.HasMember("stroke_glow_pt_size") && _item["stroke_glow_pt_size"].IsInt()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_glow_pt_size"];
+            t_glowPtSize = t_value.GetInt();
+        }
+        SVDataSwapPtr t_glowData = MakeSharedPtr<SVDataSwap>();
+        SVString t_glow_data_path = SVString(_path) + "/" + t_glowDataName;
+        _packData->loadPenStrokeData(t_glowData, t_glow_data_path, t_glowDataOffset, t_glowDataLength);
+        setGlowPt(t_glowData, t_glowPtSize);
+    }
+    //
 }
