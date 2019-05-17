@@ -66,13 +66,9 @@ namespace sv{
         
         void setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);//实时脸部数据
         
-        void getStrokePt(SVDataSwapPtr _dataSwap);
+        void getCachePt(SVDataSwapPtr _dataSwap);
         
-        void getGlowPt(SVDataSwapPtr _dataSwap);
-        
-        void setStrokePt(SVDataSwapPtr _dataSwap, s32 _ptSize);
-        
-        void setGlowPt(SVDataSwapPtr _dataSwap, s32 _ptSize);
+        void setCachePt(SVDataSwapPtr _dataSwap, s32 _ptSize);
         
         void setDrawBox(bool _drawBox);
         
@@ -83,6 +79,10 @@ namespace sv{
         
         void fromJSON(RAPIDJSON_NAMESPACE::Value &_item, SVPenPackDataPtr _packData, cptr8 _path);
     protected:
+        void _addPoint(f32 _px, f32 _py, ADDPOINTACTION _action);
+        
+        void _restorePen();
+        
         void _updateARStroke(float _dt);
         
         void _updateARFaceStroke(float _dt);
@@ -96,12 +96,13 @@ namespace sv{
         void _drawBoundBox();
         //
         typedef SVArray<SVStrokePoint> PTPOOL;
-        PTPOOL m_ptCachePool;//保存原始点
         PTPOOL m_ptStrokePool;
         PTPOOL m_ptGlowPool;
+        SVArray<FVec2> m_ptCachePool;//保存原始点
         SVPenCurvePtr m_penCurve;
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
+        s32 m_pt_count;
         //画笔相关
         SVDataSwapPtr m_pInstanceOffsetData;
         SVRenderObjectPtr m_pRenderObj;
@@ -132,6 +133,7 @@ namespace sv{
         f32 m_plane_dis;
         LERPMETHOD m_lerpMethod;
         SVPENMODE m_penMode;
+        SVFaceParam m_cache_faceParam;
         SVFaceParam m_raw_faceParam;
         SVFaceParam m_faceParam;
         bool  m_haveGenFaceCoord;

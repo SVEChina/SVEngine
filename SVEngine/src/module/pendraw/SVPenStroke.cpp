@@ -56,6 +56,7 @@ SVPenStroke::SVPenStroke(SVInst* _app, SVPENMODE _mode)
     m_haveGenFaceCoord = false;
     m_lerpMethod = SV_LERP_BALANCE;
     m_penMode = _mode;
+    m_pt_count = 0;
     m_instanceCount = 0;
     m_glowInstanceCount = 0;
     m_lastInstanceIndex = 0;
@@ -105,65 +106,66 @@ void SVPenStroke::update(f32 _dt) {
 
 
 void SVPenStroke::begin(f32 _px,f32 _py,f32 _pz) {
-    m_lock->lock();
-    //二维点到三维点的转换
-    FVec2 t_pt = FVec2(_px, _py);
-    SVStrokePoint t_worldPt;
-    _screenPointToWorld(t_pt, t_worldPt);
-    if (m_penCurve) {
-        m_penCurve->reset();
-        //画笔补点
-        SVArray<FVec3> t_ptArray;
-        m_penCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, SV_ADD_DRAWBEGIN, t_ptArray);
-        //光晕补点
-        SVArray<FVec3> t_ptGlowArray;
-        m_penCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWBEGIN, t_ptGlowArray);
-    } 
-    m_ptGlowPool.append(t_worldPt);
-    m_ptStrokePool.append(t_worldPt);
-    m_lock->unlock();
+    _addPoint(_px, _py, SV_ADD_DRAWBEGIN);
 }
 
 void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
+    _addPoint(_px, _py, SV_ADD_DRAWEND);
+}
+
+void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
+    _addPoint(_px, _py, SV_ADD_DRAWING);
+}
+
+void SVPenStroke::_addPoint(f32 _px, f32 _py, ADDPOINTACTION _action){
     m_lock->lock();
     //二维点到三维点的转换
     FVec2 t_pt = FVec2(_px, _py);
+    m_ptCachePool.append(t_pt);
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
     //
     if (m_penCurve) {
-        //画笔补点
-        SVArray<FVec3> t_ptArray;
-        if (m_lerpMethod == SV_LERP_BALANCE) {
-            m_penCurve->addPointB(t_worldPt.point, m_stroke_width, m_stroke_curve, SV_ADD_DRAWEND, t_ptArray);
-        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-            m_penCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, SV_ADD_DRAWEND, t_ptArray);
-        }
-        for (s32 i = 0; i<t_ptArray.size(); i++) {
-            FVec3 t_pt = t_ptArray[i];
-            SVStrokePoint t_n_worldPt;
-            t_n_worldPt.point = t_pt;
-            t_n_worldPt.normal = t_worldPt.normal;
-            t_n_worldPt.ext0 = t_worldPt.ext0;
-            t_n_worldPt.ext1 = t_worldPt.ext1;
-            m_ptStrokePool.append(t_n_worldPt);
-        }
-        
-        //光晕补点
-        SVArray<FVec3> t_ptGlowArray;
-        if (m_lerpMethod == SV_LERP_BALANCE) {
-            m_penCurve->addPointB(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
-        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-            m_penCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
-        }
-        for (s32 i = 0; i<t_ptGlowArray.size(); i++) {
-            FVec3 t_pt = t_ptGlowArray[i];
-            SVStrokePoint t_n_worldPt;
-            t_n_worldPt.point = t_pt;
-            t_n_worldPt.normal = t_worldPt.normal;
-            t_n_worldPt.ext0 = t_worldPt.ext0;
-            t_n_worldPt.ext1 = t_worldPt.ext1;
-            m_ptGlowPool.append(t_n_worldPt);
+        if (_action == SV_ADD_DRAWBEGIN) {
+            m_penCurve->reset();
+            //画笔补点
+            SVArray<FVec3> t_ptArray;
+            m_penCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, _action, t_ptArray);
+            //光晕补点
+            SVArray<FVec3> t_ptGlowArray;
+            m_penCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, _action, t_ptGlowArray);
+        }else{
+            SVArray<FVec3> t_ptArray;
+            if (m_lerpMethod == SV_LERP_BALANCE) {
+                m_penCurve->addPointB(t_worldPt.point, m_stroke_width, m_stroke_curve, _action, t_ptArray);
+            }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
+                m_penCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, _action, t_ptArray);
+            }
+            for (s32 i = 0; i<t_ptArray.size(); i++) {
+                FVec3 t_pt = t_ptArray[i];
+                SVStrokePoint t_n_worldPt;
+                t_n_worldPt.point = t_pt;
+                t_n_worldPt.normal = t_worldPt.normal;
+                t_n_worldPt.ext0 = t_worldPt.ext0;
+                t_n_worldPt.ext1 = t_worldPt.ext1;
+                m_ptStrokePool.append(t_n_worldPt);
+            }
+            //光晕补点
+            SVArray<FVec3> t_ptGlowArray;
+            if (m_lerpMethod == SV_LERP_BALANCE) {
+                m_penCurve->addPointB(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
+            }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
+                m_penCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
+            }
+            for (s32 i = 0; i<t_ptGlowArray.size(); i++) {
+                FVec3 t_pt = t_ptGlowArray[i];
+                SVStrokePoint t_n_worldPt;
+                t_n_worldPt.point = t_pt;
+                t_n_worldPt.normal = t_worldPt.normal;
+                t_n_worldPt.ext0 = t_worldPt.ext0;
+                t_n_worldPt.ext1 = t_worldPt.ext1;
+                m_ptGlowPool.append(t_n_worldPt);
+            }
         }
     }else{
         m_ptStrokePool.append(t_worldPt);
@@ -173,52 +175,17 @@ void SVPenStroke::end(f32 _px,f32 _py,f32 _pz) {
     m_lock->unlock();
 }
 
-void SVPenStroke::draw(f32 _px,f32 _py,f32 _pz) {
-    m_lock->lock();
-    //二维点到三维点的转换
-    FVec2 t_pt = FVec2(_px, _py);
-    SVStrokePoint t_worldPt;
-    _screenPointToWorld(t_pt, t_worldPt);
-    //
-    if (m_penCurve) {
-        SVArray<FVec3> t_ptArray;
-        if (m_lerpMethod == SV_LERP_BALANCE) {
-            m_penCurve->addPointB(t_worldPt.point, m_stroke_width, m_stroke_curve, SV_ADD_DRAWING, t_ptArray);
-        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-            m_penCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, SV_ADD_DRAWING, t_ptArray);
+void SVPenStroke::_restorePen(){
+    for (s32 i = 0; i<m_pt_count; i++) {
+        FVec2 t_pt = m_ptCachePool[i];
+        if (i == 0) {
+            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWBEGIN);
+        }else if (i == m_pt_count - 1){
+            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWEND);
+        }else{
+            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWING);
         }
-        for (s32 i = 0; i<t_ptArray.size(); i++) {
-            FVec3 t_pt = t_ptArray[i];
-            SVStrokePoint t_n_worldPt;
-            t_n_worldPt.point = t_pt;
-            t_n_worldPt.normal = t_worldPt.normal;
-            t_n_worldPt.ext0 = t_worldPt.ext0;
-            t_n_worldPt.ext1 = t_worldPt.ext1;
-            m_ptStrokePool.append(t_n_worldPt);
-        }
-        
-        //光晕补点
-        SVArray<FVec3> t_ptGlowArray;
-        if (m_lerpMethod == SV_LERP_BALANCE) {
-            m_penCurve->addPointB(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
-        }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-            m_penCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
-        }
-        for (s32 i = 0; i<t_ptGlowArray.size(); i++) {
-            FVec3 t_pt = t_ptGlowArray[i];
-            SVStrokePoint t_n_worldPt;
-            t_n_worldPt.point = t_pt;
-            t_n_worldPt.normal = t_worldPt.normal;
-            t_n_worldPt.ext0 = t_worldPt.ext0;
-            t_n_worldPt.ext1 = t_worldPt.ext1;
-            m_ptGlowPool.append(t_n_worldPt);
-        }
-    }else{
-        m_ptStrokePool.append(t_worldPt);
-        m_ptGlowPool.append(t_worldPt);
     }
-    //
-    m_lock->unlock();
 }
 
 #define vn_stroke 36
@@ -1040,6 +1007,9 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
 
 void SVPenStroke::genFaceRawParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis){
     if (!m_haveGenFaceCoord) {
+        m_cache_faceParam.faceCenter = _noseCenter;
+        m_cache_faceParam.faceRot = _rotation;
+        m_cache_faceParam.eyeDis = _eyeDis;
         SVStrokePoint t_worldPt;
         FVec2 t_pt = FVec2(_noseCenter.x, _noseCenter.y);
         _screenPointToWorld(t_pt, t_worldPt);
@@ -1088,56 +1058,74 @@ void SVPenStroke::setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis
         FVec3 t_pos = m_faceParam.faceCenter - m_raw_faceParam.faceCenter;
         t_mat_trans.setTranslate(t_pos);
       //这里要先做平移变换，再做旋转变换，跟shader里的运算不一样，shader是列主元--晓帆。
-//        m_faceTransform = t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_trans*t_mat_scale;
+        m_faceTransform = t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_trans*t_mat_scale;
     }
 }
 
-void SVPenStroke::getStrokePt(SVDataSwapPtr _dataSwap){
-    if (_dataSwap && m_pInstanceOffsetData) {
-        _dataSwap->writeData(m_pInstanceOffsetData->getData(), m_pInstanceOffsetData->getSize());
+void SVPenStroke::getCachePt(SVDataSwapPtr _dataSwap){
+    if (!_dataSwap) {
+        return;
     }
+    m_lock->unlock();
+    s32 t_pt_num = m_ptCachePool.size();
+    if (t_pt_num > 0) {
+        V2 t_points[t_pt_num];
+        for (s32 i = 0; i<t_pt_num; i++) {
+            //转换到脸部中心为原点的坐标系
+            FVec2 t_pt = m_ptCachePool[i];
+            t_points[i].x = t_pt.x;
+            t_points[i].y = t_pt.y;
+        }
+        _dataSwap->writeData(t_points, t_pt_num*sizeof(V2));
+    }
+    m_pt_count = t_pt_num;
+    m_lock->unlock();
 }
 
-void SVPenStroke::getGlowPt(SVDataSwapPtr _dataSwap){
-    if (_dataSwap && m_pGlowInstanceOffsetData) {
-        _dataSwap->writeData(m_pGlowInstanceOffsetData->getData(), m_pGlowInstanceOffsetData->getSize());
-    }
-}
-
-void SVPenStroke::setStrokePt(SVDataSwapPtr _dataSwap, s32 _ptSize){
+void SVPenStroke::setCachePt(SVDataSwapPtr _dataSwap, s32 _ptSize){
     if (_dataSwap && _ptSize) {
         f32 *points = (f32 *)_dataSwap->getData();
         for (s32 i = 0; i<_ptSize; i++) {
-            f32 t_pt_x = points[3*i];
-            f32 t_pt_y = points[3*i+1];
-            f32 t_pt_z = points[3*i+2];
-            SVStrokePoint t_pt;
-            t_pt.point.set(t_pt_x, t_pt_y, t_pt_z);
-            m_ptStrokePool.append(t_pt);
+            f32 t_pt_x = points[2*i];
+            f32 t_pt_y = points[2*i+1];
+            FVec2 t_pt;
+            t_pt.set(t_pt_x, t_pt_y);
+            m_ptCachePool.append(t_pt);
         }
-        m_instanceCount = _ptSize;
+        m_pt_count = _ptSize;
     }
-}
-
-void SVPenStroke::setGlowPt(SVDataSwapPtr _dataSwap, s32 _ptSize){
-    if (_dataSwap && _ptSize) {
-        f32 *points = (f32 *)_dataSwap->getData();
-        for (s32 i = 0; i<_ptSize; i++) {
-            f32 t_pt_x = points[3*i];
-            f32 t_pt_y = points[3*i+1];
-            f32 t_pt_z = points[3*i+2];
-            SVStrokePoint t_pt;
-            t_pt.point.set(t_pt_x, t_pt_y, t_pt_z);
-            m_ptGlowPool.append(t_pt);
-        }
-        m_glowInstanceCount = _ptSize;
-    }
+    _restorePen();
 }
 
 //序列化接口
 void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, SVPenPackDataPtr _packData, cptr8 _path){
     RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
     locationObj.AddMember("name", "stroke", _allocator);
+    //points data
+    u32 t_offset = (u32)_packData->checkPenStrokeDataLength(_path);
+    SVDataSwapPtr t_penData = MakeSharedPtr<SVDataSwap>();
+    getCachePt(t_penData);
+    if (_packData->appendPenStrokeData(t_penData, _path)) {
+        locationObj.AddMember("pen_data", "pen.bin", _allocator);
+        locationObj.AddMember("pen_data_offset", t_offset, _allocator);
+        locationObj.AddMember("pen_data_length", t_penData->getSize(), _allocator);
+        locationObj.AddMember("pen_pt_size", m_pt_count, _allocator);
+    };
+    //face data
+    //face_center;
+    RAPIDJSON_NAMESPACE::Value t_faceCenterArray(RAPIDJSON_NAMESPACE::kArrayType);
+    t_faceCenterArray.PushBack(m_cache_faceParam.faceCenter.x, _allocator);
+    t_faceCenterArray.PushBack(m_cache_faceParam.faceCenter.y, _allocator);
+    t_faceCenterArray.PushBack(m_cache_faceParam.faceCenter.z, _allocator);
+    locationObj.AddMember("face_center", t_faceCenterArray, _allocator);
+    //face_rot;
+    RAPIDJSON_NAMESPACE::Value t_faceRotArray(RAPIDJSON_NAMESPACE::kArrayType);
+    t_faceRotArray.PushBack(m_cache_faceParam.faceRot.x, _allocator);
+    t_faceRotArray.PushBack(m_cache_faceParam.faceRot.y, _allocator);
+    t_faceRotArray.PushBack(m_cache_faceParam.faceRot.z, _allocator);
+    locationObj.AddMember("face_rot", t_faceRotArray, _allocator);
+    //face eye dis
+    locationObj.AddMember("face_eyedis", m_cache_faceParam.eyeDis, _allocator);
     //stroke
     locationObj.AddMember("stroke_width", m_stroke_raw_width, _allocator);
     RAPIDJSON_NAMESPACE::Value t_stroke_color(RAPIDJSON_NAMESPACE::kArrayType);
@@ -1146,16 +1134,6 @@ void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     t_stroke_color.PushBack(m_stroke_color.z, _allocator);
     t_stroke_color.PushBack(m_stroke_color.w, _allocator);
     locationObj.AddMember("stroke_color", t_stroke_color, _allocator);
-    u32 t_offset = (u32)_packData->checkPenStrokeDataLength(_path);
-    SVDataSwapPtr t_strokeData = MakeSharedPtr<SVDataSwap>();
-    getStrokePt(t_strokeData);
-    if (_packData->appendPenStrokeData(t_strokeData, _path)) {
-        locationObj.AddMember("stroke_data", "pen.bin", _allocator);
-        locationObj.AddMember("stroke_data_offset", t_offset, _allocator);
-        locationObj.AddMember("stroke_data_length", t_strokeData->getSize(), _allocator);
-        locationObj.AddMember("stroke_pt_size", m_instanceCount, _allocator);
-    };
-    
     //glow
     locationObj.AddMember("stroke_glowidth", m_glow_raw_width, _allocator);
     RAPIDJSON_NAMESPACE::Value t_glow_color(RAPIDJSON_NAMESPACE::kArrayType);
@@ -1164,72 +1142,61 @@ void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     t_glow_color.PushBack(m_glow_color.z, _allocator);
     t_glow_color.PushBack(m_glow_color.w, _allocator);
     locationObj.AddMember("stroke_glowcolor", t_glow_color, _allocator);
-    t_offset = (u32)_packData->checkPenStrokeDataLength(_path);
-    SVDataSwapPtr t_glowData = MakeSharedPtr<SVDataSwap>();
-    getGlowPt(t_glowData);
-    if (_packData->appendPenStrokeData(t_glowData, _path)) {
-        locationObj.AddMember("stroke_glow_data", "pen.bin", _allocator);
-        locationObj.AddMember("stroke_glow_data_offset", t_offset, _allocator);
-        locationObj.AddMember("stroke_glow_data_length", t_glowData->getSize(), _allocator);
-        locationObj.AddMember("stroke_glow_pt_size", m_glowInstanceCount, _allocator);
-    }
     _objValue.AddMember("SVStroke", locationObj, _allocator);
 }
 
 void SVPenStroke::fromJSON(RAPIDJSON_NAMESPACE::Value &_item, SVPenPackDataPtr _packData, cptr8 _path){
-    //stroke data
+    //pen data
     {
-        SVString t_strokeDataName = "";
-        if (_item.HasMember("stroke_data") && _item["stroke_data"].IsString()) {
-            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_data"];
-            t_strokeDataName = t_value.GetString();
+        SVString t_penDataName = "";
+        if (_item.HasMember("pen_data") && _item["pen_data"].IsString()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["pen_data"];
+            t_penDataName = t_value.GetString();
         }
-        s32 t_strokeDataOffset = 0;
-        if (_item.HasMember("stroke_data_offset") && _item["stroke_data_offset"].IsInt()) {
-            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_data_offset"];
-            t_strokeDataOffset = t_value.GetInt();
+        s32 t_penDataOffset = 0;
+        if (_item.HasMember("pen_data_offset") && _item["pen_data_offset"].IsInt()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["pen_data_offset"];
+            t_penDataOffset = t_value.GetInt();
         }
-        s32 t_strokeDataLength = 0;
-        if (_item.HasMember("stroke_data_length") && _item["stroke_data_length"].IsInt()) {
-            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_data_length"];
-            t_strokeDataLength = t_value.GetInt();
+        s32 t_penDataLength = 0;
+        if (_item.HasMember("pen_data_length") && _item["pen_data_length"].IsInt()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["pen_data_length"];
+            t_penDataLength = t_value.GetInt();
         }
-        s32 t_strokePtSize = 0;
-        if (_item.HasMember("stroke_pt_size") && _item["stroke_pt_size"].IsInt()) {
-            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_pt_size"];
-            t_strokePtSize = t_value.GetInt();
+        s32 t_penPtSize = 0;
+        if (_item.HasMember("pen_pt_size") && _item["pen_pt_size"].IsInt()) {
+            RAPIDJSON_NAMESPACE::Value &t_value = _item["pen_pt_size"];
+            t_penPtSize = t_value.GetInt();
         }
-        SVDataSwapPtr t_strokeData = MakeSharedPtr<SVDataSwap>();
-        SVString t_stroke_data_path = SVString(_path) + "/" + t_strokeDataName;
-        _packData->loadPenStrokeData(t_strokeData, t_stroke_data_path, t_strokeDataOffset, t_strokeDataLength);
-        setStrokePt(t_strokeData, t_strokePtSize);
-    }
-    //glow data
-    {
-        SVString t_glowDataName = "";
-        if (_item.HasMember("stroke_glow_data") && _item["stroke_glow_data"].IsString()) {
-            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_glow_data"];
-            t_glowDataName = t_value.GetString();
-        }
-        s32 t_glowDataOffset = 0;
-        if (_item.HasMember("stroke_glow_data_offset") && _item["stroke_glow_data_offset"].IsInt()) {
-            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_glow_data_offset"];
-            t_glowDataOffset = t_value.GetInt();
-        }
-        s32 t_glowDataLength = 0;
-        if (_item.HasMember("stroke_glow_data_length") && _item["stroke_glow_data_length"].IsInt()) {
-            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_glow_data_length"];
-            t_glowDataLength = t_value.GetInt();
-        }
-        s32 t_glowPtSize = 0;
-        if (_item.HasMember("stroke_glow_pt_size") && _item["stroke_glow_pt_size"].IsInt()) {
-            RAPIDJSON_NAMESPACE::Value &t_value = _item["stroke_glow_pt_size"];
-            t_glowPtSize = t_value.GetInt();
-        }
-        SVDataSwapPtr t_glowData = MakeSharedPtr<SVDataSwap>();
-        SVString t_glow_data_path = SVString(_path) + "/" + t_glowDataName;
-        _packData->loadPenStrokeData(t_glowData, t_glow_data_path, t_glowDataOffset, t_glowDataLength);
-        setGlowPt(t_glowData, t_glowPtSize);
+        SVDataSwapPtr t_penData = MakeSharedPtr<SVDataSwap>();
+        SVString t_pen_data_path = SVString(_path) + "/" + t_penDataName;
+        _packData->loadPenStrokeData(t_penData, t_pen_data_path, t_penDataOffset, t_penDataLength);
+        setCachePt(t_penData, t_penPtSize);
     }
     //
+    //face data
+    FVec3 t_faceCenter;
+    if (_item.HasMember("face_center") && _item["face_center"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &t_faceCenterArray = _item["face_center"];
+        if (t_faceCenterArray.Size() > 2) {
+            t_faceCenter.x = t_faceCenterArray[0].GetFloat();
+            t_faceCenter.y = t_faceCenterArray[1].GetFloat();
+            t_faceCenter.z = t_faceCenterArray[2].GetFloat();
+        }
+    }
+    FVec3 t_faceRot;
+    if (_item.HasMember("face_rot") && _item["face_rot"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &t_faceRotArray = _item["face_rot"];
+        if (t_faceRotArray.Size() > 2) {
+            t_faceRot.x = t_faceRotArray[0].GetFloat();
+            t_faceRot.y = t_faceRotArray[1].GetFloat();
+            t_faceRot.z = t_faceRotArray[2].GetFloat();
+        }
+    }
+    f32 eyeDis = 1.0;
+    if (_item.HasMember("face_eyedis") && _item["face_eyedis"].IsFloat()) {
+        RAPIDJSON_NAMESPACE::Value &t_faceEyeDis= _item["face_eyedis"];
+        eyeDis = t_faceEyeDis.GetFloat();
+    }
+    genFaceRawParam(t_faceCenter, t_faceRot, eyeDis);
 }
