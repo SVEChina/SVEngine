@@ -68,7 +68,6 @@ namespace sv{
         STROKEPOOL m_strokes;
         STROKEPOOL m_strokesCache;
         SVLockPtr m_lock;
-        SVPenPackDataPtr m_packData;
         SVPenStrokePtr m_curStroke;
         SVRenderTexturePtr m_fbo1;
         SVRenderTexturePtr m_fbo2;

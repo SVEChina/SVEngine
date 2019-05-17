@@ -17,13 +17,11 @@ namespace sv{
         
         ~SVPenPackData();
         
-        void reset();
+        static bool writePenData(SVInst* _app, SVDataSwapPtr _data, cptr8 _path, bool _clearData = true);
         
-        bool writePenData(SVDataSwapPtr _data, cptr8 _path, bool _clearData = true);
+        static bool loadPenData(SVInst* _app, SVDataSwapPtr _data, cptr8 _path, s32 _offset, s32 _length);
         
-        bool loadPenData(SVDataSwapPtr _data, cptr8 _path, s32 _offset, s32 _length);
-        
-        u64 checkPenStrokeDataLength(cptr8 _path);
+        static u64 checkPenStrokeDataLength(SVInst* _app, cptr8 _path);
         
     };
     

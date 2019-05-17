@@ -33,13 +33,12 @@
 #include "../../detect/SVDetectMgr.h"
 #include "../../detect/SVPersonTracker.h"
 #include "../../file/SVFileMgr.h"
-#include "SVPenPackData.h"
 #include "../../file/SVDataBase.h"
+#include "SVPenPackData.h"
 SVPenDraw::SVPenDraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
     m_lock = MakeSharedPtr<SVLock>();
-    m_packData = MakeSharedPtr<SVPenPackData>(mApp);
     m_strokeWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeWidth;
     m_strokeColor = mApp->m_pGlobalMgr->m_pConfig->m_strokeColor;
     m_glowWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeGlowWidth;
@@ -52,7 +51,6 @@ SVPenDraw::SVPenDraw(SVInst *_app)
 
 SVPenDraw::~SVPenDraw() {
     m_curStroke = nullptr;
-    m_packData = nullptr;
     m_lock = nullptr;
     if(m_pRenderObj){
         m_pRenderObj->clearMesh();
@@ -343,7 +341,7 @@ void SVPenDraw::_updateFaceParam(){
 }
 
 bool SVPenDraw::save(cptr8 _path){
-    if (!m_packData || m_strokes.size() == 0 || m_mode == SV_ARMODE) {
+    if (m_strokes.size() == 0 || m_mode == SV_ARMODE) {
         return false;
     }
     //生成Json串
@@ -360,7 +358,7 @@ bool SVPenDraw::save(cptr8 _path){
     SVDataSwapPtr t_jsonData = MakeSharedPtr<SVDataSwap>();
     t_jsonData->writeData((void *)new_strJson.c_str(), new_strJson.size());
     SVString t_path_pen_json = SVString(_path) + SVString("/config.json");
-    if (!m_packData->writePenData(t_jsonData, t_path_pen_json)) {
+    if (!SVPenPackData::writePenData(mApp, t_jsonData, t_path_pen_json)) {
         SV_LOG_ERROR("SVPenDraw::Save Pen Json Error %s\n", t_path_pen_json);
         return false;
     }
@@ -373,7 +371,7 @@ void SVPenDraw::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
     for (s32 i = 0; i<m_strokes.size(); i++) {
         SVPenStrokePtr stroke = m_strokes[i];
         RAPIDJSON_NAMESPACE::Value t_stroke(RAPIDJSON_NAMESPACE::kObjectType);
-        stroke->toJSON(_allocator, t_stroke, m_packData, _path);
+        stroke->toJSON(_allocator, t_stroke, _path);
         t_array.PushBack(t_stroke, _allocator);
     }
     _objValue.AddMember("SVPen",t_array,_allocator);
@@ -428,7 +426,7 @@ void SVPenDraw::fromJSON(RAPIDJSON_NAMESPACE::Value &_item, cptr8 _path){
                     RAPIDJSON_NAMESPACE::Value &t_strokeObj = iter->value;
                     _fromJSONBase(t_strokeObj);
                     m_curStroke = MakeSharedPtr<SVPenStroke>(mApp, m_mode, m_strokeWidth, m_strokeColor, m_glowWidth, m_glowColor);
-                    m_curStroke->fromJSON(t_strokeObj, m_packData, _path);
+                    m_curStroke->fromJSON(t_strokeObj, _path);
                     m_strokes.append(m_curStroke);
                     
                 }

@@ -1095,14 +1095,14 @@ void SVPenStroke::_unpackCachePt(SVDataSwapPtr _dataSwap, s32 _ptSize){
 }
 
 //序列化接口
-void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, SVPenPackDataPtr _packData, cptr8 _path){
+void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, cptr8 _path){
     RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
     locationObj.AddMember("name", "stroke", _allocator);
     //points data
-    u32 t_offset = (u32)_packData->checkPenStrokeDataLength(_path);
+    u32 t_offset = (u32)SVPenPackData::checkPenStrokeDataLength(mApp, _path);
     SVDataSwapPtr t_penData = MakeSharedPtr<SVDataSwap>();
     _packCachePt(t_penData);
-    if (_packData->writePenData(t_penData, _path, false)) {
+    if (SVPenPackData::writePenData(mApp, t_penData, _path, false)) {
         locationObj.AddMember("pen_data", "pen.bin", _allocator);
         locationObj.AddMember("pen_data_offset", t_offset, _allocator);
         locationObj.AddMember("pen_data_length", t_penData->getSize(), _allocator);
@@ -1142,7 +1142,7 @@ void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     _objValue.AddMember("SVStroke", locationObj, _allocator);
 }
 
-void SVPenStroke::fromJSON(RAPIDJSON_NAMESPACE::Value &_item, SVPenPackDataPtr _packData, cptr8 _path){
+void SVPenStroke::fromJSON(RAPIDJSON_NAMESPACE::Value &_item, cptr8 _path){
     //pen data
     {
         SVString t_penDataName = "";
@@ -1167,7 +1167,7 @@ void SVPenStroke::fromJSON(RAPIDJSON_NAMESPACE::Value &_item, SVPenPackDataPtr _
         }
         SVDataSwapPtr t_penData = MakeSharedPtr<SVDataSwap>();
         SVString t_pen_data_path = SVString(_path) + "/" + t_penDataName;
-        _packData->loadPenData(t_penData, t_pen_data_path, t_penDataOffset, t_penDataLength);
+        SVPenPackData::loadPenData(mApp, t_penData, t_pen_data_path, t_penDataOffset, t_penDataLength);
         _unpackCachePt(t_penData, t_penPtSize);
     }
     //

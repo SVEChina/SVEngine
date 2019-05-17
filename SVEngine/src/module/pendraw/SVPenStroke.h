@@ -65,9 +65,9 @@ namespace sv{
         void setDrawBox(bool _drawBox);
         
         //序列化接口
-        void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, SVPenPackDataPtr _packData, cptr8 _path);
+        void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, cptr8 _path);
         
-        void fromJSON(RAPIDJSON_NAMESPACE::Value &_item, SVPenPackDataPtr _packData, cptr8 _path);
+        void fromJSON(RAPIDJSON_NAMESPACE::Value &_item, cptr8 _path);
     protected:
         void _createStrokeMesh(f32 _strokeWidth, FVec4 &_strokeColor);
         
