@@ -180,8 +180,7 @@ namespace sv {
                 }
             }
             
-            sv_inline Type &operator[](s32 index) {
-                assert((u32)index < (u32)length && "SVArray::operator[](): bad index");
+            sv_inline Type &operator[](s32 index) {                assert((u32)index < (u32)length && "SVArray::operator[](): bad index");
                 return data[index];
             }
             sv_inline const Type &operator[](s32 index) const {

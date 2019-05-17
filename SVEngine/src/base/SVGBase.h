@@ -11,7 +11,8 @@
 #include "SVPreDeclare.h"
 #include "../third/rapidjson/rapidjson.h"
 #include "../third/rapidjson/document.h"
-
+#include "../third/rapidjson/stringbuffer.h"
+#include "../third/rapidjson/writer.h"
 namespace sv {
     
     class SVGBase: public SVObject {

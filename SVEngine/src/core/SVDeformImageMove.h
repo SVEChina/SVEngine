@@ -59,11 +59,13 @@ namespace sv {
                 m_param->copy(_param);
             }
             
-            void setScaleSmooth(f32 _smooth){
-                m_scaleSmooth = _smooth;
-            }
+            void setScaleSmooth(f32 _smooth);
             
             void pushScaleCrl(u32 _postion);
+            
+            void setSmooth(f32 _smooth){
+                m_smooth=_smooth;
+            }
             
             void clearCrl();
             
@@ -128,7 +130,7 @@ namespace sv {
             SVPassPtr m_passDeform;
             SVPassPtr m_passPoint;
             SVPassPtr m_passBack;
-            V2 m_pointScreen[51*64];     //31*81
+            V2 m_pointScreen[46*65];     //31*81
             SVParamDeformPtr m_param;
             SVDeformScalePtr m_deformScale;
 
@@ -140,7 +142,8 @@ namespace sv {
             bool m_flip;
             bool m_is_point;
             bool is_detect;
-    
+            
+            f32 m_smooth;
             f32 m_scaleSmooth;
             s32 m_tt_w;
             s32 m_tt_h;

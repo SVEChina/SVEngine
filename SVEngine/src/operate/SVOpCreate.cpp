@@ -545,8 +545,32 @@ SVOpSetPenEffcet::~SVOpSetPenEffcet() {
 }
 
 void SVOpSetPenEffcet::_process(f32 dt) {
-    SVParsePen t_parssPen(mApp);
-    t_parssPen.parse(m_strPath.c_str(),123);
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVParsePen t_parssPen(mApp);
+        t_parssPen.parse(m_strPath.c_str(),123);
+    }
+}
+
+
+SVOpSavePenEffcet::SVOpSavePenEffcet(SVInst *_app,cptr8 pStrPath)
+: SVOpBase(_app)
+, m_strPath(pStrPath) {
+}
+
+SVOpSavePenEffcet::~SVOpSavePenEffcet() {
+}
+
+void SVOpSavePenEffcet::_process(f32 dt) {
+    SVString t_name = "sv_pen_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
+        if (t_penDraw) {
+            t_penDraw->save(m_strPath);
+        }
+    }
 }
 
 SVOpClearPen::SVOpClearPen(SVInst *_app) :  SVOpBase(_app){

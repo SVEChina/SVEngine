@@ -10,7 +10,6 @@
 
 #include "../basesys/SVSysBase.h"
 #include "../base/SVDataChunk.h"
-
 //文件路径管理器 增加搜索路径相关
 namespace sv {
     
@@ -36,6 +35,11 @@ namespace sv {
         bool loadFileContent(SVDataChunk *_datachunk, cptr8 _fname);
         
         bool loadFileContentStr(SVDataChunk *_datachunk, cptr8 _fname);
+        
+        //传绝对路径，没有文件会创建。
+        bool writeFileData(SVDataSwapPtr _data, cptr8 _fpath);
+        //传绝对路径，没有文件会创建。
+        bool appendFileData(SVDataSwapPtr _data, cptr8 _fpath);
         
     protected:
         typedef SVArray<SVString> SEARCHPATHPOOL;

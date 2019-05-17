@@ -45,6 +45,13 @@ void SVDeformMgr::pushDeform(SVDeformImageMovePtr deform){
     m_defromLock->unlock();
 }
 
+SVDeformImageMovePtr SVDeformMgr::getDeform(s32 _postion){
+    if(m_deformArray.size()>_postion){
+         return m_deformArray.get(_postion);
+    }
+    return nullptr;
+}
+
 void SVDeformMgr::clear(){
     m_defromLock->lock();
     m_deformArray.clear();

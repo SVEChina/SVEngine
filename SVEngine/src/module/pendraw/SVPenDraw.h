@@ -52,16 +52,22 @@ namespace sv{
         void setGlowColor(FVec4 &_color);
         
         void setPenMode(SVPENMODE _mode);
+        
+        void save(cptr8 _path);
+        //序列化接口
+        void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, cptr8 _path);
+        
+        void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
     protected:
         void _drawStroke();//画笔触
         void _drawGlow();//画荧光
         void _drawReback();//画回主纹理
-        void _updateTranslation();
-        void _resetTranslation();
+        void _updateFaceParam();
         typedef SVArray<SVPenStrokePtr> STROKEPOOL;
         STROKEPOOL m_strokes;
         STROKEPOOL m_strokesCache;
         SVLockPtr m_lock;
+        SVPenPackDataPtr m_packData;
         SVPenStrokePtr m_curStroke;
         SVRenderTexturePtr m_fbo1;
         SVRenderTexturePtr m_fbo2;
@@ -78,10 +84,9 @@ namespace sv{
         f32 m_glowWidth;
         FVec4 m_strokeColor;
         FVec4 m_glowColor;
-        FVec3 m_position;
-        FVec3 m_scale;
-        FVec3 m_rotation;
-        f32   m_faceEyeWidth;
+        FVec3 m_noseCenter;
+        FVec3 m_faceRot;
+        f32   m_faceEyeDis;
         SVPENMODE m_mode;
     };
     

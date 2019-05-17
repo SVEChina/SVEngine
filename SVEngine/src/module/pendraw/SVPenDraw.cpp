@@ -32,23 +32,27 @@
 #include "../../node/SVMultPassNode.h"
 #include "../../detect/SVDetectMgr.h"
 #include "../../detect/SVPersonTracker.h"
+#include "../../file/SVFileMgr.h"
+#include "SVPenPackData.h"
+#include "../../file/SVDataBase.h"
 SVPenDraw::SVPenDraw(SVInst *_app)
 :SVGameBase(_app)
 ,m_curStroke(nullptr){
     m_lock = MakeSharedPtr<SVLock>();
+    m_packData = MakeSharedPtr<SVPenPackData>(mApp);
     m_strokeWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeWidth;
     m_strokeColor = mApp->m_pGlobalMgr->m_pConfig->m_strokeColor;
     m_glowWidth = mApp->m_pGlobalMgr->m_pConfig->m_strokeGlowWidth;
     m_glowColor = mApp->m_pGlobalMgr->m_pConfig->m_strokeGlowColor;
-    m_position.set(0.0f, 0.0f, 0.0f);
-    m_rotation.set(0.0f, 0.0f, 0.0f);
-    m_scale.set(1.0f, 1.0f, 1.0f);
-    m_faceEyeWidth = 1.0f;
+    m_faceRot.set(0.0f, 0.0f, 0.0f);
+    m_noseCenter.set(0.0f, 0.0f, 0.0f);
+    m_faceEyeDis = 1.0f;
     m_mode = SV_ARMODE;
 }
 
 SVPenDraw::~SVPenDraw() {
     m_curStroke = nullptr;
+    m_packData = nullptr;
     m_lock = nullptr;
     if(m_pRenderObj){
         m_pRenderObj->clearMesh();
@@ -131,13 +135,10 @@ void SVPenDraw::update(f32 _dt) {
             stroke->update(0.0f);
         }
     }else if (m_mode == SV_FACEMODE) {
-        _resetTranslation();
-        _updateTranslation();
+        _updateFaceParam();
         for (s32 i =0; i<m_strokes.size(); i++) {
             SVPenStrokePtr stroke = m_strokes[i];
-            stroke->setPosition(m_position);
-            stroke->setScale(m_faceEyeWidth);
-            stroke->setRotation(m_rotation);
+            stroke->setFaceParam(m_noseCenter, m_faceRot, m_faceEyeDis);
             stroke->update(0.0f);
         }
     }
@@ -305,22 +306,14 @@ bool SVPenDraw::procEvent(SVEventPtr _event){
             m_strokes.append(m_curStroke);
         }
         m_curStroke->begin(t_touch->x,t_touch->y,0.0);
-        if (m_mode == SV_ARMODE) {
-            m_curStroke->setEnableTranslation(false);
-        }else if (m_mode == SV_FACEMODE) {
-            m_curStroke->setEnableTranslation(false);
-        }
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_END){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (t_touch && m_curStroke) {
             m_curStroke->end(t_touch->x,t_touch->y,0.0f);
             if (m_mode == SV_ARMODE) {
-                m_curStroke->setEnableTranslation(false);
+                
             }else if (m_mode == SV_FACEMODE) {
-                m_curStroke->setOriginalPosition(m_position);
-                m_curStroke->setOriginalScale(m_faceEyeWidth);
-                m_curStroke->setOriginalRotation(m_rotation);
-                m_curStroke->setEnableTranslation(true);
+                m_curStroke->genFaceRawParam(m_noseCenter, m_faceRot, m_faceEyeDis);
             }
             
         }
@@ -334,7 +327,7 @@ bool SVPenDraw::procEvent(SVEventPtr _event){
     return true;
 }
 
-void SVPenDraw::_updateTranslation(){
+void SVPenDraw::_updateFaceParam(){
     SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
     if (t_person && t_person->getExist()) {
         SVPersonTrackerPtr t_personTracker = t_person->getTracker();
@@ -344,14 +337,46 @@ void SVPenDraw::_updateTranslation(){
         f32 t_yaw = t_person->getFaceRot().y;
         f32 t_roll = t_person->getFaceRot().z;
         f32 t_pitch = t_person->getFaceRot().x;
-        m_position.set(t_pt_x, t_pt_y, 0.0f);
-        m_faceEyeWidth = t_personTracker->m_eyeDistance;
-        m_rotation.set(t_pitch, -t_yaw, t_roll);
+        m_noseCenter.set(t_pt_x, t_pt_y, 0.0f);
+        m_faceEyeDis = t_personTracker->m_eyeDistance;
+        m_faceRot.set(t_pitch, -t_yaw, t_roll);
     }
 }
 
-void SVPenDraw::_resetTranslation(){
-    m_position.set(0.0f, 0.0f, 0.0f);
-    m_scale.set(1.0f, 1.0f, 1.0f);
-    m_rotation.set(0.0f, 0.0f, 0.0f);
+void SVPenDraw::save(cptr8 _path){
+    if (!m_packData || m_strokes.size() == 0) {
+        return;
+    }
+    //生成Json串
+    RAPIDJSON_NAMESPACE::Document jsonDoc;    //生成一个dom元素Document
+    RAPIDJSON_NAMESPACE::Document::AllocatorType &allocator = jsonDoc.GetAllocator(); //获取分配器
+    jsonDoc.SetObject();    //将当前的Document设置为一个object，也就是说，整个Document是一个Object类型的dom元素
+    SVString t_path_pen_data = SVString(_path) + SVString("/pen.bin");
+    toJSON(allocator, jsonDoc, t_path_pen_data);
+    RAPIDJSON_NAMESPACE::StringBuffer buffer;
+    RAPIDJSON_NAMESPACE::Writer<RAPIDJSON_NAMESPACE::StringBuffer> writer(buffer);
+    jsonDoc.Accept(writer);
+    SVString strJson = buffer.GetString();
+    SVString new_strJson(SVDataBase::jsonFormat(strJson));
+    SVDataSwapPtr t_jsonData = MakeSharedPtr<SVDataSwap>();
+    t_jsonData->writeData((void *)new_strJson.c_str(), new_strJson.size());
+    SVString t_path_pen_json = SVString(_path) + SVString("/pen.json");
+    if (!m_packData->savePenJsonData(t_jsonData, t_path_pen_json)) {
+        SV_LOG_ERROR("SVPenDraw::Save Pen Json Error %s\n", t_path_pen_json);
+    }
+}
+
+//序列化接口
+void SVPenDraw::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, cptr8 _path){
+    RAPIDJSON_NAMESPACE::Value t_array(RAPIDJSON_NAMESPACE::kArrayType);
+    for (s32 i = 0; i<m_strokes.size(); i++) {
+        SVPenStrokePtr stroke = m_strokes[i];
+        RAPIDJSON_NAMESPACE::Value t_stroke(RAPIDJSON_NAMESPACE::kObjectType);
+        stroke->toJSON(_allocator, t_array, m_packData, _path);
+    }
+    _objValue.AddMember("SVPen",t_array,_allocator);
+}
+
+void SVPenDraw::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    
 }

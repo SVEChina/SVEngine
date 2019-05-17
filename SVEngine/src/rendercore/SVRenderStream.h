@@ -29,6 +29,7 @@ namespace sv {
             void clearSVRenderCmd();
             
         protected:
+            SVLockPtr m_lock;
             typedef SVArray<SVRenderCmdPtr> CMDPOOL;
             CMDPOOL m_cmdArray;
         };

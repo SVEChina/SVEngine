@@ -61,10 +61,11 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_tt_h = 0;
     m_dataPoint = nullptr;
     m_fbo = nullptr;
-    m_wPointCount = 51;
-    m_hPointCont = 64;
+    m_wPointCount = 46;
+    m_hPointCont = 65;
     m_inw = 10;
     m_inh = 10;
+    m_smooth=1.0f;
     m_flip = false;
     is_swith = true;
     m_is_point = false;
@@ -141,6 +142,12 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
     }
 }
 
+void SVDeformImageMove::setScaleSmooth(f32 _smooth){
+    m_scaleSmooth = _smooth;
+    m_deformScale->setSmooth(_smooth);
+}
+
+
 void SVDeformImageMove::pushScaleCrl(u32 _postion){
     m_scaleCtlArray.append(_postion);
 }
@@ -166,7 +173,7 @@ void SVDeformImageMove::_initPoint(){
         m_pMeshBg = mApp->getRenderMgr()->createMeshRObj();
     }
     //索引数据
-    u16 m_dataIndex[51*64*2*3];//41*81*2*3
+    u16 m_dataIndex[46*65*2*3];//41*81*2*3
     //
     s32 iWidthPoint = m_wPointCount , iHeightPoint = m_hPointCont;
     s32 iDataCount = iWidthPoint * iHeightPoint;
@@ -378,7 +385,7 @@ void SVDeformImageMove::pointMove(V2 *t_data){
         m_pIUMP->setControl(FVec2(t_outlinePoints[t_postion].x+1,t_outlinePoints[t_postion].y+1));
         FVec2 point_v = FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y);
         point_v = rotateBy(-angle,point_v,t_rangleV2);
-        point_v = FVec2(point_v.x+t_point.x*_smooth,point_v.y+t_point.y*_smooth);
+        point_v = FVec2(point_v.x+t_point.x*_smooth*m_smooth,point_v.y+t_point.y*_smooth*m_smooth);
         point_v = rotateBy(angle,point_v,t_rangleV2);
         m_pIUMP->setTargetControl(point_v);
         it++;
@@ -438,7 +445,7 @@ void SVDeformImageMove::_updateControl(V2 *t_data){
       //  if(t_point.x!=0.0&&t_point.y!=0.0){
             FVec2 point_v = FVec2(t_outlinePoints[t_postion].x,t_outlinePoints[t_postion].y);
             point_v = rotateBy(-angle,point_v,t_rangleV2);
-            point_v = FVec2(point_v.x+t_point.x*_smooth,point_v.y+t_point.y*_smooth);
+            point_v = FVec2(point_v.x+t_point.x*_smooth*m_smooth,point_v.y+t_point.y*_smooth*m_smooth);
             point_v = rotateBy(angle,point_v,t_rangleV2);
             m_pIUMP->setTargetControl(point_v);
         //}

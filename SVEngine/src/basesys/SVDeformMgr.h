@@ -30,6 +30,8 @@ namespace sv {
     
             void pushDeform(SVDeformImageMovePtr deform);
             
+            SVDeformImageMovePtr getDeform(s32 _postion);
+            
             void clear();
         protected:
             
