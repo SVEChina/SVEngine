@@ -41,9 +41,7 @@ namespace sv {
         //传绝对路径，默认会读取整个文件。
         bool loadFileData(SVDataChunk *_datachunk, cptr8 _fpath, s32 _offset = 0, s32 _length = -1);
         //传绝对路径，没有文件会创建。
-        bool writeFileData(SVDataSwapPtr _data, cptr8 _fpath);
-        //传绝对路径，没有文件会创建。
-        bool appendFileData(SVDataSwapPtr _data, cptr8 _fpath);
+        bool writeFileData(SVDataChunk *_datachunk, cptr8 _fpath, u32 _size, bool _clearData = true);
         
     protected:
         typedef SVArray<SVString> SEARCHPATHPOOL;

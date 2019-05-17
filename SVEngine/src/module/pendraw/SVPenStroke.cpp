@@ -1103,7 +1103,7 @@ void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     u32 t_offset = (u32)_packData->checkPenStrokeDataLength(_path);
     SVDataSwapPtr t_penData = MakeSharedPtr<SVDataSwap>();
     _packCachePt(t_penData);
-    if (_packData->appendPenStrokeData(t_penData, _path)) {
+    if (_packData->writePenData(t_penData, _path, false)) {
         locationObj.AddMember("pen_data", "pen.bin", _allocator);
         locationObj.AddMember("pen_data_offset", t_offset, _allocator);
         locationObj.AddMember("pen_data_length", t_penData->getSize(), _allocator);
@@ -1168,7 +1168,7 @@ void SVPenStroke::fromJSON(RAPIDJSON_NAMESPACE::Value &_item, SVPenPackDataPtr _
         }
         SVDataSwapPtr t_penData = MakeSharedPtr<SVDataSwap>();
         SVString t_pen_data_path = SVString(_path) + "/" + t_penDataName;
-        _packData->loadPenStrokeData(t_penData, t_pen_data_path, t_penDataOffset, t_penDataLength);
+        _packData->loadPenData(t_penData, t_pen_data_path, t_penDataOffset, t_penDataLength);
         _unpackCachePt(t_penData, t_penPtSize);
     }
     //

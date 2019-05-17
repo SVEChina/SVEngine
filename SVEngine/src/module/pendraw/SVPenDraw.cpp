@@ -360,7 +360,7 @@ bool SVPenDraw::save(cptr8 _path){
     SVDataSwapPtr t_jsonData = MakeSharedPtr<SVDataSwap>();
     t_jsonData->writeData((void *)new_strJson.c_str(), new_strJson.size());
     SVString t_path_pen_json = SVString(_path) + SVString("/config.json");
-    if (!m_packData->savePenJsonData(t_jsonData, t_path_pen_json)) {
+    if (!m_packData->writePenData(t_jsonData, t_path_pen_json)) {
         SV_LOG_ERROR("SVPenDraw::Save Pen Json Error %s\n", t_path_pen_json);
         return false;
     }

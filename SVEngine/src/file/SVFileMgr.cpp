@@ -94,31 +94,21 @@ bool SVFileMgr::loadFileData(SVDataChunk *_datachunk, cptr8 _fpath, s32 _offset,
     return false;
 }
 
-bool SVFileMgr::appendFileData(SVDataSwapPtr _data, cptr8 _fpath){
-    if (!_data)
+bool SVFileMgr::writeFileData(SVDataChunk *_datachunk, cptr8 _fpath, u32 _size, bool _clearData){
+    if (!_datachunk || _size == 0)
         return false;
     SVString t_fullname = _fpath;
     if ( !t_fullname.empty() ) {
-        FILE *fp = fopen(t_fullname.c_str(), "a");
-        if (fp) {
-            fseek(fp, 0, SEEK_END);
-            fwrite((_data->getData()), sizeof(c8), _data->getSize(), fp);
-            fclose(fp);
-            return true;
-        }
-    }
-    return false;
-}
-
-bool SVFileMgr::writeFileData(SVDataSwapPtr _data, cptr8 _fpath){
-    if (!_data)
-        return false;
-    SVString t_fullname = _fpath;
-    if ( !t_fullname.empty() ) {
-        FILE *fp = fopen(t_fullname.c_str(), "w");
-        if (fp) {
+        FILE *fp = NULL;
+        if (_clearData) {
+            fp = fopen(t_fullname.c_str(), "w");
             fseek(fp, 0, SEEK_SET);
-            fwrite((_data->getData()), sizeof(c8), _data->getSize(), fp);
+        }else{
+            fp = fopen(t_fullname.c_str(), "a");
+            fseek(fp, 0, SEEK_END);
+        }
+        if (fp) {
+            fwrite((_datachunk->m_data), sizeof(c8), _size, fp);
             fclose(fp);
             return true;
         }
