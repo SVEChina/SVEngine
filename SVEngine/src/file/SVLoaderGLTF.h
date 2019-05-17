@@ -577,164 +577,16 @@ namespace sv {
         
         SVMeshPtr _buildMesh(s32 _index);
         
+        SVAnimateSkinPtr _buildSkin(s32 _index);
+        
+        SVAnimateSkinPtr _buildAnimate(s32 _index);
+        
         SVMtlCorePtr _buildMtl(s32 _index);
         
         void _buildPrimitive(SVMeshPtr t_mesh,Primitive* _prim);
         
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
     };
-    
-//    //
-//    class SVGLTFScene : public SVObject{
-//    public:
-//        SVGLTFScene();
-//        ~SVGLTFScene();
-//        SVArray<SVGLTFNodePtr>m_nodes;
-//    };
-//    
-//    class SVGLTFNode : public SVObject{
-//    public:
-//        SVGLTFNode();
-//        ~SVGLTFNode();
-//        SVGLTFNodePtr m_parent;
-//        SVArray<SVGLTFNodePtr> m_children;
-//        SVGLTFSkinPtr m_skin;
-//        FMat4 m_rotation;
-//        FMat4 m_scale;
-//        FMat4 m_translation;
-//        FMat4 m_localTransform;
-//        FMat4 m_globalTransform;
-//    };
-//    
-//    class SVGLTFMesh : public SVObject{
-//    public:
-//        SVGLTFMesh();
-//        ~SVGLTFMesh();
-//        SVArray<SVGLTFSubMeshPtr> m_meshes;
-//        SVString m_name;
-//    };
-//    
-//    class SVGLTFSubMesh : public SVObject{
-//    public:
-//        SVGLTFSubMesh();
-//        ~SVGLTFSubMesh();
-//        SVMap<SVString, SVGLTFAccessorPtr> m_accessorsForAttributes;
-//        SVGLTFMaterialPtr m_material;
-//        SVGLTFAccessorPtr m_indexAccessor;
-//        u32 m_primitiveType;
-//    };
-//    
-//    class SVGLTFAccessor : public SVObject{
-//    public:
-//        SVGLTFAccessor();
-//        ~SVGLTFAccessor();
-//        SVDataSwapPtr m_bufferData;
-//        u32 m_componentType; //(SVGLTF_COMPONENT_TYPE_BYTE SVGLTF_COMPONENT_TYPE_SHORT ..)
-//        u32 m_dimensionType; //(SVGLTF_TYPE_SCALAR SVGLTF_TYPE_VEC2 ....)
-//        s32 m_offset;
-//        s32 m_count;
-//        SVArray<f64> m_minValues;
-//        SVArray<f64> m_maxValues;
-//    };
-//    
-//    class SVGLTFMaterial : public SVObject{
-//    public:
-//        SVGLTFMaterial();
-//        ~SVGLTFMaterial();
-//        FVec4 m_baseColorFactor;
-//        FVec3 m_emissiveFactor;
-//        FVec3 m_specularFactor; // Only used by KHR_materials_pbrSpecularGlossiness extension
-//        f32 m_metalnessFactor;
-//        f32 m_roughnessFactor;
-//        f32 m_normalTextureScale;
-//        f32 m_occlusionStrength;
-//        f32 m_glossinessFactor; // Only used by KHR_materials_pbrSpecularGlossiness extension
-//        bool m_hasTextureTransforms; // Only used when KHR_texture_transform extension is present
-//        SVTexturePtr m_baseColorTexture;
-//        SVTexturePtr m_metallicRoughnessTexture;
-//        SVTexturePtr m_normalTexture;
-//        SVTexturePtr m_emissiveTexture;
-//        SVTexturePtr m_occlusionTexture;
-//    };
-//    
-//    class SVGLTFSkin : public SVObject{
-//    public:
-//        
-//        SVGLTFSkin();
-//        
-//        ~SVGLTFSkin();
-//        
-//        s32 m_skinIndex;
-//        
-//        SVArray<SVGLTFJointPtr> m_joints;
-//    };
-//    
-//    class SVGLTFJoint : public SVObject{
-//    public:
-//        
-//        SVGLTFJoint();
-//        
-//        ~SVGLTFJoint();
-//        
-//        s32 m_jointIndex;
-//        
-//        FMat4 m_globalJointTransform;
-//        
-//        FMat4 m_inverseBindMatrix;
-//    };
-//    
-//    class SVGLTFAnimation : public SVObject{
-//    public:
-//        
-//        SVGLTFAnimation();
-//        
-//        ~SVGLTFAnimation();
-//        
-//        SVArray<SVGLTFAnimationChannelPtr> m_channels;
-//        
-//        SVMap<s32,SVGLTFAnimationSamplerPtr> m_samplers;
-//    };
-//    
-//    class SVGLTFAnimationChannel : public SVObject{
-//    public:
-//        
-//        SVGLTFAnimationChannel();
-//        
-//        ~SVGLTFAnimationChannel();
-//        
-//        s32 m_targeNodeIndex;
-//        
-//        SVString m_targetPath;
-//        
-//        SVGLTFAnimationSamplerPtr m_sampler;
-//    };
-//    
-//    class SVGLTFAnimationSampler : public SVObject{
-//    public:
-//        SVGLTFAnimationSampler();
-//        
-//        ~SVGLTFAnimationSampler();
-//        
-//        SVDataSwapPtr m_inputData;
-//        
-//        SVDataSwapPtr m_outputData;
-//        
-//        GLTFInterpolationMode m_interpolationMode;
-//    };
-//    
-//    class ModelRenderData :public SVObject{
-//    public:
-//        ModelRenderData();
-//        ~ModelRenderData();
-//        SVDataSwapPtr           m_pRenderVertex;
-//        SVDataSwapPtr           m_pRenderIndex;
-//        SVMtlCorePtr            m_pMtl;
-//        SVRenderMeshPtr         m_pMesh;
-//        FMat4                   m_globalTransform;
-//        SVBoundBox              m_boundBox;
-//        s32                     m_indexCount;
-//        s32                     m_vertexCount;
-//    };
     
 
 }//!namespace sv

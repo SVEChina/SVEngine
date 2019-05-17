@@ -12,6 +12,8 @@
 #include "../base/SVDataSwap.h"
 #include "../base/SVQuat.h"
 #include "../core/SVModel.h"
+#include "../core/SVAnimateSkin.h"
+#include "../core/SVAnimateMorph.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtl3D.h"
@@ -407,6 +409,50 @@ void SVLoaderGLTF::_buildNode(Node* _node,SVNodePtr _rootNode) {
             _buildNode(t_node,t_model_node);
         }
     }
+}
+
+SVAnimateSkinPtr SVLoaderGLTF::_buildSkin(s32 _index){
+//    struct Skin {
+//        SVString name;
+//        s32 inverseBindMatrices;  // required here but not in the spec
+//        s32 skeleton;             // The index of the node used as a skeleton root
+//        SVArray<s32> joints;      // Indices of skeleton nodes
+//        Skin()
+//        :inverseBindMatrices(-1)
+//        ,skeleton(-1){
+//        }
+//        bool operator==(const Skin &) const;
+//    };
+    //ske root
+    Skin* t_skindata = &(m_gltf.skins[_index]);
+    //跟节点索引
+    s32 t_node_index = t_skindata->skeleton;
+    Node* t_node = &(m_gltf.nodes[t_node_index]);
+    //_buildSkeNode(t_node,t_rootNode);
+    //
+    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,t_skindata->name.c_str());
+    for(s32 i=0;i<t_skindata->joints.size();i++) {
+        s32 t_node_index = t_skindata->joints[i];
+        Node* t_node = &(m_gltf.nodes[t_node_index]);
+        //_buildSkeNode(t_node,t_rootNode);
+    }
+    return t_skin;
+}
+
+SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
+    Animation* t_anidata = &(m_gltf.animations[_index]);
+//    //跟节点索引
+//    s32 t_node_index = t_skindata->skeleton;
+//    Node* t_node = &(m_gltf.nodes[t_node_index]);
+//    //_buildSkeNode(t_node,t_rootNode);
+//    //
+//    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,t_skindata->name.c_str());
+//    for(s32 i=0;i<t_skindata->joints.size();i++) {
+//        s32 t_node_index = t_skindata->joints[i];
+//        Node* t_node = &(m_gltf.nodes[t_node_index]);
+//        //_buildSkeNode(t_node,t_rootNode);
+//    }
+    return nullptr;
 }
 
 SVMeshPtr SVLoaderGLTF::_buildMesh(s32 _index){
