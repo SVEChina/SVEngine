@@ -8,8 +8,9 @@
 #include "SVAnimateSkin.h"
 
 
-SVAnimateSkin::SVAnimateSkin(cptr8 _name)
-:m_name(_name){
+SVAnimateSkin::SVAnimateSkin(SVInst* _app,cptr8 _name)
+:SVGBase(_app)
+,m_name(_name){
     
 }
 
