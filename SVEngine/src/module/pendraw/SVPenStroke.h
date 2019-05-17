@@ -95,7 +95,8 @@ namespace sv{
         PTPOOL m_ptStrokePool;
         PTPOOL m_ptGlowPool;
         SVArray<FVec2> m_ptCachePool;//保存原始点
-        SVPenCurvePtr m_penCurve;
+        SVPenCurvePtr m_penStrokeCurve;
+        SVPenCurvePtr m_penGlowCurve;
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
         s32 m_pt_count;

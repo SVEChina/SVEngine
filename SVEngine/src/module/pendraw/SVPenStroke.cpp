@@ -38,7 +38,8 @@
 #include "SVPenPackData.h"
 SVPenStroke::SVPenStroke(SVInst* _app, SVPENMODE _mode, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor)
 :SVGameBase(_app) {
-    m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
+    m_penStrokeCurve = MakeSharedPtr<SVPenCurve>(_app);
+    m_penGlowCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptStrokePool.clear();
     m_ptGlowPool.clear();
     m_ptCachePool.clear();
@@ -79,7 +80,8 @@ SVPenStroke::SVPenStroke(SVInst* _app, SVPENMODE _mode, f32 _strokeWidth, FVec4 
 }
 
 SVPenStroke::~SVPenStroke() {
-    m_penCurve = nullptr;
+    m_penStrokeCurve = nullptr;
+    m_penGlowCurve = nullptr;
     m_pInstanceOffsetData->reback();
     m_pInstanceOffsetData = nullptr;
     m_pGlowInstanceOffsetData->reback();
@@ -127,21 +129,22 @@ void SVPenStroke::_addPoint(f32 _px, f32 _py, ADDPOINTACTION _action){
     SVStrokePoint t_worldPt;
     _screenPointToWorld(t_pt, t_worldPt);
     //
-    if (m_penCurve) {
+    if (m_penGlowCurve && m_penGlowCurve) {
         if (_action == SV_ADD_DRAWBEGIN) {
-            m_penCurve->reset();
+            m_penStrokeCurve->reset();
+            m_penGlowCurve->reset();
             //画笔补点
             SVArray<FVec3> t_ptArray;
-            m_penCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, _action, t_ptArray);
+            m_penStrokeCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, _action, t_ptArray);
             //光晕补点
             SVArray<FVec3> t_ptGlowArray;
-            m_penCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, _action, t_ptGlowArray);
+            m_penGlowCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, _action, t_ptGlowArray);
         }else{
             SVArray<FVec3> t_ptArray;
             if (m_lerpMethod == SV_LERP_BALANCE) {
-                m_penCurve->addPointB(t_worldPt.point, m_stroke_width, m_stroke_curve, _action, t_ptArray);
+                m_penStrokeCurve->addPointB(t_worldPt.point, m_stroke_width, m_stroke_curve, _action, t_ptArray);
             }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-                m_penCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, _action, t_ptArray);
+                m_penStrokeCurve->addPoint(t_worldPt.point, m_stroke_width, m_stroke_curve, _action, t_ptArray);
             }
             for (s32 i = 0; i<t_ptArray.size(); i++) {
                 FVec3 t_pt = t_ptArray[i];
@@ -155,9 +158,9 @@ void SVPenStroke::_addPoint(f32 _px, f32 _py, ADDPOINTACTION _action){
             //光晕补点
             SVArray<FVec3> t_ptGlowArray;
             if (m_lerpMethod == SV_LERP_BALANCE) {
-                m_penCurve->addPointB(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
+                m_penGlowCurve->addPointB(t_worldPt.point, m_glow_width, m_glow_curve, _action, t_ptGlowArray);
             }else if (m_lerpMethod == SV_LERP_NOTBALANCE){
-                m_penCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, SV_ADD_DRAWEND, t_ptGlowArray);
+                m_penGlowCurve->addPoint(t_worldPt.point, m_glow_width, m_glow_curve, _action, t_ptGlowArray);
             }
             for (s32 i = 0; i<t_ptGlowArray.size(); i++) {
                 FVec3 t_pt = t_ptGlowArray[i];
@@ -567,7 +570,7 @@ void SVPenStroke::_createGlowMesh(f32 _glowWidth, FVec4 &_glowColor){
         m_glow_curve = 0.06;
     }else if (m_penMode == SV_FACEMODE){
         m_glow_width = m_glow_raw_width*1800;
-        m_glow_curve = 0.85;
+        m_glow_curve = 0.2;
     }
     m_pGlowMesh = MakeSharedPtr<SVRenderMeshDvid>(mApp);
     m_pGlowMesh->createMesh();
@@ -819,8 +822,8 @@ void SVPenStroke::_updateARFaceStroke(float _dt){
     if (t_pt_num > 0) {
         V3 t_points[t_pt_num];
         for (s32 i = 0; i<t_pt_num; i++) {
-            //转换到脸部中心为原点的坐标系
             SVStrokePoint t_pt = m_ptStrokePool[i];
+            //转换到脸部中心为原点的坐标系
             t_pt.point = t_pt.point - m_faceParam.faceCenter;
             //变换
             FVec4 t_n_point = FVec4(t_pt.point, 1.0);
@@ -1079,19 +1082,15 @@ void SVPenStroke::_unpackCachePt(SVDataSwapPtr _dataSwap, s32 _ptSize){
             f32 t_pt_y = points[2*i+1];
             FVec2 t_pt;
             t_pt.set(t_pt_x, t_pt_y);
-            m_ptCachePool.append(t_pt);
+            if (i == 0) {
+                _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWBEGIN);
+            }else if (i == _ptSize - 1){
+                _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWEND);
+            }else{
+                _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWING);
+            }
         }
         m_pt_count = _ptSize;
-    }
-    for (s32 i = 0; i<m_pt_count; i++) {
-        FVec2 t_pt = m_ptCachePool[i];
-        if (i == 0) {
-            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWBEGIN);
-        }else if (i == m_pt_count - 1){
-            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWEND);
-        }else{
-            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWING);
-        }
     }
 }
 

@@ -343,7 +343,7 @@ void SVPenDraw::_updateFaceParam(){
 }
 
 bool SVPenDraw::save(cptr8 _path){
-    if (!m_packData || m_strokes.size() == 0) {
+    if (!m_packData || m_strokes.size() == 0 || m_mode == SV_ARMODE) {
         return false;
     }
     //生成Json串
