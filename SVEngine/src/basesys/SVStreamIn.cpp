@@ -185,11 +185,9 @@ void StreamInCore::pushData(u8* _srcPtr,s32 width,s32 height,s32 pixelFormat,s32
     }
     
     //trans render
-    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    SVRenderCmdTransPtr cmdTrans = MakeSharedPtr<SVRenderCmdTrans>(m_trans);
-    cmdTrans->mTag = "SVRenderCmdTrans";
-    if (t_rs) {
-        t_rs->pushRenderCmd(RST_SKY, cmdTrans);
+    if (m_trans) {
+        m_trans->update(0.0f);
+        m_trans->render();
     }
 }
 

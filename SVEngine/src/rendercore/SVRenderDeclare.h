@@ -107,10 +107,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVRenderCmdCurve);
         DECLARE_SHAREPTR(SVRenderCmdCircle);
         DECLARE_SHAREPTR(SVRenderCmdCircleSolid);
-        DECLARE_SHAREPTR(SVRenderCmdTrans);
         
-        
-
         //renderobject
         DECLARE_SHAREPTR(SVRObjBase);
         DECLARE_SHAREPTR(SVRenderObject);

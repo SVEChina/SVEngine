@@ -36,7 +36,7 @@
 #include "../../node/SVSpriteNode.h"
 #include "../../node/SVScene.h"
 #include "SVPenPackData.h"
-SVPenStroke::SVPenStroke(SVInst* _app, SVPENMODE _mode)
+SVPenStroke::SVPenStroke(SVInst* _app, SVPENMODE _mode, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor)
 :SVGameBase(_app) {
     m_penCurve = MakeSharedPtr<SVPenCurve>(_app);
     m_ptStrokePool.clear();
@@ -74,6 +74,8 @@ SVPenStroke::SVPenStroke(SVInst* _app, SVPENMODE _mode)
     }else if (m_penMode == SV_FACEMODE){
         m_plane_dis = 600.0f;
     }
+    _createStrokeMesh(_strokeWidth, _strokeColor);
+    _createGlowMesh(_glowWidth, _glowColor);
 }
 
 SVPenStroke::~SVPenStroke() {
@@ -101,7 +103,7 @@ void SVPenStroke::setDrawBox(bool _drawBox){
 }
 
 void SVPenStroke::update(f32 _dt) {
-    renderBoundingBox();
+    _renderBoundingBox();
 }
 
 
@@ -175,21 +177,8 @@ void SVPenStroke::_addPoint(f32 _px, f32 _py, ADDPOINTACTION _action){
     m_lock->unlock();
 }
 
-void SVPenStroke::_restorePen(){
-    for (s32 i = 0; i<m_pt_count; i++) {
-        FVec2 t_pt = m_ptCachePool[i];
-        if (i == 0) {
-            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWBEGIN);
-        }else if (i == m_pt_count - 1){
-            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWEND);
-        }else{
-            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWING);
-        }
-    }
-}
-
 #define vn_stroke 36
-void SVPenStroke::createStrokeMesh(f32 _strokeWidth, FVec4 &_strokeColor){
+void SVPenStroke::_createStrokeMesh(f32 _strokeWidth, FVec4 &_strokeColor){
     m_stroke_raw_width = _strokeWidth;
     m_stroke_color = _strokeColor;
     if (m_penMode == SV_ARMODE) {
@@ -570,7 +559,7 @@ void SVPenStroke::createStrokeMesh(f32 _strokeWidth, FVec4 &_strokeColor){
 }
 
 #define vn_glow 18
-void SVPenStroke::createGlowMesh(f32 _glowWidth, FVec4 &_glowColor){
+void SVPenStroke::_createGlowMesh(f32 _glowWidth, FVec4 &_glowColor){
     m_glow_raw_width = _glowWidth;
     m_glow_color = _glowColor;
     if (m_penMode == SV_ARMODE) {
@@ -962,7 +951,7 @@ void SVPenStroke::renderGlow(){
     }
 }
 
-void SVPenStroke::renderBoundingBox(){
+void SVPenStroke::_renderBoundingBox(){
     if (m_drawBox) {
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         SVMtlGeo3dPtr t_mtl_geo3d = MakeSharedPtr<SVMtlGeo3d>(mApp);
@@ -1062,7 +1051,7 @@ void SVPenStroke::setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis
     }
 }
 
-void SVPenStroke::getCachePt(SVDataSwapPtr _dataSwap){
+void SVPenStroke::_packCachePt(SVDataSwapPtr _dataSwap){
     if (!_dataSwap) {
         return;
     }
@@ -1082,7 +1071,7 @@ void SVPenStroke::getCachePt(SVDataSwapPtr _dataSwap){
     m_lock->unlock();
 }
 
-void SVPenStroke::setCachePt(SVDataSwapPtr _dataSwap, s32 _ptSize){
+void SVPenStroke::_unpackCachePt(SVDataSwapPtr _dataSwap, s32 _ptSize){
     if (_dataSwap && _ptSize) {
         f32 *points = (f32 *)_dataSwap->getData();
         for (s32 i = 0; i<_ptSize; i++) {
@@ -1094,7 +1083,16 @@ void SVPenStroke::setCachePt(SVDataSwapPtr _dataSwap, s32 _ptSize){
         }
         m_pt_count = _ptSize;
     }
-    _restorePen();
+    for (s32 i = 0; i<m_pt_count; i++) {
+        FVec2 t_pt = m_ptCachePool[i];
+        if (i == 0) {
+            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWBEGIN);
+        }else if (i == m_pt_count - 1){
+            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWEND);
+        }else{
+            _addPoint(t_pt.x, t_pt.y, SV_ADD_DRAWING);
+        }
+    }
 }
 
 //序列化接口
@@ -1104,7 +1102,7 @@ void SVPenStroke::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     //points data
     u32 t_offset = (u32)_packData->checkPenStrokeDataLength(_path);
     SVDataSwapPtr t_penData = MakeSharedPtr<SVDataSwap>();
-    getCachePt(t_penData);
+    _packCachePt(t_penData);
     if (_packData->appendPenStrokeData(t_penData, _path)) {
         locationObj.AddMember("pen_data", "pen.bin", _allocator);
         locationObj.AddMember("pen_data_offset", t_offset, _allocator);
@@ -1171,7 +1169,7 @@ void SVPenStroke::fromJSON(RAPIDJSON_NAMESPACE::Value &_item, SVPenPackDataPtr _
         SVDataSwapPtr t_penData = MakeSharedPtr<SVDataSwap>();
         SVString t_pen_data_path = SVString(_path) + "/" + t_penDataName;
         _packData->loadPenStrokeData(t_penData, t_pen_data_path, t_penDataOffset, t_penDataLength);
-        setCachePt(t_penData, t_penPtSize);
+        _unpackCachePt(t_penData, t_penPtSize);
     }
     //
     //face data

@@ -38,7 +38,7 @@ namespace sv{
     
     class SVPenStroke : public SVGameBase {
     public:
-        SVPenStroke(SVInst* _app, SVPENMODE _mode);
+        SVPenStroke(SVInst* _app, SVPENMODE _mode, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor);
         
         ~SVPenStroke();
         
@@ -49,10 +49,6 @@ namespace sv{
         void end(f32 _px,f32 _py,f32 _pz);
         
         void draw(f32 _px,f32 _py,f32 _pz);
-        
-        void createStrokeMesh(f32 _strokeWidth, FVec4 &_strokeColor);
-        
-        void createGlowMesh(f32 _glowWidth, FVec4 &_glowColor);
         
         void updateStroke(float _dt);
         
@@ -66,22 +62,16 @@ namespace sv{
         
         void setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);//实时脸部数据
         
-        void getCachePt(SVDataSwapPtr _dataSwap);
-        
-        void setCachePt(SVDataSwapPtr _dataSwap, s32 _ptSize);
-        
         void setDrawBox(bool _drawBox);
-        
-        void renderBoundingBox();
         
         //序列化接口
         void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, SVPenPackDataPtr _packData, cptr8 _path);
         
         void fromJSON(RAPIDJSON_NAMESPACE::Value &_item, SVPenPackDataPtr _packData, cptr8 _path);
     protected:
-        void _addPoint(f32 _px, f32 _py, ADDPOINTACTION _action);
+        void _createStrokeMesh(f32 _strokeWidth, FVec4 &_strokeColor);
         
-        void _restorePen();
+        void _createGlowMesh(f32 _glowWidth, FVec4 &_glowColor);
         
         void _updateARStroke(float _dt);
         
@@ -91,9 +81,15 @@ namespace sv{
         
         void _updateARFaceGlow(float _dt);
         
+        void _addPoint(f32 _px, f32 _py, ADDPOINTACTION _action);
+        
+        void _packCachePt(SVDataSwapPtr _dataSwap);
+        
+        void _unpackCachePt(SVDataSwapPtr _dataSwap, s32 _ptSize);
+        
         void _screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint);
-        //
-        void _drawBoundBox();
+        
+        void _renderBoundingBox();
         //
         typedef SVArray<SVStrokePoint> PTPOOL;
         PTPOOL m_ptStrokePool;

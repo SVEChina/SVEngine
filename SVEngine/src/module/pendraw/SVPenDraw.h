@@ -53,7 +53,7 @@ namespace sv{
         
         void setPenMode(SVPENMODE _mode);
         
-        void save(cptr8 _path);
+        bool save(cptr8 _path);
         //序列化接口
         void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, cptr8 _path);
         

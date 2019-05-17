@@ -302,9 +302,7 @@ bool SVPenDraw::procEvent(SVEventPtr _event){
     if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_BEGIN){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         if (!m_curStroke) {
-            m_curStroke = MakeSharedPtr<SVPenStroke>(mApp, m_mode);
-            m_curStroke->createStrokeMesh(m_strokeWidth, m_strokeColor);
-            m_curStroke->createGlowMesh(m_glowWidth, m_glowColor);
+            m_curStroke = MakeSharedPtr<SVPenStroke>(mApp, m_mode, m_strokeWidth, m_strokeColor, m_glowWidth, m_glowColor);
             m_strokes.append(m_curStroke);
         }
         m_curStroke->begin(t_touch->x,t_touch->y,0.0);
@@ -317,7 +315,6 @@ bool SVPenDraw::procEvent(SVEventPtr _event){
             }else if (m_mode == SV_FACEMODE) {
                 m_curStroke->genFaceRawParam(m_noseCenter, m_faceRot, m_faceEyeDis);
             }
-            
         }
         m_curStroke = nullptr;
     }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_MOVE){
@@ -345,9 +342,9 @@ void SVPenDraw::_updateFaceParam(){
     }
 }
 
-void SVPenDraw::save(cptr8 _path){
+bool SVPenDraw::save(cptr8 _path){
     if (!m_packData || m_strokes.size() == 0) {
-        return;
+        return false;
     }
     //生成Json串
     RAPIDJSON_NAMESPACE::Document jsonDoc;    //生成一个dom元素Document
@@ -365,7 +362,9 @@ void SVPenDraw::save(cptr8 _path){
     SVString t_path_pen_json = SVString(_path) + SVString("/config.json");
     if (!m_packData->savePenJsonData(t_jsonData, t_path_pen_json)) {
         SV_LOG_ERROR("SVPenDraw::Save Pen Json Error %s\n", t_path_pen_json);
+        return false;
     }
+    return true;
 }
 
 //序列化接口
@@ -428,9 +427,7 @@ void SVPenDraw::fromJSON(RAPIDJSON_NAMESPACE::Value &_item, cptr8 _path){
                 if (t_strokeValue.HasMember(key)) {
                     RAPIDJSON_NAMESPACE::Value &t_strokeObj = iter->value;
                     _fromJSONBase(t_strokeObj);
-                    m_curStroke = MakeSharedPtr<SVPenStroke>(mApp, m_mode);
-                    m_curStroke->createStrokeMesh(m_strokeWidth, m_strokeColor);
-                    m_curStroke->createGlowMesh(m_glowWidth, m_glowColor);
+                    m_curStroke = MakeSharedPtr<SVPenStroke>(mApp, m_mode, m_strokeWidth, m_strokeColor, m_glowWidth, m_glowColor);
                     m_curStroke->fromJSON(t_strokeObj, m_packData, _path);
                     m_strokes.append(m_curStroke);
                     
