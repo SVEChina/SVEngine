@@ -39,6 +39,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVThread);
     DECLARE_SHAREPTR(SVThreadWork);
     DECLARE_SHAREPTR(SVThreadMain);
+    DECLARE_SHAREPTR(SVThreadSync);
     DECLARE_SHAREPTR(SVThreadRender);
     DECLARE_SHAREPTR(SVThreadHelp);
     DECLARE_SHAREPTR(SVDataSwap);

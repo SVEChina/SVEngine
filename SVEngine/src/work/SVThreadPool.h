@@ -8,7 +8,8 @@
 #define SV_THREADPOOL_H
 
 #include "../base/SVGBase.h"
-
+#include "SVThreadMain.h"
+#include "SVThreadHelp.h"
 namespace sv {
 
     //线程组(控制线程同步逻辑的)
@@ -28,12 +29,22 @@ namespace sv {
         
         inline SVThreadHelpPtr getHelpThread(){ return m_pHelpThread; }
         
-        inline SVThreadMainPtr getMainThread(){ return m_pMainThread; }
-        
+        inline SVThreadMainPtr getMainThread(){
+            return m_pSyncThread;
+//            if (m_sync == 0) {
+//                return m_pSyncThread;
+//            }else{
+//                return m_pSyncThread;
+//            }
+        }
     protected:
         SVThreadHelpPtr m_pHelpThread; //辅助线程
         
         SVThreadMainPtr m_pMainThread; //主线程
+        
+        SVThreadSyncPtr m_pSyncThread; //同步线程
+        
+        s32 m_sync;
     };
     
 }//!namespace sv

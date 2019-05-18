@@ -64,15 +64,11 @@ void SVInst::stopSVE() {
 }
 
 void SVInst::updateSVE(f32 _dt) {
-    if(m_sync) {
-        //逻辑更新
-        m_pGlobalMgr->update(_dt);
-        //逻辑数据交换到渲染数据
-        getRenderMgr()->swapData();
-        //渲染
-        getRenderMgr()->render();
-        //输出
-        getBasicSys()->output();
+    if(m_sync && m_pTPool) {
+        SVThreadSyncPtr threadSync = DYN_TO_SHAREPTR(SVThreadSync, m_pTPool->getMainThread());
+        if (threadSync) {
+            threadSync->syncUpdate(_dt);
+        }
     }
 }
 

@@ -29,7 +29,6 @@ namespace sv {
         void setFPS(s32 _fps);
         
         void setThreadCallback(ThreadCallback _func);
-        
     protected:
         virtual void _innerInit();
         

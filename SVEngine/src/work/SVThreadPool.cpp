@@ -6,8 +6,6 @@
 
 #include <sys/time.h>
 #include "SVThreadPool.h"
-#include "SVThreadMain.h"
-#include "SVThreadHelp.h"
 #include "../callback/SVThreadWorkCallback.h"
 #include "../app/SVInst.h"
 #include "../base/SVLock.h"
@@ -19,6 +17,7 @@ SVThreadPool::SVThreadPool(SVInst* _app)
 :SVGBase(_app){
     m_pHelpThread = nullptr;
     m_pMainThread = nullptr;
+    m_pSyncThread = nullptr;
 }
 
 SVThreadPool::~SVThreadPool(){
@@ -36,8 +35,11 @@ void SVThreadPool::init(s32 _sync){
         m_pMainThread->startThread();
         m_pMainThread->notice();
     }else{
-        //同步方式 线程初始化 暂时没有相关代码
+        m_pSyncThread = MakeSharedPtr<SVThreadSync>(mApp);
+        m_pSyncThread->startThread();
+        m_pSyncThread->notice();
     }
+    m_sync = _sync;
 }
 
 void SVThreadPool::destroy(){
@@ -50,6 +52,10 @@ void SVThreadPool::destroy(){
         m_pMainThread->stopThread();
         m_pMainThread = nullptr;
     }
+    if(m_pSyncThread){
+        m_pSyncThread->stopThread();
+        m_pSyncThread = nullptr;
+    }
 }
 
 //
@@ -58,12 +64,20 @@ void SVThreadPool::start(){
         m_pMainThread->setAuoWait(false);
         m_pMainThread->notice();
     }
+    if(m_pSyncThread){
+        m_pSyncThread->setAuoWait(false);
+        m_pSyncThread->notice();
+    }
+    
 }
 
 //
 void SVThreadPool::stop(){
     if(m_pMainThread){
         m_pMainThread->setAuoWait(false);
+    }
+    if(m_pSyncThread){
+        m_pSyncThread->setAuoWait(false);
     }
 }
 

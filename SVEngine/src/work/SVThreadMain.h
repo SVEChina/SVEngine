@@ -31,6 +31,19 @@ namespace sv {
         timeval m_lastT;
     };
     
+    class SVThreadSync : public SVThreadMain {
+    public:
+        SVThreadSync(SVInst *_app);
+        
+        ~SVThreadSync();
+        
+        void startThread();
+        
+        void stopThread();
+        
+        void syncUpdate(f32 _dt);
+    };
+    
 }//!namespace sv
 
 
