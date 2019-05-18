@@ -24,15 +24,20 @@ SVThreadPool::SVThreadPool(SVInst* _app)
 SVThreadPool::~SVThreadPool(){
 }
 
-void SVThreadPool::init(){
+void SVThreadPool::init(s32 _sync){
     //帮助线程
     m_pHelpThread = MakeSharedPtr<SVThreadHelp>(mApp);
     m_pHelpThread->startThread();
     m_pHelpThread->notice();
     //主线程
-    m_pMainThread = MakeSharedPtr<SVThreadMain>(mApp);
-    m_pMainThread->startThread();
-    m_pMainThread->notice();
+    if(_sync == 0) {
+        //异步方式
+        m_pMainThread = MakeSharedPtr<SVThreadMain>(mApp);
+        m_pMainThread->startThread();
+        m_pMainThread->notice();
+    }else{
+        //同步方式 线程初始化 暂时没有相关代码
+    }
 }
 
 void SVThreadPool::destroy(){
@@ -62,18 +67,3 @@ void SVThreadPool::stop(){
     }
 }
 
-//空
-void SVThreadPool::_create_workchain_null(){
-}
-
-//停止
-void SVThreadPool::_create_workchain_stop(){
-}
-
-//预览
-void SVThreadPool::_create_workchain_preview(){
-}
-
-//相机
-void SVThreadPool::_create_workchain_camera(){
-}

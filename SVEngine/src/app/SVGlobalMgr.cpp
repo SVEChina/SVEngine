@@ -215,8 +215,6 @@ void SVGlobalMgr::update(f32 dt) {
     m_pTexMgr->update(dt);              //删除不用的纹理
     timeTag(false,"texmgr cost");
     m_pDetectMgr->update(dt);           //识别更新
-    //
-    
 }
 
 void SVGlobalMgr::timeTag(bool _clear,cptr8 _tag){

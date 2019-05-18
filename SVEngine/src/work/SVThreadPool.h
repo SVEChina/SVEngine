@@ -18,7 +18,7 @@ namespace sv {
         
         ~SVThreadPool();
         
-        void init();
+        void init(s32 _sync);
         
         void destroy();
         
@@ -31,15 +31,6 @@ namespace sv {
         inline SVThreadMainPtr getMainThread(){ return m_pMainThread; }
         
     protected:
-        //空
-        void _create_workchain_null();
-        //停止
-        void _create_workchain_stop();
-        //预览
-        void _create_workchain_preview();
-        //相机
-        void _create_workchain_camera();
-        
         SVThreadHelpPtr m_pHelpThread; //辅助线程
         
         SVThreadMainPtr m_pMainThread; //主线程

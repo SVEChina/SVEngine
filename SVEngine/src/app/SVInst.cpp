@@ -16,6 +16,7 @@
 #include "../rendercore/SVRenderState.h"
 #include "../rendercore/SVRendererBase.h"
 #include "../rendercore/SVContextBase.h"
+#include "../basesys/SVBasicSys.h"
 #include "../basesys/SVConfig.h"
 #include "../operate/SVOpBase.h"
 #include "../operate/SVOpCreate.h"
@@ -23,13 +24,16 @@
 
 SVInst::SVInst() {
     m_svst = SV_ST_NULL;
+    m_sync = 0;
     m_engTimeState = ENG_TS_NOR;
 }
 
 SVInst::~SVInst() {
 }
 
-void SVInst::init() {
+void SVInst::init(s32 _sync) {
+    //同步方式
+    m_sync = _sync;
     m_pGlobalMgr = MakeSharedPtr<SVGlobalMgr>(this);
     m_pGlobalParam = MakeSharedPtr<SVGlobalParam>(this);
     m_pTPool = MakeSharedPtr<SVThreadPool>(this);
@@ -47,7 +51,7 @@ void SVInst::destroy() {
 
 void SVInst::startSVE() {
     m_pGlobalMgr->init();
-    m_pTPool->init();
+    m_pTPool->init(m_sync);
     m_pTPool->start();
     m_svst = SV_ST_RUN;
 }
@@ -59,41 +63,54 @@ void SVInst::stopSVE() {
     m_pGlobalMgr->destroy();    //引擎各个模块开始销毁(这里 opengl 没有回收 尴尬)
 }
 
+void SVInst::updateSVE(f32 _dt) {
+    if(m_sync) {
+        //逻辑更新
+        m_pGlobalMgr->update(_dt);
+        //逻辑数据交换到渲染数据
+        getRenderMgr()->swapData();
+        //渲染
+        getRenderMgr()->render();
+        //输出
+        getBasicSys()->output();
+    }
+}
+
 void SVInst::svSuspend(){
-    if(m_pTPool && m_pTPool->getMainThread()){
+    if( (!m_sync) && m_pTPool && m_pTPool->getMainThread()){
         m_svst = SV_ST_SUSPEND;
         m_pTPool->getMainThread()->suspend();
     }
 }
 
 void SVInst::svWillSuspend(){
-    if(m_pTPool && m_pTPool->getMainThread()){
+    if( (!m_sync) && m_pTPool && m_pTPool->getMainThread()){
         m_svst = SV_ST_WILLSUSPEND;
     }
 }
 
 void SVInst::svResume(){
-    if(m_pTPool && m_pTPool->getMainThread()){
+    if( (!m_sync) && m_pTPool && m_pTPool->getMainThread()){
         m_pTPool->getMainThread()->resetTime();//重新开始的时候要重置下时间，否则第一帧有问题
         m_pTPool->getMainThread()->resume();
         m_svst = SV_ST_RUN;
     }
 }
 
-//同步模式
-void SVInst::svSync() {
-    if(m_pTPool && m_pTPool->getMainThread()){
-        m_pTPool->getMainThread()->setAuoWait(true);
-    }
-}
+////同步模式
+//void SVInst::svSync() {
+//    if(m_pTPool && m_pTPool->getMainThread()){
+//        m_pTPool->getMainThread()->setAuoWait(true);
+//    }
+//}
 
-//异步模式
-void SVInst::syASync() {
-    if(m_pTPool && m_pTPool->getMainThread()){
-        m_pTPool->getMainThread()->setAuoWait(false);
-        m_pTPool->getMainThread()->notice();
-    }
-}
+////异步模式
+//void SVInst::syASync() {
+//    if(m_pTPool && m_pTPool->getMainThread()){
+//        m_pTPool->getMainThread()->setAuoWait(false);
+//        m_pTPool->getMainThread()->notice();
+//    }
+//}
 
 //
 SVContextBase* SVInst::getContext(){

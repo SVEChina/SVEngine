@@ -20,23 +20,25 @@ namespace sv {
         
         virtual ~SVInst();
         //初始化SV
-        virtual void init();
+        virtual void init(s32 _sync = 0);
         //销毁SVå
         virtual void destroy();
         //开始SV
         virtual void startSVE();
         //停止SV
         virtual void stopSVE();
+        //同步模式调用的借口
+        void updateSVE(f32 _dt);
         //挂起SV
         void svSuspend();
         //将要挂起SV
         void svWillSuspend();
         //唤醒SV
         void svResume();
-        //同步模式
-        void svSync();
-        //异步模式
-        void syASync();
+//        //同步模式
+//        void svSync();
+//        //异步模式
+//        void syASync();
         //获取环境(上下文)
         SVContextBase* getContext();
         //设置时间状态
@@ -59,6 +61,7 @@ namespace sv {
         SVThreadPoolPtr m_pTPool;
         
     protected:
+        s32 m_sync;
         SV_STATE m_svst;
         SV_ENG_TIMESTATE m_engTimeState;
         
