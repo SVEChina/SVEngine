@@ -17,13 +17,12 @@ namespace sv{
         
         ~SVPenPackData();
         
-        bool savePenJsonData(SVDataSwapPtr _data, cptr8 _path);
+        static bool writePenData(SVInst* _app, SVDataSwapPtr _data, cptr8 _path, bool _clearData = true);
         
-        bool appendPenStrokeData(SVDataSwapPtr _data, cptr8 _path);
+        static bool loadPenData(SVInst* _app, SVDataSwapPtr _data, cptr8 _path, s32 _offset, s32 _length);
         
-        u32 getDataLength();
-    protected:
-        u32 m_dataLength;
+        static u64 checkPenStrokeDataLength(SVInst* _app, cptr8 _path);
+        
     };
     
 }//!namespace sv

@@ -563,13 +563,19 @@ SVOpSavePenEffcet::~SVOpSavePenEffcet() {
 }
 
 void SVOpSavePenEffcet::_process(f32 dt) {
+    SVString result = "false";
     SVString t_name = "sv_pen_module";
     SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
     if (t_modulePtr) {
         SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
         if (t_penDraw) {
-            t_penDraw->save(m_strPath);
+            if (t_penDraw->save(m_strPath)) {
+                result = "true";
+            }
         }
+    }
+    if (m_pCB) {
+        (*m_pCB)(result);
     }
 }
 

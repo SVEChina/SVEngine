@@ -37,20 +37,6 @@ namespace sv {
             SVRendererBasePtr m_pRenderer;
         };
         
-        class SVRenderCmdTrans : public SVRenderCmd {
-        public:
-            SVRenderCmdTrans(SVTransPtr _trans);
-            
-            ~SVRenderCmdTrans();
-            
-            virtual void render();
-            
-            SVString mTag;
-            
-        protected:
-            SVTransPtr m_pTrans;
-        };
-        
         //创建指令
         class SVRCmdCreate : public SVRenderCmd {
         public:

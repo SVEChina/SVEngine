@@ -11,16 +11,34 @@
 #include "../../file/SVFileMgr.h"
 SVPenPackData::SVPenPackData(SVInst *_app)
 :SVGBase(_app) {
-    m_dataLength = 0;
+    
 }
 
 SVPenPackData::~SVPenPackData() {
     
 }
 
-bool SVPenPackData::savePenJsonData(SVDataSwapPtr _data, cptr8 _path){
+bool SVPenPackData::loadPenData(SVInst* _app, SVDataSwapPtr _data, cptr8 _path, s32 _offset, s32 _length){
+    if (_data && _length) {
+        SVDataChunk dataChunk;
+        bool t_flag = _app->getFileMgr()->loadFileData(&dataChunk, _path, _offset, _length);
+        if (!t_flag) {
+            SV_LOG_ERROR("SVPenPackData::Load Stroke Data Error %s\n", _path);
+            return false;
+        }else {
+            _data->writeData(dataChunk.m_data, dataChunk.m_size);
+        }
+    }
+    return true;
+}
+
+bool SVPenPackData::writePenData(SVInst* _app, SVDataSwapPtr _data, cptr8 _path, bool _clearData){
     if (_data && _data->getSize()) {
-        bool t_flag = mApp->getFileMgr()->writeFileData(_data, _path);
+        SVDataChunk dataChunk;
+        u32 dataSize = _data->getSize();
+        dataChunk.apply(dataSize);
+        memcpy(dataChunk.m_data, _data->getData(), _data->getSize());
+        bool t_flag = _app->getFileMgr()->writeFileData(&dataChunk, _path, dataSize, _clearData);
         if (!t_flag) {
             SV_LOG_ERROR("SVPenPackData::Save Stroke Data Error %s\n", _path);
             return false;
@@ -29,19 +47,7 @@ bool SVPenPackData::savePenJsonData(SVDataSwapPtr _data, cptr8 _path){
     return true;
 }
 
-bool SVPenPackData::appendPenStrokeData(SVDataSwapPtr _data, cptr8 _path){
-    if (_data && _data->getSize()) {
-        bool t_flag = mApp->getFileMgr()->appendFileData(_data, _path);
-        if (!t_flag) {
-            SV_LOG_ERROR("SVPenPackData::Save Stroke Data Error %s\n", _path);
-            return false;
-        }else{
-            m_dataLength += _data->getSize();
-        }
-    }
-    return true;
-}
-
-u32 SVPenPackData::getDataLength(){
-    return m_dataLength;
+u64 SVPenPackData::checkPenStrokeDataLength(SVInst* _app, cptr8 _path){
+    return _app->getFileMgr()->checkFileDataLength(_path);
+    
 }

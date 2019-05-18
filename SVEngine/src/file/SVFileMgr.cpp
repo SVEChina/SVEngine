@@ -55,15 +55,38 @@ void SVFileMgr::clearRespath(){
     m_searchPathPool.destroy();
 }
 
-bool SVFileMgr::appendFileData(SVDataSwapPtr _data, cptr8 _fpath){
-    if (!_data)
+u64  SVFileMgr::checkFileDataLength(cptr8 _fpath){
+    SVString t_fullname = _fpath;
+    if ( !t_fullname.empty() ) {
+        FILE *fp = fopen(t_fullname.c_str(), "r");
+        if (fp) {
+            fseek(fp, 0, SEEK_END);
+            s64 t_file_len = ftell(fp);
+            u64 t_length = (u64)t_file_len;
+            fseek(fp, 0, SEEK_SET);
+            fclose(fp);
+            return t_length;
+        }
+    }
+    return 0;
+}
+
+bool SVFileMgr::loadFileData(SVDataChunk *_datachunk, cptr8 _fpath, s32 _offset, s32 _length){
+    if (!_datachunk)
         return false;
     SVString t_fullname = _fpath;
     if ( !t_fullname.empty() ) {
-        FILE *fp = fopen(t_fullname.c_str(), "a");
+        FILE *fp = fopen(t_fullname.c_str(), "r");
         if (fp) {
-            fseek(fp, 0, SEEK_END);
-            fwrite((_data->getData()), sizeof(c8), _data->getSize(), fp);
+            s32 t_length = _length;
+            if (t_length < 0) {
+                fseek(fp, 0, SEEK_END);
+                s64 t_file_len = ftell(fp);
+                t_length = (s32)t_file_len;
+            }
+            fseek(fp, _offset, SEEK_SET);
+            _datachunk->apply(t_length);
+            fread(_datachunk->m_data, t_length, 1, fp);
             fclose(fp);
             return true;
         }
@@ -71,15 +94,21 @@ bool SVFileMgr::appendFileData(SVDataSwapPtr _data, cptr8 _fpath){
     return false;
 }
 
-bool SVFileMgr::writeFileData(SVDataSwapPtr _data, cptr8 _fpath){
-    if (!_data)
+bool SVFileMgr::writeFileData(SVDataChunk *_datachunk, cptr8 _fpath, u32 _size, bool _clearData){
+    if (!_datachunk || _size == 0)
         return false;
     SVString t_fullname = _fpath;
     if ( !t_fullname.empty() ) {
-        FILE *fp = fopen(t_fullname.c_str(), "w");
-        if (fp) {
+        FILE *fp = NULL;
+        if (_clearData) {
+            fp = fopen(t_fullname.c_str(), "w");
             fseek(fp, 0, SEEK_SET);
-            fwrite((_data->getData()), sizeof(c8), _data->getSize(), fp);
+        }else{
+            fp = fopen(t_fullname.c_str(), "a");
+            fseek(fp, 0, SEEK_END);
+        }
+        if (fp) {
+            fwrite((_datachunk->m_data), sizeof(c8), _size, fp);
             fclose(fp);
             return true;
         }

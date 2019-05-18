@@ -53,12 +53,13 @@ namespace sv{
         
         void setPenMode(SVPENMODE _mode);
         
-        void save(cptr8 _path);
+        bool save(cptr8 _path);
         //序列化接口
         void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, cptr8 _path);
         
-        void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+        void fromJSON(RAPIDJSON_NAMESPACE::Value &_item, cptr8 _path);
     protected:
+        void _fromJSONBase(RAPIDJSON_NAMESPACE::Value &_item);
         void _drawStroke();//画笔触
         void _drawGlow();//画荧光
         void _drawReback();//画回主纹理
@@ -67,7 +68,6 @@ namespace sv{
         STROKEPOOL m_strokes;
         STROKEPOOL m_strokesCache;
         SVLockPtr m_lock;
-        SVPenPackDataPtr m_packData;
         SVPenStrokePtr m_curStroke;
         SVRenderTexturePtr m_fbo1;
         SVRenderTexturePtr m_fbo2;

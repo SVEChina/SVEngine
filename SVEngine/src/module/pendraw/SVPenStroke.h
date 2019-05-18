@@ -36,18 +36,9 @@ namespace sv{
         f32   eyeDis;
     };
     
-    struct SVPenParam{
-        f32 strokeWidth;
-        f32 glowWidth;
-        f32 strokeCurve;
-        f32 glowCurve;
-        FVec4 strokeColor;
-        FVec4 glowColor;
-    };
-    
     class SVPenStroke : public SVGameBase {
     public:
-        SVPenStroke(SVInst* _app, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor, SVPENMODE _mode);
+        SVPenStroke(SVInst* _app, SVPENMODE _mode, f32 _strokeWidth, FVec4 &_strokeColor, f32 _glowWidth, FVec4 &_glowColor);
         
         ~SVPenStroke();
         
@@ -59,8 +50,6 @@ namespace sv{
         
         void draw(f32 _px,f32 _py,f32 _pz);
         
-        void setDrawBox(bool _drawBox);
-        
         void updateStroke(float _dt);
         
         void renderStroke();
@@ -69,26 +58,20 @@ namespace sv{
         
         void renderGlow();
         
-        void renderBoundingBox();
-        
         void genFaceRawParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);//原始脸部数据
         
         void setFaceParam(FVec3 &_noseCenter, FVec3 &_rotation, f32 _eyeDis);//实时脸部数据
         
-        void getPenParam(SVPenParam &_penParam);
-        
-        void getStrokePt(SVDataSwapPtr _dataSwap);
-        
-        void getGlowPt(SVDataSwapPtr _dataSwap);
+        void setDrawBox(bool _drawBox);
         
         //序列化接口
-        void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, SVPenPackDataPtr _packData, cptr8 _path);
+        void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue, cptr8 _path);
         
-        void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+        void fromJSON(RAPIDJSON_NAMESPACE::Value &_item, cptr8 _path);
     protected:
-        void _genARPenParam();
+        void _createStrokeMesh(f32 _strokeWidth, FVec4 &_strokeColor);
         
-        void _genARFacePenParam();
+        void _createGlowMesh(f32 _glowWidth, FVec4 &_glowColor);
         
         void _updateARStroke(float _dt);
         
@@ -98,21 +81,25 @@ namespace sv{
         
         void _updateARFaceGlow(float _dt);
         
+        void _addPoint(f32 _px, f32 _py, ADDPOINTACTION _action);
+        
+        void _packCachePt(SVDataSwapPtr _dataSwap);
+        
+        void _unpackCachePt(SVDataSwapPtr _dataSwap, s32 _ptSize);
+        
         void _screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint);
-        //
-        void _createStrokeMesh();
-        //
-        void _createGlowMesh();
-        //
-        void _drawBoundBox();
+        
+        void _renderBoundingBox();
         //
         typedef SVArray<SVStrokePoint> PTPOOL;
-        PTPOOL m_ptCachePool;//保存原始点
         PTPOOL m_ptStrokePool;
         PTPOOL m_ptGlowPool;
-        SVPenCurvePtr m_penCurve;
+        SVArray<FVec2> m_ptCachePool;//保存原始点
+        SVPenCurvePtr m_penStrokeCurve;
+        SVPenCurvePtr m_penGlowCurve;
         SVLockPtr m_lock;
         SVBoundBox m_aabbBox;   //AABB包围盒
+        s32 m_pt_count;
         //画笔相关
         SVDataSwapPtr m_pInstanceOffsetData;
         SVRenderObjectPtr m_pRenderObj;
@@ -121,6 +108,8 @@ namespace sv{
         SVTexturePtr m_pTex;
         s32 m_instanceCount;
         s32 m_lastInstanceIndex;
+        f32 m_stroke_width;
+        FVec4 m_stroke_color;
         //画光圈相关
         SVDataSwapPtr m_pGlowInstanceOffsetData;  //mesh
         SVTexturePtr m_pGlowTex;
@@ -128,15 +117,20 @@ namespace sv{
         SVMtlStrokeBasePtr m_pGlowMtl;
         s32 m_lastGlowInstanceIndex;
         s32 m_glowInstanceCount;
+        f32 m_glow_width;
+        FVec4 m_glow_color;
         //画笔参数
-        SVPenParam m_penRawParam;
-        SVPenParam m_penParam;
+        f32 m_stroke_raw_width;
+        f32 m_glow_raw_width;
+        f32 m_stroke_curve;
+        f32 m_glow_curve;
         //
         FMat4 m_localMat;
         FMat4 m_faceTransform;
         f32 m_plane_dis;
         LERPMETHOD m_lerpMethod;
         SVPENMODE m_penMode;
+        SVFaceParam m_cache_faceParam;
         SVFaceParam m_raw_faceParam;
         SVFaceParam m_faceParam;
         bool  m_haveGenFaceCoord;
