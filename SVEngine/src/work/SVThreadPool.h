@@ -30,12 +30,11 @@ namespace sv {
         inline SVThreadHelpPtr getHelpThread(){ return m_pHelpThread; }
         
         inline SVThreadMainPtr getMainThread(){
-            return m_pSyncThread;
-//            if (m_sync == 0) {
-//                return m_pSyncThread;
-//            }else{
-//                return m_pSyncThread;
-//            }
+            if (m_sync == 0) {
+                return m_pMainThread;
+            }else{
+                return m_pSyncThread;
+            }
         }
     protected:
         SVThreadHelpPtr m_pHelpThread; //辅助线程
