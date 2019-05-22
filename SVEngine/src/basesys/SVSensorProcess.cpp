@@ -39,11 +39,9 @@ SVSensorProcess::SVSensorProcess(SVInst *_app)
     m_distance0.set(0.0f, 0.0f, 0.0f);
     m_distance1.set(0.0f, 0.0f, 0.0f);
     m_isFitst = false;
-    m_maxBox = 25;
 }
 
 SVSensorProcess::~SVSensorProcess() {
-    m_3DBoxPool.destroy();
     m_pARCamera = nullptr;
 }
 
@@ -98,63 +96,14 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHOR_AR){
         SVARAnchorEventPtr anchor = std::dynamic_pointer_cast<SVARAnchorEvent>(_event);
         if (anchor) {
-            if (m_maxBox > m_3DBoxPool.size()) {
-                SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-                if (t_pScene) {
-                    FMat4 localMat = FMat4((f32 *)anchor->m_matData->getData());
-                    SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
-                    //                        SVSpriteNodePtr billboardNode = MakeSharedPtr<SVSpriteNode>(mApp);
-                    FVec3 t_position = FVec3(localMat[12], localMat[13], localMat[14]);
-                    billboardNode->setPosition(t_position.x, t_position.y, t_position.z);
-                    cptr8 file = "svres/HollowKnight.png";
-                    SVTexturePtr texture = mApp->getTexMgr()->getTexture(file,true);
-                    billboardNode->setTexture(texture);
-                    billboardNode->setScale(0.0001, 0.0001, 0.0001);
-                    billboardNode->setSize(500, 500);
-                    t_pScene->addNode(billboardNode);
-                    m_3DBoxPool.append(billboardNode);
-                    //test
-//                    SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-//                    FMat4 t_vp = mainCamera->getVPMatObj();
-//                    FVec4 t_t = FVec4(t_position, 1.0);
-//                    FVec4 t_p = t_vp*t_t;
-//                    f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
-//                    f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
-//                    FVec4 t_t_p = FVec4((t_p.x*2.0f+0.5)*m_screenW,(t_p.y*2.0f+0.5)*m_screenH,-1.0f,1.0f);
-//                    s32 a = 0;
-                }
-            }
+            
         }
         
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHORPOINT_AR){
         SVARAnchorProjPosEventPtr anchorPoint = std::dynamic_pointer_cast<SVARAnchorProjPosEvent>(_event);
         if (anchorPoint) {
-            if (m_maxBox > m_3DBoxPool.size()) {
-                SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-                if (t_pScene && m_pARCamera) {
-                    FMat4 t_cameraMatrix = m_pARCamera->getViewMatObj();
-                    FVec3 t_cameraEye = FVec3(t_cameraMatrix[12], t_cameraMatrix[13], t_cameraMatrix[14]);
-                    FVec4 t_plane = FVec4(t_cameraMatrix[2], t_cameraMatrix[6], t_cameraMatrix[10], t_cameraEye.length()+0.3);
-                    SVPickProcessPtr t_pickModule = mApp->getBasicSys()->getPickModule();
-                    FVec3 t_pos;
-                    if(t_pickModule && t_pickModule->getCrossPointWithPlane(m_pARCamera,
-                                                                            anchorPoint->m_x,
-                                                                            anchorPoint->m_y,
-                                                                            t_pos,
-                                                                            t_plane) ){
-                        SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
-                        
-                        billboardNode->setPosition(t_pos.x, t_pos.y, t_pos.z);
-                        cptr8 file = "svres/HollowKnight.png";
-                        SVTexturePtr texture = mApp->getTexMgr()->getTexture(file,true);
-                        billboardNode->setTexture(texture);
-                        billboardNode->setScale(0.0001, 0.0001, 0.0001);
-                        billboardNode->setSize(500, 500);
-                        t_pScene->addNode(billboardNode);
-                        m_3DBoxPool.append(billboardNode);
-                    }
-                }
-            }
+            
+            
         }
         
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_DEVICE_ACCELEROMETER){
