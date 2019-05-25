@@ -98,7 +98,7 @@ void SVTransGPU::update(f32 dt) {
     if (m_pMtl) {
         m_pMtl->setTexcoordFlip(1.0f, -1.0f);
         if (m_picformate == SV_PF_GRAY8) {
-
+ 
         } else if (m_picformate == SV_PF_YV12) {
             m_pMtl->setTexcoordFlip(1.0,1.0);
             m_pMtl->setTexture(0, m_tex0);

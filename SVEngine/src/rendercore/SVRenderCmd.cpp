@@ -50,11 +50,9 @@ SVRCmdCreate::~SVRCmdCreate() {
 }
 
 void SVRCmdCreate::render(){
-    if(m_pRObj){
+    if(m_pRObj && m_pRenderer){
         m_pRObj->create(m_pRenderer);
-        if(m_pRenderer) {
-            m_pRenderer->addRes(m_pRObj);
-        }
+        m_pRenderer->addRes(m_pRObj);
     }
 }
 

@@ -28,6 +28,10 @@ namespace sv{
         void setEnd(bool _end);
         
         bool isEnd();
+        
+        void updateAniEvent(SVAnimateEventPtr _event);
+    protected:
+        void _attachToPeople(SVNodePtr _node);
     protected:
         SVNodePtr m_node;
         SVActionUnitPtr m_personAct;

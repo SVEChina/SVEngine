@@ -359,7 +359,7 @@ bool SVPenDraw::save(cptr8 _path){
     t_jsonData->writeData((void *)new_strJson.c_str(), new_strJson.size());
     SVString t_path_pen_json = SVString(_path) + SVString("/config.json");
     if (!SVPenPackData::writePenData(mApp, t_jsonData, t_path_pen_json)) {
-        SV_LOG_ERROR("SVPenDraw::Save Pen Json Error %s\n", t_path_pen_json);
+        SV_LOG_ERROR("SVPenDraw::Save Pen Json Error %s\n", t_path_pen_json.c_str());
         return false;
     }
     return true;

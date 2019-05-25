@@ -49,33 +49,54 @@ SVEffectUnit::~SVEffectUnit(){
 void SVEffectUnit::init(SVNodePtr _node){
     SVScenePtr t_scene = mApp->getSceneMgr()->getScene();
     if(_node && t_scene){
+        m_end = true;
         m_node = _node;
-        //这里先判断是spinenode的话就play，可以改成发个消息，然后所有的node一起播放。 晓帆
+        t_scene->addNode(m_node);
+        //需要挂的人身上
+        if (_node->getBindIndex() >= 0 && !m_personAct) {
+            _attachToPeople(_node);
+        }
         SVSpineNodePtr t_spineNode = DYN_TO_SHAREPTR(SVSpineNode, m_node);
         if (t_spineNode) {
             cptr8 t_defAniName = t_spineNode->getCurAniName();
             t_spineNode->setSpineCallback(spinenode_callback, this);
-            t_spineNode->play(t_defAniName);
-            m_end = false;
-        }else{
-            m_end = true;
-        }
-        if (_node->getBindIndex() >= 0 && !m_personAct) {
-            SVActFollowPersonPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson>(mApp, _node->getPersonID());
-            t_fllowPerson->setFllowIndex(_node->getBindIndex());
-            t_fllowPerson->setBindOffset(_node->getBindOffset().x, _node->getBindOffset().y, _node->getBindOffset().z);
-            t_fllowPerson->setScale(_node->getScale().x, _node->getScale().y, _node->getScale().z);
-            m_personAct = MakeSharedPtr<SVActionUnit>(mApp);
-            m_personAct->init();
-            m_personAct->setAct(t_fllowPerson);
-            m_personAct->setNode(_node);
-            m_personAct->enter();
-            SVActionSysPtr t_actSys = mApp->getActionSys();
-            if (m_personAct && t_actSys) {
-                t_actSys->addActionUnit(m_personAct);
+            if (strcmp(t_spineNode->getTriggerPlay(), "immediately") == 0) {
+                t_spineNode->play(t_defAniName);
+                m_end = false;
             }
         }
-        t_scene->addNode(m_node);
+    }
+}
+
+void SVEffectUnit::updateAniEvent(SVAnimateEventPtr _event){
+    SVSpineNodePtr t_spineNode = DYN_TO_SHAREPTR(SVSpineNode, m_node);
+    if (_event && t_spineNode) {
+        if (strcmp(t_spineNode->getTriggerPlay(), _event->m_AnimateName) == 0) {
+            cptr8 t_defAniName = t_spineNode->getCurAniName();
+            t_spineNode->play(t_defAniName);
+            m_end = false;
+        }
+        if (strcmp(t_spineNode->getTriggerStop(), _event->m_AnimateName) == 0) {
+            t_spineNode->stop();
+            m_end = true;
+        }
+    }
+}
+
+void SVEffectUnit::_attachToPeople(SVNodePtr _node){
+    //跟随人脸
+    SVActFollowPersonPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson>(mApp, _node->getPersonID());
+    t_fllowPerson->setFllowIndex(_node->getBindIndex());
+    t_fllowPerson->setBindOffset(_node->getBindOffset().x, _node->getBindOffset().y, _node->getBindOffset().z);
+    t_fllowPerson->setScale(_node->getScale().x, _node->getScale().y, _node->getScale().z);
+    m_personAct = MakeSharedPtr<SVActionUnit>(mApp);
+    m_personAct->init();
+    m_personAct->setAct(t_fllowPerson);
+    m_personAct->setNode(_node);
+    m_personAct->enter();
+    SVActionSysPtr t_actSys = mApp->getActionSys();
+    if (m_personAct && t_actSys) {
+        t_actSys->addActionUnit(m_personAct);
     }
 }
 
@@ -221,6 +242,14 @@ bool SVEffectPackage::procEvent(SVEventPtr _event) {
             if (m_cb) {
                 SVString msg = SVString::format("sveffectmusic_play_%s",t_event->path.c_str());
                 (*m_cb)(msg.c_str());
+            }
+        }
+    }else if(_event->eventType == EVN_T_ANIMATE){
+        SVAnimateEventPtr t_event = DYN_TO_SHAREPTR(SVAnimateEvent, _event);
+        if (t_event) {
+            for (s32 i = 0; i<m_effectUnitPool.size(); i++) {
+                SVEffectUnitPtr t_unit = m_effectUnitPool[i];
+                t_unit->updateAniEvent(t_event);
             }
         }
     }

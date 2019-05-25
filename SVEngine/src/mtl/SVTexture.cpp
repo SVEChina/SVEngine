@@ -78,7 +78,7 @@ void SVTexture::create(SVRendererBasePtr _renderer){
             m_objTexPtr->setdataformate(m_dataformate);
             m_objTexPtr->setEnableMipMap(m_bEnableMipMap);
             _updateData();
-            m_objTexPtr->create(_renderer);
+            m_objTexPtr->create(t_renderBasePtr);
         }
     }
 }

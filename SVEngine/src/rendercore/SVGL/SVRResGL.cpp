@@ -7,15 +7,15 @@
 
 #include "SVRResGL.h"
 #include "../../third/rapidjson/document.h"
-#include "../../base/SVPreDeclare.h"
 #include "../../app/SVInst.h"
+#include "../../base/SVPreDeclare.h"
+#include "../../base/SVDataSwap.h"
+#include "../../base/SVLock.h"
+#include "../../base/SVDataChunk.h"
 #include "../../mtl/SVMtlDef.h"
 #include "../../mtl/SVTexMgr.h"
 #include "../../mtl/SVTexture.h"
-#include "../../base/SVDataChunk.h"
 #include "../../file/SVFileMgr.h"
-#include "../../base/SVDataSwap.h"
-#include "../../base/SVLock.h"
 #include "../../rendercore/SVRenderMgr.h"
 #include "../SVContextBase.h"
 #include "../SVRendererBase.h"
@@ -90,15 +90,24 @@ void SVRResGLTex::destroy(SVRendererBasePtr _renderer) {
 
 void SVRResGLTex::commit() {
     m_texLock->lock();
-    if (m_pData) {
-        if(m_bLoad){
-            //更新数据
+    if (m_pData && m_bLoad) {
+        //更新数据
+        s32 bpp = 1;
+        if ( m_informate == GL_RGBA ){
+            bpp = 4;
+        }else if ( m_informate == GL_RGB ){
+            bpp = 3;
+        }else if (m_informate == GL_LUMINANCE_ALPHA){
+            bpp = 2;
+        }
+        s32 t_dataLen = m_width*m_height*bpp;
+        if (m_pData->getSize() >= t_dataLen) {
             m_pData->lockData();
             glBindTexture(GL_TEXTURE_2D, m_id);
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_width, m_height, m_informate,GL_UNSIGNED_BYTE,m_pData->getData());
             m_pData->unlockData();
-            m_pData = nullptr;
         }
+        m_pData = nullptr;
     }
     m_texLock->unlock();
 }
