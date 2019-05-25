@@ -97,15 +97,17 @@ void SVRResGLTex::commit() {
             bpp = 4;
         }else if ( m_informate == GL_RGB ){
             bpp = 3;
-        }else if (m_informate == GL_LUMINANCE_ALPHA){
+        }else if ( m_informate == GL_LUMINANCE_ALPHA ){
             bpp = 2;
         }
         s32 t_dataLen = m_width*m_height*bpp;
-        if (m_pData->getSize() >= t_dataLen) {
+        if (m_pData->getSize() == t_dataLen) {
             m_pData->lockData();
             glBindTexture(GL_TEXTURE_2D, m_id);
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_width, m_height, m_informate,GL_UNSIGNED_BYTE,m_pData->getData());
             m_pData->unlockData();
+        }else{
+            SV_LOG_ERROR("SVRResGLTex: commit pixel data error");
         }
         m_pData = nullptr;
     }
