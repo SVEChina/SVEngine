@@ -415,6 +415,9 @@ void SVDeformImageMove::pointMove(V2 *t_data){
 
 void SVDeformImageMove::_updateControl(V2 *t_data){
     V2 *t_outlinePoints=t_data;
+    if(m_smooth<0.01){
+        return;
+    }
     
     FVec2 eyer = FVec2(t_outlinePoints[77].x,t_outlinePoints[77].y);
     FVec2 eyel = FVec2(t_outlinePoints[74].x,t_outlinePoints[74].y);
