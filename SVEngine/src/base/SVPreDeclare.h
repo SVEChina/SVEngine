@@ -73,6 +73,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVGeoGen);
     //操作Operate
     DECLARE_SHAREPTR(SVOpBase);
+    DECLARE_SHAREPTR(SVOpPushFaceData);
     DECLARE_SHAREPTR(SVOpCreateScene);
     DECLARE_SHAREPTR(SVOpCreateTest);
     DECLARE_SHAREPTR(SVOpCreateDebugFacePt);

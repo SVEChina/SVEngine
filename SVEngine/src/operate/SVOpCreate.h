@@ -121,6 +121,18 @@ namespace sv {
         f32 m_time;
     };
 
+    //推送人脸识别点
+    class SVOpPushFaceData : public SVOpBase {
+    public:
+        SVOpPushFaceData(SVInst *_app, void *_data);
+        
+        ~SVOpPushFaceData();
+        
+    protected:
+        void _process(f32 dt);
+        
+        void *m_data;
+    };
     
     //测试操作
     class SVOpCreateTest : public SVOpBase {
