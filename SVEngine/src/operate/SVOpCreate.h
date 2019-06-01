@@ -108,12 +108,34 @@ namespace sv {
         s32   m_channel;
     };
     
-    //打开延时挂起
-    class SVOpOpenDelaySuspend : public SVOpBase {
+    //恢复
+    class SVOpEngineResume : public SVOpBase {
     public:
-        SVOpOpenDelaySuspend(SVInst *_app, f32 _time);
+        SVOpEngineResume(SVInst *_app);
         
-        ~SVOpOpenDelaySuspend();
+        ~SVOpEngineResume();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    
+    //挂起
+    class SVOpEngineSuspend : public SVOpBase {
+    public:
+        SVOpEngineSuspend(SVInst *_app);
+        
+        ~SVOpEngineSuspend();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    
+    //延时挂起
+    class SVOpEngineDelaySuspend : public SVOpBase {
+    public:
+        SVOpEngineDelaySuspend(SVInst *_app, f32 _time);
+        
+        ~SVOpEngineDelaySuspend();
         
     protected:
         void _process(f32 dt);

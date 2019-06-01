@@ -28,6 +28,25 @@ namespace sv {
         bool m_show;
     };
     
+    //创建ios相机
+    class SVOpCreateIOSTexIDInstream : public SVOpBase {
+    public:
+        SVOpCreateIOSTexIDInstream(SVInst* _app,cptr8 _name, u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, s32 _format,s32 _w,s32 _h,f32 _angle, bool _show = false);
+        
+        void _process(f32 _dt);
+        
+    protected:
+        SVString m_name;
+        s32 m_formate;
+        s32 m_width;
+        s32 m_height;
+        f32 m_angle;
+        u32 m_tex0ID;
+        u32 m_tex1ID;
+        u32 m_tex2ID;
+        bool m_show;
+    };
+    
     //销毁ios相机
     class SVOpDestroyIOSInstream : public SVOpBase {
     public:

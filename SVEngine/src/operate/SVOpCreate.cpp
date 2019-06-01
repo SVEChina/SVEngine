@@ -193,15 +193,40 @@ void SVOpTexAttachment::_process(f32 dt) {
     }
 }
 
-SVOpOpenDelaySuspend::SVOpOpenDelaySuspend(SVInst *_app, f32 _time) : SVOpBase(_app){
-    m_time = _time;
-}
 
-SVOpOpenDelaySuspend::~SVOpOpenDelaySuspend(){
+SVOpEngineResume::SVOpEngineResume(SVInst *_app) : SVOpBase(_app){
     
 }
 
-void SVOpOpenDelaySuspend::_process(f32 dt){
+SVOpEngineResume::~SVOpEngineResume(){
+    
+}
+
+void SVOpEngineResume::_process(f32 dt){
+    mApp->svResume();
+}
+
+SVOpEngineSuspend::SVOpEngineSuspend(SVInst *_app) : SVOpBase(_app){
+    
+}
+
+SVOpEngineSuspend::~SVOpEngineSuspend(){
+    
+}
+
+void SVOpEngineSuspend::_process(f32 dt){
+    mApp->svSuspend();
+}
+
+SVOpEngineDelaySuspend::SVOpEngineDelaySuspend(SVInst *_app, f32 _time) : SVOpBase(_app){
+    m_time = _time;
+}
+
+SVOpEngineDelaySuspend::~SVOpEngineDelaySuspend(){
+    
+}
+
+void SVOpEngineDelaySuspend::_process(f32 dt){
     SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule("sv_delaysuspend");
     SVModuleDelaySuspendPtr t_suspend = std::dynamic_pointer_cast<SVModuleDelaySuspend>(t_modulePtr);
     if (t_suspend) {

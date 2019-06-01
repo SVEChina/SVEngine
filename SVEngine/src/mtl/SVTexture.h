@@ -85,6 +85,7 @@ namespace sv {
             
             virtual void destroy(SVRendererBasePtr _renderer);
             
+            void setTexID(u32 _texID);
         protected:
             s32 m_texID;
         };

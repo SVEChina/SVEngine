@@ -243,6 +243,14 @@ void SVTextureInputTexID::create(SVRendererBasePtr _renderer){
     }
 }
 
+void SVTextureInputTexID::setTexID(u32 _texID){
+    m_texID = _texID;
+    SVRResGLTexWithTexIDPtr resTexWithID = DYN_TO_SHAREPTR(SVRResGLTexWithTexID, m_objTexPtr);
+    if (resTexWithID) {
+        resTexWithID->setTexID(m_texID);
+    }
+}
+
 void SVTextureInputTexID::destroy(SVRendererBasePtr _renderer){
     if (m_objTexPtr) {
         m_objTexPtr->destroy(_renderer);
