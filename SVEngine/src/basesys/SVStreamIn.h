@@ -28,6 +28,10 @@ namespace sv {
             
             void init(s32 _w,s32 _h,PICFORMATE _informate,f32 _angle,bool _show,SVTEXTYPE _tex);
             
+            void init(u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, s32 _w,s32 _h,PICFORMATE _informate,f32 _angle,bool _show);
+            
+            void init(u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, s32 _w,s32 _h,PICFORMATE _informate,f32 _angle,bool _show,SVTEXTYPE _tex);
+            
             void destroy();
             
             void active();
@@ -37,6 +41,8 @@ namespace sv {
             void update(f32 _dt);
             
             void pushData(u8* _srcPtr,s32 width,s32 height,s32 pixelFormat,s32 _angle);
+            
+            void pushTexture(u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, s32 width,s32 height,s32 pixelFormat,s32 _angle);
             
         protected:
             bool m_useGPU;
@@ -62,6 +68,8 @@ namespace sv {
             
             void createInStream(cptr8 _name,s32 _type,PICFORMATE _formate,s32 _w,s32 _h,f32 _angle, SVTEXTYPE _tex, bool _show = false);
     
+            void createInTextureStream(cptr8 _name, u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, s32 _type,PICFORMATE _formate,s32 _w,s32 _h,f32 _angle, bool _show = false);
+            
             void destroyInStream(cptr8 _name);
             
             void active(cptr8 _name);
@@ -69,6 +77,8 @@ namespace sv {
             void unactive(cptr8 _name);
             
             void pushStreamData(cptr8 _name,u8* _srcPtr,s32 width,s32 height,s32 pixelFormat,s32 _angle);
+            
+            void pushTextureStream(cptr8 _name,u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, s32 width,s32 height,s32 pixelFormat,s32 _angle);
             
             void update(f32 _dt);
             

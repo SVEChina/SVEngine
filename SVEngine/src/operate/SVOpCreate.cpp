@@ -44,6 +44,8 @@
 #include "../module/SVEffectPackage.h"
 #include "../module/pendraw/SVPenDraw.h"
 #include "../act/SVTexAttachment.h"
+#include "../detect/SVDetectMgr.h"
+#include "../detect/SVDetectBase.h"
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
 : SVOpBase(_app) {
@@ -191,21 +193,64 @@ void SVOpTexAttachment::_process(f32 dt) {
     }
 }
 
-SVOpOpenDelaySuspend::SVOpOpenDelaySuspend(SVInst *_app, f32 _time) : SVOpBase(_app){
-    m_time = _time;
-}
 
-SVOpOpenDelaySuspend::~SVOpOpenDelaySuspend(){
+SVOpEngineResume::SVOpEngineResume(SVInst *_app) : SVOpBase(_app){
     
 }
 
-void SVOpOpenDelaySuspend::_process(f32 dt){
+SVOpEngineResume::~SVOpEngineResume(){
+    
+}
+
+void SVOpEngineResume::_process(f32 dt){
+    mApp->svResume();
+}
+
+SVOpEngineSuspend::SVOpEngineSuspend(SVInst *_app) : SVOpBase(_app){
+    
+}
+
+SVOpEngineSuspend::~SVOpEngineSuspend(){
+    
+}
+
+void SVOpEngineSuspend::_process(f32 dt){
+    mApp->svSuspend();
+}
+
+SVOpEngineDelaySuspend::SVOpEngineDelaySuspend(SVInst *_app, f32 _time) : SVOpBase(_app){
+    m_time = _time;
+}
+
+SVOpEngineDelaySuspend::~SVOpEngineDelaySuspend(){
+    
+}
+
+void SVOpEngineDelaySuspend::_process(f32 dt){
     SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule("sv_delaysuspend");
     SVModuleDelaySuspendPtr t_suspend = std::dynamic_pointer_cast<SVModuleDelaySuspend>(t_modulePtr);
     if (t_suspend) {
         t_suspend->setOpCallBack(m_pCB);
         t_suspend->setAccTime(m_time);
         t_suspend->open();
+    }
+}
+
+SVOpPushFaceData::SVOpPushFaceData(SVInst *_app, void *_data)
+: SVOpBase(_app){
+    m_data = _data;
+}
+
+SVOpPushFaceData::~SVOpPushFaceData(){
+    
+}
+
+void SVOpPushFaceData::_process(f32 dt){
+    if( mApp->getDetectMgr() ) {
+        SVDetectBasePtr t_detect = mApp->getDetectMgr()->getDetect();
+        if( t_detect ) {
+            t_detect->pushData(m_data);
+        }
     }
 }
 

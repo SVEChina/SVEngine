@@ -47,6 +47,7 @@ namespace sv {
             
             virtual void destroy(SVRendererBasePtr _renderer);
             
+            virtual void setTexID(u32 _texID);
         };
         
         //PList假纹理

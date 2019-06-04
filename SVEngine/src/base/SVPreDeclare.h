@@ -73,10 +73,13 @@ namespace sv {
     DECLARE_SHAREPTR(SVGeoGen);
     //操作Operate
     DECLARE_SHAREPTR(SVOpBase);
+    DECLARE_SHAREPTR(SVOpPushFaceData);
     DECLARE_SHAREPTR(SVOpCreateScene);
     DECLARE_SHAREPTR(SVOpCreateTest);
     DECLARE_SHAREPTR(SVOpCreateDebugFacePt);
-    DECLARE_SHAREPTR(SVOpOpenDelaySuspend);
+    DECLARE_SHAREPTR(SVOpEngineResume);
+    DECLARE_SHAREPTR(SVOpEngineSuspend);
+    DECLARE_SHAREPTR(SVOpEngineDelaySuspend);
     DECLARE_SHAREPTR(SVOpCreateDivision);
     DECLARE_SHAREPTR(SVOpCreateMark);
     DECLARE_SHAREPTR(SVOpMarkContent);
@@ -117,6 +120,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpPenRedoIsEnable);
     DECLARE_SHAREPTR(SVOpPenMode);
     //
+    DECLARE_SHAREPTR(SVOpCreateIOSTexIDInstream);
     DECLARE_SHAREPTR(SVOpCreateIOSInstream);
     DECLARE_SHAREPTR(SVOpDestroyIOSInstream);
     DECLARE_SHAREPTR(SVOpCreateIOSOutstream);

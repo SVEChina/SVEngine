@@ -16,7 +16,6 @@
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectST.h"
 #include "SVFacePointNode.h"
-
 SVFacePointNode::SVFacePointNode(SVInst *_app)
 :SVNode(_app){
     ntype = "SVFacePointNode";
@@ -32,7 +31,6 @@ SVFacePointNode::SVFacePointNode(SVInst *_app)
     m_pMesh->setDrawMethod(E_DM_POINTS);
     m_pMesh->createMesh();
 }
-
 
 SVFacePointNode::~SVFacePointNode(){
     
@@ -63,7 +61,7 @@ void SVFacePointNode::render(){
     SVPersonPtr t_person = mApp->getDetectMgr()->getPersonModule()->getPerson(1);
     if (t_person->getExist()) {
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-        if (m_pRenderObj ) {
+        if (m_pRenderObj) {
             m_pRenderObj->pushCmd(t_rs, RST_DEBUG, "SVFacePointNode");
         }
     }
