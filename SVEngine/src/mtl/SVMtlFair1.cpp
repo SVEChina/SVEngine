@@ -153,6 +153,32 @@ void SVMtlGaussian::_submitMtl(SVRendererBasePtr _render) {
     }
 }
 
+SVMtlBlurFairGus::SVMtlBlurFairGus(SVInst *_app)
+:SVMtlCore(_app,"blur_fair_gus") {
+    
+}
+
+SVMtlBlurFairGus::SVMtlBlurFairGus(SVMtlBlurFairGus *_mtl)
+:SVMtlCore(_mtl){
+    
+}
+
+SVMtlBlurFairGus::~SVMtlBlurFairGus(){
+    
+}
+
+void SVMtlBlurFairGus::setSmooth(f32 _smooth){
+    
+}
+
+void SVMtlBlurFairGus::_submitMtl(SVRendererBasePtr _render){
+    
+}
+
+SVMtlCorePtr SVMtlBlurFairGus::clone(){
+     return PointerSharedPtr<SVMtlBlurFairGus>(new SVMtlBlurFairGus(this));
+}
+
 SVMtlBlur::SVMtlBlur(SVInst *_app)
 :SVMtlCore(_app,"blur") {
     m_radius = 1.0f;
