@@ -144,6 +144,25 @@ namespace sv {
             f32 m_smooth;
         };
         
+        class SVMtlBlurFairGus : public SVMtlCore {
+        public:
+            SVMtlBlurFairGus(SVInst *_app);
+            
+            SVMtlBlurFairGus(SVMtlBlurFairGus *_mtl);
+            
+            ~SVMtlBlurFairGus();
+            
+            void setSmooth(f32 _smooth);
+            
+            virtual void _submitMtl(SVRendererBasePtr _render);
+            
+            virtual SVMtlCorePtr clone();
+            
+        protected:
+            f32 m_smooth;
+        };
+        
+        
     }//!namespace mtl
     
 }//!namespace sv
