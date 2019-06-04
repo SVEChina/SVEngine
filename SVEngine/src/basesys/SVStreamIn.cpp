@@ -256,12 +256,8 @@ void StreamInCore::pushData(u8* _srcPtr,s32 width,s32 height,s32 pixelFormat,s32
     } else if (m_formate == SV_PF_RGB) {
     }
     
-    //trans render
-    if (m_trans) {
-        m_trans->update(0.0f);
-        m_trans->render();
-    }
-}
+   _updateTrans();
+ }
 
 void StreamInCore::pushTexture(u32 _tex0ID, u32 _tex1ID, u32 _tex2ID,s32 width,s32 height,s32 pixelFormat,s32 _angle){
     if(m_trans) {
@@ -312,11 +308,15 @@ void StreamInCore::pushTexture(u32 _tex0ID, u32 _tex1ID, u32 _tex2ID,s32 width,s
         }
     } else if (m_formate == SV_PF_RGB) {
     }
-    
+    _updateTrans();
+}
+
+void StreamInCore::_updateTrans(){
     //trans render
-    if (m_trans) {
-        m_trans->update(0.0f);
-        m_trans->render();
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    SVRenderCmdTransGPUPtr transCmd = MakeSharedPtr<SVRenderCmdTransGPU>(m_trans);
+    if(t_rs){
+        t_rs->pushRenderCmd(RST_SKY, transCmd);
     }
 }
 

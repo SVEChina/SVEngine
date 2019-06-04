@@ -45,6 +45,7 @@ namespace sv {
             void pushTexture(u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, s32 width,s32 height,s32 pixelFormat,s32 _angle);
             
         protected:
+            void _updateTrans();
             bool m_useGPU;
             SVTransPtr m_trans;
             SVNodePtr m_showNode;

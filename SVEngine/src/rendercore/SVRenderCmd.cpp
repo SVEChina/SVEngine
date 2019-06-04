@@ -38,7 +38,22 @@ void SVRenderCmd::setRenderer(SVRendererBasePtr _renderer) {
 void SVRenderCmd::render() {
     
 }
+//
+SVRenderCmdTransGPU::SVRenderCmdTransGPU(SVTransPtr _trans):SVRenderCmd() {
+    mTag = "SVRenderCmdTransGPU";
+    m_trans = _trans;
+}
 
+SVRenderCmdTransGPU::~SVRenderCmdTransGPU() {
+    m_trans = nullptr;
+}
+
+void SVRenderCmdTransGPU::render() {
+    if (m_trans) {
+        m_trans->update(0.0f);
+        m_trans->render();
+    }
+}
 //创建指令
 SVRCmdCreate::SVRCmdCreate(SVRObjBasePtr _robj) {
     m_pRObj = _robj;

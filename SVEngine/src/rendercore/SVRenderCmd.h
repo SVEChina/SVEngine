@@ -37,6 +37,18 @@ namespace sv {
             SVRendererBasePtr m_pRenderer;
         };
         
+        class SVRenderCmdTransGPU : public SVRenderCmd {
+        public:
+            SVRenderCmdTransGPU(SVTransPtr _trans);
+            
+            ~SVRenderCmdTransGPU();
+            
+            virtual void render();
+            
+        protected:
+            SVTransPtr m_trans;
+        };
+        
         //创建指令
         class SVRCmdCreate : public SVRenderCmd {
         public:
