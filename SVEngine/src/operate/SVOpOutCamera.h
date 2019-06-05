@@ -15,13 +15,13 @@ namespace sv {
     //创建ios相机
     class SVOpCreateIOSInstream : public SVOpBase {
     public:
-        SVOpCreateIOSInstream(SVInst* _app,cptr8 _name,s32 _format,s32 _w,s32 _h,f32 _angle, bool _show = false);
+        SVOpCreateIOSInstream(SVInst* _app,cptr8 _name,PICFORMATE _format,s32 _w,s32 _h,f32 _angle, bool _show = false);
         
         void _process(f32 _dt);
         
     protected:
         SVString m_name;
-        s32 m_formate;
+        PICFORMATE m_formate;
         s32 m_width;
         s32 m_height;
         f32 m_angle;
@@ -31,13 +31,13 @@ namespace sv {
     //创建ios相机
     class SVOpCreateIOSTexIDInstream : public SVOpBase {
     public:
-        SVOpCreateIOSTexIDInstream(SVInst* _app,cptr8 _name, u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, s32 _format,s32 _w,s32 _h,f32 _angle, bool _show = false);
+        SVOpCreateIOSTexIDInstream(SVInst* _app,cptr8 _name, u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, PICFORMATE _format,s32 _w,s32 _h,f32 _angle, bool _show = false);
         
         void _process(f32 _dt);
         
     protected:
         SVString m_name;
-        s32 m_formate;
+        PICFORMATE m_formate;
         s32 m_width;
         s32 m_height;
         f32 m_angle;
@@ -121,34 +121,7 @@ namespace sv {
     protected:
         SVString m_name;
     };
-    
-    //创建一个yuv相机
-    class SVOpCreateYUVInstream : public SVOpBase {
-    public:
-        SVOpCreateYUVInstream(SVInst* _app,cptr8 _name,PICFORMATE _format,s32 _w,s32 _h,f32 _angle);
-        
-        void _process(f32 _dt);
-        
-    protected:
-        PICFORMATE m_formate;
-        s32 m_width;
-        s32 m_height;
-        f32 m_angle;
-        SVString m_name;
-    };
-    
-    
-    //创建一个yuv相机
-
-    class SVOpDestroyYUVInstream : public SVOpBase {
-    public:
-        SVOpDestroyYUVInstream(SVInst* _app,cptr8 _name);
-
-        void _process(f32 _dt);
-    protected:
-        SVString m_name;
-    };
-    
+   
     //创建一个纹理相机
     class SVOpCreateTextureCamera : public SVOpBase {
     public:

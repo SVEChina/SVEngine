@@ -14,7 +14,7 @@
 #include "../basesys/SVStreamOut.h"
 #include "../rendercore/SVRenderDef.h"
 //设置ios相机
-SVOpCreateIOSInstream::SVOpCreateIOSInstream(SVInst *_app, cptr8 _name, s32 _format, s32 _w, s32 _h,f32 _angle, bool _show)
+SVOpCreateIOSInstream::SVOpCreateIOSInstream(SVInst *_app, cptr8 _name, PICFORMATE _format, s32 _w, s32 _h,f32 _angle, bool _show)
         : SVOpBase(_app) {
     m_name = _name;
     m_formate = _format;
@@ -29,14 +29,14 @@ void SVOpCreateIOSInstream::_process(f32 _dt) {
     //创建一个ios相机节点 挂在场景中
     SVStreamInPtr t_cam_stream = mApp->getBasicSys()->getStreamIn();
     if(t_cam_stream){
-        t_cam_stream->createInStream(m_name.c_str(),0,SV_PF_BGRA,m_width,m_height,m_angle, m_show);
+        t_cam_stream->createInStream(m_name.c_str(),0,m_formate,m_width,m_height,m_angle, m_show);
         t_cam_stream->active(m_name.c_str());
     }
 #endif
 }
 
 //设置ios相机
-SVOpCreateIOSTexIDInstream::SVOpCreateIOSTexIDInstream(SVInst *_app, cptr8 _name, u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, s32 _format, s32 _w, s32 _h,f32 _angle, bool _show)
+SVOpCreateIOSTexIDInstream::SVOpCreateIOSTexIDInstream(SVInst *_app, cptr8 _name, u32 _tex0ID, u32 _tex1ID, u32 _tex2ID, PICFORMATE _format, s32 _w, s32 _h,f32 _angle, bool _show)
 : SVOpBase(_app) {
     m_name = _name;
     m_formate = _format;
@@ -54,7 +54,7 @@ void SVOpCreateIOSTexIDInstream::_process(f32 _dt) {
     //创建一个ios相机节点 挂在场景中
     SVStreamInPtr t_cam_stream = mApp->getBasicSys()->getStreamIn();
     if(t_cam_stream){
-        t_cam_stream->createInTextureStream(m_name.c_str(), m_tex0ID, m_tex1ID, m_tex2ID, 0,SV_PF_BGRA,m_width,m_height,m_angle, m_show);
+        t_cam_stream->createInTextureStream(m_name.c_str(), m_tex0ID, m_tex1ID, m_tex2ID, 0, m_formate, m_width, m_height, m_angle, m_show);
         t_cam_stream->active(m_name.c_str());
     }
 #endif
@@ -161,38 +161,6 @@ SVOpDestroyAndoidCamera::SVOpDestroyAndoidCamera(SVInst *_app, cptr8 _name)
 
 void SVOpDestroyAndoidCamera::_process(f32 _dt) {
 
-}
-
-//创建YUV
-SVOpCreateYUVInstream::SVOpCreateYUVInstream(SVInst *_app, cptr8 _name, PICFORMATE _format, s32 _w, s32 _h,
-                                             f32 _angle)
-        : SVOpBase(_app) {
-    m_formate = _format;
-    m_width = _w;
-    m_height = _h;
-    m_angle = _angle;
-    m_name = _name;
-}
-
-void SVOpCreateYUVInstream::_process(f32 _dt) {
-    SVStreamInPtr t_cam_stream = mApp->getBasicSys()->getStreamIn();
-    if (t_cam_stream) {
-        t_cam_stream->createInStream(m_name.c_str(), 1, m_formate, m_width, m_height, m_angle,true);
-        t_cam_stream->active(m_name.c_str());
-    }
-}
-
-SVOpDestroyYUVInstream::SVOpDestroyYUVInstream(SVInst *_app, cptr8 _name)
-        : SVOpBase(_app) {
-    m_name = _name;
-}
-
-void SVOpDestroyYUVInstream::_process(f32 _dt) {
-    SVStreamInPtr t_cam_stream = mApp->getBasicSys()->getStreamIn();
-    if (t_cam_stream) {
-        t_cam_stream->unactive(m_name.c_str());
-        t_cam_stream->destroyInStream(m_name.c_str());
-    }
 }
 
 //创建纹理相机

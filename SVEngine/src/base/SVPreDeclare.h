@@ -127,8 +127,6 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpDestroyIOSOutstream);
     DECLARE_SHAREPTR(SVOpOpenIOSOutstream);
     DECLARE_SHAREPTR(SVOpCloseIOSOutstream);
-    DECLARE_SHAREPTR(SVOpCreateYUVInstream);
-    DECLARE_SHAREPTR(SVOpDestroyYUVInstream);
     DECLARE_SHAREPTR(SVOpDestroyTextureOutstream);
     DECLARE_SHAREPTR(SVOpCreateAndriodCamera);
     DECLARE_SHAREPTR(SVOpCreateTextureCamera);
