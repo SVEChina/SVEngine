@@ -150,7 +150,7 @@ namespace sv {
     //创建一个流相机
     class SVOpCreateStreamCamera : public SVOpBase {
     public:
-        SVOpCreateStreamCamera(SVInst* _app,s32 _format,s32 _w,s32 _h,f32 _angle);
+        SVOpCreateStreamCamera(SVInst* _app,cptr8 _name,s32 _format,s32 _w,s32 _h,f32 _angle);
         
         void _process(f32 _dt);
         
@@ -159,6 +159,19 @@ namespace sv {
         s32 m_width;
         s32 m_height;
         f32 m_angle;
+        SVString m_name;
+    };
+
+
+    //销毁一个相机流
+
+    class SVOpDestroyStreamCamera : public SVOpBase {
+    public:
+        SVOpDestroyStreamCamera(SVInst* _app,cptr8 _name);
+
+        void _process(f32 _dt);
+    protected:
+        SVString m_name;
     };
     
 }//!namespace sv

@@ -131,6 +131,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpCreateAndriodCamera);
     DECLARE_SHAREPTR(SVOpCreateTextureCamera);
     DECLARE_SHAREPTR(SVOpCreateStreamCamera);
+    DECLARE_SHAREPTR(SVOpDestroyStreamCamera);
     DECLARE_SHAREPTR(SVOpParse);
     DECLARE_SHAREPTR(SVOperateDelEft);
     DECLARE_SHAREPTR(SVOpSaveEft);
