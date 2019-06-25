@@ -148,18 +148,18 @@ void SVOpCreateEffcet::_process(f32 dt) {
             mApp->getModuleSys()->regist(t_modulePtr, t_moduleName.c_str());
             if (m_pCB) {
                 SVString msg = SVString::format("effectpackageloadsucceed_%s",t_moduleName.c_str());
-                (*m_pCB)(msg.c_str());
+                (*m_pCB)(msg.c_str(), mApp);
             }
         }else{
             if (m_pCB) {
                 SVString msg = SVString::format("effectpackageloadfailed_%s",t_moduleName.c_str());
-                (*m_pCB)(msg.c_str());
+                (*m_pCB)(msg.c_str(), mApp);
             }
         }
     }else{
         if (m_pCB) {
             SVString msg = SVString::format("effectpackageloadfailed_%s",t_moduleName.c_str());
-            (*m_pCB)(msg.c_str());
+            (*m_pCB)(msg.c_str(), mApp);
         }
     }
 }
@@ -620,7 +620,7 @@ void SVOpSavePenEffcet::_process(f32 dt) {
         }
     }
     if (m_pCB) {
-        (*m_pCB)(result);
+        (*m_pCB)(result, mApp);
     }
 }
 
@@ -702,7 +702,7 @@ void SVOpPenUndoIsEnable::_process(f32 dt) {
         }
     }
     if (m_pCB) {
-        (*m_pCB)(result);
+        (*m_pCB)(result, mApp);
     }
 }
 
@@ -727,7 +727,7 @@ void SVOpPenRedoIsEnable::_process(f32 dt) {
         }
     }
     if (m_pCB) {
-        (*m_pCB)(result);
+        (*m_pCB)(result, mApp);
     }
 }
 

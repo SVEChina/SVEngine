@@ -126,6 +126,7 @@ namespace sv {
         bool loadEffectIsScreen;
         CfgFilter m_cfgFilter;
         bool mirror; //是否镜像显示,即进来什么样就是什么样，不进行翻转
+        SVString m_tag;
     private:
         void _adaptScale();
         

@@ -31,6 +31,8 @@ namespace sv{
         void reset();
         
         void setRootPath(cptr8 _path);
+        
+        void getAllMusic(SVArray<SVString> &_musics);
     protected:
         void _addMusic(cptr8 _key, cptr8 _musicPath);
         void _clearAllMusic();

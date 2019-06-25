@@ -16,9 +16,7 @@ SVEffectMusic::SVEffectMusic(SVInst* _app)
 }
 
 SVEffectMusic::~SVEffectMusic(){
-    if (m_lock) {
-        m_lock = nullptr;
-    }
+    m_lock = nullptr;
     _clearAllMusic();
 }
 
@@ -49,15 +47,15 @@ void SVEffectMusic::setRootPath(cptr8 _path){
     m_rootPath = _path;
 }
 
-void SVEffectMusic::_clearAllMusic(){
+void SVEffectMusic::getAllMusic(SVArray<SVString> &_musics){
     MUSICMAP::Iterator it = m_musicMap.begin();
     while(it != m_musicMap.end()){
-        SVEffectMusicEventPtr t_event = MakeSharedPtr<SVEffectMusicEvent>();
-        t_event->eventType = EVN_T_EFFECT_MUSIC_UNLOAD;
-        t_event->path = it->data;
-        mApp->getEventMgr()->pushEvent(t_event);
+        _musics.append(it->data);
         it++;
     }
+}
+
+void SVEffectMusic::_clearAllMusic(){
     m_musicMap.clear();
 }
 

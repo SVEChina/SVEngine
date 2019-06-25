@@ -31,6 +31,7 @@ SVConfig::SVConfig(SVInst *_app) : SVGBase(_app) {
     useDataSwapOnNode = false;
     detectType = DETECT_T_NULL;
     loadEffectIsScreen=false;
+    m_tag = "svengine";
 }
 
 SVConfig::~SVConfig() {

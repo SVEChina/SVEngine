@@ -32,7 +32,7 @@ void SVModuleDelaySuspend::update(f32 _dt) {
             close();
             mApp->svSuspend();
             if (m_cb) {
-                (*m_cb)("sv_suspend");
+                (*m_cb)("sv_suspend", mApp);
             }
         }
     }

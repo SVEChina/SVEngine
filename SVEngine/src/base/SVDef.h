@@ -177,7 +177,7 @@ typedef void (*cb_func_percent)(f32 percent);
 //百分比回调
 typedef void (*cb_func_record)(s32 _frames);
 //操作回调
-typedef void (*cb_func_op)(cptr8 _info);
+typedef void (*cb_func_op)(cptr8 _info, void *obj);
 //游戏信息回调
 typedef void (*cb_func_game)(s32 _type,cptr8 _info);
 //输出回调

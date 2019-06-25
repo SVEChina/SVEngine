@@ -25,7 +25,7 @@ void SVOpBase::setCallBack(cb_func_op _cb,cptr8 _info){
 void SVOpBase::process(f32 dt) {
     _process(dt);
     if(m_pCB){
-        (*m_pCB)(m_info.c_str());
+        (*m_pCB)(m_info.c_str(), mApp);
     }
 }
 
