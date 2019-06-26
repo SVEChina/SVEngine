@@ -139,15 +139,11 @@ FVec2 SVImageUsingMove::MLS(const FVec2& t){
         m_lock->unlock();
         return t_fv;
     }
-    f64 t_temp1,t_temp2,t_temp3,t_temp4;
-    t_temp1 = A[1][1]/det;
-    t_temp2 = -A[0][1]/det;
-    t_temp3 = -A[1][0]/det;
-    t_temp4 = A[0][0]/det;
-    A[0][0] = t_temp1;
-    A[0][1] = t_temp2;
-    A[1][0] = t_temp3;
-    A[1][1] = t_temp4;
+
+    A[0][0] = A[1][1]/det;
+    A[0][1] = -A[0][1]/det;
+    A[1][0] = -A[1][0]/det;
+    A[1][1] = A[0][0]/det;
 
     M[0][0] = A[0][0]*B[0][0]+A[0][1]*B[1][0];
     M[0][1] = A[0][0]*B[0][1]+A[0][1]*B[1][1];
