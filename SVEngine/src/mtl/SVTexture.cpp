@@ -176,8 +176,8 @@ s32 SVTexture::getdataformate(){
 void SVTexture::_updateData(){
     if (m_objTexPtr && m_bData) {
         m_objTexPtr->setTexData(m_pData->getData(), m_pData->getSize());
-        m_bData = false;
         m_pData->reback();
+        m_bData = false;
     }
 }
 
