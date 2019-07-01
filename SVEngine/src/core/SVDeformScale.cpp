@@ -38,11 +38,11 @@ void SVDeformScale::clearCtl(){
 FVec2 SVDeformScale::getScalePostion(const FVec2& t){
     m_lock->lock();
     FVec2 t_newCoord=t;
-    f32 t_aspect=0.5625;
+    //f32 t_aspect=0.5625;
     f32 t_weight=0.0;
     for(s32 i = 0; i<m_controlArray.size(); i++){
         FVec2 t_control = FVec2(m_controlArray[i].x, m_controlArray[i].y);
-        f32 t_dis = getDistanceFrom(FVec2(t_newCoord.x*t_aspect,t_newCoord.y), FVec2(t_control.x*t_aspect,t_control.y));
+        f32 t_dis = getDistanceFrom(FVec2(t_newCoord.x*0.5625,t_newCoord.y), FVec2(t_control.x*0.5625,t_control.y));
         if(t_dis < m_controlArray[i].z){
             t_weight=pow(t_dis/m_controlArray[i].z, m_smooth);
             t_newCoord.x = t_control.x +(t_newCoord.x - t_control.x) * t_weight;
