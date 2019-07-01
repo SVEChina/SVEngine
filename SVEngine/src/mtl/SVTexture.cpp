@@ -106,7 +106,6 @@ void SVTexture::setTexData(void *_data, s32 _len){
         m_pData->writeData(_data, _len);
         _updateData();
     }
-    
 }
 
 void SVTexture::commit(){
@@ -177,6 +176,7 @@ s32 SVTexture::getdataformate(){
 void SVTexture::_updateData(){
     if (m_objTexPtr && m_bData) {
         m_objTexPtr->setTexData(m_pData->getData(), m_pData->getSize());
+        m_pData->reback();
         m_bData = false;
     }
 }
