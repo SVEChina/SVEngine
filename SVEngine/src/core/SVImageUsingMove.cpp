@@ -35,12 +35,12 @@ void SVImageUsingMove::setTargetControl(FVec2 _v){
 }
 
 FVec2 SVImageUsingMove::MLS(const FVec2& t){
-      m_lock->lock();
+    m_lock->lock();
     if(m_controlArray.empty()){
-         m_lock->unlock();
-         return t;
+        m_lock->unlock();
+        return t;
     }//原图像的控制顶点p，与输入点t为同一副图像坐标系下
-    
+
     FVec2 t_fv;
     m_weightArray.clear();
     f64 A[2][2],B[2][2],M[2][2];
@@ -57,7 +57,6 @@ FVec2 SVImageUsingMove::MLS(const FVec2& t){
     //SVArray<FVec2>::Iterator iter= m_controlArray.begin();
     //计算各个控制顶点的权重，也就是计算点t到各个顶点的距离1/sqr(d)
     SVArray<FVec2>::Iterator  iter_control=m_controlArray.begin();
-    f64 tw=0;
     while(iter_control!=m_controlArray.end()){
         f64 temp;
         if((s32)iter_control->x!=(s32)t.x|| (s32)iter_control->y!=(s32)t.y) {
@@ -65,26 +64,21 @@ FVec2 SVImageUsingMove::MLS(const FVec2& t){
         } else {
             temp=1.0; //如果t为控制顶点，那么需要把该控制顶点的权重设置为无穷大
         }
-        tw+=temp;//总权重
         m_weightArray.append(temp);
         iter_control++;
     }
-    if(tw<0.00005){
-        m_lock->unlock();
-        return t;
-    }
-    
     SVArray<f64>::Iterator iter_w=m_weightArray.begin();
     SVArray<FVec2>::Iterator iter_target=m_targetArray.begin();
     //target为目标图像的控制点的位置，我们的目标是找到t在q中的对应位置
-   iter_control=m_controlArray.begin();
+    iter_control=m_controlArray.begin();
     FVec2 pc,qc;
-    f64 px=0,py=0,qx=0,qy=0;
+    f64 px=0,py=0,qx=0,qy=0,tw=0;
     while(iter_w!=m_weightArray.end()){
         px+=(*iter_w)*(iter_control->x);//所有控制顶点p的加权位置
         py+=(*iter_w)*(iter_control->y);
         qx+=(*iter_w)*(iter_target->x);//所有控制顶点q的加权位置
         qy+=(*iter_w)*(iter_target->y);
+        tw+=*iter_w;//总权重
         iter_control++;
         iter_w++;
         iter_target++;
@@ -139,11 +133,15 @@ FVec2 SVImageUsingMove::MLS(const FVec2& t){
         m_lock->unlock();
         return t_fv;
     }
-
-    A[0][0] = A[1][1]/det;
-    A[0][1] = -A[0][1]/det;
-    A[1][0] = -A[1][0]/det;
-    A[1][1] = A[0][0]/det;
+    f64 t_temp1,t_temp2,t_temp3,t_temp4;
+    t_temp1 = A[1][1]/det;
+    t_temp2 = -A[0][1]/det;
+    t_temp3 = -A[1][0]/det;
+    t_temp4 = A[0][0]/det;
+    A[0][0] = t_temp1;
+    A[0][1] = t_temp2;
+    A[1][0] = t_temp3;
+    A[1][1] = t_temp4;
 
     M[0][0] = A[0][0]*B[0][0]+A[0][1]*B[1][0];
     M[0][1] = A[0][0]*B[0][1]+A[0][1]*B[1][1];

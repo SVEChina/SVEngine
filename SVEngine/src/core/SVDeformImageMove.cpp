@@ -361,7 +361,7 @@ void SVDeformImageMove::pointMove(V2 *t_data){
     f32 leng = getDistanceFrom(eyer,eyel);
     f32 _smooth = (leng/240.0);
     FVec2 t_eyel = eyer-eyel;
-    f64 angle = atan2(t_eyel.y, t_eyel.x) * 31.830989;
+    f64 angle = atan2(t_eyel.y, t_eyel.x) * 180.0/PI;
     for(int j=0;j<m_scaleCtlArray.size();j++){
         m_deformScale->pushCtl(t_data[m_scaleCtlArray[j]].x,t_data[m_scaleCtlArray[j]].y,leng*0.3);
     }
