@@ -41,7 +41,7 @@ SVBMFont::SVBMFont(SVInst *_app)
     m_outlineThickness = 0;
     m_hasOutline = false;
     m_encoding = UTF8;
-    m_enableMipMap = false;
+    m_enableMipMap = true;
 }
 
 SVBMFont::~SVBMFont() {
