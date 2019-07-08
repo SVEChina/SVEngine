@@ -257,6 +257,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVAni2DBase);
         DECLARE_SHAREPTR(SVAni2DScreen);
         DECLARE_SHAREPTR(SVFilterShinning);
+        DECLARE_SHAREPTR(SVFilterDark);
         DECLARE_SHAREPTR(SVADFilterBase);
     }//!namespace logic
 
