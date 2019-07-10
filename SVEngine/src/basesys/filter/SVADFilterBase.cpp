@@ -22,7 +22,8 @@ SVADFilterBase::SVADFilterBase(SVInst *_app, SVMtlCorePtr _mtl)
 }
 
 SVADFilterBase::~SVADFilterBase(){
-    
+    m_pPassNode = nullptr;
+    m_mtl = nullptr;
 }
 
 bool SVADFilterBase::create(){
@@ -62,10 +63,7 @@ bool SVADFilterBase::create(){
 void SVADFilterBase::destroy(){
     if(m_pPassNode){
         m_pPassNode->removeFromParent();
-        m_pPassNode = nullptr;
     }
-    m_pPassNode = nullptr;
-    m_mtl = nullptr;
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         t_renderer->destroySVTex(E_TEX_FILTER_1);

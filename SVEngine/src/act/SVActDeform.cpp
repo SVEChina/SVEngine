@@ -183,6 +183,20 @@ SVActRot::~SVActRot(){
 
 void SVActRot::run(SVNodePtr _nodePtr, f32 _dt) {
     SVActDeform::run(_nodePtr, _dt);
+    if(_nodePtr && m_time>0.0f){
+        f32 t_lerp = m_acctime/m_time;
+        if(t_lerp<0)
+            t_lerp = 0.0f;
+        if(t_lerp>1.0f)
+            t_lerp = 1.0f;
+        
+        f32 t_z_rot =  PI2*t_lerp;
+        t_z_rot = radToDeg(t_z_rot);
+        _nodePtr->setRotation(_nodePtr->getRotation().x, _nodePtr->getRotation().y, t_z_rot);
+        if (isEnd()) {
+            reset();
+        }
+    }
 }
 
 //
