@@ -18,6 +18,9 @@ SVFilterShake::SVFilterShake(SVInst *_app)
 :SVFilterBase(_app){
     m_type = SV_FUNC_SHAKE;
     m_name = "SVFilterShake";
+    m_time = 0.0f;
+    m_amount = 0.4f;
+    m_speed = 3.0f;
 }
 
 SVFilterShake::~SVFilterShake(){
@@ -74,6 +77,8 @@ void SVFilterShake::update(f32 dt){
         m_pPassNode->setvisible(true);
         m_mtlShake->update(dt);
         m_mtlShake->setTime(m_time);
+        m_mtlShake->setAmount(m_amount);
+        m_mtlShake->setSpeed(m_speed);
     }
 }
 
@@ -83,3 +88,14 @@ void SVFilterShake::setTime(f32 _time){
     }
 }
 
+void SVFilterShake::setAmount(f32 _amount){
+    if (m_amount != _amount) {
+        m_amount = _amount;
+    }
+}
+
+void SVFilterShake::setSpeed(f32 _speed){
+    if (m_speed != _speed) {
+        m_speed = _speed;
+    }
+}

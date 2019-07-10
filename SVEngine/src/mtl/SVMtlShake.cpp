@@ -12,12 +12,16 @@
 
 SVMtlShake::SVMtlShake(SVInst *_app)
 :SVMtlCore(_app,"filtershake") {
-    m_time = 0.0;
+    m_time = 0.0f;
+    m_speed = 3.0f;
+    m_amount = 0.4f;
 }
 
 SVMtlShake::SVMtlShake(SVMtlShake *_mtl)
 :SVMtlCore(_mtl){
     m_time = _mtl->m_time;
+    m_amount = _mtl->m_amount;
+    m_speed = _mtl->m_speed;
 }
 
 SVMtlShake::~SVMtlShake() {
@@ -45,7 +49,21 @@ void SVMtlShake::setTime(f32 _time){
     }
 }
 
+void SVMtlShake::setAmount(f32 _amount){
+    if (m_amount != _amount) {
+        m_amount = _amount;
+    }
+}
+
+void SVMtlShake::setSpeed(f32 _speed){
+    if (m_speed != _speed) {
+        m_speed = _speed;
+    }
+}
+
 void SVMtlShake::_submitUniform(SVRendererBasePtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf("time", m_time);
+    _render->submitUniformf("amount", m_amount);
+    _render->submitUniformf("speed", m_speed);
 }

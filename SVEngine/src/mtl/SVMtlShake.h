@@ -29,11 +29,16 @@ namespace sv {
             void update(f32 dt);
             
             void setTime(f32 _time);
+            
+            void setAmount(f32 _amount);
+            
+            void setSpeed(f32 _speed);
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
             
             f32 m_time;
-            
+            f32 m_amount;
+            f32 m_speed;
         };
 
     }//!namespace mtl
