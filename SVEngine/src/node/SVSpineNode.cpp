@@ -38,8 +38,6 @@ SVSpineNode::SVSpineNode(SVInst *_app)
     m_state = tANI_STATE_WAIT;
     m_rsType = RST_SOLID_3D;
     m_cur_aniname = "animation";
-    m_triggerPlay = "immediately";
-    m_triggerStop = "never";
     m_canSelect = true;
     m_box_scale = 1.0f;
     m_stable_box_dirty = false;
@@ -113,22 +111,6 @@ void SVSpineNode::setloop(bool _loop){
 
 bool SVSpineNode::getloop(){
     return m_loop;
-}
-
-void SVSpineNode::setTriggerPlay(cptr8 _trigger){
-    m_triggerPlay = _trigger;
-}
-
-cptr8 SVSpineNode::getTriggerPlay(){
-    return m_triggerPlay;
-}
-
-void SVSpineNode::setTriggerStop(cptr8 _trigger){
-    m_triggerStop = _trigger;
-}
-
-cptr8 SVSpineNode::getTriggerStop(){
-    return m_triggerStop;
 }
 
 void SVSpineNode::setSpineCallback(sv_spine_callback _cb,void* _obj) {
@@ -429,15 +411,6 @@ void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     }
     if (item.HasMember("loop") && item["loop"].IsBool()) {
         m_loop = item["loop"].GetBool();
-    }
-    SVString t_triggerEvent = "";
-    if (item.HasMember("triggerplay") && item["triggerplay"].IsString()) {
-        t_triggerEvent = item["triggerplay"].GetString();
-        setTriggerPlay(t_triggerEvent);
-    }
-    if (item.HasMember("triggerstop") && item["triggerstop"].IsString()) {
-        t_triggerEvent = item["triggerstop"].GetString();
-        setTriggerStop(t_triggerEvent);
     }
     bool m_hasSpine = false;
     if (item.HasMember("spine") && item["spine"].IsBool()) {

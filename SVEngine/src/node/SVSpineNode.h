@@ -75,14 +75,6 @@ namespace sv {
             
             f32 getSlotAlpha(cptr8 bonename);
             
-            void setTriggerPlay(cptr8 _trigger);
-            
-            cptr8 getTriggerPlay();
-            
-            void setTriggerStop(cptr8 _trigger);
-            
-            cptr8 getTriggerStop();
-            
             void setStableBoundingBoxScale(f32 _scale);
         protected:
             
@@ -117,11 +109,7 @@ namespace sv {
             
             //序列化属性
             SVString m_cur_aniname;
-            
-            SVString m_triggerPlay;
-            
-            SVString m_triggerStop;
-            
+    
             bool m_loop;
             
         public:

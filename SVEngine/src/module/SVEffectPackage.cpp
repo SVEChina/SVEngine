@@ -60,27 +60,15 @@ void SVEffectUnit::init(SVNodePtr _node){
         if (t_spineNode) {
             cptr8 t_defAniName = t_spineNode->getCurAniName();
             t_spineNode->setSpineCallback(spinenode_callback, this);
-            if (strcmp(t_spineNode->getTriggerPlay(), "immediately") == 0) {
-                t_spineNode->play(t_defAniName);
-                m_end = false;
-            }
+            t_spineNode->play(t_defAniName);
+            m_end = false;
         }
     }
 }
 
 void SVEffectUnit::updateAniEvent(SVAnimateEventPtr _event){
     SVSpineNodePtr t_spineNode = DYN_TO_SHAREPTR(SVSpineNode, m_node);
-    if (_event && t_spineNode) {
-        if (strcmp(t_spineNode->getTriggerPlay(), _event->m_AnimateName) == 0) {
-            cptr8 t_defAniName = t_spineNode->getCurAniName();
-            t_spineNode->play(t_defAniName);
-            m_end = false;
-        }
-        if (strcmp(t_spineNode->getTriggerStop(), _event->m_AnimateName) == 0) {
-            t_spineNode->stop();
-            m_end = true;
-        }
-    }
+    
 }
 
 void SVEffectUnit::_attachToPeople(SVNodePtr _node){
