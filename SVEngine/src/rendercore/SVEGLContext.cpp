@@ -144,8 +144,8 @@ bool SVEGLContext::active() {
     if (m_Display && m_pGLContext && m_pGLSurface) {
         bool tFlag = eglMakeCurrent(m_Display, m_pGLSurface, m_pGLSurface, m_pGLContext);
         if (tFlag == false) {
-            int t_error = eglGetError();
-            SV_LOG_DEBUG("EGL_ERROR %x", t_error);
+//            int t_error = eglGetError();
+//            SV_LOG_DEBUG("EGL_ERROR %x", t_error);
         }
         return tFlag;
     }
