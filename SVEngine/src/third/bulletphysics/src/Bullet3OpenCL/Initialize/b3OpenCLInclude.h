@@ -24,8 +24,10 @@ subject to the following restrictions:
 #ifdef USE_MINICL
 #include <MiniCL/cl.h>
 #else
+#if TARGET_OS_IPHONE
 #include <OpenCL/cl.h>
 #include <OpenCL/cl_ext.h>  //clLogMessagesToStderrAPPLE
+#endif
 #endif
 #else
 #ifdef USE_MINICL
