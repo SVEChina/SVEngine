@@ -261,6 +261,9 @@ namespace sv {
         DECLARE_SHAREPTR(SVFilterShake);
         DECLARE_SHAREPTR(SVFilterFlashWhite);
         DECLARE_SHAREPTR(SVADFilterBase);
+        
+        //物理部分
+        DECLARE_SHAREPTR(SVPhysicsBase);
     }//!namespace logic
 
 }//!namespace sv

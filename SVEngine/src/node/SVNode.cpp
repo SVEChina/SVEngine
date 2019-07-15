@@ -17,7 +17,6 @@
 #include "../basesys/SVConfig.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderMgr.h"
-
 //
 SVNode::SVNode(SVInst *_app)
 :SVEventProc(_app) {
@@ -59,6 +58,7 @@ SVNode::~SVNode() {
 }
 
 void SVNode::enter(){
+   
 }
 
 void SVNode::exit(){
