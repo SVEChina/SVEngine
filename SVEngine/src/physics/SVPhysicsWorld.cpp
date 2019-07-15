@@ -6,7 +6,7 @@
 //
 #include "SVPhysicsWorld.h"
 
-SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVGBase(_app) {
+SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVPhysicsBase(_app) {
     
 }
 

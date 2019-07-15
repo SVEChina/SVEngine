@@ -8,12 +8,12 @@
 #ifndef SV_PHYSICSSHAPE_H
 #define SV_PHYSICSSHAPE_H
 
-#include "../base/SVGBase.h"
+#include "SVPhysicsBase.h"
 namespace sv {
     
     namespace logic {
         
-        class SVPhysicsShape : public SVGBase {
+        class SVPhysicsShape : public SVPhysicsBase {
         public:
             SVPhysicsShape(SVInst* _app);
             

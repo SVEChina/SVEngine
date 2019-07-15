@@ -8,12 +8,12 @@
 #ifndef SV_PHYSICSWORLD_H
 #define SV_PHYSICSWORLD_H
 
-#include "../base/SVGBase.h"
+#include "SVPhysicsBase.h"
 namespace sv {
     
     namespace logic {
         
-        class SVPhysicsWorld : public SVGBase {
+        class SVPhysicsWorld : public SVPhysicsBase {
         public:
             SVPhysicsWorld(SVInst* _app);
             
