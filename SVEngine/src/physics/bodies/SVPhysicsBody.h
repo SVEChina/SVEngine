@@ -8,12 +8,12 @@
 #ifndef SV_PHYSICSBODY_H
 #define SV_PHYSICSBODY_H
 
-#include "../base/SVGBase.h"
+#include "SVPhysicsBase.h"
 namespace sv {
     
     namespace logic {
         
-        class SVPhysicsBody : public SVGBase {
+        class SVPhysicsBody : public SVPhysicsBase {
         public:
             SVPhysicsBody(SVInst* _app);
             
@@ -24,6 +24,10 @@ namespace sv {
             void destroy();
             
             void update(f32 _dt);
+            
+            PHYSICSBODYTYPE getType();
+        protected:
+            PHYSICSBODYTYPE m_type;
         };
             
     }//!namespace logic

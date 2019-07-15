@@ -6,7 +6,7 @@
 //
 #include "SVPhysicsShape.h"
 
-SVPhysicsShape::SVPhysicsShape(SVInst* _app):SVGBase(_app) {
+SVPhysicsShape::SVPhysicsShape(SVInst* _app):SVPhysicsBase(_app) {
     
 }
 

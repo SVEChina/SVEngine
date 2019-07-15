@@ -2227,6 +2227,10 @@
 		020C518922DCA2E200201753 /* SVPhysicsCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020C518322DCA2E200201753 /* SVPhysicsCollider.cpp */; };
 		020C518A22DCA2E200201753 /* SVPhysicsCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020C518322DCA2E200201753 /* SVPhysicsCollider.cpp */; };
 		020C518B22DCA2E200201753 /* SVPhysicsCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020C518322DCA2E200201753 /* SVPhysicsCollider.cpp */; };
+		020C518D22DCAAEF00201753 /* SVPhysicsDef.h in Headers */ = {isa = PBXBuildFile; fileRef = 020C518C22DCAAEE00201753 /* SVPhysicsDef.h */; };
+		020C518E22DCAAEF00201753 /* SVPhysicsDef.h in Headers */ = {isa = PBXBuildFile; fileRef = 020C518C22DCAAEE00201753 /* SVPhysicsDef.h */; };
+		020C518F22DCAAEF00201753 /* SVPhysicsDef.h in Headers */ = {isa = PBXBuildFile; fileRef = 020C518C22DCAAEE00201753 /* SVPhysicsDef.h */; };
+		020C519022DCAAEF00201753 /* SVPhysicsDef.h in Headers */ = {isa = PBXBuildFile; fileRef = 020C518C22DCAAEE00201753 /* SVPhysicsDef.h */; };
 		020D1F31228BF30700AEAF73 /* SVPenPackData.h in Headers */ = {isa = PBXBuildFile; fileRef = 020D1F2F228BF30600AEAF73 /* SVPenPackData.h */; };
 		020D1F32228BF30700AEAF73 /* SVPenPackData.h in Headers */ = {isa = PBXBuildFile; fileRef = 020D1F2F228BF30600AEAF73 /* SVPenPackData.h */; };
 		020D1F33228BF30700AEAF73 /* SVPenPackData.h in Headers */ = {isa = PBXBuildFile; fileRef = 020D1F2F228BF30600AEAF73 /* SVPenPackData.h */; };
@@ -5898,6 +5902,7 @@
 		020C517A22DCA29400201753 /* SVPhysicsJoint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPhysicsJoint.cpp; sourceTree = "<group>"; };
 		020C518222DCA2E200201753 /* SVPhysicsCollider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPhysicsCollider.h; sourceTree = "<group>"; };
 		020C518322DCA2E200201753 /* SVPhysicsCollider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPhysicsCollider.cpp; sourceTree = "<group>"; };
+		020C518C22DCAAEE00201753 /* SVPhysicsDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPhysicsDef.h; sourceTree = "<group>"; };
 		020D1F2F228BF30600AEAF73 /* SVPenPackData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPenPackData.h; sourceTree = "<group>"; };
 		020D1F30228BF30600AEAF73 /* SVPenPackData.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPenPackData.cpp; sourceTree = "<group>"; };
 		022AF18421AD1F2200BF6F37 /* SVMtl2D.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtl2D.cpp; sourceTree = "<group>"; };
@@ -7541,6 +7546,7 @@
 				020C515822DC8D9A00201753 /* SVPhysicsWorld.h */,
 				020C514F22DC8AB100201753 /* SVPhysicsBase.cpp */,
 				020C514E22DC8AB000201753 /* SVPhysicsBase.h */,
+				020C518C22DCAAEE00201753 /* SVPhysicsDef.h */,
 			);
 			path = physics;
 			sourceTree = "<group>";
@@ -9260,6 +9266,7 @@
 				020C470F22DC5DCE00201753 /* btEmptyShape.h in Headers */,
 				5F7D6401215F407800803BCF /* rapidjson.h in Headers */,
 				020C491322DC5DCF00201753 /* btConstraintSolver.h in Headers */,
+				020C519022DCAAEF00201753 /* SVPhysicsDef.h in Headers */,
 				020C481B22DC5DCE00201753 /* btRigidBody.h in Headers */,
 				020C47B322DC5DCE00201753 /* btConvexInternalShape.h in Headers */,
 				020C46CF22DC5DCE00201753 /* btStaticPlaneShape.h in Headers */,
@@ -10039,6 +10046,7 @@
 				020C491122DC5DCF00201753 /* btConstraintSolver.h in Headers */,
 				020C481922DC5DCE00201753 /* btRigidBody.h in Headers */,
 				020C47B122DC5DCE00201753 /* btConvexInternalShape.h in Headers */,
+				020C518E22DCAAEF00201753 /* SVPhysicsDef.h in Headers */,
 				020C46CD22DC5DCE00201753 /* btStaticPlaneShape.h in Headers */,
 				5F7D6919215F407900803BCF /* SVArray.h in Headers */,
 				020C451B22DC5DCC00201753 /* btBoxBoxDetector.h in Headers */,
@@ -10793,6 +10801,7 @@
 				020C4D1822DC5DD200201753 /* b3FindConcaveSatAxis.h in Headers */,
 				5F7D62C6215F407800803BCF /* PathConstraintData.h in Headers */,
 				0204F51621B7BCEE0012C0AC /* SVParseTexAttachment.h in Headers */,
+				020C518D22DCAAEF00201753 /* SVPhysicsDef.h in Headers */,
 				020C465222DC5DCD00201753 /* btCompoundFromGimpact.h in Headers */,
 				020C449422DC5DCC00201753 /* btGjkPairDetector.h in Headers */,
 				020C4CC622DC5DD200201753 /* b3ConvexHullComputer.h in Headers */,
@@ -11599,6 +11608,7 @@
 				020C491222DC5DCF00201753 /* btConstraintSolver.h in Headers */,
 				020C481A22DC5DCE00201753 /* btRigidBody.h in Headers */,
 				020C47B222DC5DCE00201753 /* btConvexInternalShape.h in Headers */,
+				020C518F22DCAAEF00201753 /* SVPhysicsDef.h in Headers */,
 				020C46CE22DC5DCE00201753 /* btStaticPlaneShape.h in Headers */,
 				5F7D691A215F407900803BCF /* SVArray.h in Headers */,
 				020C451C22DC5DCC00201753 /* btBoxBoxDetector.h in Headers */,

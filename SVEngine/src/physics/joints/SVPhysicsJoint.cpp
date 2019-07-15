@@ -6,7 +6,7 @@
 //
 #include "SVPhysicsJoint.h"
 
-SVPhysicsJoint::SVPhysicsJoint(SVInst* _app):SVGBase(_app) {
+SVPhysicsJoint::SVPhysicsJoint(SVInst* _app):SVPhysicsBase(_app) {
     
 }
 

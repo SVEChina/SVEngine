@@ -8,6 +8,7 @@
 #ifndef SV_PHYSICSBASE_H
 #define SV_PHYSICSBASE_H
 
+#include "SVPhysicsDef.h"
 #include "../base/SVGBase.h"
 namespace sv {
     

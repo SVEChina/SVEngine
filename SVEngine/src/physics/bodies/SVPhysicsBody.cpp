@@ -6,8 +6,8 @@
 //
 #include "SVPhysicsBody.h"
 
-SVPhysicsBody::SVPhysicsBody(SVInst* _app):SVGBase(_app) {
-    
+SVPhysicsBody::SVPhysicsBody(SVInst* _app):SVPhysicsBase(_app) {
+    m_type = E_PHYSICS_BODY_BASE;
 }
 
 SVPhysicsBody::~SVPhysicsBody() {
@@ -24,4 +24,8 @@ void SVPhysicsBody::destroy(){
 
 void SVPhysicsBody::update(f32 _dt){
     
+}
+
+PHYSICSBODYTYPE SVPhysicsBody::getType(){
+    return m_type;
 }

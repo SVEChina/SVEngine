@@ -6,7 +6,7 @@
 //
 #include "SVPhysicsCollider.h"
 
-SVPhysicsCollider::SVPhysicsCollider(SVInst* _app):SVGBase(_app) {
+SVPhysicsCollider::SVPhysicsCollider(SVInst* _app):SVPhysicsBase(_app) {
     
 }
 
