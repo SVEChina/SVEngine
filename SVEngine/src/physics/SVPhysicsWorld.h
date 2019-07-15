@@ -18,6 +18,18 @@ namespace sv {
             SVPhysicsWorld(SVInst* _app);
             
             ~SVPhysicsWorld();
+            
+            void init();
+            
+            void destroy();
+            
+            void update(f32 _dt);
+            
+            void addBody(SVPhysicsBodyPtr _body);
+            
+            void addShape(SVPhysicsShapePtr _shape, SVPhysicsBodyPtr _body);
+            
+            void addJoint(SVPhysicsJointPtr _joint);
         };
             
     }//!namespace logic

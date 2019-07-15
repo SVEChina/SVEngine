@@ -13,3 +13,27 @@ SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVGBase(_app) {
 SVPhysicsWorld::~SVPhysicsWorld() {
     
 }
+
+void SVPhysicsWorld::init(){
+    
+}
+
+void SVPhysicsWorld::destroy(){
+    
+}
+
+void SVPhysicsWorld::update(f32 _dt){
+    
+}
+
+void SVPhysicsWorld::addBody(SVPhysicsBodyPtr _body){
+    
+}
+
+void SVPhysicsWorld::addShape(SVPhysicsShapePtr _shape, SVPhysicsBodyPtr _body){
+    
+}
+
+void SVPhysicsWorld::addJoint(SVPhysicsJointPtr _joint){
+    
+}
