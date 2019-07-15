@@ -8,7 +8,7 @@
 #ifndef SV_PHYSICSCOLLIDER_H
 #define SV_PHYSICSCOLLIDER_H
 
-#include "SVPhysicsBase.h"
+#include "../SVPhysicsBase.h"
 namespace sv {
     
     namespace logic {

@@ -7,8 +7,7 @@
 
 #ifndef SV_PHYSICSBODY_H
 #define SV_PHYSICSBODY_H
-
-#include "SVPhysicsBase.h"
+#include "../SVPhysicsBase.h"
 namespace sv {
     
     namespace logic {
