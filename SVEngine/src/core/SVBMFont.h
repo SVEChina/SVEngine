@@ -67,15 +67,13 @@ namespace sv {
             
             f32 m_scale;
             
-            s32 m_fontSize;
-            
             s16 m_fontHeight;// total height of the font
             
             s16 m_base;// y of base line
             
-            s16 m_scaleW;
+            s16 m_fontScaleW;
             
-            s16 m_scaleH;
+            s16 m_fontScaleH;
             
             s16 m_pages;
             

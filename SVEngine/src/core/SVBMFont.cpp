@@ -33,11 +33,10 @@ SVBMFont::SVBMFont(SVInst *_app)
     m_defChar.page = 0;
     //
     m_scale = 1.0f;
-    m_fontSize = 0;
     m_fontHeight = 0;
+    m_fontScaleW = 0;
+    m_fontScaleH = 0;
     m_base = 0;
-    m_scaleW = 0;
-    m_scaleH = 0;
     m_outlineThickness = 0;
     m_hasOutline = false;
     m_encoding = UTF8;
@@ -158,8 +157,8 @@ void SVBMFont::setFontInfo(s32 _outlineThickness){
 void SVBMFont::setCommonInfo(s32 _fontHeight, s32 _base, s32 _scaleW, s32 _scaleH, s32 _pages, bool _isPacked){
     m_fontHeight = _fontHeight;
     m_base = _base;
-    m_scaleW = _scaleW;
-    m_scaleH = _scaleH;
+    m_fontScaleW = _scaleW;
+    m_fontScaleH = _scaleH;
 //    font->pages.resize(pages);
 //    for( int n = 0; n < pages; n++ )
 //        font->pages[n] = 0;

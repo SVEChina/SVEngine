@@ -51,13 +51,11 @@ namespace sv {
             
             f32 getSpacing();
             
-            void setAtcPt(BITFONT_ATCH_PT _type);
-            
-            BITFONT_ATCH_PT getAtcPt();
-            
             SVBMFontPtr getFont();
             
-            f32 getWidth();
+            f32 getFontWidth();
+            
+            f32 getFontHeight();
             
             virtual void setAlpha(f32 _alpha);
             //序列化接口
@@ -75,7 +73,6 @@ namespace sv {
             SVBMFontPtr m_font;
             typedef SVArray<FontTexcoords> TEXCOORDTBL;
             BITFONT_ATCH_PT m_atchType;
-            u32 m_textSize;
             f32 m_spacing;
             f32 m_alpha;
             SVString m_text;
