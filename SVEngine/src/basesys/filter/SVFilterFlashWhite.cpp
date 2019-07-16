@@ -62,7 +62,6 @@ bool SVFilterFlashWhite::create(){
 void SVFilterFlashWhite::destroy(){
     if(m_pPassNode){
         m_pPassNode->removeFromParent();
-        m_pPassNode = nullptr;
     }
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer){
@@ -71,7 +70,6 @@ void SVFilterFlashWhite::destroy(){
 }
 
 void SVFilterFlashWhite::update(f32 dt){
-    //
     if(m_pPassNode && m_mtlFlashWhite){
         m_pPassNode->setvisible(true);
         m_mtlFlashWhite->update(dt);

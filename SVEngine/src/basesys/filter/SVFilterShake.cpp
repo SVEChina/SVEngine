@@ -63,7 +63,6 @@ bool SVFilterShake::create(){
 void SVFilterShake::destroy(){
     if(m_pPassNode){
         m_pPassNode->removeFromParent();
-        m_pPassNode = nullptr;
     }
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer){
