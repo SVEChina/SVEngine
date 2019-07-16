@@ -119,24 +119,6 @@ SVPickChangeEvent::~SVPickChangeEvent(){
     m_pNewNode = nullptr;
 }
 
-//准备动画进入
-SVReadyEnterEvent::SVReadyEnterEvent(){
-    
-}
-
-SVReadyEnterEvent::~SVReadyEnterEvent(){
-    
-}
-
-//红包结束动画进入
-SVPacketEndEnterEvent::SVPacketEndEnterEvent(){
-    
-}
-
-SVPacketEndEnterEvent::~SVPacketEndEnterEvent(){
-    
-}
-
 //
 SVRedPacketEvent::SVRedPacketEvent(){
     

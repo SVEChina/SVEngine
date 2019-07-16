@@ -131,6 +131,13 @@ void SVBMFontNode::setAlpha(f32 _alpha){
     }
 }
 
+f32 SVBMFontNode::getWidth(){
+    f32 t_texSize = m_font->getTextLength(m_text.c_str());
+    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), t_texSize);
+    t_total_w = t_total_w + (m_text.size() - 1)*m_spacing;
+    return t_total_w*m_scale.x;
+}
+
 void SVBMFontNode::_refresh(){
     //顶点数据
     V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];

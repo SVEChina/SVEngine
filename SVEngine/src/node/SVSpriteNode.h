@@ -48,6 +48,8 @@ namespace sv {
             
             virtual void setTexture(SVTexturePtr _tex);
             
+            virtual void setTexture(void * _data, s32 _w, s32 _h, bool enableMipMap = false);
+            
             virtual void setMesh(SVRenderMeshPtr _mesh);
             
             //序列化接口

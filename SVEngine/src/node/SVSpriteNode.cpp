@@ -113,6 +113,13 @@ void SVSpriteNode::setTexture(SVTexturePtr _tex){
     m_pTex = _tex;
 }
 
+void SVSpriteNode::setTexture(void * _data, s32 _w, s32 _h, bool enableMipMap){
+    if (m_pTex) {
+        m_pTex = nullptr;
+    }
+    m_pTex = mApp->getTexMgr()->createUnctrlTextureWithData(_w, _h, GL_RGBA, GL_RGBA, (void *)_data);;
+}
+
 void SVSpriteNode::setMesh(SVRenderMeshPtr _mesh){
     if (_mesh) {
         m_pMesh = _mesh;

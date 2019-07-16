@@ -46,8 +46,6 @@ namespace sv {
         EVN_T_ANIMATE,
         EVN_T_LINK,
         EVN_T_FACESHAPE,
-        EVN_T_READYENTER_PACKET,
-        EVN_T_ENDENTER_PACKET,
         EVN_T_REDPACKEG_READY,
         EVN_T_REDPACKEG_READY1,
         EVN_T_REDPACKEG_READY2,

@@ -300,19 +300,11 @@ void SVSpineNode::setAlpha(f32 _alpha){
     }
 }
 
-bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename, bool relativeScale) {
+bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename) {
     spBone *m_bone = m_spine->findBone(bonename);  //绑定的骨头
     if (m_bone) {
-        if (relativeScale) {
-            f32 t_sx = 0;
-            f32 t_sy = 0;
-            getBoneScale(t_sx, t_sy, bonename);
-            px = m_bone->worldX*t_sx;//+postion.x;
-            py = m_bone->worldY*t_sy;//+postion.y;
-        }else{
-            px = m_bone->worldX;//+postion.x;
-            py = m_bone->worldY;//+postion.y;
-        }
+        px = m_bone->worldX*m_scale.x;
+        py = m_bone->worldY*m_scale.y;
         //逐层找父节点，把本地坐标和世界坐标加上
         SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpineNode);
         while (t_curNode) {

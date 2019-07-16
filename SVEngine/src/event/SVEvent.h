@@ -118,24 +118,6 @@ namespace sv {
         SVNodePtr m_pNewNode;
     };
     
-    class SVReadyEnterEvent : public SVEvent {
-    public:
-        SVReadyEnterEvent();
-        
-        ~SVReadyEnterEvent();
-    };
-    
-    class SVPacketEndEnterEvent : public SVEvent {
-    public:
-        f32 m_px;
-        
-        f32 m_py;
-        
-        SVPacketEndEnterEvent();
-        
-        ~SVPacketEndEnterEvent();
-    };
-    
     class SVRedPacketEvent : public SVEvent {
     public:
         SVRedPacketEvent();

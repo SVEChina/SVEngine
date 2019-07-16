@@ -69,7 +69,7 @@ namespace sv {
             
             void setSpineCallback(sv_spine_callback _cb,void* _obj);
             
-            bool getBonePosition(f32 &px, f32 &py, cptr8 bonename, bool relativeScale = false);//骨骼相对距离的缩放值
+            bool getBonePosition(f32 &px, f32 &py, cptr8 bonename);
             
             bool getBoneScale(f32 &sx, f32 &sy, cptr8 bonename);
             

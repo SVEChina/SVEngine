@@ -22,8 +22,6 @@ namespace sv {
     DECLARE_SHAREPTR(SVPickGetNothingEvent);
     DECLARE_SHAREPTR(SVPickLoseEvent);
     DECLARE_SHAREPTR(SVPickChangeEvent);
-    DECLARE_SHAREPTR(SVReadyEnterEvent);
-    DECLARE_SHAREPTR(SVPacketEndEnterEvent);
     DECLARE_SHAREPTR(SVPacketUnitEndEvent);
     DECLARE_SHAREPTR(SVPacketCloseEvent);
     DECLARE_SHAREPTR(SVRedPacketEvent);
