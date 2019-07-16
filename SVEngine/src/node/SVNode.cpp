@@ -33,6 +33,7 @@ SVNode::SVNode(SVInst *_app)
     m_iZOrder = 0;
     m_bindIndex = -1;
     m_personID = 1;
+    m_alpha = 1.0f;
     m_enableMipMap = false;
     //基础属性
     m_postion.set(0.0f, 0.0f, 0.0f);
@@ -425,6 +426,7 @@ void SVNode::setZOrder(s32 _zorder){
 }
 
 void SVNode::setAlpha(f32 _alpha){
+    m_alpha = _alpha;
 }
 
 void SVNode::setLocalMatrix(FMat4 &_mat){

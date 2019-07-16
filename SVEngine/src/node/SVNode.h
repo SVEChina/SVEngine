@@ -166,6 +166,7 @@ namespace sv {
             FVec3 m_scale;          //缩放
             FVec3 m_offpos;         //偏移
             s32 m_bindIndex;        //绑定索引
+            f32 m_alpha;
             FVec3 m_bindOffset;
             bool m_enableMipMap;     //是否开启mipmap，//先写到这里了。
             //

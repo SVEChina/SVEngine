@@ -11,6 +11,7 @@
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtlCore.h"
+#include "../mtl/SVMtl2D.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../basesys/SVStaticData.h"
@@ -57,7 +58,7 @@ void SVBMFontNode::update(f32 dt) {
     }
     if (m_pRenderObj && m_pMesh ) {
         //材质独立性
-        SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d_c");
+        SVMtl2DPtr t_mtl = MakeSharedPtr<SVMtl2D>(mApp, "normal2d_c");
         t_mtl->setBlendEnable(true);
         t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         if (m_texture) {
@@ -66,6 +67,7 @@ void SVBMFontNode::update(f32 dt) {
         }
         t_mtl->setModelMatrix(m_absolutMat.get());
         t_mtl->setTexcoordFlip(1.0, 1.0f);
+        t_mtl->setAlpha(m_alpha);
         t_mtl->update(dt);
         m_pRenderObj->setMesh(m_pMesh);
         m_pRenderObj->setMtl(t_mtl);

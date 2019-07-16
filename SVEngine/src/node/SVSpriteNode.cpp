@@ -10,6 +10,7 @@
 #include "SVScene.h"
 #include "SVCameraNode.h"
 #include "../mtl/SVMtlCore.h"
+#include "../mtl/SVMtl2D.h"
 #include "../rendercore/SVRenderMesh.h"
 #include "../core/SVGeoGen.h"
 #include "../basesys/SVConfig.h"
@@ -141,15 +142,20 @@ void SVSpriteNode::update(f32 dt) {
                 m_pMtl->setTexture(0,t_tex);
             }
             m_pMtl->update(dt);
+            SVMtl2DPtr t_mtl2D = DYN_TO_SHAREPTR(SVMtl2D, m_pMtl);
+            if (t_mtl2D) {
+                t_mtl2D->setAlpha(m_alpha);
+            }
             m_pRenderObj->setMesh(m_pMesh);
             m_pRenderObj->setMtl(m_pMtl);
         }else{
             //创建新的材质
-            SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d");
+            SVMtl2DPtr t_mtl = MakeSharedPtr<SVMtl2D>(mApp, "normal2d_c");
             t_mtl->setModelMatrix(m_absolutMat.get());
             t_mtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
             t_mtl->setBlendEnable(true);
             t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            t_mtl->setAlpha(1.0f);
             if(m_inTexType == E_TEX_END) {
                 t_mtl->setTexture(0,m_pTex);
             }else{
@@ -159,6 +165,7 @@ void SVSpriteNode::update(f32 dt) {
             t_mtl->update(dt);
             m_pRenderObj->setMesh(m_pMesh);
             m_pRenderObj->setMtl(t_mtl);
+            m_pMtl = t_mtl;
         }
     }
 }
