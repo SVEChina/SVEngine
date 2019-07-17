@@ -218,6 +218,6 @@ void SVBMFont::loadPage(s32 _pageID, cptr8 _pageFile, cptr8 _fontFile){
     s32 pos = rootFile.rfind('/');
     rootFile = SVString::substr(rootFile.c_str(), 0, pos);
     SVString path = rootFile + "/" + _pageFile;
-    SVTexturePtr texture = mApp->getTexMgr()->getTextureSync(path, true, m_enableMipMap);
+    SVTexturePtr texture = mApp->getTexMgr()->getTextureSync(path, true, true);
     m_textures.append(_pageID, texture);
 }
