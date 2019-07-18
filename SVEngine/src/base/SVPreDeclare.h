@@ -270,6 +270,9 @@ namespace sv {
         DECLARE_SHAREPTR(SVPhysicsJoint);
         DECLARE_SHAREPTR(SVPhysicsCollider);
     }//!namespace logic
+    
+    DECLARE_SHAREPTR(SVLoaderGLTF);
+    
 
 }//!namespace sv
 

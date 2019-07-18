@@ -9,13 +9,14 @@
 #define SV_LOADER_GLTF_H
 
 #include "SVFileLoader.h"
-#include "../core/SVModel.h"
-#include "../core/SVMesh.h"
+#include "../base/SVPreDeclare.h"
+#include "../rendercore/SVRenderDeclare.h"
+#include "../node/SVNodeDeclare.h"
 #include "../base/SVMap.h"
 #include "../base/SVArray.h"
 #include "../base/svstr.h"
-#include "../base/SVPreDeclare.h"
-#include "../rendercore/SVRenderDeclare.h"
+#include "../base/SVMat4.h"
+#include "../base/SVDataSwap.h"
 
 namespace sv {
     
@@ -197,7 +198,6 @@ namespace sv {
     };
     
     struct Skin {
-        SVString name;
         s32 inverseBindMatrices;  // required here but not in the spec
         s32 skeleton;             // The index of the node used as a skeleton root
         SVArray<s32> joints;      // Indices of skeleton nodes
@@ -573,7 +573,11 @@ namespace sv {
         void _loadAnimationData();
         
     private:
-        void _buildNode(Node* _node,SVNodePtr _rootNode);
+        SVNodePtr _buildSkinNode(Node* _node);
+        
+        SVNodePtr _build3DNode(Node* _node);
+        
+        SVNodePtr _buildCameraNode(Node* _node);
         
         SVMeshPtr _buildMesh(s32 _index);
         

@@ -26,6 +26,11 @@
 #include "../node/SVMorphNode.h"
 #include "../node/SVScene.h"
 #include "../basesys/SVSceneMgr.h"
+#include "../core/SVModel.h"
+#include "../core/SVMesh.h"
+#include "../base/SVMap.h"
+#include "../base/SVArray.h"
+#include "../base/svstr.h"
 
 SVLoaderGLTF::SVLoaderGLTF(SVInst *_app)
 :SVGBase(_app) {
@@ -298,6 +303,7 @@ bool SVLoaderGLTF::loadFromFile(cptr8 _filename){
                 return nullptr;
             }
             Skin skin;
+            skin.skeleton = i;
             if (!_parseSkin(&skin, t_skinItem)) {
                 return nullptr;
             }
@@ -345,97 +351,114 @@ void SVLoaderGLTF::building() {
     SVScenePtr t_sc = mApp->getSceneMgr()->getScene();
     if(!t_sc)
         return ;
-    //构建buf 在parse的时候 已经构建了
-    //构建皮肤
-    for(s32 i=0;i<m_gltf.skins.size();i++) {
-        //int a = 0;
-    }
-    //构建动画
-    for(s32 i=0;i<m_gltf.animations.size();i++) {
-        //int a = 0;
-    }
-    //构建材质
-    for(s32 i=0;i<m_gltf.materials.size();i++) {
-        //int a = 0;
-    }
-    
     //构建节点
     for(s32 i=0;i<m_gltf.scenes.size();i++) {
         Scene* t_scene = &(m_gltf.scenes[i]);
         for(s32 j=0;j<t_scene->nodes.size();j++) {
             s32 t_index = t_scene->nodes[j];
-            SVNodePtr t_rootNode = MakeSharedPtr<SVNode>(mApp);
             Node* t_node = &(m_gltf.nodes[t_index]);
-            _buildNode(t_node,t_rootNode);
-            t_sc->addNode(t_rootNode);
+            if(t_node->skin) {
+                //有骨骼动画
+                SVNodePtr t_svNode = _buildSkinNode(t_node);
+                t_sc->addNode(t_svNode);
+            }else if(t_node->mesh) {
+                //无骨骼动画 纯mesh
+                SVNodePtr t_svNode = _buildSkinNode(_build3DNode);
+                t_sc->addNode(t_svNode);
+            }else if(t_node->camera) {
+                //相机
+                SVNodePtr t_svNode = _buildCameraNode(_build3DNode);
+                t_sc->addNode(t_svNode);
+            }
         }
     }
 }
 
-void SVLoaderGLTF::_buildNode(Node* _node,SVNodePtr _rootNode) {
-    //构建自己 构建子
-    SVNodePtr t_model_node = nullptr;
-    if(_node->skin>=0) {
-        //SKINNODE
-        SVSkinNodePtr tNode = MakeSharedPtr<SVSkinNode>(mApp);
-        t_model_node = tNode;
-    }else {
-        //MESHNODE
-        //s32 tt = t_node->mesh;
-        SVModelNodePtr tNode = MakeSharedPtr<SVModelNode>(mApp);
-        SVModelPtr tModel = MakeSharedPtr<SVModel>();
-        tNode->setModel(tModel);
-        //
-        SVMeshPtr t_mesh = _buildMesh(_node->mesh);
-        tModel->setMesh(t_mesh);
-        t_model_node = tNode;
-    }
-    if(t_model_node) {
-        t_model_node->setname(_node->name.c_str());
-        if(_node->translation.size() == 3){
-            t_model_node->setPosition(_node->translation[0], _node->translation[1], _node->translation[2]);
-        }
-        if(_node->scale.size() == 3){
-            t_model_node->setScale(_node->scale[0], _node->scale[1], _node->scale[2]);
-        }
-        if(_node->rotation.size() == 4){
-            //t_model_node->setRotation(_node->rotation[0], _node->rotation[1], _node->rotation[2],_node->rotation[3]);
-        }
-        _rootNode->addChild(t_model_node);
-        //
-        for(s32 i=0;i<_node->children.size();i++){
-            s32 t_index = _node->children[i];
-            Node* t_node = &(m_gltf.nodes[t_index]);
-            _buildNode(t_node,t_model_node);
-        }
-    }
-}
-
-SVAnimateSkinPtr SVLoaderGLTF::_buildSkin(s32 _index){
-//    struct Skin {
-//        SVString name;
-//        s32 inverseBindMatrices;  // required here but not in the spec
-//        s32 skeleton;             // The index of the node used as a skeleton root
-//        SVArray<s32> joints;      // Indices of skeleton nodes
-//        Skin()
-//        :inverseBindMatrices(-1)
-//        ,skeleton(-1){
+//构建各种节点
+SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
+    SVSkinNodePtr tNode = MakeSharedPtr<SVSkinNode>(mApp);
+    //skin
+    SVAnimateSkinPtr t_skin = _buildSkin(t_node->skin);
+    //mesh
+    SVMeshPtr t_mesh = _buildMesh(_node->mesh);
+    //tModel->setMesh(t_mesh);
+    
+//    //
+//    if(t_model_node) {
+//        t_model_node->setname(_node->name.c_str());
+//        if(_node->translation.size() == 3){
+//            t_model_node->setPosition(_node->translation[0], _node->translation[1], _node->translation[2]);
 //        }
-//        bool operator==(const Skin &) const;
-//    };
-    //ske root
-    Skin* t_skindata = &(m_gltf.skins[_index]);
-    //跟节点索引
-    s32 t_node_index = t_skindata->skeleton;
-    Node* t_node = &(m_gltf.nodes[t_node_index]);
-    //_buildSkeNode(t_node,t_rootNode);
+//        if(_node->scale.size() == 3){
+//            t_model_node->setScale(_node->scale[0], _node->scale[1], _node->scale[2]);
+//        }
+//        if(_node->rotation.size() == 4){
+//            //t_model_node->setRotation(_node->rotation[0], _node->rotation[1], _node->rotation[2],_node->rotation[3]);
+//        }
+//        _rootNode->addChild(t_model_node);
+//        //
+//        for(s32 i=0;i<_node->children.size();i++){
+//            s32 t_index = _node->children[i];
+//            Node* t_node = &(m_gltf.nodes[t_index]);
+//            _buildNode(t_node,t_model_node);
+//        }
+//    }
+    
+    return tNode;
+}
+
+SVNodePtr SVLoaderGLTF::_build3DNode(Node* _node) {
+    SVModelNodePtr tNode = MakeSharedPtr<SVModelNode>(mApp);
+    SVModelPtr tModel = MakeSharedPtr<SVModel>();
+    tNode->setModel(tModel);
     //
-    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,t_skindata->name.c_str());
+    SVMeshPtr t_mesh = _buildMesh(_node->mesh);
+    tModel->setMesh(t_mesh);
+    t_model_node = tNode;
+    //
+    return tNode;
+}
+
+SVNodePtr SVLoaderGLTF::_buildCameraNode(Node* _node) {
+    return nullptr;
+}
+
+//给出索引 构建皮肤
+SVAnimateSkinPtr SVLoaderGLTF::_buildSkin(s32 _index){
+    //
+    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,"aaa");
+    //获取目标皮肤
+    Skin* t_skindata = &(m_gltf.skins[_index]);
+    s32 t_ske_index = t_skindata->skeleton;
+    //joint
     for(s32 i=0;i<t_skindata->joints.size();i++) {
         s32 t_node_index = t_skindata->joints[i];
         Node* t_node = &(m_gltf.nodes[t_node_index]);
-        //_buildSkeNode(t_node,t_rootNode);
+//        //
+//        SVBonePtr t_bone = MakeSharedPtr<SVBone>();
+//        t_bone->index = t_node_index;
+//        t_bone->m_name = t_node->name;
+//        //
+//        t_bone->m_tran.x = t_node->translation[0];
+//        t_bone->m_tran.y = t_node->translation[1];
+//        t_bone->m_tran.z = t_node->translation[2];
+//        t_bone->scale.x = t_node->scale[0];
+//        t_bone->scale.y = t_node->scale[1];
+//        t_bone->scale.z = t_node->scale[2];
+//        t_bone->m_rot.x = t_node->rotation[0];
+//        t_bone->m_rot.y = t_node->rotation[1];
+//        t_bone->m_rot.z = t_node->rotation[2];
+//        t_bone->m_rot.w = t_node->rotation[3];
     }
+    
+//    Node* t_node = &(m_gltf.nodes[t_ske_index]);
+//    //_buildSkeNode(t_node,t_rootNode);
+//    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,t_skindata->name.c_str());
+//    for(s32 i=0;i<t_skindata->joints.size();i++) {
+//        s32 t_node_index = t_skindata->joints[i];
+//        Node* t_node = &(m_gltf.nodes[t_node_index]);
+//        //_buildSkeNode(t_node,t_rootNode);
+//    }
     return t_skin;
 }
 
@@ -1271,10 +1294,6 @@ bool SVLoaderGLTF::_parseAnimationChannel(AnimationChannel *_channel, RAPIDJSON_
 }
 
 bool SVLoaderGLTF::_parseSkin(Skin *_skin, RAPIDJSON_NAMESPACE::Value &_item) {
-    if (_item.HasMember("name") && _item["name"].IsString()) {
-        _skin->name = _item["name"].GetString();
-    }
-    
     SVArray<f64> joints;
     if (_item.HasMember("joints") && _item["joints"].IsArray()) {
         RAPIDJSON_NAMESPACE::Value &t_joints = _item["joints"];
@@ -1285,19 +1304,19 @@ bool SVLoaderGLTF::_parseSkin(Skin *_skin, RAPIDJSON_NAMESPACE::Value &_item) {
             }
         }
     }
-    
-    f64 skeleton = -1.0;
-    if (_item.HasMember("skeleton") && _item["skeleton"].IsNumber()) {
-        skeleton = _item["skeleton"].GetDouble();
-    }
-    _skin->skeleton = s32(skeleton);
-    
+//    if (_item.HasMember("name") && _item["name"].IsString()) {
+//        _skin->name = _item["name"].GetString();
+//    }
+//    f64 skeleton = -1.0;
+//    if (_item.HasMember("skeleton") && _item["skeleton"].IsNumber()) {
+//        skeleton = _item["skeleton"].GetDouble();
+//    }
+//    _skin->skeleton = s32(skeleton);
     f64 invBind = -1.0;
     if (_item.HasMember("inverseBindMatrices") && _item["inverseBindMatrices"].IsNumber()) {
         invBind = _item["inverseBindMatrices"].GetDouble();
     }
     _skin->inverseBindMatrices = s32(invBind);
-    
     return true;
 }
 

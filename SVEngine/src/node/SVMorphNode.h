@@ -16,6 +16,8 @@ namespace sv {
     
     namespace node{
         
+        //morph动画节点
+        
         class SVMorphNode : public SVNode {
         public:
             SVMorphNode(SVInst *_app);

@@ -30,24 +30,15 @@ SVSkinNode::~SVSkinNode() {
 //    m_pModel = nullptr;
 }
 
-//void SVSkinNode::update(f32 dt) {
-//    SVNode::update(dt);
-//    if (!m_pModel)
-//        return;
-//    if (m_state == tANI_STATE_PAUSE) {
-//        dt = 0.0f;
-//    }
-//    _updateRenderMesh(dt);
-//}
-//
-//void SVSkinNode::render() {
-//    if(!mApp->m_pGlobalParam->m_curScene)
-//        return;
-//    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-//    if (m_renderObject) {
-//        m_renderObject->pushCmd(t_rs,RST_SOLID_3D, "skinModelRender");
-//    }
-//}
+void SVSkinNode::update(f32 dt) {
+    SVNode::update(dt);
+    
+}
+
+void SVSkinNode::render() {
+    
+}
+
 //
 //void SVSkinNode::loadModel(cptr8 pPath ,cptr8 pDir) {
 ////    if (m_pModel)

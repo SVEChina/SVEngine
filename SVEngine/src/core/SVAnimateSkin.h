@@ -10,6 +10,7 @@
 
 #include "../base/SVGBase.h"
 #include "../base/SVVec3.h"
+#include "../base/SVVec4.h"
 #include "../base/SVMat4.h"
 #include "../base/svstr.h"
 #include "../base/SVMap.h"
@@ -23,12 +24,13 @@ namespace sv {
          */
         class SVBone :public SVObject {
         public:
+            SVString m_name;
             s32 m_id;
             
-            FMat4 m_matrix;
-            
+            FVec3 m_tran;
+            FVec3 m_scale;
+            FVec4 m_rot;
             SVBone* m_pParent;
-            
             typedef SVArray<SVBone*> BONEPOOL;
             BONEPOOL m_children;
         };
@@ -46,10 +48,8 @@ namespace sv {
             
         protected:
             SVString m_name;
-            //骨架
-            //SVBonePtr m_ske;
-            //
-            
+            //基础矩阵
+           FMat4 m_inverseBindMatrices;
         };
         
         //骨架池
