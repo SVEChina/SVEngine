@@ -1,12 +1,12 @@
 //
-// SVTexAttachment.h
+// SVActTexAttachment.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_TEXATTACHMENT_H
-#define SV_TEXATTACHMENT_H
+#ifndef SV_ACTIONTEXATTACHMENT_H
+#define SV_ACTIONTEXATTACHMENT_H
 
 #include "../base/SVGBase.h"
 #include "../node/SVNodeDeclare.h"
@@ -14,7 +14,7 @@ namespace sv{
     
     namespace logic {
         
-        class SVTexAttachment : public SVGBase {
+        class SVActTexAttachment : public SVGBase {
         public:
             struct TEXATTACHSPARAM{
                 s32             channel;
@@ -22,11 +22,10 @@ namespace sv{
                 SVString        targetNodeName;
                 SVString        boneName;
                 SVString        slotName;
-                SVString        maskTexPath;
             };
-            SVTexAttachment(SVInst* _app);
+            SVActTexAttachment(SVInst* _app);
             
-            ~SVTexAttachment();
+            ~SVActTexAttachment();
             
             virtual void init();
             
@@ -40,9 +39,9 @@ namespace sv{
             
             virtual void update(f32 _dt);
 
-            void setAttachmentTex(s32 _channel, cptr8 _data, s32 _width, s32 _height);
+            void setAttachmentTex(void *_data, s32 _width, s32 _height);
             
-            void setAttachmentParamFromJson(RAPIDJSON_NAMESPACE::Value &item);
+            void fromJson(RAPIDJSON_NAMESPACE::Value &item);
             
             TEXATTACHSPARAM getParam();
             
@@ -55,4 +54,4 @@ namespace sv{
         
     }//!namespace logic
 }//!namespace sv
-#endif //SV_TEXATTACHMENT_H
+#endif //SV_ACTIONTEXATTACHMENT_H

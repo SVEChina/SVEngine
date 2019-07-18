@@ -49,13 +49,13 @@ namespace sv {
             
             void setSpacing(f32 _spacing);
             
-            f32 getSpacing();
+            f32 getWorldWidth();
             
-            SVBMFontPtr getFont();
+            f32 getWorldHeight();
             
-            f32 getFontWidth();
+            f32 getWidth();
             
-            f32 getFontHeight();
+            f32 getHeight();
             
             virtual void setAlpha(f32 _alpha);
             //序列化接口

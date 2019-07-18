@@ -16,7 +16,7 @@
 #include "../node/SVSpineNode.h"
 #include "../node/SVSpriteNode.h"
 #include "../node/SVBitFontNode.h"
-#include "../act/SVTexAttachment.h"
+#include "../act/SVActTexAttachment.h"
 #include "../act/SVActFollow.h"
 #include "../act/SVActionSys.h"
 #include "../act/SVActionUnit.h"
@@ -120,9 +120,7 @@ SVEffectPackage::SVEffectPackage(SVInst* _app)
 }
 
 SVEffectPackage::~SVEffectPackage(){
-    if (m_lock) {
-        m_lock = nullptr;
-    }
+    m_lock = nullptr;
     m_music = nullptr;
 }
 
@@ -140,9 +138,10 @@ void SVEffectPackage::destroy(){
     }
     m_effectUnitPool.destroy();
     for (s32 i = 0; i<m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVActTexAttachmentPtr t_attachment = m_attachmentPool[i];
         t_attachment->destroy();
     }
+    m_attachmentPool.destroy();
     for (s32 i = 0; i<m_filterBasePool.size(); i++) {
         SVFilterBasePtr t_filterBase = m_filterBasePool[i];
         SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
@@ -158,7 +157,6 @@ void SVEffectPackage::destroy(){
     }
     
     m_filterBasePool.destroy();
-    m_attachmentPool.destroy();
     m_deformPool.destroy();
     if (m_music) {
         SVArray<SVString>t_musics;
@@ -216,7 +214,7 @@ void SVEffectPackage::update(f32 _dt) {
     }
     
     for (s32 i = 0; i < m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVActTexAttachmentPtr t_attachment = m_attachmentPool[i];
         t_attachment->update(_dt);
     }
 }
@@ -258,9 +256,8 @@ void SVEffectPackage::addEffectUnit(SVNodePtr _nodePtr){
     }
 }
 
-void SVEffectPackage::addAttachment(SVTexAttachmentPtr _attachment){
+void SVEffectPackage::addAttachment(SVActTexAttachmentPtr _attachment){
     if (_attachment) {
-        _attachment->init();
         m_attachmentPool.append(_attachment);
     }
 }
@@ -283,10 +280,10 @@ void SVEffectPackage::addDefrom(SVDeformImageMovePtr _deform){
     }
 }
 
-SVTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
+SVActTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
     for (s32 i = 0; i < m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
-        SVTexAttachment::TEXATTACHSPARAM t_param = t_attachment->getParam();
+        SVActTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVActTexAttachment::TEXATTACHSPARAM t_param = t_attachment->getParam();
         if (t_param.channel == _channel) {
             return t_attachment;
         }

@@ -105,12 +105,58 @@ void SVBMFontNode::setSpacing(f32 _spacing){
     m_textDirty = true;
 }
 
-f32 SVBMFontNode::getSpacing(){
-    return m_spacing;
+f32 SVBMFontNode::getWorldWidth(){
+    if (!m_font) {
+        return 0;
+    }
+    f32 t_texSize = m_font->getTextLength(m_text.c_str());
+    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), t_texSize);
+    t_total_w = t_total_w + (m_text.size() - 1)*m_spacing;
+    return t_total_w;
 }
 
-SVBMFontPtr SVBMFontNode::getFont(){
-    return m_font;
+f32 SVBMFontNode::getWorldHeight(){
+    if (!m_font) {
+        return 0;
+    }
+    return m_font->m_fontHeight;
+}
+
+f32 SVBMFontNode::getWidth(){
+    if (!m_font) {
+        return 0;
+    }
+    f32 t_scaleX = 1.0f;
+    SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVBMFontNode);
+    while (t_curNode) {
+        t_scaleX = t_scaleX * t_curNode->getScale().x;
+        if (t_curNode->getParent()) {
+            t_curNode = t_curNode->getParent();
+        } else {
+            break;
+        }
+    }
+    f32 t_texSize = m_font->getTextLength(m_text.c_str());
+    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), t_texSize);
+    t_total_w = t_total_w + (m_text.size() - 1)*m_spacing;
+    return t_total_w*t_scaleX;
+}
+
+f32 SVBMFontNode::getHeight(){
+    if (!m_font) {
+        return 0;
+    }
+    f32 t_scaleY = 1.0f;
+    SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVBMFontNode);
+    while (t_curNode) {
+        t_scaleY = t_scaleY * t_curNode->getScale().y;
+        if (t_curNode->getParent()) {
+            t_curNode = t_curNode->getParent();
+        } else {
+            break;
+        }
+    }
+    return m_font->m_fontHeight*t_scaleY;
 }
 
 //void SVBMFontNode::setAtcPt(BITFONT_ATCH_PT _type){
@@ -130,43 +176,6 @@ void SVBMFontNode::setAlpha(f32 _alpha){
         m_textDirty = true;
         m_alpha = _alpha;
     }
-}
-
-f32 SVBMFontNode::getFontWidth(){
-    f32 t_scaleX = 1.0f;
-    f32 t_scaleY = 1.0f;
-    SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVBMFontNode);
-    while (t_curNode) {
-        t_scaleX = t_scaleX * t_curNode->getScale().x;
-        t_scaleY = t_scaleY * t_curNode->getScale().y;
-        
-        if (t_curNode->getParent()) {
-            t_curNode = t_curNode->getParent();
-        } else {
-            break;
-        }
-    }
-    f32 t_texSize = m_font->getTextLength(m_text.c_str());
-    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), t_texSize);
-    t_total_w = t_total_w + (m_text.size() - 1)*m_spacing;
-    return t_total_w*t_scaleX;
-}
-
-f32 SVBMFontNode::getFontHeight(){
-    f32 t_scaleX = 1.0f;
-    f32 t_scaleY = 1.0f;
-    SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVBMFontNode);
-    while (t_curNode) {
-        t_scaleX = t_scaleX * t_curNode->getScale().x;
-        t_scaleY = t_scaleY * t_curNode->getScale().y;
-        
-        if (t_curNode->getParent()) {
-            t_curNode = t_curNode->getParent();
-        } else {
-            break;
-        }
-    }
-    return m_font->m_fontHeight*t_scaleY;
 }
 
 void SVBMFontNode::_refresh(){

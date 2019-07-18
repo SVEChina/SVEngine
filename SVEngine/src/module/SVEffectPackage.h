@@ -65,20 +65,20 @@ namespace sv{
         
         SVNodePtr getNode(cptr8 _name);
         
-        void addAttachment(SVTexAttachmentPtr _attachment);
+        void addAttachment(SVActTexAttachmentPtr _attachment);
         
         void addFilter(SVFilterBasePtr _filter);
         
         void addDefrom(SVDeformImageMovePtr _deform);
         
-        SVTexAttachmentPtr getTexAttachment(s32 _channel);
+        SVActTexAttachmentPtr getTexAttachment(s32 _channel);
         
         void setEffectMusic(SVEffectMusicPtr _music);
     protected:
         EFFECTANISTATE m_aniState;
         typedef SVArray<SVEffectUnitPtr> SVEFFECTUNITPOOL;
         SVEFFECTUNITPOOL m_effectUnitPool;
-        typedef SVArray<SVTexAttachmentPtr> SVATTACHMENTPOOL;
+        typedef SVArray<SVActTexAttachmentPtr> SVATTACHMENTPOOL;
         SVATTACHMENTPOOL m_attachmentPool;
         typedef SVArray<SVFilterBasePtr> SVFILTERPOOL;
         SVFILTERPOOL m_filterBasePool;

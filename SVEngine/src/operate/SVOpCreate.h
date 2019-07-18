@@ -94,14 +94,14 @@ namespace sv {
     
     class SVOpTexAttachment: public SVOpBase {
     public:
-        SVOpTexAttachment(SVInst *_app, cptr8 _strPath, s32 _channel, cptr8 _data, s32 _width, s32 _height);
+        SVOpTexAttachment(SVInst *_app, cptr8 _strPath, s32 _channel, void * _data, s32 _width, s32 _height);
         
         ~SVOpTexAttachment();
         
     protected:
         void _process(f32 dt);
         
-        cptr8 m_data;
+        void * m_data;
         SVString m_strPath;
         s32   m_width;
         s32   m_height;

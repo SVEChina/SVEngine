@@ -43,7 +43,7 @@
 #include "../module/SVMark.h"
 #include "../module/SVEffectPackage.h"
 #include "../module/pendraw/SVPenDraw.h"
-#include "../act/SVTexAttachment.h"
+#include "../act/SVActTexAttachment.h"
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectBase.h"
 //创建场景OP
@@ -165,7 +165,7 @@ void SVOpCreateEffcet::_process(f32 dt) {
 }
 
 
-SVOpTexAttachment::SVOpTexAttachment(SVInst *_app, cptr8 _strPath, s32 _channel, cptr8 _data, s32 _width, s32 _height):SVOpBase(_app){
+SVOpTexAttachment::SVOpTexAttachment(SVInst *_app, cptr8 _strPath, s32 _channel, void *_data, s32 _width, s32 _height):SVOpBase(_app){
     m_strPath = _strPath;
     m_data = _data;
     m_width = _width;
@@ -185,9 +185,9 @@ void SVOpTexAttachment::_process(f32 dt) {
     if (t_module) {
         SVEffectPackagePtr t_effect = std::dynamic_pointer_cast<SVEffectPackage>(t_module);
         if (t_effect) {
-            SVTexAttachmentPtr t_attachment = t_effect->getTexAttachment(m_channel);
+            SVActTexAttachmentPtr t_attachment = t_effect->getTexAttachment(m_channel);
             if (t_attachment) {
-                t_attachment->setAttachmentTex(m_channel, m_data, m_width, m_height);
+                t_attachment->setAttachmentTex(m_data, m_width, m_height);
             }
         }
     }

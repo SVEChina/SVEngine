@@ -32,9 +32,13 @@ namespace sv {
             
             virtual void setTexcoord(f32 x,f32 y);
             
-            inline f32 getWidth(){ return m_width; }
+            f32 getWorldWidth();
             
-            inline f32 getHeight(){ return m_height; }
+            f32 getWorldHeight();
+            
+            f32 getWidth();
+            
+            f32 getHeight();
             
             virtual void setMaterial(SVMtlCorePtr _mtl);
             

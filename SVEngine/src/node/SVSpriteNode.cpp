@@ -89,6 +89,42 @@ SVMtlCorePtr SVSpriteNode::getMaterial(){
     return m_pMtl;
 }
 
+f32 SVSpriteNode::getWorldWidth(){
+    return m_width;
+}
+
+f32 SVSpriteNode::getWorldHeight(){
+    return m_height;
+}
+
+f32 SVSpriteNode::getWidth(){
+    f32 t_scaleX = 1.0f;
+    SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpriteNode);
+    while (t_curNode) {
+        t_scaleX = t_scaleX * t_curNode->getScale().x;
+        if (t_curNode->getParent()) {
+            t_curNode = t_curNode->getParent();
+        } else {
+            break;
+        }
+    }
+    return m_width*t_scaleX;
+}
+
+f32 SVSpriteNode::getHeight(){
+    f32 t_scaleY = 1.0f;
+    SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpriteNode);
+    while (t_curNode) {
+        t_scaleY = t_scaleY * t_curNode->getScale().y;
+        if (t_curNode->getParent()) {
+            t_curNode = t_curNode->getParent();
+        } else {
+            break;
+        }
+    }
+    return m_height*t_scaleY;
+}
+
 void SVSpriteNode::setTexture(cptr8 _path, bool enableMipMap){
     if(m_pTexPath!=_path) {
         m_pTexPath = _path;

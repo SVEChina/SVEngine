@@ -1,11 +1,11 @@
 //
-// SVTexAttachment.cpp
+// SVActTexAttachment.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVTexAttachment.h"
+#include "SVActTexAttachment.h"
 #include "../mtl/SVMtlCore.h"
 #include "../mtl/SVMtl2D.h"
 #include "../node/SVSpineNode.h"
@@ -15,28 +15,37 @@
 #include "../node/SVNodeVisit.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
-SVTexAttachment::SVTexAttachment(SVInst *_app)
+#include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/SVRendererBase.h"
+SVActTexAttachment::SVActTexAttachment(SVInst *_app)
 :SVGBase(_app) {
-}
-
-SVTexAttachment::~SVTexAttachment() {
     m_srcNode = nullptr;
     m_tarNode = nullptr;
 }
 
-void SVTexAttachment::init() {
+SVActTexAttachment::~SVActTexAttachment() {
+    m_srcNode = nullptr;
+    m_tarNode = nullptr;
 }
 
-void SVTexAttachment::destroy() {
+void SVActTexAttachment::init() {
 }
 
-void SVTexAttachment::enter(){
+void SVActTexAttachment::destroy() {
+    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVTEXTYPE t_texType = SVTEXTYPE(E_TEX_AVATAR_0 + m_param.channel);
+    if (t_renderer->hasSVTex(t_texType)) {
+        t_renderer->destroySVTex(t_texType);
+    }
 }
 
-void SVTexAttachment::exit(){
+void SVActTexAttachment::enter(){
 }
 
-void SVTexAttachment::update(f32 _dt) {
+void SVActTexAttachment::exit(){
+}
+
+void SVActTexAttachment::update(f32 _dt) {
     if (m_tarNode && m_srcNode) {
         f32 t_px;
         f32 t_py;
@@ -48,52 +57,44 @@ void SVTexAttachment::update(f32 _dt) {
         m_srcNode->setScale(t_sx, t_sy, 0);
         f32 t_alpha;
         t_alpha = m_tarNode->getSlotAlpha(m_param.slotName.c_str());
-        SVMtl2DPtr mtl2D = std::dynamic_pointer_cast<SVMtl2D>(m_srcNode->getMaterial());
-        if (mtl2D) {
-            mtl2D->setAlpha(t_alpha);
-        }
+        m_srcNode->setAlpha(t_alpha);
     }
 }
 
-bool SVTexAttachment::isEnd(){
+bool SVActTexAttachment::isEnd(){
     return true;
 }
 
-void SVTexAttachment::setAttachmentTex(s32 _channel, cptr8 _data, s32 _width, s32 _height){
+void SVActTexAttachment::setAttachmentTex(void *_data, s32 _width, s32 _height){
     if (m_srcNode) {
-        SVTexturePtr texture = mApp->getTexMgr()->createUnctrlTextureWithData(_width, _height, GL_RGBA, GL_RGBA, (void *)_data);
-        m_srcNode->setTexture(texture);
-        SVMtl2DPtr t_mtl = MakeSharedPtr<SVMtl2D>(mApp, "normal2d_mask_c");
-        m_srcNode->setMaterial(t_mtl);
-        SVTexturePtr textureMask = mApp->getTexMgr()->getTextureSync(m_param.maskTexPath.c_str(),true);
-        t_mtl->setTexture(1, textureMask);
+        SVRendererBasePtr t_renderer = mApp->getRenderer();
+        SVTEXTYPE t_texType = SVTEXTYPE(E_TEX_AVATAR_0 + m_param.channel);
+        SVTexturePtr t_texture = nullptr;
+        if (t_renderer->hasSVTex(t_texType)) {
+            t_texture = t_renderer->getSVTex(t_texType);
+        }else{
+            t_texture = t_renderer->createSVTex(t_texType, _width, _height, GL_RGBA,GL_RGBA);
+        }
+        t_texture->setTexData(_data, _width*_height*4);
+        m_srcNode->setTexture(t_texture);
     }
 }
 
-void SVTexAttachment::setAttachmentParamFromJson(RAPIDJSON_NAMESPACE::Value &item){
-    if (m_srcNode) {
-        m_srcNode = nullptr;
-    }
-    if (m_tarNode) {
-        m_tarNode = nullptr;
-    }
+void SVActTexAttachment::fromJson(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("channel") && item["channel"].IsInt()) {
         m_param.channel = item["channel"].GetInt();
     }
-    if (item.HasMember("sourcenode") && item["sourcenode"].IsString()) {
-        m_param.sourceNodeName = item["sourcenode"].GetString();
+    if (item.HasMember("srcnode") && item["srcnode"].IsString()) {
+        m_param.sourceNodeName = item["srcnode"].GetString();
     }
-    if (item.HasMember("targetnode") && item["targetnode"].IsString()) {
-        m_param.targetNodeName = item["targetnode"].GetString();
+    if (item.HasMember("tarspine") && item["tarspine"].IsString()) {
+        m_param.targetNodeName = item["tarspine"].GetString();
     }
     if (item.HasMember("bonename") && item["bonename"].IsString()) {
         m_param.boneName = item["bonename"].GetString();
     }
     if (item.HasMember("slotname") && item["slotname"].IsString()) {
         m_param.slotName = item["slotname"].GetString();
-    }
-    if (item.HasMember("mask") && item["mask"].IsString()) {
-        m_param.maskTexPath = m_rootPath + item["mask"].GetString();
     }
     SVVisitorNodeNamePtr srcvisitor = MakeSharedPtr<SVVisitorNodeName>(m_param.sourceNodeName.c_str());
     mApp->getSceneMgr()->getScene()->visit(srcvisitor);
@@ -115,6 +116,6 @@ void SVTexAttachment::setAttachmentParamFromJson(RAPIDJSON_NAMESPACE::Value &ite
     }
 }
 
-SVTexAttachment::TEXATTACHSPARAM SVTexAttachment::getParam(){
+SVActTexAttachment::TEXATTACHSPARAM SVActTexAttachment::getParam(){
     return m_param;
 }
