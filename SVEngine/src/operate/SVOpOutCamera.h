@@ -60,7 +60,7 @@ namespace sv {
     //创建ios输出流
     class SVOpCreateIOSOutstream : public SVOpBase {
     public:
-        SVOpCreateIOSOutstream(SVInst* _app,cptr8 _name,s32 _format, s32 _steamType = 20);
+        SVOpCreateIOSOutstream(SVInst* _app,cptr8 _name,s32 _format, s32 _width, s32 _height, s32 _steamType = 20);
         
         void _process(f32 _dt);
         
@@ -68,6 +68,8 @@ namespace sv {
         SVString m_name;
         s32 m_formate;
         s32 m_streamType;
+        s32 m_width;
+        s32 m_height;
     };
     
     //销毁ios输出流

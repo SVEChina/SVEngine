@@ -30,7 +30,7 @@ SVStreamOut::SVStreamOut(SVInst *_app)
     m_outMethod = E_OUT_M_ANDRIOD;
 #else
      m_outMethod = E_OUT_M_READPIEXL;
-#endif;
+#endif
     m_outWidth = 0;
     m_outHeight = 0;
     m_outFormat = SV_OUT_STEAM_RGB2YUVI420;
@@ -166,7 +166,7 @@ void SVStreamOut::_refreshOutStream() {
 }
 
 //
-void SVStreamOut::createOutStream(cptr8 _name, s32 _type, s32 _format, RENDERSTREAMTYPE _steamType) {
+void SVStreamOut::createOutStream(cptr8 _name, s32 _type, s32 _format, s32 _width, s32 _height, RENDERSTREAMTYPE _steamType) {
     if(_type == 0){
 #ifdef SV_IOS
         m_pFrameOut = MakeSharedPtr<SVFrameOutIOS>(mApp);
@@ -174,6 +174,10 @@ void SVStreamOut::createOutStream(cptr8 _name, s32 _type, s32 _format, RENDERSTR
         if( t_streamNode ) {
             s32 _w = mApp->m_pGlobalParam->m_inner_width;
             s32 _h = mApp->m_pGlobalParam->m_inner_height;
+            if (_width !=0 && _height != 0) {
+                _w = _width;
+                _h = _height;
+            }
             t_streamNode->init(SV_OUTSTEAMFORMATE(_format),_w,_h);
             t_streamNode->setRSType(_steamType);
         }

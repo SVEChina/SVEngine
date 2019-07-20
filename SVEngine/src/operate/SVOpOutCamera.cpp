@@ -77,18 +77,20 @@ void SVOpDestroyIOSInstream::_process(f32 _dt) {
 }
 
 
-SVOpCreateIOSOutstream::SVOpCreateIOSOutstream(SVInst *_app, cptr8 _name, s32 _format, s32 _steamType)
-        : SVOpBase(_app) {
+SVOpCreateIOSOutstream::SVOpCreateIOSOutstream(SVInst *_app, cptr8 _name, s32 _format,  s32 _width, s32 _height, s32 _steamType)
+: SVOpBase(_app) {
     m_name = _name;
     m_formate = _format;
     m_streamType = _steamType;
+    m_width = _width;
+    m_height = _height;
 }
 
 void SVOpCreateIOSOutstream::_process(f32 _dt) {
 #ifdef SV_IOS
     SVStreamOutPtr t_streamout = mApp->getBasicSys()->getStreamOut();
     if( t_streamout ) {
-        t_streamout->createOutStream(m_name.c_str(), 0, m_formate, RENDERSTREAMTYPE(m_streamType));
+        t_streamout->createOutStream(m_name.c_str(), 0, m_formate, m_width, m_height, RENDERSTREAMTYPE(m_streamType));
     }
 #endif
 }
@@ -176,7 +178,7 @@ SVOpCreateTextureCamera::SVOpCreateTextureCamera(SVInst *_app, s32 _format, s32 
 void SVOpCreateTextureCamera::_process(f32 _dt) {
     SVStreamOutPtr t_streamout = mApp->getBasicSys()->getStreamOut();
     if( t_streamout ) {
-        t_streamout->createOutStream(nullptr,1,GL_RGBA);
+        t_streamout->createOutStream(nullptr,1,GL_RGBA, m_width, m_height);
         t_streamout->active();
     }
 }

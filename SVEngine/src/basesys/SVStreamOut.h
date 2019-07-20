@@ -50,7 +50,7 @@ namespace sv {
             void setOutFormat(SV_OUTSTEAMFORMATE _format);
             
             //加了个StreamType,控制对外输出到哪个流。默认RST_DATATRANS这个流
-            void createOutStream(cptr8 _name, s32 _type, s32 _format, RENDERSTREAMTYPE _steamType = RST_DATATRANS);
+            void createOutStream(cptr8 _name, s32 _type, s32 _format, s32 _width, s32 _height, RENDERSTREAMTYPE _steamType = RST_DATATRANS);
             
             void destroyOutStream();
             

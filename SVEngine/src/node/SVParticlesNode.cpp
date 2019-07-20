@@ -41,7 +41,7 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     m_pVertData = MakeSharedPtr<SVDataSwap>( );
     m_pIndexData = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
-    m_atten = mApp->getTexMgr()->getTexture("svres/textures/particles_base_diffuse.png",true);
+    m_atten = mApp->getTexMgr()->getTexture("svres/textures/billboards_base_specular.png",true);
     m_diffuse = mApp->getTexMgr()->getTexture("svres/textures/a_xuehua_00.png",true);
 }
 
