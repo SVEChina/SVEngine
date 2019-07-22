@@ -150,6 +150,20 @@ void SVOpCreateEffcet::_process(f32 dt) {
                 SVString msg = SVString::format("effectpackageloadsucceed_%s",t_moduleName.c_str());
                 (*m_pCB)(msg.c_str(), mApp);
             }
+            SVEffectPackagePtr t_effectPackage = DYN_TO_SHAREPTR(SVEffectPackage, t_modulePtr);
+            if (t_effectPackage) {
+                for (s32 i = 0; i<10; i++) {
+                    SVActTexAttachmentPtr t_texAtt = t_effectPackage->getTexAttachment(i);
+                    if (t_texAtt) {
+                        SVActTexAttachment::TEXATTACHSPARAM t_param = t_texAtt->getParam();
+                        if (m_pCB) {
+                            SVString msg = SVString::format("effectpackagetexattachment_%s_channel:%d_metadata:%s",t_moduleName.c_str(), i, t_param.metadata.c_str());
+                            (*m_pCB)(msg.c_str(), mApp);
+                        }
+                    }
+                }
+            }
+            
         }else{
             if (m_pCB) {
                 SVString msg = SVString::format("effectpackageloadfailed_%s",t_moduleName.c_str());

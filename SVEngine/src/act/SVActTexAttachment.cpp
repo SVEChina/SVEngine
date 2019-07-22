@@ -76,6 +76,7 @@ void SVActTexAttachment::setAttachmentTex(void *_data, s32 _width, s32 _height){
             t_texture = t_renderer->createSVTex(t_texType, _width, _height, GL_RGBA,GL_RGBA);
         }
         t_texture->setTexData(_data, _width*_height*4);
+        m_srcNode->setSize(m_srcNode->getWorldWidth(), m_srcNode->getWorldHeight()*(_height*1.0/_width));
         m_srcNode->setTexture(t_texture);
     }
 }
@@ -95,6 +96,9 @@ void SVActTexAttachment::fromJson(RAPIDJSON_NAMESPACE::Value &item){
     }
     if (item.HasMember("slotname") && item["slotname"].IsString()) {
         m_param.slotName = item["slotname"].GetString();
+    }
+    if (item.HasMember("metadata") && item["metadata"].IsString()) {
+        m_param.metadata = item["metadata"].GetString();
     }
     SVVisitorNodeNamePtr srcvisitor = MakeSharedPtr<SVVisitorNodeName>(m_param.sourceNodeName.c_str());
     mApp->getSceneMgr()->getScene()->visit(srcvisitor);

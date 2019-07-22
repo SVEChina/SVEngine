@@ -22,6 +22,7 @@ namespace sv{
                 SVString        targetNodeName;
                 SVString        boneName;
                 SVString        slotName;
+                SVString        metadata;
             };
             SVActTexAttachment(SVInst* _app);
             
