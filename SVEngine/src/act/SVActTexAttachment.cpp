@@ -51,7 +51,6 @@ void SVActTexAttachment::update(f32 _dt) {
         f32 t_py;
         m_tarNode->getBonePosition(t_px, t_py, m_param.boneName.c_str());
         m_srcNode->setPosition(t_px, t_py, 0);
-        printf("xiaofan pos:%f,%f\n",t_px, t_py);
         f32 t_sx;
         f32 t_sy;
         m_tarNode->getBoneScale(t_sx, t_sy, m_param.boneName.c_str());
