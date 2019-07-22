@@ -378,7 +378,7 @@ void SVLoaderGLTF::building() {
 SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
     SVSkinNodePtr tNode = MakeSharedPtr<SVSkinNode>(mApp);
     //构建皮肤
-    SVAnimateSkinPtr t_skin = _buildSkin(t_node->skin);
+    SVAnimateSkinPtr t_skin = _buildSkin(_node->skin);
     //构建mesh
     SVMeshPtr t_mesh = _buildMesh(_node->mesh);
     //tModel->setMesh(t_mesh);
