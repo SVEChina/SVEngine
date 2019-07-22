@@ -362,13 +362,13 @@ void SVLoaderGLTF::building() {
                 SVNodePtr t_svNode = _buildSkinNode(t_node);
                 t_sc->addNode(t_svNode);
             }else if(t_node->mesh) {
-                //无骨骼动画 纯mesh
-                SVNodePtr t_svNode = _buildSkinNode(_build3DNode);
-                t_sc->addNode(t_svNode);
+//                //无骨骼动画 纯mesh
+//                SVNodePtr t_svNode = _buildSkinNode(_build3DNode);
+//                t_sc->addNode(t_svNode);
             }else if(t_node->camera) {
-                //相机
-                SVNodePtr t_svNode = _buildCameraNode(_build3DNode);
-                t_sc->addNode(t_svNode);
+//                //相机
+//                SVNodePtr t_svNode = _buildCameraNode(_build3DNode);
+//                t_sc->addNode(t_svNode);
             }
         }
     }
