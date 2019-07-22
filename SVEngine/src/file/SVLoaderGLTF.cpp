@@ -377,11 +377,11 @@ void SVLoaderGLTF::building() {
 //构建各种节点
 SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
     SVSkinNodePtr tNode = MakeSharedPtr<SVSkinNode>(mApp);
-    //skin
-    SVAnimateSkinPtr t_skin = _buildSkin(t_node->skin);
-    //mesh
-    SVMeshPtr t_mesh = _buildMesh(_node->mesh);
-    //tModel->setMesh(t_mesh);
+//    //skin
+//    SVAnimateSkinPtr t_skin = _buildSkin(t_node->skin);
+//    //mesh
+//    SVMeshPtr t_mesh = _buildMesh(_node->mesh);
+//    //tModel->setMesh(t_mesh);
     
 //    //
 //    if(t_model_node) {
@@ -409,12 +409,12 @@ SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
 
 SVNodePtr SVLoaderGLTF::_build3DNode(Node* _node) {
     SVModelNodePtr tNode = MakeSharedPtr<SVModelNode>(mApp);
-    SVModelPtr tModel = MakeSharedPtr<SVModel>();
-    tNode->setModel(tModel);
-    //
-    SVMeshPtr t_mesh = _buildMesh(_node->mesh);
-    tModel->setMesh(t_mesh);
-    t_model_node = tNode;
+//    SVModelPtr tModel = MakeSharedPtr<SVModel>();
+//    tNode->setModel(tModel);
+//    //
+//    SVMeshPtr t_mesh = _buildMesh(_node->mesh);
+//    tModel->setMesh(t_mesh);
+//    t_model_node = tNode;
     //
     return tNode;
 }

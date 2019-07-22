@@ -11,7 +11,7 @@
 #include "../SVRendererBase.h"
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import <QuartzCore/CAMetalLayer.h>
+//#import <QuartzCore/CAMetalLayer.h>
 #import <Metal/Metal.h>
 #import <Metal/MTLRenderCommandEncoder.h>
 #import <MetalKit/MetalKit.h>
