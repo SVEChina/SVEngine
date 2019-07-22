@@ -526,6 +526,7 @@ namespace sv {
         
         cptr8 _base64_decode(SVString const &s);
         
+        //解析各种数据
         bool _parseAsset(Asset *_asset , RAPIDJSON_NAMESPACE::Value &_item);
         
         bool _parseBuffer(Buffer *_buffer, RAPIDJSON_NAMESPACE::Value &_item, cptr8 _basedir);
