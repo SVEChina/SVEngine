@@ -11,9 +11,9 @@
 #include "../mtl/SVMtlFace2D.h"
 #include "../mtl/SVTexMgr.h"
 #include "../core/SVMathHelper.h"
-#include "../base/SVMeshData.h"
 #include "../basesys/SVConfig.h"
 #include "../basesys/SVStaticData.h"
+#include "../basesys/SVFaceDataMesh.h"
 #include "../rendercore/SVRenderMesh.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderObject.h"
@@ -30,8 +30,8 @@ SV2DFaceMaskSTNode::SV2DFaceMaskSTNode(SVInst *_app)
     memset(m_newmesh, 0, sizeof(m_newmesh));
     FaceMesh* facemesh = nullptr;
     StanderFace *standerface = nullptr;
-    facemesh = mApp->getDataMgr()->getMeshData()->getFaceMesh("facemesh_st");
-    standerface = mApp->getDataMgr()->getMeshData()->getStanderFace("standerface_st");
+    facemesh = mApp->getDataMgr()->getFaceDataMesh()->getFaceMesh("facemesh_st");
+    standerface = mApp->getDataMgr()->getFaceDataMesh()->getStanderFace("standerface_st");
     
     if (facemesh == nullptr || standerface == nullptr) {
         return;

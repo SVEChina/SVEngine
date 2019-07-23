@@ -33,9 +33,7 @@ namespace sv {
         
         void destroy();
         
-        SVMeshDataPtr getMeshData();
-        
-        SVRenderMeshPtr getMeshByType(EFFICACYMESHTYPE _type);
+        SVFaceDataMeshPtr getFaceDataMesh();
     public:
         SVRenderMeshPtr m_screenMesh;
         SVRenderMeshPtr m_screenMeshRot90;
@@ -45,13 +43,12 @@ namespace sv {
         SVRenderMeshPtr m_screenLBMesh;
         SVRenderMeshPtr m_screenRTMesh;
         SVRenderMeshPtr m_screenRBMesh;
+        SVRenderMeshPtr m_screenTwoDivisionMesh;
+        SVRenderMeshPtr m_screenFourDivisionMesh;
+        SVRenderMeshPtr m_screenFourXDivisionMesh;
         static V3_C_T0 m_baseRect[6];
     protected:
         void _initBaseRect();
-        
-        void _initEfficacyMeshs();
-        
-        void _clearEfficacyMeshs();
         
         void _initTwoDivisionMesh();
         
@@ -59,9 +56,7 @@ namespace sv {
         
         void _initFourDivisionMesh_X();
     protected:
-        SVMeshDataPtr m_meshDataPtr;
-        typedef SVMap<EFFICACYMESHTYPE, SVRenderMeshPtr> EFFICACYMESHPOOL;
-        EFFICACYMESHPOOL m_efficacyMeshPool;
+        SVFaceDataMeshPtr m_faceDataMesh;
     };
     
 }//!namespace

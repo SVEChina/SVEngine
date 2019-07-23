@@ -6,9 +6,9 @@
 //
 
 #include "SVStaticData.h"
+#include "SVFaceDataMesh.h"
 #include "../app/SVInst.h"
 #include "../base/SVDataSwap.h"
-#include "../base/SVMeshData.h"
 #include "../rendercore/SVRenderMesh.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRenderMgr.h"
@@ -25,7 +25,10 @@ SVStaticData::SVStaticData(SVInst* _app)
     m_screenLBMesh = nullptr;
     m_screenRTMesh = nullptr;
     m_screenRBMesh = nullptr;
-    m_meshDataPtr = nullptr;
+    m_screenTwoDivisionMesh = nullptr;
+    m_screenFourDivisionMesh = nullptr;
+    m_screenFourXDivisionMesh = nullptr;
+    m_faceDataMesh = nullptr;
     init();
     //
 }
@@ -241,10 +244,12 @@ void SVStaticData::init() {
     m_screenRTMesh->createMesh();
     m_screenRBMesh->createMesh();
     //
-    _initEfficacyMeshs();
+    _initTwoDivisionMesh();
+    _initFourDivisionMesh();
+    _initFourDivisionMesh_X();
     //
-    m_meshDataPtr = MakeSharedPtr<SVMeshData>(mApp);
-    m_meshDataPtr->init();
+    m_faceDataMesh = MakeSharedPtr<SVFaceDataMesh>(mApp);
+    m_faceDataMesh->init();
 }
 
 void SVStaticData::destroy() {
@@ -256,10 +261,10 @@ void SVStaticData::destroy() {
     m_screenLBMesh      = nullptr;
     m_screenRTMesh      = nullptr;
     m_screenRBMesh      = nullptr;
-    //
-    m_meshDataPtr       = nullptr;
-    //
-    _clearEfficacyMeshs();
+    m_screenTwoDivisionMesh = nullptr;
+    m_screenFourDivisionMesh = nullptr;
+    m_screenFourXDivisionMesh = nullptr;
+    m_faceDataMesh       = nullptr;
 }
 //单位1的基本矩形
 void SVStaticData::_initBaseRect(){
@@ -325,21 +330,15 @@ void SVStaticData::_initBaseRect(){
     m_baseRect[5].a = 255;
 }
 
-SVMeshDataPtr SVStaticData::getMeshData(){
-    return m_meshDataPtr;
-}
-
-void SVStaticData::_initEfficacyMeshs(){
-    _initTwoDivisionMesh();
-    _initFourDivisionMesh();
-    _initFourDivisionMesh_X();
+SVFaceDataMeshPtr SVStaticData::getFaceDataMesh(){
+    return m_faceDataMesh;
 }
 
 void SVStaticData::_initTwoDivisionMesh(){
     //二分屏
-    SVRenderMeshPtr mesh_twovidion  = MakeSharedPtr<SVRenderMesh>(mApp);
-    mesh_twovidion->setVertexType(E_VF_V2_C_T0);
-    mesh_twovidion->setDrawMethod(E_DM_TRIANGLES);
+    m_screenTwoDivisionMesh  = MakeSharedPtr<SVRenderMesh>(mApp);
+    m_screenTwoDivisionMesh->setVertexType(E_VF_V2_C_T0);
+    m_screenTwoDivisionMesh->setDrawMethod(E_DM_TRIANGLES);
     
     SVDataSwapPtr t_pMeshData_TwoVidion = MakeSharedPtr<SVDataSwap>();
     //渲染数据
@@ -383,7 +382,6 @@ void SVStaticData::_initTwoDivisionMesh(){
     VerData[4].y = -1.0f;
     VerData[5].x = 1.0f;
     VerData[5].y = 0.0f;
-    
     VerData[6].x = -1.0f;
     VerData[6].y = 0.0f;
     VerData[7].x = 1.0f;
@@ -397,18 +395,16 @@ void SVStaticData::_initTwoDivisionMesh(){
     VerData[11].x = 1.0f;
     VerData[11].y = 1.0f;
     t_pMeshData_TwoVidion->writeData(&VerData[0],sizeof(V2_C_T0)*12);
-    
-    mesh_twovidion->setVertexDataNum(12);
-    mesh_twovidion->setVertexData(t_pMeshData_TwoVidion);
-    mesh_twovidion->createMesh();
-    m_efficacyMeshPool.append(EFFICACY_MESH_TYPE_TWODIVISION, mesh_twovidion);
+    m_screenTwoDivisionMesh->setVertexDataNum(12);
+    m_screenTwoDivisionMesh->setVertexData(t_pMeshData_TwoVidion);
+    m_screenTwoDivisionMesh->createMesh();
 }
 
 void SVStaticData::_initFourDivisionMesh(){
     //四分屏
-    SVRenderMeshPtr mesh_fourvidion  = MakeSharedPtr<SVRenderMesh>(mApp);
-    mesh_fourvidion->setVertexType(E_VF_V2_C_T0);
-    mesh_fourvidion->setDrawMethod(E_DM_TRIANGLES);
+    m_screenFourDivisionMesh  = MakeSharedPtr<SVRenderMesh>(mApp);
+    m_screenFourDivisionMesh->setVertexType(E_VF_V2_C_T0);
+    m_screenFourDivisionMesh->setDrawMethod(E_DM_TRIANGLES);
     SVDataSwapPtr t_pMeshData_FourVidion = MakeSharedPtr<SVDataSwap>();
     //渲染数据
     V2_C_T0 VerData[24];
@@ -494,17 +490,16 @@ void SVStaticData::_initFourDivisionMesh(){
     
     t_pMeshData_FourVidion->writeData(&VerData[0],sizeof(V2_C_T0)*24);
     
-    mesh_fourvidion->setVertexDataNum(24);
-    mesh_fourvidion->setVertexData(t_pMeshData_FourVidion);
-    mesh_fourvidion->createMesh();
-    m_efficacyMeshPool.append(EFFICACY_MESH_TYPE_FOURDIVISION, mesh_fourvidion);
+    m_screenFourDivisionMesh->setVertexDataNum(24);
+    m_screenFourDivisionMesh->setVertexData(t_pMeshData_FourVidion);
+    m_screenFourDivisionMesh->createMesh();
 }
 
 void SVStaticData::_initFourDivisionMesh_X(){
     //四分屏
-    SVRenderMeshPtr mesh_fourvidion  = MakeSharedPtr<SVRenderMesh>(mApp);
-    mesh_fourvidion->setVertexType(E_VF_V2_C_T0);
-    mesh_fourvidion->setDrawMethod(E_DM_TRIANGLES);
+    m_screenFourXDivisionMesh  = MakeSharedPtr<SVRenderMesh>(mApp);
+    m_screenFourXDivisionMesh->setVertexType(E_VF_V2_C_T0);
+    m_screenFourXDivisionMesh->setDrawMethod(E_DM_TRIANGLES);
     SVDataSwapPtr t_pMeshData_FourVidion = MakeSharedPtr<SVDataSwap>();
     //渲染数据
     V2_C_T0 VerData[12];
@@ -590,20 +585,7 @@ void SVStaticData::_initFourDivisionMesh_X(){
     VerData[11].y = 0.0f;
     t_pMeshData_FourVidion->writeData(&VerData[0],sizeof(V2_C_T0)*12);
     
-    mesh_fourvidion->setVertexDataNum(12);
-    mesh_fourvidion->setVertexData(t_pMeshData_FourVidion);
-    mesh_fourvidion->createMesh();
-    m_efficacyMeshPool.append(EFFICACY_MESH_TYPE_FOURDIVISION_X, mesh_fourvidion);
-}
-
-void SVStaticData::_clearEfficacyMeshs(){
-    m_efficacyMeshPool.clear();
-}
-
-SVRenderMeshPtr SVStaticData::getMeshByType(EFFICACYMESHTYPE _type){
-    EFFICACYMESHPOOL::Iterator it = m_efficacyMeshPool.find(_type);
-    if( it!=m_efficacyMeshPool.end() ) {
-        return it->data;
-    }
-    return nullptr;
+    m_screenFourXDivisionMesh->setVertexDataNum(12);
+    m_screenFourXDivisionMesh->setVertexData(t_pMeshData_FourVidion);
+    m_screenFourXDivisionMesh->createMesh();
 }

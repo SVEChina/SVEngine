@@ -30,7 +30,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVFileMgr);
     DECLARE_SHAREPTR(SVConfig);
     DECLARE_SHAREPTR(SVStaticData);
-    DECLARE_SHAREPTR(SVMeshData);
+    DECLARE_SHAREPTR(SVFaceDataMesh);
     
     //基础
     DECLARE_SHAREPTR(SVRandom);

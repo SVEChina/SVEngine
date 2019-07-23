@@ -59,6 +59,6 @@ void SVDivisonFilter::setDivisionFilterType(SVStaticData::EFFICACYMESHTYPE _type
     if (_type == SVStaticData::EFFICACY_MESH_TYPE_NONE) {
         m_backgroundNode->setMesh(mApp->getDataMgr()->m_screenMesh);
     }else{
-        m_backgroundNode->setMesh(mApp->getDataMgr()->getMeshByType(_type));
+        m_backgroundNode->setMesh(mApp->getDataMgr()->m_screenTwoDivisionMesh);
     }
 }
