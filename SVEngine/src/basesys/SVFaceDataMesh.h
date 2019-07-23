@@ -8,8 +8,8 @@
 #ifndef SV_FACEMESHDATA_H
 #define SV_FACEMESHDATA_H
 
-#include "SVGBase.h"
-#include "SVMap.h"
+#include "../base/SVGBase.h"
+#include "../base/SVMap.h"
 
 namespace sv {
     
