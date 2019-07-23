@@ -25,6 +25,7 @@ SVStaticData::SVStaticData(SVInst* _app)
     m_screenLBMesh = nullptr;
     m_screenRTMesh = nullptr;
     m_screenRBMesh = nullptr;
+    m_screenAdaptMesh = nullptr;
     m_screenTwoDivisionMesh = nullptr;
     m_screenFourDivisionMesh = nullptr;
     m_screenFourXDivisionMesh = nullptr;
@@ -49,6 +50,7 @@ void SVStaticData::init() {
     m_screenMeshRot90   = MakeSharedPtr<SVRenderMesh>(mApp);
     m_screenMeshRot180  = MakeSharedPtr<SVRenderMesh>(mApp);
     m_screenMeshRot270  = MakeSharedPtr<SVRenderMesh>(mApp);
+    m_screenAdaptMesh = MakeSharedPtr<SVRenderMesh>(mApp);
     //构建屏幕渲染Mesh
     m_screenMesh->setVertexType(E_VF_V2_C_T0);
     m_screenLTMesh->setVertexType(E_VF_V2_C_T0);
@@ -58,6 +60,7 @@ void SVStaticData::init() {
     m_screenMeshRot90->setVertexType(E_VF_V2_C_T0);
     m_screenMeshRot180->setVertexType(E_VF_V2_C_T0);
     m_screenMeshRot270->setVertexType(E_VF_V2_C_T0);
+    m_screenAdaptMesh->setVertexType(E_VF_V2_C_T0);
     //索引数据
     u16 t_index[6] = {0, 1, 2, 2, 1, 3};
     SVDataSwapPtr t_pIndexData = MakeSharedPtr<SVDataSwap>();
@@ -70,6 +73,7 @@ void SVStaticData::init() {
     m_screenMeshRot90->setIndexData(t_pIndexData,6);
     m_screenMeshRot180->setIndexData(t_pIndexData,6);
     m_screenMeshRot270->setIndexData(t_pIndexData,6);
+    m_screenAdaptMesh->setIndexData(t_pIndexData,6);
     //
     SVDataSwapPtr t_pMeshData = MakeSharedPtr<SVDataSwap>();
     SVDataSwapPtr t_pLTMeshData = MakeSharedPtr<SVDataSwap>();
@@ -79,7 +83,6 @@ void SVStaticData::init() {
     SVDataSwapPtr t_pMeshData90 = MakeSharedPtr<SVDataSwap>();
     SVDataSwapPtr t_pMeshData180 = MakeSharedPtr<SVDataSwap>();
     SVDataSwapPtr t_pMeshData270 = MakeSharedPtr<SVDataSwap>();
-    
     //渲染数据
     V2_C_T0 VerData[4];
     //颜色
@@ -252,6 +255,71 @@ void SVStaticData::init() {
     m_faceDataMesh->init();
 }
 
+SVRenderMeshPtr SVStaticData::generateAdaptScreenMesh(f32 _srcW, f32 _srcH, f32 _tarW, f32 _tarH){
+    if ((_tarW > _srcW) || (_tarH > _srcH)) {
+        return m_screenMesh;
+    }
+    f32 t_tar_scale = _tarW/_tarH;
+    f32 t_src_scale = _srcW/_srcH;
+    if (t_tar_scale == t_src_scale) {
+        return m_screenMesh;
+    }
+    SVDataSwapPtr t_pMeshDataAdapt = MakeSharedPtr<SVDataSwap>();
+    //渲染数据
+    V2_C_T0 VerData[4];
+    //颜色
+    VerData[0].r = 255;
+    VerData[0].g = 255;
+    VerData[0].b = 255;
+    VerData[0].a = 255;
+    VerData[1].r = 255;
+    VerData[1].g = 255;
+    VerData[1].b = 255;
+    VerData[1].a = 255;
+    VerData[2].r = 255;
+    VerData[2].g = 255;
+    VerData[2].b = 255;
+    VerData[2].a = 255;
+    VerData[3].r = 255;
+    VerData[3].g = 255;
+    VerData[3].b = 255;
+    VerData[3].a = 255;
+    //
+    if (t_tar_scale < t_src_scale) {
+        VerData[0].t0x = ((_srcW - _tarW*(_srcH/_tarH))/_srcW)*0.5f;
+        VerData[0].t0y = 0.0f;
+        VerData[1].t0x = 1.0f - ((_srcW - _tarW*(_srcH/_tarH))/_srcW)*0.5f;
+        VerData[1].t0y = 0.0f;
+        VerData[2].t0x = ((_srcW - _tarW*(_srcH/_tarH))/_srcW)*0.5f;
+        VerData[2].t0y = 1.0f;
+        VerData[3].t0x = 1.0f - ((_srcW - _tarW*(_srcH/_tarH))/_srcW)*0.5f;
+        VerData[3].t0y = 1.0f;
+    }else{
+        VerData[0].t0x = 0.0f;
+        VerData[0].t0y = ((_srcH - _tarH*(_srcW/_tarW))/_srcH)*0.5f;
+        VerData[1].t0x = 1.0f;
+        VerData[1].t0y = ((_srcH -  _tarH*(_srcW/_tarW))/_srcH)*0.5f;;
+        VerData[2].t0x = 0.0f;
+        VerData[2].t0y = 1.0f - ((_srcH -  _tarH*(_srcW/_tarW))/_srcH)*0.5f;;
+        VerData[3].t0x = 1.0f;
+        VerData[3].t0y = 1.0f - ((_srcH -  _tarH*(_srcW/_tarW))/_srcH)*0.5f;;
+    }
+    //
+    VerData[0].x = -1.0f;
+    VerData[0].y = -1.0f;
+    VerData[1].x = 1.0f;
+    VerData[1].y = -1.0f;
+    VerData[2].x = -1.0f;
+    VerData[2].y = 1.0f;
+    VerData[3].x = 1.0f;
+    VerData[3].y = 1.0f;
+    t_pMeshDataAdapt->writeData(&VerData[0],sizeof(V2_C_T0)*4);
+    m_screenAdaptMesh->setVertexDataNum(4);
+    m_screenAdaptMesh->setVertexData(t_pMeshDataAdapt);
+    m_screenAdaptMesh->createMesh();
+    return m_screenAdaptMesh;
+}
+
 void SVStaticData::destroy() {
     m_screenMesh        = nullptr;
     m_screenMeshRot90   = nullptr;
@@ -261,6 +329,7 @@ void SVStaticData::destroy() {
     m_screenLBMesh      = nullptr;
     m_screenRTMesh      = nullptr;
     m_screenRBMesh      = nullptr;
+    m_screenAdaptMesh = nullptr;
     m_screenTwoDivisionMesh = nullptr;
     m_screenFourDivisionMesh = nullptr;
     m_screenFourXDivisionMesh = nullptr;

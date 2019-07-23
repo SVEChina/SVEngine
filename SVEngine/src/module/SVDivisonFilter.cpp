@@ -55,10 +55,10 @@ bool SVDivisonFilter::isOpen(){
     return m_isOpen;
 }
 
-void SVDivisonFilter::setDivisionFilterType(SVStaticData::EFFICACYMESHTYPE _type){
-    if (_type == SVStaticData::EFFICACY_MESH_TYPE_NONE) {
-        m_backgroundNode->setMesh(mApp->getDataMgr()->m_screenMesh);
-    }else{
-        m_backgroundNode->setMesh(mApp->getDataMgr()->m_screenTwoDivisionMesh);
-    }
-}
+//void SVDivisonFilter::setDivisionFilterType(SVStaticData::EFFICACYMESHTYPE _type){
+//    if (_type == SVStaticData::EFFICACY_MESH_TYPE_NONE) {
+//        m_backgroundNode->setMesh(mApp->getDataMgr()->m_screenMesh);
+//    }else{
+//        m_backgroundNode->setMesh(mApp->getDataMgr()->m_screenTwoDivisionMesh);
+//    }
+//}
