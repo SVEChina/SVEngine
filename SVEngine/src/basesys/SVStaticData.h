@@ -19,12 +19,6 @@ namespace sv {
 
     class SVStaticData : public SVGBase {
     public:
-        enum EFFICACYMESHTYPE{
-            EFFICACY_MESH_TYPE_NONE = 0,
-            EFFICACY_MESH_TYPE_TWODIVISION = 1,//二分
-            EFFICACY_MESH_TYPE_FOURDIVISION,   //四分 +字分割
-            EFFICACY_MESH_TYPE_FOURDIVISION_X  //四分 X字分割
-        };
         SVStaticData(SVInst* _app);
         
         ~SVStaticData();
@@ -34,6 +28,8 @@ namespace sv {
         void destroy();
         
         SVFaceDataMeshPtr getFaceDataMesh();
+        
+        SVRenderMeshPtr generateAdaptScreenMesh(f32 _srcW, f32 _srcH, f32 _tarW, f32 _tarH);
     public:
         SVRenderMeshPtr m_screenMesh;
         SVRenderMeshPtr m_screenMeshRot90;
@@ -57,11 +53,8 @@ namespace sv {
         void _initFourDivisionMesh_X();
     protected:
         SVFaceDataMeshPtr m_faceDataMesh;
+        SVRenderMeshPtr   m_screenAdaptMesh;
     };
     
 }//!namespace
-
-
-
-
 #endif //SV_RENDERDATA_H
