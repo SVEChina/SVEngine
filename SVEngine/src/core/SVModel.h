@@ -8,26 +8,27 @@
 #ifndef SV_MODEL_H
 #define SV_MODEL_H
 
-#include "../base/SVObject.h"
+#include "../base/SVGBase.h"
 #include "../base/SVPreDeclare.h"
-#include "SVMesh.h"
 #include "../base/SVBounds.h"
+#include "../base/SVArray.h"
 
 namespace sv {
     
     namespace util {
 
-        class SVModel : public SVObject {
+        /* 模型 由多个mesh构成 */
+        class SVModel : public SVGBase {
         public:
-            SVModel();
+            SVModel(SVInst* _app);
             
             ~SVModel();
             
             void clear(){};
             
-            void setMesh(SVMeshPtr _mesh);
+            void addMesh(SVMeshPtr _mesh);
         
-            SVMeshPtr getMesh();
+            SVMeshPtr getMesh(s32 _index);
             
             void clearMesh();
             
@@ -44,7 +45,9 @@ namespace sv {
         protected:
             SVString m_name;
             SVBoundBox m_box;
-            SVMeshPtr m_pMesh;
+            //一个模型包含多个mesh
+            typedef SVArray<SVMeshPtr> MESHPOOL;
+            MESHPOOL m_meshPool;
         };
         
         //模型池
@@ -53,7 +56,6 @@ namespace sv {
             SVModelMgr(SVInst* _app);
             
             ~SVModelMgr();
-            
         };
         
     }//!namespace util

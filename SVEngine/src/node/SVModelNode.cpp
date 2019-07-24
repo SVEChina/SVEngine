@@ -40,44 +40,6 @@ void SVModelNode::update(f32 dt) {
     if(m_pModel) {
         m_pModel->update(dt);
     }
-//    if( m_pRObj) {
-//        SVNode::update(dt);
-//        m_visible = true;
-//        m_drawBox = true;
-//        m_canSelect = true;
-//        //
-//        m_aabbBox.clear();
-//        m_pRObj->clearMesh();
-//        for (s32 i = 0; i<m_model->m_renderMeshData.size(); i++) {
-//            ModelRenderDataPtr renderData = m_model->m_renderMeshData[i];
-//            //计算包围盒
-//            m_aabbBox.expand(renderData->m_boundBox.getMin());
-//            m_aabbBox.expand(renderData->m_boundBox.getMax());
-//            //mesh
-//            SVRenderMeshPtr renderMesh = renderData->m_pMesh;
-//            renderMesh->setDrawMethod(E_DM_TRIANGLES);
-//            renderMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
-//            renderMesh->setIndexPoolType(GL_DYNAMIC_DRAW);
-//            renderMesh->setVertexType(E_VF_V3_N_C_T0);
-//            renderMesh->setIndexData(renderData->m_pRenderIndex, renderData->m_indexCount);
-//            renderMesh->setVertexData(renderData->m_pRenderVertex);
-//            renderMesh->setVertexDataNum(renderData->m_vertexCount);
-//            renderMesh->createMesh();
-//            //material
-//            SVMtl3DPtr t_mtl = DYN_TO_SHAREPTR(SVMtl3D, renderData->m_pMtl);
-//            FMat4 matrix =  m_absolutMat * renderData->m_globalTransform;
-//            t_mtl->setModelMatrix(matrix.get());
-//            t_mtl->setDepthEnable(true);
-//            t_mtl->setBlendEnable(true);
-//            t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-//            m_pRObj->addRenderObj(renderMesh,t_mtl);
-//        }
-//        if (m_enableDebugNormal) {
-//            _showDebugNormalLines();
-//        }
-//    }else{
-//        m_visible = false;
-//    }
 }
 
 void SVModelNode::render() {
@@ -100,7 +62,7 @@ SVModelPtr SVModelNode::getModel() {
 }
 /*
 //序列化
-void SVSpineNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+void SVModelNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
     RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
     _toJsonData(_allocator, locationObj);
     //
@@ -117,7 +79,7 @@ void SVSpineNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     _objValue.AddMember("SVSpineNode", locationObj, _allocator);
 }
 
-void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+void SVModelNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     _fromJsonData(item);
     if (item.HasMember("aniname") && item["aniname"].IsString()) {
         m_cur_aniname = item["aniname"].GetString();

@@ -13,6 +13,7 @@ SVLoaderObj::SVLoaderObj(SVInst *_app)
 }
 
 SVModelPtr SVLoaderObj::loadModel(cptr8 _fname) {
-    SVModelPtr t_model = MakeSharedPtr<SVModel>();
-    return t_model;
+//    SVModelPtr t_model = MakeSharedPtr<SVModel>();
+//    return t_model;
+    return nullptr;
 }

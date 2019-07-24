@@ -9,7 +9,8 @@
 #include "../app/SVInst.h"
 #include "../base/SVDataSwap.h"
 #include "../base/SVLock.h"
-#include "../mtl/SVMtlCore.h"
+#include "../mtl/SVMtlGLTF.h"
+#include "../mtl/SVMtlLib.h"
 #include "../rendercore/SVRenderMesh.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRendererBase.h"
@@ -56,32 +57,6 @@ void SVMesh::setMtl(SVMtlCorePtr _mtl) {
     m_pMtl = _mtl;
 }
 
-//子mesh操作
-void SVMesh::addMesh(SVMeshPtr _mesh) {
-    m_lock->lock();
-    if(_mesh) {
-        m_meshPool.append(_mesh);
-    }
-    m_lock->unlock();
-}
-
-void SVMesh::removeMesh(cptr8 _name) {
-    m_lock->lock();
-    for(s32 i=0;i<m_meshPool.size();i++){
-        if(strcmp( m_meshPool[i]->getName(), _name) == 0){
-            m_meshPool.removeForce(i);
-            break;
-        }
-    }
-    m_lock->unlock();
-}
-
-void SVMesh::clearMesh() {
-    m_lock->lock();
-    m_meshPool.destroy();
-    m_lock->unlock();
-}
-
 void SVMesh::update(f32 _dt) {
     if(m_pMtl) {
         FMat4 tMat_rotx;
@@ -109,20 +84,20 @@ void SVMesh::update(f32 _dt) {
 void SVMesh::render() {
     //先渲染自己
      SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    if(m_pRenderMesh && m_pMtl && t_rs) {
+    if(m_pRenderMesh && t_rs) {
         SVRenderCmdNorPtr t_cmd = MakeSharedPtr<SVRenderCmdNor>();
-        t_cmd->setMaterial(m_pMtl);
+        if(m_pMtl) {
+            t_cmd->setMaterial(m_pMtl);
+        }else{
+            //走默认材质
+            SVMtlCorePtr t_mtl_default = SVMtlLib::getSkinMtl(mApp);
+            t_cmd->setMaterial(t_mtl_default);
+        }
         t_cmd->setMesh(m_pRenderMesh);
         t_cmd->setRenderer(mApp->getRenderer());
         t_cmd->mTag = "SVMesh";
         t_rs->pushRenderCmd(RST_MASK2D, t_cmd);
     }
-    //DATAMAP m_dataMap;
-    m_lock->lock();
-    for(s32 i=0;i<m_meshPool.size();i++) {
-        m_meshPool[i]->render();
-    }
-    m_lock->unlock();
 }
 
 //Morph动画的mesh

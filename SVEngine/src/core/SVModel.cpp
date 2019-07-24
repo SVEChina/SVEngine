@@ -6,9 +6,11 @@
 //
 
 #include "SVModel.h"
+#include "SVMesh.h"
 
-SVModel::SVModel() {
-    m_pMesh = nullptr;
+SVModel::SVModel(SVInst* _app)
+:SVGBase(_app){
+    m_meshPool.clear();
 }
 
 SVModel::~SVModel() {
@@ -23,16 +25,17 @@ void SVModel::setName(cptr8 _name){
     m_name = _name;
 }
 
-void SVModel::setMesh(SVMeshPtr _mesh) {
-    m_pMesh = _mesh;
+void SVModel::addMesh(SVMeshPtr _mesh) {
+    m_meshPool.append(_mesh);
+    //m_pMesh = _mesh;
 }
 
-SVMeshPtr SVModel::getMesh() {
-    return m_pMesh;
+SVMeshPtr SVModel::getMesh(s32 _index) {
+    return nullptr;
 }
 
 void SVModel::clearMesh() {
-    m_pMesh = nullptr;
+    m_meshPool.destroy();
 }
 
 SVBoundBox SVModel::getBox() {
@@ -40,14 +43,14 @@ SVBoundBox SVModel::getBox() {
 }
 
 void SVModel::update(f32 _dt) {
-    if(m_pMesh) {
-        m_pMesh->update(_dt);
+    for (s32 i = 0; i < m_meshPool.size(); i++) {
+        m_meshPool[i]->update(_dt);
     }
 }
 
 void SVModel::render() {
-    if( m_pMesh ) {
-        m_pMesh->render();
+    for (s32 i = 0; i < m_meshPool.size(); i++) {
+        m_meshPool[i]->render();
     }
 }
 

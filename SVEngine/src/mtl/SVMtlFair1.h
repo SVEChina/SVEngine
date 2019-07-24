@@ -10,9 +10,6 @@
 
 #include "SVMtlCore.h"
 
-
-
-
 namespace sv {
     
     namespace mtl{
