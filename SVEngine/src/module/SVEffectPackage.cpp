@@ -20,13 +20,13 @@
 #include "../act/SVActFollow.h"
 #include "../act/SVActionSys.h"
 #include "../act/SVActionUnit.h"
+#include "../event/SVEvent.h"
 #include "../basesys/SVSceneMgr.h"
 #include "../basesys/filter/SVParseLUTFilter.h"
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVPictureProcess.h"
 #include "../basesys/filter/SVFilterLUT.h"
 #include "../basesys/SVDeformMgr.h"
-#include "../event/SVEvent.h"
 #include "SVEffectMusic.h"
 void spinenode_callback(SVSpineNodePtr _node,void* _obj,s32 _status) {
     SVEffectUnit *t_unit = (SVEffectUnit*)(_obj);
@@ -78,25 +78,15 @@ void SVEffectUnit::_attachToPeople(SVNodePtr _node){
     t_fllowPerson->setFllowIndex(_node->getBindIndex());
     t_fllowPerson->setBindOffset(_node->getBindOffset().x, _node->getBindOffset().y, _node->getBindOffset().z);
     t_fllowPerson->setScale(_node->getScale().x, _node->getScale().y, _node->getScale().z);
-    m_personAct = MakeSharedPtr<SVActionUnit>(mApp);
-    m_personAct->init();
-    m_personAct->setAct(t_fllowPerson);
-    m_personAct->setNode(_node);
-    m_personAct->enter();
-    SVActionSysPtr t_actSys = mApp->getActionSys();
-    if (m_personAct && t_actSys) {
-        t_actSys->addActionUnit(m_personAct);
-    }
+    m_personAct = mApp->getActionSys()->runAction(t_fllowPerson, _node);
 }
 
 void SVEffectUnit::destroy(){
     if (m_node) {
         m_node->removeFromParent();
     }
-    SVActionSysPtr t_actSys = mApp->getActionSys();
-    if (m_personAct && t_actSys) {
-        t_actSys->removeActionUnit(m_personAct);
-        m_personAct->destroy(  );
+    if (m_personAct) {
+        m_personAct->stop();
     }
 }
 

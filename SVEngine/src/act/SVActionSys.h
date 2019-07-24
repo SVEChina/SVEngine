@@ -26,18 +26,14 @@ namespace sv{
             
             void update(f32 _dt);
             
-            bool hasActionUnit(SVAniBasePtr _actUnit);
+            SVActionUnitPtr runAction(SVActBasePtr _action, SVNodePtr _node);
             
-            void addActionUnit(SVAniBasePtr _actUnit);
+            bool stopAction(SVActionUnitPtr _actUnit);
             
-            bool removeActionUnit(SVAniBasePtr _actUnit);
-            
-            void clearActionUnits();
-            
+            void stopAllActions();
         protected:
             SVLockPtr m_lock;
-            //
-            typedef SVArray<SVAniBasePtr> SVANIPOOL;
+            typedef SVArray<SVActionUnitPtr> SVANIPOOL;
             SVANIPOOL m_aniPool;
         };
     }//!namespace logic

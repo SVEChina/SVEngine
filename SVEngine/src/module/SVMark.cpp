@@ -50,26 +50,6 @@ void SVMark::init(){
     m_bmFontNode->setText(m_content);
     m_bmFontNode->setSpacing(1);
     m_bmFontNode->setPosition(0.0f, 0.0f, 0.0f);
-    //
-    m_actAlphaUnit = MakeSharedPtr<SVActionUnit>(mApp);
-    m_actAlphaUnit->init();
-    SVActAlphaPtr t_actAlpha = MakeSharedPtr<SVActAlpha>(mApp);
-    t_actAlpha->setSrcAlpha(m_srcAlpha);
-    t_actAlpha->setTarAlpha(m_tarAlpha);
-    t_actAlpha->setTime(m_alphaTime);
-    m_actAlphaUnit->setAct(t_actAlpha);
-    m_actAlphaUnit->setNode(m_bmFontNode);
-    //
-    m_actPositionUnit = MakeSharedPtr<SVActionUnit>(mApp);
-    m_actPositionUnit->init();
-    SVActPositionPtr t_actPos = MakeSharedPtr<SVActPosition>(mApp);
-    s32 t_w =  mApp->m_pGlobalParam->m_inner_width;
-    s32 t_h =  mApp->m_pGlobalParam->m_inner_height;
-    t_actPos->setMinPosition(FVec3(-t_w*0.4f, -t_h*0.4f, 0.0f));
-    t_actPos->setMaxPosition(FVec3(t_w*0.4f, t_h*0.4f, 0.0f));
-    t_actPos->setTime(m_appearTime);
-    m_actPositionUnit->setAct(t_actPos);
-    m_actPositionUnit->setNode(m_bmFontNode);
 }
 
 void SVMark::destroy(){
@@ -82,15 +62,20 @@ void SVMark::open(){
     if(m_bmFontNode && t_scene){
         t_scene->addNode(m_bmFontNode);
     }
-    SVActionSysPtr t_actSys = mApp->m_pGlobalMgr->m_pActionSys;
-    if (m_actAlphaUnit && t_actSys) {
-        m_actAlphaUnit->enter();
-        t_actSys->addActionUnit(m_actAlphaUnit);
-    }
-    if (m_actPositionUnit && t_actSys) {
-        m_actPositionUnit->enter();
-        t_actSys->addActionUnit(m_actPositionUnit);
-    }
+    //
+    SVActAlphaPtr t_actAlpha = MakeSharedPtr<SVActAlpha>(mApp);
+    t_actAlpha->setSrcAlpha(m_srcAlpha);
+    t_actAlpha->setTarAlpha(m_tarAlpha);
+    t_actAlpha->setTime(m_alphaTime);
+    m_actAlphaUnit = mApp->getActionSys()->runAction(t_actAlpha, m_bmFontNode);
+    //
+    SVActPositionPtr t_actPos = MakeSharedPtr<SVActPosition>(mApp);
+    s32 t_w =  mApp->m_pGlobalParam->m_inner_width;
+    s32 t_h =  mApp->m_pGlobalParam->m_inner_height;
+    t_actPos->setMinPosition(FVec3(-t_w*0.4f, -t_h*0.4f, 0.0f));
+    t_actPos->setMaxPosition(FVec3(t_w*0.4f, t_h*0.4f, 0.0f));
+    t_actPos->setTime(m_appearTime);
+    m_actPositionUnit = mApp->getActionSys()->runAction(t_actPos, m_bmFontNode);
 }
 
 void SVMark::close() {
@@ -98,14 +83,11 @@ void SVMark::close() {
     if (m_bmFontNode) {
         m_bmFontNode->removeFromParent();
     }
-    SVActionSysPtr t_actSys = mApp->m_pGlobalMgr->m_pActionSys;
-    if (m_actAlphaUnit && t_actSys) {
-        t_actSys->removeActionUnit(m_actAlphaUnit);
-        m_actAlphaUnit->destroy();
+    if (m_actAlphaUnit) {
+        m_actAlphaUnit->stop();
     }
-    if (m_actPositionUnit && t_actSys) {
-        t_actSys->removeActionUnit(m_actPositionUnit);
-        m_actPositionUnit->destroy();
+    if (m_actPositionUnit) {
+        m_actPositionUnit->stop();
     }
 }
 

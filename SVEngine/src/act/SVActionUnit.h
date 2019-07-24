@@ -19,11 +19,9 @@ namespace sv{
         public:
             SVActionUnit(SVInst* _app);
             
+            SVActionUnit(SVInst* _app, SVActBasePtr _action, SVNodePtr _node);
+            
             ~SVActionUnit();
-            
-            virtual void init();
-            
-            virtual void destroy();
             
             virtual void enter();
             
@@ -41,6 +39,7 @@ namespace sv{
             
             SVNodePtr getNode();
             
+            void stop();
         protected:
             bool m_isEnd;
             SVActBasePtr m_actPtr;

@@ -6,8 +6,10 @@
 //
 
 #include "SVActionUnit.h"
+#include "../app/SVInst.h"
+#include "../app/SVGlobalMgr.h"
 #include "../act/SVActBase.h"
-
+#include "SVActionSys.h"
 SVActionUnit::SVActionUnit(SVInst *_app)
 :SVAniBase(_app) {
     m_actPtr = nullptr;
@@ -15,15 +17,16 @@ SVActionUnit::SVActionUnit(SVInst *_app)
     m_isEnd = false;
 }
 
+SVActionUnit::SVActionUnit(SVInst* _app, SVActBasePtr _action, SVNodePtr _node):SVAniBase(_app){
+    m_actPtr = _action;
+    m_nodePtr = _node;
+    m_isEnd = false;
+}
+
+
 SVActionUnit::~SVActionUnit() {
     m_actPtr = nullptr;
     m_nodePtr = nullptr;
-}
-
-void SVActionUnit::init() {
-}
-
-void SVActionUnit::destroy() {
 }
 
 void SVActionUnit::enter(){
@@ -68,4 +71,11 @@ SVActBasePtr SVActionUnit::getAct(){
 
 SVNodePtr SVActionUnit::getNode(){
     return m_nodePtr;
+}
+
+void SVActionUnit::stop(){
+    SVActionSysPtr t_actSys = mApp->getActionSys();
+    if (t_actSys) {
+        t_actSys->stopAction(THIS_TO_SHAREPTR(SVActionUnit));
+    }
 }
