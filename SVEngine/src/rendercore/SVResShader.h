@@ -24,8 +24,8 @@
 #define CHANNEL_TEXCOORD0   5
 #define CHANNEL_TEXCOORD1   6
 #define CHANNEL_INSOFFSET   7
-#define CHANNEL_BONE_ID     3
-#define CHANNEL_BONE_WEIGHT 4
+#define CHANNEL_BONE_ID     2
+#define CHANNEL_BONE_WEIGHT 3
 
 //
 #define CHANNEL_ATTRI_0     0

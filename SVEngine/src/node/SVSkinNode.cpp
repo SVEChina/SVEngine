@@ -6,37 +6,46 @@
 //
 
 #include "SVSkinNode.h"
-#include "../event/SVEventMgr.h"
-#include "../basesys/SVConfig.h"
 #include "SVCameraNode.h"
 #include "SVScene.h"
-#include "../core/SVBasicModel.h"
-#include "../core/SVSkinModel.h"
-#include "../mtl/SVMtlSkinModel.h"
+#include "../event/SVEventMgr.h"
+#include "../basesys/SVConfig.h"
+#include "../core/SVModel.h"
 
 SVSkinNode::SVSkinNode(SVInst *_app)
 :SVNode(_app){
     ntype = "SVSkinNode";
-//    m_pModel = nullptr;
-//    m_fAniPlayedTime = 0.0f;
-//    m_iCurrentAnimateIndex = 0;
-//    m_renderObject = MakeSharePtr<SVMultMeshMtlRenderObject>();
+    m_pModel = nullptr;
 }
 
 SVSkinNode::~SVSkinNode() {
-//    m_meshMap.clear();
-//    m_matMap.clear();
-//    m_renderObject = nullptr;
-//    m_pModel = nullptr;
+    m_pModel = nullptr;
 }
 
 void SVSkinNode::update(f32 dt) {
     SVNode::update(dt);
-    
+    if(m_pModel) {
+        m_pModel->update(dt);
+    }
 }
 
 void SVSkinNode::render() {
-    
+    SVNode::render();
+    if(m_pModel) {
+        m_pModel->render();
+    }
+}
+
+SVModelPtr SVSkinNode::getModel() {
+    return m_pModel;
+}
+
+void SVSkinNode::setModel(SVModelPtr _model) {
+    m_pModel = _model;
+}
+
+void SVSkinNode::clear() {
+    m_pModel = nullptr;
 }
 
 //

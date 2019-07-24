@@ -6,6 +6,7 @@
 //
 
 #include "SVModel.h"
+#include "SVMesh.h"
 
 SVModel::SVModel(SVInst* _app)
 :SVGBase(_app){
@@ -34,7 +35,7 @@ SVMeshPtr SVModel::getMesh(s32 _index) {
 }
 
 void SVModel::clearMesh() {
-    m_meshPool.clear();
+    m_meshPool.destroy();
 }
 
 SVBoundBox SVModel::getBox() {
@@ -42,15 +43,15 @@ SVBoundBox SVModel::getBox() {
 }
 
 void SVModel::update(f32 _dt) {
-//    if(m_pMesh) {
-//        m_pMesh->update(_dt);
-//    }
+    for (s32 i = 0; i < m_meshPool.size(); i++) {
+        m_meshPool[i]->update(_dt);
+    }
 }
 
 void SVModel::render() {
-//    if( m_pMesh ) {
-//        m_pMesh->render();
-//    }
+    for (s32 i = 0; i < m_meshPool.size(); i++) {
+        m_meshPool[i]->render();
+    }
 }
 
 //

@@ -9,7 +9,7 @@
 #include "../app/SVInst.h"
 #include "../base/SVDataSwap.h"
 #include "../base/SVLock.h"
-#include "../mtl/SVMtlCore.h"
+#include "../mtl/SVMtlGLTF.h"
 #include "../rendercore/SVRenderMesh.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRendererBase.h"
@@ -83,9 +83,15 @@ void SVMesh::update(f32 _dt) {
 void SVMesh::render() {
     //先渲染自己
      SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    if(m_pRenderMesh && m_pMtl && t_rs) {
+    if(m_pRenderMesh && t_rs) {
         SVRenderCmdNorPtr t_cmd = MakeSharedPtr<SVRenderCmdNor>();
-        t_cmd->setMaterial(m_pMtl);
+        if(m_pMtl) {
+            t_cmd->setMaterial(m_pMtl);
+        }else{
+            //走默认材质
+            SVMtlGLTFPtr t_mtl_default = MakeSharedPtr<SVMtlGLTF>(mApp);
+            t_cmd->setMaterial(t_mtl_default);
+        }
         t_cmd->setMesh(m_pRenderMesh);
         t_cmd->setRenderer(mApp->getRenderer());
         t_cmd->mTag = "SVMesh";

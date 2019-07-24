@@ -11,7 +11,6 @@
 #include "SVNode.h"
 #include "../base/SVMap.h"
 
-
 namespace sv {
     
     namespace node{
@@ -30,13 +29,15 @@ namespace sv {
             //渲染
             virtual void render();
             
+            SVModelPtr getModel();
+            
+            void setModel(SVModelPtr _model);
+            
+            void clear();
+            
         protected:
-            //动画数据
-            //SVSkinAniPtr m_pSkinAni;
-            
-            //模型 动态数据model
-            
-            
+            SVModelPtr m_pModel;
+        
         };
         
     }//!namespace node

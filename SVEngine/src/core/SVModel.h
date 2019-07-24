@@ -8,11 +8,10 @@
 #ifndef SV_MODEL_H
 #define SV_MODEL_H
 
-#include "../base/SVObject.h"
+#include "../base/SVGBase.h"
 #include "../base/SVPreDeclare.h"
 #include "../base/SVBounds.h"
 #include "../base/SVArray.h"
-#include "SVMesh.h"
 
 namespace sv {
     
@@ -57,7 +56,6 @@ namespace sv {
             SVModelMgr(SVInst* _app);
             
             ~SVModelMgr();
-            
         };
         
     }//!namespace util

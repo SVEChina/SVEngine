@@ -586,7 +586,7 @@ namespace sv {
         
         SVMtlCorePtr _buildMtl(s32 _index);
         
-        SVMeshPtr _buildPrimitive(Primitive* _prim);
+        SVMeshPtr _buildMeshPri(Primitive* _prim);
         
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
     };
