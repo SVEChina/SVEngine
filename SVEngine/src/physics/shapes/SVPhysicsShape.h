@@ -32,6 +32,7 @@ namespace sv {
             PHYSICSSHAPETYPE getType() const;
         protected:
             PHYSICSSHAPETYPE m_type;
+            FVec3 m_size;
         };
             
     }//!namespace logic

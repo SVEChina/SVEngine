@@ -17,6 +17,8 @@ namespace sv {
         public:
             SVPhysicsShapeSphere(SVInst* _app);
             
+            SVPhysicsShapeSphere(SVInst* _app, f32 _radius);
+            
             ~SVPhysicsShapeSphere();
             
             void init();
@@ -24,6 +26,12 @@ namespace sv {
             void destroy();
             
             void update(f32 _dt);
+            
+            void setRadius(const f32 _radius);
+            
+            const f32 getRadius() const;
+        protected:
+            f32 m_radius;
         };
             
     }//!namespace logic

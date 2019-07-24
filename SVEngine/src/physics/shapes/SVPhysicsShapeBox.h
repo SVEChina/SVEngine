@@ -17,6 +17,8 @@ namespace sv {
         public:
             SVPhysicsShapeBox(SVInst* _app);
             
+            SVPhysicsShapeBox(SVInst* _app, FVec3 _size);
+            
             ~SVPhysicsShapeBox();
             
             void init();
@@ -24,6 +26,10 @@ namespace sv {
             void destroy();
             
             void update(f32 _dt);
+            
+            void setSize(const FVec3& _size);
+            
+            const FVec3& getSize() const;
         };
             
     }//!namespace logic
