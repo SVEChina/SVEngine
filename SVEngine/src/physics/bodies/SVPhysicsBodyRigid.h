@@ -1,25 +1,22 @@
 //
-// SVPhysicsBody.h
+// SVPhysicsBodyRigid.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_PHYSICSBODY_H
-#define SV_PHYSICSBODY_H
-#include "../SVPhysicsBase.h"
+#ifndef SV_PHYSICSBODYRIGID_H
+#define SV_PHYSICSBODYRIGID_H
+#include "SVPhysicsBody.h"
 namespace sv {
     
     namespace logic {
-        enum PHYSICSBODYTYPE{
-            E_PHYSICS_BODY_BASE = 0,
-            E_PHYSICS_BODY_RIGID
-        };
-        class SVPhysicsBody : public SVPhysicsBase {
+        
+        class SVPhysicsBodyRigid : public SVPhysicsBody {
         public:
-            SVPhysicsBody(SVInst* _app);
+            SVPhysicsBodyRigid(SVInst* _app);
             
-            ~SVPhysicsBody();
+            ~SVPhysicsBodyRigid();
             
             void init();
             
@@ -27,7 +24,7 @@ namespace sv {
             
             void update(f32 _dt);
             
-            PHYSICSBODYTYPE getType() const;
+            PHYSICSBODYTYPE getType();
         protected:
             PHYSICSBODYTYPE m_type;
         };
@@ -38,4 +35,4 @@ namespace sv {
 
 
 
-#endif //SV_PHYSICSBODY_H
+#endif //SV_PHYSICSBODYRIGID_H

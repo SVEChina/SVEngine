@@ -36,11 +36,6 @@ void SVFaceDataMesh::init(){
     _loadStanderFaceData("standerface_fp");
     _loadFaceMeshData("facemesh_fp_simplify");
     _loadStanderFaceData("standerface_fp_simplify");
-    //加载自己人脸识别标准脸数据
-    _loadFaceMeshData("facemesh_ma");
-    _loadStanderFaceData("standerface_ma");
-    _loadFaceMeshData("facemesh_ma_simplify");
-    _loadStanderFaceData("standerface_ma_simplify");
 }
 
 //

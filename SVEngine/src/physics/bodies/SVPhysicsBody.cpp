@@ -26,6 +26,6 @@ void SVPhysicsBody::update(f32 _dt){
     
 }
 
-PHYSICSBODYTYPE SVPhysicsBody::getType(){
+PHYSICSBODYTYPE SVPhysicsBody::getType() const{
     return m_type;
 }
