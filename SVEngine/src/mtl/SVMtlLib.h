@@ -17,12 +17,15 @@ namespace sv {
     
     class SVMtlLib : public SVObject {
     public:
-        SVMtlLib();
+        static void clear();
         
-        static SVMtlCorePtr getSkinMtl();
+        static SVMtlCorePtr getSkinMtl(SVInst* _app);
         
-        static SVMtlCorePtr get3DNorMtl();
-
+        static SVMtlCorePtr get3DNorMtl(SVInst* _app);
+        
+        
+    protected:
+        static SVMtlCorePtr m_pSkinMtl;
     };
     
 }//!namespace sv

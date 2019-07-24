@@ -10,6 +10,7 @@
 #include "../base/SVDataSwap.h"
 #include "../base/SVLock.h"
 #include "../mtl/SVMtlGLTF.h"
+#include "../mtl/SVMtlLib.h"
 #include "../rendercore/SVRenderMesh.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRendererBase.h"
@@ -89,7 +90,7 @@ void SVMesh::render() {
             t_cmd->setMaterial(m_pMtl);
         }else{
             //走默认材质
-            SVMtlGLTFPtr t_mtl_default = MakeSharedPtr<SVMtlGLTF>(mApp);
+            SVMtlCorePtr t_mtl_default = SVMtlLib::getSkinMtl(mApp);
             t_cmd->setMaterial(t_mtl_default);
         }
         t_cmd->setMesh(m_pRenderMesh);
