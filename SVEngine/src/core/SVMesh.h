@@ -20,6 +20,8 @@ namespace sv {
     
     namespace util {
         
+        //普通mesh
+        
         class SVMesh :public SVGBase{
         public:
             SVMesh(SVInst* _app);
@@ -29,12 +31,6 @@ namespace sv {
             void setName(cptr8 _name);
             
             cptr8 getName();
-            
-            void addMesh(SVMeshPtr _mesh);
-            
-            void removeMesh(cptr8 _name);
-            
-            void clearMesh();
             
             void setData(SVDataSwapPtr _data,VFTYPE _vtf,s32 _count,s32 _seqMode);
             
@@ -51,12 +47,7 @@ namespace sv {
             SVLockPtr m_lock;
             SVRenderMeshPtr m_pRenderMesh;
             SVMtlCorePtr m_pMtl;
-            //子mesh
-            typedef SVArray<SVMeshPtr> MESHPOOL;
-            MESHPOOL m_meshPool;
-            
         };
-        
         
         //morph动画的mesh
         class SVMorphMesh :public SVMesh{

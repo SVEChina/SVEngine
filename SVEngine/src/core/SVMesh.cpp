@@ -56,32 +56,6 @@ void SVMesh::setMtl(SVMtlCorePtr _mtl) {
     m_pMtl = _mtl;
 }
 
-//子mesh操作
-void SVMesh::addMesh(SVMeshPtr _mesh) {
-    m_lock->lock();
-    if(_mesh) {
-        m_meshPool.append(_mesh);
-    }
-    m_lock->unlock();
-}
-
-void SVMesh::removeMesh(cptr8 _name) {
-    m_lock->lock();
-    for(s32 i=0;i<m_meshPool.size();i++){
-        if(strcmp( m_meshPool[i]->getName(), _name) == 0){
-            m_meshPool.removeForce(i);
-            break;
-        }
-    }
-    m_lock->unlock();
-}
-
-void SVMesh::clearMesh() {
-    m_lock->lock();
-    m_meshPool.destroy();
-    m_lock->unlock();
-}
-
 void SVMesh::update(f32 _dt) {
     if(m_pMtl) {
         FMat4 tMat_rotx;
@@ -117,12 +91,6 @@ void SVMesh::render() {
         t_cmd->mTag = "SVMesh";
         t_rs->pushRenderCmd(RST_MASK2D, t_cmd);
     }
-    //DATAMAP m_dataMap;
-    m_lock->lock();
-    for(s32 i=0;i<m_meshPool.size();i++) {
-        m_meshPool[i]->render();
-    }
-    m_lock->unlock();
 }
 
 //Morph动画的mesh
