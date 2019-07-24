@@ -7,7 +7,8 @@
 
 #include "SVModel.h"
 
-SVModel::SVModel() {
+SVModel::SVModel(SVInst* _app)
+:SVGBase(_app){
     m_pMesh = nullptr;
 }
 

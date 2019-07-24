@@ -563,8 +563,6 @@ namespace sv {
         
         bool _parseSampler(Sampler *_sampler, RAPIDJSON_NAMESPACE::Value &_item);
         
-        void _loadMeshData();
-        
         void _loadSkinsData();
         
         void _loadModelNodeData();
@@ -580,7 +578,7 @@ namespace sv {
         
         SVNodePtr _buildCameraNode(Node* _node);
         
-        SVMeshPtr _buildMesh(s32 _index);
+        SVModelPtr _buildModel(s32 _index);
         
         SVAnimateSkinPtr _buildSkin(s32 _index);
         
@@ -588,7 +586,7 @@ namespace sv {
         
         SVMtlCorePtr _buildMtl(s32 _index);
         
-        void _buildPrimitive(SVMeshPtr t_mesh,Primitive* _prim);
+        SVMeshPtr _buildPrimitive(Primitive* _prim);
         
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
     };

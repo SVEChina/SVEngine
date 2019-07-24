@@ -17,9 +17,9 @@ namespace sv {
     
     namespace util {
 
-        class SVModel : public SVObject {
+        class SVModel : public SVGBase {
         public:
-            SVModel();
+            SVModel(SVInst* _app);
             
             ~SVModel();
             
