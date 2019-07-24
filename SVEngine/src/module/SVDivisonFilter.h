@@ -33,8 +33,6 @@ namespace sv{
         virtual void close();
         
         virtual bool isOpen();
-        
-        void setDivisionFilterType(SVStaticData::EFFICACYMESHTYPE _type);
     protected:
         SVSpriteNodePtr m_backgroundNode;
     };

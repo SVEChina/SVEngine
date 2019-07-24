@@ -19,12 +19,6 @@ namespace sv {
 
     class SVStaticData : public SVGBase {
     public:
-        enum EFFICACYMESHTYPE{
-            EFFICACY_MESH_TYPE_NONE = 0,
-            EFFICACY_MESH_TYPE_TWODIVISION = 1,//二分
-            EFFICACY_MESH_TYPE_FOURDIVISION,   //四分 +字分割
-            EFFICACY_MESH_TYPE_FOURDIVISION_X  //四分 X字分割
-        };
         SVStaticData(SVInst* _app);
         
         ~SVStaticData();
@@ -33,9 +27,9 @@ namespace sv {
         
         void destroy();
         
-        SVMeshDataPtr getMeshData();
+        SVFaceDataMeshPtr getFaceDataMesh();
         
-        SVRenderMeshPtr getMeshByType(EFFICACYMESHTYPE _type);
+        SVRenderMeshPtr generateAdaptScreenMesh(f32 _srcW, f32 _srcH, f32 _tarW, f32 _tarH);
     public:
         SVRenderMeshPtr m_screenMesh;
         SVRenderMeshPtr m_screenMeshRot90;
@@ -45,13 +39,12 @@ namespace sv {
         SVRenderMeshPtr m_screenLBMesh;
         SVRenderMeshPtr m_screenRTMesh;
         SVRenderMeshPtr m_screenRBMesh;
+        SVRenderMeshPtr m_screenTwoDivisionMesh;
+        SVRenderMeshPtr m_screenFourDivisionMesh;
+        SVRenderMeshPtr m_screenFourXDivisionMesh;
         static V3_C_T0 m_baseRect[6];
     protected:
         void _initBaseRect();
-        
-        void _initEfficacyMeshs();
-        
-        void _clearEfficacyMeshs();
         
         void _initTwoDivisionMesh();
         
@@ -59,14 +52,9 @@ namespace sv {
         
         void _initFourDivisionMesh_X();
     protected:
-        SVMeshDataPtr m_meshDataPtr;
-        typedef SVMap<EFFICACYMESHTYPE, SVRenderMeshPtr> EFFICACYMESHPOOL;
-        EFFICACYMESHPOOL m_efficacyMeshPool;
+        SVFaceDataMeshPtr m_faceDataMesh;
+        SVRenderMeshPtr   m_screenAdaptMesh;
     };
     
 }//!namespace
-
-
-
-
 #endif //SV_RENDERDATA_H

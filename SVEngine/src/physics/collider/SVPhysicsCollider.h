@@ -24,6 +24,8 @@ namespace sv {
             void destroy();
             
             void update(f32 _dt);
+            
+            
         };
             
     }//!namespace logic

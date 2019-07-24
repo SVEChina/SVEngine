@@ -1,11 +1,11 @@
 //
-// SVMeshData.cpp
+// SVFaceDataMesh.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVMeshData.h"
+#include "SVFaceDataMesh.h"
 #include "../app/SVInst.h"
 #include "../base/SVDataChunk.h"
 #include "../file/SVFileMgr.h"
@@ -13,12 +13,12 @@
 #include "../third/rapidjson/stringbuffer.h"
 #include "../third/rapidjson/writer.h"
 
-SVMeshData::SVMeshData(SVInst *_app)
+SVFaceDataMesh::SVFaceDataMesh(SVInst *_app)
 :SVGBase(_app){
     
 }
 //
-void SVMeshData::init(){
+void SVFaceDataMesh::init(){
     //加载as标准脸数据
     _loadFaceMeshData("facemesh_as");
     _loadStanderFaceData("standerface_as");
@@ -36,24 +36,19 @@ void SVMeshData::init(){
     _loadStanderFaceData("standerface_fp");
     _loadFaceMeshData("facemesh_fp_simplify");
     _loadStanderFaceData("standerface_fp_simplify");
-    //加载自己人脸识别标准脸数据
-    _loadFaceMeshData("facemesh_ma");
-    _loadStanderFaceData("standerface_ma");
-    _loadFaceMeshData("facemesh_ma_simplify");
-    _loadStanderFaceData("standerface_ma_simplify");
 }
 
 //
-SVMeshData::~SVMeshData(){
+SVFaceDataMesh::~SVFaceDataMesh(){
 }
 
 //
-void SVMeshData::destory(){
+void SVFaceDataMesh::destory(){
     _clearFaceMeshPool();
     _clearStanderFacePool();
 }
 
-void SVMeshData::_loadFaceMeshData(cptr8 _name){
+void SVFaceDataMesh::_loadFaceMeshData(cptr8 _name){
     SVDataChunk tDataStream;
     SVString filename = SVString("svres/mesh/") + SVString(_name) + SVString(".json");
     bool tflag = mApp->getFileMgr()->loadFileContentStr(&tDataStream, filename.c_str());
@@ -100,7 +95,7 @@ void SVMeshData::_loadFaceMeshData(cptr8 _name){
     SV_LOG_DEBUG("load facemeshdata end\n");
 }
 
-void SVMeshData::_loadStanderFaceData(cptr8 _name){
+void SVFaceDataMesh::_loadStanderFaceData(cptr8 _name){
     SVDataChunk tDataStream;
     SV_LOG_DEBUG("load standerfacedata begin\n");
     SVString filename = SVString("svres/mesh/") + SVString(_name) + SVString(".json");
@@ -183,7 +178,7 @@ void SVMeshData::_loadStanderFaceData(cptr8 _name){
 }
 
 //
-StanderFace* SVMeshData::getStanderFace(cptr8 _name){
+StanderFace* SVFaceDataMesh::getStanderFace(cptr8 _name){
     STANDERFACEPOOL::Iterator it = m_standerfacepool.find(_name);
     if(it!=m_standerfacepool.end()){
         return it->data;
@@ -191,7 +186,7 @@ StanderFace* SVMeshData::getStanderFace(cptr8 _name){
     return nullptr;
 }
 
-FaceMesh* SVMeshData::getFaceMesh(cptr8 _name){
+FaceMesh* SVFaceDataMesh::getFaceMesh(cptr8 _name){
     FACEMESHPOOL::Iterator it = m_facemeshpool.find(_name);
     if(it!=m_facemeshpool.end()){
         return it->data;
@@ -200,7 +195,7 @@ FaceMesh* SVMeshData::getFaceMesh(cptr8 _name){
 }
 
 //
-void SVMeshData::_clearFaceMeshPool(){
+void SVFaceDataMesh::_clearFaceMeshPool(){
     FACEMESHPOOL::Iterator it = m_facemeshpool.begin();
     while ( it!=m_facemeshpool.end() ) {
         FaceMesh *t_facemesh = it->data;
@@ -213,7 +208,7 @@ void SVMeshData::_clearFaceMeshPool(){
 }
 
 //
-void SVMeshData::_clearStanderFacePool(){
+void SVFaceDataMesh::_clearStanderFacePool(){
     STANDERFACEPOOL::Iterator it = m_standerfacepool.begin();
     while ( it!=m_standerfacepool.end() ) {
         StanderFace *t_standerface = it->data;

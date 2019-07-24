@@ -13,3 +13,11 @@ SVPhysicsBase::SVPhysicsBase(SVInst* _app):SVGBase(_app) {
 SVPhysicsBase::~SVPhysicsBase() {
     
 }
+
+void SVPhysicsBase::setGravity(const FVec3 &_gravity){
+    m_gravity = _gravity;
+}
+
+const FVec3& SVPhysicsBase::getGravity() const{
+    return m_gravity;
+}

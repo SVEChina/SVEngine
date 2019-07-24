@@ -43,7 +43,8 @@ SVEffectUnit::SVEffectUnit(SVInst* _app):SVGBase(_app){
 }
 
 SVEffectUnit::~SVEffectUnit(){
-    
+    m_node = nullptr;
+    m_personAct = nullptr;
 }
 
 void SVEffectUnit::init(SVNodePtr _node){
@@ -91,13 +92,11 @@ void SVEffectUnit::_attachToPeople(SVNodePtr _node){
 void SVEffectUnit::destroy(){
     if (m_node) {
         m_node->removeFromParent();
-        m_node = nullptr;
     }
     SVActionSysPtr t_actSys = mApp->getActionSys();
     if (m_personAct && t_actSys) {
         t_actSys->removeActionUnit(m_personAct);
         m_personAct->destroy(  );
-        m_personAct = nullptr;
     }
 }
 
@@ -132,16 +131,16 @@ void SVEffectPackage::init(){
 void SVEffectPackage::destroy(){
     m_lock->lock();
     stopListen();
-    for (s32 i = 0; i<m_effectUnitPool.size(); i++) {
-        SVEffectUnitPtr t_unit = m_effectUnitPool[i];
-        t_unit->destroy();
-    }
-    m_effectUnitPool.destroy();
     for (s32 i = 0; i<m_attachmentPool.size(); i++) {
         SVActTexAttachmentPtr t_attachment = m_attachmentPool[i];
         t_attachment->destroy();
     }
     m_attachmentPool.destroy();
+    for (s32 i = 0; i<m_effectUnitPool.size(); i++) {
+        SVEffectUnitPtr t_unit = m_effectUnitPool[i];
+        t_unit->destroy();
+    }
+    m_effectUnitPool.destroy();
     for (s32 i = 0; i<m_filterBasePool.size(); i++) {
         SVFilterBasePtr t_filterBase = m_filterBasePool[i];
         SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();

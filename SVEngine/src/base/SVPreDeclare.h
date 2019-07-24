@@ -30,7 +30,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVFileMgr);
     DECLARE_SHAREPTR(SVConfig);
     DECLARE_SHAREPTR(SVStaticData);
-    DECLARE_SHAREPTR(SVMeshData);
+    DECLARE_SHAREPTR(SVFaceDataMesh);
     
     //基础
     DECLARE_SHAREPTR(SVRandom);
@@ -266,7 +266,10 @@ namespace sv {
         DECLARE_SHAREPTR(SVPhysicsBase);
         DECLARE_SHAREPTR(SVPhysicsWorld);
         DECLARE_SHAREPTR(SVPhysicsBody);
+        DECLARE_SHAREPTR(SVPhysicsBodyRigid);
         DECLARE_SHAREPTR(SVPhysicsShape);
+        DECLARE_SHAREPTR(SVPhysicsShapeBox);
+        DECLARE_SHAREPTR(SVPhysicsShapeSPHERE);
         DECLARE_SHAREPTR(SVPhysicsJoint);
         DECLARE_SHAREPTR(SVPhysicsCollider);
     }//!namespace logic

@@ -1,15 +1,15 @@
 //
-// SVMeshData.h
+// SVFaceDataMesh.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_MESHDATA_H
-#define SV_MESHDATA_H
+#ifndef SV_FACEMESHDATA_H
+#define SV_FACEMESHDATA_H
 
-#include "SVGBase.h"
-#include "SVMap.h"
+#include "../base/SVGBase.h"
+#include "../base/SVMap.h"
 
 namespace sv {
     
@@ -36,11 +36,11 @@ namespace sv {
     typedef SVMap<SVString, StanderFace*> STANDERFACEPOOL;
     typedef SVMap<SVString, FaceMesh*> FACEMESHPOOL;
     
-    class SVMeshData : public SVGBase{
+    class SVFaceDataMesh : public SVGBase{
     public:
-        SVMeshData(SVInst *_app);
+        SVFaceDataMesh(SVInst *_app);
         
-        ~SVMeshData();
+        ~SVFaceDataMesh();
         //
         void init();
         //
@@ -65,4 +65,4 @@ namespace sv {
     };
 };
 
-#endif /* SV_MESHDATA_H */
+#endif /* SV_FACEMESHDATA_H */

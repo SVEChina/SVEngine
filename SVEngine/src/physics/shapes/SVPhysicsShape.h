@@ -12,7 +12,11 @@
 namespace sv {
     
     namespace logic {
-        
+        enum PHYSICSSHAPETYPE{
+            E_PHYSICS_SHAPE_BASE = 0,
+            E_PHYSICS_SHAPE_BOX,
+            E_PHYSICS_SHAPE_SPHERE
+        };
         class SVPhysicsShape : public SVPhysicsBase {
         public:
             SVPhysicsShape(SVInst* _app);
@@ -24,6 +28,11 @@ namespace sv {
             void destroy();
             
             void update(f32 _dt);
+            
+            PHYSICSSHAPETYPE getType() const;
+        protected:
+            PHYSICSSHAPETYPE m_type;
+            FVec3 m_size;
         };
             
     }//!namespace logic

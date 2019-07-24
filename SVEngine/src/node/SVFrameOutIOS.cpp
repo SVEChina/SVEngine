@@ -29,6 +29,7 @@ SVFrameOutIOS::SVFrameOutIOS(SVInst *_app)
     m_dataswap = nullptr;
     m_outStreamFbo = nullptr;
     m_pMtl = nullptr;
+    m_mesh = nullptr;
     m_rsType = RST_DATATRANS;
 }
 
@@ -36,6 +37,7 @@ SVFrameOutIOS::~SVFrameOutIOS() {
     m_dataswap = nullptr;
     m_outStreamFbo = nullptr;
     m_pMtl = nullptr;
+    m_mesh = nullptr;
 }
 
 void SVFrameOutIOS::init(SV_OUTSTEAMFORMATE _outformate,s32 _w,s32 _h) {
@@ -63,6 +65,9 @@ void SVFrameOutIOS::init(SV_OUTSTEAMFORMATE _outformate,s32 _w,s32 _h) {
     }
     //
     m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "rgba");
+    s32 t_w =  mApp->m_pGlobalParam->m_inner_width;
+    s32 t_h =  mApp->m_pGlobalParam->m_inner_height;
+    m_mesh = mApp->getDataMgr()->generateAdaptScreenMesh(t_w, t_h, _w, _h);
 }
 
 void SVFrameOutIOS::destroy(){
@@ -103,7 +108,7 @@ void SVFrameOutIOS::render() {
         SVRenderCmdStreamOutIOSPtr t_cmd = MakeSharedPtr<SVRenderCmdStreamOutIOS>(mApp);
         t_cmd->mTag = "SVFrameOutIOS";
         t_cmd->setParam(m_outStreamFbo,t_out_tex,m_dataswap,m_pOutStreamCB);
-        t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
+        t_cmd->setMesh(m_mesh);
         t_cmd->setMaterial(m_pMtl);
         t_rs->pushRenderCmd(m_rsType, t_cmd);
     }

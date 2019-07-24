@@ -8,8 +8,8 @@
 #ifndef SV_PHYSICSBASE_H
 #define SV_PHYSICSBASE_H
 
-#include "SVPhysicsDef.h"
 #include "../base/SVGBase.h"
+#include "../base/SVVec3.h"
 namespace sv {
     
     namespace logic {
@@ -19,6 +19,14 @@ namespace sv {
             SVPhysicsBase(SVInst* _app);
             
             ~SVPhysicsBase();
+            
+            void setGravity(const FVec3 &_gravity);
+            
+            const FVec3& getGravity() const;
+            
+        protected:
+            FVec3 m_gravity;
+            
         };
             
     }//!namespace logic
