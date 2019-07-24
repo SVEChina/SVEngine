@@ -15,10 +15,9 @@ void SVMtlLib::clear() {
 }
 
 SVMtlCorePtr SVMtlLib::getSkinMtl(SVInst* _app) {
-    if(m_pSkinMtl)
-        return m_pSkinMtl;
-    
-    m_pSkinMtl = MakeSharedPtr<SVMtlGLTF>(_app);
+    if(!m_pSkinMtl) {
+         m_pSkinMtl = MakeSharedPtr<SVMtlGLTF>(_app);
+    }
     //
     FMat4 tMat_rotx;
     tMat_rotx.setIdentity();
