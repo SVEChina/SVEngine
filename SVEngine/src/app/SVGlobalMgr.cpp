@@ -23,7 +23,7 @@
 #include "../detect/SVDetectMgr.h"
 #include "../mtl/SVShaderMgr.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../act/SVActionSys.h"
+#include "../act/SVActionMgr.h"
 #include <sys/time.h>
 #include "../base/svstr.h"
 //#include <Python/Python.h>
@@ -43,7 +43,7 @@ SVGlobalMgr::SVGlobalMgr(SVInst *_app)
     m_pRenderMgr = nullptr;
     m_pDetectMgr = nullptr;
     m_pStaticData = nullptr;
-    m_pActionSys = nullptr;
+    m_pActionMgr = nullptr;
     m_pDeformSys = nullptr;
 }
 
@@ -92,8 +92,8 @@ void SVGlobalMgr::init() {
     m_pShaderMgr = MakeSharedPtr<SVShaderMgr>(mApp);
     m_pShaderMgr->init();
     //动画运动管理系统
-    m_pActionSys = MakeSharedPtr<SVActionSys>(mApp);
-    m_pActionSys->init();
+    m_pActionMgr = MakeSharedPtr<SVActionMgr>(mApp);
+    m_pActionMgr->init();
     //纹理管理器初始化
     m_pTexMgr = MakeSharedPtr<SVTexMgr>(mApp);
     m_pTexMgr->init();
@@ -152,9 +152,9 @@ void SVGlobalMgr::destroy() {
         SV_LOG_ERROR("SVShaderMgr:destroy sucess");
     }
     //动画运动析构
-    if (m_pActionSys) {
-        m_pActionSys->destroy();
-        m_pActionSys = nullptr;
+    if (m_pActionMgr) {
+        m_pActionMgr->destroy();
+        m_pActionMgr = nullptr;
         SV_LOG_ERROR("SVAnimateSysPtr:destroy sucess");
     }
     //组件系统析构
@@ -202,7 +202,7 @@ void SVGlobalMgr::update(f32 dt) {
     timeTag(false,"basesys cost");
     m_pEventMgr->update(dt);            //事件处理系统更新
     timeTag(false,"event cost");
-    m_pActionSys->update(dt);
+    m_pActionMgr->update(dt);
     timeTag(false,"action cost");
     m_pCameraMgr->update(dt);           //相机更新(节点系统)
     timeTag(false,"camera cost");

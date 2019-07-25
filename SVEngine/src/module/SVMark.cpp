@@ -16,7 +16,7 @@
 #include "../node/SVBMFontNode.h"
 #include "../base/SVPreDeclare.h"
 #include "../act/SVActDeform.h"
-#include "../act/SVActionSys.h"
+#include "../act/SVActionMgr.h"
 #include "../app/SVGlobalMgr.h"
 #include "../act/SVActionUnit.h"
 #include "../file/SVFileMgr.h"
@@ -67,7 +67,8 @@ void SVMark::open(){
     t_actAlpha->setSrcAlpha(m_srcAlpha);
     t_actAlpha->setTarAlpha(m_tarAlpha);
     t_actAlpha->setTime(m_alphaTime);
-    m_actAlphaUnit = mApp->getActionSys()->runAction(t_actAlpha, m_bmFontNode);
+    m_actAlphaUnit = mApp->getActionMgr()->addAction(t_actAlpha, m_bmFontNode);
+    m_actAlphaUnit->play();
     //
     SVActPositionPtr t_actPos = MakeSharedPtr<SVActPosition>(mApp);
     s32 t_w =  mApp->m_pGlobalParam->m_inner_width;
@@ -75,7 +76,8 @@ void SVMark::open(){
     t_actPos->setMinPosition(FVec3(-t_w*0.4f, -t_h*0.4f, 0.0f));
     t_actPos->setMaxPosition(FVec3(t_w*0.4f, t_h*0.4f, 0.0f));
     t_actPos->setTime(m_appearTime);
-    m_actPositionUnit = mApp->getActionSys()->runAction(t_actPos, m_bmFontNode);
+    m_actPositionUnit = mApp->getActionMgr()->addAction(t_actPos, m_bmFontNode);
+    m_actPositionUnit->play();
 }
 
 void SVMark::close() {
@@ -85,9 +87,11 @@ void SVMark::close() {
     }
     if (m_actAlphaUnit) {
         m_actAlphaUnit->stop();
+        m_actAlphaUnit->removeFromActionMgr();
     }
     if (m_actPositionUnit) {
         m_actPositionUnit->stop();
+        m_actPositionUnit->removeFromActionMgr();
     }
 }
 

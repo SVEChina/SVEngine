@@ -16,7 +16,7 @@ namespace sv {
     namespace logic {
         //
         DECLARE_SHAREPTR(SVAniBase);
-        DECLARE_SHAREPTR(SVActionSys);
+        DECLARE_SHAREPTR(SVActionMgr);
         DECLARE_SHAREPTR(SVActionUnit);
         //act部分
         DECLARE_SHAREPTR(SVActBase);

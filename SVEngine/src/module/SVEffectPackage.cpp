@@ -18,7 +18,7 @@
 #include "../node/SVBitFontNode.h"
 #include "../act/SVActTexAttachment.h"
 #include "../act/SVActFollow.h"
-#include "../act/SVActionSys.h"
+#include "../act/SVActionMgr.h"
 #include "../act/SVActionUnit.h"
 #include "../event/SVEvent.h"
 #include "../basesys/SVSceneMgr.h"
@@ -78,7 +78,8 @@ void SVEffectUnit::_attachToPeople(SVNodePtr _node){
     t_fllowPerson->setFllowIndex(_node->getBindIndex());
     t_fllowPerson->setBindOffset(_node->getBindOffset().x, _node->getBindOffset().y, _node->getBindOffset().z);
     t_fllowPerson->setScale(_node->getScale().x, _node->getScale().y, _node->getScale().z);
-    m_personAct = mApp->getActionSys()->runAction(t_fllowPerson, _node);
+    m_personAct = mApp->getActionMgr()->addAction(t_fllowPerson, _node);
+    m_personAct->play();
 }
 
 void SVEffectUnit::destroy(){
@@ -87,6 +88,7 @@ void SVEffectUnit::destroy(){
     }
     if (m_personAct) {
         m_personAct->stop();
+        m_personAct->removeFromActionMgr();
     }
 }
 

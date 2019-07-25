@@ -217,10 +217,10 @@ SVStaticDataPtr SVInst::getDataMgr(){
     return m_pGlobalMgr->m_pStaticData;
 }
 
-SVActionSysPtr SVInst::getActionSys(){
+SVActionMgrPtr SVInst::getActionMgr(){
     if(!m_pGlobalMgr)
         return nullptr;
-    return m_pGlobalMgr->m_pActionSys;
+    return m_pGlobalMgr->m_pActionMgr;
 }
 
 SVRendererBasePtr SVInst::getRenderer() {

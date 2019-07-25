@@ -1,12 +1,12 @@
 //
-// SVActionSys.h
+// SVActionMgr.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_ACTIONSYS_H
-#define SV_ACTIONSYS_H
+#ifndef SV_ACTIONMGR_H
+#define SV_ACTIONMGR_H
 
 #include "../basesys/SVSysBase.h"
 #include "SVActDef.h"
@@ -14,11 +14,11 @@
 namespace sv{
     namespace logic {
         
-        class SVActionSys : public SVSysBase {
+        class SVActionMgr : public SVSysBase {
         public:
-            SVActionSys(SVInst* _app);
+            SVActionMgr(SVInst* _app);
             
-            ~SVActionSys();
+            ~SVActionMgr();
             
             void init();
             
@@ -26,9 +26,9 @@ namespace sv{
             
             void update(f32 _dt);
             
-            SVActionUnitPtr runAction(SVActBasePtr _action, SVNodePtr _node);
+            SVActionUnitPtr addAction(SVActBasePtr _action, SVNodePtr _node);
             
-            bool stopAction(SVActionUnitPtr _actUnit);
+            bool removeAction(SVActionUnitPtr _actUnit);
             
             void stopAllActions();
         protected:
@@ -44,4 +44,4 @@ namespace sv{
 
 
 
-#endif //SV_ACTIONSYS_H
+#endif //SV_ACTIONMGR_H

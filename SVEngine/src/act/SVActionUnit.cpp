@@ -9,41 +9,39 @@
 #include "../app/SVInst.h"
 #include "../app/SVGlobalMgr.h"
 #include "../act/SVActBase.h"
-#include "SVActionSys.h"
+#include "SVActionMgr.h"
 SVActionUnit::SVActionUnit(SVInst *_app)
 :SVAniBase(_app) {
     m_actPtr = nullptr;
     m_nodePtr = nullptr;
     m_isEnd = false;
+    m_state = SV_ACTION_STATE_WAIT;
 }
 
 SVActionUnit::SVActionUnit(SVInst* _app, SVActBasePtr _action, SVNodePtr _node):SVAniBase(_app){
     m_actPtr = _action;
     m_nodePtr = _node;
     m_isEnd = false;
+    m_state = SV_ACTION_STATE_WAIT;
 }
 
 
 SVActionUnit::~SVActionUnit() {
     m_actPtr = nullptr;
     m_nodePtr = nullptr;
+    m_state = SV_ACTION_STATE_WAIT;
 }
 
-void SVActionUnit::enter(){
-    if (m_actPtr && m_nodePtr) {
-        m_isEnd = false;
-        m_actPtr->enter(m_nodePtr);
-    }
+void SVActionUnit::init(){
+    
 }
 
-void SVActionUnit::exit(){
-    if (m_actPtr && m_nodePtr) {
-        m_actPtr->exit(m_nodePtr);
-    }
+void SVActionUnit::destroy(){
+    stop();
 }
 
 void SVActionUnit::update(f32 _dt) {
-    if (m_actPtr && m_nodePtr) {
+    if (m_actPtr && m_nodePtr && (m_state == SV_ACTION_STATE_PLAY)) {
         m_isEnd = m_actPtr->isEnd();
         m_actPtr->run(m_nodePtr, _dt);
     }
@@ -51,18 +49,6 @@ void SVActionUnit::update(f32 _dt) {
 
 bool SVActionUnit::isEnd(){
     return m_isEnd;
-}
-
-void SVActionUnit::setAct(SVActBasePtr _actPtr){
-    if (m_actPtr != _actPtr) {
-        m_actPtr = _actPtr;
-    }
-}
-
-void SVActionUnit::setNode(SVNodePtr _nodePtr){
-    if (m_nodePtr != _nodePtr) {
-        m_nodePtr = _nodePtr;
-    }
 }
 
 SVActBasePtr SVActionUnit::getAct(){
@@ -73,9 +59,25 @@ SVNodePtr SVActionUnit::getNode(){
     return m_nodePtr;
 }
 
+void SVActionUnit::play(){
+    if (m_actPtr && m_nodePtr) {
+        m_isEnd = false;
+        m_state = SV_ACTION_STATE_PLAY;
+        m_actPtr->enter(m_nodePtr);
+    }
+}
+
 void SVActionUnit::stop(){
-    SVActionSysPtr t_actSys = mApp->getActionSys();
+    if (m_actPtr && m_nodePtr) {
+        m_isEnd = true;
+        m_state = SV_ACTION_STATE_STOP;
+        m_actPtr->exit(m_nodePtr);
+    }
+}
+
+void SVActionUnit::removeFromActionMgr(){
+    SVActionMgrPtr t_actSys = mApp->getActionMgr();
     if (t_actSys) {
-        t_actSys->stopAction(THIS_TO_SHAREPTR(SVActionUnit));
+        t_actSys->removeAction(THIS_TO_SHAREPTR(SVActionUnit));
     }
 }
