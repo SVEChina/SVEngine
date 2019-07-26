@@ -45,8 +45,6 @@ namespace sv {
         
         s32 m_inner_height;
         
-        //字体库文件名称
-        SVString m_fontFileName;
         //UI矩阵
         FMat4 m_mat_ui;
         //
