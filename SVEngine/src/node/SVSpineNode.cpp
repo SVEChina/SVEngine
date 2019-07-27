@@ -341,6 +341,23 @@ bool SVSpineNode::getBoneScale(f32 &sx, f32 &sy, cptr8 bonename){
     return false;
 }
 
+bool SVSpineNode::getBoneRotation(f32 &rotation, cptr8 bonename){
+    spBone *m_bone = m_spine->findBone(bonename);//spSkeleton_findBone(,bonename);           //绑定的骨头
+    if (m_bone) {
+        rotation = m_bone->rotation;
+        SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpineNode);
+        while (t_curNode) {
+            rotation = rotation * t_curNode->getRotation().z;
+            if (t_curNode->getParent()) {
+                t_curNode = t_curNode->getParent();
+            } else {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 f32 SVSpineNode::getSlotAlpha(cptr8 bonename) {
     spSlot *t_slot = m_spine->findSlot(bonename);
     f32 fAlpha = 1.0f;

@@ -102,8 +102,8 @@ void SVPictureProcess::clearFilter(SVFilterBasePtr _filter){
                 SVNodePtr t_node=_filter->getNode();
                 t_node->removeFromParent();
             }
-              m_filterArray.get(i)->destroy();
-              m_filterArray.removeForce(i);
+            m_filterArray.get(i)->destroy();
+            m_filterArray.removeForce(i);
             break;
         }
     }
