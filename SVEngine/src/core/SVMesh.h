@@ -11,10 +11,12 @@
 #include "../base/SVGBase.h"
 #include "../base/SVPreDeclare.h"
 #include "../mtl/SVMtlDeclare.h"
-#include "../base/SVDataChunk.h"
-#include "../base/SVMap.h"
 #include "../rendercore/SVRenderDeclare.h"
 #include "SVVertDef.h"
+#include "../base/SVDataChunk.h"
+#include "../base/SVMap.h"
+#include "../base/SVMat4.h"
+#include "../base/SVBounds.h"
 
 namespace sv {
     
@@ -38,13 +40,16 @@ namespace sv {
             
             void setMtl(SVMtlCorePtr _mtl);
             
-            void update(f32 _dt);
+            void update(f32 _dt,FMat4& _mat);
             
             void render();
+            
+            SVBoundBox getBox();
             
         protected:
             SVString m_name;
             SVLockPtr m_lock;
+            SVBoundBox m_box;
             SVRenderMeshPtr m_pRenderMesh;
             SVMtlCorePtr m_pMtl;
         };

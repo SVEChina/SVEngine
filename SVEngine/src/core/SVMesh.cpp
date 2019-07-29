@@ -38,6 +38,10 @@ cptr8 SVMesh::getName(){
     return m_name.c_str();
 }
 
+SVBoundBox SVMesh::getBox() {
+    return m_box;
+}
+
 //数据操作
 void SVMesh::setData(SVDataSwapPtr _data,VFTYPE _vtf,s32 _count,s32 _seqMode) {
     m_pRenderMesh = MakeSharedPtr<SVRenderMesh>(mApp);
@@ -57,22 +61,22 @@ void SVMesh::setMtl(SVMtlCorePtr _mtl) {
     m_pMtl = _mtl;
 }
 
-void SVMesh::update(f32 _dt) {
+void SVMesh::update(f32 _dt,FMat4& _mat) {
     if(m_pMtl) {
-        FMat4 tMat_rotx;
-        tMat_rotx.setIdentity();
-        tMat_rotx.setRotateX(45.0f);
-        
-        FMat4 tMat_roty;
-        tMat_roty.setIdentity();
-        tMat_roty.setRotateY(45.0f);
-        
-        FMat4 tMat_sc;
-        tMat_sc.setIdentity();
-        tMat_sc.setScale(FVec3(200.0f,200.0f,200.0f));
-        //
-        FMat4 tMat = tMat_sc * tMat_roty * tMat_rotx;
-        m_pMtl->setModelMatrix(tMat.get());
+//        FMat4 tMat_rotx;
+//        tMat_rotx.setIdentity();
+//        tMat_rotx.setRotateX(40.0f);
+//
+//        FMat4 tMat_roty;
+//        tMat_roty.setIdentity();
+//        tMat_roty.setRotateY(40.0f);
+//
+//        FMat4 tMat_sc;
+//        tMat_sc.setIdentity();
+//        tMat_sc.setScale(FVec3(0.001f,0.001f,0.001f));
+//        //
+//        FMat4 tMat = tMat_sc * tMat_roty * tMat_rotx;
+        m_pMtl->setModelMatrix(_mat.get());
         m_pMtl->setBlendEnable(false);
         m_pMtl->setDepthEnable(true);
         //m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);

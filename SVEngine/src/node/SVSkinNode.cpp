@@ -25,7 +25,7 @@ SVSkinNode::~SVSkinNode() {
 void SVSkinNode::update(f32 dt) {
     SVNode::update(dt);
     if(m_pModel) {
-        m_pModel->update(dt);
+        m_pModel->update(dt,m_absolutMat);
     }
 }
 
