@@ -72,6 +72,7 @@ void SVBasicSys::destroy() {
     
     if (m_pSensorModule) {
         m_pSensorModule->stopListen();
+        m_pSensorModule = nullptr;
     }
 }
 

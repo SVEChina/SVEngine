@@ -8,7 +8,7 @@
 #include "SVDataNode.h"
 #include "../core/SVSpine.h"
 #include "../act/SVActFollow.h"
-#include "../act/SVActionSys.h"
+#include "../act/SVActionMgr.h"
 #include "../act/SVActionUnit.h"
 #include "../node/SVBitFontNode.h"
 #include "../node/SVBMFontNode.h"

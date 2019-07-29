@@ -73,12 +73,14 @@ namespace sv {
             
             bool getBoneScale(f32 &sx, f32 &sy, cptr8 bonename);
             
+            bool getBoneRotation(f32 &rotation, cptr8 bonename);
+            
             f32 getSlotAlpha(cptr8 bonename);
             
-            void setStableBoundingBoxScale(f32 _scale);
+            void setAABBBoxScale(f32 _scale);
         protected:
             
-            void _fixBoundingBox();
+            void _computeAABBBox();
             
             void _spine_start();
             
@@ -92,14 +94,7 @@ namespace sv {
             
             SVMultMeshMtlRenderObjectPtr m_pRObj;
             
-            //运行时属性
-            SVBoundBox m_stable_box;
-            
-            bool m_stable_box_dirty;
-            
-            bool m_update_stable_box;
-            
-            f32 m_box_scale;
+            f32 m_aabbBox_scale;
             
             void* m_p_cb_obj;
             

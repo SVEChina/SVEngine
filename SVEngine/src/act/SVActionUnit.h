@@ -14,35 +14,39 @@
 namespace sv{
     
     namespace logic {
-        
+        enum SVACTIONSTATE{
+            SV_ACTION_STATE_WAIT,
+            SV_ACTION_STATE_PLAY,
+            SV_ACTION_STATE_STOP
+        };
         class SVActionUnit : public SVAniBase {
         public:
             SVActionUnit(SVInst* _app);
             
+            SVActionUnit(SVInst* _app, SVActBasePtr _action, SVNodePtr _node);
+            
             ~SVActionUnit();
             
-            virtual void init();
+            void init();
             
-            virtual void destroy();
-            
-            virtual void enter();
-            
-            virtual void exit();
+            void destroy();
             
             virtual bool isEnd();
             
             virtual void update(f32 _dt);
             
-            void setAct(SVActBasePtr _actPtr);
+            void play();
             
-            void setNode(SVNodePtr _nodePtr);
+            void stop();
+            
+            void removeFromActionMgr();
             
             SVActBasePtr getAct();
             
             SVNodePtr getNode();
-            
         protected:
             bool m_isEnd;
+            SVACTIONSTATE m_state;
             SVActBasePtr m_actPtr;
             SVNodePtr m_nodePtr;
         };

@@ -11,7 +11,7 @@
 #include "SVTimeLine.h"
 #include "SVTimeLineDeform.h"
 #include "SVTimeLineMtl.h"
-#include "SVActionSys.h"
+#include "SVActionMgr.h"
 
 SVMovie::SVMovie(SVInst* _app)
 :SVAniBase(_app)
@@ -80,7 +80,7 @@ bool SVMovie::isEnd(){
 void SVMovie::play() {
     m_state = E_MV_ST_PLAY;
     enter();
-    mApp->getActionSys()->addActionUnit(THIS_TO_SHAREPTR(SVMovie));
+//    mApp->getActionMgr()->addActionUnit(THIS_TO_SHAREPTR(SVMovie));
 }
 
 void SVMovie::pause() {
@@ -92,7 +92,7 @@ void SVMovie::stop() {
     //推出到action中
     if(m_state == E_MV_ST_PLAY || m_state == E_MV_ST_PAUSE){
         m_state = E_MV_ST_READY;
-        mApp->getActionSys()->removeActionUnit(THIS_TO_SHAREPTR(SVMovie));
+//        mApp->getActionMgr()->removeActionUnit(THIS_TO_SHAREPTR(SVMovie));
         exit();
     }
 }
