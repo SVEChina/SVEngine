@@ -279,9 +279,9 @@ SVOpCreateTest::~SVOpCreateTest(){
 }
 
 void SVOpCreateTest::_process(f32 dt) {
-    SVLoaderGLTF t_load(mApp);
-    t_load.loadFromFile("svres/gltf/Cube/Cube.gltf");
-    t_load.building();
+//    SVLoaderGLTF t_load(mApp);
+//    t_load.loadFromFile("svres/gltf/Cube/Cube.gltf");
+//    t_load.building();
 //    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
 //    if (t_pScene) {
 //        //创建测试盒子®
@@ -347,6 +347,16 @@ void SVOpCreateTest::_process(f32 dt) {
 //    billboardNode->setTexture(texture);
 //    billboardNode->setSize(500, 500);
 //    t_pScene->addNode(billboardNode);
+    
+        SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+        if (t_pScene) {
+            //创建3d
+                SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+            t_testBox->setScale(1.0,1.0,1.0);
+            t_testBox->setPosition(0.0, 0.0, 0.0);
+            t_testBox->setRotation(0.0, 0.0, 0.0);
+            t_pScene->addNode(t_testBox);
+        }
 
 }
 
