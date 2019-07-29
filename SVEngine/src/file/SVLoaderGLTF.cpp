@@ -414,7 +414,10 @@ SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
 SVNodePtr SVLoaderGLTF::_build3DNode(Node* _node) {
     SVModelNodePtr tNode = MakeSharedPtr<SVModelNode>(mApp);
     //构建model
-   SVModelPtr t_model = _buildModel(_node->mesh);
+    SVModelPtr t_model = _buildModel(_node->mesh);
+    if(t_model) {
+        tNode->setModel(t_model);
+    }
     return tNode;
 }
 
@@ -718,10 +721,10 @@ SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
             tMtl->m_pMetallicRoughnessTex = image->texture;
         }else if(t_key == "metallicFactor") {
             Parameter* t_param = &(it1->data);
-            tMtl->m_roughtnessFactor = t_param->Factor();
+            tMtl->m_metallicFactor = t_param->Factor();
         }else if(t_key == "roughnessFactor") {
             Parameter* t_param = &(it1->data);
-            tMtl->m_metallicFactor = t_param->Factor();
+            tMtl->m_roughtnessFactor = t_param->Factor();
         }
         it1++;
     }
@@ -730,33 +733,48 @@ SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
     while (it2!=t_mtl->additionalValues.end()) {
         SVString t_key = it2->key;
         if(t_key == "normalTexture") {
-            Parameter* t_param = &(it1->data);
-            s32 textureIndex = t_param->TextureIndex();
-            Texture* texture = &(m_gltf.textures[textureIndex]);
-            Image* image = &(m_gltf.images[texture->source]);
-            tMtl->m_pNormalTex = image->texture;
-            //
-            tMtl->m_normalScale = t_param->ParamValue("scale");
+            Parameter* t_param = &(it2->data);
+            if(t_param) {
+                s32 textureIndex = t_param->TextureIndex();
+                Texture* texture = &(m_gltf.textures[textureIndex]);
+                Image* image = &(m_gltf.images[texture->source]);
+                tMtl->m_pNormalTex = image->texture;
+                tMtl->m_normalScale = t_param->ParamValue("scale");
+            }
         }else if(t_key == "occlusionTexture") {
-            Parameter* t_param = &(it1->data);
-            s32 textureIndex = t_param->TextureIndex();
-            Texture* texture = &(m_gltf.textures[textureIndex]);
-            Image* image = &(m_gltf.images[texture->source]);
-            tMtl->m_pOcclusionTex = image->texture;
-            //
-            tMtl->m_occlusionStrength = t_param->ParamValue("strength");
+            Parameter* t_param = &(it2->data);
+            if(t_param) {
+                s32 textureIndex = t_param->TextureIndex();
+                Texture* texture = &(m_gltf.textures[textureIndex]);
+                Image* image = &(m_gltf.images[texture->source]);
+                tMtl->m_pOcclusionTex = image->texture;
+                tMtl->m_occlusionStrength = t_param->ParamValue("strength");
+            }
         }else if(t_key == "emissiveTexture") {
-            Parameter* t_param = &(it1->data);
-            s32 textureIndex = t_param->TextureIndex();
-            Texture* texture = &(m_gltf.textures[textureIndex]);
-            Image* image = &(m_gltf.images[texture->source]);
-            tMtl->m_pEmissiveTex = image->texture;
+            Parameter* t_param = &(it2->data);
+            if(t_param) {
+                s32 textureIndex = t_param->TextureIndex();
+                Texture* texture = &(m_gltf.textures[textureIndex]);
+                Image* image = &(m_gltf.images[texture->source]);
+                tMtl->m_pEmissiveTex = image->texture;
+            }
         }else if(t_key == "emissiveFactor") {
-            Parameter* t_param = &(it1->data);
-            if(t_param->number_array.size() ==3) {
+            Parameter* t_param = &(it2->data);
+            if(t_param && t_param->number_array.size() ==3) {
                 tMtl->m_emissiveFactor.set(t_param->number_array[0],
                                            t_param->number_array[1],
                                            t_param->number_array[2]);
+            }
+        }else if(t_key == "alphaMode") {
+            Parameter* t_param = &(it2->data);
+            if(t_param ) {
+                SVString t_str = t_param->string_value;
+            }
+        }else if(t_key == "name") {
+            //材质名称
+            Parameter* t_param = &(it2->data);
+            if(t_param ) {
+                SVString t_str = t_param->string_value;
             }
         }
         it2++;
@@ -767,6 +785,7 @@ SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
 }
 
 void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
+    s32 t_acc_off = _accessor->byteOffset;
     s32 t_viewID = _accessor->bufferView;
     BufferView* t_bufview = &(m_gltf.bufferViews[t_viewID]);
     if(t_bufview) {
@@ -774,15 +793,12 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
         s32 t_view_off = t_bufview->byteOffset;
         s32 t_len = t_bufview->byteLength;
         s32 t_view_stride = t_bufview->byteStride;
-        s32 t_acc_off = _accessor->byteOffset;
         Buffer* t_buf = &(m_gltf.buffers[t_bufID]);
         t_buf->data->lockData();
         char* p = (char*)(t_buf->data->getData());
         p += t_view_off;
         p += t_acc_off;
-        s32 t_s_size = 0;
-        t_s_size = _getComponentSizeInBytes(_accessor->componentType);
-        t_s_size *= _getTypeSizeInBytes(_accessor->type);
+        s32 t_s_size =_getCmpSize(_accessor->componentType,_accessor->type);
         //
         s32 t_total_len = _accessor->count*t_s_size;
         s32 t_aim_size = _data->getSize() + t_total_len;
@@ -790,7 +806,7 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
         //拷贝数据
         for(s32 i=0;i<_accessor->count;i++) {
             _data->appendData(p, t_s_size);
-            p += t_view_stride + t_s_size;
+            p += t_view_stride;
         }
         t_buf->data->unlockData();
     }
