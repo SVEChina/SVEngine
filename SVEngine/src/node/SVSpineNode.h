@@ -73,6 +73,8 @@ namespace sv {
             
             bool getBoneScale(f32 &sx, f32 &sy, cptr8 bonename);
             
+            bool getBoneRotation(f32 &rotation, cptr8 bonename);
+            
             f32 getSlotAlpha(cptr8 bonename);
             
             void setStableBoundingBoxScale(f32 _scale);
