@@ -549,7 +549,7 @@ namespace sv {
         
         SVAnimateSkinPtr _buildAnimate(s32 _index);
         
-        SVMtlCorePtr _buildMtl(s32 _index);
+        SVMtlCorePtr _buildMtl(Primitive* _prim);
         
         SVMeshPtr _buildMeshPri(Primitive* _prim);
         

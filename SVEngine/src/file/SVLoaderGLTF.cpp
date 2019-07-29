@@ -626,7 +626,7 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
     SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
     t_mesh->setRenderMesh(t_rMesh);
     //材质
-    SVMtlCorePtr t_mtl = _buildMtl(_prim->material);
+    SVMtlCorePtr t_mtl = _buildMtl(_prim);
     if(t_mtl) {
         t_mesh->setMtl(t_mtl);
     }
@@ -634,13 +634,15 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
     return t_mesh;
 }
 
-SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
-    if(_index<0)
+SVMtlCorePtr SVLoaderGLTF::_buildMtl(Primitive* _prim) {
+    if(!_prim)
+        return nullptr;
+    if(_prim->material<0)
         return nullptr;
     //构建材质
+    s32 _index = _prim->material;
     Material* t_mtl = &(m_gltf.materials[_index]);
     SVMtlGLTFPtr tMtl = MakeSharedPtr<SVMtlGLTF>(mApp);
-    //
     ParameterMap::Iterator it1 = t_mtl->values.begin();
     while (it1!=t_mtl->values.end()) {
         SVString t_key = it1->key;
