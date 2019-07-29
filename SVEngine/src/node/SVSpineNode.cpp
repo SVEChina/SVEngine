@@ -40,7 +40,6 @@ SVSpineNode::SVSpineNode(SVInst *_app)
     m_cur_aniname = "animation";
     m_canSelect = true;
     m_aabbBox_scale = 1.0f;
-    m_drawBox = true;
 }
 
 SVSpineNode::~SVSpineNode() {
