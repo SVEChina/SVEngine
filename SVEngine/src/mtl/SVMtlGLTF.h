@@ -26,6 +26,11 @@ namespace sv {
             
             ~SVMtlGLTF();
             
+        protected:
+            SVMtlGLTF(SVInst *_app,cptr8 _name);
+        
+        public:
+            
             virtual SVMtlCorePtr clone();
             
             void update(f32 dt);
@@ -45,6 +50,18 @@ namespace sv {
             f32 m_occlusionStrength;
             FVec3 m_emissiveFactor;
         };
+        
+        class SVMtlGLTFSkin : public SVMtlGLTF {
+        public:
+            SVMtlGLTFSkin(SVInst *_app);
+            
+            SVMtlGLTFSkin(SVMtlGLTFSkin *_mtl);
+            
+            ~SVMtlGLTFSkin();
+            
+            virtual SVMtlCorePtr clone();
+        };
+
 
     }//!namespace mtl
     
