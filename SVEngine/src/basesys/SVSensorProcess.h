@@ -25,24 +25,8 @@ namespace sv {
             
             SVCameraNodePtr getARCamera(){ return m_pARCamera; }
             
-            FVec3& getVelocity();
-            
-            FVec3& getDistance();
-            
         protected:
-            void _computePosition();
-            //
             SVCameraNodePtr m_pARCamera;
-            //
-            timeval m_timTagLast;
-            f32 m_deltaTime;
-            bool m_isFitst;
-            FVec3 m_acc0;//加速度
-            FVec3 m_acc1;//加速度
-            FVec3 m_velocity0;//速度
-            FVec3 m_velocity1;//速度
-            FVec3 m_distance0;//路程
-            FVec3 m_distance1;//路程
         };
         
     }//!namespace logic
