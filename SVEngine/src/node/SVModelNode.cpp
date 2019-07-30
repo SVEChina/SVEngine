@@ -57,6 +57,9 @@ void SVModelNode::render() {
 
 void SVModelNode::setModel(SVModelPtr _model) {
     m_pModel = _model;
+    if(m_pModel) {
+        m_aabbBox = m_pModel->getBox();
+    }
 }
 
 SVModelPtr SVModelNode::getModel() {

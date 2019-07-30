@@ -38,6 +38,10 @@ cptr8 SVMesh::getName(){
     return m_name.c_str();
 }
 
+void SVMesh::setBox(SVBoundBox& _box) {
+    m_box = _box;
+}
+
 SVBoundBox SVMesh::getBox() {
     return m_box;
 }

@@ -44,6 +44,8 @@ namespace sv {
             
             void render();
             
+            void setBox(SVBoundBox& _box);
+            
             SVBoundBox getBox();
             
         protected:

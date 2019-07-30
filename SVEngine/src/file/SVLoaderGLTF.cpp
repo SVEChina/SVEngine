@@ -509,7 +509,6 @@ SVModelPtr SVLoaderGLTF::_buildModel(s32 _index){
 
 SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
     //构建数据
-    Accessor* accV2 = nullptr;
     Accessor* accV3 = nullptr;
     Accessor* accNOR = nullptr;
     Accessor* accTAG = nullptr;
@@ -555,12 +554,21 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
         it++;
     }
     //
+    SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
+    //
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
     s64 t_count = 0;
     if (t_vtf & D_VF_V3) {
         if(accV3) {
             _fetchDataFromAcc(t_data,accV3);
             t_count = accV3->count;
+            //box
+            if(accV3->minValues.size() == 3  && accV3->maxValues.size()==3) {
+                SVBoundBox t_box;
+                t_box.set(FVec3(accV3->minValues[0],accV3->minValues[1],accV3->minValues[2]),
+                          FVec3(accV3->maxValues[0],accV3->maxValues[1],accV3->maxValues[2]));
+                t_mesh->setBox(t_box);
+            }
         }
     }
     if (t_vtf & D_VF_NOR) {
@@ -626,8 +634,6 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
         t_rMesh->setDrawMethod(E_DM_TRIANGLE_FAN);
     }
     t_rMesh->createMesh();
-    //
-    SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
     t_mesh->setRenderMesh(t_rMesh);
     //材质
     SVMtlCorePtr t_mtl = _buildMtl(_prim,t_vtf);
