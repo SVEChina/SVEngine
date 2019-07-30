@@ -58,7 +58,6 @@ void SVSpineNode::setSpine(SVSpinePtr _spine) {
     }
     if (m_spine) {
         clearSpine();
-        
     }
     m_spine = _spine;
     if(!m_pRObj){
