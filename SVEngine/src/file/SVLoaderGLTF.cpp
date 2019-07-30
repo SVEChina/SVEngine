@@ -440,16 +440,25 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildSkin(s32 _index){
     SVSkeletonPtr t_ske = MakeSharedPtr<SVSkeleton>();
     s32 t_root_index = t_skindata->skeleton;
     SVBonePtr t_rootBone = MakeSharedPtr<SVBone>();
-    _buildBone(t_rootBone,t_root_index);
+    _buildBone(t_rootBone,t_root_index,t_ske);
     t_ske->m_name = t_skindata->name;
     t_ske->m_root = t_rootBone;
     //构建动画
     return nullptr;
 }
 
-bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index) {
+bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske) {
+    //
+    if(_index<0)
+        return false;
     //填充数据
     Node* t_node = &(m_gltf.nodes[_index]);
+    if(!t_node){
+        return false;
+    }
+    //
+    _ske->addBone(_parent);
+    //
     _parent->m_id = _index;
     _parent->m_name = t_node->name;
     _parent->m_tran.x = t_node->translation[0];
@@ -467,7 +476,7 @@ bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index) {
         s32 t_index = t_node->children[i];
         SVBonePtr t_bone = MakeSharedPtr<SVBone>();
         t_bone->m_pParent = _parent;
-        _buildBone(t_bone,t_index);
+        _buildBone(t_bone,t_index,_ske);
         _parent->m_children.append(t_bone);
     }
     return true;

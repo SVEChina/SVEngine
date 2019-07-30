@@ -35,9 +35,18 @@ void SVBone::update() {
 SVSkeleton::SVSkeleton(){
     m_name = "ske";
     m_root = nullptr;
+    m_boneArray.clear();
+}
+
+
+void SVSkeleton::addBone(SVBonePtr _bone) {
+    m_boneArray.append(_bone);
 }
 
 void SVSkeleton::destroy() {
+    //
+    m_boneArray.clear();
+    //
     if(m_root) {
         m_root->clear();
         m_root = nullptr;
