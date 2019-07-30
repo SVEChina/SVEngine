@@ -807,6 +807,19 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
 		p1.life -= ifps;
 		p2.life -= ifps;
 		p3.life -= ifps;
+        //顶点颜色透明度
+        f32 t_p0_life = 65535.0f/p0.ilife;
+        f32 t_p0_color = (1.0f - (t_p0_life - p0.life)/t_p0_life);
+        p0.color = FVec4(t_p0_color);
+        f32 t_p1_life = 65535.0f/p1.ilife;
+        f32 t_p1_color = (1.0f - (t_p1_life - p1.life)/t_p1_life);
+        p1.color = FVec4(t_p1_color);
+        f32 t_p2_life = 65535.0f/p2.ilife;
+        f32 t_p2_color = (1.0f - (t_p2_life - p2.life)/t_p2_life);
+        p2.color = FVec4(t_p2_color);
+        f32 t_p3_life = 65535.0f/p3.ilife;
+        f32 t_p3_color = (1.0f - (t_p3_life - p3.life)/t_p3_life);
+        p3.color = FVec4(t_p3_color);
         //更新后 符合条件的粒子，进入移除
         if(p0.radius < EPSILON || p0.life < EPSILON) {
             remove.append((s32)(&p0 - m_particles.get()));
@@ -850,6 +863,9 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
         p.growth *= growth_scale;
 		p.radius += p.growth * ifps;
 		p.life -= ifps;
+        f32 t_p_life = 65535.0f/p.ilife;
+        f32 t_p_color = (1.0f - (t_p_life - p.life)/t_p_life);
+        p.color = FVec4(t_p_color);
         //移除粒子
         if(p.radius < EPSILON || p.life < EPSILON) {
             remove.append((s32)(&p - m_particles.get()));
@@ -1317,24 +1333,28 @@ void SVParticles::create_billboard_particles(V3_PARTICLE *vertex,const FMat4 &mo
 #else
         sub3(v[0].xyz,p.position,sub(temp,dxc,dys));
         v[0].parameters = color | orientation[0];
-        v[0].rgb[0] = p.color.x;
-        v[0].rgb[1] = p.color.y;
-        v[0].rgb[2] = p.color.z;
+        v[0].rgba[0] = p.color.x;
+        v[0].rgba[1] = p.color.y;
+        v[0].rgba[2] = p.color.z;
+        v[0].rgba[3] = p.color.w;
         sub3(v[1].xyz,p.position,add(temp,dxs,dyc));
         v[1].parameters = color | orientation[1];
-        v[1].rgb[0] = p.color.x;
-        v[1].rgb[1] = p.color.y;
-        v[1].rgb[2] = p.color.z;
+        v[1].rgba[0] = p.color.x;
+        v[1].rgba[1] = p.color.y;
+        v[1].rgba[2] = p.color.z;
+        v[1].rgba[3] = p.color.w;
         add3(v[2].xyz,p.position,sub(temp,dxc,dys));
         v[2].parameters = color | orientation[2];
-        v[2].rgb[0] = p.color.x;
-        v[2].rgb[1] = p.color.y;
-        v[2].rgb[2] = p.color.z;
+        v[2].rgba[0] = p.color.x;
+        v[2].rgba[1] = p.color.y;
+        v[2].rgba[2] = p.color.z;
+        v[2].rgba[3] = p.color.w;
         add3(v[3].xyz,p.position,add(temp,dxs,dyc));
         v[3].parameters = color | orientation[3];
-        v[3].rgb[0] = p.color.x;
-        v[3].rgb[1] = p.color.y;
-        v[3].rgb[2] = p.color.z;
+        v[3].rgba[0] = p.color.x;
+        v[3].rgba[1] = p.color.y;
+        v[3].rgba[2] = p.color.z;
+        v[3].rgba[3] = p.color.w;
 #endif
         v += 4;
     }
@@ -2641,7 +2661,7 @@ f32 SVParticles::getDeflectorRoughness(s32 num) const {
 	return deflectors[num].roughness;
 }
 
-void SVParticles::_getRandomVextexColor(FVec3 &_color){
+void SVParticles::_getRandomVextexColor(FVec4 &_color){
     //加权随机
     m_totalWeights = 0;
     for (s32 i=0; i<m_vetexColorData.size(); i++) {
@@ -2655,14 +2675,14 @@ void SVParticles::_getRandomVextexColor(FVec3 &_color){
                 continue;
             }
             if (t_r < t_weight) {
-                FVec3 t_color = m_vetexColorData[i].color;
+                FVec4 t_color = m_vetexColorData[i].color;
                 _color.set(t_color);
                 break;
             }
             t_r -= t_weight;
         }
     }else{
-        _color.set(1.0f, 1.0f, 1.0f);
+        _color.set(1.0f, 1.0f, 1.0f, 1.0f);
     }
 }
 
@@ -2671,7 +2691,7 @@ void SVParticles::addVetexColor(FVec3 &_color, s32 _weights){
         return;
     }
     VETEXCOLORDATA t_colorData;
-    t_colorData.color = _color;
+    t_colorData.color = FVec4(_color);
     t_colorData.weights = _weights;
     m_vetexColorData.append(t_colorData);
 }
@@ -2697,7 +2717,7 @@ void SVParticles::setVetexColor(FVec3 &_color, s32 _weights, s32 _index){
     if (_index >= 0 && _index < m_vetexColorData.size()) {
         VETEXCOLORDATA t_colorData;
         t_colorData.weights = _weights;
-        t_colorData.color = _color;
+        t_colorData.color = FVec4(_color);
         m_vetexColorData[_index] = t_colorData;
     }
 }

@@ -580,7 +580,7 @@ void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf,s32 _count,s32 _mode) {
             t_off += 3*sizeof(f32);
             glVertexAttribPointer(CHANNEL_ATTRI_1, 4, GL_UNSIGNED_BYTE, GL_TRUE, t_ver_len,(void *)t_off);//需要归一化
             t_off += sizeof(u32);
-            glVertexAttribPointer(CHANNEL_ATTRI_2, 3, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
+            glVertexAttribPointer(CHANNEL_ATTRI_2, 4, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
             
             glEnableVertexAttribArray(CHANNEL_ATTRI_0);
             glEnableVertexAttribArray(CHANNEL_ATTRI_1);
