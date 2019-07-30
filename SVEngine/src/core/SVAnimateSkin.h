@@ -24,15 +24,22 @@ namespace sv {
          */
         class SVBone :public SVObject {
         public:
+            SVBone();
+            
             SVString m_name;
             s32 m_id;
-            
             FVec3 m_tran;
             FVec3 m_scale;
             FVec4 m_rot;
-            SVBone* m_pParent;
-            typedef SVArray<SVBone*> BONEPOOL;
+            SVBonePtr m_pParent;
+            //
+            typedef SVArray<SVBonePtr> BONEPOOL;
             BONEPOOL m_children;
+            //
+        public:
+            void clear();
+            
+            void update();
         };
 
         /*

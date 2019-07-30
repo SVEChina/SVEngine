@@ -545,6 +545,8 @@ namespace sv {
         
         SVAnimateSkinPtr _buildSkin(s32 _index);
         
+        bool _buildBone(SVBonePtr _parent,s32 _index);
+        
         SVAnimateSkinPtr _buildAnimate(s32 _index);
         
         SVMtlCorePtr _buildMtl(Primitive* _prim,s32 _vtf);
