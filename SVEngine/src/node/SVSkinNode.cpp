@@ -25,7 +25,7 @@ SVSkinNode::~SVSkinNode() {
 void SVSkinNode::update(f32 dt) {
     SVNode::update(dt);
     if(m_pModel) {
-        m_pModel->update(dt);
+        m_pModel->update(dt,m_absolutMat);
     }
 }
 
@@ -42,6 +42,9 @@ SVModelPtr SVSkinNode::getModel() {
 
 void SVSkinNode::setModel(SVModelPtr _model) {
     m_pModel = _model;
+    if(m_pModel) {
+        m_aabbBox = m_pModel->getBox();
+    }
 }
 
 void SVSkinNode::clear() {

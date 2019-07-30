@@ -89,7 +89,7 @@ namespace sv {
         return GLTFInterpolationModeNone;
     }
     
-    static sv_inline s32 _getCmpSize(u32 _componentType,u32 _ty) {
+    static sv_inline s32 _getCmpSize(u32 _componentType) {
         s32 t_cmpSize = 0;
         if (_componentType == SVGLTF_COMPONENT_TYPE_BYTE) {
             t_cmpSize = 1;
@@ -108,6 +108,10 @@ namespace sv {
         } else if (_componentType == SVGLTF_COMPONENT_TYPE_DOUBLE) {
             t_cmpSize = 8;
         }
+        return t_cmpSize;
+    }
+    
+    static sv_inline s32 _getCmpNum(u32 _ty) {
         //
         s32 t_cmpCount = 0;
         if (_ty == SVGLTF_TYPE_SCALAR) {
@@ -125,9 +129,8 @@ namespace sv {
         } else if (_ty == SVGLTF_TYPE_MAT4) {
             t_cmpCount = 16;
         }
-        return t_cmpSize*t_cmpCount;
+        return t_cmpCount;
     }
-    
 
     /// Agregate object for representing a color
     using ColorValue = std::array<double, 4>;
@@ -228,12 +231,7 @@ namespace sv {
         s32 component;
         s32 bufferView;        // (required if no uri)
         SVTexturePtr texture;
-        // When this flag is true, data is stored to `image` in as-is format(e.g. jpeg
-        // compressed for "image/jpeg" mime) This feature is good if you use custom
-        // image loader function. (e.g. delayed decoding of images for faster glTF
-        // parsing) Default parser for Image does not provide as-is loading feature at
-        // the moment. (You can manipulate this by providing your own LoadImageData
-        // function)
+
         bool as_is;
         
         Image()
@@ -549,7 +547,7 @@ namespace sv {
         
         SVAnimateSkinPtr _buildAnimate(s32 _index);
         
-        SVMtlCorePtr _buildMtl(Primitive* _prim);
+        SVMtlCorePtr _buildMtl(Primitive* _prim,s32 _vtf);
         
         SVMeshPtr _buildMeshPri(Primitive* _prim);
         

@@ -63,9 +63,9 @@ SVMtlGLTF::SVMtlGLTF(SVInst *_app,cptr8 _name)
 
 void SVMtlGLTF::update(f32 dt) {
     SVMtlCore::update(dt);
-    //
     setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
     setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
+    refresh();
 }
 
 void SVMtlGLTF::refresh() {
