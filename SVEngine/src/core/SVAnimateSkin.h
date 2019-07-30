@@ -73,8 +73,6 @@ namespace sv {
             
         protected:
             SVString m_name;
-            //基础矩阵
-           FMat4 m_inverseBindMatrices;
         };
         
         //骨架池
