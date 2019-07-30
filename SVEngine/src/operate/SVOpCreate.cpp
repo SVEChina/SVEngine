@@ -280,7 +280,7 @@ SVOpCreateTest::~SVOpCreateTest(){
 
 void SVOpCreateTest::_process(f32 dt) {
     SVLoaderGLTF t_load(mApp);
-    t_load.loadFromFile("svres/gltf/ShaiZi_2/ShaiZi.gltf");
+    t_load.loadFromFile("svres/gltf/outPut/Gril_Hair.gltf");
     t_load.building();
 //    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
 //    if (t_pScene) {

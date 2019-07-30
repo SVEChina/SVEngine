@@ -11,9 +11,6 @@
 #include "../base/SVDataChunk.h"
 #include "../base/SVDataSwap.h"
 #include "../base/SVQuat.h"
-#include "../core/SVModel.h"
-#include "../core/SVAnimateSkin.h"
-#include "../core/SVAnimateMorph.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtl3D.h"
@@ -28,6 +25,9 @@
 #include "../basesys/SVSceneMgr.h"
 #include "../core/SVModel.h"
 #include "../core/SVMesh.h"
+#include "../core/SVModel.h"
+#include "../core/SVAnimateSkin.h"
+#include "../core/SVAnimateMorph.h"
 #include "../base/SVMap.h"
 #include "../base/SVArray.h"
 #include "../base/svstr.h"
@@ -361,7 +361,7 @@ void SVLoaderGLTF::building() {
                 //有骨骼动画
                 SVNodePtr t_svNode = _buildSkinNode(t_node);
                 if(t_svNode) {
-                    t_svNode->setScale(0.001f,0.001f,0.001f);
+                    t_svNode->setScale(15.0f,15.0f,15.0f);
                     t_svNode->setPosition(0.0f, 100.0f, 0.0f);
                     t_sc->addNode(t_svNode);
                 }
@@ -433,41 +433,44 @@ SVNodePtr SVLoaderGLTF::_buildCameraNode(Node* _node) {
 SVAnimateSkinPtr SVLoaderGLTF::_buildSkin(s32 _index){
     if(_index<0)
         return nullptr;
-//    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,"aaa");
+    //SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,"aaa");
 //    //获取目标皮肤
-//    Skin* t_skindata = &(m_gltf.skins[_index]);
-//    s32 t_ske_index = t_skindata->skeleton;
-//    //joint
-//    for(s32 i=0;i<t_skindata->joints.size();i++) {
-//        s32 t_node_index = t_skindata->joints[i];
-//        Node* t_node = &(m_gltf.nodes[t_node_index]);
-////        //
-////        SVBonePtr t_bone = MakeSharedPtr<SVBone>();
-////        t_bone->index = t_node_index;
-////        t_bone->m_name = t_node->name;
-////        //
-////        t_bone->m_tran.x = t_node->translation[0];
-////        t_bone->m_tran.y = t_node->translation[1];
-////        t_bone->m_tran.z = t_node->translation[2];
-////        t_bone->scale.x = t_node->scale[0];
-////        t_bone->scale.y = t_node->scale[1];
-////        t_bone->scale.z = t_node->scale[2];
-////        t_bone->m_rot.x = t_node->rotation[0];
-////        t_bone->m_rot.y = t_node->rotation[1];
-////        t_bone->m_rot.z = t_node->rotation[2];
-////        t_bone->m_rot.w = t_node->rotation[3];
-//    }
-//
-////    Node* t_node = &(m_gltf.nodes[t_ske_index]);
-////    //_buildSkeNode(t_node,t_rootNode);
-////    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,t_skindata->name.c_str());
-////    for(s32 i=0;i<t_skindata->joints.size();i++) {
-////        s32 t_node_index = t_skindata->joints[i];
-////        Node* t_node = &(m_gltf.nodes[t_node_index]);
-////        //_buildSkeNode(t_node,t_rootNode);
-////    }
-//    return t_skin;
+    Skin* t_skindata = &(m_gltf.skins[_index]);
+    //构建骨架
+    SVSkeletonPtr t_ske = MakeSharedPtr<SVSkeleton>();
+    s32 t_root_index = t_skindata->skeleton;
+    SVBonePtr t_rootBone = MakeSharedPtr<SVBone>();
+    _buildBone(t_rootBone,t_root_index);
+    t_ske->m_name = t_skindata->name;
+    t_ske->m_root = t_rootBone;
+    //构建动画
     return nullptr;
+}
+
+bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index) {
+    //填充数据
+    Node* t_node = &(m_gltf.nodes[_index]);
+    _parent->m_id = _index;
+    _parent->m_name = t_node->name;
+    _parent->m_tran.x = t_node->translation[0];
+    _parent->m_tran.y = t_node->translation[1];
+    _parent->m_tran.z = t_node->translation[2];
+    _parent->m_scale.x = t_node->scale[0];
+    _parent->m_scale.y = t_node->scale[1];
+    _parent->m_scale.z = t_node->scale[2];
+    _parent->m_rot.x = t_node->rotation[0];
+    _parent->m_rot.y = t_node->rotation[1];
+    _parent->m_rot.z = t_node->rotation[2];
+    _parent->m_rot.w = t_node->rotation[3];
+    //构建子骨骼
+    for(s32 i=0;i<t_node->children.size();i++) {
+        s32 t_index = t_node->children[i];
+        SVBonePtr t_bone = MakeSharedPtr<SVBone>();
+        t_bone->m_pParent = _parent;
+        _buildBone(t_bone,t_index);
+        _parent->m_children.append(t_bone);
+    }
+    return true;
 }
 
 SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
@@ -1366,14 +1369,14 @@ bool SVLoaderGLTF::_parseSkin(Skin *_skin, RAPIDJSON_NAMESPACE::Value &_item) {
             }
         }
     }
-//    if (_item.HasMember("name") && _item["name"].IsString()) {
-//        _skin->name = _item["name"].GetString();
-//    }
-//    f64 skeleton = -1.0;
-//    if (_item.HasMember("skeleton") && _item["skeleton"].IsNumber()) {
-//        skeleton = _item["skeleton"].GetDouble();
-//    }
-//    _skin->skeleton = s32(skeleton);
+    if (_item.HasMember("name") && _item["name"].IsString()) {
+        _skin->name = _item["name"].GetString();
+    }
+    f64 skeleton = -1.0;
+    if (_item.HasMember("skeleton") && _item["skeleton"].IsNumber()) {
+        skeleton = _item["skeleton"].GetDouble();
+    }
+    _skin->skeleton = s32(skeleton);
     f64 invBind = -1.0;
     if (_item.HasMember("inverseBindMatrices") && _item["inverseBindMatrices"].IsNumber()) {
         invBind = _item["inverseBindMatrices"].GetDouble();
