@@ -19,9 +19,7 @@ namespace sv {
     
     namespace util{
         
-        /*
-        骨头
-         */
+        //骨头
         class SVBone :public SVObject {
         public:
             SVBone();
@@ -41,7 +39,21 @@ namespace sv {
             
             void update();
         };
-
+        
+        
+        //骨架
+        class SVSkeleton :public SVObject {
+        public:
+            SVSkeleton();
+            
+            SVString m_name;
+            
+            SVBonePtr m_root;
+            
+        public:
+            void destroy();
+        };
+        
         /*
          蒙皮动画
          */

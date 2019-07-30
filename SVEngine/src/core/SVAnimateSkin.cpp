@@ -32,6 +32,19 @@ void SVBone::update() {
 }
 
 //
+SVSkeleton::SVSkeleton(){
+    m_name = "ske";
+    m_root = nullptr;
+}
+
+void SVSkeleton::destroy() {
+    if(m_root) {
+        m_root->clear();
+        m_root = nullptr;
+    }
+}
+
+//
 SVAnimateSkin::SVAnimateSkin(SVInst* _app,cptr8 _name)
 :SVGBase(_app)
 ,m_name(_name){

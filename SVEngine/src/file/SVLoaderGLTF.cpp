@@ -437,19 +437,13 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildSkin(s32 _index){
 //    //获取目标皮肤
     Skin* t_skindata = &(m_gltf.skins[_index]);
     //构建骨架
-    s32 t_ske_index = t_skindata->skeleton;
+    SVSkeletonPtr t_ske = MakeSharedPtr<SVSkeleton>();
+    s32 t_root_index = t_skindata->skeleton;
     SVBonePtr t_rootBone = MakeSharedPtr<SVBone>();
-    _buildBone(t_rootBone,t_ske_index);
+    _buildBone(t_rootBone,t_root_index);
+    t_ske->m_name = t_skindata->name;
+    t_ske->m_root = t_rootBone;
     //构建动画
-    
-////    Node* t_node = &(m_gltf.nodes[t_ske_index]);
-////    //_buildSkeNode(t_node,t_rootNode);
-////    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,t_skindata->name.c_str());
-////    for(s32 i=0;i<t_skindata->joints.size();i++) {
-////        s32 t_node_index = t_skindata->joints[i];
-////        Node* t_node = &(m_gltf.nodes[t_node_index]);
-////        //_buildSkeNode(t_node,t_rootNode);
-////    }
     return nullptr;
 }
 
@@ -1375,14 +1369,14 @@ bool SVLoaderGLTF::_parseSkin(Skin *_skin, RAPIDJSON_NAMESPACE::Value &_item) {
             }
         }
     }
-//    if (_item.HasMember("name") && _item["name"].IsString()) {
-//        _skin->name = _item["name"].GetString();
-//    }
-//    f64 skeleton = -1.0;
-//    if (_item.HasMember("skeleton") && _item["skeleton"].IsNumber()) {
-//        skeleton = _item["skeleton"].GetDouble();
-//    }
-//    _skin->skeleton = s32(skeleton);
+    if (_item.HasMember("name") && _item["name"].IsString()) {
+        _skin->name = _item["name"].GetString();
+    }
+    f64 skeleton = -1.0;
+    if (_item.HasMember("skeleton") && _item["skeleton"].IsNumber()) {
+        skeleton = _item["skeleton"].GetDouble();
+    }
+    _skin->skeleton = s32(skeleton);
     f64 invBind = -1.0;
     if (_item.HasMember("inverseBindMatrices") && _item["inverseBindMatrices"].IsNumber()) {
         invBind = _item["inverseBindMatrices"].GetDouble();

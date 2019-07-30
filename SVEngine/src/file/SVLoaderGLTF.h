@@ -197,9 +197,10 @@ namespace sv {
     };
     
     struct Skin {
-        s32 inverseBindMatrices;  // required here but not in the spec
-        s32 skeleton;             // The index of the node used as a skeleton root
-        SVArray<s32> joints;      // Indices of skeleton nodes
+        s32 inverseBindMatrices;    // required here but not in the spec
+        s32 skeleton;               // The index of the node used as a skeleton root
+        SVString name;              //骨架名称
+        SVArray<s32> joints;        // Indices of skeleton nodes
         Skin()
         :inverseBindMatrices(-1)
         ,skeleton(-1){
