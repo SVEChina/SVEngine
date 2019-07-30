@@ -441,8 +441,11 @@ void SVParticles::spawn_particle(Particle &p,f32 k,f32 ifps) {
     } else {
         p.orientation = 0;
     }
-    //随机一个顶点颜色
-    _getRandomVextexColor(p.color);
+    //顶点颜色
+    p.color = FVec4(1.0f);
+    p.old_color = FVec4(1.0f);
+    //获得一个内置顶点颜色
+    getInternalVextexColor(p);
     //生成params
 	switch(type) {
 		case TYPE_FLAT:
@@ -807,19 +810,19 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
 		p1.life -= ifps;
 		p2.life -= ifps;
 		p3.life -= ifps;
-        //顶点颜色透明度
+        //顶点颜色
         f32 t_p0_life = 65535.0f/p0.ilife;
-        f32 t_p0_color = (1.0f - (t_p0_life - p0.life)/t_p0_life);
-        p0.color = FVec4(t_p0_color);
+        f32 t_p0_lerp = (1.0f - (t_p0_life - p0.life)/t_p0_life);
+        p0.color = p0.old_color*t_p0_lerp;
         f32 t_p1_life = 65535.0f/p1.ilife;
-        f32 t_p1_color = (1.0f - (t_p1_life - p1.life)/t_p1_life);
-        p1.color = FVec4(t_p1_color);
+        f32 t_p1_lerp = (1.0f - (t_p1_life - p1.life)/t_p1_life);
+        p1.color = p1.old_color*t_p1_lerp;
         f32 t_p2_life = 65535.0f/p2.ilife;
-        f32 t_p2_color = (1.0f - (t_p2_life - p2.life)/t_p2_life);
-        p2.color = FVec4(t_p2_color);
+        f32 t_p2_lerp = (1.0f - (t_p2_life - p2.life)/t_p2_life);
+        p2.color = p2.old_color*t_p2_lerp;
         f32 t_p3_life = 65535.0f/p3.ilife;
-        f32 t_p3_color = (1.0f - (t_p3_life - p3.life)/t_p3_life);
-        p3.color = FVec4(t_p3_color);
+        f32 t_p3_lerp = (1.0f - (t_p3_life - p3.life)/t_p3_life);
+        p3.color = p3.old_color*t_p3_lerp;
         //更新后 符合条件的粒子，进入移除
         if(p0.radius < EPSILON || p0.life < EPSILON) {
             remove.append((s32)(&p0 - m_particles.get()));
@@ -2661,7 +2664,7 @@ f32 SVParticles::getDeflectorRoughness(s32 num) const {
 	return deflectors[num].roughness;
 }
 
-void SVParticles::_getRandomVextexColor(FVec4 &_color){
+void SVParticles::getInternalVextexColor(Particle &_p){
     //加权随机
     m_totalWeights = 0;
     for (s32 i=0; i<m_vetexColorData.size(); i++) {
@@ -2676,13 +2679,12 @@ void SVParticles::_getRandomVextexColor(FVec4 &_color){
             }
             if (t_r < t_weight) {
                 FVec4 t_color = m_vetexColorData[i].color;
-                _color.set(t_color);
+                _p.old_color.set(t_color);
+                _p.color.set(t_color);
                 break;
             }
             t_r -= t_weight;
         }
-    }else{
-        _color.set(1.0f, 1.0f, 1.0f, 1.0f);
     }
 }
 
@@ -2924,6 +2926,7 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //        setEmitterSequence(emitter_sequence);
 //        setEmitterLimit(emitter_limit);
     }
+    updateEmitter();
     if (item.HasMember("vetexcolor") && item["vetexcolor"].IsArray()) {
         RAPIDJSON_NAMESPACE::Value vetexColorArray = item["vetexcolor"].GetArray();
         for (s32 i = 0; i<vetexColorArray.Size(); i++) {

@@ -57,6 +57,7 @@ namespace sv {
             FVec3 old_position;                  // old position
             FVec3 parameters;                    // parameters
             FVec3 velocity;                      // velocity
+            FVec4 old_color;                     // old color
             FVec4 color;                         // color
             f32 angle;                           // angle
             f32 rotation;                        // rotation
@@ -570,7 +571,7 @@ namespace sv {
             
             void create_chain_particles(V3_PARTICLE *vertex,const FMat4 &modelview,const FVec3 &camera);
             
-            void _getRandomVextexColor(FVec4 &_color);
+            void getInternalVextexColor(Particle &_p);
             
             SVArray<VETEXCOLORDATA>m_vetexColorData;
             
