@@ -2192,6 +2192,7 @@ void SVParticles::addEmitterSpark(const FVec3 &point,const FVec3 &normal,const F
 void SVParticles::setDelay(f32 mean,f32 spread) {
 	delay_mean = max(mean,0.0f);
 	delay_spread = spread;
+    updateEmitter();
 }
 
 f32 SVParticles::getDelayMean() const {
@@ -2207,6 +2208,7 @@ void SVParticles::setPeriod(f32 mean,f32 spread) {
 	period_spread = spread;
 	period_time = -1.0f;
 	duration_time = -1.0f;
+    updateEmitter();
 }
 
 f32 SVParticles::getPeriodMean() const {
@@ -2222,6 +2224,7 @@ void SVParticles::setDuration(f32 mean,f32 spread) {
 	duration_spread = spread;
 	period_time = -1.0f;
 	duration_time = -1.0f;
+    updateEmitter();
 }
 
 f32 SVParticles::getDurationMean() const {

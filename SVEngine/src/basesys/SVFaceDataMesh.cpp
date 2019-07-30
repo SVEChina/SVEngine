@@ -87,7 +87,6 @@ void SVFaceDataMesh::_loadFaceMeshData(cptr8 _name){
                 if (v.IsInt()) {
                     facemesh->triangles[i] = v.GetInt();
                 }
-                
             }
         }
     }
@@ -169,7 +168,6 @@ void SVFaceDataMesh::_loadStanderFaceData(cptr8 _name){
                 }else if (v.IsInt()){
                     standerface->points[i] = v.GetInt()*1.0;
                 }
-                
             }
         }
     }
