@@ -544,12 +544,12 @@ namespace sv {
         
         SVModelPtr _buildModel(s32 _index);
         
-        SVAnimateSkinPtr _buildSkin(s32 _index);
-        
-        bool _buildBone(SVBonePtr _parent,s32 _index);
+        SVSkeletonPtr _buildSkin(s32 _index);
         
         SVAnimateSkinPtr _buildAnimate(s32 _index);
         
+        bool _buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske);
+    
         SVMtlCorePtr _buildMtl(Primitive* _prim,s32 _vtf);
         
         SVMeshPtr _buildMeshPri(Primitive* _prim);

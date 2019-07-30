@@ -46,10 +46,16 @@ namespace sv {
         public:
             SVSkeleton();
             
+            void addBone(SVBonePtr _bone); //需要单独对SVLoaderGLTF开放接口 **fuyizhou
+            
             SVString m_name;
             
             SVBonePtr m_root;
             
+        protected:
+            typedef SVArray<SVBonePtr> BONEPOOL;
+            BONEPOOL m_boneArray;
+        
         public:
             void destroy();
         };
@@ -67,8 +73,6 @@ namespace sv {
             
         protected:
             SVString m_name;
-            //基础矩阵
-           FMat4 m_inverseBindMatrices;
         };
         
         //骨架池

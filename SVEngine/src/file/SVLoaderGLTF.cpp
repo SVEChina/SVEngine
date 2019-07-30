@@ -391,27 +391,16 @@ SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
     SVModelPtr t_model = _buildModel(_node->mesh);
     tNode->setModel(t_model);
     //构建皮肤
-    SVAnimateSkinPtr t_skin = _buildSkin(_node->skin);
-    //基础属性
-//    if(t_model_node) {
-//        t_model_node->setname(_node->name.c_str());
-//        if(_node->translation.size() == 3){
-//            t_model_node->setPosition(_node->translation[0], _node->translation[1], _node->translation[2]);
-//        }
-//        if(_node->scale.size() == 3){
-//            t_model_node->setScale(_node->scale[0], _node->scale[1], _node->scale[2]);
-//        }
-//        if(_node->rotation.size() == 4){
-//            //t_model_node->setRotation(_node->rotation[0], _node->rotation[1], _node->rotation[2],_node->rotation[3]);
-//        }
-//        _rootNode->addChild(t_model_node);
-//        //
-//        for(s32 i=0;i<_node->children.size();i++){
-//            s32 t_index = _node->children[i];
-//            Node* t_node = &(m_gltf.nodes[t_index]);
-//            _buildNode(t_node,t_model_node);
-//        }
-//    }
+    SVSkeletonPtr t_skin = _buildSkin(_node->skin);
+    tNode->setSke(t_skin);
+    //构建动画
+    //好多动画的 好不好
+    for(s32 i=0;i<m_gltf.animations.size();i++){
+        SVAnimateSkinPtr t_ani = _buildAnimate(i);
+        if(t_ani) {
+            tNode->addAni(t_ani);
+        }
+    }
     return tNode;
 }
 
@@ -430,26 +419,32 @@ SVNodePtr SVLoaderGLTF::_buildCameraNode(Node* _node) {
 }
 
 //给出索引 构建皮肤
-SVAnimateSkinPtr SVLoaderGLTF::_buildSkin(s32 _index){
+SVSkeletonPtr SVLoaderGLTF::_buildSkin(s32 _index){
     if(_index<0)
         return nullptr;
-    //SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,"aaa");
-//    //获取目标皮肤
     Skin* t_skindata = &(m_gltf.skins[_index]);
     //构建骨架
     SVSkeletonPtr t_ske = MakeSharedPtr<SVSkeleton>();
     s32 t_root_index = t_skindata->skeleton;
     SVBonePtr t_rootBone = MakeSharedPtr<SVBone>();
-    _buildBone(t_rootBone,t_root_index);
+    _buildBone(t_rootBone,t_root_index,t_ske);
     t_ske->m_name = t_skindata->name;
     t_ske->m_root = t_rootBone;
-    //构建动画
-    return nullptr;
+    return t_ske;
 }
 
-bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index) {
+bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske) {
+    //
+    if(_index<0)
+        return false;
     //填充数据
     Node* t_node = &(m_gltf.nodes[_index]);
+    if(!t_node){
+        return false;
+    }
+    //
+    _ske->addBone(_parent);
+    //
     _parent->m_id = _index;
     _parent->m_name = t_node->name;
     _parent->m_tran.x = t_node->translation[0];
@@ -467,7 +462,7 @@ bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index) {
         s32 t_index = t_node->children[i];
         SVBonePtr t_bone = MakeSharedPtr<SVBone>();
         t_bone->m_pParent = _parent;
-        _buildBone(t_bone,t_index);
+        _buildBone(t_bone,t_index,_ske);
         _parent->m_children.append(t_bone);
     }
     return true;
@@ -477,18 +472,21 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
     if(_index<0)
         return nullptr;
     Animation* t_anidata = &(m_gltf.animations[_index]);
+    SVAnimateSkinPtr t_ani = MakeSharedPtr<SVAnimateSkin>(mApp,t_anidata->name.c_str());
+    //构建轨道
+    
 //    //跟节点索引
 //    s32 t_node_index = t_skindata->skeleton;
 //    Node* t_node = &(m_gltf.nodes[t_node_index]);
 //    //_buildSkeNode(t_node,t_rootNode);
 //    //
-//    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,t_skindata->name.c_str());
+//
 //    for(s32 i=0;i<t_skindata->joints.size();i++) {
 //        s32 t_node_index = t_skindata->joints[i];
 //        Node* t_node = &(m_gltf.nodes[t_node_index]);
 //        //_buildSkeNode(t_node,t_rootNode);
 //    }
-    return nullptr;
+    return t_ani;
 }
 
 SVModelPtr SVLoaderGLTF::_buildModel(s32 _index){

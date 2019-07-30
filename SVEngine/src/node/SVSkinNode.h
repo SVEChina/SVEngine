@@ -33,11 +33,28 @@ namespace sv {
             
             void setModel(SVModelPtr _model);
             
-            void clear();
+            void clearModel();
             
+            //
+            void setSke(SVSkeletonPtr _ske);
+            
+            void clearSke();
+            
+            //动画操作
+            void addAni(SVAnimateSkinPtr _ani);
+            
+            void delAni(cptr8 _name);
+            
+            void clearAni();
+            
+
         protected:
             SVModelPtr m_pModel;
-        
+            
+            SVSkeletonPtr m_pSke;
+            
+            typedef SVMap<SVString,SVAnimateSkinPtr> ANIPOOL;
+            ANIPOOL m_aniPool;
         };
         
     }//!namespace node
