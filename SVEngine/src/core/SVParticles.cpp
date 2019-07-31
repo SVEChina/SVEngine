@@ -8,7 +8,7 @@ SVParticles::SVParticles() {
 	m_pWorld = nullptr;
 	frame = 0;
 	type = TYPE_BILLBOARD;
-	warming = 1;
+	warming = 0;
 	depth_sort = 0;
 	variation_x = 0;
 	variation_y = 0;

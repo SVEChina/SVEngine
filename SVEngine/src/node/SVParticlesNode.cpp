@@ -18,7 +18,7 @@
 SVParticlesNode::SVParticlesNode(SVInst *_app)
 :SVNode(_app) {
     ntype = "SVParticlesNode";
-    m_drawBox = true;
+    m_drawBox = false;
     m_canSelect = true;
     m_rsType = RST_SOLID_3D;
     m_pParticles = MakeSharedPtr<SVParticles>();
