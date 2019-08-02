@@ -33,7 +33,7 @@
 #include "../../detect/SVDetectMgr.h"
 #include "../../detect/SVPersonTracker.h"
 #include "../../file/SVFileMgr.h"
-#include "../../file/SVDataBase.h"
+#include "../../base/SVJsonTool.h"
 #include "SVPenPackData.h"
 SVPenDraw::SVPenDraw(SVInst *_app)
 :SVGameBase(_app)
@@ -354,7 +354,7 @@ bool SVPenDraw::save(cptr8 _path){
     RAPIDJSON_NAMESPACE::Writer<RAPIDJSON_NAMESPACE::StringBuffer> writer(buffer);
     jsonDoc.Accept(writer);
     SVString strJson = buffer.GetString();
-    SVString new_strJson(SVDataBase::jsonFormat(strJson));
+    SVString new_strJson(SVJsonTool::jsonFormat(strJson));
     SVDataSwapPtr t_jsonData = MakeSharedPtr<SVDataSwap>();
     t_jsonData->writeData((void *)new_strJson.c_str(), new_strJson.size());
     SVString t_path_pen_json = SVString(_path) + SVString("/config.json");
