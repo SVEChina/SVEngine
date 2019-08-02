@@ -23,16 +23,39 @@ namespace sv {
             
             ~SVPhysicsShape();
             
-            void init();
+            virtual void init();
             
-            void destroy();
+            virtual void destroy();
             
-            void update(f32 _dt);
+            virtual void update(f32 _dt);
+            
+            btCollisionShape* getShape();
             
             PHYSICSSHAPETYPE getType() const;
+            
+            inline void setMass(f32 _mass){
+                m_mass = _mass;
+            }
+            
+            inline f32 getMass(){
+                return m_mass;
+            }
+            
+            inline void setLocalInertia(FVec3 _m_localInertia){
+                m_localInertia = _m_localInertia;
+            }
+            
+            inline FVec3 getLocalInertia(){
+                return m_localInertia;
+            }
+            
         protected:
             PHYSICSSHAPETYPE m_type;
             FVec3 m_size;
+            f32 m_mass;
+            FVec3 m_localInertia;
+            btCollisionShape* m_pColShape;
+            
         };
             
     }//!namespace logic

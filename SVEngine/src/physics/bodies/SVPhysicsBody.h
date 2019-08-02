@@ -8,6 +8,7 @@
 #ifndef SV_PHYSICSBODY_H
 #define SV_PHYSICSBODY_H
 #include "../SVPhysicsBase.h"
+#include "../node/SVNodeDef.h"
 namespace sv {
     
     namespace logic {
@@ -21,15 +22,32 @@ namespace sv {
             
             ~SVPhysicsBody();
             
-            void init();
+           virtual void init();
             
-            void destroy();
+           virtual void destroy();
             
-            void update(f32 _dt);
+           virtual void update(f32 _dt);
+            
+            void setNode(SVNodePtr _node){
+                m_pNode = _node;
+            }
+            
+            inline void setOrigin(FVec3 _origin){
+                m_origin = _origin;
+            }
+            
+            inline FVec3 getOrigin(){
+                return m_origin;
+            }
+            
+            btRigidBody* getBody();
             
             PHYSICSBODYTYPE getType() const;
         protected:
             PHYSICSBODYTYPE m_type;
+            FVec3 m_origin;
+            SVNodePtr m_pNode;
+            btRigidBody* m_pBody;
         };
             
     }//!namespace logic
