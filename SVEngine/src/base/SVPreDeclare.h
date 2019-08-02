@@ -269,7 +269,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVPhysicsBodyRigid);
         DECLARE_SHAREPTR(SVPhysicsShape);
         DECLARE_SHAREPTR(SVPhysicsShapeBox);
-        DECLARE_SHAREPTR(SVPhysicsShapeSPHERE);
+        DECLARE_SHAREPTR(SVPhysicsShapeSphere);
         DECLARE_SHAREPTR(SVPhysicsJoint);
         DECLARE_SHAREPTR(SVPhysicsCollider);
     }//!namespace logic

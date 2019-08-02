@@ -19,11 +19,18 @@ void SVPhysicsShape::init(){
 }
 
 void SVPhysicsShape::destroy(){
-    
+    if(m_pColShape){
+        free(m_pColShape);
+        m_pColShape = nullptr;
+    }
 }
 
 void SVPhysicsShape::update(f32 _dt){
     
+}
+
+btCollisionShape* SVPhysicsShape::getShape(){
+    return m_pColShape;
 }
 
 PHYSICSSHAPETYPE SVPhysicsShape::getType() const{

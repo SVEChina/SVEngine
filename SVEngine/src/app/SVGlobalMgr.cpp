@@ -26,6 +26,7 @@
 #include "../act/SVActionMgr.h"
 #include <sys/time.h>
 #include "../base/svstr.h"
+#include "../physics/SVPhysicsWorld.cpp"
 //#include <Python/Python.h>
 
 SVGlobalMgr::SVGlobalMgr(SVInst *_app)
@@ -45,6 +46,7 @@ SVGlobalMgr::SVGlobalMgr(SVInst *_app)
     m_pStaticData = nullptr;
     m_pActionMgr = nullptr;
     m_pDeformSys = nullptr;
+    m_pPhysics =nullptr;
 }
 
 SVGlobalMgr::~SVGlobalMgr() {
@@ -105,6 +107,9 @@ void SVGlobalMgr::init() {
     //变形系统
     m_pDeformSys = MakeSharedPtr<SVDeformMgr>(mApp);
     m_pDeformSys->init();
+    
+    m_pPhysics = MakeSharedPtr<SVPhysicsWorld>(mApp);
+    m_pPhysics->init();
 }
 
 void SVGlobalMgr::destroy() {
@@ -193,6 +198,12 @@ void SVGlobalMgr::destroy() {
         m_pDeformSys=nullptr;
         SV_LOG_ERROR("m_pDeformSys:destroy sucess");
     }
+    
+    if(m_pPhysics){
+        m_pPhysics->destroy();
+        m_pPhysics=nullptr;
+        SV_LOG_ERROR("m_pPhysics:destroy sucess");
+    }
 }
 
 void SVGlobalMgr::update(f32 dt) {
@@ -215,6 +226,10 @@ void SVGlobalMgr::update(f32 dt) {
     m_pTexMgr->update(dt);              //删除不用的纹理
     timeTag(false,"texmgr cost");
     m_pDetectMgr->update(dt);           //识别更新
+    timeTag(false,"detect cost");
+    m_pPhysics->update(dt);
+    timeTag(false,"physics cost");
+    
 }
 
 void SVGlobalMgr::timeTag(bool _clear,cptr8 _tag){

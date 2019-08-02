@@ -9,6 +9,7 @@
 #define SV_PHYSICSWORLD_H
 
 #include "SVPhysicsBase.h"
+
 namespace sv {
     
     namespace logic {
@@ -30,6 +31,26 @@ namespace sv {
             void addShape(SVPhysicsShapePtr _shape, SVPhysicsBodyPtr _body);
             
             void addJoint(SVPhysicsJointPtr _joint);
+            
+            inline void setFps(f32 _timeStep){
+                m_timeStep = _timeStep;
+            }
+            
+            void test();
+            void test2();
+            
+        public :
+            btDefaultCollisionConfiguration* m_pCollisionConfiguration;
+            btCollisionDispatcher* m_pDispatcher;
+            btBroadphaseInterface* m_pOverlappingPairCache;
+            btSequentialImpulseConstraintSolver* m_pSolver;
+            btDiscreteDynamicsWorld* m_pDynamicsWorld;
+        protected:
+            f32 m_timeStep;
+            
+            SVArray<SVPhysicsBodyPtr> m_bodyArray;
+           // BODYARRAY m_bodyArray;
+            
         };
             
     }//!namespace logic
