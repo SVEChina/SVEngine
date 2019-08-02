@@ -28,9 +28,11 @@ namespace sv{
             
             SVActionUnitPtr addAction(SVActBasePtr _action, SVNodePtr _node);
             
+            SVActionUnitPtr addAction(SVActionUnitPtr _actUnit);
+            
             bool removeAction(SVActionUnitPtr _actUnit);
             
-            void stopAllActions();
+            bool removeAllActions();
         protected:
             SVLockPtr m_lock;
             typedef SVArray<SVActionUnitPtr> SVANIPOOL;

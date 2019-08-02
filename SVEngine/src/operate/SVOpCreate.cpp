@@ -46,10 +46,6 @@
 #include "../act/SVActTexAttachment.h"
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectBase.h"
-#include "../physics/SVPhysicsWorld.h"
-#include "../physics/shapes/SVPhysicsShapeBox.h"
-#include "../physics/bodies/SVPhysicsBodyRigid.h"
-#include "../physics/shapes/SVPhysicsShapeSphere.h"
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
 : SVOpBase(_app) {
@@ -283,9 +279,9 @@ SVOpCreateTest::~SVOpCreateTest(){
 }
 
 void SVOpCreateTest::_process(f32 dt) {
-//    SVLoaderGLTF t_load(mApp);
-//    t_load.loadFromFile("svres/gltf/Cube/Cube.gltf");
-//    t_load.building();
+    SVLoaderGLTF t_load(mApp);
+    t_load.loadFromFile("svres/gltf/outPut/Gril_Hair.gltf");
+    t_load.building();
 //    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
 //    if (t_pScene) {
 //        //创建测试盒子®
@@ -351,97 +347,6 @@ void SVOpCreateTest::_process(f32 dt) {
 //    billboardNode->setTexture(texture);
 //    billboardNode->setSize(500, 500);
 //    t_pScene->addNode(billboardNode);
-    
-    
-//    btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(100.),btScalar(10.),btScalar(50.)));
-//    collisionShapes.push_back(groundShape);
-//
-//    btTransform groundTransform;
-//    groundTransform.setIdentity();
-//    groundTransform.setOrigin(btVector3(0.0,-10,0));
-//
-//    btScalar mass(0.0);
-//
-//    // 刚体是动态的如果且仅当质量为非零时，否则是静止的
-//    bool isDynamic = (mass != 0.f);
-//
-//    btVector3 localInertia(0.0,0,0);
-//    if (isDynamic)
-//        groundShape->calculateLocalInertia(mass, localInertia);
-//
-//    // 使用MotionState是可选的，它提供了插值功能，并且只同步“活动”对象
-//    btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-//    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState, groundShape, localInertia);
-//    btRigidBody* body = new btRigidBody(rbInfo);
-//    body->setRestitution(btScalar(0.5));
-//
-//    // 将物体添加到动力学世界
-//    m_pDynamicsWorld->addRigidBody(body);
-    
-    
-    // 创建一个动态的刚体
-    
-    //btCollisionShape* colShape = new btBoxShape(btVector3(50,50,50));
-//    btCollisionShape* colShape = new btSphereShape(btScalar(50.));
-//
-//    /// 创建动态对象
-//    btTransform startTransform;
-//    startTransform.setIdentity();
-//
-//    btScalar mass(1.f);
-//
-//    // 刚体是动态的如果且仅当质量为非零时，否则是静止的
-//    bool isDynamic = (mass != 0.f);
-//
-//    btVector3 localInertia(0,0,0);
-//    if (isDynamic)
-//        colShape->calculateLocalInertia(mass,localInertia);
-//
-//    startTransform.setOrigin(btVector3(10,300,0));
-//
-//    // 推荐使用motionstate，它提供插值功能，只同步“活动”对象
-//    btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
-//    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState,colShape,localInertia);
-//    btRigidBody* body = new btRigidBody(rbInfo);
-//    body->setRestitution(btScalar(1.0));
-//
-//    m_pDynamicsWorld->addRigidBody(body);
-   
-    
-        SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-        if (t_pScene) {
-            //创建3d
-                SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-            t_testBox->setScale(1.0,1.0,1.0);
-            t_testBox->setPosition(0.0, -0.0, 0.0);
-         //   t_testBox->setPosition(0.0, 0.0, 1.0);
-            t_testBox->setRotation(0.0, 0.0, 0.0);
-            //t_testBox->setdrawAABB(true);
-           // t_testBox->setcanSelect(true);
-            t_pScene->addNode(t_testBox);
-            SVPhysicsShapeBoxPtr t_shapebox=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(100.0,1.0,100.0));
-            t_shapebox->setMass(0.0);
-            t_shapebox->setLocalInertia(FVec3(0.0,0.0,0.0));
-            t_shapebox->init();
-            SVPhysicsBodyRigidPtr t_body=MakeSharedPtr<SVPhysicsBodyRigid>(mApp,t_shapebox);
-            t_body->setOrigin(FVec3(0.0,-1,0));
-            t_body->init();
-            mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body);
-            
-            SVPhysicsShapeSpherePtr t_shapeShere=MakeSharedPtr<SVPhysicsShapeSphere>(mApp,50.0/250.0);
-            t_shapeShere->setMass(1.0);
-            t_shapeShere->setLocalInertia(FVec3(0.0,0.0,0.0));
-            t_shapeShere->init();
-            SVPhysicsBodyRigidPtr t_body01=MakeSharedPtr<SVPhysicsBodyRigid>(mApp,t_shapeShere);
-            t_body01->setOrigin(FVec3(0.0,2,0));
-            t_body01->setNode(t_testBox);
-            t_body01->init();
-            mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body01);
-            
-            
-            
-            
-        }
 
 }
 

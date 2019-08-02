@@ -27,11 +27,17 @@ void SVModel::setName(cptr8 _name){
 
 void SVModel::addMesh(SVMeshPtr _mesh) {
     m_meshPool.append(_mesh);
-    //m_pMesh = _mesh;
+    if(m_meshPool.size() == 1) {
+        m_box = _mesh->getBox();
+    }else{
+        m_box.expand(_mesh->getBox());
+    }
 }
 
 SVMeshPtr SVModel::getMesh(s32 _index) {
-    return nullptr;
+    if(_index<0 || _index>=m_meshPool.size() )
+        return nullptr;
+    return m_meshPool[_index];
 }
 
 void SVModel::clearMesh() {
@@ -42,9 +48,9 @@ SVBoundBox SVModel::getBox() {
     return m_box;
 }
 
-void SVModel::update(f32 _dt) {
+void SVModel::update(f32 _dt,FMat4& _mat) {
     for (s32 i = 0; i < m_meshPool.size(); i++) {
-        m_meshPool[i]->update(_dt);
+        m_meshPool[i]->update(_dt,_mat);
     }
 }
 

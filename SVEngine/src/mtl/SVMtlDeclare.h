@@ -18,6 +18,7 @@ namespace sv {
         //mtl
         DECLARE_SHAREPTR(SVMtlCore);
         DECLARE_SHAREPTR(SVMtlGLTF);
+        DECLARE_SHAREPTR(SVMtlGLTFSkin);
         DECLARE_SHAREPTR(SVMtlBrightnessContrast);
         DECLARE_SHAREPTR(SVMtlSaturation);
         DECLARE_SHAREPTR(SVMtlVibrance);

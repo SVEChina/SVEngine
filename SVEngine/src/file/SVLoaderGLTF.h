@@ -89,50 +89,49 @@ namespace sv {
         return GLTFInterpolationModeNone;
     }
     
-    static sv_inline s32 _getComponentSizeInBytes(u32 _componentType) {
+    static sv_inline s32 _getCmpSize(u32 _componentType) {
+        s32 t_cmpSize = 0;
         if (_componentType == SVGLTF_COMPONENT_TYPE_BYTE) {
-            return 1;
+            t_cmpSize = 1;
         } else if (_componentType == SVGLTF_COMPONENT_TYPE_UNSIGNED_BYTE) {
-            return 1;
+            t_cmpSize = 1;
         } else if (_componentType == SVGLTF_COMPONENT_TYPE_SHORT) {
-            return 2;
+            t_cmpSize = 2;
         } else if (_componentType == SVGLTF_COMPONENT_TYPE_UNSIGNED_SHORT) {
-            return 2;
+            t_cmpSize = 2;
         } else if (_componentType == SVGLTF_COMPONENT_TYPE_INT) {
-            return 4;
+            t_cmpSize = 4;
         } else if (_componentType == SVGLTF_COMPONENT_TYPE_UNSIGNED_INT) {
-            return 4;
+            t_cmpSize = 4;
         } else if (_componentType == SVGLTF_COMPONENT_TYPE_FLOAT) {
-            return 4;
+            t_cmpSize = 4;
         } else if (_componentType == SVGLTF_COMPONENT_TYPE_DOUBLE) {
-            return 8;
-        } else {
-            // Unknown componenty type
-            return -1;
+            t_cmpSize = 8;
         }
+        return t_cmpSize;
     }
     
-    static sv_inline s32 _getTypeSizeInBytes(u32 _ty) {
+    static sv_inline s32 _getCmpNum(u32 _ty) {
+        //
+        s32 t_cmpCount = 0;
         if (_ty == SVGLTF_TYPE_SCALAR) {
-            return 1;
+            t_cmpCount = 1;
         } else if (_ty == SVGLTF_TYPE_VEC2) {
-            return 2;
+            t_cmpCount = 2;
         } else if (_ty == SVGLTF_TYPE_VEC3) {
-            return 3;
+            t_cmpCount = 3;
         } else if (_ty == SVGLTF_TYPE_VEC4) {
-            return 4;
+            t_cmpCount = 4;
         } else if (_ty == SVGLTF_TYPE_MAT2) {
-            return 4;
+            t_cmpCount = 4;
         } else if (_ty == SVGLTF_TYPE_MAT3) {
-            return 9;
+            t_cmpCount = 9;
         } else if (_ty == SVGLTF_TYPE_MAT4) {
-            return 16;
-        } else {
-            // Unknown componenty type
-            return -1;
+            t_cmpCount = 16;
         }
+        return t_cmpCount;
     }
-    
+
     /// Agregate object for representing a color
     using ColorValue = std::array<double, 4>;
     
@@ -198,9 +197,10 @@ namespace sv {
     };
     
     struct Skin {
-        s32 inverseBindMatrices;  // required here but not in the spec
-        s32 skeleton;             // The index of the node used as a skeleton root
-        SVArray<s32> joints;      // Indices of skeleton nodes
+        s32 inverseBindMatrices;    // required here but not in the spec
+        s32 skeleton;               // The index of the node used as a skeleton root
+        SVString name;              //骨架名称
+        SVArray<s32> joints;        // Indices of skeleton nodes
         Skin()
         :inverseBindMatrices(-1)
         ,skeleton(-1){
@@ -232,12 +232,7 @@ namespace sv {
         s32 component;
         s32 bufferView;        // (required if no uri)
         SVTexturePtr texture;
-        // When this flag is true, data is stored to `image` in as-is format(e.g. jpeg
-        // compressed for "image/jpeg" mime) This feature is good if you use custom
-        // image loader function. (e.g. delayed decoding of images for faster glTF
-        // parsing) Default parser for Image does not provide as-is loading feature at
-        // the moment. (You can manipulate this by providing your own LoadImageData
-        // function)
+
         bool as_is;
         
         Image()
@@ -294,39 +289,8 @@ namespace sv {
         s32 componentType;  // (required) One of SVGLTF_COMPONENT_TYPE_***
         s32 type;           // (required) One of SVGLTF_TYPE_***   ..
         s64 count;          // required
-        
         SVArray<f64> minValues;  // optional
         SVArray<f64> maxValues;  // optional
-        s32 ByteStride(const BufferView &bufferViewObject) const {
-            if (bufferViewObject.byteStride == 0) {
-                s32 componentSizeInBytes =
-                _getComponentSizeInBytes(static_cast<u32>(componentType));
-                if (componentSizeInBytes <= 0) {
-                    return -1;
-                }
-                
-                s32 typeSizeInBytes = _getTypeSizeInBytes(static_cast<u32>(type));
-                if (typeSizeInBytes <= 0) {
-                    return -1;
-                }
-                
-                return componentSizeInBytes * typeSizeInBytes;
-            } else {
-                s32 componentSizeInBytes =
-                _getComponentSizeInBytes(static_cast<u32>(componentType));
-                if (componentSizeInBytes <= 0) {
-                    return -1;
-                }
-                
-                if ((bufferViewObject.byteStride % u32(componentSizeInBytes)) != 0) {
-                    return -1;
-                }
-                return static_cast<s32>(bufferViewObject.byteStride);
-            }
-            
-            return 0;
-        }
-        
         Accessor()
         :bufferView(-1){
         }
@@ -580,11 +544,13 @@ namespace sv {
         
         SVModelPtr _buildModel(s32 _index);
         
-        SVAnimateSkinPtr _buildSkin(s32 _index);
+        SVSkeletonPtr _buildSkin(s32 _index);
         
         SVAnimateSkinPtr _buildAnimate(s32 _index);
         
-        SVMtlCorePtr _buildMtl(s32 _index);
+        bool _buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske);
+    
+        SVMtlCorePtr _buildMtl(Primitive* _prim,s32 _vtf);
         
         SVMeshPtr _buildMeshPri(Primitive* _prim);
         

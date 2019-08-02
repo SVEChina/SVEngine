@@ -19,22 +19,47 @@ namespace sv {
     
     namespace util{
         
-        /*
-        骨头
-         */
+        //骨头
         class SVBone :public SVObject {
         public:
+            SVBone();
+            
             SVString m_name;
             s32 m_id;
-            
             FVec3 m_tran;
             FVec3 m_scale;
             FVec4 m_rot;
-            SVBone* m_pParent;
-            typedef SVArray<SVBone*> BONEPOOL;
+            SVBonePtr m_pParent;
+            //
+            typedef SVArray<SVBonePtr> BONEPOOL;
             BONEPOOL m_children;
+            //
+        public:
+            void clear();
+            
+            void update();
         };
-
+        
+        
+        //骨架
+        class SVSkeleton :public SVObject {
+        public:
+            SVSkeleton();
+            
+            void addBone(SVBonePtr _bone); //需要单独对SVLoaderGLTF开放接口 **fuyizhou
+            
+            SVString m_name;
+            
+            SVBonePtr m_root;
+            
+        protected:
+            typedef SVArray<SVBonePtr> BONEPOOL;
+            BONEPOOL m_boneArray;
+        
+        public:
+            void destroy();
+        };
+        
         /*
          蒙皮动画
          */
@@ -48,8 +73,6 @@ namespace sv {
             
         protected:
             SVString m_name;
-            //基础矩阵
-           FMat4 m_inverseBindMatrices;
         };
         
         //骨架池

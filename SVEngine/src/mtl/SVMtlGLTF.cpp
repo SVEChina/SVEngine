@@ -9,7 +9,7 @@
 #include "../mtl/SVTexture.h"
 
 SVMtlGLTF::SVMtlGLTF(SVInst *_app)
-:SVMtlCore(_app,"gltf") {
+:SVMtlCore(_app,"gltf3d") {
     m_pBaseColorTex = nullptr;
     m_pMetallicRoughnessTex = nullptr;
     m_pNormalTex = nullptr;
@@ -45,11 +45,27 @@ SVMtlCorePtr SVMtlGLTF::clone() {
     return PointerSharedPtr<SVMtlGLTF>(new SVMtlGLTF(this));
 }
 
+//保护构造函数
+SVMtlGLTF::SVMtlGLTF(SVInst *_app,cptr8 _name)
+:SVMtlCore(_app,_name) {
+    m_pBaseColorTex = nullptr;
+    m_pMetallicRoughnessTex = nullptr;
+    m_pNormalTex = nullptr;
+    m_pOcclusionTex = nullptr;
+    m_pEmissiveTex = nullptr;
+    m_baseColorFactor = FVec4(0.0f,0.0f,0.0f,0.0f);
+    m_metallicFactor = 1.0f;
+    m_roughtnessFactor = 1.0f;
+    m_normalScale = 1.0f;
+    m_occlusionStrength = 1.0f;
+    m_emissiveFactor = FVec3(0.0f,0.0f,0.0f);
+}
+
 void SVMtlGLTF::update(f32 dt) {
     SVMtlCore::update(dt);
-    //
     setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
     setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
+    refresh();
 }
 
 void SVMtlGLTF::refresh() {
@@ -71,3 +87,32 @@ void SVMtlGLTF::refresh() {
         setTexture(4,m_pEmissiveTex);
     }
 }
+
+//
+SVMtlGLTFSkin::SVMtlGLTFSkin(SVInst *_app)
+:SVMtlGLTF(_app,"gltfskin") {
+    m_pBaseColorTex = nullptr;
+    m_pMetallicRoughnessTex = nullptr;
+    m_pNormalTex = nullptr;
+    m_pOcclusionTex = nullptr;
+    m_pEmissiveTex = nullptr;
+    m_baseColorFactor = FVec4(0.0f,0.0f,0.0f,0.0f);
+    m_metallicFactor = 1.0f;
+    m_roughtnessFactor = 1.0f;
+    m_normalScale = 1.0f;
+    m_occlusionStrength = 1.0f;
+    m_emissiveFactor = FVec3(0.0f,0.0f,0.0f);
+}
+
+SVMtlGLTFSkin::SVMtlGLTFSkin(SVMtlGLTFSkin *_mtl)
+:SVMtlGLTF(_mtl){
+}
+
+SVMtlGLTFSkin::~SVMtlGLTFSkin() {
+}
+
+SVMtlCorePtr SVMtlGLTFSkin::clone() {
+    return PointerSharedPtr<SVMtlGLTF>(new SVMtlGLTF(this));
+}
+
+

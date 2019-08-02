@@ -11,9 +11,6 @@
 #include "../base/SVDataChunk.h"
 #include "../base/SVDataSwap.h"
 #include "../base/SVQuat.h"
-#include "../core/SVModel.h"
-#include "../core/SVAnimateSkin.h"
-#include "../core/SVAnimateMorph.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtl3D.h"
@@ -28,6 +25,9 @@
 #include "../basesys/SVSceneMgr.h"
 #include "../core/SVModel.h"
 #include "../core/SVMesh.h"
+#include "../core/SVModel.h"
+#include "../core/SVAnimateSkin.h"
+#include "../core/SVAnimateMorph.h"
 #include "../base/SVMap.h"
 #include "../base/SVArray.h"
 #include "../base/svstr.h"
@@ -361,12 +361,16 @@ void SVLoaderGLTF::building() {
                 //有骨骼动画
                 SVNodePtr t_svNode = _buildSkinNode(t_node);
                 if(t_svNode) {
+                    t_svNode->setScale(15.0f,15.0f,15.0f);
+                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
                     t_sc->addNode(t_svNode);
                 }
             }else if(t_node->mesh>=0) {
                 //无骨骼动画 纯mesh
                 SVNodePtr t_svNode = _build3DNode(t_node);
                 if(t_svNode) {
+                    t_svNode->setScale(0.001f,0.001f,0.001f);
+                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
                     t_sc->addNode(t_svNode);
                 }
             }else if(t_node->camera>=0) {
@@ -387,34 +391,26 @@ SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
     SVModelPtr t_model = _buildModel(_node->mesh);
     tNode->setModel(t_model);
     //构建皮肤
-    SVAnimateSkinPtr t_skin = _buildSkin(_node->skin);
-    //基础属性
-//    if(t_model_node) {
-//        t_model_node->setname(_node->name.c_str());
-//        if(_node->translation.size() == 3){
-//            t_model_node->setPosition(_node->translation[0], _node->translation[1], _node->translation[2]);
-//        }
-//        if(_node->scale.size() == 3){
-//            t_model_node->setScale(_node->scale[0], _node->scale[1], _node->scale[2]);
-//        }
-//        if(_node->rotation.size() == 4){
-//            //t_model_node->setRotation(_node->rotation[0], _node->rotation[1], _node->rotation[2],_node->rotation[3]);
-//        }
-//        _rootNode->addChild(t_model_node);
-//        //
-//        for(s32 i=0;i<_node->children.size();i++){
-//            s32 t_index = _node->children[i];
-//            Node* t_node = &(m_gltf.nodes[t_index]);
-//            _buildNode(t_node,t_model_node);
-//        }
-//    }
+    SVSkeletonPtr t_skin = _buildSkin(_node->skin);
+    tNode->setSke(t_skin);
+    //构建动画
+    //好多动画的 好不好
+    for(s32 i=0;i<m_gltf.animations.size();i++){
+        SVAnimateSkinPtr t_ani = _buildAnimate(i);
+        if(t_ani) {
+            tNode->addAni(t_ani);
+        }
+    }
     return tNode;
 }
 
 SVNodePtr SVLoaderGLTF::_build3DNode(Node* _node) {
     SVModelNodePtr tNode = MakeSharedPtr<SVModelNode>(mApp);
     //构建model
-   SVModelPtr t_model = _buildModel(_node->mesh);
+    SVModelPtr t_model = _buildModel(_node->mesh);
+    if(t_model) {
+        tNode->setModel(t_model);
+    }
     return tNode;
 }
 
@@ -423,62 +419,74 @@ SVNodePtr SVLoaderGLTF::_buildCameraNode(Node* _node) {
 }
 
 //给出索引 构建皮肤
-SVAnimateSkinPtr SVLoaderGLTF::_buildSkin(s32 _index){
+SVSkeletonPtr SVLoaderGLTF::_buildSkin(s32 _index){
     if(_index<0)
         return nullptr;
-//    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,"aaa");
-//    //获取目标皮肤
-//    Skin* t_skindata = &(m_gltf.skins[_index]);
-//    s32 t_ske_index = t_skindata->skeleton;
-//    //joint
-//    for(s32 i=0;i<t_skindata->joints.size();i++) {
-//        s32 t_node_index = t_skindata->joints[i];
-//        Node* t_node = &(m_gltf.nodes[t_node_index]);
-////        //
-////        SVBonePtr t_bone = MakeSharedPtr<SVBone>();
-////        t_bone->index = t_node_index;
-////        t_bone->m_name = t_node->name;
-////        //
-////        t_bone->m_tran.x = t_node->translation[0];
-////        t_bone->m_tran.y = t_node->translation[1];
-////        t_bone->m_tran.z = t_node->translation[2];
-////        t_bone->scale.x = t_node->scale[0];
-////        t_bone->scale.y = t_node->scale[1];
-////        t_bone->scale.z = t_node->scale[2];
-////        t_bone->m_rot.x = t_node->rotation[0];
-////        t_bone->m_rot.y = t_node->rotation[1];
-////        t_bone->m_rot.z = t_node->rotation[2];
-////        t_bone->m_rot.w = t_node->rotation[3];
-//    }
-//
-////    Node* t_node = &(m_gltf.nodes[t_ske_index]);
-////    //_buildSkeNode(t_node,t_rootNode);
-////    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,t_skindata->name.c_str());
-////    for(s32 i=0;i<t_skindata->joints.size();i++) {
-////        s32 t_node_index = t_skindata->joints[i];
-////        Node* t_node = &(m_gltf.nodes[t_node_index]);
-////        //_buildSkeNode(t_node,t_rootNode);
-////    }
-//    return t_skin;
-    return nullptr;
+    Skin* t_skindata = &(m_gltf.skins[_index]);
+    //构建骨架
+    SVSkeletonPtr t_ske = MakeSharedPtr<SVSkeleton>();
+    s32 t_root_index = t_skindata->skeleton;
+    SVBonePtr t_rootBone = MakeSharedPtr<SVBone>();
+    _buildBone(t_rootBone,t_root_index,t_ske);
+    t_ske->m_name = t_skindata->name;
+    t_ske->m_root = t_rootBone;
+    return t_ske;
+}
+
+bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske) {
+    //
+    if(_index<0)
+        return false;
+    //填充数据
+    Node* t_node = &(m_gltf.nodes[_index]);
+    if(!t_node){
+        return false;
+    }
+    //
+    _ske->addBone(_parent);
+    //
+    _parent->m_id = _index;
+    _parent->m_name = t_node->name;
+    _parent->m_tran.x = t_node->translation[0];
+    _parent->m_tran.y = t_node->translation[1];
+    _parent->m_tran.z = t_node->translation[2];
+    _parent->m_scale.x = t_node->scale[0];
+    _parent->m_scale.y = t_node->scale[1];
+    _parent->m_scale.z = t_node->scale[2];
+    _parent->m_rot.x = t_node->rotation[0];
+    _parent->m_rot.y = t_node->rotation[1];
+    _parent->m_rot.z = t_node->rotation[2];
+    _parent->m_rot.w = t_node->rotation[3];
+    //构建子骨骼
+    for(s32 i=0;i<t_node->children.size();i++) {
+        s32 t_index = t_node->children[i];
+        SVBonePtr t_bone = MakeSharedPtr<SVBone>();
+        t_bone->m_pParent = _parent;
+        _buildBone(t_bone,t_index,_ske);
+        _parent->m_children.append(t_bone);
+    }
+    return true;
 }
 
 SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
     if(_index<0)
         return nullptr;
     Animation* t_anidata = &(m_gltf.animations[_index]);
+    SVAnimateSkinPtr t_ani = MakeSharedPtr<SVAnimateSkin>(mApp,t_anidata->name.c_str());
+    //构建轨道
+    
 //    //跟节点索引
 //    s32 t_node_index = t_skindata->skeleton;
 //    Node* t_node = &(m_gltf.nodes[t_node_index]);
 //    //_buildSkeNode(t_node,t_rootNode);
 //    //
-//    SVAnimateSkinPtr t_skin = MakeSharedPtr<SVAnimateSkin>(mApp,t_skindata->name.c_str());
+//
 //    for(s32 i=0;i<t_skindata->joints.size();i++) {
 //        s32 t_node_index = t_skindata->joints[i];
 //        Node* t_node = &(m_gltf.nodes[t_node_index]);
 //        //_buildSkeNode(t_node,t_rootNode);
 //    }
-    return nullptr;
+    return t_ani;
 }
 
 SVModelPtr SVLoaderGLTF::_buildModel(s32 _index){
@@ -502,7 +510,6 @@ SVModelPtr SVLoaderGLTF::_buildModel(s32 _index){
 
 SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
     //构建数据
-    Accessor* accV2 = nullptr;
     Accessor* accV3 = nullptr;
     Accessor* accNOR = nullptr;
     Accessor* accTAG = nullptr;
@@ -548,12 +555,21 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
         it++;
     }
     //
+    SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
+    //
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
     s64 t_count = 0;
     if (t_vtf & D_VF_V3) {
         if(accV3) {
             _fetchDataFromAcc(t_data,accV3);
             t_count = accV3->count;
+            //box
+            if(accV3->minValues.size() == 3  && accV3->maxValues.size()==3) {
+                SVBoundBox t_box;
+                t_box.set(FVec3(accV3->minValues[0],accV3->minValues[1],accV3->minValues[2]),
+                          FVec3(accV3->maxValues[0],accV3->maxValues[1],accV3->maxValues[2]));
+                t_mesh->setBox(t_box);
+            }
         }
     }
     if (t_vtf & D_VF_NOR) {
@@ -619,11 +635,9 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
         t_rMesh->setDrawMethod(E_DM_TRIANGLE_FAN);
     }
     t_rMesh->createMesh();
-    //
-    SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
     t_mesh->setRenderMesh(t_rMesh);
     //材质
-    SVMtlCorePtr t_mtl = _buildMtl(_prim->material);
+    SVMtlCorePtr t_mtl = _buildMtl(_prim,t_vtf);
     if(t_mtl) {
         t_mesh->setMtl(t_mtl);
     }
@@ -631,77 +645,88 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
     return t_mesh;
 }
 
-SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
-    if(_index<0)
+SVMtlCorePtr SVLoaderGLTF::_buildMtl(Primitive* _prim,s32 _vtf) {
+    if(!_prim)
+        return nullptr;
+    if(_prim->material<0)
         return nullptr;
     //构建材质
+    s32 _index = _prim->material;
     Material* t_mtl = &(m_gltf.materials[_index]);
-    SVMtlGLTFPtr tMtl = MakeSharedPtr<SVMtlGLTF>(mApp);
+    SVMtlGLTFPtr tMtl = nullptr;
+    if (_vtf & D_VF_BONE) {
+        tMtl = MakeSharedPtr<SVMtlGLTFSkin>(mApp);
+    }else{
+        tMtl = MakeSharedPtr<SVMtlGLTF>(mApp);
+    }
     //
     ParameterMap::Iterator it1 = t_mtl->values.begin();
     while (it1!=t_mtl->values.end()) {
         SVString t_key = it1->key;
         if(t_key == "baseColorTexture") {
             Parameter* t_param = &(it1->data);
-            s32 textureIndex = t_param->TextureIndex();
-            Texture* texture = &(m_gltf.textures[textureIndex]);
-            Image* image = &(m_gltf.images[texture->source]);
-            tMtl->m_pBaseColorTex = image->texture;
-            
-            Sampler* t_sampler = &( m_gltf.samplers[texture->sampler] );
-            //
-            if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_NEAREST) {
-                
-            }else if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_LINEAR) {
-                
-            }else if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST) {
-                
-            }else if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST) {
-                
-            }else if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR) {
-                
-            }else if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR) {
-                
+            if(t_param) {
+                s32 textureIndex = t_param->TextureIndex();
+                if(textureIndex>=0) {
+                    Texture* texture = &(m_gltf.textures[textureIndex]);
+                    Image* image = &(m_gltf.images[texture->source]);
+                    tMtl->m_pBaseColorTex = image->texture;
+                    
+                    Sampler* t_sampler = &( m_gltf.samplers[texture->sampler] );
+                    //
+                    if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_NEAREST) {
+                        
+                    }else if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_LINEAR) {
+                        
+                    }else if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST) {
+                        
+                    }else if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST) {
+                        
+                    }else if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR) {
+                        
+                    }else if( t_sampler->minFilter == SVGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR) {
+                        
+                    }
+                    //
+                    if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_NEAREST) {
+                        
+                    }else if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_LINEAR) {
+                        
+                    }else if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST) {
+                        
+                    }else if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST) {
+                        
+                    }else if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR) {
+                        
+                    }else if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR) {
+                        
+                    }
+                    //
+                    if( t_sampler->wrapS == SVGLTF_TEXTURE_WRAP_REPEAT ) {
+                        tMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
+                    }else if( t_sampler->wrapS == SVGLTF_TEXTURE_WRAP_CLAMP_TO_EDGE ) {
+                        tMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_CLAMP_TO_EDAGE);
+                    }else if( t_sampler->wrapS == SVGLTF_TEXTURE_WRAP_MIRRORED_REPEAT ) {
+                        tMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_MIRROR);
+                    }
+                    //
+                    if( t_sampler->wrapT == SVGLTF_TEXTURE_WRAP_REPEAT ) {
+                        tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
+                    }else if( t_sampler->wrapT == SVGLTF_TEXTURE_WRAP_CLAMP_TO_EDGE ) {
+                        tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_CLAMP_TO_EDAGE);
+                    }else if( t_sampler->wrapT == SVGLTF_TEXTURE_WRAP_MIRRORED_REPEAT ) {
+                        tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_MIRROR);
+                    }
+                    //
+                    if( t_sampler->wrapR == SVGLTF_TEXTURE_WRAP_REPEAT ) {
+                        //tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
+                    }else if( t_sampler->wrapR == SVGLTF_TEXTURE_WRAP_CLAMP_TO_EDGE ) {
+                        //tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_CLAMP_TO_EDAGE);
+                    }else if( t_sampler->wrapR == SVGLTF_TEXTURE_WRAP_MIRRORED_REPEAT ) {
+                        //tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_MIRROR);
+                    }
+                }
             }
-            //
-            if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_NEAREST) {
-                
-            }else if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_LINEAR) {
-                
-            }else if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST) {
-                
-            }else if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST) {
-                
-            }else if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR) {
-                
-            }else if( t_sampler->magFilter == SVGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR) {
-                
-            }
-            //
-            if( t_sampler->wrapS == SVGLTF_TEXTURE_WRAP_REPEAT ) {
-                tMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
-            }else if( t_sampler->wrapS == SVGLTF_TEXTURE_WRAP_CLAMP_TO_EDGE ) {
-                tMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_CLAMP_TO_EDAGE);
-            }else if( t_sampler->wrapS == SVGLTF_TEXTURE_WRAP_MIRRORED_REPEAT ) {
-                tMtl->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_MIRROR);
-            }
-            //
-            if( t_sampler->wrapT == SVGLTF_TEXTURE_WRAP_REPEAT ) {
-                tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
-            }else if( t_sampler->wrapT == SVGLTF_TEXTURE_WRAP_CLAMP_TO_EDGE ) {
-                tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_CLAMP_TO_EDAGE);
-            }else if( t_sampler->wrapT == SVGLTF_TEXTURE_WRAP_MIRRORED_REPEAT ) {
-                tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_MIRROR);
-            }
-            //
-            if( t_sampler->wrapR == SVGLTF_TEXTURE_WRAP_REPEAT ) {
-                //tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
-            }else if( t_sampler->wrapR == SVGLTF_TEXTURE_WRAP_CLAMP_TO_EDGE ) {
-                //tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_CLAMP_TO_EDAGE);
-            }else if( t_sampler->wrapR == SVGLTF_TEXTURE_WRAP_MIRRORED_REPEAT ) {
-                //tMtl->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_MIRROR);
-            }
-            
         }else if(t_key == "baseColorFactor") {
             Parameter* t_param = &(it1->data);
             if(t_param->number_array.size() ==3) {
@@ -718,10 +743,10 @@ SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
             tMtl->m_pMetallicRoughnessTex = image->texture;
         }else if(t_key == "metallicFactor") {
             Parameter* t_param = &(it1->data);
-            tMtl->m_roughtnessFactor = t_param->Factor();
+            tMtl->m_metallicFactor = t_param->Factor();
         }else if(t_key == "roughnessFactor") {
             Parameter* t_param = &(it1->data);
-            tMtl->m_metallicFactor = t_param->Factor();
+            tMtl->m_roughtnessFactor = t_param->Factor();
         }
         it1++;
     }
@@ -730,33 +755,48 @@ SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
     while (it2!=t_mtl->additionalValues.end()) {
         SVString t_key = it2->key;
         if(t_key == "normalTexture") {
-            Parameter* t_param = &(it1->data);
-            s32 textureIndex = t_param->TextureIndex();
-            Texture* texture = &(m_gltf.textures[textureIndex]);
-            Image* image = &(m_gltf.images[texture->source]);
-            tMtl->m_pNormalTex = image->texture;
-            //
-            tMtl->m_normalScale = t_param->ParamValue("scale");
+            Parameter* t_param = &(it2->data);
+            if(t_param) {
+                s32 textureIndex = t_param->TextureIndex();
+                Texture* texture = &(m_gltf.textures[textureIndex]);
+                Image* image = &(m_gltf.images[texture->source]);
+                tMtl->m_pNormalTex = image->texture;
+                tMtl->m_normalScale = t_param->ParamValue("scale");
+            }
         }else if(t_key == "occlusionTexture") {
-            Parameter* t_param = &(it1->data);
-            s32 textureIndex = t_param->TextureIndex();
-            Texture* texture = &(m_gltf.textures[textureIndex]);
-            Image* image = &(m_gltf.images[texture->source]);
-            tMtl->m_pOcclusionTex = image->texture;
-            //
-            tMtl->m_occlusionStrength = t_param->ParamValue("strength");
+            Parameter* t_param = &(it2->data);
+            if(t_param) {
+                s32 textureIndex = t_param->TextureIndex();
+                Texture* texture = &(m_gltf.textures[textureIndex]);
+                Image* image = &(m_gltf.images[texture->source]);
+                tMtl->m_pOcclusionTex = image->texture;
+                tMtl->m_occlusionStrength = t_param->ParamValue("strength");
+            }
         }else if(t_key == "emissiveTexture") {
-            Parameter* t_param = &(it1->data);
-            s32 textureIndex = t_param->TextureIndex();
-            Texture* texture = &(m_gltf.textures[textureIndex]);
-            Image* image = &(m_gltf.images[texture->source]);
-            tMtl->m_pEmissiveTex = image->texture;
+            Parameter* t_param = &(it2->data);
+            if(t_param) {
+                s32 textureIndex = t_param->TextureIndex();
+                Texture* texture = &(m_gltf.textures[textureIndex]);
+                Image* image = &(m_gltf.images[texture->source]);
+                tMtl->m_pEmissiveTex = image->texture;
+            }
         }else if(t_key == "emissiveFactor") {
-            Parameter* t_param = &(it1->data);
-            if(t_param->number_array.size() ==3) {
+            Parameter* t_param = &(it2->data);
+            if(t_param && t_param->number_array.size() ==3) {
                 tMtl->m_emissiveFactor.set(t_param->number_array[0],
                                            t_param->number_array[1],
                                            t_param->number_array[2]);
+            }
+        }else if(t_key == "alphaMode") {
+            Parameter* t_param = &(it2->data);
+            if(t_param ) {
+                SVString t_str = t_param->string_value;
+            }
+        }else if(t_key == "name") {
+            //材质名称
+            Parameter* t_param = &(it2->data);
+            if(t_param ) {
+                SVString t_str = t_param->string_value;
             }
         }
         it2++;
@@ -767,6 +807,7 @@ SVMtlCorePtr SVLoaderGLTF::_buildMtl(s32 _index) {
 }
 
 void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
+    s32 t_acc_off = _accessor->byteOffset;
     s32 t_viewID = _accessor->bufferView;
     BufferView* t_bufview = &(m_gltf.bufferViews[t_viewID]);
     if(t_bufview) {
@@ -774,23 +815,33 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
         s32 t_view_off = t_bufview->byteOffset;
         s32 t_len = t_bufview->byteLength;
         s32 t_view_stride = t_bufview->byteStride;
-        s32 t_acc_off = _accessor->byteOffset;
         Buffer* t_buf = &(m_gltf.buffers[t_bufID]);
         t_buf->data->lockData();
         char* p = (char*)(t_buf->data->getData());
         p += t_view_off;
         p += t_acc_off;
-        s32 t_s_size = 0;
-        t_s_size = _getComponentSizeInBytes(_accessor->componentType);
-        t_s_size *= _getTypeSizeInBytes(_accessor->type);
-        //
+        s32 t_cmp_size = _getCmpSize(_accessor->componentType);
+        s32 t_cmp_num = _getCmpNum(_accessor->type);
+        s32 t_s_size =t_cmp_size*t_cmp_num;
         s32 t_total_len = _accessor->count*t_s_size;
         s32 t_aim_size = _data->getSize() + t_total_len;
         _data->extendSize(t_aim_size);
         //拷贝数据
         for(s32 i=0;i<_accessor->count;i++) {
             _data->appendData(p, t_s_size);
-            p += t_view_stride + t_s_size;
+            p += t_s_size;
+//            for(s32 j=0;j<t_cmp_num;j++) {
+//                if(_accessor->type == SVGLTF_TYPE_SCALAR) {
+//                    s16 t_s16 = *(s16*)p;
+//                    _data->appendData(&t_s16, t_cmp_size);
+//                    p += t_cmp_size;
+//                }else{
+//                    //
+//                    f32 t_f32 = *(f32*)p;
+//                    _data->appendData(&t_f32, t_cmp_size);
+//                    p += t_cmp_size;
+//                }
+//            }
         }
         t_buf->data->unlockData();
     }
@@ -1316,14 +1367,14 @@ bool SVLoaderGLTF::_parseSkin(Skin *_skin, RAPIDJSON_NAMESPACE::Value &_item) {
             }
         }
     }
-//    if (_item.HasMember("name") && _item["name"].IsString()) {
-//        _skin->name = _item["name"].GetString();
-//    }
-//    f64 skeleton = -1.0;
-//    if (_item.HasMember("skeleton") && _item["skeleton"].IsNumber()) {
-//        skeleton = _item["skeleton"].GetDouble();
-//    }
-//    _skin->skeleton = s32(skeleton);
+    if (_item.HasMember("name") && _item["name"].IsString()) {
+        _skin->name = _item["name"].GetString();
+    }
+    f64 skeleton = -1.0;
+    if (_item.HasMember("skeleton") && _item["skeleton"].IsNumber()) {
+        skeleton = _item["skeleton"].GetDouble();
+    }
+    _skin->skeleton = s32(skeleton);
     f64 invBind = -1.0;
     if (_item.HasMember("inverseBindMatrices") && _item["inverseBindMatrices"].IsNumber()) {
         invBind = _item["inverseBindMatrices"].GetDouble();
@@ -1558,16 +1609,6 @@ bool SVLoaderGLTF::_decodeDataURI(SVString &_outData, SVString &_mime_type,
         return false;
     }
     _outData = data;
-    
-    //    if (checkSize) {
-    //        if (data.size() != reqBytes) {
-    //            return false;
-    //        }
-    //        out->resize(reqBytes);
-    //    } else {
-    //        out->resize(data.size());
-    //    }
-    //    std::copy(data.begin(), data.end(), out->begin());
     return true;
 }
 
@@ -1665,421 +1706,6 @@ cptr8 SVLoaderGLTF::_base64_decode(SVString const &encoded_string){
     
     return ret.c_str();
 }
-
-//void SVLoaderGLTF::_loadMeshData(){
-////    //
-////    SVModelPtr t_mode = MakeSharedPtr<SVModel>(nullptr);
-////    m_gltf.m_meshes.clear();
-////    for (s32 i = 0; i<m_gltf.meshes.size(); i++) {
-////        SVGLTFMeshPtr gltfMesh = MakeSharedPtr<SVGLTFMesh>();
-////        gltfMesh->m_name = mesh.name;
-////        for (s32 j = 0; j<m_gltf.meshes[i].primitives.size(); j++) {
-////            ModelRenderDataPtr renderMesh = MakeSharedPtr<ModelRenderData>();
-////            renderMesh->m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
-////            renderMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d_notex");
-////            renderMesh->m_boundBox.clear();
-////            m_gltf.m_renderMeshData.append(renderMesh);
-////            //debug
-////            ModelRenderDataPtr debugRenderMesh = MakeSharedPtr<ModelRenderData>();
-////            debugRenderMesh->m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
-////            debugRenderMesh->m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "debugNormalLine");
-////            m_gltf.m_renderDebugMeshData.append(debugRenderMesh);
-////            //
-////            SVGLTFSubMeshPtr gltfSubMesh = MakeSharedPtr<SVGLTFSubMesh>();
-////            Primitive primitive = mesh.primitives[j];
-////            gltfSubMesh->m_primitiveType = primitive.mode;
-//    
-////            //basetexture
-////            SVGLTFMaterialPtr gltfMaterial = MakeSharedPtr<SVGLTFMaterial>();
-////            s32 materialID = primitive.material;
-////            Material material = m_gltf.materials[materialID];
-////            ParameterMap values = material.values;
-////            ParameterMap::Iterator baseTexValue = values.find("baseColorTexture");
-////            if( baseTexValue!=values.end() ) {
-////                Parameter parameter = baseTexValue->data;
-////                s32 textureIndex = parameter.TextureIndex();
-////                Texture texture = m_gltf.textures[textureIndex];
-////                Image image = m_gltf.images[texture.source];
-////                gltfMaterial->m_baseColorTexture = image.texture;
-////                renderMesh->m_pMtl = MakeSharedPtr<SVMtl3D>(mApp, "normal3d");
-////                renderMesh->m_pMtl->setTexture(0,image.texture);
-////            }
-////            //basecolor
-////            FVec4 color;
-////            color.set(1.0f, 1.0f, 1.0f, 1.0f);
-////            ParameterMap::Iterator baseColorValue = values.find("baseColorFactor");
-////            if( baseColorValue!=values.end() ) {
-////                Parameter parameter = baseColorValue->data;
-////                SVArray<f64> colorFactor = parameter.number_array;
-////                color.set(colorFactor[0], colorFactor[1], colorFactor[2], colorFactor[3]);
-////                gltfMaterial->m_baseColorFactor = color;
-////            }
-//
-////            Accessor indicesAccessor = m_gltf.accessors[primitive.indices];
-////            BufferView bufferView = m_gltf.bufferViews[indicesAccessor.bufferView];
-////            Buffer buffer = m_gltf.buffers[bufferView.buffer];
-////            // index
-////            SVGLTFAccessorPtr gltfIndicesAccessor = MakeSharedPtr<SVGLTFAccessor>();
-////            s32 byteStride = indicesAccessor.ByteStride(bufferView);
-////            s64 count = indicesAccessor.count;
-////            u8 *dataAddress = (u8 *)buffer.data->getData() + bufferView.byteOffset +indicesAccessor.byteOffset;
-////            gltfIndicesAccessor->m_count = count;
-////            gltfIndicesAccessor->m_offset = indicesAccessor.byteOffset;
-////            gltfIndicesAccessor->m_componentType = indicesAccessor.componentType;
-////            gltfIndicesAccessor->m_dimensionType = indicesAccessor.type;
-////            gltfIndicesAccessor->m_bufferData = MakeSharedPtr<SVDataSwap>();
-////            gltfIndicesAccessor->m_bufferData->writeData(dataAddress, byteStride*count);
-////            gltfIndicesAccessor->m_minValues = indicesAccessor.minValues;
-////            gltfIndicesAccessor->m_maxValues = indicesAccessor.maxValues;
-////            switch (indicesAccessor.componentType) {
-////                case SVGLTF_COMPONENT_TYPE_BYTE:{
-////                    c8 *data = (c8 *)dataAddress;
-////                    //...
-////                    break;
-////                }case SVGLTF_COMPONENT_TYPE_UNSIGNED_BYTE:{
-////                    u8 *data = (u8 *)dataAddress;
-////                    //...
-////                    break;
-////                }case SVGLTF_COMPONENT_TYPE_SHORT:{
-////                    s16 *data = (s16 *)dataAddress;
-////                    SVArray<u16> t_indices;
-////                    for (s32 pt = 0; pt<count; pt ++) {
-////                        u16 t_index = (u16)data[pt];
-////                        t_indices.append(t_index);
-////                    }
-////                    SVDataSwapPtr indicesData = MakeSharedPtr<SVDataSwap>();
-////                    s32 t_len = (s32) (sizeof(u16) * t_indices.size());
-////                    indicesData->writeData(t_indices.get(), t_len);
-////                    renderMesh->m_indexCount = count;
-////                    renderMesh->m_pRenderIndex = indicesData;
-////                    break;
-////                }case SVGLTF_COMPONENT_TYPE_UNSIGNED_SHORT:{
-////                    u16 *data = (u16 *)dataAddress;
-////                    SVArray<u16> t_indices;
-////                    for (s32 pt = 0; pt<count; pt ++) {
-////                        u16 t_index = (u16)data[pt];
-////                        t_indices.append(t_index);
-////                    }
-////                    SVDataSwapPtr indicesData = MakeSharedPtr<SVDataSwap>();
-////                    s32 t_len = (s32) (sizeof(u16) * t_indices.size());
-////                    indicesData->writeData(t_indices.get(), t_len);
-////                    renderMesh->m_indexCount = count;
-////                    renderMesh->m_pRenderIndex = indicesData;
-////                    break;
-////                }case SVGLTF_COMPONENT_TYPE_INT:{
-////                    s32 *data = (s32 *)dataAddress;
-////                    SVArray<u16> t_indices;
-////                    for (s32 pt = 0; pt<count; pt ++) {
-////                        u16 t_index = (u16)data[pt];
-////                        t_indices.append(t_index);
-////                    }
-////                    SVDataSwapPtr indicesData = MakeSharedPtr<SVDataSwap>();
-////                    s32 t_len = (s32) (sizeof(u16) * t_indices.size());
-////                    indicesData->writeData(t_indices.get(), t_len);
-////                    renderMesh->m_indexCount = count;
-////                    renderMesh->m_pRenderIndex = indicesData;
-////                    break;
-////                }case SVGLTF_COMPONENT_TYPE_UNSIGNED_INT:{
-////                    u32 *data = (u32 *)dataAddress;
-////                    SVArray<u16> t_indices;
-////                    for (s32 pt = 0; pt<count; pt ++) {
-////                        u16 t_index = (u16)data[pt];
-////                        t_indices.append(t_index);
-////                    }
-////                    SVDataSwapPtr indicesData = MakeSharedPtr<SVDataSwap>();
-////                    s32 t_len = (s32) (sizeof(u16) * t_indices.size());
-////                    indicesData->writeData(t_indices.get(), t_len);
-////                    renderMesh->m_indexCount = count;
-////                    renderMesh->m_pRenderIndex = indicesData;
-////                    break;
-////                }
-////                default:
-////                    break;
-////            }
-////            switch (primitive.mode) {
-////                case SVGLTF_MODE_TRIANGLE_FAN:
-////                    //will to do
-////                    break;
-////                case SVGLTF_MODE_TRIANGLE_STRIP:
-////                    //will to do
-////                    break;
-////                case SVGLTF_MODE_TRIANGLES:  // this is the simpliest case to handle
-////                {
-////                    SVArray<FVec3> t_postions;
-////                    SVArray<FVec3> t_normals;
-////                    SVArray<FVec2> t_texcoord0s;
-////                    SVArray<FVec2> t_texcoord1s;
-////                    SVArray<FVec4> t_joints0;
-////                    SVArray<FVec4> t_weights;
-////                    SVMap<SVString, s32>::Iterator primitiveIt = primitive.attributes.begin();
-////                    while ( primitiveIt!=primitive.attributes.end() ) {
-////                        const s32 attributID = primitiveIt->data;
-////                        Accessor attribAccessor = m_gltf.accessors[attributID];
-////                        BufferView bufferView = m_gltf.bufferViews[attribAccessor.bufferView];
-////                        Buffer buffer = m_gltf.buffers[bufferView.buffer];
-////                        const s32 byte_stride = attribAccessor.ByteStride(bufferView);
-////                        const u64 count = attribAccessor.count;
-////                        const u8 *dataPtr = (u8 *)buffer.data->getData() + bufferView.byteOffset + attribAccessor.byteOffset;
-////                        //positon
-////                        if ( strcmp(primitiveIt->key, "POSITION") == 0 ) {
-////                            // get the position min/max for computing the boundingbox
-////                            FVec3 minV;
-////                            minV.x = attribAccessor.minValues[0];
-////                            minV.y = attribAccessor.minValues[1];
-////                            minV.z = attribAccessor.minValues[2];
-////                            renderMesh->m_boundBox.expand(minV);
-////                            FVec3 maxV;
-////                            maxV.x = attribAccessor.maxValues[0];
-////                            maxV.y = attribAccessor.maxValues[1];
-////                            maxV.z = attribAccessor.maxValues[2];
-////                            renderMesh->m_boundBox.expand(maxV);
-////                            
-////                            switch (attribAccessor.type) {
-////                                case SVGLTF_TYPE_VEC3: {
-////                                    switch (attribAccessor.componentType) {
-////                                        case SVGLTF_COMPONENT_TYPE_FLOAT:{
-////                                            f32 *data = (f32 *)dataPtr;
-////                                            for (s32 pt = 0; pt<count*3; pt += 3) {
-////                                                FVec3 t_p;
-////                                                t_p.x = data[pt + 0];
-////                                                t_p.y = data[pt + 1];
-////                                                t_p.z = data[pt + 2];
-////                                                t_postions.append(t_p);
-////                                            }
-////                                            break;
-////                                        }
-////                                        case SVGLTF_COMPONENT_TYPE_DOUBLE:{
-////                                            f64 *data = (f64 *)dataPtr;
-////                                            for (s32 pt = 0; pt<count*3; pt += 3) {
-////                                                FVec3 t_p;
-////                                                t_p.x = data[pt + 0];
-////                                                t_p.y = data[pt + 1];
-////                                                t_p.z = data[pt + 2];
-////                                                t_postions.append(t_p);
-////                                            }
-////                                            break;
-////                                        }
-////                                        default:
-////                                            break;
-////                                    }
-////                                    break;
-////                                }
-////                                default:
-////                                    break;
-////                            }
-////                        }
-////                        //normal
-////                        if (strcmp(primitiveIt->key, "NORMAL") == 0){
-////                            switch (attribAccessor.type) {
-////                                case SVGLTF_TYPE_VEC3: {
-////                                    switch (attribAccessor.componentType) {
-////                                        case SVGLTF_COMPONENT_TYPE_FLOAT: {
-////                                            f32 *data = (f32 *)dataPtr;
-////                                            for (s32 pt = 0; pt<count*3; pt += 3) {
-////                                                FVec3 t_p;
-////                                                t_p.x = data[pt + 0];
-////                                                t_p.y = data[pt + 1];
-////                                                t_p.z = data[pt + 2];
-////                                                t_normals.append(t_p);
-////                                            }
-////                                            break;
-////                                        }
-////                                        case SVGLTF_COMPONENT_TYPE_DOUBLE: {
-////                                            //will to do
-////                                            break;
-////                                        }
-////                                        default:
-////                                            break;
-////                                    }
-////                                    break;
-////                                }
-////                                default:
-////                                    break;
-////                            }
-////                        }
-////                        //texcoord0
-////                        if (strcmp(primitiveIt->key, "TEXCOORD_0") == 0) {
-////                            switch (attribAccessor.type) {
-////                                case SVGLTF_TYPE_VEC2: {
-////                                    switch (attribAccessor.componentType) {
-////                                        case SVGLTF_COMPONENT_TYPE_FLOAT: {
-////                                            f32 *data = (f32 *)dataPtr;
-////                                            for (s32 pt = 0; pt<count*2; pt += 2) {
-////                                                FVec2 t_p;
-////                                                t_p.x = data[pt + 0];
-////                                                //                                                t_p.x = (t_p.x + 1)*0.5;
-////                                                //                                                t_p.x = t_p.x*0.5;
-////                                                t_p.y = data[pt + 1];
-////                                                //                                                t_p.y = (t_p.y + 1)*0.5;
-////                                                //                                                t_p.y = t_p.y*0.5;
-////                                                t_texcoord0s.append(t_p);
-////                                            }
-////                                            break;
-////                                        }
-////                                        case SVGLTF_COMPONENT_TYPE_DOUBLE: {
-////                                            //will to do
-////                                            break;
-////                                        }
-////                                        default:
-////                                            break;
-////                                    }
-////                                    break;
-////                                }
-////                                default:
-////                                    break;
-////                            }
-////                        }
-////                        //texcoord1
-////                        if (strcmp(primitiveIt->key, "TEXCOORD_1") == 0) {
-////                            switch (attribAccessor.type) {
-////                                case SVGLTF_TYPE_VEC2: {
-////                                    switch (attribAccessor.componentType) {
-////                                        case SVGLTF_COMPONENT_TYPE_FLOAT: {
-////                                            f32 *data = (f32 *)dataPtr;
-////                                            for (s32 pt = 0; pt<count*2; pt += 2) {
-////                                                FVec2 t_p;
-////                                                t_p.x = data[pt + 0];
-////                                                t_p.y = data[pt + 1];
-////                                                t_texcoord1s.append(t_p);
-////                                            }
-////                                            break;
-////                                        }
-////                                        case SVGLTF_COMPONENT_TYPE_DOUBLE: {
-////                                            //will to do
-////                                            break;
-////                                        }
-////                                        default:
-////                                            break;
-////                                    }
-////                                    break;
-////                                }
-////                                default:
-////                                    break;
-////                            }
-////                        }
-////                        //joints_0
-////                        if (strcmp(primitiveIt->key, "JOINTS_0") == 0) {
-////                            switch (attribAccessor.type) {
-////                                case SVGLTF_TYPE_VEC4: {
-////                                    switch (attribAccessor.componentType) {
-////                                        case SVGLTF_COMPONENT_TYPE_UNSIGNED_SHORT: {
-////                                            u16 *data = (u16 *)dataPtr;
-////                                            for (s32 pt = 0; pt<count*4; pt += 4) {
-////                                                FVec4 t_joint;
-////                                                t_joint.x = data[pt + 0];
-////                                                t_joint.y = data[pt + 1];
-////                                                t_joint.z = data[pt + 2];
-////                                                t_joint.w = data[pt + 3];
-////                                                t_joints0.append(t_joint);
-////                                            }
-////                                            break;
-////                                        }
-////                                        default:
-////                                            break;
-////                                    }
-////                                    break;
-////                                }
-////                                default:
-////                                    break;
-////                            }
-////                        }
-////                        //weights
-////                        if (strcmp(primitiveIt->key, "WEIGHTS_0") == 0) {
-////                            switch (attribAccessor.type) {
-////                                case SVGLTF_TYPE_VEC4: {
-////                                    switch (attribAccessor.componentType) {
-////                                        case SVGLTF_COMPONENT_TYPE_FLOAT: {
-////                                            f32 *data = (f32 *)dataPtr;
-////                                            for (s32 pt = 0; pt<count*4; pt += 4) {
-////                                                FVec4 t_weight;
-////                                                t_weight.x = data[pt + 0];
-////                                                t_weight.y = data[pt + 1];
-////                                                t_weight.z = data[pt + 2];
-////                                                t_weight.w = data[pt + 3];
-////                                                t_weights.append(t_weight);
-////                                            }
-////                                            break;
-////                                        }
-////                                        case SVGLTF_COMPONENT_TYPE_DOUBLE: {
-////                                            //will to do
-////                                            break;
-////                                        }
-////                                        default:
-////                                            break;
-////                                    }
-////                                    break;
-////                                }
-////                                default:
-////                                    break;
-////                            }
-////                        }
-////                        primitiveIt++;
-////                    }
-////                    SVArray<V3_N_C_T0> renderVertexData;
-////                    for (s32 vi = 0; vi <t_postions.size(); vi++) {
-////                        V3_N_C_T0 vertexPt;
-////                        vertexPt.x = t_postions[vi].x;
-////                        vertexPt.y = t_postions[vi].y;
-////                        vertexPt.z = t_postions[vi].z;
-////                        vertexPt.r = (u8)(color.x*255);
-////                        vertexPt.g = (u8)(color.y*255);
-////                        vertexPt.b = (u8)(color.z*255);
-////                        vertexPt.a = ( u8)(color.w*255);
-////                        vertexPt.nx = t_normals[vi].x;
-////                        vertexPt.ny = t_normals[vi].y;
-////                        vertexPt.nz = t_normals[vi].z;
-////                        if (vi < t_texcoord0s.size()) {
-////                            vertexPt.t0x = t_texcoord0s[vi].x;
-////                            vertexPt.t0y = t_texcoord0s[vi].y;
-////                        }
-////                        renderVertexData.append(vertexPt);
-////                    }
-////                    SVDataSwapPtr vertexData = MakeSharedPtr<SVDataSwap>();
-////                    s32 t_len = (s32) (sizeof(V3_N_C_T0) * renderVertexData.size());
-////                    vertexData->writeData(renderVertexData.get(), t_len);
-////                    renderMesh->m_vertexCount = renderVertexData.size();
-////                    renderMesh->m_pRenderVertex = vertexData;
-////                    //debug
-////                    SVArray<V3_C> renderDebugData;
-////                    for (s32 vi = 0; vi < t_postions.size(); vi++) {
-////                        V3_C vertexPt1;
-////                        vertexPt1.x = t_postions[vi].x;
-////                        vertexPt1.y = t_postions[vi].y;
-////                        vertexPt1.z = t_postions[vi].z;
-////                        vertexPt1.r = 0;
-////                        vertexPt1.g = 255;
-////                        vertexPt1.b = 0;
-////                        vertexPt1.a = 255;
-////                        renderDebugData.append(vertexPt1);
-////                        
-////                        f32 t_normalX = t_normals[vi].x*0.5;
-////                        f32 t_normalY = t_normals[vi].y*0.5;
-////                        f32 t_normalZ = t_normals[vi].z*0.5;
-////                        V3_C vertexPt2;
-////                        vertexPt2.x = t_normalX + t_postions[vi].x;
-////                        vertexPt2.y = t_normalY + t_postions[vi].y;
-////                        vertexPt2.z = t_normalZ + t_postions[vi].z;
-////                        vertexPt2.r = 0;
-////                        vertexPt2.g = 255;
-////                        vertexPt2.b = 0;
-////                        vertexPt2.a = 255;
-////                        renderDebugData.append(vertexPt2);
-////                    }
-////                    SVDataSwapPtr vertexDebugData = MakeSharedPtr<SVDataSwap>();
-////                    s32 t_debugLen = (s32) (sizeof(V3_C) * renderDebugData.size());
-////                    vertexDebugData->writeData(renderDebugData.get(), t_debugLen);
-////                    debugRenderMesh->m_vertexCount = renderDebugData.size();
-////                    debugRenderMesh->m_pRenderVertex = vertexDebugData;
-////                    break;
-////                }
-////            }
-////        }
-////    }
-////    //skins
-////    
-////    //
-////    _loadModelNodeData(_model);
-//}
 
 void SVLoaderGLTF::_loadAnimationData(){
 //    for (s32 i = 0; i<m_gltf.animations.size(); i++) {

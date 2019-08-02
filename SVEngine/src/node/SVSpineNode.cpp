@@ -39,9 +39,7 @@ SVSpineNode::SVSpineNode(SVInst *_app)
     m_rsType = RST_SOLID_3D;
     m_cur_aniname = "animation";
     m_canSelect = true;
-    m_box_scale = 1.0f;
-    m_stable_box_dirty = false;
-    m_update_stable_box = false;
+    m_aabbBox_scale = 1.0f;
 }
 
 SVSpineNode::~SVSpineNode() {
@@ -60,7 +58,6 @@ void SVSpineNode::setSpine(SVSpinePtr _spine) {
     }
     if (m_spine) {
         clearSpine();
-        
     }
     m_spine = _spine;
     if(!m_pRObj){
@@ -125,8 +122,7 @@ void SVSpineNode::update(f32 dt) {
     if( m_pRObj && m_spine) {
         //spine更新
         m_spine->update(dt);
-        m_aabbBox = m_spine->m_aabbBox;
-        _fixBoundingBox();
+        _computeAABBBox();
         SVNode::update(dt);
         //更新模型
         m_pRObj->clearMesh();
@@ -368,30 +364,16 @@ f32 SVSpineNode::getSlotAlpha(cptr8 bonename) {
     return fAlpha;
 }
 
-void SVSpineNode::setStableBoundingBoxScale(f32 _scale){
-    if (_scale == 1.0f) {
-        m_stable_box_dirty = false;
-    }else{
-        m_stable_box_dirty = true;
-    }
-    m_box_scale = _scale;
-    m_update_stable_box = false;
+void SVSpineNode::setAABBBoxScale(f32 _scale){
+    m_aabbBox_scale = _scale;
 }
 
-void SVSpineNode::_fixBoundingBox(){
-    if (m_box_scale != 1.0f) {
-        if (m_stable_box_dirty) {
-            m_stable_box = SVBoundBox(m_aabbBox);
-            m_stable_box_dirty = false;
-            m_update_stable_box = true;
-        }
-        if (m_update_stable_box) {
-            m_aabbBox = SVBoundBox(m_stable_box);
-        }
-        FVec3 t_min = m_aabbBox.getMin();
-        FVec3 t_max = m_aabbBox.getMax();
-        SVBoundBox t_new_box = SVBoundBox(FVec3(t_min.x*m_box_scale, t_min.y*m_box_scale, 1.0), FVec3(t_max.x*m_box_scale, t_max.y*m_box_scale, 1.0));
-        m_aabbBox = t_new_box;
+void SVSpineNode::_computeAABBBox(){
+    if (m_spine) {
+        SVBoundBox t_boundingBox = m_spine->m_aabbBox;
+        FVec3 t_min = t_boundingBox.getMin();
+        FVec3 t_max = t_boundingBox.getMax();
+        m_aabbBox = SVBoundBox(FVec3(t_min.x*m_aabbBox_scale, t_min.y*m_aabbBox_scale, 1.0), FVec3(t_max.x*m_aabbBox_scale, t_max.y*m_aabbBox_scale, 1.0));
     }
 }
 

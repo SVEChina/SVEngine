@@ -22,7 +22,7 @@ void SVActionMgr::init() {
 }
 
 void SVActionMgr::destroy() {
-    stopAllActions();
+    removeAllActions();
 }
 
 void SVActionMgr::update(f32 _dt) {
@@ -45,6 +45,16 @@ SVActionUnitPtr SVActionMgr::addAction(SVActBasePtr _action, SVNodePtr _node){
     return nullptr;
 }
 
+SVActionUnitPtr SVActionMgr::addAction(SVActionUnitPtr _actUnit){
+    if (_actUnit) {
+        m_lock->lock();
+        m_aniPool.append(_actUnit);
+        m_lock->unlock();
+        return _actUnit;
+    }
+    return nullptr;
+}
+
 bool SVActionMgr::removeAction(SVActionUnitPtr _actUnit){
     bool t_ret = false;
     m_lock->lock();
@@ -62,14 +72,14 @@ bool SVActionMgr::removeAction(SVActionUnitPtr _actUnit){
     return t_ret;
 }
 
-void SVActionMgr::stopAllActions() {
+bool SVActionMgr::removeAllActions() {
     m_lock->lock();
     for (s32 i = 0; i < m_aniPool.size(); i++) {
-        SVAniBasePtr t_aniUnit = m_aniPool[i];
-        t_aniUnit->exit();
+        SVActionUnitPtr t_aniUnit = m_aniPool[i];
         t_aniUnit->destroy();
     }
     m_aniPool.destroy();
     m_lock->unlock();
+    return true;
 }
 
