@@ -1,21 +1,21 @@
 //
-// SVDataBase.cpp
+// SVJsonTool.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVDataBase.h"
+#include "SVJsonTool.h"
 
-SVDataBase::SVDataBase(SVInst *_app)
+SVJsonTool::SVJsonTool(SVInst *_app)
 : SVGBase(_app){
-    m_dataType = MODELDATA_NONE;
+ 
 }
 
-SVDataBase::~SVDataBase(){
+SVJsonTool::~SVJsonTool(){
 }
 
-SVString SVDataBase::jsonFormat(const SVString inString){
+SVString SVJsonTool::jsonFormat(const SVString inString){
     SVString outString;
     outString.allocate(inString.size());
     int index = 0;
@@ -52,10 +52,3 @@ SVString SVDataBase::jsonFormat(const SVString inString){
     }
     return outString;
 }
-
-void SVDataBase::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
-}
-
-void SVDataBase::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
-}
-

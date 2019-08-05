@@ -227,16 +227,6 @@ namespace sv {
         DECLARE_SHAREPTR(SVParseStamp);
         DECLARE_SHAREPTR(SVParseGame);
         
-        //model data部分
-        DECLARE_SHAREPTR(SVDataBase);
-        DECLARE_SHAREPTR(SVDataNode);
-        DECLARE_SHAREPTR(SVDataNodeSpine);
-        DECLARE_SHAREPTR(SVDataNodeDeform);
-        DECLARE_SHAREPTR(SVDataNodeBmpFont);
-        DECLARE_SHAREPTR(SVDataNodeSprite);
-        DECLARE_SHAREPTR(SVModelControl);
-        DECLARE_SHAREPTR(SVModelSpineControl);
-        
         //filter 部分
         DECLARE_SHAREPTR(SVFilterBase);
         DECLARE_SHAREPTR(SVFilterLUT);
