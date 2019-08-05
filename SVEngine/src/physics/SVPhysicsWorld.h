@@ -32,12 +32,14 @@ namespace sv {
             
             void addJoint(SVPhysicsJointPtr _joint);
             
+            void addConstraint(btPoint2PointConstraint* _con);
+            
+            void removeConstraint(btPoint2PointConstraint* _con);
+            
             inline void setFps(f32 _timeStep){
                 m_timeStep = _timeStep;
             }
             
-            void test();
-            void test2();
             
         public :
             btDefaultCollisionConfiguration* m_pCollisionConfiguration;

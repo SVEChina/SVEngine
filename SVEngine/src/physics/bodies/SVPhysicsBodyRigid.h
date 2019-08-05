@@ -30,13 +30,18 @@ namespace sv {
             
             void setApplyTorque(FVec3 _pos);
             
+            void addConstraint();
+            
             PHYSICSBODYTYPE getType();
+            
         protected:
             PHYSICSBODYTYPE m_type;
             
             SVPhysicsShapePtr m_pShape;
             
             btDefaultMotionState* m_pMyMotionState;
+            
+            btPoint2PointConstraint* p2p;
             
         };
             

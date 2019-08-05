@@ -53,7 +53,7 @@ void SV3DBox::randomInit(){
     f32 t_r = rand()%1000*0.001f;
     f32 t_g = rand()%1000*0.001f;
     f32 t_b = rand()%1000*0.001f;
-    f32 t_a = 0.8f;
+    f32 t_a = 1.0f;
     m_color.setColor(t_r, t_g, t_b, t_a);
 
     //m_drawBox

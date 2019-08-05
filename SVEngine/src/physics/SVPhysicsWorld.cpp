@@ -7,6 +7,7 @@
 #include "SVPhysicsWorld.h"
 #include "bodies/SVPhysicsBody.h"
 
+
 SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVPhysicsBase(_app) {
     m_pCollisionConfiguration = nullptr;
     m_pDispatcher = nullptr;
@@ -27,12 +28,10 @@ void SVPhysicsWorld::init(){
     // btDbvtBroadphase是一种很好的通用的两步法碰撞检测。你也可以尝试btAxis3Sweep。
     m_pOverlappingPairCache = new btDbvtBroadphase();
     /// 默认约束求解器。对于并行处理，您可以使用不同的解决程序(参见Extras/BulletMultiThreaded)
-    m_pSolver = new btSequentialImpulseConstraintSolver();
+    m_pSolver = new btSequentialImpulseConstraintSolver;
     m_pDynamicsWorld =
     new btDiscreteDynamicsWorld(m_pDispatcher,m_pOverlappingPairCache,m_pSolver,m_pCollisionConfiguration);
     m_pDynamicsWorld->setGravity(btVector3(0,-10,0));
-//    test();
-//    test2();
     
 }
 
@@ -61,7 +60,7 @@ void SVPhysicsWorld::destroy(){
 }
 
 void SVPhysicsWorld::update(f32 _dt){
-    m_pDynamicsWorld->stepSimulation(1.0/150.0,10);
+    m_pDynamicsWorld->stepSimulation(1.f/60.f,10);
     for (int j=m_bodyArray.size()-1; j>=0; j--){
         m_bodyArray[j]->update(_dt);
     }
@@ -80,69 +79,11 @@ void SVPhysicsWorld::addJoint(SVPhysicsJointPtr _joint){
     
 }
 
-void SVPhysicsWorld::test(){
-    btAlignedObjectArray<btCollisionShape*> collisionShapes;
-    
-    // 地面是在y=-56的位置上的一个立方体。
-    // 球在y=-6处击中，中心为-5
-    {
-        btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(100.),btScalar(1.),btScalar(100.)));
-        collisionShapes.push_back(groundShape);
-        
-        btTransform groundTransform;
-        groundTransform.setIdentity();
-        groundTransform.setOrigin(btVector3(0.0,-10,0));
-        
-        btScalar mass(0.0);
-        
-        // 刚体是动态的如果且仅当质量为非零时，否则是静止的
-        bool isDynamic = (mass != 0.f);
-        
-        btVector3 localInertia(0.0,0,0);
-        if (isDynamic)
-            groundShape->calculateLocalInertia(mass, localInertia);
-        
-        // 使用MotionState是可选的，它提供了插值功能，并且只同步“活动”对象
-        btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-        btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState, groundShape, localInertia);
-        btRigidBody* body = new btRigidBody(rbInfo);
-        body->setRestitution(btScalar(0.5));
-        
-        // 将物体添加到动力学世界
-        m_pDynamicsWorld->addRigidBody(body);
-        
-    }
-    
+void SVPhysicsWorld::addConstraint(btPoint2PointConstraint* _con){
+    m_pDynamicsWorld->addConstraint(_con, true);
 }
 
-void SVPhysicsWorld::test2(){
-    // 创建一个动态的刚体
-    
-     //btCollisionShape* colShape = new btBoxShape(btVector3(50,50,50));
-    btCollisionShape* colShape = new btSphereShape(btScalar(50.));
-    
-    /// 创建动态对象
-    btTransform startTransform;
-    startTransform.setIdentity();
-    
-    btScalar mass(1.f);
-    
-    // 刚体是动态的如果且仅当质量为非零时，否则是静止的
-    bool isDynamic = (mass != 0.f);
-    
-    btVector3 localInertia(0,0,0);
-    if (isDynamic)
-        colShape->calculateLocalInertia(mass,localInertia);
-    
-    startTransform.setOrigin(btVector3(10,300,0));
-    
-    // 推荐使用motionstate，它提供插值功能，只同步“活动”对象
-    btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
-    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState,colShape,localInertia);
-    btRigidBody* body = new btRigidBody(rbInfo);
-    body->setRestitution(btScalar(1.0));
-    
-    m_pDynamicsWorld->addRigidBody(body);
-  
-    
+void SVPhysicsWorld::removeConstraint(btPoint2PointConstraint* _con){
+    m_pDynamicsWorld->removeConstraint(_con);
 }
+
