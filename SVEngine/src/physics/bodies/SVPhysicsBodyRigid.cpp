@@ -83,11 +83,6 @@ void SVPhysicsBodyRigid::update(f32 _dt){
                t_bodyquat.getY(),
                t_bodyquat.getZ(),t_bodyquat.getAngle());
     }
-    if(p2p){
-        mApp->m_pGlobalMgr->m_pPhysics->removeConstraint(p2p);
-        p2p=nullptr;
-    }
-    
 }
 
 PHYSICSBODYTYPE SVPhysicsBodyRigid::getType(){
@@ -119,6 +114,11 @@ void SVPhysicsBodyRigid::addConstraint(){
     btVector3 newPivotB(0,3,0);
     p2p->setPivotB(newPivotB);
     //m_pBody->setActivationState(m_savedState);
-   
-    
+}
+
+void SVPhysicsBodyRigid::removeConstraint(){
+    if(p2p){
+        mApp->m_pGlobalMgr->m_pPhysics->removeConstraint(p2p);
+        p2p=nullptr;
+    }
 }

@@ -283,9 +283,7 @@ SVOpCreateTest::~SVOpCreateTest(){
 }
 
 void SVOpCreateTest::_process(f32 dt) {
-//    SVLoaderGLTF t_load(mApp);
-//    t_load.loadFromFile("svres/gltf/outPut/Gril_Hair.gltf");
-//    t_load.building();
+    
 //    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
 //    if (t_pScene) {
 //        //创建测试盒子®
@@ -351,6 +349,8 @@ void SVOpCreateTest::_process(f32 dt) {
 //    billboardNode->setTexture(texture);
 //    billboardNode->setSize(500, 500);
 //    t_pScene->addNode(billboardNode);
+    
+    
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
         //创建3d
@@ -415,11 +415,17 @@ void SVOpCreateTest::_process(f32 dt) {
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-                   // t_testBox->randomInit();
-                    t_testBox->setScale(1.0,1.0,1.0);
-                    t_testBox->setPosition(0.0, 0.0, 0.0);
-                    t_testBox->setRotation(0, 0, 0);
+//                    SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+//                   // t_testBox->randomInit();
+//                    t_testBox->setScale(1.0,1.0,1.0);
+//                    t_testBox->setPosition(0.0, 0.0, 0.0);
+//                    t_testBox->setRotation(0, 0, 0);
+                    
+                    SVLoaderGLTF t_load(mApp);
+                    t_load.loadFromFile("svres/gltf/ShaiZi_2/ShaiZi.gltf");
+                    t_load.building();
+                    SVNodePtr t_testBox =t_load.getNode("default009");
+                    t_testBox->setScale(0.001f,0.001f,0.001f);
                     //t_testBox->setdrawAABB(true);
                     // t_testBox->setcanSelect(true);
                     t_pScene->addNode(t_testBox);
@@ -429,6 +435,8 @@ void SVOpCreateTest::_process(f32 dt) {
                     t_body01->init();
                     mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body01);
                     t_body01->addConstraint();
+                    mApp->m_pGlobalMgr->m_pPhysics->setp();
+                    t_body01->removeConstraint();
                 }
             }
             
