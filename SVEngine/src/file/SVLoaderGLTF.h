@@ -483,6 +483,12 @@ namespace sv {
         
         void building();
         
+        SVNodePtr getNode(cptr8 _nodename);
+        //
+    private:
+        typedef SVArray<SVNodePtr> NODEARRAY;
+        NODEARRAY m_nodeArray;
+        
     protected:
         GLTFModel m_gltf;
         
@@ -555,6 +561,7 @@ namespace sv {
         SVMeshPtr _buildMeshPri(Primitive* _prim);
         
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
+        
     };
     
 

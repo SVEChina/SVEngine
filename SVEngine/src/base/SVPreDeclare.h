@@ -170,6 +170,7 @@ namespace sv {
         DECLARE_SHAREPTR(SpineMeshData);
         DECLARE_SHAREPTR(SVBone);
         DECLARE_SHAREPTR(SVSkeleton);
+        DECLARE_SHAREPTR(SVChannel);
         DECLARE_SHAREPTR(SVAnimateSkin);
         DECLARE_SHAREPTR(SVSkinMgr);
         DECLARE_SHAREPTR(SVAnimateMorph);

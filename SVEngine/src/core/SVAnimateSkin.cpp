@@ -57,22 +57,26 @@ void SVSkeleton::destroy() {
 SVAnimateSkin::SVAnimateSkin(SVInst* _app,cptr8 _name)
 :SVGBase(_app)
 ,m_name(_name){
-    
 }
 
 SVAnimateSkin::~SVAnimateSkin() {
-    
 }
 
 cptr8 SVAnimateSkin::getName() {
     return m_name.c_str();
 }
 
+void SVAnimateSkin::addChannel(SVChannelPtr _chan) {
+    m_chnPool.append(_chan);
+}
+
+void SVAnimateSkin::clearChannel() {
+    m_chnPool.destroy();
+}
 
 //
 SVSkinMgr::SVSkinMgr(SVInst* _app)
 :SVGBase(_app){
-    
 }
 
 SVSkinMgr::~SVSkinMgr() {

@@ -61,6 +61,15 @@ namespace sv {
         };
         
         /*
+         轨道
+         */
+        
+        class SVChannel : public SVObject{
+        public:
+            void update(f32 _dt);
+        };
+        
+        /*
          蒙皮动画
          */
         class SVAnimateSkin : public SVGBase{
@@ -71,8 +80,15 @@ namespace sv {
             
             cptr8 getName();
             
+            void addChannel(SVChannelPtr _chan);
+            
+            void clearChannel();
+            
         protected:
             SVString m_name;
+            
+            typedef SVArray<SVChannelPtr> CHNPOOL;
+            CHNPOOL m_chnPool;
         };
         
         //骨架池

@@ -37,6 +37,7 @@ SVLoaderGLTF::SVLoaderGLTF(SVInst *_app)
 }
 
 SVLoaderGLTF::~SVLoaderGLTF() {
+    m_nodeArray.clear();
 }
 
 bool SVLoaderGLTF::loadFromFile(cptr8 _filename){
@@ -361,32 +362,45 @@ void SVLoaderGLTF::building() {
                 //有骨骼动画
                 SVNodePtr t_svNode = _buildSkinNode(t_node);
                 if(t_svNode) {
-                    t_svNode->setScale(15.0f,15.0f,15.0f);
-                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
-                    t_sc->addNode(t_svNode);
+//                    t_svNode->setScale(15.0f,15.0f,15.0f);
+//                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
+//                    t_sc->addNode(t_svNode);
+                    m_nodeArray.append(t_svNode);
                 }
             }else if(t_node->mesh>=0) {
                 //无骨骼动画 纯mesh
                 SVNodePtr t_svNode = _build3DNode(t_node);
                 if(t_svNode) {
-                    t_svNode->setScale(0.001f,0.001f,0.001f);
-                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
-                    t_sc->addNode(t_svNode);
+//                    t_svNode->setScale(0.001f,0.001f,0.001f);
+//                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
+//                    t_sc->addNode(t_svNode);
+                    m_nodeArray.append(t_svNode);
                 }
             }else if(t_node->camera>=0) {
                 //相机
                 SVNodePtr t_svNode = _buildCameraNode(t_node);
                 if(t_svNode) {
-                    t_sc->addNode(t_svNode);
+                    //t_sc->addNode(t_svNode);
+                    m_nodeArray.append(t_svNode);
                 }
             }
         }
     }
 }
 
+SVNodePtr SVLoaderGLTF::getNode(cptr8 _nodename)  {
+    for(s32 i=0;i<m_nodeArray.size();i++)  {
+        if( strcmp(m_nodeArray[i]->getname(),_nodename) == 0 ) {
+            return m_nodeArray[i];
+        }
+    }
+    return nullptr;
+}
+
 //构建各种节点
 SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
     SVSkinNodePtr tNode = MakeSharedPtr<SVSkinNode>(mApp);
+    tNode->setname(_node->name.c_str());
     //构建model
     SVModelPtr t_model = _buildModel(_node->mesh);
     tNode->setModel(t_model);
@@ -406,6 +420,7 @@ SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
 
 SVNodePtr SVLoaderGLTF::_build3DNode(Node* _node) {
     SVModelNodePtr tNode = MakeSharedPtr<SVModelNode>(mApp);
+    tNode->setname(_node->name.c_str());
     //构建model
     SVModelPtr t_model = _buildModel(_node->mesh);
     if(t_model) {
