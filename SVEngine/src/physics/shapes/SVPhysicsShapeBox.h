@@ -21,11 +21,11 @@ namespace sv {
             
             ~SVPhysicsShapeBox();
             
-            void init();
+            virtual void init();
             
-            void destroy();
+            virtual void destroy();
             
-            void update(f32 _dt);
+            virtual void update(f32 _dt);
             
             void setSize(const FVec3& _size);
             

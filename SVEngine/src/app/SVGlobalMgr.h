@@ -61,6 +61,8 @@ namespace sv {
         SVPythonSysPtr m_pPythonSys;
         //变形形同
         SVDeformMgrPtr m_pDeformSys;
+        //物理世界
+        SVPhysicsWorldPtr m_pPhysics;
         //时间标志
         timeval timTagLast;
     };

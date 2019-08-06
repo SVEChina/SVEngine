@@ -16,17 +16,33 @@ namespace sv {
         public:
             SVPhysicsBodyRigid(SVInst* _app);
             
+            SVPhysicsBodyRigid(SVInst* _app , SVPhysicsShapePtr _shape);
+            
             ~SVPhysicsBodyRigid();
             
-            void init();
+            virtual void init();
             
-            void destroy();
+            virtual void destroy();
             
-            void update(f32 _dt);
+            virtual void update(f32 _dt);
+            
+            void setApplyCentralForce(FVec3 _pos);
+            
+            void setApplyTorque(FVec3 _pos);
+            
+            void addConstraint();
             
             PHYSICSBODYTYPE getType();
+            
         protected:
             PHYSICSBODYTYPE m_type;
+            
+            SVPhysicsShapePtr m_pShape;
+            
+            btDefaultMotionState* m_pMyMotionState;
+            
+            btPoint2PointConstraint* p2p;
+            
         };
             
     }//!namespace logic
