@@ -28,8 +28,10 @@ namespace sv {
             SVModelPtr getModel(SVString _name);
         protected:
             bool _hasModel(SVModelPtr _model);
+            void _recycleUnuseModel();
             typedef SVArray<SVModelPtr> MODELPOOL;
             MODELPOOL m_modelPool;
+            SVLockPtr m_lock;
         };
 }//!namespace sv
 

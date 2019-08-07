@@ -95,7 +95,7 @@ void SVMesh::render() {
     if(m_pRenderMesh && t_rs) {
         SVRenderCmdNorPtr t_cmd = MakeSharedPtr<SVRenderCmdNor>();
         if(m_pMtl) {
-            t_cmd->setMaterial(m_pMtl);
+            t_cmd->setMaterial(m_pMtl->clone());
         }else{
             //走默认材质
             SVMtlCorePtr t_mtl_default = SVMtlLib::getSkinMtl(mApp);
