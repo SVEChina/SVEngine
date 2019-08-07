@@ -5,7 +5,7 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 #include "SVPhysicsBodyRigid.h"
-#include "../node/SVNode.h"
+#include "../../node/SVNode.h"
 #include "../shapes/SVPhysicsShape.h"
 #include "../../app/SVGlobalMgr.h"
 #include "../SVPhysicsWorld.h"
@@ -78,7 +78,7 @@ void SVPhysicsBodyRigid::update(f32 _dt){
         printf("world pos  = %f,%f,%f\n", trans.getOrigin().getX(),
                trans.getOrigin().getY(),
                trans.getOrigin().getZ());
-        
+
         printf("world t_quat  = %f,%f,%f,%f\n", t_bodyquat.getX(),
                t_bodyquat.getY(),
                t_bodyquat.getZ(),t_bodyquat.getAngle());

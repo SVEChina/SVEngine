@@ -354,7 +354,7 @@ void SVOpCreateTest::_process(f32 dt) {
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
         //创建3d
-       
+
         SVPhysicsShapeBoxPtr t_shapebox=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(100.0,1,100.0));
         t_shapebox->setMass(0.0);
         t_shapebox->setLocalInertia(FVec3(0.0,0.0,0.0));
@@ -402,8 +402,8 @@ void SVOpCreateTest::_process(f32 dt) {
         t_body5->setOrigin(FVec3(-2,-2,-0.4));
         t_body5->init();
         mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body5);
-        
-        
+
+
         //50.0/250.0 FVec3(50.0/250.0,50.0/250.0,50.0/250.0)
         SVPhysicsShapeBoxPtr t_shapeShere=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(0.2,0.2,0.2));
         t_shapeShere->setMass(1.0);
@@ -420,7 +420,7 @@ void SVOpCreateTest::_process(f32 dt) {
 //                    t_testBox->setScale(1.0,1.0,1.0);
 //                    t_testBox->setPosition(0.0, 0.0, 0.0);
 //                    t_testBox->setRotation(0, 0, 0);
-                    
+
                     SVLoaderGLTF t_load(mApp);
                     t_load.loadFromFile("svres/gltf/ShaiZi_2/ShaiZi.gltf");
                     t_load.building();
@@ -439,7 +439,7 @@ void SVOpCreateTest::_process(f32 dt) {
                     t_body01->removeConstraint();
                 }
             }
-            
+
         }
     }
 
