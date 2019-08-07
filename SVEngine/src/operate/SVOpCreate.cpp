@@ -283,9 +283,7 @@ SVOpCreateTest::~SVOpCreateTest(){
 }
 
 void SVOpCreateTest::_process(f32 dt) {
-//    SVLoaderGLTF t_load(mApp);
-//    t_load.loadFromFile("svres/gltf/outPut/Gril_Hair.gltf");
-//    t_load.building();
+    
 //    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
 //    if (t_pScene) {
 //        //创建测试盒子®
@@ -351,10 +349,12 @@ void SVOpCreateTest::_process(f32 dt) {
 //    billboardNode->setTexture(texture);
 //    billboardNode->setSize(500, 500);
 //    t_pScene->addNode(billboardNode);
+    
+    
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
         //创建3d
-       
+
         SVPhysicsShapeBoxPtr t_shapebox=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(100.0,1,100.0));
         t_shapebox->setMass(0.0);
         t_shapebox->setLocalInertia(FVec3(0.0,0.0,0.0));
@@ -402,8 +402,8 @@ void SVOpCreateTest::_process(f32 dt) {
         t_body5->setOrigin(FVec3(-2,-2,-0.4));
         t_body5->init();
         mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body5);
-        
-        
+
+
         //50.0/250.0 FVec3(50.0/250.0,50.0/250.0,50.0/250.0)
         SVPhysicsShapeBoxPtr t_shapeShere=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(0.2,0.2,0.2));
         t_shapeShere->setMass(1.0);
@@ -415,11 +415,17 @@ void SVOpCreateTest::_process(f32 dt) {
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-                   // t_testBox->randomInit();
-                    t_testBox->setScale(1.0,1.0,1.0);
-                    t_testBox->setPosition(0.0, 0.0, 0.0);
-                    t_testBox->setRotation(0, 0, 0);
+//                    SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+//                   // t_testBox->randomInit();
+//                    t_testBox->setScale(1.0,1.0,1.0);
+//                    t_testBox->setPosition(0.0, 0.0, 0.0);
+//                    t_testBox->setRotation(0, 0, 0);
+
+                    SVLoaderGLTF t_load(mApp);
+                    t_load.loadFromFile("svres/gltf/ShaiZi_2/ShaiZi.gltf");
+                    t_load.building();
+                    SVNodePtr t_testBox =t_load.getNode("default009");
+                    t_testBox->setScale(0.001f,0.001f,0.001f);
                     //t_testBox->setdrawAABB(true);
                     // t_testBox->setcanSelect(true);
                     t_pScene->addNode(t_testBox);
@@ -429,9 +435,11 @@ void SVOpCreateTest::_process(f32 dt) {
                     t_body01->init();
                     mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body01);
                     t_body01->addConstraint();
+                    mApp->m_pGlobalMgr->m_pPhysics->setp();
+                    t_body01->removeConstraint();
                 }
             }
-            
+
         }
     }
 

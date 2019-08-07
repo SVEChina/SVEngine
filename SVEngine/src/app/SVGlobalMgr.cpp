@@ -27,7 +27,7 @@
 #include "../act/SVActionMgr.h"
 #include <sys/time.h>
 #include "../base/svstr.h"
-#include "../physics/SVPhysicsWorld.cpp"
+#include "../physics/SVPhysicsWorld.h"
 //#include <Python/Python.h>
 
 SVGlobalMgr::SVGlobalMgr(SVInst *_app)

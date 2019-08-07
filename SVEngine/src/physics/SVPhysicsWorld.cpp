@@ -6,13 +6,14 @@
 //
 #include "SVPhysicsWorld.h"
 #include "bodies/SVPhysicsBody.h"
-
+#include "../base/SVLock.h"
 
 SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVPhysicsBase(_app) {
     m_pCollisionConfiguration = nullptr;
     m_pDispatcher = nullptr;
     m_pOverlappingPairCache = nullptr;
     m_timeStep=0.0;
+    m_lock= MakeSharedPtr<SVLock>();
 }
 
 SVPhysicsWorld::~SVPhysicsWorld() {
@@ -66,9 +67,15 @@ void SVPhysicsWorld::update(f32 _dt){
     }
 }
 
+void SVPhysicsWorld::setp(){
+     m_pDynamicsWorld->stepSimulation(1.f/60.f,10);
+}
+
 void SVPhysicsWorld::addBody(SVPhysicsBodyPtr _body){
+    m_lock->lock();
     m_pDynamicsWorld->addRigidBody(_body->getBody());
     m_bodyArray.append(_body);
+    m_lock->unlock();
 }
 
 void SVPhysicsWorld::addShape(SVPhysicsShapePtr _shape, SVPhysicsBodyPtr _body){
@@ -80,10 +87,14 @@ void SVPhysicsWorld::addJoint(SVPhysicsJointPtr _joint){
 }
 
 void SVPhysicsWorld::addConstraint(btPoint2PointConstraint* _con){
+    m_lock->lock();
     m_pDynamicsWorld->addConstraint(_con, true);
+    m_lock->unlock();
 }
 
 void SVPhysicsWorld::removeConstraint(btPoint2PointConstraint* _con){
+    m_lock->lock();
     m_pDynamicsWorld->removeConstraint(_con);
+    m_lock->unlock();
 }
 
