@@ -64,7 +64,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVTexMgr);
     DECLARE_SHAREPTR(SVUIMgr);
     DECLARE_SHAREPTR(SVPythonSys);
-    
+    DECLARE_SHAREPTR(SVModelMgr);
     //模块
     DECLARE_SHAREPTR(SVModuleBase);
     DECLARE_SHAREPTR(SVModuleSys);
@@ -181,7 +181,6 @@ namespace sv {
         //
         DECLARE_SHAREPTR(SVMesh);
         DECLARE_SHAREPTR(SVModel);
-        DECLARE_SHAREPTR(SVModelMgr);
         //
         DECLARE_SHAREPTR(SVPass);
         DECLARE_SHAREPTR(SVParamDeform);

@@ -59,13 +59,3 @@ void SVModel::render() {
         m_meshPool[i]->render();
     }
 }
-
-//
-SVModelMgr::SVModelMgr(SVInst* _app)
-:SVGBase(_app){
-    
-}
-
-SVModelMgr::~SVModelMgr() {
-    
-}

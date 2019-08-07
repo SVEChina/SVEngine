@@ -82,6 +82,7 @@ namespace sv {
         SVDeformMgrPtr getDeformMgr();
         SVStaticDataPtr getDataMgr();
         SVActionMgrPtr getActionMgr();
+        SVModelMgrPtr getModelMgr();
         SVRendererBasePtr getRenderer();
         SVRenderStatePtr getRenderState();
     };

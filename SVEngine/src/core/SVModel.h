@@ -50,14 +50,6 @@ namespace sv {
             MESHPOOL m_meshPool;
         };
         
-        //模型池
-        class SVModelMgr : public SVGBase{
-        public:
-            SVModelMgr(SVInst* _app);
-            
-            ~SVModelMgr();
-        };
-        
     }//!namespace util
     
 }//!namespace sv

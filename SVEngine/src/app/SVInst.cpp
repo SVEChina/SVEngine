@@ -223,6 +223,12 @@ SVActionMgrPtr SVInst::getActionMgr(){
     return m_pGlobalMgr->m_pActionMgr;
 }
 
+SVModelMgrPtr SVInst::getModelMgr(){
+    if(!m_pGlobalMgr)
+        return nullptr;
+    return m_pGlobalMgr->m_pModelMgr;
+}
+
 SVRendererBasePtr SVInst::getRenderer() {
     if(!m_pGlobalMgr)
         return nullptr;

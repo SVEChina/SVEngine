@@ -55,6 +55,8 @@ namespace sv {
         SVDetectMgrPtr m_pDetectMgr;
         //动画部分
         SVActionMgrPtr m_pActionMgr;
+        //模型部分
+        SVModelMgrPtr  m_pModelMgr;
         //静态数据
         SVStaticDataPtr m_pStaticData;
         //
