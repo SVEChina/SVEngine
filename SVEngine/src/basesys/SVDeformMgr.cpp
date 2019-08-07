@@ -16,13 +16,14 @@
 SVDeformMgr::SVDeformMgr(SVInst *_app)
 :SVSysBase(_app){
     m_deformArray.clear();
+    m_defromLock = MakeSharedPtr<SVLock>();
 }
 
 SVDeformMgr::~SVDeformMgr() {
 }
 
 void SVDeformMgr::init() {
-    m_defromLock = MakeSharedPtr<SVLock>();
+
 }
 
 void SVDeformMgr::destroy(){
