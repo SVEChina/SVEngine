@@ -49,9 +49,7 @@ namespace sv {
             
             void setSpacing(f32 _spacing);
             
-            f32 getWorldWidth();
-            
-            f32 getWorldHeight();
+            void setFontSize(f32 _size);
             
             f32 getWidth();
             

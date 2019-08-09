@@ -105,21 +105,13 @@ void SVBMFontNode::setSpacing(f32 _spacing){
     m_textDirty = true;
 }
 
-f32 SVBMFontNode::getWorldWidth(){
-    if (!m_font) {
-        return 0;
+void SVBMFontNode::setFontSize(f32 _size){
+    if (_size <= 0.0f) {
+        return;
     }
-    f32 t_texSize = m_font->getTextLength(m_text.c_str());
-    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), t_texSize);
-    t_total_w = t_total_w + (m_text.size() - 1)*m_spacing;
-    return t_total_w;
-}
-
-f32 SVBMFontNode::getWorldHeight(){
-    if (!m_font) {
-        return 0;
+    if (m_font) {
+        m_font->m_scale = _size;
     }
-    return m_font->m_fontHeight;
 }
 
 f32 SVBMFontNode::getWidth(){
@@ -136,8 +128,7 @@ f32 SVBMFontNode::getWidth(){
             break;
         }
     }
-    f32 t_texSize = m_font->getTextLength(m_text.c_str());
-    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), t_texSize);
+    f32 t_total_w = m_font->getTextWidth(m_text.c_str());
     t_total_w = t_total_w + (m_text.size() - 1)*m_spacing;
     return t_total_w*t_scaleX;
 }
@@ -156,7 +147,7 @@ f32 SVBMFontNode::getHeight(){
             break;
         }
     }
-    return m_font->m_fontHeight*t_scaleY;
+    return m_font->getTextHeight(m_text.c_str())*t_scaleY;
 }
 
 //void SVBMFontNode::setAtcPt(BITFONT_ATCH_PT _type){
@@ -181,8 +172,8 @@ void SVBMFontNode::setAlpha(f32 _alpha){
 void SVBMFontNode::_refresh(){
     //顶点数据
     V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];
-    f32 t_texLen = m_font->getTextLength(m_text.c_str());
-    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), t_texLen);
+    s32 t_texLen = m_font->getTextLength(m_text.c_str());
+    f32 t_total_w = m_font->getTextWidth(m_text.c_str());
     if (m_text.size() > 1) {
         t_total_w = t_total_w + (m_text.size() - 1)*m_spacing;
     }
