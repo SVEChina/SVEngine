@@ -362,8 +362,8 @@ void SVLoaderGLTF::building() {
                 //有骨骼动画
                 SVNodePtr t_svNode = _buildSkinNode(t_node);
                 if(t_svNode) {
-                    t_svNode->setScale(15.0f,15.0f,15.0f);
-                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
+//                    t_svNode->setScale(15.0f,15.0f,15.0f);
+//                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
                     t_sc->addNode(t_svNode);
                     m_nodeArray.append(t_svNode);
                 }
