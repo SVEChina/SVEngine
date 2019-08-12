@@ -535,10 +535,6 @@ namespace sv {
         
         void _loadSkinsData();
         
-        void _loadModelNodeData();
-        
-        void _refreshMeshGlobalMat(Node _node, FMat4 _mat4);
-        
         void _loadAnimationData();
         
     private:
@@ -554,6 +550,8 @@ namespace sv {
         
         SVAnimateSkinPtr _buildAnimate(s32 _index);
         
+        void _buildChnData(SVAnimateSkinPtr _ani,s32 _index);
+        
         bool _buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske);
     
         SVMtlCorePtr _buildMtl(Primitive* _prim,s32 _vtf);
@@ -561,6 +559,8 @@ namespace sv {
         SVMeshPtr _buildMeshPri(Primitive* _prim);
         
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
+        
+        void _fetchDataFromAcc(SVSkinAniDataPtr _data,Accessor *_accessor);
         
     };
     
