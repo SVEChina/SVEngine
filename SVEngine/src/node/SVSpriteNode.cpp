@@ -89,11 +89,11 @@ SVMtlCorePtr SVSpriteNode::getMaterial(){
     return m_pMtl;
 }
 
-f32 SVSpriteNode::getWorldWidth(){
+f32 SVSpriteNode::getRelativeWidth(){
     return m_width;
 }
 
-f32 SVSpriteNode::getWorldHeight(){
+f32 SVSpriteNode::getRelativeHeight(){
     return m_height;
 }
 

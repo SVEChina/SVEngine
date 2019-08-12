@@ -32,9 +32,9 @@ namespace sv {
             
             virtual void setTexcoord(f32 x,f32 y);
             
-            f32 getWorldWidth();
+            f32 getRelativeWidth();
             
-            f32 getWorldHeight();
+            f32 getRelativeHeight();
             
             f32 getWidth();
             
