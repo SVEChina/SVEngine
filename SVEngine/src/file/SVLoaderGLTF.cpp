@@ -31,7 +31,7 @@
 #include "../base/SVMap.h"
 #include "../base/SVArray.h"
 #include "../base/svstr.h"
-
+#include "../basesys/SVModelMgr.h"
 SVLoaderGLTF::SVLoaderGLTF(SVInst *_app)
 :SVGBase(_app) {
 }
@@ -545,8 +545,16 @@ SVModelPtr SVLoaderGLTF::_buildModel(s32 _index){
     //这里的pri对应mesh
     //这里mesh对应的是model
     Mesh* t_meshdata = &(m_gltf.meshes[_index]);
+    SVString t_modelName = t_meshdata->name.c_str();
+    SVModelMgrPtr t_modelMgr = mApp->getModelMgr();
+    if (t_modelMgr) {
+        SVModelPtr t_model = t_modelMgr->getModel(t_modelName);
+        if (t_model) {
+            return t_model;
+        }
+    }
     SVModelPtr t_model = MakeSharedPtr<SVModel>(mApp);
-    t_model->setName(t_meshdata->name.c_str());
+    t_model->setName(t_modelName.c_str());
     //非权重方式
     for(s32 i=0;i<t_meshdata->primitives.size();i++) {
         Primitive* t_pri = &(t_meshdata->primitives[i]);
@@ -554,6 +562,9 @@ SVModelPtr SVLoaderGLTF::_buildModel(s32 _index){
         if(t_mesh) {
             t_model->addMesh(t_mesh);
         }
+    }
+    if (t_modelMgr) {
+        t_modelMgr->addModel(t_model);
     }
     return t_model;
 }

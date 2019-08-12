@@ -352,7 +352,7 @@ void SVParticles::update(f32 ifps) {
         }
     }
 	//更新粒子包围盒
-	update_particles_bounds();
+	//update_particles_bounds();
 	//
 	update_bounds();
 }

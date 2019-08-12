@@ -33,6 +33,10 @@ void SVPhysicsBody::update(f32 _dt){
     
 }
 
+void SVPhysicsBody::setNode(SVNodePtr _node) {
+    m_pNode = _node;
+}
+
 btRigidBody* SVPhysicsBody::getBody(){
     return m_pBody;
 }

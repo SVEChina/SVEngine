@@ -45,7 +45,9 @@ namespace sv {
             
             void init();
             
-            f32 getTextWidth(cptr8 _text, s32 _count);
+            f32 getTextWidth(cptr8 _text);
+            
+            f32 getTextHeight(cptr8 _text);
             
             s32 getTextLength(cptr8 _text);
             
@@ -67,8 +69,6 @@ namespace sv {
             
             f32 m_scale;
             
-            s16 m_fontHeight;// total height of the font
-            
             s16 m_base;// y of base line
             
             s16 m_fontScaleW;
@@ -89,6 +89,7 @@ namespace sv {
             SVBMFONTCHARINFO m_defChar;
             s32 m_outlineThickness;
             bool m_hasOutline;
+            s32 m_fontHeight;// total height of the font
         };
         
     }//!namespace util

@@ -36,6 +36,8 @@ namespace sv {
             
             void removeConstraint(btPoint2PointConstraint* _con);
             
+            void setp();
+            
             inline void setFps(f32 _timeStep){
                 m_timeStep = _timeStep;
             }
@@ -49,7 +51,7 @@ namespace sv {
             btDiscreteDynamicsWorld* m_pDynamicsWorld;
         protected:
             f32 m_timeStep;
-            
+            SVLockPtr m_lock;
             SVArray<SVPhysicsBodyPtr> m_bodyArray;
            // BODYARRAY m_bodyArray;
             

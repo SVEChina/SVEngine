@@ -9,6 +9,7 @@
 #include "../basesys/SVConfig.h"
 #include "../rendercore/SVFboObject.h"
 #include "../act/SVNodeCtrlCamera.h"
+
 //
 SVCameraNode::SVCameraNode(SVInst *_app)
 : SVNode(_app) {
@@ -34,6 +35,7 @@ SVCameraNode::~SVCameraNode() {
 }
 
 void SVCameraNode::update(f32 _dt) {
+
     _removeUnuseLinkFboObject();
     //
     if(m_pCtrl) {
@@ -74,7 +76,7 @@ void SVCameraNode::resetCamera(f32 w, f32 h, f32 fovy) {
     m_p_zn = 100.0f;
     m_p_zf = 15000.0f;
     m_fovy = fovy;
-    m_postion.set(0.0f, 0.0f, 0.5f * m_height / tan(0.5f*m_fovy * DEGTORAD));
+    m_postion.set(0.0f, 0.0, 0.5f * m_height / tan(0.5f*m_fovy * DEGTORAD));
     m_targetEx.set(0.0f, 0.0f, 0.0f);
     m_direction = m_targetEx - m_postion;
     m_direction.normalize();

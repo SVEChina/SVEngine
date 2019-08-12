@@ -51,24 +51,27 @@ void SVBMFont::init(){
 
 }
 
-f32 SVBMFont::getTextWidth(cptr8 _text, s32 _count){
-    if( _count <= 0 )
-        _count = _getTextLength(_text);
+f32 SVBMFont::getTextWidth(cptr8 _text){
+    s32 count = _getTextLength(_text);
 
     f32 x = 0;
 
-    for( s32 n = 0; n < _count; )
+    for( s32 n = 0; n < count; )
     {
         s32 charId = getTextChar(_text,n,&n);
 
         SVBMFont::SVBMFONTCHARINFO ch = getChar(charId);
         x += m_scale * (ch.xAdvance);
 
-        if( n < _count )
+        if( n < count )
             x += _adjustForKerningPairs(charId, getTextChar(_text,n));
     }
 
     return x;
+}
+
+f32 SVBMFont::getTextHeight(cptr8 _text){
+    return m_scale*m_fontHeight;
 }
 
 s32 SVBMFont::getTextLength(cptr8 _text){

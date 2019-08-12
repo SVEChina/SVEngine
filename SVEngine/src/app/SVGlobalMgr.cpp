@@ -16,6 +16,7 @@
 #include "../basesys/SVUIMgr.h"
 #include "../basesys/SVStaticData.h"
 #include "../basesys/SVDeformMgr.h"
+#include "../basesys/SVModelMgr.h"
 #include "../module/SVModuleSys.h"
 #include "../file/SVFileMgr.h"
 #include "../event/SVEventMgr.h"
@@ -26,7 +27,7 @@
 #include "../act/SVActionMgr.h"
 #include <sys/time.h>
 #include "../base/svstr.h"
-#include "../physics/SVPhysicsWorld.cpp"
+#include "../physics/SVPhysicsWorld.h"
 //#include <Python/Python.h>
 
 SVGlobalMgr::SVGlobalMgr(SVInst *_app)
@@ -45,12 +46,28 @@ SVGlobalMgr::SVGlobalMgr(SVInst *_app)
     m_pDetectMgr = nullptr;
     m_pStaticData = nullptr;
     m_pActionMgr = nullptr;
+    m_pModelMgr = nullptr;
     m_pDeformSys = nullptr;
     m_pPhysics =nullptr;
 }
 
 SVGlobalMgr::~SVGlobalMgr() {
     m_pFileMgr = nullptr;
+    m_pConfig = nullptr;
+    m_pEventMgr = nullptr;
+    m_pBasicSys = nullptr;
+    m_pSceneMgr = nullptr;
+    m_pCameraMgr = nullptr;
+    m_pUIMgr = nullptr;
+    m_pShaderMgr = nullptr;
+    m_pTexMgr = nullptr;
+    m_pRenderMgr = nullptr;
+    m_pDetectMgr = nullptr;
+    m_pStaticData = nullptr;
+    m_pActionMgr = nullptr;
+    m_pModelMgr = nullptr;
+    m_pDeformSys = nullptr;
+    m_pPhysics =nullptr;
 }
 
 void SVGlobalMgr::init() {
@@ -96,6 +113,9 @@ void SVGlobalMgr::init() {
     //动画运动管理系统
     m_pActionMgr = MakeSharedPtr<SVActionMgr>(mApp);
     m_pActionMgr->init();
+    //模型管理部分
+    m_pModelMgr = MakeSharedPtr<SVModelMgr>(mApp);
+    m_pModelMgr->init();
     //纹理管理器初始化
     m_pTexMgr = MakeSharedPtr<SVTexMgr>(mApp);
     m_pTexMgr->init();
@@ -113,95 +133,83 @@ void SVGlobalMgr::init() {
 }
 
 void SVGlobalMgr::destroy() {
-    //第一销毁数据
-    m_pStaticData = nullptr;
-    //
     if (m_pDetectMgr) {
         //识别模块
         m_pDetectMgr->destroy();
-        m_pDetectMgr = nullptr;
         SV_LOG_ERROR("SVDetectMgr:destroy sucess");
     }
     //UI析构
     if( m_pUIMgr ) {
         m_pUIMgr->destroy();
-        m_pUIMgr = nullptr;
         SV_LOG_ERROR("m_pUIMgr:destroy sucess");
     }
     //相机析构
     if (m_pCameraMgr) {
         //要先析构相机上的节点，才能析构场景
         m_pCameraMgr->destroy();
-        m_pCameraMgr = nullptr;
         SV_LOG_ERROR("SVCameraMgr:destroy sucess");
     }
     //场景析构
     if (m_pSceneMgr) {
         //场景析够(场景虽然也是节点 但是需要单独管理,因为节点需要挂在场景上,所以在节点没析够前,场景不能析构掉)
         m_pSceneMgr->destroy();
-        m_pSceneMgr = nullptr;
         SV_LOG_ERROR("SVSceneMgr:destroy sucess");
     }
 
     //纹理析够 析构都要用到渲染模块
     if (m_pTexMgr) {
         m_pTexMgr->destroy();
-        m_pTexMgr = nullptr;
         SV_LOG_ERROR("SVTexMgr:destroy sucess");
     }
     //shader析构
     if (m_pShaderMgr) {
         //shader 析构都要用到渲染模块
         m_pShaderMgr->destroy();
-        m_pShaderMgr = nullptr;
         SV_LOG_ERROR("SVShaderMgr:destroy sucess");
     }
     //动画运动析构
     if (m_pActionMgr) {
         m_pActionMgr->destroy();
-        m_pActionMgr = nullptr;
         SV_LOG_ERROR("SVAnimateSysPtr:destroy sucess");
+    }
+    //模型析构
+    if (m_pModelMgr) {
+        m_pModelMgr->destroy();
+        SV_LOG_ERROR("SVModelMgr:destroy sucess");
     }
     //组件系统析构
     if(m_pModuleSys) {
         m_pModuleSys->destroy();
-        m_pModuleSys = nullptr;
         SV_LOG_ERROR("m_pModuleSys:destroy sucess");
     }
     if (m_pRenderMgr) {
         //渲染析够
         m_pRenderMgr->destroy();
-        m_pRenderMgr = nullptr;
         SV_LOG_ERROR("SVRenderMgr:destroy sucess");
     }
     if(m_pBasicSys){
         //基础系统
         m_pBasicSys->destroy();
-        m_pBasicSys = nullptr;
         SV_LOG_ERROR("SVBasicSys:destroy sucess");
     }
     if (m_pEventMgr) {
         //事件系统最后析够,因为很多其他模块 会注册监听事件
         m_pEventMgr->destroy();
-        m_pEventMgr = nullptr;
         SV_LOG_ERROR("SVEventMgr:destroy sucess");
     }
     if (m_pConfig) {
         //配置系统析够
         m_pConfig->destroy();
-        m_pConfig = nullptr;
         SV_LOG_ERROR("SVConfig:destroy sucess");
     }
     
     if(m_pDeformSys){
         m_pDeformSys->destroy();
-        m_pDeformSys=nullptr;
         SV_LOG_ERROR("m_pDeformSys:destroy sucess");
     }
     
     if(m_pPhysics){
         m_pPhysics->destroy();
-        m_pPhysics=nullptr;
         SV_LOG_ERROR("m_pPhysics:destroy sucess");
     }
 }
@@ -215,6 +223,8 @@ void SVGlobalMgr::update(f32 dt) {
     timeTag(false,"event cost");
     m_pActionMgr->update(dt);
     timeTag(false,"action cost");
+    m_pModelMgr->update(dt);
+    timeTag(false,"modelmgr cost");
     m_pCameraMgr->update(dt);           //相机更新(节点系统)
     timeTag(false,"camera cost");
     m_pSceneMgr->update(dt);            //场景更新(节点系统)

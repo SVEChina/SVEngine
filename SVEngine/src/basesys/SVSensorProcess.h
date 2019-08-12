@@ -33,7 +33,4 @@ namespace sv {
 
 }//!namespace sv
 
-
-
-
 #endif //SV_SENSORMODULE_H

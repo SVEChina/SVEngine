@@ -32,6 +32,8 @@ namespace sv {
             
             void addConstraint();
             
+            void removeConstraint();
+            
             PHYSICSBODYTYPE getType();
             
         protected:

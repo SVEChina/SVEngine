@@ -6,13 +6,14 @@
 //
 #include "SVPhysicsWorld.h"
 #include "bodies/SVPhysicsBody.h"
-
+#include "../base/SVLock.h"
 
 SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVPhysicsBase(_app) {
     m_pCollisionConfiguration = nullptr;
     m_pDispatcher = nullptr;
     m_pOverlappingPairCache = nullptr;
     m_timeStep=0.0;
+    m_lock= MakeSharedPtr<SVLock>();
 }
 
 SVPhysicsWorld::~SVPhysicsWorld() {
@@ -37,25 +38,30 @@ void SVPhysicsWorld::init(){
 
 void SVPhysicsWorld::destroy(){
     m_bodyArray.clear();
-    if(m_pCollisionConfiguration){
-        free(m_pCollisionConfiguration);
-        m_pCollisionConfiguration=nullptr;
+ 
+    if(m_pDynamicsWorld){
+        delete m_pDynamicsWorld;
+        m_pDynamicsWorld=nullptr;
     }
-    if(m_pDispatcher){
-        free(m_pDispatcher);
-        m_pDispatcher=nullptr;
-    }
-    if(m_pOverlappingPairCache){
-        free(m_pOverlappingPairCache);
-        m_pOverlappingPairCache=nullptr;
-    }
+    
     if(m_pSolver){
-        free(m_pSolver);
+        delete m_pSolver ;
         m_pSolver=nullptr;
     }
-    if(m_pDynamicsWorld){
-        free(m_pDynamicsWorld);
-        m_pDynamicsWorld=nullptr;
+
+    if(m_pOverlappingPairCache){
+        delete m_pOverlappingPairCache;
+        m_pOverlappingPairCache=nullptr;
+    }
+    
+    if(m_pDispatcher){
+        delete m_pDispatcher;
+        m_pDispatcher=nullptr;
+    }
+    
+    if(m_pCollisionConfiguration){
+        delete m_pCollisionConfiguration;
+        m_pCollisionConfiguration=nullptr;
     }
 }
 
@@ -66,9 +72,15 @@ void SVPhysicsWorld::update(f32 _dt){
     }
 }
 
+void SVPhysicsWorld::setp(){
+     m_pDynamicsWorld->stepSimulation(1.f/60.f,10);
+}
+
 void SVPhysicsWorld::addBody(SVPhysicsBodyPtr _body){
+    m_lock->lock();
     m_pDynamicsWorld->addRigidBody(_body->getBody());
     m_bodyArray.append(_body);
+    m_lock->unlock();
 }
 
 void SVPhysicsWorld::addShape(SVPhysicsShapePtr _shape, SVPhysicsBodyPtr _body){
@@ -80,10 +92,14 @@ void SVPhysicsWorld::addJoint(SVPhysicsJointPtr _joint){
 }
 
 void SVPhysicsWorld::addConstraint(btPoint2PointConstraint* _con){
+    m_lock->lock();
     m_pDynamicsWorld->addConstraint(_con, true);
+    m_lock->unlock();
 }
 
 void SVPhysicsWorld::removeConstraint(btPoint2PointConstraint* _con){
+    m_lock->lock();
     m_pDynamicsWorld->removeConstraint(_con);
+    m_lock->unlock();
 }
 
