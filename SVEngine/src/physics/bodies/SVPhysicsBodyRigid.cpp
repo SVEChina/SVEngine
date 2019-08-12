@@ -45,8 +45,6 @@ void SVPhysicsBodyRigid::init(){
     m_pBody = new btRigidBody(rbInfo);
     m_pBody->setUserIndex(-1);
     m_pBody->setRestitution(btScalar(0.6));
-
-   
 }
 
 void SVPhysicsBodyRigid::destroy(){
@@ -59,7 +57,6 @@ void SVPhysicsBodyRigid::destroy(){
         free(m_pMyMotionState);
         m_pMyMotionState = nullptr;
     }
-
 }
 
 void SVPhysicsBodyRigid::update(f32 _dt){
@@ -75,13 +72,13 @@ void SVPhysicsBodyRigid::update(f32 _dt){
         btQuaternion t_bodyquat = trans.getRotation();
         SVQuat t_quat=SVQuat(FVec4(t_bodyquat[0],t_bodyquat[1],t_bodyquat[2],t_bodyquat[3]));
         m_pNode->setQuat(t_quat);
-        printf("world pos  = %f,%f,%f\n", trans.getOrigin().getX(),
-               trans.getOrigin().getY(),
-               trans.getOrigin().getZ());
-
-        printf("world t_quat  = %f,%f,%f,%f\n", t_bodyquat.getX(),
-               t_bodyquat.getY(),
-               t_bodyquat.getZ(),t_bodyquat.getAngle());
+//        printf("world pos  = %f,%f,%f\n", trans.getOrigin().getX(),
+//               trans.getOrigin().getY(),
+//               trans.getOrigin().getZ());
+//
+//        printf("world t_quat  = %f,%f,%f,%f\n", t_bodyquat.getX(),
+//               t_bodyquat.getY(),
+//               t_bodyquat.getZ(),t_bodyquat.getAngle());
     }
 }
 

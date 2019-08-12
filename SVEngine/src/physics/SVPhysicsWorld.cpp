@@ -38,25 +38,30 @@ void SVPhysicsWorld::init(){
 
 void SVPhysicsWorld::destroy(){
     m_bodyArray.clear();
-    if(m_pCollisionConfiguration){
-        free(m_pCollisionConfiguration);
-        m_pCollisionConfiguration=nullptr;
+ 
+    if(m_pDynamicsWorld){
+        delete m_pDynamicsWorld;
+        m_pDynamicsWorld=nullptr;
     }
-    if(m_pDispatcher){
-        free(m_pDispatcher);
-        m_pDispatcher=nullptr;
-    }
-    if(m_pOverlappingPairCache){
-        free(m_pOverlappingPairCache);
-        m_pOverlappingPairCache=nullptr;
-    }
+    
     if(m_pSolver){
-        free(m_pSolver);
+        delete m_pSolver ;
         m_pSolver=nullptr;
     }
-    if(m_pDynamicsWorld){
-        free(m_pDynamicsWorld);
-        m_pDynamicsWorld=nullptr;
+
+    if(m_pOverlappingPairCache){
+        delete m_pOverlappingPairCache;
+        m_pOverlappingPairCache=nullptr;
+    }
+    
+    if(m_pDispatcher){
+        delete m_pDispatcher;
+        m_pDispatcher=nullptr;
+    }
+    
+    if(m_pCollisionConfiguration){
+        delete m_pCollisionConfiguration;
+        m_pCollisionConfiguration=nullptr;
     }
 }
 
