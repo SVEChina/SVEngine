@@ -64,6 +64,12 @@ void SVRendererMetal::resize(s32 _w,s32 _h) {
  void SVRendererMetal::submitUniformMatrix(cptr8 _name,f32* _data){
      
  }
+
+//提交unifrom matrix array
+void SVRendererMetal::submitUniformMatrixArray(cptr8 _name,f32* _data,s32 _size){
+    
+}
+
 //提交unifrom i1
  void SVRendererMetal::submitUniformi(cptr8 _name,s32 _data){
      

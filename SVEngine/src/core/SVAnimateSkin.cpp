@@ -28,7 +28,34 @@ void SVBone::clear() {
 }
 
 void SVBone::update() {
+    //
+//    void setTranslate(const FVec3 &v);
+//    void setRotate(const FVec3 &axis,f32 angle);
+//    void setRotateX(f32 angle);
+//    void setRotateY(f32 angle);
+//    void setRotateZ(f32 angle);
+//    void setScale(const FVec3 &v);
+//
+    FMat4 t_transMat;
+    t_transMat.setIdentity();
+    t_transMat.setTranslate(m_tran);
     
+    FMat4 t_scaleMat;
+    t_scaleMat.setIdentity();
+    t_scaleMat.setScale(m_tran);
+    
+    FMat4 t_rotMat;
+    t_rotMat.setIdentity();
+    t_rotMat.set(SVQuat(m_rot));
+    
+    FMat4 t_relaMat = t_transMat*t_rotMat*t_scaleMat;
+    if(m_pParent) {
+        m_absoluteMat = m_pParent->m_absoluteMat * t_relaMat;
+    }
+    //
+    for(s32 i=0;i<m_children.size();i++) {
+        m_children[i]->update();
+    }
 }
 
 //
@@ -38,6 +65,14 @@ SVSkeleton::SVSkeleton(){
     m_boneArray.clear();
 }
 
+void SVSkeleton::refresh() {
+    //骨架刷新 计算各自的绝对矩阵
+    if(m_root) {
+        m_root->update();
+    }
+    //传递数值
+    
+}
 
 void SVSkeleton::addBone(SVBonePtr _bone) {
     m_boneArray.append(_bone);

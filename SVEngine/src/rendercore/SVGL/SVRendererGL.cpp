@@ -289,6 +289,14 @@ void SVRendererGL::submitUniformMatrix(cptr8 _name,f32* _data){
     }
 }
 
+//提交unifrom matrix
+void SVRendererGL::submitUniformMatrixArray(cptr8 _name,f32* _data,s32 _size){
+    s32 m_uni_m = glGetUniformLocation(m_pRState->m_shaderID, _name);
+    if(m_uni_m>=0) {
+        glUniformMatrix4fv(m_uni_m, _size, GL_FALSE, _data);
+    }
+}
+
 //提交unifrom i1
 void SVRendererGL::submitUniformi(cptr8 _name,s32 _data) {
     s32 m_uni_m = glGetUniformLocation(m_pRState->m_shaderID, _name);

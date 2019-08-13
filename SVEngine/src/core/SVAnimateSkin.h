@@ -39,6 +39,8 @@ namespace sv {
             FVec4 m_rot;
             SVBonePtr m_pParent;
             //
+            FMat4 m_absoluteMat;
+            //
             typedef SVArray<SVBonePtr> BONEPOOL;
             BONEPOOL m_children;
             //
@@ -61,6 +63,8 @@ namespace sv {
             SVString m_name;
             
             SVBonePtr m_root;
+            
+            void refresh();
             
         protected:
             typedef SVArray<SVBonePtr> BONEPOOL;
