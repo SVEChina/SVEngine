@@ -643,8 +643,8 @@ void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf,s32 _count,s32 _mode) {
             if (_vf & D_VF_BONE) {
                 //骨骼ID
                 glEnableVertexAttribArray(CHANNEL_BONE_ID);
-                glVertexAttribPointer(CHANNEL_BONE_ID, 4, GL_FLOAT, GL_FALSE, t_ver_len,(void *)t_off);
-                t_off += 4 * sizeof(f32);
+                glVertexAttribPointer(CHANNEL_BONE_ID, 4, GL_UNSIGNED_SHORT, GL_FALSE, t_ver_len,(void *)t_off);
+                t_off += 4 * sizeof(u16);
             }
             if (_vf & D_VF_BONE_W) {
                 //骨骼权重
@@ -701,8 +701,8 @@ void SVRendererGL::svUpdateVertexFormate(VFTYPE _vf,s32 _count,s32 _mode) {
             if (_vf & D_VF_BONE) {
                 //骨骼ID
                 glEnableVertexAttribArray(CHANNEL_BONE_ID);
-                glVertexAttribPointer(CHANNEL_BONE_ID, 4, GL_FLOAT, GL_FALSE, 0,(void *)t_off);
-                t_off += 4 * sizeof(f32) * _count;
+                glVertexAttribPointer(CHANNEL_BONE_ID, 4, GL_UNSIGNED_SHORT, GL_FALSE, 0,(void *)t_off);
+                t_off += 4 * sizeof(u16) * _count;
             }
             if (_vf & D_VF_BONE_W) {
                 //骨骼权重

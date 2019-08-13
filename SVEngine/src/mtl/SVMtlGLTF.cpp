@@ -39,13 +39,6 @@ SVMtlGLTF::SVMtlGLTF(SVMtlGLTF *_mtl)
     m_emissiveFactor =  _mtl->m_emissiveFactor;
 }
 
-SVMtlGLTF::~SVMtlGLTF() {
-}
-
-SVMtlCorePtr SVMtlGLTF::clone() {
-    return PointerSharedPtr<SVMtlGLTF>(new SVMtlGLTF(this));
-}
-
 //保护构造函数
 SVMtlGLTF::SVMtlGLTF(SVInst *_app,cptr8 _name)
 :SVMtlCore(_app,_name) {
@@ -60,6 +53,13 @@ SVMtlGLTF::SVMtlGLTF(SVInst *_app,cptr8 _name)
     m_normalScale = 1.0f;
     m_occlusionStrength = 1.0f;
     m_emissiveFactor = FVec3(0.0f,0.0f,0.0f);
+}
+
+SVMtlGLTF::~SVMtlGLTF() {
+}
+
+SVMtlCorePtr SVMtlGLTF::clone() {
+    return PointerSharedPtr<SVMtlGLTF>(new SVMtlGLTF(this));
 }
 
 void SVMtlGLTF::update(f32 dt) {
@@ -92,6 +92,7 @@ void SVMtlGLTF::refresh() {
 //
 SVMtlGLTFSkin::SVMtlGLTFSkin(SVInst *_app)
 :SVMtlGLTF(_app,"gltfskin") {
+    memset(m_vecBoneMatrix,0.0f,MAX_BONES_DATA);
     m_pBaseColorTex = nullptr;
     m_pMetallicRoughnessTex = nullptr;
     m_pNormalTex = nullptr;
@@ -107,14 +108,14 @@ SVMtlGLTFSkin::SVMtlGLTFSkin(SVInst *_app)
 
 SVMtlGLTFSkin::SVMtlGLTFSkin(SVMtlGLTFSkin *_mtl)
 :SVMtlGLTF(_mtl){
-    memset(m_vecBoneMatrix,0.0f,MAX_BONES_DATA);
+    memcpy(m_vecBoneMatrix,_mtl->m_vecBoneMatrix,MAX_BONES_DATA);
 }
 
 SVMtlGLTFSkin::~SVMtlGLTFSkin() {
 }
 
 SVMtlCorePtr SVMtlGLTFSkin::clone() {
-    return PointerSharedPtr<SVMtlGLTF>(new SVMtlGLTF(this));
+    return PointerSharedPtr<SVMtlGLTFSkin>(new SVMtlGLTFSkin(this));
 }
 
 void SVMtlGLTFSkin::update(f32 dt) {

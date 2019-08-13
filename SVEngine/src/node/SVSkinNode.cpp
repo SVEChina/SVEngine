@@ -31,13 +31,16 @@ SVSkinNode::~SVSkinNode() {
 
 void SVSkinNode::update(f32 dt) {
     SVNode::update(dt);
-    //
+    //更新动画
     if(m_pActAni) {
         m_pActAni->update(dt);
     }
+    if(m_pSke){
+        m_pSke->refresh();
+    }
     //
     if(m_pModel) {
-        m_pModel->update(dt,m_absolutMat);
+        m_pModel->update(dt,m_absolutMat,m_pSke);
     }
 }
 

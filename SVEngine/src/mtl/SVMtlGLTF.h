@@ -68,7 +68,7 @@ namespace sv {
             
             void refresh();
             
-        private:
+        protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
             //
             f32 m_vecBoneMatrix[MAX_BONES_DATA];

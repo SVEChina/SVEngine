@@ -48,9 +48,9 @@ SVBoundBox SVModel::getBox() {
     return m_box;
 }
 
-void SVModel::update(f32 _dt,FMat4& _mat) {
+void SVModel::update(f32 _dt,FMat4& _mat,SVSkeletonPtr _ske) {
     for (s32 i = 0; i < m_meshPool.size(); i++) {
-        m_meshPool[i]->update(_dt,_mat);
+        m_meshPool[i]->update(_dt,_mat,_ske);
     }
 }
 

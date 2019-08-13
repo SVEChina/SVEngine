@@ -38,7 +38,7 @@ SVModelNode::~SVModelNode() {
 void SVModelNode::update(f32 dt) {
     SVNode::update(dt);
     if(m_pModel) {
-        m_pModel->update(dt,m_absolutMat);
+        m_pModel->update(dt,m_absolutMat,nullptr);
         //更新包围盒
         m_aabbBox = m_pModel->getBox();
     }

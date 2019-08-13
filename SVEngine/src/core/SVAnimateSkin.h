@@ -31,8 +31,6 @@ namespace sv {
         class SVBone :public SVObject {
         public:
             SVBone();
-            
-            SVString m_name;
             s32 m_id;
             FVec3 m_tran;
             FVec3 m_scale;
@@ -40,6 +38,10 @@ namespace sv {
             SVBonePtr m_pParent;
             //
             FMat4 m_absoluteMat;
+            //
+            FMat4 m_relationMat;
+            //
+            SVString m_name;
             //
             typedef SVArray<SVBonePtr> BONEPOOL;
             BONEPOOL m_children;
@@ -58,7 +60,7 @@ namespace sv {
             
             void addBone(SVBonePtr _bone); //需要单独对SVLoaderGLTF开放接口 **fuyizhou
             
-            SVBonePtr getBone(s32 _index);
+            SVBonePtr getBone(s32 _id);
             
             SVString m_name;
             

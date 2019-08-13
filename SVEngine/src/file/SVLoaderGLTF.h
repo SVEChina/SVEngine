@@ -552,15 +552,17 @@ namespace sv {
         
         void _buildChnData(SVAnimateSkinPtr _ani,s32 _index);
         
-        bool _buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske);
+        bool _buildBone(SVBonePtr _parent,Skin* _skinData,s32 _index,SVSkeletonPtr _ske);
     
         SVMtlCorePtr _buildMtl(Primitive* _prim,s32 _vtf);
         
         SVMeshPtr _buildMeshPri(Primitive* _prim);
-        
+        //抓模型数据
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
-        
+        //抓动画数据
         void _fetchDataFromAcc(SVSkinAniDataPtr _data,Accessor *_accessor);
+        //抓骨架数据
+        void _fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor *_accessor);
         
     };
     

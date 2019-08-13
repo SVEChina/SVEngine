@@ -40,7 +40,7 @@ namespace sv {
             
             void setMtl(SVMtlCorePtr _mtl);
             
-            void update(f32 _dt,FMat4& _mat);
+            void update(f32 _dt,FMat4& _mat,SVSkeletonPtr _ske);
             
             void render();
             

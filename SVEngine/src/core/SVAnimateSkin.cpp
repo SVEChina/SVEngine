@@ -78,9 +78,9 @@ void SVSkeleton::addBone(SVBonePtr _bone) {
     m_boneArray.append(_bone);
 }
 
-SVBonePtr SVSkeleton::getBone(s32 _index) {
+SVBonePtr SVSkeleton::getBone(s32 _id) {
     for(s32 i=0;i<m_boneArray.size();i++) {
-        if( m_boneArray[i]->m_id == _index ) {
+        if( m_boneArray[i]->m_id == _id ) {
             return m_boneArray[i];
         }
     }
