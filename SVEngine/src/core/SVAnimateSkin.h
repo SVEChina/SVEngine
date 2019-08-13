@@ -62,18 +62,16 @@ namespace sv {
             
             SVBonePtr getBone(s32 _id);
             
+            void refresh();
+
+            void destroy();
+            
             SVString m_name;
             
             SVBonePtr m_root;
             
-            void refresh();
-            
-        protected:
             typedef SVArray<SVBonePtr> BONEPOOL;
             BONEPOOL m_boneArray;
-        
-        public:
-            void destroy();
         };
         
         /*

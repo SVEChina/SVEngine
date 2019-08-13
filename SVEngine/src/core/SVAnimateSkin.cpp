@@ -28,13 +28,6 @@ void SVBone::clear() {
 }
 
 void SVBone::update() {
-    //
-//    void setTranslate(const FVec3 &v);
-//    void setRotate(const FVec3 &axis,f32 angle);
-//    void setRotateX(f32 angle);
-//    void setRotateY(f32 angle);
-//    void setRotateZ(f32 angle);
-//    void setScale(const FVec3 &v);
     FMat4 t_transMat;
     t_transMat.setIdentity();
     t_transMat.setTranslate(m_tran);

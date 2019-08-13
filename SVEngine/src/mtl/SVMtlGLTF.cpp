@@ -8,6 +8,7 @@
 #include "SVMtlGLTF.h"
 #include "../mtl/SVTexture.h"
 #include "../rendercore/SVRendererBase.h"
+#include "../core/SVAnimateSkin.h"
 
 SVMtlGLTF::SVMtlGLTF(SVInst *_app)
 :SVMtlCore(_app,"gltf3d") {
@@ -123,7 +124,16 @@ SVMtlCorePtr SVMtlGLTFSkin::clone() {
 void SVMtlGLTFSkin::update(f32 dt) {
     SVMtlGLTF::update(dt);
     //获取骨架数据
-    
+    if(m_pSke) {
+        for(s32 i=0;i<m_pSke->m_boneArray.size();i++) {
+            SVBonePtr t_bone = m_pSke->m_boneArray[i];
+            s32 t_flag = t_bone->m_id*4;
+            if( t_flag < MAX_BONES_DATA) {
+                f32* t_pointer = t_bone->m_relationMat.get();
+                memcpy(&m_vecBoneMatrix[t_flag], t_pointer, 16*sizeof(f32));
+            }
+        }
+    }
 }
 
 void SVMtlGLTFSkin::refresh() {
