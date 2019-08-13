@@ -12,12 +12,20 @@
 #include "../base/SVVec3.h"
 #include "../base/SVVec4.h"
 #include "../base/SVMat4.h"
+#include "../base/SVQuat.h"
 #include "../base/svstr.h"
 #include "../base/SVMap.h"
 
 namespace sv {
     
     namespace util{
+        
+        enum SVChanType {
+            E_CN_T_TRANS = 0,
+            E_CN_T_SCALE = 1,
+            E_CN_T_ROT = 2,
+            E_CN_T_WEIGHT = 3
+        };
         
         //骨头
         class SVBone :public SVObject {
@@ -47,6 +55,8 @@ namespace sv {
             SVSkeleton();
             
             void addBone(SVBonePtr _bone); //需要单独对SVLoaderGLTF开放接口 **fuyizhou
+            
+            SVBonePtr getBone(s32 _index);
             
             SVString m_name;
             
@@ -97,6 +107,12 @@ namespace sv {
 
             ~SVAnimateSkin();
             
+            void update(f32 _dt);
+            
+            void bind(SVSkeletonPtr _ske);
+            
+            void unbind();
+
             cptr8 getName();
             
             void addChannel(SVChannelPtr _chan);
@@ -109,12 +125,23 @@ namespace sv {
             
         protected:
             SVString m_name;
+            //关联骨架
+            SVSkeletonPtr m_pSke;
+            //
+            f32 m_accTime;
+            f32 m_totalTime;
             //动画数据
             typedef SVMap<s32,SVSkinAniDataPtr> DATAPOOL;
             DATAPOOL m_dataPool;
             //数据关系
             typedef SVArray<SVChannelPtr> CHNPOOL;
             CHNPOOL m_chnPool;
+            //
+        private:
+            FVec3 _lerp_trans(s32 _mod,f32 _timepre,f32 _timenxt,f32 _timecur,FVec3 _pos1,FVec3 _pos2);
+            FVec3 _lerp_scale(s32 _mod,f32 _timepre,f32 _timenxt,f32 _timecur,FVec3 _scale1,FVec3 _scale2);
+            FVec4 _lerp_rot(s32 _mod,f32 _timepre,f32 _timenxt,f32 _timecur,FVec4 _rot1,FVec4 _rot2);
+            f32 _lerp_weights();
         };
         
         //骨架池

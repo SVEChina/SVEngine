@@ -495,13 +495,13 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
         //
         t_sve_chn->m_target = t_chn_data->target_node; //骨骼目标
         if( t_chn_data->target_path == "translation") {
-            t_sve_chn->m_type = 0;
+            t_sve_chn->m_type = E_CN_T_TRANS;
         }else if( t_chn_data->target_path == "rotation") {
-            t_sve_chn->m_type = 1;
+            t_sve_chn->m_type = E_CN_T_ROT;
         }else if( t_chn_data->target_path == "scale") {
-            t_sve_chn->m_type = 2;
+            t_sve_chn->m_type = E_CN_T_SCALE;
         }else if( t_chn_data->target_path == "weights") {
-            t_sve_chn->m_type = 3;
+            t_sve_chn->m_type = E_CN_T_WEIGHT;
         }
         //
         if(t_chn_data->sampler>=0) {

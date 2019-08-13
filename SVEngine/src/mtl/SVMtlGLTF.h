@@ -60,6 +60,15 @@ namespace sv {
             ~SVMtlGLTFSkin();
             
             virtual SVMtlCorePtr clone();
+            
+            void update(f32 dt);
+            
+            void refresh();
+            
+        private:
+            virtual void _submitUniform(SVRendererBasePtr _render);
+            //
+            
         };
 
 

@@ -115,4 +115,16 @@ SVMtlCorePtr SVMtlGLTFSkin::clone() {
     return PointerSharedPtr<SVMtlGLTF>(new SVMtlGLTF(this));
 }
 
+void SVMtlGLTFSkin::update(f32 dt) {
+    SVMtlGLTF::update(dt);
+}
 
+void SVMtlGLTFSkin::refresh() {
+    SVMtlGLTF::refresh();
+}
+
+void SVMtlGLTFSkin::_submitUniform(SVRendererBasePtr _render){
+    SVMtlCore::_submitUniform(_render);
+    //传递骨骼数据
+    
+}
