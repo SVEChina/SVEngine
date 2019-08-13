@@ -74,6 +74,18 @@ void SVAnimateSkin::clearChannel() {
     m_chnPool.destroy();
 }
 
+void SVAnimateSkin::addSkinAniData(s32 _index,SVSkinAniDataPtr _obj) {
+    m_dataPool.append(_index,_obj);
+}
+
+bool SVAnimateSkin::hadSkinAniData(s32 _index) {
+    DATAPOOL::Iterator it = m_dataPool.find(_index);
+    if(it != m_dataPool.end() ) {
+        return true;
+    }
+    return false;
+}
+
 //
 SVSkinMgr::SVSkinMgr(SVInst* _app)
 :SVGBase(_app){
