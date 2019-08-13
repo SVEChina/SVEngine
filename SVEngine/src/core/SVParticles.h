@@ -158,11 +158,6 @@ namespace sv {
             void *data;                          // contact data pointer
         };
         
-        struct VETEXCOLORDATA{
-            FVec4 color;
-            s32   weights;
-        };
-        
         //
         class SVParticlesWorldBase :public SVObject {
         public:
@@ -529,15 +524,6 @@ namespace sv {
             sv_inline const SVBoundSphere &getSVBoundSphere() const {
                 return bound_sphere;
             }
-            
-            void addVetexColor(FVec3 &_color, s32 _weights);
-            
-            bool removeVetexColor(s32 _index);
-            
-            bool getVetexColor(VETEXCOLORDATA &_vetexColorData, s32 _index);
-            
-            void setVetexColor(FVec3 &_color, s32 _weights, s32 _index);
-            
         protected:
             // update particles
             void spawn_particle(Particle &p,f32 k,f32 ifps);
@@ -570,12 +556,6 @@ namespace sv {
             void create_route_particles(V3_PARTICLE *vertex,const FMat4 &modelview,const FVec3 &camera);
             
             void create_chain_particles(V3_PARTICLE *vertex,const FMat4 &modelview,const FVec3 &camera);
-            
-            void getInternalVextexColor(Particle &_p);
-            
-            SVArray<VETEXCOLORDATA>m_vetexColorData;
-            
-            s32 m_totalWeights;
             
             SVRandom random;                        // random number generator
             
