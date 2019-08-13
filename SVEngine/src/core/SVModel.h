@@ -38,9 +38,13 @@ namespace sv {
             
             void setName(cptr8 _name);
             
-            void update(f32 _dt,FMat4& _mat,SVSkeletonPtr _ske);
+            void update(f32 _dt,FMat4& _mat);
             
             void render();
+            
+            void bindSke(SVSkeletonPtr _ske);
+            
+            void unbindSke();
             
         protected:
             SVString m_name;

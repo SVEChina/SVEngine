@@ -40,7 +40,7 @@ void SVSkinNode::update(f32 dt) {
     }
     //
     if(m_pModel) {
-        m_pModel->update(dt,m_absolutMat,m_pSke);
+        m_pModel->update(dt,m_absolutMat);
     }
 }
 
@@ -60,11 +60,9 @@ void SVSkinNode::play(cptr8 _name) {
 }
 
 void SVSkinNode::pause() {
-    
 }
 
 void SVSkinNode::stop() {
-    
 }
 
 //
@@ -76,12 +74,16 @@ SVModelPtr SVSkinNode::getModel() {
 void SVSkinNode::setModel(SVModelPtr _model) {
     m_pModel = _model;
     if(m_pModel) {
+        m_pModel->bindSke(m_pSke);
         m_aabbBox = m_pModel->getBox();
     }
 }
 
 void SVSkinNode::clearModel() {
-    m_pModel = nullptr;
+    if(m_pModel) {
+        m_pModel->unbindSke();
+        m_pModel = nullptr;
+    }
 }
 
 //
@@ -94,6 +96,9 @@ void SVSkinNode::setSke(SVSkeletonPtr _ske) {
         t_ani->bind(_ske);
         it++;
     }
+    if(m_pModel) {
+        m_pModel->bindSke(m_pSke);
+    }
 }
 
 void SVSkinNode::clearSke() {
@@ -103,6 +108,10 @@ void SVSkinNode::clearSke() {
         SVAnimateSkinPtr t_ani = it->data;
         t_ani->unbind();
         it++;
+    }
+    //
+    if(m_pModel) {
+        m_pModel->unbindSke();
     }
     //
     m_pSke = nullptr;

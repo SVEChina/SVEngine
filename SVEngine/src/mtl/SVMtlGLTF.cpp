@@ -109,9 +109,11 @@ SVMtlGLTFSkin::SVMtlGLTFSkin(SVInst *_app)
 SVMtlGLTFSkin::SVMtlGLTFSkin(SVMtlGLTFSkin *_mtl)
 :SVMtlGLTF(_mtl){
     memcpy(m_vecBoneMatrix,_mtl->m_vecBoneMatrix,MAX_BONES_DATA);
+    m_pSke = _mtl->m_pSke;
 }
 
 SVMtlGLTFSkin::~SVMtlGLTFSkin() {
+    m_pSke = nullptr;
 }
 
 SVMtlCorePtr SVMtlGLTFSkin::clone() {
@@ -120,6 +122,8 @@ SVMtlCorePtr SVMtlGLTFSkin::clone() {
 
 void SVMtlGLTFSkin::update(f32 dt) {
     SVMtlGLTF::update(dt);
+    //获取骨架数据
+    
 }
 
 void SVMtlGLTFSkin::refresh() {
@@ -130,4 +134,12 @@ void SVMtlGLTFSkin::_submitUniform(SVRendererBasePtr _render){
     SVMtlCore::_submitUniform(_render);
     //传递骨骼数据
     _render->submitUniformMatrixArray("uBoneMatrix", m_vecBoneMatrix,MAX_BONES);
+}
+
+void SVMtlGLTFSkin::bindSke(SVSkeletonPtr _ske) {
+    m_pSke = _ske;
+}
+
+void SVMtlGLTFSkin::unbindSke() {
+    m_pSke = nullptr;
 }

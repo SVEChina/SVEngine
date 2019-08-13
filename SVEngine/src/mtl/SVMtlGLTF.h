@@ -68,10 +68,16 @@ namespace sv {
             
             void refresh();
             
+            void bindSke(SVSkeletonPtr _ske);
+            
+            void unbindSke();
+            
         protected:
             virtual void _submitUniform(SVRendererBasePtr _render);
             //
             f32 m_vecBoneMatrix[MAX_BONES_DATA];
+            //关联骨架
+            SVSkeletonPtr m_pSke;
         };
 
 

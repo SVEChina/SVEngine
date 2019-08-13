@@ -35,7 +35,6 @@ void SVBone::update() {
 //    void setRotateY(f32 angle);
 //    void setRotateZ(f32 angle);
 //    void setScale(const FVec3 &v);
-//
     FMat4 t_transMat;
     t_transMat.setIdentity();
     t_transMat.setTranslate(m_tran);
@@ -50,7 +49,7 @@ void SVBone::update() {
     
     FMat4 t_relaMat = t_transMat*t_rotMat*t_scaleMat;
     if(m_pParent) {
-        m_absoluteMat = m_pParent->m_absoluteMat * t_relaMat;
+        m_absoluteMat = m_pParent->m_absoluteMat * m_relationMat;// * t_relaMat;
     }
     //
     for(s32 i=0;i<m_children.size();i++) {

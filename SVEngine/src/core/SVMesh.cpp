@@ -65,7 +65,11 @@ void SVMesh::setMtl(SVMtlCorePtr _mtl) {
     m_pMtl = _mtl;
 }
 
-void SVMesh::update(f32 _dt,FMat4& _mat,SVSkeletonPtr _ske) {
+SVMtlCorePtr SVMesh::getMtl() {
+    return m_pMtl;
+}
+
+void SVMesh::update(f32 _dt,FMat4& _mat) {
     if(m_pMtl) {
         m_pMtl->setModelMatrix(_mat.get());
         m_pMtl->setBlendEnable(false);
