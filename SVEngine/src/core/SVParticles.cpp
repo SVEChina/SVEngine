@@ -25,7 +25,6 @@ SVParticles::SVParticles() {
 	duration_time = 0.0f;
     duration_mean = 0.0f;
     fade = 0.0f;
-    m_totalWeights = 0;
 	setWorldMass(0.0f);
 	setLengthStretch(0.0f);
 	setLinearDamping(0.0f);
@@ -58,6 +57,8 @@ SVParticles::SVParticles() {
 	setGrowth(0.0f,0.0f);
 	setGravity(FVec3_zero);
 	update_bounds();
+    addForce();
+    addNoise();
     //
     pVertex = nullptr;
 }
@@ -75,7 +76,6 @@ void SVParticles::clear() {
 	sparks.clear();
 	contacts.clear();
     old_contacts.clear();
-    m_vetexColorData.clear();
 }
 
 s32 SVParticles::getParticleNum() {
@@ -444,8 +444,6 @@ void SVParticles::spawn_particle(Particle &p,f32 k,f32 ifps) {
     //顶点颜色
     p.color = FVec4(1.0f);
     p.old_color = FVec4(1.0f);
-    //获得一个内置顶点颜色
-    getInternalVextexColor(p);
     //生成params
 	switch(type) {
 		case TYPE_FLAT:
@@ -1899,7 +1897,7 @@ u32 SVParticles::getSeed() const {
 }
 
 void SVParticles::setWorld(SVParticlesWorldBasePtr w) {
-	//m_pWorld = w;
+    m_pWorld = w;
 }
 
 SVParticlesWorldBasePtr SVParticles::getWorld() {
@@ -2664,66 +2662,6 @@ f32 SVParticles::getDeflectorRoughness(s32 num) const {
 	return deflectors[num].roughness;
 }
 
-void SVParticles::getInternalVextexColor(Particle &_p){
-    //加权随机
-    m_totalWeights = 0;
-    for (s32 i=0; i<m_vetexColorData.size(); i++) {
-        m_totalWeights += m_vetexColorData[i].weights;
-    }
-    if (m_vetexColorData.size() > 0 && m_totalWeights > 0) {
-        s32 t_r = random.getInt(0, m_totalWeights);
-        for (s32 i=0; i<m_vetexColorData.size(); i++) {
-            s32 t_weight = m_vetexColorData[i].weights;
-            if (t_weight <= 0) {
-                continue;
-            }
-            if (t_r < t_weight) {
-                FVec4 t_color = m_vetexColorData[i].color;
-                _p.old_color.set(t_color);
-                _p.color.set(t_color);
-                break;
-            }
-            t_r -= t_weight;
-        }
-    }
-}
-
-void SVParticles::addVetexColor(FVec3 &_color, s32 _weights){
-    if (_weights <= 0) {
-        return;
-    }
-    VETEXCOLORDATA t_colorData;
-    t_colorData.color = FVec4(_color);
-    t_colorData.weights = _weights;
-    m_vetexColorData.append(t_colorData);
-}
-
-bool SVParticles::removeVetexColor(s32 _index){
-    bool t_result = false;
-    if (_index >= 0 && _index < m_vetexColorData.size()) {
-        m_vetexColorData.removeFast(_index);
-        t_result = true;
-    }
-    return t_result;
-}
-
-bool SVParticles::getVetexColor(VETEXCOLORDATA &_vetexColorData, s32 _index){
-    if (_index >= 0 && _index < m_vetexColorData.size()) {
-        _vetexColorData = m_vetexColorData[_index];
-        return true;
-    }
-    return false;
-}
-
-void SVParticles::setVetexColor(FVec3 &_color, s32 _weights, s32 _index){
-    if (_index >= 0 && _index < m_vetexColorData.size()) {
-        VETEXCOLORDATA t_colorData;
-        t_colorData.weights = _weights;
-        t_colorData.color = FVec4(_color);
-        m_vetexColorData[_index] = t_colorData;
-    }
-}
-
 //序列化接口
 void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                           RAPIDJSON_NAMESPACE::Value &_objValue) {
@@ -2803,21 +2741,6 @@ void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     emitObj.AddMember("emitter_velocity_y", emitter_velocity.y, _allocator);
     emitObj.AddMember("emitter_velocity_z", emitter_velocity.z, _allocator);
     _objValue.AddMember("emit", emitObj, _allocator);
-    //vetexcolor
-    RAPIDJSON_NAMESPACE::Value vetexColorArray(RAPIDJSON_NAMESPACE::kArrayType);
-    for (s32 i = 0; i<m_vetexColorData.size(); i++) {
-        VETEXCOLORDATA t_colorData = m_vetexColorData[i];
-        RAPIDJSON_NAMESPACE::Value colorObj(RAPIDJSON_NAMESPACE::kObjectType);
-        colorObj.AddMember("weight", t_colorData.weights, _allocator);
-        RAPIDJSON_NAMESPACE::Value colorArray(RAPIDJSON_NAMESPACE::kArrayType);
-        colorArray.PushBack(t_colorData.color.x, _allocator);
-        colorArray.PushBack(t_colorData.color.y, _allocator);
-        colorArray.PushBack(t_colorData.color.z, _allocator);
-        colorObj.AddMember("color", colorArray, _allocator);
-        vetexColorArray.PushBack(colorObj, _allocator);
-    }
-    _objValue.AddMember("vetexcolor", vetexColorArray, _allocator);
-    
 }
 
 void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
@@ -2927,19 +2850,6 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //        setEmitterLimit(emitter_limit);
     }
     updateEmitter();
-    if (item.HasMember("vetexcolor") && item["vetexcolor"].IsArray()) {
-        RAPIDJSON_NAMESPACE::Value vetexColorArray = item["vetexcolor"].GetArray();
-        for (s32 i = 0; i<vetexColorArray.Size(); i++) {
-            RAPIDJSON_NAMESPACE::Value colorObj = vetexColorArray[i].GetObject();
-            s32 weight = colorObj["weight"].GetInt();
-            RAPIDJSON_NAMESPACE::Value colorArray = colorObj["color"].GetArray();
-            FVec3 t_color;
-            t_color.x = colorArray[0].GetFloat();
-            t_color.y = colorArray[1].GetFloat();
-            t_color.z = colorArray[2].GetFloat();
-            addVetexColor(t_color, weight);
-        }
-    }
 }
 
 ///*
