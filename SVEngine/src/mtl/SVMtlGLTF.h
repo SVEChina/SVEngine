@@ -53,6 +53,7 @@ namespace sv {
         
 #define MAX_BONES 30
 #define MAX_BONES_DATA 30*16
+#define MAX_BONES_DATA_SIZE 30*16*4
         
         class SVMtlGLTFSkin : public SVMtlGLTF {
         public:

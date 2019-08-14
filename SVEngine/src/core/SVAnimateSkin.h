@@ -39,7 +39,7 @@ namespace sv {
             //
             FMat4 m_absoluteMat;
             //
-            FMat4 m_relationMat;
+            FMat4 m_invertBindMat;
             //
             SVString m_name;
             //

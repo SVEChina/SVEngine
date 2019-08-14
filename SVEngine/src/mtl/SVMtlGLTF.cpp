@@ -93,7 +93,7 @@ void SVMtlGLTF::refresh() {
 //
 SVMtlGLTFSkin::SVMtlGLTFSkin(SVInst *_app)
 :SVMtlGLTF(_app,"gltfskin") {
-    memset(m_vecBoneMatrix,0.0f,MAX_BONES_DATA);
+    memset(m_vecBoneMatrix,0.0f,MAX_BONES_DATA_SIZE);
     m_pBaseColorTex = nullptr;
     m_pMetallicRoughnessTex = nullptr;
     m_pNormalTex = nullptr;
@@ -109,7 +109,7 @@ SVMtlGLTFSkin::SVMtlGLTFSkin(SVInst *_app)
 
 SVMtlGLTFSkin::SVMtlGLTFSkin(SVMtlGLTFSkin *_mtl)
 :SVMtlGLTF(_mtl){
-    memcpy(m_vecBoneMatrix,_mtl->m_vecBoneMatrix,MAX_BONES_DATA);
+    memcpy(m_vecBoneMatrix,_mtl->m_vecBoneMatrix,MAX_BONES_DATA_SIZE);
     m_pSke = _mtl->m_pSke;
 }
 
@@ -127,10 +127,10 @@ void SVMtlGLTFSkin::update(f32 dt) {
     if(m_pSke) {
         for(s32 i=0;i<m_pSke->m_boneArray.size();i++) {
             SVBonePtr t_bone = m_pSke->m_boneArray[i];
-            s32 t_flag = t_bone->m_id*4;
+            s32 t_flag = t_bone->m_id*16;
             if( t_flag < MAX_BONES_DATA) {
-                f32* t_pointer = t_bone->m_relationMat.get();
-                memcpy(&m_vecBoneMatrix[t_flag], t_pointer, 16*sizeof(f32));
+                f32* t_pointer = t_bone->m_absoluteMat.get();
+                memcpy(&m_vecBoneMatrix[t_flag], t_pointer, sizeof(FMat4));
             }
         }
     }

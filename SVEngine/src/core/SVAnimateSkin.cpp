@@ -17,6 +17,8 @@ SVBone::SVBone() {
     m_rot.set(0.0f, 0.0f, 0.0f,1.0f);
     m_pParent = nullptr;
     m_children.clear();
+    //
+    m_absoluteMat.setIdentity();
 }
 
 void SVBone::clear() {
@@ -42,7 +44,9 @@ void SVBone::update() {
     
     FMat4 t_relaMat = t_transMat*t_rotMat*t_scaleMat;
     if(m_pParent) {
-        m_absoluteMat = m_pParent->m_absoluteMat * m_relationMat;// * t_relaMat;
+        m_absoluteMat = m_pParent->m_absoluteMat*m_invertBindMat;
+    }else{
+        m_absoluteMat = m_invertBindMat;
     }
     //
     for(s32 i=0;i<m_children.size();i++) {
@@ -161,7 +165,7 @@ void SVAnimateSkin::update(f32 _dt) {
                              t_value->m_datavec[3*t_nxtkey+1],
                              t_value->m_datavec[3*t_nxtkey+2]);
                     FVec3 t_result = _lerp_trans(0,t_pretim,t_nxttim,m_accTime,p1,p2);
-                    t_bone->m_tran = t_result;
+                    //t_bone->m_tran = t_result;
                 }else if( t_chan->m_type == E_CN_T_SCALE) {
                     //scale
                     FVec3 s1(t_value->m_datavec[3*t_prekey],
@@ -171,7 +175,7 @@ void SVAnimateSkin::update(f32 _dt) {
                              t_value->m_datavec[3*t_nxtkey+1],
                              t_value->m_datavec[3*t_nxtkey+2]);
                     FVec3 t_result = _lerp_scale(0,t_pretim,t_nxttim,m_accTime,s1,s2);
-                    t_bone->m_scale = t_result;
+                    //t_bone->m_scale = t_result;
                 }else if( t_chan->m_type == E_CN_T_ROT) {
                     //rot
                     FVec4 r1(t_value->m_datavec[4*t_prekey],
@@ -183,7 +187,7 @@ void SVAnimateSkin::update(f32 _dt) {
                              t_value->m_datavec[4*t_nxtkey+2],
                              t_value->m_datavec[4*t_nxtkey+3]);
                     FVec4 t_result = _lerp_rot(0,t_pretim,t_nxttim,m_accTime,r1,r2);
-                    t_bone->m_rot = t_result;
+                    //t_bone->m_rot = t_result;
                 }else if( t_chan->m_type == E_CN_T_WEIGHT) {
                     //weights
                     f32 t_value = _lerp_weights();

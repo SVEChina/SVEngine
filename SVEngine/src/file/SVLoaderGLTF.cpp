@@ -928,7 +928,7 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor
             SVBonePtr t_bone = _ske->getBone(i);
             if(t_bone) {
                 f32* t_p = (f32*)p;
-                t_bone->m_relationMat.set(t_p);
+                t_bone->m_invertBindMat.set(t_p);
             }
             p += t_s_size;
         }
