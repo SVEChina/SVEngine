@@ -434,33 +434,43 @@ SVNodePtr SVLoaderGLTF::_buildCameraNode(Node* _node) {
 }
 
 //给出索引 构建皮肤
-SVSkeletonPtr SVLoaderGLTF::_buildSkin(s32 _index){
-    if(_index<0)
+SVSkeletonPtr SVLoaderGLTF::_buildSkin(s32 _skinIndex){
+    if(_skinIndex<0)
         return nullptr;
-    Skin* t_skindata = &(m_gltf.skins[_index]);
+    Skin* t_skindata = &(m_gltf.skins[_skinIndex]);
     //构建骨架
     SVSkeletonPtr t_ske = MakeSharedPtr<SVSkeleton>();
-    s32 t_root_index = t_skindata->skeleton;
+    s32 t_node_index = t_skindata->skeleton;
+    //创建根骨骼
     SVBonePtr t_rootBone = MakeSharedPtr<SVBone>();
-    _buildBone(t_rootBone,t_root_index,t_ske);
+    _buildBone(t_rootBone,t_skindata,t_node_index,t_ske);
     t_ske->m_name = t_skindata->name;
     t_ske->m_root = t_rootBone;
+    //初始化骨架基本数据
+    Accessor* t_acc = &(m_gltf.accessors[t_skindata->inverseBindMatrices]);
+    _fetchDataFromAcc(t_ske,t_skindata,t_acc);
     return t_ske;
 }
 
-bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske) {
+bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,Skin* _skinData,s32 _nodeIndex,SVSkeletonPtr _ske) {
     //
-    if(_index<0)
+    if(_nodeIndex<0)
         return false;
     //填充数据
-    Node* t_node = &(m_gltf.nodes[_index]);
+    Node* t_node = &(m_gltf.nodes[_nodeIndex]);
     if(!t_node){
         return false;
     }
     //
     _ske->addBone(_parent);
     //
-    _parent->m_id = _index;
+    for(s32 i = 0;i<_skinData->joints.size();i++) {
+        if( _skinData->joints[i] == _nodeIndex) {
+            //节点id转换成骨id
+            _parent->m_id = i;
+        }
+    }
+    //
     _parent->m_name = t_node->name;
     _parent->m_tran.x = t_node->translation[0];
     _parent->m_tran.y = t_node->translation[1];
@@ -474,10 +484,10 @@ bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske) {
     _parent->m_rot.w = t_node->rotation[3];
     //构建子骨骼
     for(s32 i=0;i<t_node->children.size();i++) {
-        s32 t_index = t_node->children[i];
+        s32 t_nodeIndex = t_node->children[i];
         SVBonePtr t_bone = MakeSharedPtr<SVBone>();
         t_bone->m_pParent = _parent;
-        _buildBone(t_bone,t_index,_ske);
+        _buildBone(t_bone,_skinData,t_nodeIndex,_ske);
         _parent->m_children.append(t_bone);
     }
     return true;
@@ -495,13 +505,13 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
         //
         t_sve_chn->m_target = t_chn_data->target_node; //骨骼目标
         if( t_chn_data->target_path == "translation") {
-            t_sve_chn->m_type = 0;
+            t_sve_chn->m_type = E_CN_T_TRANS;
         }else if( t_chn_data->target_path == "rotation") {
-            t_sve_chn->m_type = 1;
+            t_sve_chn->m_type = E_CN_T_ROT;
         }else if( t_chn_data->target_path == "scale") {
-            t_sve_chn->m_type = 2;
+            t_sve_chn->m_type = E_CN_T_SCALE;
         }else if( t_chn_data->target_path == "weights") {
-            t_sve_chn->m_type = 3;
+            t_sve_chn->m_type = E_CN_T_WEIGHT;
         }
         //
         if(t_chn_data->sampler>=0) {
@@ -890,6 +900,36 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
         //拷贝数据
         for(s32 i=0;i<_accessor->count;i++) {
             _data->appendData(p, t_s_size);
+            p += t_s_size;
+        }
+        t_buf->data->unlockData();
+    }
+}
+
+void SVLoaderGLTF::_fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor *_accessor) {
+    s32 t_acc_off = _accessor->byteOffset;
+    s32 t_viewID = _accessor->bufferView;
+    BufferView* t_bufview = &(m_gltf.bufferViews[t_viewID]);
+    if(t_bufview) {
+        s32 t_bufID = t_bufview->buffer;
+        s32 t_view_off = t_bufview->byteOffset;
+        s32 t_len = t_bufview->byteLength;
+        s32 t_view_stride = t_bufview->byteStride;
+        Buffer* t_buf = &(m_gltf.buffers[t_bufID]);
+        t_buf->data->lockData();
+        char* p = (char*)(t_buf->data->getData());
+        p += t_view_off;
+        p += t_acc_off;
+        s32 t_cmp_size = _getCmpSize(_accessor->componentType);
+        s32 t_cmp_num = _getCmpNum(_accessor->type);
+        s32 t_s_size =t_cmp_size*t_cmp_num;
+        //拷贝数据
+        for(s32 i=0;i<_accessor->count;i++) {
+            SVBonePtr t_bone = _ske->getBone(i);
+            if(t_bone) {
+                f32* t_p = (f32*)p;
+                t_bone->m_invertBindMat.set(t_p);
+            }
             p += t_s_size;
         }
         t_buf->data->unlockData();

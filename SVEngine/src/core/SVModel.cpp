@@ -7,6 +7,7 @@
 
 #include "SVModel.h"
 #include "SVMesh.h"
+#include "../mtl/SVMtlGLTF.h"
 
 SVModel::SVModel(SVInst* _app)
 :SVGBase(_app){
@@ -57,5 +58,25 @@ void SVModel::update(f32 _dt,FMat4& _mat) {
 void SVModel::render() {
     for (s32 i = 0; i < m_meshPool.size(); i++) {
         m_meshPool[i]->render();
+    }
+}
+
+void SVModel::bindSke(SVSkeletonPtr _ske) {
+    for (s32 i = 0; i < m_meshPool.size(); i++) {
+        SVMtlCorePtr t_mtl = m_meshPool[i]->getMtl();
+        SVMtlGLTFSkinPtr skin_mtl = DYN_TO_SHAREPTR(SVMtlGLTFSkin, t_mtl);
+        if(skin_mtl) {
+            skin_mtl->bindSke(_ske);
+        }
+    }
+}
+
+void SVModel::unbindSke() {
+    for (s32 i = 0; i < m_meshPool.size(); i++) {
+        SVMtlCorePtr t_mtl = m_meshPool[i]->getMtl();
+        SVMtlGLTFSkinPtr skin_mtl = DYN_TO_SHAREPTR(SVMtlGLTFSkin, t_mtl);
+        if(skin_mtl) {
+            skin_mtl->unbindSke();
+        }
     }
 }

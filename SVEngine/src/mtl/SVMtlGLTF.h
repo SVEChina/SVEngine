@@ -51,6 +51,10 @@ namespace sv {
             FVec3 m_emissiveFactor;
         };
         
+#define MAX_BONES 30
+#define MAX_BONES_DATA 30*16
+#define MAX_BONES_DATA_SIZE 30*16*4
+        
         class SVMtlGLTFSkin : public SVMtlGLTF {
         public:
             SVMtlGLTFSkin(SVInst *_app);
@@ -60,6 +64,21 @@ namespace sv {
             ~SVMtlGLTFSkin();
             
             virtual SVMtlCorePtr clone();
+            
+            void update(f32 dt);
+            
+            void refresh();
+            
+            void bindSke(SVSkeletonPtr _ske);
+            
+            void unbindSke();
+            
+        protected:
+            virtual void _submitUniform(SVRendererBasePtr _render);
+            //
+            f32 m_vecBoneMatrix[MAX_BONES_DATA];
+            //关联骨架
+            SVSkeletonPtr m_pSke;
         };
 
 

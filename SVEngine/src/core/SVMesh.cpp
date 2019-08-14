@@ -65,26 +65,15 @@ void SVMesh::setMtl(SVMtlCorePtr _mtl) {
     m_pMtl = _mtl;
 }
 
+SVMtlCorePtr SVMesh::getMtl() {
+    return m_pMtl;
+}
+
 void SVMesh::update(f32 _dt,FMat4& _mat) {
     if(m_pMtl) {
-//        FMat4 tMat_rotx;
-//        tMat_rotx.setIdentity();
-//        tMat_rotx.setRotateX(40.0f);
-//
-//        FMat4 tMat_roty;
-//        tMat_roty.setIdentity();
-//        tMat_roty.setRotateY(40.0f);
-//
-//        FMat4 tMat_sc;
-//        tMat_sc.setIdentity();
-//        tMat_sc.setScale(FVec3(0.001f,0.001f,0.001f));
-//        //
-//        FMat4 tMat = tMat_sc * tMat_roty * tMat_rotx;
         m_pMtl->setModelMatrix(_mat.get());
         m_pMtl->setBlendEnable(false);
         m_pMtl->setDepthEnable(true);
-        //m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        //m_pMtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_NORMAL);
         m_pMtl->update(_dt);
     }
 }

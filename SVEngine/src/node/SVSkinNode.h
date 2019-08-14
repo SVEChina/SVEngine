@@ -47,6 +47,12 @@ namespace sv {
             
             void clearAni();
             
+            //播放控制
+            void play(cptr8 _name);
+            
+            void pause();
+            
+            void stop();
 
         protected:
             SVModelPtr m_pModel;
@@ -55,6 +61,9 @@ namespace sv {
             
             typedef SVMap<SVString,SVAnimateSkinPtr> ANIPOOL;
             ANIPOOL m_aniPool;
+            
+            //当前动画
+            SVAnimateSkinPtr m_pActAni;
         };
         
     }//!namespace node

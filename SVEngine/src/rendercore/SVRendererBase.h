@@ -124,6 +124,8 @@ namespace sv {
             virtual void submitTex(u32 _channel,TexUnit& _unit){}
             //提交unifrom matrix
             virtual void submitUniformMatrix(cptr8 _name,f32* _data){}
+            //提交unifrom matrix array
+            virtual void submitUniformMatrixArray(cptr8 _name,f32* _data,s32 _size){}
             //提交unifrom i1
             virtual void submitUniformi(cptr8 _name,s32 _data){}
             //提交unifrom i2

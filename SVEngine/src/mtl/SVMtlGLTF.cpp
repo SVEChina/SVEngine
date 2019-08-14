@@ -7,6 +7,8 @@
 
 #include "SVMtlGLTF.h"
 #include "../mtl/SVTexture.h"
+#include "../rendercore/SVRendererBase.h"
+#include "../core/SVAnimateSkin.h"
 
 SVMtlGLTF::SVMtlGLTF(SVInst *_app)
 :SVMtlCore(_app,"gltf3d") {
@@ -38,13 +40,6 @@ SVMtlGLTF::SVMtlGLTF(SVMtlGLTF *_mtl)
     m_emissiveFactor =  _mtl->m_emissiveFactor;
 }
 
-SVMtlGLTF::~SVMtlGLTF() {
-}
-
-SVMtlCorePtr SVMtlGLTF::clone() {
-    return PointerSharedPtr<SVMtlGLTF>(new SVMtlGLTF(this));
-}
-
 //保护构造函数
 SVMtlGLTF::SVMtlGLTF(SVInst *_app,cptr8 _name)
 :SVMtlCore(_app,_name) {
@@ -59,6 +54,13 @@ SVMtlGLTF::SVMtlGLTF(SVInst *_app,cptr8 _name)
     m_normalScale = 1.0f;
     m_occlusionStrength = 1.0f;
     m_emissiveFactor = FVec3(0.0f,0.0f,0.0f);
+}
+
+SVMtlGLTF::~SVMtlGLTF() {
+}
+
+SVMtlCorePtr SVMtlGLTF::clone() {
+    return PointerSharedPtr<SVMtlGLTF>(new SVMtlGLTF(this));
 }
 
 void SVMtlGLTF::update(f32 dt) {
@@ -91,6 +93,7 @@ void SVMtlGLTF::refresh() {
 //
 SVMtlGLTFSkin::SVMtlGLTFSkin(SVInst *_app)
 :SVMtlGLTF(_app,"gltfskin") {
+    memset(m_vecBoneMatrix,0.0f,MAX_BONES_DATA_SIZE);
     m_pBaseColorTex = nullptr;
     m_pMetallicRoughnessTex = nullptr;
     m_pNormalTex = nullptr;
@@ -106,13 +109,47 @@ SVMtlGLTFSkin::SVMtlGLTFSkin(SVInst *_app)
 
 SVMtlGLTFSkin::SVMtlGLTFSkin(SVMtlGLTFSkin *_mtl)
 :SVMtlGLTF(_mtl){
+    memcpy(m_vecBoneMatrix,_mtl->m_vecBoneMatrix,MAX_BONES_DATA_SIZE);
+    m_pSke = _mtl->m_pSke;
 }
 
 SVMtlGLTFSkin::~SVMtlGLTFSkin() {
+    m_pSke = nullptr;
 }
 
 SVMtlCorePtr SVMtlGLTFSkin::clone() {
-    return PointerSharedPtr<SVMtlGLTF>(new SVMtlGLTF(this));
+    return PointerSharedPtr<SVMtlGLTFSkin>(new SVMtlGLTFSkin(this));
 }
 
+void SVMtlGLTFSkin::update(f32 dt) {
+    SVMtlGLTF::update(dt);
+    //获取骨架数据
+    if(m_pSke) {
+        for(s32 i=0;i<m_pSke->m_boneArray.size();i++) {
+            SVBonePtr t_bone = m_pSke->m_boneArray[i];
+            s32 t_flag = t_bone->m_id*16;
+            if( t_flag < MAX_BONES_DATA) {
+                f32* t_pointer = t_bone->m_absoluteMat.get();
+                memcpy(&m_vecBoneMatrix[t_flag], t_pointer, sizeof(FMat4));
+            }
+        }
+    }
+}
 
+void SVMtlGLTFSkin::refresh() {
+    SVMtlGLTF::refresh();
+}
+
+void SVMtlGLTFSkin::_submitUniform(SVRendererBasePtr _render){
+    SVMtlCore::_submitUniform(_render);
+    //传递骨骼数据
+    _render->submitUniformMatrixArray("uBoneMatrix", m_vecBoneMatrix,MAX_BONES);
+}
+
+void SVMtlGLTFSkin::bindSke(SVSkeletonPtr _ske) {
+    m_pSke = _ske;
+}
+
+void SVMtlGLTFSkin::unbindSke() {
+    m_pSke = nullptr;
+}

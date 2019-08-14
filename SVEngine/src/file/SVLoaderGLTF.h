@@ -538,29 +538,32 @@ namespace sv {
         void _loadAnimationData();
         
     private:
+        //构建骨骼动画节点
         SVNodePtr _buildSkinNode(Node* _node);
-        
+        //构建3d节点
         SVNodePtr _build3DNode(Node* _node);
-        
+        //构建相机节点
         SVNodePtr _buildCameraNode(Node* _node);
-        
+        //构建模型
         SVModelPtr _buildModel(s32 _index);
-        
+        //构建骨架
         SVSkeletonPtr _buildSkin(s32 _index);
-        
+        //构建动画
         SVAnimateSkinPtr _buildAnimate(s32 _index);
-        
+        //构建轨道数据
         void _buildChnData(SVAnimateSkinPtr _ani,s32 _index);
-        
-        bool _buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske);
-    
+        //构建骨头
+        bool _buildBone(SVBonePtr _parent,Skin* _skinData,s32 _index,SVSkeletonPtr _ske);
+        //构建材质
         SVMtlCorePtr _buildMtl(Primitive* _prim,s32 _vtf);
-        
+        //构建mesh
         SVMeshPtr _buildMeshPri(Primitive* _prim);
-        
+        //抓模型数据
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
-        
+        //抓动画数据
         void _fetchDataFromAcc(SVSkinAniDataPtr _data,Accessor *_accessor);
+        //抓骨架数据
+        void _fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor *_accessor);
         
     };
     
