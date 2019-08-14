@@ -37,6 +37,17 @@ namespace sv {
             return m_iHeight;
         }
         
+        inline u32 getDataLen(){
+            return m_iDataLength;
+        }
+        
+        inline s32 getDataType(){
+            return m_iDataType;
+        }
+        
+        inline s32 getRenderFormat(){
+            return mRenderFormat;
+        }
     private:
         void _readPngFromStream(void *stream, s32 dataLen, cptr8 fname, u8 **data);
         
