@@ -362,8 +362,6 @@ void SVLoaderGLTF::building() {
                 //有骨骼动画
                 SVNodePtr t_svNode = _buildSkinNode(t_node);
                 if(t_svNode) {
-//                    t_svNode->setScale(15.0f,15.0f,15.0f);
-//                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
                     t_sc->addNode(t_svNode);
                     m_nodeArray.append(t_svNode);
                 }
@@ -371,9 +369,6 @@ void SVLoaderGLTF::building() {
                 //无骨骼动画 纯mesh
                 SVNodePtr t_svNode = _build3DNode(t_node);
                 if(t_svNode) {
-//                    t_svNode->setScale(0.001f,0.001f,0.001f);
-//                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
-//                    t_sc->addNode(t_svNode);
                     m_nodeArray.append(t_svNode);
                 }
             }else if(t_node->camera>=0) {
@@ -463,8 +458,12 @@ bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,Skin* _skinData,s32 _nodeIndex,S
     }
     //
     _ske->addBone(_parent);
-    //
-    _parent->m_id = _nodeIndex;
+    for(s32 i=0;i<_skinData->joints.size();i++) {
+        if( _skinData->joints[i] == _nodeIndex) {
+            _parent->m_id = i;
+        }
+    }
+    _parent->m_nodeid = _nodeIndex;
     _parent->m_name = t_node->name;
     _parent->m_tran.x = t_node->translation[0];
     _parent->m_tran.y = t_node->translation[1];
@@ -919,8 +918,7 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor
         s32 t_s_size =t_cmp_size*t_cmp_num;
         //拷贝数据
         for(s32 i=0;i<_accessor->count;i++) {
-            s32 t_boneID = _skindata->joints[i];
-            SVBonePtr t_bone = _ske->getBoneByID(t_boneID);
+            SVBonePtr t_bone = _ske->getBoneByID(i);
             if(t_bone) {
                 f32* t_p = (f32*)p;
                 t_bone->m_invertBindMat.set(t_p);

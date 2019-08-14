@@ -76,9 +76,22 @@ void SVSkeleton::addBone(SVBonePtr _bone) {
     m_boneArray.append(_bone);
 }
 
+s32 SVSkeleton::getBoneNum() {
+    return m_boneArray.size();
+}
+
 SVBonePtr SVSkeleton::getBoneByID(s32 _id) {
     for(s32 i=0;i<m_boneArray.size();i++) {
         if( m_boneArray[i]->m_id == _id ) {
+            return m_boneArray[i];
+        }
+    }
+    return nullptr;
+}
+
+SVBonePtr SVSkeleton::getBoneByNodeID(s32 _id) {
+    for(s32 i=0;i<m_boneArray.size();i++) {
+        if( m_boneArray[i]->m_nodeid == _id ) {
             return m_boneArray[i];
         }
     }
@@ -133,7 +146,7 @@ void SVAnimateSkin::update(f32 _dt) {
     for(s32 i=0;i<m_chnPool.size();i++) {
         SVChannelPtr t_chan = m_chnPool[i];
         //
-        SVBonePtr t_bone = m_pSke->getBoneByID(t_chan->m_target);
+        SVBonePtr t_bone = m_pSke->getBoneByNodeID(t_chan->m_target);
         if(!t_bone){
             continue;
         }
