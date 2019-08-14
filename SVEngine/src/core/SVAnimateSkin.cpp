@@ -113,7 +113,7 @@ SVAnimateSkin::SVAnimateSkin(SVInst* _app,cptr8 _name)
 :SVGBase(_app)
 ,m_name(_name){
     m_accTime = 0;
-    m_totalTime = 10.0f;
+    m_totalTime = 5.0f;
     m_pSke = nullptr;
 }
 
@@ -141,6 +141,41 @@ void SVAnimateSkin::update(f32 _dt) {
     if(!m_pSke){
         //没有骨架就不用跑动画了
         return ;
+    }
+    //打印数据 8
+    for(s32 i=0;i<m_chnPool.size();i++) {
+        SVChannelPtr t_chan = m_chnPool[i];
+        if(t_chan->m_target == 8) {
+            SVSkinAniDataPtr t_time = m_dataPool[t_chan->m_input];
+            for(s32 i=0;i<t_time->m_datavec.size();i++) {
+                SV_LOG_INFO("bone-data key(%d) time(%f) \n",t_chan->m_target,t_time->m_datavec[i]);
+            }
+            SVSkinAniDataPtr t_value = m_dataPool[t_chan->m_output];
+            if(t_chan->m_type == E_CN_T_TRANS) {
+                 for(s32 i=0;i<t_value->m_datavec.size()/3;i++) {
+                    SV_LOG_INFO("bone-data key(%d) p(%f,%f,%f) \n",
+                                t_chan->m_target,
+                                t_value->m_datavec[3*i],
+                                t_value->m_datavec[3*i+1],
+                                t_value->m_datavec[3*i+2]);
+                 }
+            }else if(t_chan->m_type == E_CN_T_SCALE) {
+                for(s32 i=0;i<t_value->m_datavec.size()/3;i++) {
+                    SV_LOG_INFO("bone-data key(%d) s(%f,%f,%f) \n",t_chan->m_target,
+                                t_value->m_datavec[3*i],
+                                t_value->m_datavec[3*i+1],
+                                t_value->m_datavec[3*i+2]);
+                }
+            }else if(t_chan->m_type == E_CN_T_ROT) {
+                for(s32 i=0;i<t_value->m_datavec.size()/4;i++) {
+                    SV_LOG_INFO("bone-data key(%d) r(%f,%f,%f,%f) \n",t_chan->m_target,
+                                t_value->m_datavec[4*i],
+                                t_value->m_datavec[4*i+1],
+                                t_value->m_datavec[4*i+2],
+                                t_value->m_datavec[4*i+3]);
+                }
+            }
+        }
     }
     //
     for(s32 i=0;i<m_chnPool.size();i++) {
@@ -181,7 +216,7 @@ void SVAnimateSkin::update(f32 _dt) {
                              t_value->m_datavec[3*t_nxtkey+2]);
                     FVec3 t_result = _lerp_trans(0,t_pretim,t_nxttim,m_accTime,p1,p2);
                     t_bone->m_tran = t_result;
-                    if(t_bone->m_id == 7) {
+                    if(t_bone->m_nodeid == 8) {
                         SV_LOG_INFO("bone-t key(%d) time(%f,%f,%f) trans(%f,%f,%f)\n",t_prekey,t_pretim,t_nxttim,m_accTime,t_result.x,t_result.y,t_result.z);
                     }
                 }else if( t_chan->m_type == E_CN_T_SCALE) {
@@ -194,7 +229,7 @@ void SVAnimateSkin::update(f32 _dt) {
                              t_value->m_datavec[3*t_nxtkey+2]);
                     FVec3 t_result = _lerp_scale(0,t_pretim,t_nxttim,m_accTime,s1,s2);
                     t_bone->m_scale = t_result;
-                    if(t_bone->m_id == 7) {
+                    if(t_bone->m_nodeid == 8) {
                         SV_LOG_INFO("bone-s key(%d) time(%f,%f,%f) scale(%f,%f,%f)\n",t_prekey,t_pretim,t_nxttim,m_accTime,t_result.x,t_result.y,t_result.z,m_accTime);
                     }
                 }else if( t_chan->m_type == E_CN_T_ROT) {
@@ -209,8 +244,8 @@ void SVAnimateSkin::update(f32 _dt) {
                              t_value->m_datavec[4*t_nxtkey+3]);
                     FVec4 t_result = _lerp_rot(0,t_pretim,t_nxttim,m_accTime,r1,r2);
                     t_bone->m_rot = t_result;
-                    if(t_bone->m_id == 7) {
-                        SV_LOG_INFO("bone-r key(%d) time(%f,%f,%f) rot(%f,%f,%f,%f)\n",t_prekey,t_pretim,t_nxttim,m_accTime,t_result.x,t_result.y,t_result.z,t_result.w,m_accTime);
+                    if(t_bone->m_nodeid == 8) {
+                        SV_LOG_INFO("bone-r key(%d) rot(%f,%f,%f,%f)\n",t_prekey,t_result.x,t_result.y,t_result.z,t_result.w);
                     }
                 }else if( t_chan->m_type == E_CN_T_WEIGHT) {
                     //weights
