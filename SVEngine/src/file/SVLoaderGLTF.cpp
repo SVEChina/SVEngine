@@ -464,13 +464,7 @@ bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,Skin* _skinData,s32 _nodeIndex,S
     //
     _ske->addBone(_parent);
     //
-    for(s32 i = 0;i<_skinData->joints.size();i++) {
-        if( _skinData->joints[i] == _nodeIndex) {
-            //节点id转换成骨id
-            _parent->m_id = i;
-        }
-    }
-    //
+    _parent->m_id = _nodeIndex;
     _parent->m_name = t_node->name;
     _parent->m_tran.x = t_node->translation[0];
     _parent->m_tran.y = t_node->translation[1];
@@ -925,7 +919,8 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor
         s32 t_s_size =t_cmp_size*t_cmp_num;
         //拷贝数据
         for(s32 i=0;i<_accessor->count;i++) {
-            SVBonePtr t_bone = _ske->getBone(i);
+            s32 t_boneID = _skindata->joints[i];
+            SVBonePtr t_bone = _ske->getBoneByID(t_boneID);
             if(t_bone) {
                 f32* t_p = (f32*)p;
                 t_bone->m_invertBindMat.set(t_p);
