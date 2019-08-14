@@ -191,6 +191,8 @@ namespace sv {
         //font
         DECLARE_SHAREPTR(SVFont);
         DECLARE_SHAREPTR(SVBMFont);
+        //image
+        DECLARE_SHAREPTR(SVImage);
     }//!namespace util
     
     //

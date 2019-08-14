@@ -57,8 +57,18 @@ SVParticles::SVParticles() {
 	setGrowth(0.0f,0.0f);
 	setGravity(FVec3_zero);
 	update_bounds();
-    addForce();
     addNoise();
+    /*
+    addForce();
+    setForceRadius(0, 200);
+//    setForceRotator(0, 1000);
+    FMat4 t_transform = FMat4_identity;
+    FVec3 t_pos = FVec3(200, 200, 0);
+    t_transform.setTranslate(t_pos);
+    setForceTransform(0, t_transform);
+    setForceAttractor(0, 1000);
+    setForceAttenuation(0, 5);
+     */
     //
     pVertex = nullptr;
 }
