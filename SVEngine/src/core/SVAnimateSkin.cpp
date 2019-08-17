@@ -36,18 +36,20 @@ void SVBone::update() {
     
     FMat4 t_scaleMat;
     t_scaleMat.setIdentity();
-    t_scaleMat.setScale(m_tran);
+    t_scaleMat.setScale(m_scale);
     
     FMat4 t_rotMat;
     t_rotMat.setIdentity();
     t_rotMat.set(SVQuat(m_rot));
     
-    FMat4 t_relaMat = t_transMat*t_rotMat*t_scaleMat;
+    m_relaMat = t_transMat*t_rotMat*t_scaleMat;
     if(m_pParent) {
-        m_absoluteMat = m_pParent->m_absoluteMat*m_invertBindMat;
+        m_absoluteMat = m_pParent->m_absoluteMat*m_relaMat;
     }else{
-        m_absoluteMat = m_invertBindMat;
+        m_absoluteMat = m_relaMat;
     }
+    //计算父子关系的逆矩阵
+    m_resultMat = m_absoluteMat*m_invertBindMat;
     //
     for(s32 i=0;i<m_children.size();i++) {
         m_children[i]->update();
@@ -74,7 +76,7 @@ void SVSkeleton::addBone(SVBonePtr _bone) {
     m_boneArray.append(_bone);
 }
 
-SVBonePtr SVSkeleton::getBone(s32 _id) {
+SVBonePtr SVSkeleton::getBoneByID(s32 _id) {
     for(s32 i=0;i<m_boneArray.size();i++) {
         if( m_boneArray[i]->m_id == _id ) {
             return m_boneArray[i];
@@ -131,7 +133,7 @@ void SVAnimateSkin::update(f32 _dt) {
     for(s32 i=0;i<m_chnPool.size();i++) {
         SVChannelPtr t_chan = m_chnPool[i];
         //
-        SVBonePtr t_bone = m_pSke->getBone(t_chan->m_target);
+        SVBonePtr t_bone = m_pSke->getBoneByID(t_chan->m_target);
         if(!t_bone){
             continue;
         }
@@ -165,7 +167,10 @@ void SVAnimateSkin::update(f32 _dt) {
                              t_value->m_datavec[3*t_nxtkey+1],
                              t_value->m_datavec[3*t_nxtkey+2]);
                     FVec3 t_result = _lerp_trans(0,t_pretim,t_nxttim,m_accTime,p1,p2);
-                    //t_bone->m_tran = t_result;
+                    t_bone->m_tran = t_result;
+                    if(t_bone->m_id == 7) {
+                        SV_LOG_INFO("bone-t key(%d) time(%f,%f,%f) trans(%f,%f,%f)\n",t_prekey,t_pretim,t_nxttim,m_accTime,t_result.x,t_result.y,t_result.z);
+                    }
                 }else if( t_chan->m_type == E_CN_T_SCALE) {
                     //scale
                     FVec3 s1(t_value->m_datavec[3*t_prekey],
@@ -175,7 +180,10 @@ void SVAnimateSkin::update(f32 _dt) {
                              t_value->m_datavec[3*t_nxtkey+1],
                              t_value->m_datavec[3*t_nxtkey+2]);
                     FVec3 t_result = _lerp_scale(0,t_pretim,t_nxttim,m_accTime,s1,s2);
-                    //t_bone->m_scale = t_result;
+                    t_bone->m_scale = t_result;
+                    if(t_bone->m_id == 7) {
+                        SV_LOG_INFO("bone-s key(%d) time(%f,%f,%f) scale(%f,%f,%f)\n",t_prekey,t_pretim,t_nxttim,m_accTime,t_result.x,t_result.y,t_result.z,m_accTime);
+                    }
                 }else if( t_chan->m_type == E_CN_T_ROT) {
                     //rot
                     FVec4 r1(t_value->m_datavec[4*t_prekey],
@@ -187,7 +195,10 @@ void SVAnimateSkin::update(f32 _dt) {
                              t_value->m_datavec[4*t_nxtkey+2],
                              t_value->m_datavec[4*t_nxtkey+3]);
                     FVec4 t_result = _lerp_rot(0,t_pretim,t_nxttim,m_accTime,r1,r2);
-                    //t_bone->m_rot = t_result;
+                    t_bone->m_rot = t_result;
+                    if(t_bone->m_id == 7) {
+                        SV_LOG_INFO("bone-r key(%d) time(%f,%f,%f) rot(%f,%f,%f,%f)\n",t_prekey,t_pretim,t_nxttim,m_accTime,t_result.x,t_result.y,t_result.z,t_result.w,m_accTime);
+                    }
                 }else if( t_chan->m_type == E_CN_T_WEIGHT) {
                     //weights
                     f32 t_value = _lerp_weights();

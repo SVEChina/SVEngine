@@ -129,7 +129,7 @@ void SVMtlGLTFSkin::update(f32 dt) {
             SVBonePtr t_bone = m_pSke->m_boneArray[i];
             s32 t_flag = t_bone->m_id*16;
             if( t_flag < MAX_BONES_DATA) {
-                f32* t_pointer = t_bone->m_absoluteMat.get();
+                f32* t_pointer = t_bone->m_resultMat.get();
                 memcpy(&m_vecBoneMatrix[t_flag], t_pointer, sizeof(FMat4));
             }
         }
