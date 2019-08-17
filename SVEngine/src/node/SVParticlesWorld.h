@@ -13,7 +13,7 @@ namespace sv {
         //
         class SVParticlesWorld : public SVParticlesWorldBase {
         public:
-            SVParticlesWorld();
+            SVParticlesWorld(SVInst *_app);
             
             virtual ~SVParticlesWorld();
             

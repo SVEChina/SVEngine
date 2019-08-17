@@ -270,6 +270,7 @@ void SVImage::set3D(s32 _x, s32 _y, s32 _z, s32 _r, s32 _g, s32 _b, s32 _a){
     p.i.g = _g;
     p.i.b = _b;
     p.i.a = _a;
+    
     p.f.r = _r;
     p.f.g = _g;
     p.f.b = _b;
@@ -291,22 +292,22 @@ SVImage::Pixel SVImage::get3D(f32 _x, f32 _y, f32 _z) const{
     assert(m_pData != nullptr && "SVImage::get3D(): data is NULL");
     assert(isRawFormat() && "SVImage::get3D(): is not a raw format");
     assert(m_type == SV_IMAGE_3D && "SVImage::get3D(): is not a 3D image");
-    f32 x = _x * (m_width - 1);
-    f32 y = _y * (m_height - 1);
-    f32 z = _z * (m_depth - 1);
-    s32 x0 = (s32)floorf(x);
-    s32 y0 = (s32)floorf(y);
-    s32 z0 = (s32)floorf(z);
+    _x = _x * (m_width - 1);
+    _y = _y * (m_height - 1);
+    _z = _z * (m_depth - 1);
+    s32 x0 = (s32)floorf(_x);
+    s32 y0 = (s32)floorf(_y);
+    s32 z0 = (s32)floorf(_z);
     s32 z1 = z0 + 1;
     _get(x0,y0,z0,0,p000,p100,p010,p110);
     _get(x0,y0,z1,0,p001,p101,p011,p111);
-    x -= x0;
-    y -= y0;
-    z -= z0;
-    _interpolate(x,y,p000,p100,p010,p110,p0);
-    _interpolate(x,y,p001,p101,p011,p111,p1);
-    f32 k0 = 1.0f - z;
-    f32 k1 = z;
+    _x -= x0;
+    _y -= y0;
+    _z -= z0;
+    _interpolate(_x,_y,p000,p100,p010,p110,p0);
+    _interpolate(_x,_y,p001,p101,p011,p111,p1);
+    f32 k0 = 1.0f - _z;
+    f32 k1 = _z;
     if(isFloatFormat()) {
 #ifdef USE_SSE
         __m128 res_0 = _mm_mul_ps(p0.f.vec,_mm_set1_ps(k0));
@@ -363,10 +364,10 @@ cptr8 SVImage::getPixels3D() const{
     return (cptr8)m_pData->getData();
 }
 
-void SVImage::_set(s32 _x, s32 _y, s32 _offset, const Pixel &_p){
-    s32 x = _x % m_width;
-    s32 y = _y % m_height;
-    s32 t_id = _offset + m_width * y + x;
+void SVImage::_set(u32 _x, u32 _y, u32 _offset, const Pixel &_p){
+    _x = _x % m_width;
+    _y = _y % m_height;
+    u32 t_id = _offset + m_width * _y + _x;
     u8 *data = (u8 *)m_pData->getData();
     switch(m_format) {
         // 8-bits per pixel unsigned formats
@@ -479,10 +480,10 @@ void SVImage::_set(s32 _x, s32 _y, s32 _offset, const Pixel &_p){
         }
     }
 }
-void SVImage::_get(s32 _x, s32 _y, s32 _offset, Pixel &_p) const{
-    s32 x = _x % m_width;
-    s32 y = _y % m_height;
-    s32 t_id = _offset + m_width * y + x;
+void SVImage::_get(u32 _x, u32 _y, u32 _offset, Pixel &_p) const{
+    _x = _x % m_width;
+    _y = _y % m_height;
+    u32 t_id = _offset + m_width * _y + _x;
     u8 *data = (u8 *)m_pData->getData();
     switch(m_format) {
         // 8-bits per pixel unsigned formats
@@ -619,15 +620,15 @@ void SVImage::_get(s32 _x, s32 _y, s32 _offset, Pixel &_p) const{
         }
     }
 }
-void SVImage::_get(s32 _x, s32 _y, s32 _offset, Pixel &_p00, Pixel &_p10, Pixel &_p01, Pixel &_p11) const{
+void SVImage::_get(u32 _x, u32 _y, u32 _offset, Pixel &_p00, Pixel &_p10, Pixel &_p01, Pixel &_p11) const{
     s32 x0 = _x % m_width;
     s32 y0 = _y % m_height;
     s32 x1 = (_x + 1) % m_width;
     s32 y1 = (_y + 1) % m_height;
-    s32 id_00 = _offset + m_width * y0 + x0;
-    s32 id_10 = _offset + m_width * y0 + x1;
-    s32 id_01 = _offset + m_width * y1 + x0;
-    s32 id_11 = _offset + m_width * y1 + x1;
+    u32 id_00 = _offset + m_width * y0 + x0;
+    u32 id_10 = _offset + m_width * y0 + x1;
+    u32 id_01 = _offset + m_width * y1 + x0;
+    u32 id_11 = _offset + m_width * y1 + x1;
     u8 *data = (u8 *)m_pData->getData();
     switch(m_format) {
         // 8-bits per pixel unsigned formats
@@ -767,15 +768,15 @@ void SVImage::_get(s32 _x, s32 _y, s32 _offset, Pixel &_p00, Pixel &_p10, Pixel 
         }
     }
 }
-void SVImage::_geti(s32 _x, s32 _y, s32 _offset, s32 _index, s32 &_p00, s32 &_p10, s32 &_p01, s32 &_p11) const{
+void SVImage::_geti(u32 _x, u32 _y, u32 _offset, s32 _index, s32 &_p00, s32 &_p10, s32 &_p01, s32 &_p11) const{
     s32 x0 = _x % m_width;
     s32 y0 = _y % m_height;
     s32 x1 = (_x + 1) % m_width;
     s32 y1 = (_y + 1) % m_height;
-    s32 id_00 = _offset + m_width * y0 + x0;
-    s32 id_10 = _offset + m_width * y0 + x1;
-    s32 id_01 = _offset + m_width * y1 + x0;
-    s32 id_11 = _offset + m_width * y1 + x1;
+    u32 id_00 = _offset + m_width * y0 + x0;
+    u32 id_10 = _offset + m_width * y0 + x1;
+    u32 id_01 = _offset + m_width * y1 + x0;
+    u32 id_11 = _offset + m_width * y1 + x1;
     u8 *data = (u8 *)m_pData->getData();
     switch(m_format) {
         case SV_FORMAT_R8: {
@@ -809,22 +810,22 @@ void SVImage::_geti(s32 _x, s32 _y, s32 _offset, s32 _index, s32 &_p00, s32 &_p1
     }
 }
 
-void SVImage::_set(s32 _x, s32 _y, s32 _z, s32 _offset, const Pixel &_p){
-    s32 z = _z % m_depth;
-    s32 offset = m_width * m_height * z + _offset;
-    _set(_x,_y,offset,_p);
+void SVImage::_set(u32 _x, u32 _y, u32 _z, u32 _offset, const Pixel &_p){
+    _z = _z % m_depth;
+    _offset += m_width * m_height * _z;
+    _set(_x,_y,_offset,_p);
 }
 
-void SVImage::_get(s32 _x, s32 _y, s32 _z, s32 _offset, Pixel &_p) const{
-    s32 z = _z % m_depth;
-    s32 offset = m_width * m_height * z + _offset;
-    _get(_x,_y,offset,_p);
+void SVImage::_get(u32 _x, u32 _y, u32 _z, u32 _offset, Pixel &_p) const{
+    _z = _z % m_depth;
+    _offset += m_width * m_height * _z;
+    _get(_x,_y,_offset,_p);
 }
 
-void SVImage::_get(s32 _x, s32 _y, s32 _z, s32 _offset, Pixel &_p00, Pixel &_p10, Pixel &_p01, Pixel &_p11) const{
-    s32 z = _z % m_depth;
-    s32 offset = m_width * m_height * z + _offset;
-    _get(_x,_y,offset,_p00,_p10,_p01,_p11);
+void SVImage::_get(u32 _x, u32 _y, u32 _z, u32 _offset, Pixel &_p00, Pixel &_p10, Pixel &_p01, Pixel &_p11) const{
+    _z = _z % m_depth;
+    _offset += m_width * m_height * _z;
+    _get(_x,_y,_offset,_p00,_p10,_p01,_p11);
 }
 void SVImage::_interpolate(f32 _x, f32 _y, const Pixel &_p00, const Pixel &_p10, const Pixel &_p01, const Pixel &_p11, Pixel &_p) const{
     f32 x1 = 1.0f - _x;

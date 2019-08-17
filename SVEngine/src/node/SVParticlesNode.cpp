@@ -21,8 +21,8 @@ SVParticlesNode::SVParticlesNode(SVInst *_app)
     m_drawBox = false;
     m_canSelect = true;
     m_rsType = RST_SOLID_3D;
-    m_pParticles = MakeSharedPtr<SVParticles>();
-    m_pParticlesWorld = MakeSharedPtr<SVParticlesWorld>();
+    m_pParticles = MakeSharedPtr<SVParticles>(mApp);
+    m_pParticlesWorld = MakeSharedPtr<SVParticlesWorld>(mApp);
     m_pParticles->setSeed(mApp->m_pGlobalParam->getRandom());
     m_pParticles->setWorld(m_pParticlesWorld);
     physical_mask = 1;
@@ -58,7 +58,7 @@ SVParticlesNode::~SVParticlesNode() {
 void SVParticlesNode::testInit() {
     if( m_pParticles) {
         //
-        m_pParticles->setSpawnRate(200);
+        m_pParticles->setSpawnRate(50);
         //设置粒子类型
         m_pParticles->setType(0);
         //开启发射器
@@ -76,11 +76,11 @@ void SVParticlesNode::testInit() {
         //发射器方向
         m_pParticles->setEmitterDirection(FVec3(0.0f,0.0f,0.0f));
         //设置增长
-        m_pParticles->setGrowth(2.0f, 0.0f);
+        m_pParticles->setGrowth(0.0f, 0.0f);
         //重力速度
         m_pParticles->setGravity(FVec3(0.0f,0.0f,0.0f));
         //
-        m_pParticles->setVelocity(200.0,0.0);
+        m_pParticles->setVelocity(80,0.0);
         //
         m_pParticles->setRadius(5.0f,0.0f);
         //

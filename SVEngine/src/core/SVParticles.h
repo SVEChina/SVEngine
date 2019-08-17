@@ -8,7 +8,7 @@
 #ifndef SV_PARTICLES_H
 #define SV_PARTICLES_H
 
-#include "../base/SVObject.h"
+#include "../base/SVGBase.h"
 #include "../base/SVArray.h"
 #include "../base/SVVec3.h"
 #include "../base/SVMat4.h"
@@ -57,7 +57,7 @@ namespace sv {
             FVec3 old_position;                  // old position
             FVec3 parameters;                    // parameters
             FVec3 velocity;                      // velocity
-            FVec4 old_color;                     // old color
+            FVec4 icolor;                        // inverse color
             FVec4 color;                         // color
             f32 angle;                           // angle
             f32 rotation;                        // rotation
@@ -127,7 +127,7 @@ namespace sv {
             f32 scale;                           // noise scale
             s32 frequency;                       // frequency
             s32 size;                            // noise size
-            //Image *image;                      // image pointer
+            SVImagePtr image;                      // image pointer
         };
         //扭曲
         struct Deflector {
@@ -159,9 +159,9 @@ namespace sv {
         };
         
         //
-        class SVParticlesWorldBase :public SVObject {
+        class SVParticlesWorldBase : public SVGBase {
         public:
-            SVParticlesWorldBase() {
+            SVParticlesWorldBase(SVInst *_app) : SVGBase(_app) {
             }
 
             ~SVParticlesWorldBase() {
@@ -190,11 +190,11 @@ namespace sv {
         };
         
         //一堆粒子算法
-        class SVParticles :public SVObject {
+        class SVParticles :public SVGBase {
             friend struct ParticlesDistanceCompare;
             friend class SVParticlesNode;
         public:
-            SVParticles();
+            SVParticles(SVInst *_app);
             
             virtual ~SVParticles();
 
@@ -442,7 +442,7 @@ namespace sv {
             void setNoiseSize(s32 num,s32 size);
             s32 getNoiseSize(s32 num) const;
             
-            //Image *getNoiseImage(s32 num);
+            SVImagePtr getNoiseImage(s32 num);
             
             s32 addDeflector();
             void removeDeflector(s32 num);
