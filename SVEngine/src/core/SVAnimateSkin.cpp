@@ -142,122 +142,122 @@ void SVAnimateSkin::update(f32 _dt) {
         //没有骨架就不用跑动画了
         return ;
     }
-    //打印数据 8
-    for(s32 i=0;i<m_chnPool.size();i++) {
-        SVChannelPtr t_chan = m_chnPool[i];
-        if(t_chan->m_target == 8) {
-            SVSkinAniDataPtr t_time = m_dataPool[t_chan->m_input];
-            for(s32 i=0;i<t_time->m_datavec.size();i++) {
-                SV_LOG_INFO("bone-data key(%d) time(%f) \n",t_chan->m_target,t_time->m_datavec[i]);
-            }
-            SVSkinAniDataPtr t_value = m_dataPool[t_chan->m_output];
-            if(t_chan->m_type == E_CN_T_TRANS) {
-                 for(s32 i=0;i<t_value->m_datavec.size()/3;i++) {
-                    SV_LOG_INFO("bone-data key(%d) p(%f,%f,%f) \n",
-                                t_chan->m_target,
-                                t_value->m_datavec[3*i],
-                                t_value->m_datavec[3*i+1],
-                                t_value->m_datavec[3*i+2]);
-                 }
-            }else if(t_chan->m_type == E_CN_T_SCALE) {
-                for(s32 i=0;i<t_value->m_datavec.size()/3;i++) {
-                    SV_LOG_INFO("bone-data key(%d) s(%f,%f,%f) \n",t_chan->m_target,
-                                t_value->m_datavec[3*i],
-                                t_value->m_datavec[3*i+1],
-                                t_value->m_datavec[3*i+2]);
-                }
-            }else if(t_chan->m_type == E_CN_T_ROT) {
-                for(s32 i=0;i<t_value->m_datavec.size()/4;i++) {
-                    SV_LOG_INFO("bone-data key(%d) r(%f,%f,%f,%f) \n",t_chan->m_target,
-                                t_value->m_datavec[4*i],
-                                t_value->m_datavec[4*i+1],
-                                t_value->m_datavec[4*i+2],
-                                t_value->m_datavec[4*i+3]);
-                }
-            }
-        }
-    }
-    //
-    for(s32 i=0;i<m_chnPool.size();i++) {
-        SVChannelPtr t_chan = m_chnPool[i];
-        //
-        SVBonePtr t_bone = m_pSke->getBoneByNodeID(t_chan->m_target);
-        if(!t_bone){
-            continue;
-        }
-        //更新轨道部分
-        s32 t_prekey = 0;
-        s32 t_nxtkey = 0;
-        f32 t_pretim = 0.0f;
-        f32 t_nxttim = 0.0f;
-        //根据输入确定key
-        SVSkinAniDataPtr t_time = m_dataPool[t_chan->m_input];
-        SVSkinAniDataPtr t_value = m_dataPool[t_chan->m_output];
-        //key这块可以优化
-        for(s32 j=0;j<t_time->m_datavec.size();j++) {
-            f32 t_keytime = t_time->m_datavec[j];
-            if(t_keytime>=m_accTime){
-                //找到目标key了
-                t_nxtkey = j;
-                t_prekey = j-1;
-                if(t_prekey<0){
-                    t_prekey = 0;
-                }
-                t_pretim = t_time->m_datavec[t_prekey];
-                t_nxttim = t_time->m_datavec[t_nxtkey];
-                //做数据插值
-                if( t_chan->m_type == E_CN_T_TRANS) {
-                    //trans
-                    FVec3 p1(t_value->m_datavec[3*t_prekey],
-                             t_value->m_datavec[3*t_prekey+1],
-                             t_value->m_datavec[3*t_prekey+2]);
-                    FVec3 p2(t_value->m_datavec[3*t_nxtkey],
-                             t_value->m_datavec[3*t_nxtkey+1],
-                             t_value->m_datavec[3*t_nxtkey+2]);
-                    FVec3 t_result = _lerp_trans(0,t_pretim,t_nxttim,m_accTime,p1,p2);
-                    t_bone->m_tran = t_result;
-                    if(t_bone->m_nodeid == 8) {
-                        SV_LOG_INFO("bone-t key(%d) time(%f,%f,%f) trans(%f,%f,%f)\n",t_prekey,t_pretim,t_nxttim,m_accTime,t_result.x,t_result.y,t_result.z);
-                    }
-                }else if( t_chan->m_type == E_CN_T_SCALE) {
-                    //scale
-                    FVec3 s1(t_value->m_datavec[3*t_prekey],
-                             t_value->m_datavec[3*t_prekey+1],
-                             t_value->m_datavec[3*t_prekey+2]);
-                    FVec3 s2(t_value->m_datavec[3*t_nxtkey],
-                             t_value->m_datavec[3*t_nxtkey+1],
-                             t_value->m_datavec[3*t_nxtkey+2]);
-                    FVec3 t_result = _lerp_scale(0,t_pretim,t_nxttim,m_accTime,s1,s2);
-                    t_bone->m_scale = t_result;
-                    if(t_bone->m_nodeid == 8) {
-                        SV_LOG_INFO("bone-s key(%d) time(%f,%f,%f) scale(%f,%f,%f)\n",t_prekey,t_pretim,t_nxttim,m_accTime,t_result.x,t_result.y,t_result.z,m_accTime);
-                    }
-                }else if( t_chan->m_type == E_CN_T_ROT) {
-                    //rot
-                    FVec4 r1(t_value->m_datavec[4*t_prekey],
-                             t_value->m_datavec[4*t_prekey+1],
-                             t_value->m_datavec[4*t_prekey+2],
-                             t_value->m_datavec[4*t_prekey+3]);
-                    FVec4 r2(t_value->m_datavec[4*t_nxtkey],
-                             t_value->m_datavec[4*t_nxtkey+1],
-                             t_value->m_datavec[4*t_nxtkey+2],
-                             t_value->m_datavec[4*t_nxtkey+3]);
-                    FVec4 t_result = _lerp_rot(0,t_pretim,t_nxttim,m_accTime,r1,r2);
-                    t_bone->m_rot = t_result;
-                    if(t_bone->m_nodeid == 8) {
-                        SV_LOG_INFO("bone-r key(%d) rot(%f,%f,%f,%f)\n",t_prekey,t_result.x,t_result.y,t_result.z,t_result.w);
-                    }
-                }else if( t_chan->m_type == E_CN_T_WEIGHT) {
-                    //weights
-                    f32 t_value = _lerp_weights();
-                }
-            }
-        }
-    }
-    //
-    if(t_end) {
-        m_accTime = 0;
-    }
+//    //打印数据 8
+//    for(s32 i=0;i<m_chnPool.size();i++) {
+//        SVChannelPtr t_chan = m_chnPool[i];
+//        if(t_chan->m_target == 8) {
+//            SVSkinAniDataPtr t_time = m_dataPool[t_chan->m_input];
+//            for(s32 i=0;i<t_time->m_datavec.size();i++) {
+//                SV_LOG_INFO("bone-data key(%d) time(%f) \n",t_chan->m_target,t_time->m_datavec[i]);
+//            }
+//            SVSkinAniDataPtr t_value = m_dataPool[t_chan->m_output];
+//            if(t_chan->m_type == E_CN_T_TRANS) {
+//                 for(s32 i=0;i<t_value->m_datavec.size()/3;i++) {
+//                    SV_LOG_INFO("bone-data key(%d) p(%f,%f,%f) \n",
+//                                t_chan->m_target,
+//                                t_value->m_datavec[3*i],
+//                                t_value->m_datavec[3*i+1],
+//                                t_value->m_datavec[3*i+2]);
+//                 }
+//            }else if(t_chan->m_type == E_CN_T_SCALE) {
+//                for(s32 i=0;i<t_value->m_datavec.size()/3;i++) {
+//                    SV_LOG_INFO("bone-data key(%d) s(%f,%f,%f) \n",t_chan->m_target,
+//                                t_value->m_datavec[3*i],
+//                                t_value->m_datavec[3*i+1],
+//                                t_value->m_datavec[3*i+2]);
+//                }
+//            }else if(t_chan->m_type == E_CN_T_ROT) {
+//                for(s32 i=0;i<t_value->m_datavec.size()/4;i++) {
+//                    SV_LOG_INFO("bone-data key(%d) r(%f,%f,%f,%f) \n",t_chan->m_target,
+//                                t_value->m_datavec[4*i],
+//                                t_value->m_datavec[4*i+1],
+//                                t_value->m_datavec[4*i+2],
+//                                t_value->m_datavec[4*i+3]);
+//                }
+//            }
+//        }
+//    }
+//    //
+//    for(s32 i=0;i<m_chnPool.size();i++) {
+//        SVChannelPtr t_chan = m_chnPool[i];
+//        //
+//        SVBonePtr t_bone = m_pSke->getBoneByNodeID(t_chan->m_target);
+//        if(!t_bone){
+//            continue;
+//        }
+//        //更新轨道部分
+//        s32 t_prekey = 0;
+//        s32 t_nxtkey = 0;
+//        f32 t_pretim = 0.0f;
+//        f32 t_nxttim = 0.0f;
+//        //根据输入确定key
+//        SVSkinAniDataPtr t_time = m_dataPool[t_chan->m_input];
+//        SVSkinAniDataPtr t_value = m_dataPool[t_chan->m_output];
+//        //key这块可以优化
+//        for(s32 j=0;j<t_time->m_datavec.size();j++) {
+//            f32 t_keytime = t_time->m_datavec[j];
+//            if(t_keytime>=m_accTime){
+//                //找到目标key了
+//                t_nxtkey = j;
+//                t_prekey = j-1;
+//                if(t_prekey<0){
+//                    t_prekey = 0;
+//                }
+//                t_pretim = t_time->m_datavec[t_prekey];
+//                t_nxttim = t_time->m_datavec[t_nxtkey];
+//                //做数据插值
+//                if( t_chan->m_type == E_CN_T_TRANS) {
+//                    //trans
+//                    FVec3 p1(t_value->m_datavec[3*t_prekey],
+//                             t_value->m_datavec[3*t_prekey+1],
+//                             t_value->m_datavec[3*t_prekey+2]);
+//                    FVec3 p2(t_value->m_datavec[3*t_nxtkey],
+//                             t_value->m_datavec[3*t_nxtkey+1],
+//                             t_value->m_datavec[3*t_nxtkey+2]);
+//                    FVec3 t_result = _lerp_trans(0,t_pretim,t_nxttim,m_accTime,p1,p2);
+//                    t_bone->m_tran = t_result;
+//                    if(t_bone->m_nodeid == 8) {
+//                        SV_LOG_INFO("bone-t key(%d) time(%f,%f,%f) trans(%f,%f,%f)\n",t_prekey,t_pretim,t_nxttim,m_accTime,t_result.x,t_result.y,t_result.z);
+//                    }
+//                }else if( t_chan->m_type == E_CN_T_SCALE) {
+//                    //scale
+//                    FVec3 s1(t_value->m_datavec[3*t_prekey],
+//                             t_value->m_datavec[3*t_prekey+1],
+//                             t_value->m_datavec[3*t_prekey+2]);
+//                    FVec3 s2(t_value->m_datavec[3*t_nxtkey],
+//                             t_value->m_datavec[3*t_nxtkey+1],
+//                             t_value->m_datavec[3*t_nxtkey+2]);
+//                    FVec3 t_result = _lerp_scale(0,t_pretim,t_nxttim,m_accTime,s1,s2);
+//                    t_bone->m_scale = t_result;
+//                    if(t_bone->m_nodeid == 8) {
+//                        SV_LOG_INFO("bone-s key(%d) time(%f,%f,%f) scale(%f,%f,%f)\n",t_prekey,t_pretim,t_nxttim,m_accTime,t_result.x,t_result.y,t_result.z,m_accTime);
+//                    }
+//                }else if( t_chan->m_type == E_CN_T_ROT) {
+//                    //rot
+//                    FVec4 r1(t_value->m_datavec[4*t_prekey],
+//                             t_value->m_datavec[4*t_prekey+1],
+//                             t_value->m_datavec[4*t_prekey+2],
+//                             t_value->m_datavec[4*t_prekey+3]);
+//                    FVec4 r2(t_value->m_datavec[4*t_nxtkey],
+//                             t_value->m_datavec[4*t_nxtkey+1],
+//                             t_value->m_datavec[4*t_nxtkey+2],
+//                             t_value->m_datavec[4*t_nxtkey+3]);
+//                    FVec4 t_result = _lerp_rot(0,t_pretim,t_nxttim,m_accTime,r1,r2);
+//                    t_bone->m_rot = t_result;
+//                    if(t_bone->m_nodeid == 8) {
+//                        SV_LOG_INFO("bone-r key(%d) rot(%f,%f,%f,%f)\n",t_prekey,t_result.x,t_result.y,t_result.z,t_result.w);
+//                    }
+//                }else if( t_chan->m_type == E_CN_T_WEIGHT) {
+//                    //weights
+//                    f32 t_value = _lerp_weights();
+//                }
+//            }
+//        }
+//    }
+//    //
+//    if(t_end) {
+//        m_accTime = 0;
+//    }
 }
 
 //平移插值

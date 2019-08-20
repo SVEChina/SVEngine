@@ -284,17 +284,18 @@ SVOpCreateTest::~SVOpCreateTest(){
 
 void SVOpCreateTest::_process(f32 dt) {
     SVLoaderGLTF t_load(mApp);
-    t_load.loadFromFile("svres/gltf/outPut/Gril_Hair.gltf");
+    t_load.loadFromFile("svres/gltf/Test_bone/Test_bone.gltf");
     t_load.building();
-    SVNodePtr t_node = t_load.getNode("Object006");
+    SVNodePtr t_node = t_load.getNode("Hair");
     if(t_node) {
         SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
         if (t_pScene) {
-            t_node->setScale(15.0f,15.0f,15.0f);
+            t_node->setScale(10.0f,10.0f,10.0f);
             t_node->setPosition(0.0f, 100.0f, 0.0f);
             t_pScene->addNode(t_node);
         }
     }
+    
 ////    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
 ////    if (t_pScene) {
 ////        //创建测试盒子®

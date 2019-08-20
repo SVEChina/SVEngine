@@ -18,14 +18,14 @@
 //通道数
 #define CHANNEL_POSITION    0
 #define CHANNEL_NORMAL      1
-#define CHANNEL_TAGENT      2
-#define CHANNEL_BTAGENT     3
-#define CHANNEL_COLOR0      4
-#define CHANNEL_TEXCOORD0   5
-#define CHANNEL_TEXCOORD1   6
-#define CHANNEL_INSOFFSET   7
-#define CHANNEL_BONE_ID     3
-#define CHANNEL_BONE_WEIGHT 4
+#define CHANNEL_COLOR0      2
+#define CHANNEL_TEXCOORD0   3
+#define CHANNEL_INSOFFSET   4
+#define CHANNEL_TAGENT      5
+#define CHANNEL_BTAGENT     6
+#define CHANNEL_TEXCOORD1   7
+#define CHANNEL_BONE_ID     5
+#define CHANNEL_BONE_WEIGHT 6
 
 //
 #define CHANNEL_ATTRI_0     0
