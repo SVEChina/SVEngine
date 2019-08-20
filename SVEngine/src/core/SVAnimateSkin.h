@@ -32,6 +32,7 @@ namespace sv {
         public:
             SVBone();
             s32 m_id;       //对应的node_id
+            s32 m_nodeid;       //对应的node_id
             FVec3 m_tran;
             FVec3 m_scale;
             FVec4 m_rot;
@@ -65,6 +66,10 @@ namespace sv {
             void addBone(SVBonePtr _bone); //需要单独对SVLoaderGLTF开放接口 **fuyizhou
             
             SVBonePtr getBoneByID(s32 _id);
+            
+            SVBonePtr getBoneByNodeID(s32 _id);
+            
+            s32 getBoneNum();
             
             void refresh();
 

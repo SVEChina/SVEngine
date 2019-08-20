@@ -237,6 +237,30 @@ typedef struct V3_N_T0_BONE4 {
     f32 weight3;
 } V3_N_T0_BONE4;
 
+//GLTF
+typedef struct V3_N_C_T0_B_W {
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 nx;
+    f32 ny;
+    f32 nz;
+    f32 t0x;
+    f32 t0y;
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 a;
+    s16 bone0;
+    s16 bone1;
+    s16 bone2;
+    s16 bone3;
+    f32 weight0;
+    f32 weight1;
+    f32 weight2;
+    f32 weight3;
+} V3_N_C_T0_B_W;
+
 typedef struct C {
     u8 r;
     u8 g;
@@ -305,6 +329,7 @@ enum VFTYPE {
     E_VF_V3_N_C_T0 = D_VF_V3 | D_VF_NOR | D_VF_C0 | D_VF_T0,
     E_VF_V3_N_C_T0_T1 = D_VF_V3 | D_VF_NOR | D_VF_C0 | D_VF_T0 | D_VF_T1,
     E_VF_V3_N_T0_BONE_W = D_VF_V3 | D_VF_NOR | D_VF_T0 | D_VF_BONE |D_VF_BONE_W,
+    E_VF_V3_N_C_T0_BONE_W = D_VF_V3 | D_VF_NOR | D_VF_C0 | D_VF_T0 | D_VF_BONE | D_VF_BONE_W,
     E_VF_V3_C_BTAG = D_VF_V3 | D_VF_C0 | D_VF_BTAG,
     E_VF_V3_N_T_T0 = D_VF_V3 | D_VF_NOR | D_VF_TAG | D_VF_T0,
     E_VF_V3_PARTICLE = D_VF_PARTICLE

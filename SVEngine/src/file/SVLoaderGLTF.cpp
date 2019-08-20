@@ -32,6 +32,8 @@
 #include "../base/SVArray.h"
 #include "../base/svstr.h"
 #include "../basesys/SVModelMgr.h"
+#include "../rendercore/SVResVBO.h"
+
 SVLoaderGLTF::SVLoaderGLTF(SVInst *_app)
 :SVGBase(_app) {
 }
@@ -362,8 +364,6 @@ void SVLoaderGLTF::building() {
                 //有骨骼动画
                 SVNodePtr t_svNode = _buildSkinNode(t_node);
                 if(t_svNode) {
-//                    t_svNode->setScale(15.0f,15.0f,15.0f);
-//                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
                     t_sc->addNode(t_svNode);
                     m_nodeArray.append(t_svNode);
                 }
@@ -371,9 +371,6 @@ void SVLoaderGLTF::building() {
                 //无骨骼动画 纯mesh
                 SVNodePtr t_svNode = _build3DNode(t_node);
                 if(t_svNode) {
-//                    t_svNode->setScale(0.001f,0.001f,0.001f);
-//                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
-//                    t_sc->addNode(t_svNode);
                     m_nodeArray.append(t_svNode);
                 }
             }else if(t_node->camera>=0) {
@@ -463,8 +460,12 @@ bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,Skin* _skinData,s32 _nodeIndex,S
     }
     //
     _ske->addBone(_parent);
-    //
-    _parent->m_id = _nodeIndex;
+    for(s32 i=0;i<_skinData->joints.size();i++) {
+        if( _skinData->joints[i] == _nodeIndex) {
+            _parent->m_id = i;
+        }
+    }
+    _parent->m_nodeid = _nodeIndex;
     _parent->m_name = t_node->name;
     _parent->m_tran.x = t_node->translation[0];
     _parent->m_tran.y = t_node->translation[1];
@@ -573,6 +574,26 @@ SVModelPtr SVLoaderGLTF::_buildModel(s32 _index){
     return t_model;
 }
 
+s8* SVLoaderGLTF::_getAccDataPointer(Accessor* acc) {
+    s32 t_acc_off = acc->byteOffset;
+    s32 t_viewID = acc->bufferView;
+    BufferView* t_bufview = &(m_gltf.bufferViews[t_viewID]);
+    if(t_bufview) {
+        s32 t_bufID = t_bufview->buffer;
+        s32 t_view_off = t_bufview->byteOffset;
+        s32 t_len = t_bufview->byteLength;
+        s32 t_view_stride = t_bufview->byteStride;
+        Buffer* t_buf = &(m_gltf.buffers[t_bufID]);
+        t_buf->data->lockData();
+        s8* p = (s8*)(t_buf->data->getData());
+        p += t_view_off;
+        p += t_acc_off;
+        t_buf->data->unlockData();
+        return p;
+    }
+    return nullptr;
+}
+
 SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
     //构建数据
     Accessor* accV3 = nullptr;
@@ -580,9 +601,15 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
     Accessor* accTAG = nullptr;
     Accessor* accC0 = nullptr;
     Accessor* accT0 = nullptr;
-    Accessor* accT1 = nullptr;
     Accessor* accB = nullptr;
     Accessor* accW = nullptr;
+    s8* pAccV3 = nullptr;
+    s8* pAccNOR = nullptr;
+    s8* pAccTAG = nullptr;
+    s8* pAccC0 = nullptr;
+    s8* pAccT0 = nullptr;
+    s8* pAccB = nullptr;
+    s8* pAccW = nullptr;
     //
     s32 t_vtf = E_VF_BASE;
     SVMap<SVString, s32>::Iterator it= _prim->attributes.begin();
@@ -591,91 +618,110 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
             t_vtf |= D_VF_V3;
             s32 t_index = it->data;
             accV3 = &(m_gltf.accessors[t_index]);
+            pAccV3 = _getAccDataPointer(accV3);
         }else if(it->key == "NORMAL" ) {
             //
             t_vtf |= D_VF_NOR;
             s32 t_index = it->data;
             accNOR = &(m_gltf.accessors[t_index]);
+            pAccNOR = _getAccDataPointer(accNOR);
         }else if(it->key == "TANGENT" ) {
             //
             t_vtf |= D_VF_TAG;
             s32 t_index = it->data;
             accTAG = &(m_gltf.accessors[t_index]);
+            pAccTAG = _getAccDataPointer(accTAG);
+        }else if(it->key == "COLOR_0" ) {
+            //
+            t_vtf |= D_VF_C0;
+            s32 t_index = it->data;
+            accC0 = &(m_gltf.accessors[t_index]);
+            pAccC0 = _getAccDataPointer(accC0);
         }else if(it->key == "TEXCOORD_0" ) {
             //
             t_vtf |= D_VF_T0;
             s32 t_index = it->data;
             accT0 = &(m_gltf.accessors[t_index]);
+            pAccT0 = _getAccDataPointer(accT0);
         }else if(it->key == "JOINTS_0" ) {
             //
             t_vtf |= D_VF_BONE;
             s32 t_index = it->data;
             accB = &(m_gltf.accessors[t_index]);
+            pAccB = _getAccDataPointer(accB);
         }else if(it->key == "WEIGHTS_0" ) {
             //
             t_vtf |= D_VF_BONE_W;
             s32 t_index = it->data;
             accW = &(m_gltf.accessors[t_index]);
+            pAccW = _getAccDataPointer(accW);
         }
         it++;
     }
     //
-    SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
-    //
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
-    s64 t_count = 0;
-    if (t_vtf & D_VF_V3) {
-        if(accV3) {
-            _fetchDataFromAcc(t_data,accV3);
-            t_count = accV3->count;
-            //box
-            if(accV3->minValues.size() == 3  && accV3->maxValues.size()==3) {
-                SVBoundBox t_box;
-                t_box.set(FVec3(accV3->minValues[0],accV3->minValues[1],accV3->minValues[2]),
-                          FVec3(accV3->maxValues[0],accV3->maxValues[1],accV3->maxValues[2]));
-                t_mesh->setBox(t_box);
-            }
+    if(!accV3){
+        //没有pos直接返回算了
+        return nullptr;
+    }
+    s32 t_verSize = SVResVBO::getVertexFormateSize(VFTYPE(t_vtf));
+    SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
+    //设置box
+    s64 t_count = accV3->count;
+    if(accV3->minValues.size() == 3  && accV3->maxValues.size()==3) {
+        SVBoundBox t_box;
+        t_box.set(FVec3(accV3->minValues[0],accV3->minValues[1],accV3->minValues[2]),
+                  FVec3(accV3->maxValues[0],accV3->maxValues[1],accV3->maxValues[2]));
+        t_mesh->setBox(t_box);
+    }
+    //拼接数据,为了优化
+    t_data->resize(t_verSize*t_count);
+    for(s32 i=0;i<t_count;i++) {
+        if (t_vtf & D_VF_V3) {
+            t_data->appendData(pAccV3, 3*sizeof(f32));
+            pAccV3 += 3*sizeof(f32);
+        }
+        if (t_vtf & D_VF_NOR) {
+            t_data->appendData(pAccNOR, 3*sizeof(f32));
+            pAccNOR += 3*sizeof(f32);
+        }
+        if (t_vtf & D_VF_TAG) {
+            t_data->appendData(pAccTAG, 3*sizeof(f32));
+            pAccTAG += 3*sizeof(f32);
+        }
+        if (t_vtf & D_VF_C0) {
+            f32* t_p = (f32*)pAccC0;
+            f32 t_r = *t_p;t_p++;
+            f32 t_g = *t_p;t_p++;
+            f32 t_b = *t_p;t_p++;
+            f32 t_a = *t_p;
+            s8 c_r = t_r*255;
+            s8 c_g = t_g*255;
+            s8 c_b = t_b*255;
+            s8 c_a = t_a*255;
+            t_data->appendData(&c_r, sizeof(u8));
+            t_data->appendData(&c_g, sizeof(u8));
+            t_data->appendData(&c_b, sizeof(u8));
+            t_data->appendData(&c_a, sizeof(u8));
+            pAccC0 += 4*sizeof(f32);
+        }
+        if (t_vtf & D_VF_T0) {
+            t_data->appendData(pAccT0, 2*sizeof(f32));
+            pAccT0 += 2*sizeof(f32);
+        }
+        if (t_vtf & D_VF_BONE) {
+            t_data->appendData(pAccB, 4*sizeof(u16));
+            pAccB += 4*sizeof(u16);
+        }
+        if (t_vtf & D_VF_BONE_W) {
+            t_data->appendData(pAccW, 4*sizeof(f32));
+            pAccW += 4*sizeof(f32);
         }
     }
-    if (t_vtf & D_VF_NOR) {
-        if(accNOR) {
-            _fetchDataFromAcc(t_data,accNOR);
-            t_count = accNOR->count;
-        }
-    }
-    if (t_vtf & D_VF_TAG) {
-        if(accTAG) {
-            _fetchDataFromAcc(t_data,accTAG);
-            t_count = accTAG->count;
-        }
-    }
-    if (t_vtf & D_VF_C0) {
-        if(accC0) {
-            _fetchDataFromAcc(t_data,accC0);
-            t_count = accC0->count;
-        }
-    }
-    if (t_vtf & D_VF_T0) {
-        if(accT0) {
-            _fetchDataFromAcc(t_data,accT0);
-            t_count = accT0->count;
-        }
-    }
-    if (t_vtf & D_VF_BONE) {
-        if(accB) {
-            _fetchDataFromAcc(t_data,(accB));
-            t_count = accB->count;
-        }
-    }
-    if (t_vtf & D_VF_BONE_W) {
-        if(accW) {
-            _fetchDataFromAcc(t_data,accW);
-            t_count = accW->count;
-        }
-    }
+    //
     SVRenderMeshPtr t_rMesh = MakeSharedPtr<SVRenderMesh>(mApp);
     t_rMesh->setVertexType(VFTYPE(t_vtf));
-    t_rMesh->setSeqMode(2);
+    t_rMesh->setSeqMode(1);
     t_rMesh->setVertexDataNum(t_count);
     t_rMesh->setVertexData(t_data);
     //索引数据
@@ -919,8 +965,7 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor
         s32 t_s_size =t_cmp_size*t_cmp_num;
         //拷贝数据
         for(s32 i=0;i<_accessor->count;i++) {
-            s32 t_boneID = _skindata->joints[i];
-            SVBonePtr t_bone = _ske->getBoneByID(t_boneID);
+            SVBonePtr t_bone = _ske->getBoneByID(i);
             if(t_bone) {
                 f32* t_p = (f32*)p;
                 t_bone->m_invertBindMat.set(t_p);
