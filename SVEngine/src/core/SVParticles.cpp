@@ -2357,12 +2357,13 @@ const FVec3 &SVParticles::getGravity() const {
 
 s32 SVParticles::addForce() {
     Force &f = forces.append();
-    f.transform = FMat4_identity;
+    FMat4 t_mat = FMat4_identity;
+    f.transform = t_mat;
     f.attached = 1;
-    f.radius = 1.0f;
+    f.radius = 100.0f;
     f.attenuation = 1.0f;
-    f.attractor = 0.0f;
-    f.rotator = 0.0f;
+    f.attractor = 100.0f;
+    f.rotator = 200.0f;
     return forces.size() - 1;
 }
 
@@ -2748,6 +2749,23 @@ void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
         noiseArray.PushBack(noiseObj, _allocator);
     }
     _objValue.AddMember("noises", noiseArray, _allocator);
+    //forces
+    RAPIDJSON_NAMESPACE::Value forcesArray(RAPIDJSON_NAMESPACE::kArrayType);
+    for(s32 i = 0; i < forces.size(); i++) {
+        Force &f = forces[i];
+        RAPIDJSON_NAMESPACE::Value forceObj(RAPIDJSON_NAMESPACE::kObjectType);
+        forceObj.AddMember("radius", f.radius, _allocator);
+        forceObj.AddMember("attractor", f.attractor, _allocator);
+        forceObj.AddMember("rotator", f.rotator, _allocator);
+        forceObj.AddMember("attenuation", f.attenuation, _allocator);
+        FMat4 t_transform = f.transform;
+        FVec4 t_col4 = t_transform.getColumn(3);
+        forceObj.AddMember("pos_x", t_col4.x, _allocator);
+        forceObj.AddMember("pos_y", t_col4.y, _allocator);
+        forceObj.AddMember("pos_z", t_col4.z, _allocator);
+        forcesArray.PushBack(forceObj, _allocator);
+    }
+    _objValue.AddMember("forces", forcesArray, _allocator);
 }
 
 void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
@@ -2875,6 +2893,46 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
                 f32 t_scale = t_noiseObj["scale"].GetFloat();
                 setNoiseScale(getNumNoises() - 1, t_scale);
             }
+        }
+    }
+    //forces
+    if (item.HasMember("forces") && item["forces"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &t_forces = item["forces"];
+        for (s32 i = 0; i<t_forces.Size(); i++) {
+            RAPIDJSON_NAMESPACE::Value &t_forceObj = t_forces[i];
+            addForce();
+            if (t_forceObj.HasMember("radius") && t_forceObj["radius"].IsFloat()){
+                f32 t_radius = t_forceObj["radius"].GetFloat();
+                setForceRadius(getNumForces() - 1, t_radius);
+            }
+            if (t_forceObj.HasMember("attractor") && t_forceObj["attractor"].IsFloat()){
+                f32 t_attractor = t_forceObj["attractor"].GetFloat();
+                setForceAttractor(getNumForces() - 1, t_attractor);
+            }
+            if (t_forceObj.HasMember("rotator") && t_forceObj["rotator"].IsFloat()){
+                f32 t_rotator = t_forceObj["rotator"].GetFloat();
+                setForceRotator(getNumForces() - 1, t_rotator);
+            }
+            if (t_forceObj.HasMember("attenuation") && t_forceObj["attenuation"].IsFloat()){
+                f32 t_attenuation = t_forceObj["attenuation"].GetFloat();
+                setForceAttenuation(getNumForces() - 1, t_attenuation);
+            }
+            FVec3 t_translate = FVec3_zero;
+            if (t_forceObj.HasMember("pos_x") && t_forceObj["pos_x"].IsFloat()){
+                f32 t_pos_x = t_forceObj["pos_x"].GetFloat();
+                t_translate.x = t_pos_x;
+            }
+            if (t_forceObj.HasMember("pos_y") && t_forceObj["pos_y"].IsFloat()){
+                f32 t_pos_y = t_forceObj["pos_y"].GetFloat();
+                t_translate.y = t_pos_y;
+            }
+            if (t_forceObj.HasMember("pos_z") && t_forceObj["pos_z"].IsFloat()){
+                f32 t_pos_z = t_forceObj["pos_z"].GetFloat();
+                t_translate.z = t_pos_z;
+            }
+            FMat4 t_transform = getForceTransform(getNumForces() - 1);
+            t_transform.setTranslate(t_translate);
+            setForceTransform(getNumForces() - 1, t_transform);
         }
     }
 }
