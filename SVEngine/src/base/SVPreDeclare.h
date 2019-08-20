@@ -193,6 +193,8 @@ namespace sv {
         DECLARE_SHAREPTR(SVBMFont);
         //image
         DECLARE_SHAREPTR(SVImage);
+        
+        DECLARE_SHAREPTR(SVNoise);
     }//!namespace util
     
     //

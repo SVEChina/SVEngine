@@ -10,10 +10,6 @@
 
 #include "../base/SVGBase.h"
 #include "../base/SVPreDeclare.h"
-/**
- 目前只有SV_IMAGE_2D类型
- **/
- 
 namespace sv {
     
     namespace util {
@@ -158,13 +154,13 @@ namespace sv {
             
         private:
             // pixels
-            void _set(s32 _x, s32 _y, s32 _offset, const Pixel &_p);
-            void _get(s32 _x, s32 _y, s32 _offset, Pixel &_p) const;
-            void _get(s32 _x, s32 _y, s32 _offset, Pixel &_p00, Pixel &_p10, Pixel &_p01, Pixel &_p11) const;
-            void _geti(s32 _x, s32 _y, s32 _offset, s32 _index, s32 &_p00, s32 &_p10, s32 &_p01, s32 &_p11) const;
-            void _set(s32 _x, s32 _y, s32 _z, s32 _offset, const Pixel &_p);
-            void _get(s32 _x, s32 _y, s32 _z, s32 _offset, Pixel &_p) const;
-            void _get(s32 _x, s32 _y, s32 _z, s32 _offset, Pixel &_p00, Pixel &_p10, Pixel &_p01, Pixel &_p11) const;
+            void _set(u32 _x, u32 _y, u32 _offset, const Pixel &_p);
+            void _get(u32 _x, u32 _y, u32 _offset, Pixel &_p) const;
+            void _get(u32 _x, u32 _y, u32 _offset, Pixel &_p00, Pixel &_p10, Pixel &_p01, Pixel &_p11) const;
+            void _geti(u32 _x, u32 _y, u32 _offset, s32 _index, s32 &_p00, s32 &_p10, s32 &_p01, s32 &_p11) const;
+            void _set(u32 _x, u32 _y, u32 _z, u32 _offset, const Pixel &_p);
+            void _get(u32 _x, u32 _y, u32 _z, u32 _offset, Pixel &_p) const;
+            void _get(u32 _x, u32 _y, u32 _z, u32 _offset, Pixel &_p00, Pixel &_p10, Pixel &_p01, Pixel &_p11) const;
             void _interpolate(f32 _x, f32 _y, const Pixel &_p00, const Pixel &_p10, const Pixel &_p01, const Pixel &_p11, Pixel &_p) const;
             c8 m_type;                // image type
             c8 m_format;            // image format

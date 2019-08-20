@@ -1,10 +1,11 @@
 #include "SVParticles.h"
 #include "../base/SVSimdLib.h"
 #include "../base/SVUtils.h"
-
+#include "../base/SVNoise.h"
+#include "../core/SVImage.h"
 #define PARTICLES_IFPS		(1.0f / 30.0f)
 
-SVParticles::SVParticles() {
+SVParticles::SVParticles(SVInst *_app) : SVGBase(_app) {
 	m_pWorld = nullptr;
 	frame = 0;
 	type = TYPE_BILLBOARD;
@@ -57,7 +58,8 @@ SVParticles::SVParticles() {
 	setGrowth(0.0f,0.0f);
 	setGravity(FVec3_zero);
 	update_bounds();
-    addNoise();
+//    addNoise();
+   
     /*
     addForce();
     setForceRadius(0, 200);
@@ -68,15 +70,17 @@ SVParticles::SVParticles() {
     setForceTransform(0, t_transform);
     setForceAttractor(0, 1000);
     setForceAttenuation(0, 5);
-     */
+  */
     //
     pVertex = nullptr;
 }
 
 SVParticles::~SVParticles() {
     for(s32 i = 0; i < noises.size(); i++) {
-        //delete noises[i].image;
+        noises[i].image = nullptr;
     }
+    noises.destroy();
+    forces.destroy();
 }
 
 //*************************** Clear ******************************************
@@ -453,7 +457,7 @@ void SVParticles::spawn_particle(Particle &p,f32 k,f32 ifps) {
     }
     //顶点颜色
     p.color = FVec4(1.0f);
-    p.old_color = FVec4(1.0f);
+    p.icolor = FVec4(1.0f);
     //生成params
 	switch(type) {
 		case TYPE_FLAT:
@@ -642,22 +646,22 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
     }
     if(noises.size()) {
         for(s32 i = 0; i < noises.size(); i++) {
-//            const Noise &n = noises[i];
-//            Image *image = getNoiseImage(i);
-//            const FMat4 &itransform = n.itransform;
-//            f32 force = n.force * ifps / 127.5f;
-//            if(Math::abs(force) < EPSILON) {
-//                continue;
-//            }
-//            for(s32 j = 0; j < m_particles.size(); j++) {
-//                Particle &p = m_particles[j];
-//                mul(position,itransform,p.position);
-//                Image::Pixel pixel = image->get3D(position.x,position.y,position.z);
-//                direction.x = Math::itof(pixel.i.r) - 127.5f;
-//                direction.y = Math::itof(pixel.i.g) - 127.5f;
-//                direction.z = Math::itof(pixel.i.b) - 127.5f;
-//                mad(p.velocity,direction,p.radius * p.radius * force,p.velocity);
-//            }
+            const Noise &n = noises[i];
+            SVImagePtr image = getNoiseImage(i);
+            const FMat4 &itransform = n.itransform;
+            f32 force = n.force * ifps / 127.5f;
+            if(Math::abs(force) < EPSILON) {
+                continue;
+            }
+            for(s32 j = 0; j < m_particles.size(); j++) {
+                Particle &p = m_particles[j];
+                mul(position,itransform,p.position);
+                SVImage::Pixel pixel = image->get3D(position.x,position.y,position.z);
+                direction.x = Math::itof(pixel.i.r) - 127.5f;
+                direction.y = Math::itof(pixel.i.g) - 127.5f;
+                direction.z = Math::itof(pixel.i.b) - 127.5f;
+                mad(p.velocity,direction,p.radius * p.radius * force,p.velocity);
+            }
         }
     }
     //世界中区域，强制和扰动(噪声)
@@ -821,16 +825,16 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
         //顶点颜色
         f32 t_p0_life = 65535.0f/p0.ilife;
         f32 t_p0_lerp = (1.0f - (t_p0_life - p0.life)/t_p0_life);
-        p0.color = p0.old_color*t_p0_lerp;
+        p0.color = p0.icolor*t_p0_lerp;
         f32 t_p1_life = 65535.0f/p1.ilife;
         f32 t_p1_lerp = (1.0f - (t_p1_life - p1.life)/t_p1_life);
-        p1.color = p1.old_color*t_p1_lerp;
+        p1.color = p1.icolor*t_p1_lerp;
         f32 t_p2_life = 65535.0f/p2.ilife;
         f32 t_p2_lerp = (1.0f - (t_p2_life - p2.life)/t_p2_life);
-        p2.color = p2.old_color*t_p2_lerp;
+        p2.color = p2.icolor*t_p2_lerp;
         f32 t_p3_life = 65535.0f/p3.ilife;
         f32 t_p3_lerp = (1.0f - (t_p3_life - p3.life)/t_p3_life);
-        p3.color = p3.old_color*t_p3_lerp;
+        p3.color = p3.icolor*t_p3_lerp;
         //更新后 符合条件的粒子，进入移除
         if(p0.radius < EPSILON || p0.life < EPSILON) {
             remove.append((s32)(&p0 - m_particles.get()));
@@ -2448,16 +2452,17 @@ f32 SVParticles::getForceRotator(s32 num) const {
 //*******************************  Noises ***********************************************
 s32 SVParticles::addNoise() {
     Noise &n = noises.append();
-    n.transform = FMat4_identity;
-    n.itransform = FMat4_identity;
+    FMat4 t_trans = FMat4_identity;
+    n.transform = t_trans;
+    n.itransform = t_trans;
     n.offset = FVec3_zero;
     n.step = FVec3_one;
     n.attached = 1;
-    n.force = 1.0f;
+    n.force = 5.0f;
     n.scale = 0.5f;
     n.frequency = 4;
     n.size = 16;
-    //n.image = NULL;
+    n.image = nullptr;
     return noises.size() - 1;
 }
 
@@ -2523,8 +2528,7 @@ f32 SVParticles::getNoiseForce(s32 num) const {
 void SVParticles::setNoiseScale(s32 num,f32 scale) {
 	assert(num >= 0 && num < noises.size() && "SVParticles::setNoiseScale(): bad noise number");
 	noises[num].scale = saturate(scale);
-//    delete noises[num].image;
-//    noises[num].image = NULL;
+    noises[num].image = nullptr;
 }
 
 f32 SVParticles::getNoiseScale(s32 num) const {
@@ -2536,8 +2540,7 @@ f32 SVParticles::getNoiseScale(s32 num) const {
 void SVParticles::setNoiseFrequency(s32 num,s32 frequency) {
 	assert(num >= 0 && num < noises.size() && "SVParticles::setNoiseFrequency(): bad noise number");
 	noises[num].frequency = clamp(frequency,1,32);
-//    delete noises[num].image;
-//    noises[num].image = NULL;
+    noises[num].image = nullptr;
 }
 
 s32 SVParticles::getNoiseFrequency(s32 num) const {
@@ -2549,8 +2552,7 @@ s32 SVParticles::getNoiseFrequency(s32 num) const {
 void SVParticles::setNoiseSize(s32 num,s32 size) {
 	assert(num >= 0 && num < noises.size() && "SVParticles::setNoiseSize(): bad noise number");
 	noises[num].size = clamp(size,1,512);
-//    delete noises[num].image;
-//    noises[num].image = NULL;
+    noises[num].image = nullptr;
 }
 
 s32 SVParticles::getNoiseSize(s32 num) const {
@@ -2558,34 +2560,32 @@ s32 SVParticles::getNoiseSize(s32 num) const {
 	return noises[num].size;
 }
 
-///*
-// */
-//Image *SVParticles::getNoiseImage(s32 num) {
-//    assert(num >= 0 && num < noises.size() && "SVParticles::getNoiseImage(): bad noise number");
-//    if(noises[num].image == NULL) {
-//        Noise &n = noises[num];
-//        ::Noise x_noise(num);
-//        ::Noise y_noise(num + 113);
-//        ::Noise z_noise(num + 49344);
-//        n.image = new Image();
-//        n.image->create3D(n.size,n.size,n.size,Image::FORMAT_RGBA8);
-//        f32 size = Math::itof(n.size);
-//        for(s32 z = 0; z < n.size; z++) {
-//            f32 sz = Math::itof(z) * n.scale;
-//            for(s32 y = 0; y < n.size; y++) {
-//                f32 sy = Math::itof(y) * n.scale;
-//                for(s32 x = 0; x < n.size; x++) {
-//                    f32 sx = Math::itof(x) * n.scale;
-//                    s32 nx = clamp(Math::ftoi(x_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
-//                    s32 ny = clamp(Math::ftoi(y_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
-//                    s32 nz = clamp(Math::ftoi(z_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
-//                    n.image->set3D(x,y,z,nx,ny,nz,255);
-//                }
-//            }
-//        }
-//    }
-//    return noises[num].image;
-//}
+SVImagePtr SVParticles::getNoiseImage(s32 num) {
+    assert(num >= 0 && num < noises.size() && "SVParticles::getNoiseImage(): bad noise number");
+    if(noises[num].image == nullptr) {
+        Noise &n = noises[num];
+        SVNoise x_noise(num);
+        SVNoise y_noise(num + 113);
+        SVNoise z_noise(num + 49344);
+        n.image = MakeSharedPtr<SVImage>(mApp);
+        n.image->create3D(n.size,n.size,n.size,SVImage::SV_FORMAT_RGBA8);
+        f32 size = Math::itof(n.size);
+        for(s32 z = 0; z < n.size; z++) {
+            f32 sz = Math::itof(z) * n.scale;
+            for(s32 y = 0; y < n.size; y++) {
+                f32 sy = Math::itof(y) * n.scale;
+                for(s32 x = 0; x < n.size; x++) {
+                    f32 sx = Math::itof(x) * n.scale;
+                    s32 nx = clamp(Math::ftoi(x_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
+                    s32 ny = clamp(Math::ftoi(y_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
+                    s32 nz = clamp(Math::ftoi(z_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
+                    n.image->set3D(x,y,z,nx,ny,nz,255);
+                }
+            }
+        }
+    }
+    return noises[num].image;
+}
 
 //************************************ Deflectors ******************************************
 s32 SVParticles::addDeflector() {
