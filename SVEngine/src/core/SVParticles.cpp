@@ -57,21 +57,7 @@ SVParticles::SVParticles(SVInst *_app) : SVGBase(_app) {
 	setRadius(1.0f,0.5f);
 	setGrowth(0.0f,0.0f);
 	setGravity(FVec3_zero);
-	update_bounds();
-//    addNoise();
-   
-    /*
-    addForce();
-    setForceRadius(0, 200);
-//    setForceRotator(0, 1000);
-    FMat4 t_transform = FMat4_identity;
-    FVec3 t_pos = FVec3(200, 200, 0);
-    t_transform.setTranslate(t_pos);
-    setForceTransform(0, t_transform);
-    setForceAttractor(0, 1000);
-    setForceAttenuation(0, 5);
-  */
-    //
+    update_bounds();
     pVertex = nullptr;
 }
 
@@ -2751,6 +2737,17 @@ void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     emitObj.AddMember("emitter_velocity_y", emitter_velocity.y, _allocator);
     emitObj.AddMember("emitter_velocity_z", emitter_velocity.z, _allocator);
     _objValue.AddMember("emit", emitObj, _allocator);
+    //noises
+    RAPIDJSON_NAMESPACE::Value noiseArray(RAPIDJSON_NAMESPACE::kArrayType);
+    for(s32 i = 0; i < noises.size(); i++) {
+        Noise &n = noises[i];
+        RAPIDJSON_NAMESPACE::Value noiseObj(RAPIDJSON_NAMESPACE::kObjectType);
+        noiseObj.AddMember("force", n.force, _allocator);
+        noiseObj.AddMember("frequency", n.frequency, _allocator);
+        noiseObj.AddMember("scale", n.scale, _allocator);
+        noiseArray.PushBack(noiseObj, _allocator);
+    }
+    _objValue.AddMember("noises", noiseArray, _allocator);
 }
 
 void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
@@ -2860,6 +2857,26 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //        setEmitterLimit(emitter_limit);
     }
     updateEmitter();
+    //noises
+    if (item.HasMember("noises") && item["noises"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &t_noises = item["noises"];
+        for (s32 i = 0; i<t_noises.Size(); i++) {
+            RAPIDJSON_NAMESPACE::Value &t_noiseObj = t_noises[i];
+            addNoise();
+            if (t_noiseObj.HasMember("force") && t_noiseObj["force"].IsFloat()){
+                f32 t_force = t_noiseObj["force"].GetFloat();
+                setNoiseForce(getNumNoises() - 1, t_force);
+            }
+            if (t_noiseObj.HasMember("frequency") && t_noiseObj["frequency"].IsInt()){
+                s32 t_frequency = t_noiseObj["frequency"].GetInt();
+                setNoiseFrequency(getNumNoises() - 1, t_frequency);
+            }
+            if (t_noiseObj.HasMember("scale") && t_noiseObj["scale"].IsFloat()){
+                f32 t_scale = t_noiseObj["scale"].GetFloat();
+                setNoiseScale(getNumNoises() - 1, t_scale);
+            }
+        }
+    }
 }
 
 ///*
