@@ -2363,7 +2363,7 @@ s32 SVParticles::addForce() {
     f.radius = 100.0f;
     f.attenuation = 1.0f;
     f.attractor = 100.0f;
-    f.rotator = 200.0f;
+    f.rotator = 100.0f;
     return forces.size() - 1;
 }
 

@@ -82,17 +82,15 @@ void SV2DFaceMaskSTNode::update(f32 dt) {
     SV2DFaceMaskNode::update(dt);
     if (m_pFaceMesh) {
         _updateVerts();
+        m_pFaceMesh->setVertex2Data(m_pVerts);
     }
     if (m_mtlFace2D) {
-        m_mtlFace2D->setModelMatrix(m_absolutMat.get());
         m_mtlFace2D->update(dt);
+        m_mtlFace2D->setModelMatrix(m_absolutMat.get());
         m_mtlFace2D->setBlendEnable(true);
+        m_mtlFace2D->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         m_mtlFace2D->setTexcoordFlip(1.0, -1.0);
         m_mtlFace2D->setTexSizeIndex(0, 1.0f/m_texwidth, 1.0f/m_texheight);
-    }
-    //传送顶点数据
-    if (m_pFaceMesh) {
-        m_pFaceMesh->setVertex2Data(m_pVerts);
     }
     if (m_pFaceMesh && m_mtlFace2D) {
         m_renderObject->setMtl(m_mtlFace2D);
