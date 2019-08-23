@@ -33,7 +33,7 @@ namespace sv{
         
         virtual bool isOpen();
         
-        virtual void setOpCallBack(cb_func_op _cb);
+        virtual void setOpCallBack(cb_func_op _cb, void *_obj);
         
         void setModuleName(cptr8 _name){ m_module_name = _name;}
         
@@ -43,6 +43,8 @@ namespace sv{
         bool m_isOpen;
         
         cb_func_op m_cb;
+        
+        void *m_obj;
         
         SVString m_module_name;
     };

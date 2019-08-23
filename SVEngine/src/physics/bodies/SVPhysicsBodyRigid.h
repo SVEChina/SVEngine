@@ -32,11 +32,18 @@ namespace sv {
             
             void addConstraint();
             
+            void setConstraintXY(f32 _x ,f32 _y ,f32 _z);
+            
             void removeConstraint();
+            
+            void setRestitution(f32 _dis);
+            
+            void setFriction(f32 _dis);
             
             PHYSICSBODYTYPE getType();
             
         protected:
+            
             PHYSICSBODYTYPE m_type;
             
             SVPhysicsShapePtr m_pShape;
@@ -44,6 +51,8 @@ namespace sv {
             btDefaultMotionState* m_pMyMotionState;
             
             btPoint2PointConstraint* p2p;
+            
+            s32 m_savedState;
             
         };
             

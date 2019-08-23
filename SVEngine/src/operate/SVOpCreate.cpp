@@ -146,7 +146,7 @@ void SVOpCreateEffcet::_process(f32 dt) {
         SVParseMain t_parssMain(mApp);
         t_modulePtr = t_parssMain.parse(m_strPath.c_str(),123);
         if (t_modulePtr) {
-            t_modulePtr->setOpCallBack(m_pCB);
+            t_modulePtr->setOpCallBack(m_pCB, m_obj);
             t_modulePtr->setModuleName(t_moduleName.c_str());
             t_modulePtr->open();
             mApp->getModuleSys()->regist(t_modulePtr, t_moduleName.c_str());
@@ -248,7 +248,7 @@ void SVOpEngineDelaySuspend::_process(f32 dt){
     SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule("sv_delaysuspend");
     SVModuleDelaySuspendPtr t_suspend = std::dynamic_pointer_cast<SVModuleDelaySuspend>(t_modulePtr);
     if (t_suspend) {
-        t_suspend->setOpCallBack(m_pCB);
+        t_suspend->setOpCallBack(m_pCB, m_obj);
         t_suspend->setAccTime(m_time);
         t_suspend->open();
     }
@@ -822,7 +822,7 @@ void SVOpPenUndoIsEnable::_process(f32 dt) {
         }
     }
     if (m_pCB) {
-        (*m_pCB)(result, mApp);
+        (*m_pCB)(result, m_obj);
     }
 }
 
@@ -847,7 +847,7 @@ void SVOpPenRedoIsEnable::_process(f32 dt) {
         }
     }
     if (m_pCB) {
-        (*m_pCB)(result, mApp);
+        (*m_pCB)(result, m_obj);
     }
 }
 
