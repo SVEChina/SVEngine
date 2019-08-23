@@ -496,54 +496,94 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
     //构建轨道
     for(s32 i=0;i<t_anidata->channels.size();i++) {
         AnimationChannel* t_chn_data = &(t_anidata->channels[i]);
-        SVChannelPtr t_sve_chn= MakeSharedPtr<SVChannel>();
-        //
-        t_sve_chn->m_target = t_chn_data->target_node; //骨骼目标
-        if( t_chn_data->target_path == "translation") {
-            t_sve_chn->m_type = E_CN_T_TRANS;
-        }else if( t_chn_data->target_path == "rotation") {
-            t_sve_chn->m_type = E_CN_T_ROT;
-        }else if( t_chn_data->target_path == "scale") {
-            t_sve_chn->m_type = E_CN_T_SCALE;
-        }else if( t_chn_data->target_path == "weights") {
-            t_sve_chn->m_type = E_CN_T_WEIGHT;
+        //构建input
+        if(t_chn_data->sampler<0) {
+            continue;
         }
-        //
-        if(t_chn_data->sampler>=0) {
-            AnimationSampler* t_chn_samp = &(t_anidata->samplers[t_chn_data->sampler]);
-            t_sve_chn->m_input = t_chn_samp->input;
-            t_sve_chn->m_output = t_chn_samp->output;
-            //构建轨道数据
-            _buildChnData(t_ani,t_chn_samp->input);
-            _buildChnData(t_ani,t_chn_samp->output);
-            //
-            t_sve_chn->m_intertype = 0;
-            if( t_chn_samp->interpolation == "LINEAR") {
-                t_sve_chn->m_intertype = 0;
-            }else if( t_chn_samp->interpolation == "STEP") {
-                t_sve_chn->m_intertype = 1;
-            }else if( t_chn_samp->interpolation == "CATMULLROMSPLINE") {
-                t_sve_chn->m_intertype = 2;
-            }else if( t_chn_samp->interpolation == "CUBICSPLINE") {
-                t_sve_chn->m_intertype = 3;
+        //构建输入
+        AnimationSampler* t_chn_samp = &(t_anidata->samplers[t_chn_data->sampler]);
+        SVChannelPtr t_sve_chn =  t_ani->getChannel(t_chn_data->target_node);
+        if(!t_sve_chn) {
+            t_sve_chn = MakeSharedPtr<SVChannel>();
+            t_sve_chn->m_target = t_chn_data->target_node;
+            Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->input]);
+            if( t_acc->name == "accessorAnimationInput" ) {
+                s8* t_p = _getAccDataPointer(t_acc);
+                f32* t_pTime = (f32*)t_p;
+                for(s32 i=0;i<t_acc->count;i++) {
+                    SVASKeyPtr t_askey = MakeSharedPtr<SVASKey>();
+                    t_askey->m_time = *t_pTime;
+                    t_pTime++;
+                    t_sve_chn->m_chnPool.append(t_askey);//推入key
+                }
+                t_sve_chn->m_maxTime = t_acc->maxValues[0];
+                t_sve_chn->m_minTime = t_acc->minValues[0];
             }
+            t_ani->addChannel(t_sve_chn);
         }
-        t_ani->addChannel(t_sve_chn);
+        //构建输出
+        if( t_chn_data->target_path == "translation") {
+            //构建trans
+            t_sve_chn->m_intertype_trans = _getInterpolationMode(t_chn_samp->interpolation);
+            Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
+            if( t_acc->name == "accessorAnimationPositions" ) {
+                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                    s8* t_p = _getAccDataPointer(t_acc);
+                    f32* t_pPos = (f32*)t_p;
+                    for(s32 i=0;i<t_acc->count;i++) {
+                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
+                        t_askey->m_pos.x = *t_pPos;t_pPos++;
+                        t_askey->m_pos.y = *t_pPos;t_pPos++;
+                        t_askey->m_pos.z = *t_pPos;t_pPos++;
+                    }
+                }
+            }
+        }else if( t_chn_data->target_path == "rotation") {
+            //构建rot
+            t_sve_chn->m_intertype_rot = _getInterpolationMode(t_chn_samp->interpolation);
+            Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
+            if( t_acc->name == "accessorAnimationRotations" ) {
+                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                    s8* t_p = _getAccDataPointer(t_acc);
+                    f32* t_pRot = (f32*)t_p;
+                    for(s32 i=0;i<t_acc->count;i++) {
+                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
+                        t_askey->m_rot.x = *t_pRot;t_pRot++;
+                        t_askey->m_rot.y = *t_pRot;t_pRot++;
+                        t_askey->m_rot.z = *t_pRot;t_pRot++;
+                        t_askey->m_rot.w = *t_pRot;t_pRot++;
+                    }
+                }
+            }
+        }else if( t_chn_data->target_path == "scale") {
+            //构建scale
+            t_sve_chn->m_intertype_scale = _getInterpolationMode(t_chn_samp->interpolation);
+            Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
+            if( t_acc->name == "accessorAnimationScales" ) {
+                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                    s8* t_p = _getAccDataPointer(t_acc);
+                    f32* t_pScale = (f32*)t_p;
+                    for(s32 i=0;i<t_acc->count;i++) {
+                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
+                        t_askey->m_scale.x = *t_pScale;t_pScale++;
+                        t_askey->m_scale.y = *t_pScale;t_pScale++;
+                        t_askey->m_scale.z = *t_pScale;t_pScale++;
+                    }
+                }
+            }
+        }else if( t_chn_data->target_path == "weights") {
+            //构建weight
+//            t_sve_chn->m_intertype_weight = _getInterpolationMode(t_chn_samp->interpolation);
+//            Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->input]);
+//            if( t_acc->name == "accessorAnimationPositions" ) {
+//
+//            }
+        }
     }
     return t_ani;
 }
 
-void SVLoaderGLTF::_buildChnData(SVAnimateSkinPtr _ani,s32 _index){
-    if(_index<0)
-        return ;
-    if( _ani->hadSkinAniData(_index) )
-        return ;
-    SVSkinAniDataPtr t_data = MakeSharedPtr<SVSkinAniData>();
-    Accessor* t_acc = &(m_gltf.accessors[_index]);
-    _fetchDataFromAcc(t_data,t_acc);
-    _ani->addSkinAniData(_index, t_data);
-}
-
+//
 SVModelPtr SVLoaderGLTF::_buildModel(s32 _index){
     if(_index<0)
         return nullptr;
@@ -971,35 +1011,6 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor
                 t_bone->m_invertBindMat.set(t_p);
             }
             p += t_s_size;
-        }
-        t_buf->data->unlockData();
-    }
-}
-
-//数据一个一个取
-void SVLoaderGLTF::_fetchDataFromAcc(SVSkinAniDataPtr _data,Accessor *_accessor) {
-    s32 t_viewID = _accessor->bufferView;
-    BufferView* t_bufview = &(m_gltf.bufferViews[t_viewID]);
-    if(t_bufview) {
-        s32 t_bufID = t_bufview->buffer;
-        Buffer* t_buf = &(m_gltf.buffers[t_bufID]);
-        t_buf->data->lockData();
-        char* p = (char*)(t_buf->data->getData());
-        p += t_bufview->byteOffset;
-        p += _accessor->byteOffset;
-        s32 t_cmp_size = _getCmpSize(_accessor->componentType);
-        s32 t_cmp_num = _getCmpNum(_accessor->type);
-        //拷贝数据
-        for(s32 i=0;i<_accessor->count;i++) {
-            if(_accessor->componentType != SVGLTF_COMPONENT_TYPE_FLOAT) {
-                //error
-                continue; //数据类型不对 跳过 并且报error
-            }
-            for(s32 j=0;j<t_cmp_num;j++) {
-                f32* t_p = (f32*)p;
-                _data->m_datavec.append(*t_p);
-                p += 4;
-            }
         }
         t_buf->data->unlockData();
     }
