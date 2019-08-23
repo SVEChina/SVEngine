@@ -53,6 +53,8 @@ s32 SVResVBO::getVertexFormateSize(VFTYPE _type) {
         return sizeof(V3_PARTICLE);
     }else if (_type == E_VF_V3_N_T_T0) {
         return sizeof(V3_N_T_T0);
+    }else if (_type == E_VF_V3_N_C_T0_BONE_W) {
+        return sizeof(V3_N_C_T0_B_W);
     }
     return 0;
 }

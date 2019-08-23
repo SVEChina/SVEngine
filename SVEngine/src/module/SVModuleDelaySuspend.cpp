@@ -32,7 +32,7 @@ void SVModuleDelaySuspend::update(f32 _dt) {
             close();
             mApp->svSuspend();
             if (m_cb) {
-                (*m_cb)("sv_suspend", mApp);
+                (*m_cb)("sv_suspend", m_obj);
             }
         }
     }
@@ -48,10 +48,6 @@ void SVModuleDelaySuspend::close() {
 
 bool SVModuleDelaySuspend::isOpen(){
     return m_isOpen;
-}
-
-void SVModuleDelaySuspend::setOpCallBack(cb_func_op _cb){
-    m_cb = _cb;
 }
 
 void SVModuleDelaySuspend::setAccTime(f32 _time){

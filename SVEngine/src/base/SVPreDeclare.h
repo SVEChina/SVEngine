@@ -170,6 +170,8 @@ namespace sv {
         DECLARE_SHAREPTR(SpineMeshData);
         DECLARE_SHAREPTR(SVBone);
         DECLARE_SHAREPTR(SVSkeleton);
+        
+        DECLARE_SHAREPTR(SVASKey);
         DECLARE_SHAREPTR(SVChannel);
         DECLARE_SHAREPTR(SVAnimateSkin);
         DECLARE_SHAREPTR(SVSkinMgr);
@@ -189,6 +191,10 @@ namespace sv {
         //font
         DECLARE_SHAREPTR(SVFont);
         DECLARE_SHAREPTR(SVBMFont);
+        //image
+        DECLARE_SHAREPTR(SVImage);
+        
+        DECLARE_SHAREPTR(SVNoise);
     }//!namespace util
     
     //

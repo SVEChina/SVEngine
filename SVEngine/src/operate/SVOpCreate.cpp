@@ -146,7 +146,7 @@ void SVOpCreateEffcet::_process(f32 dt) {
         SVParseMain t_parssMain(mApp);
         t_modulePtr = t_parssMain.parse(m_strPath.c_str(),123);
         if (t_modulePtr) {
-            t_modulePtr->setOpCallBack(m_pCB);
+            t_modulePtr->setOpCallBack(m_pCB, m_obj);
             t_modulePtr->setModuleName(t_moduleName.c_str());
             t_modulePtr->open();
             mApp->getModuleSys()->regist(t_modulePtr, t_moduleName.c_str());
@@ -248,7 +248,7 @@ void SVOpEngineDelaySuspend::_process(f32 dt){
     SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule("sv_delaysuspend");
     SVModuleDelaySuspendPtr t_suspend = std::dynamic_pointer_cast<SVModuleDelaySuspend>(t_modulePtr);
     if (t_suspend) {
-        t_suspend->setOpCallBack(m_pCB);
+        t_suspend->setOpCallBack(m_pCB, m_obj);
         t_suspend->setAccTime(m_time);
         t_suspend->open();
     }
@@ -283,73 +283,177 @@ SVOpCreateTest::~SVOpCreateTest(){
 }
 
 void SVOpCreateTest::_process(f32 dt) {
+    SVLoaderGLTF t_load(mApp);
+    t_load.loadFromFile("svres/gltf/Test_bone/Test_bone.gltf");
+    t_load.building();
+    SVNodePtr t_node = t_load.getNode("Hair");
+    if(t_node) {
+        SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+        if (t_pScene) {
+            t_node->setScale(10.0f,10.0f,10.0f);
+            t_node->setPosition(0.0f, 100.0f, 0.0f);
+            t_pScene->addNode(t_node);
+        }
+    }
     
+////    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+////    if (t_pScene) {
+////        //创建测试盒子®
+////        for(s32 i=0;i<1;i++){
+////            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+////            t_testBox->randomInit();
+////            t_pScene->addNode(t_testBox);
+////        }
+////    }
+////#ifdef SV_IOS
+////        SVSpriteNodePtr spriteNode = MakeSharedPtr<SVSpriteNode>(mApp);
+////        spriteNode->setPosition(0, 0, 1000);
+////        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
+////        file = [file stringByAppendingPathComponent:@"svres/HollowKnight.png"];
+////        spriteNode->setTexture([file UTF8String]);
+////        spriteNode->setSpriteSize(500, 500);
+////        t_pScene->addNode(spriteNode);
+////#endif
+////        //
+////        SVParticlesNodePtr t_p_node = MakeSharedPtr<SVParticlesNode>(mApp);
+////        t_p_node->testInit();
+////        t_pScene->addNode(t_p_node);
+////        SVFreetypeNodeParam t_ftype_param;
+////        t_ftype_param.m_text = "付一舟Ab1.";
+////        t_ftype_param.m_canSelect = true;
+////        SVNodePtr t_testFreetype = t_ftype_param.genNode(mApp);
+////        t_pScene->addNode(t_testFreetype);
+//
+//        //
+////#ifdef SV_IOS
+////        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
+////        file = [file stringByAppendingPathComponent:@"svres/chineses.fnt"];
+////        SVBMFontPtr m_font = SVBMFont::creatFnt([file UTF8String], mApp);
+////        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
+////        bmNode->setFont(m_font);
+////        bmNode->setText("丹分化");
+////        bmNode->setSpacing(20);
+////        t_pScene->addNode(bmNode);
+////#endif
+//
+////#ifdef SV_IOS
+////        NSString *t_resPath = [[NSBundle mainBundle]pathForResource:@"sve" ofType:@"bundle"];
+////        t_resPath = [t_resPath stringByAppendingPathComponent:@"svres/x-wing/scene.gltf"];
+////        SVGLTF glTFLoader(mApp);
+////        GLTFModelPtr t_model =  glTFLoader.loadFromFile([t_resPath UTF8String]);
+////        if (t_model) {
+////            SVSkinNodePtr t_node3d = MakeSharedPtr<SVSkinNode>(mApp);
+////            t_node3d->setPosition(0, 0, 0);
+////            t_node3d->setRotation(45, 45, 0);
+////            t_node3d->setScale(10.0, 10.0, 10.0);
+////            t_node3d->setModel(t_model);
+////            t_pScene->addNode(t_node3d);
+////        }
+////#endif
+//
+////    }
+//
+////    SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
+////    billboardNode->setPosition(0, 0, 100);
+////    cptr8 file = "svres/sprite/HollowKnight.png";
+////    SVTexturePtr texture = mApp->getTexMgr()->getTexture(file,true);
+////    billboardNode->setTexture(texture);
+////    billboardNode->setSize(500, 500);
+////    t_pScene->addNode(billboardNode);
+//
+//
 //    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
 //    if (t_pScene) {
-//        //创建测试盒子®
-//        for(s32 i=0;i<1;i++){
-//            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-//            t_testBox->randomInit();
-//            t_pScene->addNode(t_testBox);
+//        //创建3d
+//
+//        SVPhysicsShapeBoxPtr t_shapebox=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(100.0,1,100.0));
+//        t_shapebox->setMass(0.0);
+//        t_shapebox->setLocalInertia(FVec3(0.0,0.0,0.0));
+//        t_shapebox->init();
+//        SVPhysicsBodyRigidPtr t_body=MakeSharedPtr<SVPhysicsBodyRigid>(mApp,t_shapebox);
+//        t_body->setOrigin(FVec3(0.0,0.0,0));
+//        t_body->init();
+//        mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body);
+////
+//        SVPhysicsShapeBoxPtr t_shapebox1=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(0.1,10.0,10));
+//        t_shapebox1->setMass(0.0);
+//        t_shapebox1->setLocalInertia(FVec3(0.0,0.0,0.0));
+//        t_shapebox1->init();
+//        SVPhysicsBodyRigidPtr t_body2=MakeSharedPtr<SVPhysicsBodyRigid>(mApp,t_shapebox1);
+//        t_body2->setOrigin(FVec3(-1,0,0));
+//        t_body2->init();
+//        mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body2);
+//
+//
+//
+//        SVPhysicsShapeBoxPtr t_shapebox3=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(0.1,10.0,10));
+//        t_shapebox3->setMass(0.0);
+//        t_shapebox3->setLocalInertia(FVec3(0.0,0.0,0.0));
+//        t_shapebox3->init();
+//        SVPhysicsBodyRigidPtr t_body3=MakeSharedPtr<SVPhysicsBodyRigid>(mApp,t_shapebox3);
+//        t_body3->setOrigin(FVec3(1,0,0));
+//        t_body3->init();
+//        mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body3);
+//
+//        SVPhysicsShapeBoxPtr t_shapebox4=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(10,10,0.01));
+//        t_shapebox4->setMass(0.0);
+//        t_shapebox4->setLocalInertia(FVec3(0.0,0.0,0.0));
+//        t_shapebox4->init();
+//        SVPhysicsBodyRigidPtr t_body4=MakeSharedPtr<SVPhysicsBodyRigid>(mApp,t_shapebox4);
+//        t_body4->setOrigin(FVec3(-2,-2,1.0));
+//        t_body4->init();
+//        mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body4);
+//
+////
+//        SVPhysicsShapeBoxPtr t_shapebox5=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(10.0,10.0,0.01));
+//        t_shapebox5->setMass(0.0);
+//        t_shapebox5->setLocalInertia(FVec3(0.0,0.0,0.0));
+//        t_shapebox5->init();
+//        SVPhysicsBodyRigidPtr t_body5=MakeSharedPtr<SVPhysicsBodyRigid>(mApp,t_shapebox5);
+//        t_body5->setOrigin(FVec3(-2,-2,-0.4));
+//        t_body5->init();
+//        mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body5);
+//
+//
+//        //50.0/250.0 FVec3(50.0/250.0,50.0/250.0,50.0/250.0)
+//        SVPhysicsShapeBoxPtr t_shapeShere=MakeSharedPtr<SVPhysicsShapeBox>(mApp,FVec3(0.2,0.2,0.2));
+//        t_shapeShere->setMass(1.0);
+//        t_shapeShere->setLocalInertia(FVec3(0,0,0));
+//        t_shapeShere->init();
+//        for (int k = 0; k < 1; k++)
+//        {
+//            for (int i = 0; i < 1; i++)
+//            {
+//                for (int j = 0; j < 2; j++)
+//                {
+////                    SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
+////                   // t_testBox->randomInit();
+////                    t_testBox->setScale(1.0,1.0,1.0);
+////                    t_testBox->setPosition(0.0, 0.0, 0.0);
+////                    t_testBox->setRotation(0, 0, 0);
+//
+//                    SVLoaderGLTF t_load(mApp);
+//                    t_load.loadFromFile("svres/gltf/ShaiZi_2/ShaiZi.gltf");
+//                    t_load.building();
+//                    SVNodePtr t_testBox =t_load.getNode("default009");
+//                    t_testBox->setScale(0.001f,0.001f,0.001f);
+//                    //t_testBox->setdrawAABB(true);
+//                    // t_testBox->setcanSelect(true);
+//                    t_pScene->addNode(t_testBox);
+//                    SVPhysicsBodyRigidPtr t_body01=MakeSharedPtr<SVPhysicsBodyRigid>(mApp,t_shapeShere);
+//                    t_body01->setOrigin(FVec3(0.4 * i,5+k*0.4,0.4 * j));
+//                    t_body01->setNode(t_testBox);
+//                    t_body01->init();
+//                    mApp->m_pGlobalMgr->m_pPhysics->addBody(t_body01);
+//                    t_body01->addConstraint();
+//                    mApp->m_pGlobalMgr->m_pPhysics->setp();
+//                    t_body01->removeConstraint();
+//                }
+//            }
+//
 //        }
 //    }
-    
-//#ifdef SV_IOS
-//        SVSpriteNodePtr spriteNode = MakeSharedPtr<SVSpriteNode>(mApp);
-//        spriteNode->setPosition(0, 0, 1000);
-//        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
-//        file = [file stringByAppendingPathComponent:@"svres/HollowKnight.png"];
-//        spriteNode->setTexture([file UTF8String]);
-//        spriteNode->setSpriteSize(500, 500);
-//        t_pScene->addNode(spriteNode);
-//#endif
-//        //
-//        SVParticlesNodePtr t_p_node = MakeSharedPtr<SVParticlesNode>(mApp);
-//        t_p_node->testInit();
-//        t_pScene->addNode(t_p_node);
-//        SVFreetypeNodeParam t_ftype_param;
-//        t_ftype_param.m_text = "付一舟Ab1.";
-//        t_ftype_param.m_canSelect = true;
-//        SVNodePtr t_testFreetype = t_ftype_param.genNode(mApp);
-//        t_pScene->addNode(t_testFreetype);
-        
-        //
-//#ifdef SV_IOS
-//        NSString *file = [[NSBundle mainBundle] pathForResource:@"sve" ofType:@"bundle"];
-//        file = [file stringByAppendingPathComponent:@"svres/chineses.fnt"];
-//        SVBMFontPtr m_font = SVBMFont::creatFnt([file UTF8String], mApp);
-//        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
-//        bmNode->setFont(m_font);
-//        bmNode->setText("丹分化");
-//        bmNode->setSpacing(20);
-//        t_pScene->addNode(bmNode);
-//#endif
-    
-//#ifdef SV_IOS
-//        NSString *t_resPath = [[NSBundle mainBundle]pathForResource:@"sve" ofType:@"bundle"];
-//        t_resPath = [t_resPath stringByAppendingPathComponent:@"svres/x-wing/scene.gltf"];
-//        SVGLTF glTFLoader(mApp);
-//        GLTFModelPtr t_model =  glTFLoader.loadFromFile([t_resPath UTF8String]);
-//        if (t_model) {
-//            SVSkinNodePtr t_node3d = MakeSharedPtr<SVSkinNode>(mApp);
-//            t_node3d->setPosition(0, 0, 0);
-//            t_node3d->setRotation(45, 45, 0);
-//            t_node3d->setScale(10.0, 10.0, 10.0);
-//            t_node3d->setModel(t_model);
-//            t_pScene->addNode(t_node3d);
-//        }
-//#endif
-        
-//    }
-    
-//    SVBillboardNodePtr billboardNode = MakeSharedPtr<SVBillboardNode>(mApp);
-//    billboardNode->setPosition(0, 0, 100);
-//    cptr8 file = "svres/sprite/HollowKnight.png";
-//    SVTexturePtr texture = mApp->getTexMgr()->getTexture(file,true);
-//    billboardNode->setTexture(texture);
-//    billboardNode->setSize(500, 500);
-//    t_pScene->addNode(billboardNode);
-    
+
 }
 
 
@@ -718,7 +822,7 @@ void SVOpPenUndoIsEnable::_process(f32 dt) {
         }
     }
     if (m_pCB) {
-        (*m_pCB)(result, mApp);
+        (*m_pCB)(result, m_obj);
     }
 }
 
@@ -743,7 +847,7 @@ void SVOpPenRedoIsEnable::_process(f32 dt) {
         }
     }
     if (m_pCB) {
-        (*m_pCB)(result, mApp);
+        (*m_pCB)(result, m_obj);
     }
 }
 

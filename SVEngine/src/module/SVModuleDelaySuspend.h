@@ -30,8 +30,6 @@ namespace sv{
         
         virtual bool isOpen();
         
-        virtual void setOpCallBack(cb_func_op _cb);
-        
         void setModuleName(cptr8 _name){ m_module_name = _name;}
         
         cptr8 getModuleName() { return m_module_name.c_str() ;}

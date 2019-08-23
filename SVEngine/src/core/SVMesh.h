@@ -40,6 +40,8 @@ namespace sv {
             
             void setMtl(SVMtlCorePtr _mtl);
             
+            SVMtlCorePtr getMtl();
+            
             void update(f32 _dt,FMat4& _mat);
             
             void render();

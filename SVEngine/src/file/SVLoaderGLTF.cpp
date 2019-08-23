@@ -32,6 +32,8 @@
 #include "../base/SVArray.h"
 #include "../base/svstr.h"
 #include "../basesys/SVModelMgr.h"
+#include "../rendercore/SVResVBO.h"
+
 SVLoaderGLTF::SVLoaderGLTF(SVInst *_app)
 :SVGBase(_app) {
 }
@@ -362,18 +364,13 @@ void SVLoaderGLTF::building() {
                 //有骨骼动画
                 SVNodePtr t_svNode = _buildSkinNode(t_node);
                 if(t_svNode) {
-//                    t_svNode->setScale(15.0f,15.0f,15.0f);
-//                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
-//                    t_sc->addNode(t_svNode);
+                    t_sc->addNode(t_svNode);
                     m_nodeArray.append(t_svNode);
                 }
             }else if(t_node->mesh>=0) {
                 //无骨骼动画 纯mesh
                 SVNodePtr t_svNode = _build3DNode(t_node);
                 if(t_svNode) {
-//                    t_svNode->setScale(0.001f,0.001f,0.001f);
-//                    t_svNode->setPosition(0.0f, 100.0f, 0.0f);
-//                    t_sc->addNode(t_svNode);
                     m_nodeArray.append(t_svNode);
                 }
             }else if(t_node->camera>=0) {
@@ -434,33 +431,41 @@ SVNodePtr SVLoaderGLTF::_buildCameraNode(Node* _node) {
 }
 
 //给出索引 构建皮肤
-SVSkeletonPtr SVLoaderGLTF::_buildSkin(s32 _index){
-    if(_index<0)
+SVSkeletonPtr SVLoaderGLTF::_buildSkin(s32 _skinIndex){
+    if(_skinIndex<0)
         return nullptr;
-    Skin* t_skindata = &(m_gltf.skins[_index]);
+    Skin* t_skindata = &(m_gltf.skins[_skinIndex]);
     //构建骨架
     SVSkeletonPtr t_ske = MakeSharedPtr<SVSkeleton>();
-    s32 t_root_index = t_skindata->skeleton;
+    s32 t_node_index = t_skindata->skeleton;
+    //创建根骨骼
     SVBonePtr t_rootBone = MakeSharedPtr<SVBone>();
-    _buildBone(t_rootBone,t_root_index,t_ske);
+    _buildBone(t_rootBone,t_skindata,t_node_index,t_ske);
     t_ske->m_name = t_skindata->name;
     t_ske->m_root = t_rootBone;
+    //初始化骨架基本数据
+    Accessor* t_acc = &(m_gltf.accessors[t_skindata->inverseBindMatrices]);
+    _fetchDataFromAcc(t_ske,t_skindata,t_acc);
     return t_ske;
 }
 
-bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske) {
+bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,Skin* _skinData,s32 _nodeIndex,SVSkeletonPtr _ske) {
     //
-    if(_index<0)
+    if(_nodeIndex<0)
         return false;
     //填充数据
-    Node* t_node = &(m_gltf.nodes[_index]);
+    Node* t_node = &(m_gltf.nodes[_nodeIndex]);
     if(!t_node){
         return false;
     }
     //
     _ske->addBone(_parent);
-    //
-    _parent->m_id = _index;
+    for(s32 i=0;i<_skinData->joints.size();i++) {
+        if( _skinData->joints[i] == _nodeIndex) {
+            _parent->m_id = i;
+        }
+    }
+    _parent->m_nodeid = _nodeIndex;
     _parent->m_name = t_node->name;
     _parent->m_tran.x = t_node->translation[0];
     _parent->m_tran.y = t_node->translation[1];
@@ -474,10 +479,10 @@ bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske) {
     _parent->m_rot.w = t_node->rotation[3];
     //构建子骨骼
     for(s32 i=0;i<t_node->children.size();i++) {
-        s32 t_index = t_node->children[i];
+        s32 t_nodeIndex = t_node->children[i];
         SVBonePtr t_bone = MakeSharedPtr<SVBone>();
         t_bone->m_pParent = _parent;
-        _buildBone(t_bone,t_index,_ske);
+        _buildBone(t_bone,_skinData,t_nodeIndex,_ske);
         _parent->m_children.append(t_bone);
     }
     return true;
@@ -489,21 +494,96 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
     Animation* t_anidata = &(m_gltf.animations[_index]);
     SVAnimateSkinPtr t_ani = MakeSharedPtr<SVAnimateSkin>(mApp,t_anidata->name.c_str());
     //构建轨道
-    
-//    //跟节点索引
-//    s32 t_node_index = t_skindata->skeleton;
-//    Node* t_node = &(m_gltf.nodes[t_node_index]);
-//    //_buildSkeNode(t_node,t_rootNode);
-//    //
+    for(s32 i=0;i<t_anidata->channels.size();i++) {
+        AnimationChannel* t_chn_data = &(t_anidata->channels[i]);
+        //构建input
+        if(t_chn_data->sampler<0) {
+            continue;
+        }
+        //构建输入
+        AnimationSampler* t_chn_samp = &(t_anidata->samplers[t_chn_data->sampler]);
+        SVChannelPtr t_sve_chn =  t_ani->getChannel(t_chn_data->target_node);
+        if(!t_sve_chn) {
+            t_sve_chn = MakeSharedPtr<SVChannel>();
+            t_sve_chn->m_target = t_chn_data->target_node;
+            Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->input]);
+            if( t_acc->name == "accessorAnimationInput" ) {
+                s8* t_p = _getAccDataPointer(t_acc);
+                f32* t_pTime = (f32*)t_p;
+                for(s32 i=0;i<t_acc->count;i++) {
+                    SVASKeyPtr t_askey = MakeSharedPtr<SVASKey>();
+                    t_askey->m_time = *t_pTime;
+                    t_pTime++;
+                    t_sve_chn->m_chnPool.append(t_askey);//推入key
+                }
+                t_sve_chn->m_maxTime = t_acc->maxValues[0];
+                t_sve_chn->m_minTime = t_acc->minValues[0];
+            }
+            t_ani->addChannel(t_sve_chn);
+        }
+        //构建输出
+        if( t_chn_data->target_path == "translation") {
+            //构建trans
+            t_sve_chn->m_intertype_trans = _getInterpolationMode(t_chn_samp->interpolation);
+            Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
+            if( t_acc->name == "accessorAnimationPositions" ) {
+                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                    s8* t_p = _getAccDataPointer(t_acc);
+                    f32* t_pPos = (f32*)t_p;
+                    for(s32 i=0;i<t_acc->count;i++) {
+                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
+                        t_askey->m_pos.x = *t_pPos;t_pPos++;
+                        t_askey->m_pos.y = *t_pPos;t_pPos++;
+                        t_askey->m_pos.z = *t_pPos;t_pPos++;
+                    }
+                }
+            }
+        }else if( t_chn_data->target_path == "rotation") {
+            //构建rot
+            t_sve_chn->m_intertype_rot = _getInterpolationMode(t_chn_samp->interpolation);
+            Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
+            if( t_acc->name == "accessorAnimationRotations" ) {
+                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                    s8* t_p = _getAccDataPointer(t_acc);
+                    f32* t_pRot = (f32*)t_p;
+                    for(s32 i=0;i<t_acc->count;i++) {
+                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
+                        t_askey->m_rot.x = *t_pRot;t_pRot++;
+                        t_askey->m_rot.y = *t_pRot;t_pRot++;
+                        t_askey->m_rot.z = *t_pRot;t_pRot++;
+                        t_askey->m_rot.w = *t_pRot;t_pRot++;
+                    }
+                }
+            }
+        }else if( t_chn_data->target_path == "scale") {
+            //构建scale
+            t_sve_chn->m_intertype_scale = _getInterpolationMode(t_chn_samp->interpolation);
+            Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
+            if( t_acc->name == "accessorAnimationScales" ) {
+                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                    s8* t_p = _getAccDataPointer(t_acc);
+                    f32* t_pScale = (f32*)t_p;
+                    for(s32 i=0;i<t_acc->count;i++) {
+                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
+                        t_askey->m_scale.x = *t_pScale;t_pScale++;
+                        t_askey->m_scale.y = *t_pScale;t_pScale++;
+                        t_askey->m_scale.z = *t_pScale;t_pScale++;
+                    }
+                }
+            }
+        }else if( t_chn_data->target_path == "weights") {
+            //构建weight
+//            t_sve_chn->m_intertype_weight = _getInterpolationMode(t_chn_samp->interpolation);
+//            Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->input]);
+//            if( t_acc->name == "accessorAnimationPositions" ) {
 //
-//    for(s32 i=0;i<t_skindata->joints.size();i++) {
-//        s32 t_node_index = t_skindata->joints[i];
-//        Node* t_node = &(m_gltf.nodes[t_node_index]);
-//        //_buildSkeNode(t_node,t_rootNode);
-//    }
+//            }
+        }
+    }
     return t_ani;
 }
 
+//
 SVModelPtr SVLoaderGLTF::_buildModel(s32 _index){
     if(_index<0)
         return nullptr;
@@ -534,6 +614,26 @@ SVModelPtr SVLoaderGLTF::_buildModel(s32 _index){
     return t_model;
 }
 
+s8* SVLoaderGLTF::_getAccDataPointer(Accessor* acc) {
+    s32 t_acc_off = acc->byteOffset;
+    s32 t_viewID = acc->bufferView;
+    BufferView* t_bufview = &(m_gltf.bufferViews[t_viewID]);
+    if(t_bufview) {
+        s32 t_bufID = t_bufview->buffer;
+        s32 t_view_off = t_bufview->byteOffset;
+        s32 t_len = t_bufview->byteLength;
+        s32 t_view_stride = t_bufview->byteStride;
+        Buffer* t_buf = &(m_gltf.buffers[t_bufID]);
+        t_buf->data->lockData();
+        s8* p = (s8*)(t_buf->data->getData());
+        p += t_view_off;
+        p += t_acc_off;
+        t_buf->data->unlockData();
+        return p;
+    }
+    return nullptr;
+}
+
 SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
     //构建数据
     Accessor* accV3 = nullptr;
@@ -541,9 +641,15 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
     Accessor* accTAG = nullptr;
     Accessor* accC0 = nullptr;
     Accessor* accT0 = nullptr;
-    Accessor* accT1 = nullptr;
     Accessor* accB = nullptr;
     Accessor* accW = nullptr;
+    s8* pAccV3 = nullptr;
+    s8* pAccNOR = nullptr;
+    s8* pAccTAG = nullptr;
+    s8* pAccC0 = nullptr;
+    s8* pAccT0 = nullptr;
+    s8* pAccB = nullptr;
+    s8* pAccW = nullptr;
     //
     s32 t_vtf = E_VF_BASE;
     SVMap<SVString, s32>::Iterator it= _prim->attributes.begin();
@@ -552,91 +658,110 @@ SVMeshPtr SVLoaderGLTF::_buildMeshPri(Primitive* _prim) {
             t_vtf |= D_VF_V3;
             s32 t_index = it->data;
             accV3 = &(m_gltf.accessors[t_index]);
+            pAccV3 = _getAccDataPointer(accV3);
         }else if(it->key == "NORMAL" ) {
             //
             t_vtf |= D_VF_NOR;
             s32 t_index = it->data;
             accNOR = &(m_gltf.accessors[t_index]);
+            pAccNOR = _getAccDataPointer(accNOR);
         }else if(it->key == "TANGENT" ) {
             //
             t_vtf |= D_VF_TAG;
             s32 t_index = it->data;
             accTAG = &(m_gltf.accessors[t_index]);
+            pAccTAG = _getAccDataPointer(accTAG);
+        }else if(it->key == "COLOR_0" ) {
+            //
+            t_vtf |= D_VF_C0;
+            s32 t_index = it->data;
+            accC0 = &(m_gltf.accessors[t_index]);
+            pAccC0 = _getAccDataPointer(accC0);
         }else if(it->key == "TEXCOORD_0" ) {
             //
             t_vtf |= D_VF_T0;
             s32 t_index = it->data;
             accT0 = &(m_gltf.accessors[t_index]);
+            pAccT0 = _getAccDataPointer(accT0);
         }else if(it->key == "JOINTS_0" ) {
             //
             t_vtf |= D_VF_BONE;
             s32 t_index = it->data;
             accB = &(m_gltf.accessors[t_index]);
+            pAccB = _getAccDataPointer(accB);
         }else if(it->key == "WEIGHTS_0" ) {
             //
             t_vtf |= D_VF_BONE_W;
             s32 t_index = it->data;
             accW = &(m_gltf.accessors[t_index]);
+            pAccW = _getAccDataPointer(accW);
         }
         it++;
     }
     //
-    SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
-    //
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
-    s64 t_count = 0;
-    if (t_vtf & D_VF_V3) {
-        if(accV3) {
-            _fetchDataFromAcc(t_data,accV3);
-            t_count = accV3->count;
-            //box
-            if(accV3->minValues.size() == 3  && accV3->maxValues.size()==3) {
-                SVBoundBox t_box;
-                t_box.set(FVec3(accV3->minValues[0],accV3->minValues[1],accV3->minValues[2]),
-                          FVec3(accV3->maxValues[0],accV3->maxValues[1],accV3->maxValues[2]));
-                t_mesh->setBox(t_box);
-            }
+    if(!accV3){
+        //没有pos直接返回算了
+        return nullptr;
+    }
+    s32 t_verSize = SVResVBO::getVertexFormateSize(VFTYPE(t_vtf));
+    SVMeshPtr t_mesh = MakeSharedPtr<SVMesh>(mApp);
+    //设置box
+    s64 t_count = accV3->count;
+    if(accV3->minValues.size() == 3  && accV3->maxValues.size()==3) {
+        SVBoundBox t_box;
+        t_box.set(FVec3(accV3->minValues[0],accV3->minValues[1],accV3->minValues[2]),
+                  FVec3(accV3->maxValues[0],accV3->maxValues[1],accV3->maxValues[2]));
+        t_mesh->setBox(t_box);
+    }
+    //拼接数据,为了优化
+    t_data->resize(t_verSize*t_count);
+    for(s32 i=0;i<t_count;i++) {
+        if (t_vtf & D_VF_V3) {
+            t_data->appendData(pAccV3, 3*sizeof(f32));
+            pAccV3 += 3*sizeof(f32);
+        }
+        if (t_vtf & D_VF_NOR) {
+            t_data->appendData(pAccNOR, 3*sizeof(f32));
+            pAccNOR += 3*sizeof(f32);
+        }
+        if (t_vtf & D_VF_TAG) {
+            t_data->appendData(pAccTAG, 3*sizeof(f32));
+            pAccTAG += 3*sizeof(f32);
+        }
+        if (t_vtf & D_VF_C0) {
+            f32* t_p = (f32*)pAccC0;
+            f32 t_r = *t_p;t_p++;
+            f32 t_g = *t_p;t_p++;
+            f32 t_b = *t_p;t_p++;
+            f32 t_a = *t_p;
+            s8 c_r = t_r*255;
+            s8 c_g = t_g*255;
+            s8 c_b = t_b*255;
+            s8 c_a = t_a*255;
+            t_data->appendData(&c_r, sizeof(u8));
+            t_data->appendData(&c_g, sizeof(u8));
+            t_data->appendData(&c_b, sizeof(u8));
+            t_data->appendData(&c_a, sizeof(u8));
+            pAccC0 += 4*sizeof(f32);
+        }
+        if (t_vtf & D_VF_T0) {
+            t_data->appendData(pAccT0, 2*sizeof(f32));
+            pAccT0 += 2*sizeof(f32);
+        }
+        if (t_vtf & D_VF_BONE) {
+            t_data->appendData(pAccB, 4*sizeof(u16));
+            pAccB += 4*sizeof(u16);
+        }
+        if (t_vtf & D_VF_BONE_W) {
+            t_data->appendData(pAccW, 4*sizeof(f32));
+            pAccW += 4*sizeof(f32);
         }
     }
-    if (t_vtf & D_VF_NOR) {
-        if(accNOR) {
-            _fetchDataFromAcc(t_data,accNOR);
-            t_count = accNOR->count;
-        }
-    }
-    if (t_vtf & D_VF_TAG) {
-        if(accTAG) {
-            _fetchDataFromAcc(t_data,accTAG);
-            t_count = accTAG->count;
-        }
-    }
-    if (t_vtf & D_VF_C0) {
-        if(accC0) {
-            _fetchDataFromAcc(t_data,accC0);
-            t_count = accC0->count;
-        }
-    }
-    if (t_vtf & D_VF_T0) {
-        if(accT0) {
-            _fetchDataFromAcc(t_data,accT0);
-            t_count = accT0->count;
-        }
-    }
-    if (t_vtf & D_VF_BONE) {
-        if(accB) {
-            _fetchDataFromAcc(t_data,(accB));
-            t_count = accB->count;
-        }
-    }
-    if (t_vtf & D_VF_BONE_W) {
-        if(accW) {
-            _fetchDataFromAcc(t_data,accW);
-            t_count = accW->count;
-        }
-    }
+    //
     SVRenderMeshPtr t_rMesh = MakeSharedPtr<SVRenderMesh>(mApp);
     t_rMesh->setVertexType(VFTYPE(t_vtf));
-    t_rMesh->setSeqMode(2);
+    t_rMesh->setSeqMode(1);
     t_rMesh->setVertexDataNum(t_count);
     t_rMesh->setVertexData(t_data);
     //索引数据
@@ -856,18 +981,36 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
         for(s32 i=0;i<_accessor->count;i++) {
             _data->appendData(p, t_s_size);
             p += t_s_size;
-//            for(s32 j=0;j<t_cmp_num;j++) {
-//                if(_accessor->type == SVGLTF_TYPE_SCALAR) {
-//                    s16 t_s16 = *(s16*)p;
-//                    _data->appendData(&t_s16, t_cmp_size);
-//                    p += t_cmp_size;
-//                }else{
-//                    //
-//                    f32 t_f32 = *(f32*)p;
-//                    _data->appendData(&t_f32, t_cmp_size);
-//                    p += t_cmp_size;
-//                }
-//            }
+        }
+        t_buf->data->unlockData();
+    }
+}
+
+void SVLoaderGLTF::_fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor *_accessor) {
+    s32 t_acc_off = _accessor->byteOffset;
+    s32 t_viewID = _accessor->bufferView;
+    BufferView* t_bufview = &(m_gltf.bufferViews[t_viewID]);
+    if(t_bufview) {
+        s32 t_bufID = t_bufview->buffer;
+        s32 t_view_off = t_bufview->byteOffset;
+        s32 t_len = t_bufview->byteLength;
+        s32 t_view_stride = t_bufview->byteStride;
+        Buffer* t_buf = &(m_gltf.buffers[t_bufID]);
+        t_buf->data->lockData();
+        char* p = (char*)(t_buf->data->getData());
+        p += t_view_off;
+        p += t_acc_off;
+        s32 t_cmp_size = _getCmpSize(_accessor->componentType);
+        s32 t_cmp_num = _getCmpNum(_accessor->type);
+        s32 t_s_size =t_cmp_size*t_cmp_num;
+        //拷贝数据
+        for(s32 i=0;i<_accessor->count;i++) {
+            SVBonePtr t_bone = _ske->getBoneByID(i);
+            if(t_bone) {
+                f32* t_p = (f32*)p;
+                t_bone->m_invertBindMat.set(t_p);
+            }
+            p += t_s_size;
         }
         t_buf->data->unlockData();
     }
@@ -1055,7 +1198,6 @@ bool SVLoaderGLTF::_parseAccessor(Accessor *_accessor, RAPIDJSON_NAMESPACE::Valu
             _accessor->maxValues.append(t_maxItem.GetDouble());
         }
     }
-    
     _accessor->count = static_cast<s64>(count);
     _accessor->bufferView = static_cast<s32>(bufferView);
     _accessor->byteOffset = static_cast<s64>(byteOffset);
@@ -1643,56 +1785,52 @@ static const SVString base64_chars =
 "abcdefghijklmnopqrstuvwxyz"
 "0123456789+/";
 
-static bool is_base64(unsigned char c) {
+static bool is_base64(u8 c) {
     return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
-cptr8 SVLoaderGLTF::_base64_encode(unsigned char const *bytes_to_encode,
-                             unsigned int in_len) {
+cptr8 SVLoaderGLTF::_base64_encode(u8 const *bytes_to_encode,u32 in_len) {
     SVString ret;
-    int i = 0;
-    int j = 0;
-    unsigned char char_array_3[3];
-    unsigned char char_array_4[4];
-    
+    s32 i = 0;
+    s32 j = 0;
+    u8 char_array_3[3];
+    u8 char_array_4[4];
     while (in_len--) {
         char_array_3[i++] = *(bytes_to_encode++);
         if (i == 3) {
             char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-            char_array_4[1] =
-            ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-            char_array_4[2] =
-            ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+            char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+            char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
             char_array_4[3] = char_array_3[2] & 0x3f;
-            
-            for (i = 0; (i < 4); i++) ret += base64_chars[char_array_4[i]];
+            for (i = 0; (i < 4); i++) {
+                ret += base64_chars[char_array_4[i]];
+            }
             i = 0;
         }
     }
-    
     if (i) {
-        for (j = i; j < 3; j++) char_array_3[j] = '\0';
-        
+        for (j = i; j < 3; j++){
+            char_array_3[j] = '\0';
+        }
         char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-        char_array_4[1] =
-        ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-        char_array_4[2] =
-        ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-        
-        for (j = 0; (j < i + 1); j++) ret += base64_chars[char_array_4[j]];
-        
-        while ((i++ < 3)) ret += '=';
+        char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+        char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+        for (j = 0; (j < i + 1); j++) {
+            ret += base64_chars[char_array_4[j]];
+        }
+        while ((i++ < 3)){
+            ret += '=';
+        }
     }
-    
     return ret.c_str();
 }
 
 cptr8 SVLoaderGLTF::_base64_decode(SVString const &encoded_string){
-    int in_len = static_cast<int>(encoded_string.size());
-    int i = 0;
-    int j = 0;
-    int in_ = 0;
-    unsigned char char_array_4[4], char_array_3[3];
+    s32 in_len = static_cast<int>(encoded_string.size());
+    s32 i = 0;
+    s32 j = 0;
+    s32 in_ = 0;
+    u8 char_array_4[4], char_array_3[3];
     SVString ret;
     
     while (in_len-- && (encoded_string[in_] != '=') &&
@@ -1700,36 +1838,35 @@ cptr8 SVLoaderGLTF::_base64_decode(SVString const &encoded_string){
         char_array_4[i++] = encoded_string[in_];
         in_++;
         if (i == 4) {
-            for (i = 0; i < 4; i++)
+            for (i = 0; i < 4; i++){
                 char_array_4[i] =
                 static_cast<unsigned char>(base64_chars.find(char_array_4[i]));
-            
-            char_array_3[0] =
-            (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-            char_array_3[1] =
-            ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+            }
+            char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+            char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
             char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-            
-            for (i = 0; (i < 3); i++) ret += char_array_3[i];
+            for (i = 0; (i < 3); i++) {
+               ret += char_array_3[i];
+            }
             i = 0;
         }
     }
     
     if (i) {
-        for (j = i; j < 4; j++) char_array_4[j] = 0;
-        
-        for (j = 0; j < 4; j++)
+        for (j = i; j < 4; j++) {
+            char_array_4[j] = 0;
+        }
+        for (j = 0; j < 4; j++) {
             char_array_4[j] =
             static_cast<unsigned char>(base64_chars.find(char_array_4[j]));
-        
+        }
         char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-        char_array_3[1] =
-        ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+        char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
         char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-        
-        for (j = 0; (j < i - 1); j++) ret += char_array_3[j];
+        for (j = 0; (j < i - 1); j++){
+            ret += char_array_3[j];
+        }
     }
-    
     return ret.c_str();
 }
 
@@ -1822,70 +1959,5 @@ void SVLoaderGLTF::_loadSkinsData(){
 //            }
 //            joint->m_globalJointTransform = t_globalJointTransform;
 //        }
-//    }
-}
-
-void SVLoaderGLTF::_loadModelNodeData(){
-//    if (!_model) {
-//        return;
-//    }
-//    SVArray<s32> sceneNodes = m_gltf.scenes[m_gltf.defaultScene].nodes;
-//    for (s32 i = 0; i<sceneNodes.size(); i++) {
-//        s32 nodeIndex = sceneNodes[i];
-//        Node node = m_gltf.nodes[nodeIndex];
-//        FMat4 mat;
-//        mat.setIdentity();
-//        _refreshMeshGlobalMat(_model, node, mat);
-//    }
-}
-
-void SVLoaderGLTF::_refreshMeshGlobalMat(Node _node, FMat4 _mat4){
-//    FMat4 localTransform;
-//    localTransform.setIdentity();
-//    //translate
-//    FMat4 matT;
-//    matT.setIdentity();
-//    if (_node.translation.size() > 0) {
-//        matT.setTranslate(FVec3(_node.translation[0], _node.translation[1], _node.translation[2]));
-//    }
-//    //rotation
-//    FMat4 matR;
-//    matR.setIdentity();
-//    if (_node.rotation.size() > 0) {
-//        matR.set(SVQuat(FVec4(_node.rotation[0], _node.rotation[1], _node.rotation[2], _node.rotation[3])));
-//    }
-//    //scale
-//    FMat4 matS;
-//    matS.setIdentity();
-//    if (_node.scale.size() > 0) {
-//        matS.setScale(FVec3(_node.scale[0], _node.scale[1], _node.scale[2]));
-//    }
-//    localTransform = matT * matR * matS;
-//    //matrix
-//    if (_node.matrix.size() > 0) {
-//        FVec4 col0(_node.matrix[0], _node.matrix[1], _node.matrix[2], _node.matrix[3]);
-//        FVec4 col1(_node.matrix[4], _node.matrix[5], _node.matrix[6], _node.matrix[7]);
-//        FVec4 col2(_node.matrix[8], _node.matrix[9], _node.matrix[10], _node.matrix[11]);
-//        FVec4 col3(_node.matrix[12], _node.matrix[13], _node.matrix[14], _node.matrix[15]);
-//        localTransform.setColumn(0, col0);
-//        localTransform.setColumn(1, col1);
-//        localTransform.setColumn(2, col2);
-//        localTransform.setColumn(3, col3);
-//    }
-//    //
-//    FMat4 mat = _mat4 * localTransform;
-//    if (_node.mesh >= 0) {
-//        ModelRenderDataPtr renderData = m_gltf.m_renderMeshData[_node.mesh];
-//        renderData->m_globalTransform = mat;
-//        renderData->m_boundBox.setTransform(mat);
-//        ModelRenderDataPtr debugRenderData = m_gltf.m_renderDebugMeshData[_node.mesh];
-//        debugRenderData->m_globalTransform = mat;
-//        debugRenderData->m_boundBox.setTransform(mat);
-//    }
-//    //
-//    for (s32 i = 0; i<_node.children.size(); i++) {
-//        s32 childIndex = _node.children[i];
-//        Node node = m_gltf.nodes[childIndex];
-//        _refreshMeshGlobalMat(_model, node, mat);
 //    }
 }

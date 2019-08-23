@@ -22,12 +22,14 @@ namespace sv {
         
         virtual void process(f32 dt);
         
-        void setCallBack(cb_func_op _cb,cptr8 _info);
+        void setCallBack(cb_func_op _cb, void* _obj, cptr8 _info);
         
     protected:
         virtual void _process(f32 dt);
         
         cb_func_op m_pCB;
+        
+        void *m_obj;
         
         SVString m_info;
     };

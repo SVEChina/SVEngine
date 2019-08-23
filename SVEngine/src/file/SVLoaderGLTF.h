@@ -78,15 +78,15 @@ namespace sv {
         GLTFInterpolationModeCubic,
     };
     
-    static sv_inline GLTFInterpolationMode _getInterpolationMode(SVString _interpolation){
+    static sv_inline s32 _getInterpolationMode(SVString _interpolation){
         if (_interpolation == "LINEAR") {
-            return GLTFInterpolationModeLinear;
+            return 0;
         }else if(_interpolation == "STEP"){
-            return GLTFInterpolationModeStep;
+            return 1;
         }else if(_interpolation == "CUBICSPLINE"){
-            return GLTFInterpolationModeCubic;
+            return 2;
         }
-        return GLTFInterpolationModeNone;
+        return 3;
     }
     
     static sv_inline s32 _getCmpSize(u32 _componentType) {
@@ -535,32 +535,32 @@ namespace sv {
         
         void _loadSkinsData();
         
-        void _loadModelNodeData();
-        
-        void _refreshMeshGlobalMat(Node _node, FMat4 _mat4);
-        
         void _loadAnimationData();
         
     private:
+        //构建骨骼动画节点
         SVNodePtr _buildSkinNode(Node* _node);
-        
+        //构建3d节点
         SVNodePtr _build3DNode(Node* _node);
-        
+        //构建相机节点
         SVNodePtr _buildCameraNode(Node* _node);
-        
+        //构建模型
         SVModelPtr _buildModel(s32 _index);
-        
+        //构建骨架
         SVSkeletonPtr _buildSkin(s32 _index);
-        
+        //构建动画
         SVAnimateSkinPtr _buildAnimate(s32 _index);
-        
-        bool _buildBone(SVBonePtr _parent,s32 _index,SVSkeletonPtr _ske);
-    
+        //构建骨头
+        bool _buildBone(SVBonePtr _parent,Skin* _skinData,s32 _index,SVSkeletonPtr _ske);
+        //构建材质
         SVMtlCorePtr _buildMtl(Primitive* _prim,s32 _vtf);
-        
+        //构建mesh
         SVMeshPtr _buildMeshPri(Primitive* _prim);
-        
+        s8* _getAccDataPointer(Accessor* acc);
+        //抓模型数据
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
+        //抓骨架数据
+        void _fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor *_accessor);
         
     };
     

@@ -8,7 +8,7 @@
 #ifndef SV_PARTICLES_H
 #define SV_PARTICLES_H
 
-#include "../base/SVObject.h"
+#include "../base/SVGBase.h"
 #include "../base/SVArray.h"
 #include "../base/SVVec3.h"
 #include "../base/SVMat4.h"
@@ -57,7 +57,7 @@ namespace sv {
             FVec3 old_position;                  // old position
             FVec3 parameters;                    // parameters
             FVec3 velocity;                      // velocity
-            FVec4 old_color;                     // old color
+            FVec4 icolor;                        // inverse color
             FVec4 color;                         // color
             f32 angle;                           // angle
             f32 rotation;                        // rotation
@@ -127,7 +127,7 @@ namespace sv {
             f32 scale;                           // noise scale
             s32 frequency;                       // frequency
             s32 size;                            // noise size
-            //Image *image;                      // image pointer
+            SVImagePtr image;                      // image pointer
         };
         //扭曲
         struct Deflector {
@@ -158,15 +158,10 @@ namespace sv {
             void *data;                          // contact data pointer
         };
         
-        struct VETEXCOLORDATA{
-            FVec4 color;
-            s32   weights;
-        };
-        
         //
-        class SVParticlesWorldBase :public SVObject {
+        class SVParticlesWorldBase : public SVGBase {
         public:
-            SVParticlesWorldBase() {
+            SVParticlesWorldBase(SVInst *_app) : SVGBase(_app) {
             }
 
             ~SVParticlesWorldBase() {
@@ -195,11 +190,11 @@ namespace sv {
         };
         
         //一堆粒子算法
-        class SVParticles :public SVObject {
+        class SVParticles :public SVGBase {
             friend struct ParticlesDistanceCompare;
             friend class SVParticlesNode;
         public:
-            SVParticles();
+            SVParticles(SVInst *_app);
             
             virtual ~SVParticles();
 
@@ -447,7 +442,7 @@ namespace sv {
             void setNoiseSize(s32 num,s32 size);
             s32 getNoiseSize(s32 num) const;
             
-            //Image *getNoiseImage(s32 num);
+            SVImagePtr getNoiseImage(s32 num);
             
             s32 addDeflector();
             void removeDeflector(s32 num);
@@ -529,15 +524,6 @@ namespace sv {
             sv_inline const SVBoundSphere &getSVBoundSphere() const {
                 return bound_sphere;
             }
-            
-            void addVetexColor(FVec3 &_color, s32 _weights);
-            
-            bool removeVetexColor(s32 _index);
-            
-            bool getVetexColor(VETEXCOLORDATA &_vetexColorData, s32 _index);
-            
-            void setVetexColor(FVec3 &_color, s32 _weights, s32 _index);
-            
         protected:
             // update particles
             void spawn_particle(Particle &p,f32 k,f32 ifps);
@@ -570,12 +556,6 @@ namespace sv {
             void create_route_particles(V3_PARTICLE *vertex,const FMat4 &modelview,const FVec3 &camera);
             
             void create_chain_particles(V3_PARTICLE *vertex,const FMat4 &modelview,const FVec3 &camera);
-            
-            void getInternalVextexColor(Particle &_p);
-            
-            SVArray<VETEXCOLORDATA>m_vetexColorData;
-            
-            s32 m_totalWeights;
             
             SVRandom random;                        // random number generator
             

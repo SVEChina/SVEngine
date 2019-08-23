@@ -37,6 +37,7 @@ bool SVModuleBase::isOpen(){
     return m_isOpen;
 }
 
-void SVModuleBase::setOpCallBack(cb_func_op _cb){
+void SVModuleBase::setOpCallBack(cb_func_op _cb, void *_obj){
     m_cb = _cb;
+    m_obj = _obj;
 }

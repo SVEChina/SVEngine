@@ -42,6 +42,10 @@ namespace sv {
             
             void render();
             
+            void bindSke(SVSkeletonPtr _ske);
+            
+            void unbindSke();
+            
         protected:
             SVString m_name;
             SVBoundBox m_box;

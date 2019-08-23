@@ -1,10 +1,11 @@
 #include "SVParticles.h"
 #include "../base/SVSimdLib.h"
 #include "../base/SVUtils.h"
-
+#include "../base/SVNoise.h"
+#include "../core/SVImage.h"
 #define PARTICLES_IFPS		(1.0f / 30.0f)
 
-SVParticles::SVParticles() {
+SVParticles::SVParticles(SVInst *_app) : SVGBase(_app) {
 	m_pWorld = nullptr;
 	frame = 0;
 	type = TYPE_BILLBOARD;
@@ -25,7 +26,6 @@ SVParticles::SVParticles() {
 	duration_time = 0.0f;
     duration_mean = 0.0f;
     fade = 0.0f;
-    m_totalWeights = 0;
 	setWorldMass(0.0f);
 	setLengthStretch(0.0f);
 	setLinearDamping(0.0f);
@@ -57,15 +57,16 @@ SVParticles::SVParticles() {
 	setRadius(1.0f,0.5f);
 	setGrowth(0.0f,0.0f);
 	setGravity(FVec3_zero);
-	update_bounds();
-    //
+    update_bounds();
     pVertex = nullptr;
 }
 
 SVParticles::~SVParticles() {
     for(s32 i = 0; i < noises.size(); i++) {
-        //delete noises[i].image;
+        noises[i].image = nullptr;
     }
+    noises.destroy();
+    forces.destroy();
 }
 
 //*************************** Clear ******************************************
@@ -75,7 +76,6 @@ void SVParticles::clear() {
 	sparks.clear();
 	contacts.clear();
     old_contacts.clear();
-    m_vetexColorData.clear();
 }
 
 s32 SVParticles::getParticleNum() {
@@ -443,9 +443,7 @@ void SVParticles::spawn_particle(Particle &p,f32 k,f32 ifps) {
     }
     //顶点颜色
     p.color = FVec4(1.0f);
-    p.old_color = FVec4(1.0f);
-    //获得一个内置顶点颜色
-    getInternalVextexColor(p);
+    p.icolor = FVec4(1.0f);
     //生成params
 	switch(type) {
 		case TYPE_FLAT:
@@ -634,22 +632,22 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
     }
     if(noises.size()) {
         for(s32 i = 0; i < noises.size(); i++) {
-//            const Noise &n = noises[i];
-//            Image *image = getNoiseImage(i);
-//            const FMat4 &itransform = n.itransform;
-//            f32 force = n.force * ifps / 127.5f;
-//            if(Math::abs(force) < EPSILON) {
-//                continue;
-//            }
-//            for(s32 j = 0; j < m_particles.size(); j++) {
-//                Particle &p = m_particles[j];
-//                mul(position,itransform,p.position);
-//                Image::Pixel pixel = image->get3D(position.x,position.y,position.z);
-//                direction.x = Math::itof(pixel.i.r) - 127.5f;
-//                direction.y = Math::itof(pixel.i.g) - 127.5f;
-//                direction.z = Math::itof(pixel.i.b) - 127.5f;
-//                mad(p.velocity,direction,p.radius * p.radius * force,p.velocity);
-//            }
+            const Noise &n = noises[i];
+            SVImagePtr image = getNoiseImage(i);
+            const FMat4 &itransform = n.itransform;
+            f32 force = n.force * ifps / 127.5f;
+            if(Math::abs(force) < EPSILON) {
+                continue;
+            }
+            for(s32 j = 0; j < m_particles.size(); j++) {
+                Particle &p = m_particles[j];
+                mul(position,itransform,p.position);
+                SVImage::Pixel pixel = image->get3D(position.x,position.y,position.z);
+                direction.x = Math::itof(pixel.i.r) - 127.5f;
+                direction.y = Math::itof(pixel.i.g) - 127.5f;
+                direction.z = Math::itof(pixel.i.b) - 127.5f;
+                mad(p.velocity,direction,p.radius * p.radius * force,p.velocity);
+            }
         }
     }
     //世界中区域，强制和扰动(噪声)
@@ -813,16 +811,16 @@ void SVParticles::update_particles(SVArray<WorldField> &world_fields,
         //顶点颜色
         f32 t_p0_life = 65535.0f/p0.ilife;
         f32 t_p0_lerp = (1.0f - (t_p0_life - p0.life)/t_p0_life);
-        p0.color = p0.old_color*t_p0_lerp;
+        p0.color = p0.icolor*t_p0_lerp;
         f32 t_p1_life = 65535.0f/p1.ilife;
         f32 t_p1_lerp = (1.0f - (t_p1_life - p1.life)/t_p1_life);
-        p1.color = p1.old_color*t_p1_lerp;
+        p1.color = p1.icolor*t_p1_lerp;
         f32 t_p2_life = 65535.0f/p2.ilife;
         f32 t_p2_lerp = (1.0f - (t_p2_life - p2.life)/t_p2_life);
-        p2.color = p2.old_color*t_p2_lerp;
+        p2.color = p2.icolor*t_p2_lerp;
         f32 t_p3_life = 65535.0f/p3.ilife;
         f32 t_p3_lerp = (1.0f - (t_p3_life - p3.life)/t_p3_life);
-        p3.color = p3.old_color*t_p3_lerp;
+        p3.color = p3.icolor*t_p3_lerp;
         //更新后 符合条件的粒子，进入移除
         if(p0.radius < EPSILON || p0.life < EPSILON) {
             remove.append((s32)(&p0 - m_particles.get()));
@@ -1899,7 +1897,7 @@ u32 SVParticles::getSeed() const {
 }
 
 void SVParticles::setWorld(SVParticlesWorldBasePtr w) {
-	//m_pWorld = w;
+    m_pWorld = w;
 }
 
 SVParticlesWorldBasePtr SVParticles::getWorld() {
@@ -2359,12 +2357,13 @@ const FVec3 &SVParticles::getGravity() const {
 
 s32 SVParticles::addForce() {
     Force &f = forces.append();
-    f.transform = FMat4_identity;
+    FMat4 t_mat = FMat4_identity;
+    f.transform = t_mat;
     f.attached = 1;
-    f.radius = 1.0f;
+    f.radius = 100.0f;
     f.attenuation = 1.0f;
-    f.attractor = 0.0f;
-    f.rotator = 0.0f;
+    f.attractor = 100.0f;
+    f.rotator = 100.0f;
     return forces.size() - 1;
 }
 
@@ -2440,16 +2439,17 @@ f32 SVParticles::getForceRotator(s32 num) const {
 //*******************************  Noises ***********************************************
 s32 SVParticles::addNoise() {
     Noise &n = noises.append();
-    n.transform = FMat4_identity;
-    n.itransform = FMat4_identity;
+    FMat4 t_trans = FMat4_identity;
+    n.transform = t_trans;
+    n.itransform = t_trans;
     n.offset = FVec3_zero;
     n.step = FVec3_one;
     n.attached = 1;
-    n.force = 1.0f;
+    n.force = 5.0f;
     n.scale = 0.5f;
     n.frequency = 4;
     n.size = 16;
-    //n.image = NULL;
+    n.image = nullptr;
     return noises.size() - 1;
 }
 
@@ -2515,8 +2515,7 @@ f32 SVParticles::getNoiseForce(s32 num) const {
 void SVParticles::setNoiseScale(s32 num,f32 scale) {
 	assert(num >= 0 && num < noises.size() && "SVParticles::setNoiseScale(): bad noise number");
 	noises[num].scale = saturate(scale);
-//    delete noises[num].image;
-//    noises[num].image = NULL;
+    noises[num].image = nullptr;
 }
 
 f32 SVParticles::getNoiseScale(s32 num) const {
@@ -2528,8 +2527,7 @@ f32 SVParticles::getNoiseScale(s32 num) const {
 void SVParticles::setNoiseFrequency(s32 num,s32 frequency) {
 	assert(num >= 0 && num < noises.size() && "SVParticles::setNoiseFrequency(): bad noise number");
 	noises[num].frequency = clamp(frequency,1,32);
-//    delete noises[num].image;
-//    noises[num].image = NULL;
+    noises[num].image = nullptr;
 }
 
 s32 SVParticles::getNoiseFrequency(s32 num) const {
@@ -2541,8 +2539,7 @@ s32 SVParticles::getNoiseFrequency(s32 num) const {
 void SVParticles::setNoiseSize(s32 num,s32 size) {
 	assert(num >= 0 && num < noises.size() && "SVParticles::setNoiseSize(): bad noise number");
 	noises[num].size = clamp(size,1,512);
-//    delete noises[num].image;
-//    noises[num].image = NULL;
+    noises[num].image = nullptr;
 }
 
 s32 SVParticles::getNoiseSize(s32 num) const {
@@ -2550,34 +2547,32 @@ s32 SVParticles::getNoiseSize(s32 num) const {
 	return noises[num].size;
 }
 
-///*
-// */
-//Image *SVParticles::getNoiseImage(s32 num) {
-//    assert(num >= 0 && num < noises.size() && "SVParticles::getNoiseImage(): bad noise number");
-//    if(noises[num].image == NULL) {
-//        Noise &n = noises[num];
-//        ::Noise x_noise(num);
-//        ::Noise y_noise(num + 113);
-//        ::Noise z_noise(num + 49344);
-//        n.image = new Image();
-//        n.image->create3D(n.size,n.size,n.size,Image::FORMAT_RGBA8);
-//        f32 size = Math::itof(n.size);
-//        for(s32 z = 0; z < n.size; z++) {
-//            f32 sz = Math::itof(z) * n.scale;
-//            for(s32 y = 0; y < n.size; y++) {
-//                f32 sy = Math::itof(y) * n.scale;
-//                for(s32 x = 0; x < n.size; x++) {
-//                    f32 sx = Math::itof(x) * n.scale;
-//                    s32 nx = clamp(Math::ftoi(x_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
-//                    s32 ny = clamp(Math::ftoi(y_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
-//                    s32 nz = clamp(Math::ftoi(z_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
-//                    n.image->set3D(x,y,z,nx,ny,nz,255);
-//                }
-//            }
-//        }
-//    }
-//    return noises[num].image;
-//}
+SVImagePtr SVParticles::getNoiseImage(s32 num) {
+    assert(num >= 0 && num < noises.size() && "SVParticles::getNoiseImage(): bad noise number");
+    if(noises[num].image == nullptr) {
+        Noise &n = noises[num];
+        SVNoise x_noise(num);
+        SVNoise y_noise(num + 113);
+        SVNoise z_noise(num + 49344);
+        n.image = MakeSharedPtr<SVImage>(mApp);
+        n.image->create3D(n.size,n.size,n.size,SVImage::SV_FORMAT_RGBA8);
+        f32 size = Math::itof(n.size);
+        for(s32 z = 0; z < n.size; z++) {
+            f32 sz = Math::itof(z) * n.scale;
+            for(s32 y = 0; y < n.size; y++) {
+                f32 sy = Math::itof(y) * n.scale;
+                for(s32 x = 0; x < n.size; x++) {
+                    f32 sx = Math::itof(x) * n.scale;
+                    s32 nx = clamp(Math::ftoi(x_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
+                    s32 ny = clamp(Math::ftoi(y_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
+                    s32 nz = clamp(Math::ftoi(z_noise.getTileableTurbulence3(sx,sy,sz,size,size,size,n.frequency) * 127.5f + 127.5f),0,255);
+                    n.image->set3D(x,y,z,nx,ny,nz,255);
+                }
+            }
+        }
+    }
+    return noises[num].image;
+}
 
 //************************************ Deflectors ******************************************
 s32 SVParticles::addDeflector() {
@@ -2664,66 +2659,6 @@ f32 SVParticles::getDeflectorRoughness(s32 num) const {
 	return deflectors[num].roughness;
 }
 
-void SVParticles::getInternalVextexColor(Particle &_p){
-    //加权随机
-    m_totalWeights = 0;
-    for (s32 i=0; i<m_vetexColorData.size(); i++) {
-        m_totalWeights += m_vetexColorData[i].weights;
-    }
-    if (m_vetexColorData.size() > 0 && m_totalWeights > 0) {
-        s32 t_r = random.getInt(0, m_totalWeights);
-        for (s32 i=0; i<m_vetexColorData.size(); i++) {
-            s32 t_weight = m_vetexColorData[i].weights;
-            if (t_weight <= 0) {
-                continue;
-            }
-            if (t_r < t_weight) {
-                FVec4 t_color = m_vetexColorData[i].color;
-                _p.old_color.set(t_color);
-                _p.color.set(t_color);
-                break;
-            }
-            t_r -= t_weight;
-        }
-    }
-}
-
-void SVParticles::addVetexColor(FVec3 &_color, s32 _weights){
-    if (_weights <= 0) {
-        return;
-    }
-    VETEXCOLORDATA t_colorData;
-    t_colorData.color = FVec4(_color);
-    t_colorData.weights = _weights;
-    m_vetexColorData.append(t_colorData);
-}
-
-bool SVParticles::removeVetexColor(s32 _index){
-    bool t_result = false;
-    if (_index >= 0 && _index < m_vetexColorData.size()) {
-        m_vetexColorData.removeFast(_index);
-        t_result = true;
-    }
-    return t_result;
-}
-
-bool SVParticles::getVetexColor(VETEXCOLORDATA &_vetexColorData, s32 _index){
-    if (_index >= 0 && _index < m_vetexColorData.size()) {
-        _vetexColorData = m_vetexColorData[_index];
-        return true;
-    }
-    return false;
-}
-
-void SVParticles::setVetexColor(FVec3 &_color, s32 _weights, s32 _index){
-    if (_index >= 0 && _index < m_vetexColorData.size()) {
-        VETEXCOLORDATA t_colorData;
-        t_colorData.weights = _weights;
-        t_colorData.color = FVec4(_color);
-        m_vetexColorData[_index] = t_colorData;
-    }
-}
-
 //序列化接口
 void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                           RAPIDJSON_NAMESPACE::Value &_objValue) {
@@ -2803,21 +2738,34 @@ void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     emitObj.AddMember("emitter_velocity_y", emitter_velocity.y, _allocator);
     emitObj.AddMember("emitter_velocity_z", emitter_velocity.z, _allocator);
     _objValue.AddMember("emit", emitObj, _allocator);
-    //vetexcolor
-    RAPIDJSON_NAMESPACE::Value vetexColorArray(RAPIDJSON_NAMESPACE::kArrayType);
-    for (s32 i = 0; i<m_vetexColorData.size(); i++) {
-        VETEXCOLORDATA t_colorData = m_vetexColorData[i];
-        RAPIDJSON_NAMESPACE::Value colorObj(RAPIDJSON_NAMESPACE::kObjectType);
-        colorObj.AddMember("weight", t_colorData.weights, _allocator);
-        RAPIDJSON_NAMESPACE::Value colorArray(RAPIDJSON_NAMESPACE::kArrayType);
-        colorArray.PushBack(t_colorData.color.x, _allocator);
-        colorArray.PushBack(t_colorData.color.y, _allocator);
-        colorArray.PushBack(t_colorData.color.z, _allocator);
-        colorObj.AddMember("color", colorArray, _allocator);
-        vetexColorArray.PushBack(colorObj, _allocator);
+    //noises
+    RAPIDJSON_NAMESPACE::Value noiseArray(RAPIDJSON_NAMESPACE::kArrayType);
+    for(s32 i = 0; i < noises.size(); i++) {
+        Noise &n = noises[i];
+        RAPIDJSON_NAMESPACE::Value noiseObj(RAPIDJSON_NAMESPACE::kObjectType);
+        noiseObj.AddMember("force", n.force, _allocator);
+        noiseObj.AddMember("frequency", n.frequency, _allocator);
+        noiseObj.AddMember("scale", n.scale, _allocator);
+        noiseArray.PushBack(noiseObj, _allocator);
     }
-    _objValue.AddMember("vetexcolor", vetexColorArray, _allocator);
-    
+    _objValue.AddMember("noises", noiseArray, _allocator);
+    //forces
+    RAPIDJSON_NAMESPACE::Value forcesArray(RAPIDJSON_NAMESPACE::kArrayType);
+    for(s32 i = 0; i < forces.size(); i++) {
+        Force &f = forces[i];
+        RAPIDJSON_NAMESPACE::Value forceObj(RAPIDJSON_NAMESPACE::kObjectType);
+        forceObj.AddMember("radius", f.radius, _allocator);
+        forceObj.AddMember("attractor", f.attractor, _allocator);
+        forceObj.AddMember("rotator", f.rotator, _allocator);
+        forceObj.AddMember("attenuation", f.attenuation, _allocator);
+        FMat4 t_transform = f.transform;
+        FVec4 t_col4 = t_transform.getColumn(3);
+        forceObj.AddMember("pos_x", t_col4.x, _allocator);
+        forceObj.AddMember("pos_y", t_col4.y, _allocator);
+        forceObj.AddMember("pos_z", t_col4.z, _allocator);
+        forcesArray.PushBack(forceObj, _allocator);
+    }
+    _objValue.AddMember("forces", forcesArray, _allocator);
 }
 
 void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
@@ -2927,17 +2875,64 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //        setEmitterLimit(emitter_limit);
     }
     updateEmitter();
-    if (item.HasMember("vetexcolor") && item["vetexcolor"].IsArray()) {
-        RAPIDJSON_NAMESPACE::Value vetexColorArray = item["vetexcolor"].GetArray();
-        for (s32 i = 0; i<vetexColorArray.Size(); i++) {
-            RAPIDJSON_NAMESPACE::Value colorObj = vetexColorArray[i].GetObject();
-            s32 weight = colorObj["weight"].GetInt();
-            RAPIDJSON_NAMESPACE::Value colorArray = colorObj["color"].GetArray();
-            FVec3 t_color;
-            t_color.x = colorArray[0].GetFloat();
-            t_color.y = colorArray[1].GetFloat();
-            t_color.z = colorArray[2].GetFloat();
-            addVetexColor(t_color, weight);
+    //noises
+    if (item.HasMember("noises") && item["noises"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &t_noises = item["noises"];
+        for (s32 i = 0; i<t_noises.Size(); i++) {
+            RAPIDJSON_NAMESPACE::Value &t_noiseObj = t_noises[i];
+            addNoise();
+            if (t_noiseObj.HasMember("force") && t_noiseObj["force"].IsFloat()){
+                f32 t_force = t_noiseObj["force"].GetFloat();
+                setNoiseForce(getNumNoises() - 1, t_force);
+            }
+            if (t_noiseObj.HasMember("frequency") && t_noiseObj["frequency"].IsInt()){
+                s32 t_frequency = t_noiseObj["frequency"].GetInt();
+                setNoiseFrequency(getNumNoises() - 1, t_frequency);
+            }
+            if (t_noiseObj.HasMember("scale") && t_noiseObj["scale"].IsFloat()){
+                f32 t_scale = t_noiseObj["scale"].GetFloat();
+                setNoiseScale(getNumNoises() - 1, t_scale);
+            }
+        }
+    }
+    //forces
+    if (item.HasMember("forces") && item["forces"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &t_forces = item["forces"];
+        for (s32 i = 0; i<t_forces.Size(); i++) {
+            RAPIDJSON_NAMESPACE::Value &t_forceObj = t_forces[i];
+            addForce();
+            if (t_forceObj.HasMember("radius") && t_forceObj["radius"].IsFloat()){
+                f32 t_radius = t_forceObj["radius"].GetFloat();
+                setForceRadius(getNumForces() - 1, t_radius);
+            }
+            if (t_forceObj.HasMember("attractor") && t_forceObj["attractor"].IsFloat()){
+                f32 t_attractor = t_forceObj["attractor"].GetFloat();
+                setForceAttractor(getNumForces() - 1, t_attractor);
+            }
+            if (t_forceObj.HasMember("rotator") && t_forceObj["rotator"].IsFloat()){
+                f32 t_rotator = t_forceObj["rotator"].GetFloat();
+                setForceRotator(getNumForces() - 1, t_rotator);
+            }
+            if (t_forceObj.HasMember("attenuation") && t_forceObj["attenuation"].IsFloat()){
+                f32 t_attenuation = t_forceObj["attenuation"].GetFloat();
+                setForceAttenuation(getNumForces() - 1, t_attenuation);
+            }
+            FVec3 t_translate = FVec3_zero;
+            if (t_forceObj.HasMember("pos_x") && t_forceObj["pos_x"].IsFloat()){
+                f32 t_pos_x = t_forceObj["pos_x"].GetFloat();
+                t_translate.x = t_pos_x;
+            }
+            if (t_forceObj.HasMember("pos_y") && t_forceObj["pos_y"].IsFloat()){
+                f32 t_pos_y = t_forceObj["pos_y"].GetFloat();
+                t_translate.y = t_pos_y;
+            }
+            if (t_forceObj.HasMember("pos_z") && t_forceObj["pos_z"].IsFloat()){
+                f32 t_pos_z = t_forceObj["pos_z"].GetFloat();
+                t_translate.z = t_pos_z;
+            }
+            FMat4 t_transform = getForceTransform(getNumForces() - 1);
+            t_transform.setTranslate(t_translate);
+            setForceTransform(getNumForces() - 1, t_transform);
         }
     }
 }
