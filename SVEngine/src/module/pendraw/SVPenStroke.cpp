@@ -968,13 +968,14 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
     SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
     SVCameraNodePtr t_arCam = t_sensor->getARCamera();
     if(!t_arCam)
-        return ;
+        return;
     FMat4 t_cameraMatrix = t_arCam->getViewMatObj();
     FVec3 t_cameraEye = t_arCam->getPosition();
     //构建虚拟平面
     FVec3 t_cameraDir = FVec3(-t_cameraMatrix[2],
                               -t_cameraMatrix[6],
                               -t_cameraMatrix[10]);
+    t_cameraDir.normalize();
     FVec3 t_targetPos = t_cameraEye + t_cameraDir*m_plane_dis;
     f32 t_dis = dot(t_targetPos,t_cameraDir);
     FVec4 t_plane = FVec4(-t_cameraDir,t_dis);
@@ -992,7 +993,6 @@ void SVPenStroke::_screenPointToWorld(FVec2 &_point, SVStrokePoint &_worldPoint)
     //保存交点的位置和法线方向
     _worldPoint.point = FVec3(t_pt_x,t_pt_y,t_pt_z);
     _worldPoint.normal = -t_cameraDir;
-    //_worldPoint.normal.normalize();
     _worldPoint.ext0 = FVec3(0.0f,0.0f,0.0f);
     _worldPoint.ext1 = FVec3(0.0f,0.0f,0.0f);
 }

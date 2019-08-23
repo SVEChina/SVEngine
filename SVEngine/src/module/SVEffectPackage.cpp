@@ -156,7 +156,7 @@ void SVEffectPackage::destroy(){
             SVString t_path = t_musics[i];
             if (m_cb) {
                 SVString msg = SVString::format("sveffectmusic_unload_%s",t_path.c_str());
-                (*m_cb)(msg.c_str(), mApp);
+                (*m_cb)(msg.c_str(), m_obj);
             }
         }
         
@@ -166,7 +166,7 @@ void SVEffectPackage::destroy(){
     SVModuleBase::destroy();
     if (m_cb) {
         SVString msg = SVString::format("effectpackageremovesuccess_%s",m_module_name.c_str());
-        (*m_cb)(msg.c_str(), mApp);
+        (*m_cb)(msg.c_str(), m_obj);
     }
 }
 
@@ -199,7 +199,7 @@ void SVEffectPackage::update(f32 _dt) {
         m_aniState = EFFECT_ANI_END;
         if (m_cb) {
             SVString msg = SVString::format("effectpackageend_%s",m_module_name.c_str());
-            (*m_cb)(msg.c_str(), mApp);
+            (*m_cb)(msg.c_str(), m_obj);
             reset();
         }
     }
@@ -216,7 +216,7 @@ bool SVEffectPackage::procEvent(SVEventPtr _event) {
         if (t_event) {
             if (m_cb) {
                 SVString msg = SVString::format("sveffectmusic_load_%s",t_event->path.c_str());
-                (*m_cb)(msg.c_str(), mApp);
+                (*m_cb)(msg.c_str(), m_obj);
             }
         }
     }else if (_event->eventType == EVN_T_EFFECT_MUSIC_PLAY) {
@@ -224,7 +224,7 @@ bool SVEffectPackage::procEvent(SVEventPtr _event) {
         if (t_event) {
             if (m_cb) {
                 SVString msg = SVString::format("sveffectmusic_play_%s",t_event->path.c_str());
-                (*m_cb)(msg.c_str(), mApp);
+                (*m_cb)(msg.c_str(), m_obj);
             }
         }
     }else if(_event->eventType == EVN_T_ANIMATE){
