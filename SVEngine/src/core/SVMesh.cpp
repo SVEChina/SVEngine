@@ -72,7 +72,7 @@ SVMtlCorePtr SVMesh::getMtl() {
 void SVMesh::update(f32 _dt,FMat4& _mat) {
     if(m_pMtl) {
         m_pMtl->setModelMatrix(_mat.get());
-        m_pMtl->setBlendEnable(false);
+        m_pMtl->setBlendEnable(true);
         m_pMtl->setDepthEnable(true);
         m_pMtl->update(_dt);
     }

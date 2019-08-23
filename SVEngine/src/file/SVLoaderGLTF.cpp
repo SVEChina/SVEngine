@@ -514,7 +514,7 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
                     SVASKeyPtr t_askey = MakeSharedPtr<SVASKey>();
                     t_askey->m_time = *t_pTime;
                     t_pTime++;
-                    t_sve_chn->m_chnPool.append(t_askey);//推入key
+                    t_sve_chn->m_keyPool.append(t_askey);//推入key
                 }
                 t_sve_chn->m_maxTime = t_acc->maxValues[0];
                 t_sve_chn->m_minTime = t_acc->minValues[0];
@@ -527,11 +527,11 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
             t_sve_chn->m_intertype_trans = _getInterpolationMode(t_chn_samp->interpolation);
             Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
             if( t_acc->name == "accessorAnimationPositions" ) {
-                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                if( t_acc->count == t_sve_chn->m_keyPool.size() ) {
                     s8* t_p = _getAccDataPointer(t_acc);
                     f32* t_pPos = (f32*)t_p;
                     for(s32 i=0;i<t_acc->count;i++) {
-                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
+                        SVASKeyPtr t_askey = t_sve_chn->m_keyPool[i];
                         t_askey->m_pos.x = *t_pPos;t_pPos++;
                         t_askey->m_pos.y = *t_pPos;t_pPos++;
                         t_askey->m_pos.z = *t_pPos;t_pPos++;
@@ -543,11 +543,11 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
             t_sve_chn->m_intertype_rot = _getInterpolationMode(t_chn_samp->interpolation);
             Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
             if( t_acc->name == "accessorAnimationRotations" ) {
-                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                if( t_acc->count == t_sve_chn->m_keyPool.size() ) {
                     s8* t_p = _getAccDataPointer(t_acc);
                     f32* t_pRot = (f32*)t_p;
                     for(s32 i=0;i<t_acc->count;i++) {
-                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
+                        SVASKeyPtr t_askey = t_sve_chn->m_keyPool[i];
                         t_askey->m_rot.x = *t_pRot;t_pRot++;
                         t_askey->m_rot.y = *t_pRot;t_pRot++;
                         t_askey->m_rot.z = *t_pRot;t_pRot++;
@@ -560,11 +560,11 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
             t_sve_chn->m_intertype_scale = _getInterpolationMode(t_chn_samp->interpolation);
             Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
             if( t_acc->name == "accessorAnimationScales" ) {
-                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                if( t_acc->count == t_sve_chn->m_keyPool.size() ) {
                     s8* t_p = _getAccDataPointer(t_acc);
                     f32* t_pScale = (f32*)t_p;
                     for(s32 i=0;i<t_acc->count;i++) {
-                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
+                        SVASKeyPtr t_askey = t_sve_chn->m_keyPool[i];
                         t_askey->m_scale.x = *t_pScale;t_pScale++;
                         t_askey->m_scale.y = *t_pScale;t_pScale++;
                         t_askey->m_scale.z = *t_pScale;t_pScale++;
