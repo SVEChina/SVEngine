@@ -83,32 +83,44 @@ namespace sv {
             BONEPOOL m_boneArray;
         };
         
-        /*
-         数据
-         */
-        
-        class SVSkinAniData : public SVObject{
+        //
+        class SVASKey : public SVObject{
         public:
-            SVSkinAniData() {}
-            ~SVSkinAniData(){}
+            SVASKey() {
+                m_time = 0.0f;
+            }
+            ~SVASKey(){
+                
+            }
             //
-            typedef SVArray<f32> DATAVEC;
-            DATAVEC m_datavec;
+            f32 m_time;
+            //
+            FVec3 m_pos;
+            FVec3 m_scale;
+            FVec4 m_rot;
         };
         
         /*
          轨道
          */
-        
         class SVChannel : public SVObject{
         public:
+            SVChannel();
+            
+            ~SVChannel();
+            
             void update(f32 _dt);
             
-            s32 m_input;        //输入数据id
-            s32 m_output;       //输出数据id
             s32 m_target;       //目标id
-            s32 m_type;         //数据类型 scale rotation translation
-            s32 m_intertype;    //插值方式 linear
+            s32 m_intertype_trans;    //插值方式 linear
+            s32 m_intertype_rot;    //插值方式 linear
+            s32 m_intertype_scale;    //插值方式 linear
+            s32 m_intertype_weight;    //插值方式 linear
+            f32 m_maxTime;
+            f32 m_minTime;
+            //数据关系
+            typedef SVArray<SVASKeyPtr> CHNPOOL;
+            CHNPOOL m_chnPool;
         };
         
         /*
@@ -130,11 +142,9 @@ namespace sv {
             
             void addChannel(SVChannelPtr _chan);
             
+            SVChannelPtr getChannel(s32 _target);
+            
             void clearChannel();
-            
-            void addSkinAniData(s32 _index,SVSkinAniDataPtr _obj);
-            
-            bool hadSkinAniData(s32 _index);
             
         protected:
             SVString m_name;
@@ -143,9 +153,7 @@ namespace sv {
             //
             f32 m_accTime;
             f32 m_totalTime;
-            //动画数据
-            typedef SVMap<s32,SVSkinAniDataPtr> DATAPOOL;
-            DATAPOOL m_dataPool;
+            //
             //数据关系
             typedef SVArray<SVChannelPtr> CHNPOOL;
             CHNPOOL m_chnPool;

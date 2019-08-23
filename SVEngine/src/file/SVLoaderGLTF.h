@@ -78,15 +78,15 @@ namespace sv {
         GLTFInterpolationModeCubic,
     };
     
-    static sv_inline GLTFInterpolationMode _getInterpolationMode(SVString _interpolation){
+    static sv_inline s32 _getInterpolationMode(SVString _interpolation){
         if (_interpolation == "LINEAR") {
-            return GLTFInterpolationModeLinear;
+            return 0;
         }else if(_interpolation == "STEP"){
-            return GLTFInterpolationModeStep;
+            return 1;
         }else if(_interpolation == "CUBICSPLINE"){
-            return GLTFInterpolationModeCubic;
+            return 2;
         }
-        return GLTFInterpolationModeNone;
+        return 3;
     }
     
     static sv_inline s32 _getCmpSize(u32 _componentType) {
@@ -550,8 +550,6 @@ namespace sv {
         SVSkeletonPtr _buildSkin(s32 _index);
         //构建动画
         SVAnimateSkinPtr _buildAnimate(s32 _index);
-        //构建轨道数据
-        void _buildChnData(SVAnimateSkinPtr _ani,s32 _index);
         //构建骨头
         bool _buildBone(SVBonePtr _parent,Skin* _skinData,s32 _index,SVSkeletonPtr _ske);
         //构建材质
@@ -561,8 +559,6 @@ namespace sv {
         s8* _getAccDataPointer(Accessor* acc);
         //抓模型数据
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
-        //抓动画数据
-        void _fetchDataFromAcc(SVSkinAniDataPtr _data,Accessor *_accessor);
         //抓骨架数据
         void _fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor *_accessor);
         

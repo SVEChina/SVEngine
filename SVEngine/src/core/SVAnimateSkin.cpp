@@ -108,6 +108,24 @@ void SVSkeleton::destroy() {
     }
 }
 
+//专门用于骨骼动画的时间轴
+SVChannel::SVChannel() {
+    m_target = 0;
+    m_intertype_trans = -1;    //插值方式 linear
+    m_intertype_rot = -1;    //插值方式 linear
+    m_intertype_scale = -1;    //插值方式 linear
+    m_intertype_weight = -1;    //插值方式 linear
+    m_maxTime = 0.0f;
+    m_minTime = 0.0f;
+}
+
+SVChannel::~SVChannel() {
+    m_chnPool.destroy();
+}
+
+void SVChannel::update(f32 _dt) {
+}
+
 //
 SVAnimateSkin::SVAnimateSkin(SVInst* _app,cptr8 _name)
 :SVGBase(_app)
@@ -294,24 +312,22 @@ cptr8 SVAnimateSkin::getName() {
     return m_name.c_str();
 }
 
+//
+SVChannelPtr SVAnimateSkin::getChannel(s32 _target){
+    for(s32 i=0;i<m_chnPool.size();i++) {
+        if( m_chnPool[i]->m_target == _target ) {
+            return m_chnPool[i];
+        }
+    }
+    return nullptr;
+}
+
 void SVAnimateSkin::addChannel(SVChannelPtr _chan) {
     m_chnPool.append(_chan);
 }
 
 void SVAnimateSkin::clearChannel() {
     m_chnPool.destroy();
-}
-
-void SVAnimateSkin::addSkinAniData(s32 _index,SVSkinAniDataPtr _obj) {
-    m_dataPool.append(_index,_obj);
-}
-
-bool SVAnimateSkin::hadSkinAniData(s32 _index) {
-    DATAPOOL::Iterator it = m_dataPool.find(_index);
-    if(it != m_dataPool.end() ) {
-        return true;
-    }
-    return false;
 }
 
 //
