@@ -10,7 +10,7 @@
 
 #include "../base/SVGBase.h"
 #include "../base/SVVec3.h"
-#include "../third/bulletphysics/src/btBulletDynamicsCommon.h"
+#include "btBulletDynamicsCommon.h"
 namespace sv {
     
     namespace logic {

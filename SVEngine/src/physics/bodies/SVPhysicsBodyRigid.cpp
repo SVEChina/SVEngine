@@ -16,6 +16,7 @@ SVPhysicsBodyRigid::SVPhysicsBodyRigid(SVInst* _app):SVPhysicsBody(_app) {
     m_pBody=nullptr;
     m_pMyMotionState = nullptr;
     p2p=nullptr;
+    m_savedState=0;
 }
 
 SVPhysicsBodyRigid::SVPhysicsBodyRigid(SVInst* _app , SVPhysicsShapePtr _shape):SVPhysicsBody(_app) {
@@ -29,9 +30,20 @@ SVPhysicsBodyRigid::~SVPhysicsBodyRigid() {
     
 }
 
+void SVPhysicsBodyRigid::setRestitution(f32 _dis){
+     m_pBody->setRestitution(btScalar(_dis));
+}
+
+void SVPhysicsBodyRigid::setFriction(f32 _dis){
+    m_pBody->setFriction(_dis);
+}
+
 void SVPhysicsBodyRigid::init(){
     btTransform t_startTransform;
     t_startTransform.setIdentity();
+    btQuaternion incline;
+    incline.setRotation(btVector3(0, 0, 1), 0);
+    t_startTransform.setRotation(incline);
     t_startTransform.setOrigin(btVector3(m_origin.x,m_origin.y,m_origin.z));
     // 推荐使用motionstate，它提供插值功能，只同步“活动”对象
     bool t_isDynamic = (m_pShape->getMass()!= 0.f);
@@ -44,7 +56,7 @@ void SVPhysicsBodyRigid::init(){
     btRigidBody::btRigidBodyConstructionInfo rbInfo(m_pShape->getMass(),m_pMyMotionState,m_pShape->getShape(),t_localInertia);
     m_pBody = new btRigidBody(rbInfo);
     m_pBody->setUserIndex(-1);
-    m_pBody->setRestitution(btScalar(0.6));
+    m_pBody->setFriction(0.0);
 }
 
 void SVPhysicsBodyRigid::destroy(){
@@ -70,15 +82,9 @@ void SVPhysicsBodyRigid::update(f32 _dt){
     if(m_pNode){
         m_pNode->setPosition(trans.getOrigin().getX()*250, trans.getOrigin().getY()*250-640, trans.getOrigin().getZ()*250);
         btQuaternion t_bodyquat = trans.getRotation();
-        SVQuat t_quat=SVQuat(FVec4(t_bodyquat[0],t_bodyquat[1],t_bodyquat[2],t_bodyquat[3]));
-        m_pNode->setQuat(t_quat);
-//        printf("world pos  = %f,%f,%f\n", trans.getOrigin().getX(),
-//               trans.getOrigin().getY(),
-//               trans.getOrigin().getZ());
-//
-//        printf("world t_quat  = %f,%f,%f,%f\n", t_bodyquat.getX(),
-//               t_bodyquat.getY(),
-//               t_bodyquat.getZ(),t_bodyquat.getAngle());
+        f32 t_x , t_y ,t_z;
+        t_bodyquat.getEulerZYX(t_z, t_y, t_x);
+        m_pNode->setRotation(t_x*(180/3.14), t_y*(180/3.14), t_z*(180/3.14));
     }
 }
 
@@ -99,23 +105,31 @@ void SVPhysicsBodyRigid::setApplyTorque(FVec3 _pos){
 }
 
 void SVPhysicsBodyRigid::addConstraint(){
-  //  int m_savedState=m_pBody->getActivationState();
-//m_pBody->setActivationState(DISABLE_DEACTIVATION);
+    m_savedState = m_pBody->getActivationState();
+    m_pBody->setActivationState(DISABLE_DEACTIVATION);
     //printf("pickPos=%f,%f,%f\n",pickPos.getX(),pickPos.getY(),pickPos.getZ());
-    btVector3 localPivot = btVector3(0.03,0.1,0.1);
+    btVector3 localPivot = btVector3(0.0,0.0,0.0);
     p2p = new btPoint2PointConstraint(*m_pBody, localPivot);
     mApp->m_pGlobalMgr->m_pPhysics->addConstraint(p2p);
-    btScalar mousePickClamping = 30.f;
+    btScalar mousePickClamping = 60.f;
     p2p->m_setting.m_impulseClamp = mousePickClamping;
     p2p->m_setting.m_tau = 0.001f;
-    btVector3 newPivotB(0,3,0);
+    btVector3 newPivotB(0,0,0);
     p2p->setPivotB(newPivotB);
     //m_pBody->setActivationState(m_savedState);
 }
 
+void SVPhysicsBodyRigid::setConstraintXY(f32 _x ,f32 _y ,f32 _z){
+    btVector3 newPivotB(_x/250.0,(_y+640)/250.0,_z);
+    p2p->setPivotB(newPivotB);
+}
+
 void SVPhysicsBodyRigid::removeConstraint(){
     if(p2p){
+        m_pBody->forceActivationState(m_savedState);
+        m_pBody->activate();
         mApp->m_pGlobalMgr->m_pPhysics->removeConstraint(p2p);
         p2p=nullptr;
     }
 }
+
