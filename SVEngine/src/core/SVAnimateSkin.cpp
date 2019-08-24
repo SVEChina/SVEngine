@@ -98,6 +98,15 @@ SVBonePtr SVSkeleton::getBoneByNodeID(s32 _id) {
     return nullptr;
 }
 
+SVBonePtr SVSkeleton::getBoneByName(cptr8 _name) {
+    for(s32 i=0;i<m_boneArray.size();i++) {
+        if( m_boneArray[i]->m_name == _name ) {
+            return m_boneArray[i];
+        }
+    }
+    return nullptr;
+}
+
 void SVSkeleton::destroy() {
     //
     m_boneArray.clear();
@@ -260,7 +269,7 @@ SVAnimateSkin::SVAnimateSkin(SVInst* _app,cptr8 _name)
 :SVGBase(_app)
 ,m_name(_name){
     m_accTime = 0;
-    m_totalTime = 7.0f;
+    m_totalTime = 0.0f;
     m_pSke = nullptr;
 }
 
@@ -279,6 +288,7 @@ void SVAnimateSkin::unbind(){
 void SVAnimateSkin::update(f32 _dt) {
     //计算时间
     m_accTime += _dt;
+    //m_accTime = 0.0f;
     //
     bool t_end = false;;
     if(m_accTime>m_totalTime) {
@@ -316,7 +326,10 @@ SVChannelPtr SVAnimateSkin::getChannel(s32 _target){
 }
 
 void SVAnimateSkin::addChannel(SVChannelPtr _chan) {
-    m_chnPool.append(_chan);
+    if(_chan) {
+        m_totalTime = m_totalTime>_chan->m_maxTime?m_totalTime:_chan->m_maxTime;
+        m_chnPool.append(_chan);
+    }
 }
 
 void SVAnimateSkin::clearChannel() {

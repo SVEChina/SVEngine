@@ -69,6 +69,8 @@ namespace sv {
             
             SVBonePtr getBoneByNodeID(s32 _id);
             
+            SVBonePtr getBoneByName(cptr8 _name);
+            
             s32 getBoneNum();
             
             void refresh();
