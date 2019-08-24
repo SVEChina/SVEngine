@@ -398,6 +398,22 @@ SVNodePtr SVLoaderGLTF::getNode(cptr8 _nodename)  {
 SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
     SVSkinNodePtr tNode = MakeSharedPtr<SVSkinNode>(mApp);
     tNode->setname(_node->name.c_str());
+    if(_node->translation.size() == 3) {
+        tNode->m_filePos.x = _node->translation[0];
+        tNode->m_filePos.y = _node->translation[1];
+        tNode->m_filePos.z = _node->translation[2];
+    }
+    if(_node->scale.size() == 3) {
+        tNode->m_fileScale.x = _node->scale[0];
+        tNode->m_fileScale.y = _node->scale[1];
+        tNode->m_fileScale.z = _node->scale[2];
+    }
+    if(_node->rotation.size() == 4) {
+        tNode->m_fileRot.x = _node->rotation[0];
+        tNode->m_fileRot.y = _node->rotation[1];
+        tNode->m_fileRot.z = _node->rotation[2];
+        tNode->m_fileRot.w = _node->rotation[3];
+    }
     //构建model
     SVModelPtr t_model = _buildModel(_node->mesh);
     tNode->setModel(t_model);
