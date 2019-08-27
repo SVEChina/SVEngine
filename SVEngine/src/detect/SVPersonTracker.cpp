@@ -74,12 +74,12 @@ void SVPersonTracker::track_st(void *_data, s32 _ptnum, SVRect *_rect, f32 yaw, 
         m_rightEyePos.z = 0;
         
         
-        f32 t_yaw_ratio = cosf(fabs(yaw)*DEGTORAD);
+        f32 t_yaw_ratio = fabs(cosf(yaw*DEGTORAD));
         if (t_yaw_ratio == 0.0f) {
             t_yaw_ratio = 1.0f;
         }
         
-        f32 t_pitch_ratio = cosf(fabs(pitch)*DEGTORAD);
+        f32 t_pitch_ratio = fabs(cosf(pitch*DEGTORAD));
         if (t_pitch_ratio == 0.0f) {
             t_pitch_ratio = 1.0f;
         }
