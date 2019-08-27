@@ -39,21 +39,31 @@ void SVPersonTracker::track_st(void *_data, s32 _ptnum, SVRect *_rect, f32 yaw, 
         //双眼正中位置
         m_eyecenter.x = pdata[43 * 2];
         m_eyecenter.y = pdata[43 * 2 + 1];
+        m_eyecenter.z = 0;
+
         //面部中心位置
         m_facecenter.x = pdata[45 * 2];
         m_facecenter.y = pdata[45 * 2 + 1];
+        m_facecenter.z = 0;
+
         //鼻子上
         m_noiseup.x = pdata[44 * 2];
         m_noiseup.y = pdata[44 * 2 + 1];
+        m_noiseup.z = 0;
+
         //鼻子中心
         m_noisecenter.x = pdata[46 * 2];
         m_noisecenter.y = pdata[46 * 2 + 1];
+        m_noisecenter.z = 0;
+
         //鼻子下
         m_noisedown.x = pdata[49 * 2];
         m_noisedown.y = pdata[49 * 2 + 1];
-        //下巴最下方位置
+        m_noisedown.z = 0;
+
         m_jawbottompos.x = pdata[16 * 2];
         m_jawbottompos.y = pdata[16 * 2 + 1];
+        m_jawbottompos.z = 0;
 
         m_leftEyePos.x = pdata[74 * 2];
         m_leftEyePos.y = pdata[74 * 2 + 1];
