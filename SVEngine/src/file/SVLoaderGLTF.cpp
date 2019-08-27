@@ -398,6 +398,22 @@ SVNodePtr SVLoaderGLTF::getNode(cptr8 _nodename)  {
 SVNodePtr SVLoaderGLTF::_buildSkinNode(Node* _node) {
     SVSkinNodePtr tNode = MakeSharedPtr<SVSkinNode>(mApp);
     tNode->setname(_node->name.c_str());
+    if(_node->translation.size() == 3) {
+        tNode->m_filePos.x = _node->translation[0];
+        tNode->m_filePos.y = _node->translation[1];
+        tNode->m_filePos.z = _node->translation[2];
+    }
+    if(_node->scale.size() == 3) {
+        tNode->m_fileScale.x = _node->scale[0];
+        tNode->m_fileScale.y = _node->scale[1];
+        tNode->m_fileScale.z = _node->scale[2];
+    }
+    if(_node->rotation.size() == 4) {
+        tNode->m_fileRot.x = _node->rotation[0];
+        tNode->m_fileRot.y = _node->rotation[1];
+        tNode->m_fileRot.z = _node->rotation[2];
+        tNode->m_fileRot.w = _node->rotation[3];
+    }
     //构建model
     SVModelPtr t_model = _buildModel(_node->mesh);
     tNode->setModel(t_model);
@@ -438,14 +454,25 @@ SVSkeletonPtr SVLoaderGLTF::_buildSkin(s32 _skinIndex){
     //构建骨架
     SVSkeletonPtr t_ske = MakeSharedPtr<SVSkeleton>();
     s32 t_node_index = t_skindata->skeleton;
-    //创建根骨骼
+    //创建根骨骼,并构建骨架
     SVBonePtr t_rootBone = MakeSharedPtr<SVBone>();
     _buildBone(t_rootBone,t_skindata,t_node_index,t_ske);
     t_ske->m_name = t_skindata->name;
     t_ske->m_root = t_rootBone;
     //初始化骨架基本数据
     Accessor* t_acc = &(m_gltf.accessors[t_skindata->inverseBindMatrices]);
-    _fetchDataFromAcc(t_ske,t_skindata,t_acc);
+    //
+    s8* t_imb_p = _getAccDataPointer(t_acc);
+    f32* t_imb_p_f = (f32*)t_imb_p;
+    for(s32 i=0;i<t_skindata->joints.size();i++) {
+        s32 t_nodeid = t_skindata->joints[i];
+        SVBonePtr t_bone = t_ske->getBoneByNodeID(t_nodeid);//获取对应的骨骼
+        if(t_bone) {
+            t_bone->m_id = i;
+            f32* t_imb_p_f_aim = t_imb_p_f+i*16;
+            t_bone->m_invertBindMat.set(t_imb_p_f_aim);
+        }
+    }
     return t_ske;
 }
 
@@ -466,7 +493,7 @@ bool SVLoaderGLTF::_buildBone(SVBonePtr _parent,Skin* _skinData,s32 _nodeIndex,S
         }
     }
     _parent->m_nodeid = _nodeIndex;
-    _parent->m_name = t_node->name;
+    _parent->m_name = t_node->name; // 骨头名称
     _parent->m_tran.x = t_node->translation[0];
     _parent->m_tran.y = t_node->translation[1];
     _parent->m_tran.z = t_node->translation[2];
@@ -514,7 +541,7 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
                     SVASKeyPtr t_askey = MakeSharedPtr<SVASKey>();
                     t_askey->m_time = *t_pTime;
                     t_pTime++;
-                    t_sve_chn->m_chnPool.append(t_askey);//推入key
+                    t_sve_chn->m_keyPool.append(t_askey);//推入key
                 }
                 t_sve_chn->m_maxTime = t_acc->maxValues[0];
                 t_sve_chn->m_minTime = t_acc->minValues[0];
@@ -527,14 +554,17 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
             t_sve_chn->m_intertype_trans = _getInterpolationMode(t_chn_samp->interpolation);
             Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
             if( t_acc->name == "accessorAnimationPositions" ) {
-                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                if( t_acc->count == t_sve_chn->m_keyPool.size() ) {
                     s8* t_p = _getAccDataPointer(t_acc);
                     f32* t_pPos = (f32*)t_p;
                     for(s32 i=0;i<t_acc->count;i++) {
-                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
-                        t_askey->m_pos.x = *t_pPos;t_pPos++;
-                        t_askey->m_pos.y = *t_pPos;t_pPos++;
-                        t_askey->m_pos.z = *t_pPos;t_pPos++;
+                        SVASKeyPtr t_askey = t_sve_chn->m_keyPool[i];
+                        t_askey->m_pos.x = *t_pPos;
+                        t_pPos++;
+                        t_askey->m_pos.y = *t_pPos;
+                        t_pPos++;
+                        t_askey->m_pos.z = *t_pPos;
+                        t_pPos++;
                     }
                 }
             }
@@ -543,15 +573,19 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
             t_sve_chn->m_intertype_rot = _getInterpolationMode(t_chn_samp->interpolation);
             Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
             if( t_acc->name == "accessorAnimationRotations" ) {
-                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                if( t_acc->count == t_sve_chn->m_keyPool.size() ) {
                     s8* t_p = _getAccDataPointer(t_acc);
                     f32* t_pRot = (f32*)t_p;
                     for(s32 i=0;i<t_acc->count;i++) {
-                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
-                        t_askey->m_rot.x = *t_pRot;t_pRot++;
-                        t_askey->m_rot.y = *t_pRot;t_pRot++;
-                        t_askey->m_rot.z = *t_pRot;t_pRot++;
-                        t_askey->m_rot.w = *t_pRot;t_pRot++;
+                        SVASKeyPtr t_askey = t_sve_chn->m_keyPool[i];
+                        t_askey->m_rot.x = *t_pRot;
+                        t_pRot++;
+                        t_askey->m_rot.y = *t_pRot;
+                        t_pRot++;
+                        t_askey->m_rot.z = *t_pRot;
+                        t_pRot++;
+                        t_askey->m_rot.w = *t_pRot;
+                        t_pRot++;
                     }
                 }
             }
@@ -560,14 +594,17 @@ SVAnimateSkinPtr SVLoaderGLTF::_buildAnimate(s32 _index){
             t_sve_chn->m_intertype_scale = _getInterpolationMode(t_chn_samp->interpolation);
             Accessor* t_acc = &(m_gltf.accessors[t_chn_samp->output]);
             if( t_acc->name == "accessorAnimationScales" ) {
-                if( t_acc->count == t_sve_chn->m_chnPool.size() ) {
+                if( t_acc->count == t_sve_chn->m_keyPool.size() ) {
                     s8* t_p = _getAccDataPointer(t_acc);
                     f32* t_pScale = (f32*)t_p;
                     for(s32 i=0;i<t_acc->count;i++) {
-                        SVASKeyPtr t_askey = t_sve_chn->m_chnPool[i];
-                        t_askey->m_scale.x = *t_pScale;t_pScale++;
-                        t_askey->m_scale.y = *t_pScale;t_pScale++;
-                        t_askey->m_scale.z = *t_pScale;t_pScale++;
+                        SVASKeyPtr t_askey = t_sve_chn->m_keyPool[i];
+                        t_askey->m_scale.x = *t_pScale;
+                        t_pScale++;
+                        t_askey->m_scale.y = *t_pScale;
+                        t_pScale++;
+                        t_askey->m_scale.z = *t_pScale;
+                        t_pScale++;
                     }
                 }
             }
@@ -980,36 +1017,6 @@ void SVLoaderGLTF::_fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor) {
         //拷贝数据
         for(s32 i=0;i<_accessor->count;i++) {
             _data->appendData(p, t_s_size);
-            p += t_s_size;
-        }
-        t_buf->data->unlockData();
-    }
-}
-
-void SVLoaderGLTF::_fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor *_accessor) {
-    s32 t_acc_off = _accessor->byteOffset;
-    s32 t_viewID = _accessor->bufferView;
-    BufferView* t_bufview = &(m_gltf.bufferViews[t_viewID]);
-    if(t_bufview) {
-        s32 t_bufID = t_bufview->buffer;
-        s32 t_view_off = t_bufview->byteOffset;
-        s32 t_len = t_bufview->byteLength;
-        s32 t_view_stride = t_bufview->byteStride;
-        Buffer* t_buf = &(m_gltf.buffers[t_bufID]);
-        t_buf->data->lockData();
-        char* p = (char*)(t_buf->data->getData());
-        p += t_view_off;
-        p += t_acc_off;
-        s32 t_cmp_size = _getCmpSize(_accessor->componentType);
-        s32 t_cmp_num = _getCmpNum(_accessor->type);
-        s32 t_s_size =t_cmp_size*t_cmp_num;
-        //拷贝数据
-        for(s32 i=0;i<_accessor->count;i++) {
-            SVBonePtr t_bone = _ske->getBoneByID(i);
-            if(t_bone) {
-                f32* t_p = (f32*)p;
-                t_bone->m_invertBindMat.set(t_p);
-            }
             p += t_s_size;
         }
         t_buf->data->unlockData();

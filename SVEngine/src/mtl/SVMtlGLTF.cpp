@@ -138,7 +138,7 @@ void SVMtlGLTFSkin::update(f32 dt) {
                     }
                 }
             }
-        }//
+        }
     }
 }
 

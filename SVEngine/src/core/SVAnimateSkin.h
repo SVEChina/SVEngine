@@ -69,6 +69,8 @@ namespace sv {
             
             SVBonePtr getBoneByNodeID(s32 _id);
             
+            SVBonePtr getBoneByName(cptr8 _name);
+            
             s32 getBoneNum();
             
             void refresh();
@@ -109,7 +111,9 @@ namespace sv {
             
             ~SVChannel();
             
-            void update(f32 _dt);
+            void update(f32 _dt,f32 _acct,s32 _rate,SVSkeletonPtr _ske);
+            
+            s32 findPreKey(f32 _acct,s32 _rate);
             
             s32 m_target;       //目标id
             s32 m_intertype_trans;    //插值方式 linear
@@ -119,8 +123,21 @@ namespace sv {
             f32 m_maxTime;
             f32 m_minTime;
             //数据关系
-            typedef SVArray<SVASKeyPtr> CHNPOOL;
-            CHNPOOL m_chnPool;
+            typedef SVArray<SVASKeyPtr> ASKEYPOOL;
+            ASKEYPOOL m_keyPool;
+            
+        private:
+            FVec3 _lerp_trans(s32 _mod,f32 _timepre,f32 _timenxt,f32 _timecur,FVec3 _pos1,FVec3 _pos2);
+            FVec3 _lerp_scale(s32 _mod,f32 _timepre,f32 _timenxt,f32 _timecur,FVec3 _scale1,FVec3 _scale2);
+            FVec4 _lerp_rot(s32 _mod,f32 _timepre,f32 _timenxt,f32 _timecur,FVec4 _rot1,FVec4 _rot2);
+            f32 _lerp_weights();
+        };
+        
+        //动作表
+        struct SVASAniTbl{
+            SVString m_name;        //动作名称
+            s32 m_beginKey;         //开始帧
+            s32 m_endKe;            //结束阵
         };
         
         /*
@@ -146,6 +163,8 @@ namespace sv {
             
             void clearChannel();
             
+            void play(cptr8 _name){}
+            
         protected:
             SVString m_name;
             //关联骨架
@@ -154,15 +173,14 @@ namespace sv {
             f32 m_accTime;
             f32 m_totalTime;
             //
-            //数据关系
+            //轨道
             typedef SVArray<SVChannelPtr> CHNPOOL;
             CHNPOOL m_chnPool;
-            //
-        private:
-            FVec3 _lerp_trans(s32 _mod,f32 _timepre,f32 _timenxt,f32 _timecur,FVec3 _pos1,FVec3 _pos2);
-            FVec3 _lerp_scale(s32 _mod,f32 _timepre,f32 _timenxt,f32 _timecur,FVec3 _scale1,FVec3 _scale2);
-            FVec4 _lerp_rot(s32 _mod,f32 _timepre,f32 _timenxt,f32 _timecur,FVec4 _rot1,FVec4 _rot2);
-            f32 _lerp_weights();
+            //动作表
+            typedef SVArray<SVASAniTbl> ANITBLPOOL;
+            ANITBLPOOL m_aniTblPool;
+            
+
         };
         
         //骨架池
