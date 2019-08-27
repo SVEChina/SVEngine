@@ -73,10 +73,18 @@ void SVPersonTracker::track_st(void *_data, s32 _ptnum, SVRect *_rect, f32 yaw, 
         m_rightEyePos.y = pdata[77 * 2 + 1];
         m_rightEyePos.z = 0;
         
-//        atan2f(pt1.y - pt0.y, pt1.x - pt0.x)
         
-        m_eyeDistance = (m_leftEyePos - m_rightEyePos).length() / cosf(fabs(yaw)*DEGTORAD);
-        m_noiseDistance = (m_eyecenter - m_noisedown).length() / cosf(fabs(pitch)*DEGTORAD);
+        f32 t_yaw_ratio = cosf(fabs(yaw)*DEGTORAD);
+        if (t_yaw_ratio == 0.0f) {
+            t_yaw_ratio = 1.0f;
+        }
+        
+        f32 t_pitch_ratio = cosf(fabs(pitch)*DEGTORAD);
+        if (t_pitch_ratio == 0.0f) {
+            t_pitch_ratio = 1.0f;
+        }
+        m_eyeDistance = (m_leftEyePos - m_rightEyePos).length() / t_yaw_ratio;
+        m_noiseDistance = (m_eyecenter - m_noisedown).length() / t_pitch_ratio;
         //横向缩放
         m_eyestd_scale = m_eyeDistance / m_standardEyeDis;
         //竖向缩放
