@@ -13,7 +13,10 @@
 namespace sv {
     
     namespace node{
-        //
+        /*
+         normal 3d node
+         */
+        
         class SVModelNode : public SVNode {
         public:
             SVModelNode(SVInst *_app);
