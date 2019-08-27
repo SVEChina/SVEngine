@@ -39,21 +39,31 @@ void SVPersonTracker::track_st(void *_data, s32 _ptnum, SVRect *_rect, f32 yaw, 
         //双眼正中位置
         m_eyecenter.x = pdata[43 * 2];
         m_eyecenter.y = pdata[43 * 2 + 1];
+        m_eyecenter.z = 0;
+
         //面部中心位置
         m_facecenter.x = pdata[45 * 2];
         m_facecenter.y = pdata[45 * 2 + 1];
+        m_facecenter.z = 0;
+
         //鼻子上
         m_noiseup.x = pdata[44 * 2];
         m_noiseup.y = pdata[44 * 2 + 1];
+        m_noiseup.z = 0;
+
         //鼻子中心
         m_noisecenter.x = pdata[46 * 2];
         m_noisecenter.y = pdata[46 * 2 + 1];
+        m_noisecenter.z = 0;
+
         //鼻子下
         m_noisedown.x = pdata[49 * 2];
         m_noisedown.y = pdata[49 * 2 + 1];
-        //下巴最下方位置
+        m_noisedown.z = 0;
+
         m_jawbottompos.x = pdata[16 * 2];
         m_jawbottompos.y = pdata[16 * 2 + 1];
+        m_jawbottompos.z = 0;
 
         m_leftEyePos.x = pdata[74 * 2];
         m_leftEyePos.y = pdata[74 * 2 + 1];
@@ -63,10 +73,18 @@ void SVPersonTracker::track_st(void *_data, s32 _ptnum, SVRect *_rect, f32 yaw, 
         m_rightEyePos.y = pdata[77 * 2 + 1];
         m_rightEyePos.z = 0;
         
-//        atan2f(pt1.y - pt0.y, pt1.x - pt0.x)
         
-        m_eyeDistance = (m_leftEyePos - m_rightEyePos).length() / cosf(fabs(yaw)*DEGTORAD);
-        m_noiseDistance = (m_eyecenter - m_noisedown).length() / cosf(fabs(pitch)*DEGTORAD);
+        f32 t_yaw_ratio = fabs(cosf(yaw*DEGTORAD));
+        if (t_yaw_ratio == 0.0f) {
+            t_yaw_ratio = 1.0f;
+        }
+        
+        f32 t_pitch_ratio = fabs(cosf(pitch*DEGTORAD));
+        if (t_pitch_ratio == 0.0f) {
+            t_pitch_ratio = 1.0f;
+        }
+        m_eyeDistance = (m_leftEyePos - m_rightEyePos).length() / t_yaw_ratio;
+        m_noiseDistance = (m_eyecenter - m_noisedown).length() / t_pitch_ratio;
         //横向缩放
         m_eyestd_scale = m_eyeDistance / m_standardEyeDis;
         //竖向缩放

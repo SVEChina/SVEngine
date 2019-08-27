@@ -152,7 +152,7 @@ void SVOpCreateEffcet::_process(f32 dt) {
             mApp->getModuleSys()->regist(t_modulePtr, t_moduleName.c_str());
             if (m_pCB) {
                 SVString msg = SVString::format("effectpackageloadsucceed_%s",t_moduleName.c_str());
-                (*m_pCB)(msg.c_str(), mApp);
+                (*m_pCB)(msg.c_str(), m_obj);
             }
             SVEffectPackagePtr t_effectPackage = DYN_TO_SHAREPTR(SVEffectPackage, t_modulePtr);
             if (t_effectPackage) {
@@ -162,7 +162,7 @@ void SVOpCreateEffcet::_process(f32 dt) {
                         SVActTexAttachment::TEXATTACHSPARAM t_param = t_texAtt->getParam();
                         if (m_pCB) {
                             SVString msg = SVString::format("effectpackagetexattachment_%s_channel:%d_metadata:%s",t_moduleName.c_str(), i, t_param.metadata.c_str());
-                            (*m_pCB)(msg.c_str(), mApp);
+                            (*m_pCB)(msg.c_str(), m_obj);
                         }
                     }
                 }
@@ -171,13 +171,13 @@ void SVOpCreateEffcet::_process(f32 dt) {
         }else{
             if (m_pCB) {
                 SVString msg = SVString::format("effectpackageloadfailed_%s",t_moduleName.c_str());
-                (*m_pCB)(msg.c_str(), mApp);
+                (*m_pCB)(msg.c_str(), m_obj);
             }
         }
     }else{
         if (m_pCB) {
             SVString msg = SVString::format("effectpackageloadfailed_%s",t_moduleName.c_str());
-            (*m_pCB)(msg.c_str(), mApp);
+            (*m_pCB)(msg.c_str(), m_obj);
         }
     }
 }

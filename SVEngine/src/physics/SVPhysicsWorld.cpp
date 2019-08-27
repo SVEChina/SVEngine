@@ -66,14 +66,14 @@ void SVPhysicsWorld::destroy(){
 }
 
 void SVPhysicsWorld::update(f32 _dt){
-    m_pDynamicsWorld->stepSimulation(1.f/30.f,10);
+    m_pDynamicsWorld->stepSimulation(1.f/30.f,5);
     for (int j=m_bodyArray.size()-1; j>=0; j--){
         m_bodyArray[j]->update(_dt);
     }
 }
 
 void SVPhysicsWorld::setp(){
-     m_pDynamicsWorld->stepSimulation(1.f/30.f,10);
+     m_pDynamicsWorld->stepSimulation(1.f/30.f,5);
 }
 
 void SVPhysicsWorld::addBody(SVPhysicsBodyPtr _body){
