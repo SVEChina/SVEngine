@@ -64,6 +64,11 @@ namespace sv {
             
             //当前动画
             SVAnimateSkinPtr m_pActAni;
+            
+        public:
+            FVec3 m_filePos;
+            FVec3 m_fileScale;
+            SVQuat m_fileRot;
         };
         
     }//!namespace node

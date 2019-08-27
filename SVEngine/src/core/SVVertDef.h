@@ -227,10 +227,10 @@ typedef struct V3_N_T0_BONE4 {
     f32 nz;
     f32 t0x;
     f32 t0y;
-    f32 bone0;
-    f32 bone1;
-    f32 bone2;
-    f32 bone3;
+    s16 bone0;
+    s16 bone1;
+    s16 bone2;
+    s16 bone3;
     f32 weight0;
     f32 weight1;
     f32 weight2;

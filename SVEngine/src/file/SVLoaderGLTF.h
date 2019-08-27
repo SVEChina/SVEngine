@@ -559,9 +559,6 @@ namespace sv {
         s8* _getAccDataPointer(Accessor* acc);
         //抓模型数据
         void _fetchDataFromAcc(SVDataSwapPtr _data,Accessor *_accessor);
-        //抓骨架数据
-        void _fetchDataFromAcc(SVSkeletonPtr _ske,Skin* _skindata,Accessor *_accessor);
-        
     };
     
 
