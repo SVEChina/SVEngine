@@ -15,7 +15,9 @@ namespace sv {
     
     namespace node{
         
-        //骨骼动画节点3d
+        /*
+         3d骨骼动画节点
+         */
         
         class SVSkinNode : public SVNode {
         public:

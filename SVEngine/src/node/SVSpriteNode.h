@@ -14,6 +14,10 @@ namespace sv {
     
     namespace node{
         
+        /*
+         精灵节点
+         */
+        
         class SVSpriteNode : public SVNode {
         public:
             SVSpriteNode(SVInst *_app);
