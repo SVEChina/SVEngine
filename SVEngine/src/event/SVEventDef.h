@@ -10,19 +10,6 @@
 
 #include "SVEventDeclare.h"
 
-//
-#define EVENT_EYE_LINK      "eyeblink"
-#define EVENT_EYE_OPEN      "eyebopen"
-#define EVENT_EYE_CLOSE     "eyeclose"
-
-#define EVENT_HAS_WHOLE_FALSE   "haveWholeFace"
-#define EVENT_NO_WHOLE_FALSE    "NotWholeFace"
-
-#define EVENT_MOUSE_OPEN    "mouthopen"
-#define EVENT_MOUSE_CLOSE   "mouthclose"
-
-#define EVENT_SHAKE_HEAD   "shakehead"
-
 namespace sv {
     
     //
@@ -67,6 +54,14 @@ namespace sv {
         EVN_T_PARSE,
         EVN_T_VIDEO_CTRL,
         EVN_T_VIDEO_STATE,
+        EVN_T_EXPRESSION_LEFTEYECLOSE,
+        EVN_T_EXPRESSION_RIGHTEYECLOSE,
+        EVN_T_EXPRESSION_MOUTHOPEN,
+        EVN_T_EXPRESSION_MOUTHCLOSE,
+        EVN_T_EXPRESSION_HEADTURNLEFT,
+        EVN_T_EXPRESSION_HEADTURNRIGHT,
+        EVN_T_EXPRESSION_HEADRAISE,
+        EVN_T_EXPRESSION_HEADBOW,//低头
         EVN_T_TEX_LOAD_FINISH,
         EVN_T_SAVE_BEGIN,
         EVN_T_SAVE_END,

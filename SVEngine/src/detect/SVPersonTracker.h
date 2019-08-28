@@ -26,11 +26,9 @@ namespace sv {
             
             virtual ~SVPersonTracker();
             
-            void startCorrectStandardface();
-            
-            void stopCorrectStandardface();
-            
             void track_st(void *_data, s32 _ptnum, SVRect &_rect, f32 yaw, f32 pitch, f32 roll, s32 personID);
+            
+            void setEnableExpression(bool _enable);
             
         public:
             FVec3 m_facecenter;
@@ -55,6 +53,7 @@ namespace sv {
             f32 m_noisetd_scale;
             f32 m_eye_angle;
         protected:
+            void _sendExpressionEvent(SV_EVENT_TYPE _type);
             //精细表情识别
             void _trackExpression_st();//表情识别
             void _correctStandardface_st();//矫正标准脸
@@ -62,20 +61,14 @@ namespace sv {
             void _correctStandardface_as();
             void _trackExpression_fp();
             void _correctStandardface_fp();
-//            MaRect m_standardRect;
-//            float m_standardRoll;
-//            float m_standardYaw;
-//            float m_standardPitch;
-//            float m_leftStandardEyeHigh;
-//            float m_rightStandardEyeHigh;
-//            float m_mouthStandardHigh;
-//            float m_mouthStandardWidth;
-//            float m_upMouthTipStandardHigh;
-//            float m_bottomMouthTipStandardHigh;
-//            float m_standard_angle_leftcorner_upperliptop_rightcorner;
-//            float m_standard_angle_leftcorner_lowerlipbottom_rightcorner;
+            f32 m_standard_lefteye_high;
+            f32 m_standard_righteye_high;
+            f32 m_standard_mouth_high;
+            f32 m_standard_mouth_width;
+            f32 m_standard_mouth_angle_leftcorner_upperliptop_rightcorner;
+            f32 m_standard_mouth_angle_leftcorner_lowerlipbottom_rightcorner;
         protected:
-            bool m_enableCorrect;
+            bool m_enableExpression;
         };
         
     }//!namespace detect
