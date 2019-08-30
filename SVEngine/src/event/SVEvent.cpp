@@ -137,10 +137,10 @@ SVEffectMusicEvent::~SVEffectMusicEvent(){
     
 }
 //
-SVEventExpression::SVEventExpression(){
+SVEventPersonExpression::SVEventPersonExpression(){
   ;
 }
 
-SVEventExpression::~SVEventExpression(){
+SVEventPersonExpression::~SVEventPersonExpression(){
     
 }

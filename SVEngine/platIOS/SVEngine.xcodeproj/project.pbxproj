@@ -69,14 +69,14 @@
 		020791B223040E610029B759 /* SVNoise.h in Headers */ = {isa = PBXBuildFile; fileRef = 020791AC23040E600029B759 /* SVNoise.h */; };
 		020791B323040E610029B759 /* SVNoise.h in Headers */ = {isa = PBXBuildFile; fileRef = 020791AC23040E600029B759 /* SVNoise.h */; };
 		020791B423040E610029B759 /* SVNoise.h in Headers */ = {isa = PBXBuildFile; fileRef = 020791AC23040E600029B759 /* SVNoise.h */; };
-		020812CF22F42286006E653A /* SVJsonTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 020812CD22F42286006E653A /* SVJsonTool.h */; };
-		020812D022F42286006E653A /* SVJsonTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 020812CD22F42286006E653A /* SVJsonTool.h */; };
-		020812D122F42286006E653A /* SVJsonTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 020812CD22F42286006E653A /* SVJsonTool.h */; };
-		020812D222F42286006E653A /* SVJsonTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 020812CD22F42286006E653A /* SVJsonTool.h */; };
-		020812D322F42286006E653A /* SVJsonTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020812CE22F42286006E653A /* SVJsonTool.cpp */; };
-		020812D422F42286006E653A /* SVJsonTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020812CE22F42286006E653A /* SVJsonTool.cpp */; };
-		020812D522F42286006E653A /* SVJsonTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020812CE22F42286006E653A /* SVJsonTool.cpp */; };
-		020812D622F42286006E653A /* SVJsonTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020812CE22F42286006E653A /* SVJsonTool.cpp */; };
+		020812CF22F42286006E653A /* SVStringHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 020812CD22F42286006E653A /* SVStringHelper.h */; };
+		020812D022F42286006E653A /* SVStringHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 020812CD22F42286006E653A /* SVStringHelper.h */; };
+		020812D122F42286006E653A /* SVStringHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 020812CD22F42286006E653A /* SVStringHelper.h */; };
+		020812D222F42286006E653A /* SVStringHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 020812CD22F42286006E653A /* SVStringHelper.h */; };
+		020812D322F42286006E653A /* SVStringHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020812CE22F42286006E653A /* SVStringHelper.cpp */; };
+		020812D422F42286006E653A /* SVStringHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020812CE22F42286006E653A /* SVStringHelper.cpp */; };
+		020812D522F42286006E653A /* SVStringHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020812CE22F42286006E653A /* SVStringHelper.cpp */; };
+		020812D622F42286006E653A /* SVStringHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020812CE22F42286006E653A /* SVStringHelper.cpp */; };
 		020B7794219A82560043E97E /* SVMtl3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 020B7792219A82550043E97E /* SVMtl3D.h */; };
 		020B7795219A82560043E97E /* SVMtl3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 020B7792219A82550043E97E /* SVMtl3D.h */; };
 		020B7796219A82560043E97E /* SVMtl3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 020B7792219A82550043E97E /* SVMtl3D.h */; };
@@ -5351,8 +5351,8 @@
 		020791A12302AF290029B759 /* SVImage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVImage.cpp; sourceTree = "<group>"; };
 		020791AB23040E600029B759 /* SVNoise.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVNoise.cpp; sourceTree = "<group>"; };
 		020791AC23040E600029B759 /* SVNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVNoise.h; sourceTree = "<group>"; };
-		020812CD22F42286006E653A /* SVJsonTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVJsonTool.h; sourceTree = "<group>"; };
-		020812CE22F42286006E653A /* SVJsonTool.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVJsonTool.cpp; sourceTree = "<group>"; };
+		020812CD22F42286006E653A /* SVStringHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVStringHelper.h; sourceTree = "<group>"; };
+		020812CE22F42286006E653A /* SVStringHelper.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVStringHelper.cpp; sourceTree = "<group>"; };
 		020B7792219A82550043E97E /* SVMtl3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtl3D.h; sourceTree = "<group>"; };
 		020B7793219A82560043E97E /* SVMtl3D.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtl3D.cpp; sourceTree = "<group>"; };
 		020C3DBD22D0DCA200201753 /* SVFilterDark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFilterDark.h; sourceTree = "<group>"; };
@@ -8644,8 +8644,8 @@
 				5F7D5FB6215F407700803BCF /* SVVec4.cpp */,
 				5F7D5FAD215F407700803BCF /* SVVec4.h */,
 				5F7D5FDD215F407700803BCF /* SVVecbase.h */,
-				020812CE22F42286006E653A /* SVJsonTool.cpp */,
-				020812CD22F42286006E653A /* SVJsonTool.h */,
+				020812CE22F42286006E653A /* SVStringHelper.cpp */,
+				020812CD22F42286006E653A /* SVStringHelper.h */,
 				020791AB23040E600029B759 /* SVNoise.cpp */,
 				020791AC23040E600029B759 /* SVNoise.h */,
 			);
@@ -8825,7 +8825,7 @@
 				5C0C604F219BFF790052A826 /* InterpolateShannon.h in Headers */,
 				020C4C5522DC5DD200201753 /* btGrahamScan2dConvexHull.h in Headers */,
 				5FB61FA022365382001EA141 /* SVNodeCtrl.h in Headers */,
-				020812D222F42286006E653A /* SVJsonTool.h in Headers */,
+				020812D222F42286006E653A /* SVStringHelper.h in Headers */,
 				020C4BBD22DC5DD100201753 /* b3Int4.h in Headers */,
 				020C48F122DC5DCF00201753 /* btLemkeSolver.h in Headers */,
 				5F7D662B215F407800803BCF /* SVRenderObject.h in Headers */,
@@ -9838,7 +9838,7 @@
 				020C43BF22DC5DCC00201753 /* b3Point2PointConstraint.h in Headers */,
 				5F7D6695215F407800803BCF /* SVMtlShapeVaried.h in Headers */,
 				020C4C9322DC5DD200201753 /* btSpatialAlgebra.h in Headers */,
-				020812D022F42286006E653A /* SVJsonTool.h in Headers */,
+				020812D022F42286006E653A /* SVStringHelper.h in Headers */,
 				020C4CE122DC5DD200201753 /* b3DynamicBvh.h in Headers */,
 				5F7D6287215F407800803BCF /* Color.h in Headers */,
 				5F7D63BB215F407800803BCF /* stringbuffer.h in Headers */,
@@ -10399,7 +10399,7 @@
 				5F7D683C215F407900803BCF /* SVOpEvent.h in Headers */,
 				5F7D6918215F407900803BCF /* SVArray.h in Headers */,
 				5F7D6266215F407800803BCF /* PathAttachment.h in Headers */,
-				020812CF22F42286006E653A /* SVJsonTool.h in Headers */,
+				020812CF22F42286006E653A /* SVStringHelper.h in Headers */,
 				5C0C604C219BFF790052A826 /* InterpolateShannon.h in Headers */,
 				020C494422DC5DCF00201753 /* btContactConstraint.h in Headers */,
 				5F7D6688215F407800803BCF /* SVMtlFilterEx.h in Headers */,
@@ -11395,7 +11395,7 @@
 				020C43C022DC5DCC00201753 /* b3Point2PointConstraint.h in Headers */,
 				5F7D6696215F407800803BCF /* SVMtlShapeVaried.h in Headers */,
 				020C4C9422DC5DD200201753 /* btSpatialAlgebra.h in Headers */,
-				020812D122F42286006E653A /* SVJsonTool.h in Headers */,
+				020812D122F42286006E653A /* SVStringHelper.h in Headers */,
 				020C4CE222DC5DD200201753 /* b3DynamicBvh.h in Headers */,
 				5F7D6288215F407800803BCF /* Color.h in Headers */,
 				5F7D63BC215F407800803BCF /* stringbuffer.h in Headers */,
@@ -12491,7 +12491,7 @@
 				5F7D6321215F407800803BCF /* SkeletonData.c in Sources */,
 				02AD983321EF44A800130131 /* SVMark.cpp in Sources */,
 				020C4C0F22DC5DD200201753 /* clew.c in Sources */,
-				020812D622F42286006E653A /* SVJsonTool.cpp in Sources */,
+				020812D622F42286006E653A /* SVStringHelper.cpp in Sources */,
 				020C480122DC5DCE00201753 /* b3Chunk.cpp in Sources */,
 				020C4C3522DC5DD200201753 /* btThreadSupportWin32.cpp in Sources */,
 				5F7D6459215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
@@ -12960,7 +12960,7 @@
 				020C462A22DC5DCD00201753 /* btContactProcessing.cpp in Sources */,
 				020C454222DC5DCD00201753 /* btGhostObject.cpp in Sources */,
 				5F7D6122215F407700803BCF /* SVSpine.cpp in Sources */,
-				020812D322F42286006E653A /* SVJsonTool.cpp in Sources */,
+				020812D322F42286006E653A /* SVStringHelper.cpp in Sources */,
 				5F7D633A215F407800803BCF /* BoneData.c in Sources */,
 				5F7D6858215F407900803BCF /* SVQuat.cpp in Sources */,
 				5C0C605C219BFF790052A826 /* RateTransposer.cpp in Sources */,
@@ -13165,7 +13165,7 @@
 				5F7D6892215F407900803BCF /* SVBase.cpp in Sources */,
 				020C460022DC5DCD00201753 /* gim_tri_collision.cpp in Sources */,
 				023FF3342253565D00632659 /* SVBillboardNode.cpp in Sources */,
-				020812D522F42286006E653A /* SVJsonTool.cpp in Sources */,
+				020812D522F42286006E653A /* SVStringHelper.cpp in Sources */,
 				5F7D65C2215F407800803BCF /* SVRenderStateMetal.mm in Sources */,
 				5F7D61A4215F407700803BCF /* SVParseBitfont.cpp in Sources */,
 				5F7D6490215F407800803BCF /* SVActSequence.cpp in Sources */,
@@ -13729,7 +13729,7 @@
 				5F7D6891215F407900803BCF /* SVBase.cpp in Sources */,
 				020C45FF22DC5DCD00201753 /* gim_tri_collision.cpp in Sources */,
 				023FF3332253565D00632659 /* SVBillboardNode.cpp in Sources */,
-				020812D422F42286006E653A /* SVJsonTool.cpp in Sources */,
+				020812D422F42286006E653A /* SVStringHelper.cpp in Sources */,
 				5F7D65C1215F407800803BCF /* SVRenderStateMetal.mm in Sources */,
 				5F7D61A3215F407700803BCF /* SVParseBitfont.cpp in Sources */,
 				5F7D648F215F407800803BCF /* SVActSequence.cpp in Sources */,

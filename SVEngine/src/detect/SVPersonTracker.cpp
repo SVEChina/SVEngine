@@ -265,8 +265,9 @@ void SVPersonTracker::_correctStandardface_fp(){
 }
 
 void SVPersonTracker::_sendExpressionEvent(SV_EVENT_TYPE _type){
-    SVEventExpressionPtr t_event = MakeSharedPtr<SVEventExpression>();
+    SVEventPersonExpressionPtr t_event = MakeSharedPtr<SVEventPersonExpression>();
     t_event->eventType = _type;
+    t_event->m_personID = m_personID;
     mApp->getEventMgr()->pushEvent(t_event);
 }
 ///
