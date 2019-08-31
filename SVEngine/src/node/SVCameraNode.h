@@ -50,6 +50,14 @@ namespace sv {
             
             void syncProjectMatrix(FMat4 &_mat);
             
+            sv_inline f32 getWidth() { return m_width; }
+            
+            sv_inline f32 getHeight() { return m_height; }
+            
+            sv_inline f32 getNear() { return m_p_zn; }
+            
+            sv_inline f32 getFar() { return m_p_zf; }
+            
             FVec3& getDirection();
             
             FVec3& getUp();
@@ -119,7 +127,9 @@ namespace sv {
             SVCameraProjNode(SVInst *_app);
             
             ~SVCameraProjNode();
-            
+            //
+            sv_inline f32 getFovy(){ return m_fovy; }
+            //
             void setProjectParam(f32 _znear, f32 _zfar, f32 _fovy, f32 _aspect);
             //
             virtual void resetCamera(f32 w, f32 h);
@@ -128,7 +138,7 @@ namespace sv {
             
         protected:
             f32 m_fovy;
-            
+            f32 m_aspect;
         };
         
         //正交相机节点

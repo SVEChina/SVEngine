@@ -96,28 +96,27 @@ void SVCameraNode::resetDefaultCamera() {
     resetCamera(720.0f, 1280.0f);
 }
 
-void SVCameraNode::resetCamera(f32 w, f32 h, f32 fovy) {
-    //设置默认值
-    m_width = w;
-    m_height = h;
-    m_p_zn = 100.0f;
-    m_p_zf = 15000.0f;
-    m_fovy = fovy;
-    m_postion.set(0.0f, 0.0, 0.5f * m_height / tan(0.5f*m_fovy * DEGTORAD));
-    m_targetEx.set(0.0f, 0.0f, 0.0f);
-    m_direction = m_targetEx - m_postion;
-    m_direction.normalize();
-    m_upEx.set(0.0f,1.0f,0.0f);
-    m_upEx.normalize();
-    //更新
-    updateProjMat();
-    updateCameraMat();
-    //计算角度
-    m_angle_yaw = acos(m_direction.x)*RAD2DEG;
-    if(m_direction.z<0) {
-        m_angle_yaw = 360.0f - m_angle_yaw;
-    }
-    m_angle_pitch = asin(m_direction.y)*RAD2DEG;
+void SVCameraNode::resetCamera(f32 w, f32 h) {
+//    //设置默认值
+//    m_width = w;
+//    m_height = h;
+//    m_p_zn = 100.0f;
+//    m_p_zf = 15000.0f;
+//    m_postion.set(0.0f, 0.0, 0.5f * m_height / tan(0.5f*m_fovy * DEGTORAD));
+//    m_targetEx.set(0.0f, 0.0f, 0.0f);
+//    m_direction = m_targetEx - m_postion;
+//    m_direction.normalize();
+//    m_upEx.set(0.0f,1.0f,0.0f);
+//    m_upEx.normalize();
+//    //更新
+//    updateProjMat();
+//    updateCameraMat();
+//    //计算角度
+//    m_angle_yaw = acos(m_direction.x)*RAD2DEG;
+//    if(m_direction.z<0) {
+//        m_angle_yaw = 360.0f - m_angle_yaw;
+//    }
+//    m_angle_pitch = asin(m_direction.y)*RAD2DEG;
 }
 
 //设置远进裁
@@ -243,9 +242,9 @@ void SVCameraNode::updateCameraMat() {
                         FVec3(m_targetEx.x,m_targetEx.y,m_targetEx.z),
                         FVec3(m_upEx.x,m_upEx.y,m_upEx.z) );
     m_mat_vp =m_mat_proj*m_mat_view;
-    //
-    m_mat_viewUI =  lookAt(FVec3(0,0,381), FVec3(0.0,0.0,0.0), FVec3(0.0,1.0,0.0));
-    m_mat_vpUI = m_mat_projUI*m_mat_viewUI;
+//    //
+//    m_mat_viewUI =  lookAt(FVec3(0,0,381), FVec3(0.0,0.0,0.0), FVec3(0.0,1.0,0.0));
+//    m_mat_vpUI = m_mat_projUI*m_mat_viewUI;
 }
 
 void SVCameraNode::updateViewProj() {
@@ -258,7 +257,8 @@ void SVCameraNode::reset() {
 
 /*proj camera*/
 
-SVCameraProjNode::SVCameraProjNode(SVInst *_app) {
+SVCameraProjNode::SVCameraProjNode(SVInst *_app)
+:SVCameraNode(_app) {
     m_fovy = 60.0f;
 }
 
@@ -268,31 +268,33 @@ SVCameraProjNode::~SVCameraProjNode() {
 void SVCameraProjNode::setProjectParam(f32 _znear, f32 _zfar, f32 _fovy, f32 _aspect) {
     m_p_zn = _znear;
     m_p_zf = _zfar;
+    m_fovy = _fovy;
+    m_aspect = _aspect;
     updateProjMat();
 }
+
 //
-void SVCameraProjNode::resetCamera(f32 w, f32 h, f32 fovy) {
-    //设置默认值
-    m_width = w;
-    m_height = h;
-    m_p_zn = 100.0f;
-    m_p_zf = 15000.0f;
-    m_fovy = fovy;
-    m_postion.set(0.0f, 0.0, 0.5f * m_height / tan(0.5f*m_fovy * DEGTORAD));
-    m_targetEx.set(0.0f, 0.0f, 0.0f);
-    m_direction = m_targetEx - m_postion;
-    m_direction.normalize();
-    m_upEx.set(0.0f,1.0f,0.0f);
-    m_upEx.normalize();
-    //
-    updateProjMat();
-    updateCameraMat();
-    //计算角度
-    m_angle_yaw = acos(m_direction.x)*RAD2DEG;
-    if(m_direction.z<0) {
-        m_angle_yaw = 360.0f - m_angle_yaw;
-    }
-    m_angle_pitch = asin(m_direction.y)*RAD2DEG;
+void SVCameraProjNode::resetCamera(f32 w, f32 h) {
+//    //设置默认值
+//    m_width = w;
+//    m_height = h;
+//    m_p_zn = 100.0f;
+//    m_p_zf = 15000.0f;
+//    m_postion.set(0.0f, 0.0, 0.5f * m_height / tan(0.5f*m_fovy * DEGTORAD));
+//    m_targetEx.set(0.0f, 0.0f, 0.0f);
+//    m_direction = m_targetEx - m_postion;
+//    m_direction.normalize();
+//    m_upEx.set(0.0f,1.0f,0.0f);
+//    m_upEx.normalize();
+//    //
+//    updateProjMat();
+//    updateCameraMat();
+//    //计算角度
+//    m_angle_yaw = acos(m_direction.x)*RAD2DEG;
+//    if(m_direction.z<0) {
+//        m_angle_yaw = 360.0f - m_angle_yaw;
+//    }
+//    m_angle_pitch = asin(m_direction.y)*RAD2DEG;
 }
 
 void SVCameraProjNode::updateProjMat(){
@@ -301,7 +303,8 @@ void SVCameraProjNode::updateProjMat(){
 }
 
 /*ortho camera*/
-SVCameraOrthoNode::SVCameraOrthoNode(SVInst *_app) {
+SVCameraOrthoNode::SVCameraOrthoNode(SVInst *_app)
+:SVCameraNode(_app)  {
     m_p_zn = 100.0f;
     m_p_zf = 5000.0f;
 }
