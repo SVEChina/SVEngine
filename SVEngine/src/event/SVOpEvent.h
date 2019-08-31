@@ -20,6 +20,14 @@ namespace sv {
         s32 y;
     };
     
+    class SVTouchWorldEvent : public SVEvent {
+    public:
+        SVTouchWorldEvent();
+        f32 x;
+        f32 y;
+        f32 z;
+    };
+    
     class SVARAnchorEvent : public SVEvent {
     public:
         SVARAnchorEvent();
