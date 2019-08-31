@@ -8,7 +8,7 @@
 #ifndef SV_BMFONTLOADER_H
 #define SV_BMFONTLOADER_H
 
-#include "SVFileLoader.h" 
+#include "SVFileLoader.h"
 namespace sv {
     class SVBMFontLoader : public SVFileLoader {
     public:

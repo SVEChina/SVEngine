@@ -7638,6 +7638,13 @@
 			path = SVGL30;
 			sourceTree = "<group>";
 		};
+		5F48B1EA2319311D00FD720F /* ui */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
 		5F59C39A1F7B975000944A01 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -7665,6 +7672,7 @@
 				5F7D5ECB215F407700803BCF /* rendercore */,
 				5F7D5ECA215F407700803BCF /* SVEConfig.h */,
 				5F7D5DE6215F407700803BCF /* third */,
+				5F48B1EA2319311D00FD720F /* ui */,
 				5F7D5F0A215F407700803BCF /* work */,
 			);
 			name = src;

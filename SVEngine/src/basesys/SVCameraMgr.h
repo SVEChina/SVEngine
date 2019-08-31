@@ -28,6 +28,8 @@ namespace sv {
         
         SVCameraNodePtr getMainCamera();
         
+        SVCameraNodePtr getUICamera();
+        
         void addCamera(cptr8 _name, SVCameraNodePtr _camera);
         
         bool removeCamera(cptr8 _name);
@@ -37,7 +39,11 @@ namespace sv {
         bool hasCamera(cptr8 _name);
     protected:
         SVLockPtr m_cameraLock;
+        //主相机
         SVCameraNodePtr m_mainCamera;
+        //ui相机
+        SVCameraNodePtr m_uiCamera;
+        //
         typedef SVMap<SVString, SVCameraNodePtr> CAMERAPOOL;
         CAMERAPOOL m_camerPool;
     };
