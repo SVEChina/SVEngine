@@ -74,6 +74,14 @@ namespace sv {
             f32 m_pixelUnit;
         };
         
+        //AR控制
+        class SVCtrlCamereAR : public SVNodeCtrlCamera {
+        public:
+            SVCtrlCamereAR(SVInst* _app);
+            
+            ~SVCtrlCamereAR();
+        };
+        
     }//!namespace logic
     
 }//!namespace sv

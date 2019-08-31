@@ -31,13 +31,13 @@ SVRenderPipline::~SVRenderPipline() {
 //fix by fyz 需要改掉
 void SVRenderPipline::render() {
     for (s32 i = RST_BEGIN; i <= RST_END; i++) {
-        if(mApp->getRenderer()) {
-            if(i == RST_UI){
-                mApp->getRenderer()->pushProjMat(mApp->getCameraMgr()->getMainCamera()->getProjectMatObjUI());
-                mApp->getRenderer()->pushViewMat(mApp->getCameraMgr()->getMainCamera()->getViewMatObjUI());
-                mApp->getRenderer()->pushVPMat(mApp->getCameraMgr()->getMainCamera()->getVPMatObjUI());
-            }
-        }
+//        if(mApp->getRenderer()) {
+//            if(i == RST_UI){
+//                mApp->getRenderer()->pushProjMat(mApp->getCameraMgr()->getMainCamera()->getProjectMatObjUI());
+//                mApp->getRenderer()->pushViewMat(mApp->getCameraMgr()->getMainCamera()->getViewMatObjUI());
+//                mApp->getRenderer()->pushVPMat(mApp->getCameraMgr()->getMainCamera()->getVPMatObjUI());
+//            }
+//        }
         m_rstream_vec[i]->render();
         if(mApp->getRenderer()) {
             if(i == RST_UI){

@@ -14,20 +14,26 @@ namespace sv {
     
     namespace node{
         
+        //相机节点 不是节点
+        
         class SVCameraNode : public SVNode {
         public:
             SVCameraNode(SVInst *_app);
             
             ~SVCameraNode();
             
+            //link fbo相关
+            void addLinkFboObject(SVFboObjectPtr _fbo);
+            
+            bool removeLinkFboObject(SVFboObjectPtr _fbo);
+            
+            //
             void update(f32 _dt);
             
             void resetDefaultCamera();
             
-            void resetCamera(f32 w, f32 h, f32 fovy = 60.0f);
-            
-            void setProjectParam(f32 _znear, f32 _zfar, f32 _fovy, f32 _aspect);
-            
+            virtual void resetCamera(f32 w, f32 h);
+
             void setZ(f32 _near, f32 _far);
             
             void setPosition(FVec3& _pos);
@@ -60,41 +66,12 @@ namespace sv {
             
             FMat4& getVPMatObj();
             
-            f32 *getProjectMatUI();
+            virtual void updateProjMat();
             
-            f32 *getCameraMatUI();
+            virtual void updateCameraMat();
             
-            f32 *getVPMatUI();
-            
-            FMat4& getProjectMatObjUI();
-            
-            FMat4& getViewMatObjUI();
-            
-            FMat4& getVPMatObjUI();
-            
-            void updateProjMat();
-            
-            void updateCameraMat();
-            
-            void updateViewProj();
-            
-            void addLinkFboObject(SVFboObjectPtr _fbo);
-            
-            bool removeLinkFboObject(SVFboObjectPtr _fbo);
-            
-            f32 m_width;
-            f32 m_height;
-            //
-            f32 m_fovy;
-            //投影
-            f32 m_p_zn;
-            f32 m_p_zf;
-            
-            void active();
-            
-            void unactive();
-        
-        public:
+            virtual void updateViewProj();
+
             //重制
             void reset();
             
@@ -106,31 +83,67 @@ namespace sv {
             
         protected:
             void _removeUnuseLinkFboObject();
-
-            SVLockPtr m_resLock;
-            bool m_active;
             
+            f32 m_width;    //宽
+            f32 m_height;   //高
+            f32 m_p_zn;     //近
+            f32 m_p_zf;     //远
+            //姿态确认
+            FVec3 m_att_pos;    //位置
+            FVec3 m_att_rot;    //欧拉角
+            FVec3 m_att_scale;  //缩放
+            //目标，方向，向上 计算姿态
+            FVec3 m_pos;
             FVec3 m_targetEx;
             FVec3 m_upEx;
             FVec3 m_direction;
-            
+            //各种矩阵
             FMat4 m_mat_proj;
             FMat4 m_mat_view;
             FMat4 m_mat_vp;
-            
-            FMat4 m_mat_projUI;
-            FMat4 m_mat_viewUI;
-            FMat4 m_mat_vpUI;
-            
-            typedef SVArray<SVFboObjectPtr> FBOBJECTPOOL;
-            FBOBJECTPOOL m_fbobjectPool;
-            
+            //
             f32 m_angle_yaw;
             f32 m_angle_pitch;
-            
+            //
+            SVLockPtr m_resLock;
+            //
             SVNodeCtrlCameraPtr m_pCtrl;
+            //
+            typedef SVArray<SVFboObjectPtr> FBOBJECTPOOL;
+            FBOBJECTPOOL m_fbobjectPool;
         };
-
+        
+        //透视投影相机
+        class SVCameraProjNode : public SVCameraNode {
+        public:
+            SVCameraProjNode(SVInst *_app);
+            
+            ~SVCameraProjNode();
+            
+            void setProjectParam(f32 _znear, f32 _zfar, f32 _fovy, f32 _aspect);
+            //
+            virtual void resetCamera(f32 w, f32 h);
+            
+            virtual void updateProjMat();
+            
+        protected:
+            f32 m_fovy;
+            
+        };
+        
+        //正交相机节点
+        class SVCameraOrthoNode : public SVCameraNode {
+        public:
+            SVCameraOrthoNode(SVInst *_app);
+            
+            ~SVCameraOrthoNode();
+            //
+            virtual void resetCamera(f32 w, f32 h);
+            //
+            virtual void updateProjMat();   //投影矩阵（正交）
+        };
+        
+        //
         
     }//!namespace node
     
