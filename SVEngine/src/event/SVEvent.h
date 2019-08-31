@@ -134,11 +134,13 @@ namespace sv {
         SVString path;
     };
     
-    class SVEventExpression : public SVEvent {
+    class SVEventPersonExpression : public SVEvent {
     public:
-        SVEventExpression();
+        SVEventPersonExpression();
         
-        ~SVEventExpression();
+        ~SVEventPersonExpression();
+        
+        s32 m_personID;
     };
     
 }//!namespace sv
