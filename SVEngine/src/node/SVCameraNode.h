@@ -84,8 +84,8 @@ namespace sv {
             
             f32 m_width;
             f32 m_height;
+            //
             f32 m_fovy;
-            
             //投影
             f32 m_p_zn;
             f32 m_p_zf;
@@ -95,20 +95,6 @@ namespace sv {
             void unactive();
         
         public:
-//            //推进，推远
-//            void ctrlZoom(f32 _dis);
-//
-//            void ctrlAngle(f32 _yaw,f32 _pitch);
-//
-//            //前进 后退
-//            void ctrlForward(f32 _dis);
-//
-//            //平移左右
-//            void ctrlMoveLR(f32 _dis);
-//
-//            //平移前后
-//            void ctrlMoveFB(f32 _dis);
-            
             //重制
             void reset();
             

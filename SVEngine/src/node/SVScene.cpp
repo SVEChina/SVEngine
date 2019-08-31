@@ -220,8 +220,16 @@ void SVScene::create(f32 _worldw ,f32 _worldh,s32 _depth){
     }
     s32 m_sw = mApp->m_pGlobalParam->m_inner_width;
     s32 m_sh = mApp->m_pGlobalParam->m_inner_height;
-    SVCameraNodePtr mainCamera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
-    mainCamera->resetCamera(m_sw,m_sh);
+    SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
+    if(mainCamera) {
+        mainCamera->resetCamera(m_sw,m_sh);
+    }
+    //
+    SVCameraNodePtr uiCamera = mApp->getCameraMgr()->getUICamera();
+    if(uiCamera) {
+        //uiCamera->resetCamera(m_sw,m_sh);
+    }
+    //
 }
 
 void SVScene::destroy(){

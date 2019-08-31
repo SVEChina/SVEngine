@@ -294,58 +294,6 @@ bool SVCameraNode::removeLinkFboObject(SVFboObjectPtr _fbo){
     return false;
 }
 
-////推进，推远
-//void SVCameraNode::ctrlZoom(f32 _dis) {
-//    f32 t_min_dis = m_p_zn + 1.0f;
-//    f32 t_max_dis = m_p_zf - 1.0f;
-//    f32 t_real_dis = (m_postion-m_targetEx).length();
-//    f32 t_vir_dis = t_real_dis-_dis;
-//    if(t_vir_dis<t_min_dis) {
-//        m_postion = m_targetEx - m_direction*t_min_dis;//推进
-//    } else if(t_vir_dis>t_max_dis) {
-//         m_postion = m_targetEx - m_direction*t_max_dis;//拉远
-//    } else {
-//        m_postion = m_targetEx - m_direction*t_vir_dis;
-//    }
-//    updateCameraMat();
-//}
-//
-////航向xoz
-//void SVCameraNode::ctrlAngle(f32 _yaw,f32 _pitch) {
-//    //
-//    m_angle_yaw += _yaw;
-//    s32 t_temp_int = s32(m_angle_yaw/360);
-//    m_angle_yaw -= t_temp_int*360.0f;
-//    //
-//    m_angle_pitch += _pitch;
-//    m_angle_pitch = min(89.9f,max(m_angle_pitch, -89.9f));
-//    //
-//    f32 t_real_dis = (m_postion-m_targetEx).length();
-//    m_direction.x = cos(m_angle_yaw*DEG2RAD);
-//    m_direction.z = sin(m_angle_yaw*DEG2RAD);
-//    m_direction.y = sin(m_angle_pitch*DEG2RAD);
-//
-//    //归一化化后在计算
-//    m_direction.normalize();
-//    m_postion = m_targetEx - m_direction*t_real_dis;
-//    updateCameraMat();
-//}
-//
-////前进 后退
-//void SVCameraNode::ctrlForward(f32 _dis) {
-//
-//}
-//
-////平移左右
-//void SVCameraNode::ctrlMoveLR(f32 _dis) {
-//
-//}
-//
-////平移前后
-//void SVCameraNode::ctrlMoveFB(f32 _dis) {
-//
-//}
-
 //重制
 void SVCameraNode::reset() {
     
