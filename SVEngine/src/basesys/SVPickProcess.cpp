@@ -156,27 +156,28 @@ bool SVPickProcess::pickScene(SVCameraNodePtr _cam,s32 _sx,s32 _sy){
 
 bool SVPickProcess::pickUI(SVCameraNodePtr _cam,s32 _sx,s32 _sy){
     SVScenePtr t_sc = mApp->getSceneMgr()->getScene();
-    if (_cam && t_sc) {
-        FVec3 t_start,t_end;
-        if( _getRayMat(_cam,_cam->getVPMatObjUI(),_sx,_sy,t_start,t_end) ){
-            //射线求交
-            SVVisitRayPickPtr t_visit = MakeSharedPtr<SVVisitRayPick>(t_start,t_end);
-            t_sc->visit(t_visit);
-            FVec3 t_postion(0.0,0.0,0.0);
-            SVNodePtr t_node = t_visit->getCrossNode(t_postion);
-            if(t_node){
-                if(t_node->getRSType() == RST_UI){
-                    _pick(t_node);
-                    return true;
-                }
-            }else{
-                SVPickGetNothingEventPtr t_event = MakeSharedPtr<SVPickGetNothingEvent>();
-                t_event->m_px = _sx;
-                t_event->m_py = _sy;
-                mApp->getEventMgr()->pushEvent(t_event);
-            }
-        }
-    }
+    // error fyz
+//    if (_cam && t_sc) {
+//        FVec3 t_start,t_end;
+//        if( _getRayMat(_cam,_cam->getVPMatObjUI(),_sx,_sy,t_start,t_end) ){
+//            //射线求交
+//            SVVisitRayPickPtr t_visit = MakeSharedPtr<SVVisitRayPick>(t_start,t_end);
+//            t_sc->visit(t_visit);
+//            FVec3 t_postion(0.0,0.0,0.0);
+//            SVNodePtr t_node = t_visit->getCrossNode(t_postion);
+//            if(t_node){
+//                if(t_node->getRSType() == RST_UI){
+//                    _pick(t_node);
+//                    return true;
+//                }
+//            }else{
+//                SVPickGetNothingEventPtr t_event = MakeSharedPtr<SVPickGetNothingEvent>();
+//                t_event->m_px = _sx;
+//                t_event->m_py = _sy;
+//                mApp->getEventMgr()->pushEvent(t_event);
+//            }
+//        }
+//    }
     return false;
 }
 
@@ -229,18 +230,19 @@ bool SVPickProcess::getCrossPointWithPlane(SVCameraNodePtr _cam,s32 _sx,s32 _sy,
 
 bool SVPickProcess::getCrossPointUI(SVCameraNodePtr _cam,s32 _sx,s32 _sy,FVec3& _crosspt){
     FVec3 t_start,t_end;
-    if(_cam){
-        if(_getRayMat(_cam,mApp->getCameraMgr()->getMainCamera()->getVPMatObjUI(),_sx,_sy,t_start,t_end)){
-            //构建移动平面(这个平面可以绘制出来)
-            FVec3 t_pos = t_start;
-            FVec3 t_dir = t_end - t_start;
-            FVec4 t_plane = FVec4(0.0f,0.0f,1.0f,0.0f);
-            //
-            s32 t_ret = rayPlaneIntersection(_crosspt,t_pos,t_dir,t_plane);
-            if(t_ret>0)
-                return true;
-        }
-    }
+    //error fyz
+//    if(_cam){
+//        if(_getRayMat(_cam,mApp->getCameraMgr()->getMainCamera()->getVPMatObjUI(),_sx,_sy,t_start,t_end)){
+//            //构建移动平面(这个平面可以绘制出来)
+//            FVec3 t_pos = t_start;
+//            FVec3 t_dir = t_end - t_start;
+//            FVec4 t_plane = FVec4(0.0f,0.0f,1.0f,0.0f);
+//            //
+//            s32 t_ret = rayPlaneIntersection(_crosspt,t_pos,t_dir,t_plane);
+//            if(t_ret>0)
+//                return true;
+//        }
+//    }
     return false;
 }
                                                      

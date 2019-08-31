@@ -134,7 +134,8 @@ void SVCtrlCamera2D::run(SVCameraNodePtr _nodePtr, f32 dt) {
 }
 
 //AR控制器
-SVCtrlCamereAR::SVCtrlCamereAR(SVInst* _app) {
+SVCtrlCamereAR::SVCtrlCamereAR(SVInst* _app)
+:SVNodeCtrlCamera(_app){
     
 }
 

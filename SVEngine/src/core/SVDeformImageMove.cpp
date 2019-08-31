@@ -104,7 +104,7 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
        
         //设置该fbo的矩阵关系
         SVCameraNode t_camera(mApp);
-        t_camera.resetCamera(m_tt_w, m_tt_h,120.0f);
+        t_camera.resetCamera(m_tt_w, m_tt_h);//120.0f error by fyz
         
         m_fbo->setLink(true);
         m_fbo->setProjMat(t_camera.getProjectMatObj());
