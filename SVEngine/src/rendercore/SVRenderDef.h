@@ -40,6 +40,9 @@ enum RENDERSTREAMTYPE {
     RST_AR_BEGIN,           //ar开始
     RST_AR,                 //ar相关
     RST_AR_END,             //ar结束
+    RST_3DPHYSICS_BEGIN,    //3d物理开始
+    RST_3DPHYSICS,          //3d物理相关
+    RST_3DPHYSICS_END,      //3d物理结束
     RST_SOLID_3D,           //正常固体
     RST_ALPHA_3D,           //正常透明
     RST_DEBUG_INNER,        //图像内部测试

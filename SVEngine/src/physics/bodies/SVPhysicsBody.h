@@ -42,6 +42,8 @@ namespace sv {
             }
 
             btRigidBody *getBody();
+            
+            SVNodePtr getNode();
 
             PHYSICSBODYTYPE getType() const;
 

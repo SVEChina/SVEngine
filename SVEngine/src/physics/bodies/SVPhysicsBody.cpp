@@ -37,6 +37,10 @@ void SVPhysicsBody::setNode(SVNodePtr _node) {
     m_pNode = _node;
 }
 
+SVNodePtr SVPhysicsBody::getNode(){
+    return m_pNode;
+}
+
 btRigidBody* SVPhysicsBody::getBody(){
     return m_pBody;
 }

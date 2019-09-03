@@ -40,6 +40,8 @@ namespace sv {
             
             void setFriction(f32 _dis);
             
+            void setBindNode(bool isbind);
+            
             PHYSICSBODYTYPE getType();
             
         protected:
@@ -51,6 +53,8 @@ namespace sv {
             btDefaultMotionState* m_pMyMotionState;
             
             btPoint2PointConstraint* p2p;
+            
+            bool m_isBindNode;
             
             s32 m_savedState;
             
