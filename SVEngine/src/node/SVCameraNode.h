@@ -14,53 +14,99 @@ namespace sv {
     
     namespace node{
         
-        //相机节点 不是节点
+        //正交
+        class SVProjMethod : public SVObject {
+        public:
+            SVProjMethod();
+            
+            FMat4& getMat();
+
+            f32* getMatPoint();
+            
+            virtual void reset();
+            
+            virtual void refresh();
+            
+            void setWidth(f32 _w);
+            
+            void setHeight(f32 _h);
+            
+            void setNear(f32 _near);
+            
+            void setFar(f32 _far);
+            
+            f32 getWidth(){ return m_width; }
+            
+            f32 getHeight(){ return m_height; }
+            
+            f32 getNear(){ return m_znear; }
+            
+            f32 getFar(){ return m_zfar; }
+            
+            
+        protected:
+            FMat4 m_projMat;
+            f32 m_width;
+            f32 m_height;
+            f32 m_zfar;
+            f32 m_znear;
+        };
         
+        //投影
+        class SVProject : public SVProjMethod {
+        public:
+            SVProject();
+            
+            void reset();
+            
+            void refresh();
+            
+            void setFovy(f32 _fovy);
+            
+        protected:
+            f32 m_fovy;
+        };
+        
+        //正交
+        class SVOrtho : public SVProjMethod {
+        public:
+            SVOrtho();
+            
+            void reset();
+            
+            void refresh();
+            
+        protected:
+            
+        };
+        
+        //相机节点 不是节点
         class SVCameraNode : public SVNode {
         public:
             SVCameraNode(SVInst *_app);
             
             ~SVCameraNode();
             
+            void setProject();
+            
+            void ortho();
+            
             //link fbo相关
             void addLinkFboObject(SVFboObjectPtr _fbo);
             
             bool removeLinkFboObject(SVFboObjectPtr _fbo);
             
-            //
+            //更新
             void update(f32 _dt);
             
+            //重制默认矩阵
             void resetDefaultCamera();
             
+            //重制
             virtual void resetCamera(f32 w, f32 h);
 
+            //
             void setZ(f32 _near, f32 _far);
-            
-            void setPosition(FVec3& _pos);
-            
-            void setTarget(f32 _x, f32 _y, f32 _z);
-            
-            void setDirection(f32 _x, f32 _y, f32 _z);
-            
-            void setUp(f32 _x, f32 _y, f32 _z);
-            
-            void setPose(f32 _x, f32 _y, f32 _z);
-            
-            void syncViewMatrix(FMat4 &_mat);
-            
-            void syncProjectMatrix(FMat4 &_mat);
-            
-            sv_inline f32 getWidth() { return m_width; }
-            
-            sv_inline f32 getHeight() { return m_height; }
-            
-            sv_inline f32 getNear() { return m_p_zn; }
-            
-            sv_inline f32 getFar() { return m_p_zf; }
-            
-            FVec3& getDirection();
-            
-            FVec3& getUp();
             
             f32 *getProjectMat();
             
@@ -73,41 +119,25 @@ namespace sv {
             FMat4& getViewMatObj();
             
             FMat4& getVPMatObj();
-            
-            virtual void updateProjMat();
-            
-            virtual void updateCameraMat();
+    
             
             virtual void updateViewProj();
 
-            //重制
-            void reset();
+            //设置控制器
+            void setCtrl(SVCameraCtrlPtr _ctr);
             
             //获取控制器
-            SVNodeCtrlCameraPtr getCtrl();
+            SVCameraCtrlPtr getCtrl();      //相机控制 主要是产生视矩阵
             
-            //设置控制器
-            void setCtrl(SVNodeCtrlCameraPtr _ctr);
+            SVProjMethodPtr getProjMethod();
             
         protected:
-            void _removeUnuseLinkFboObject();
+            //马上更新
+            void _updateForce();
             
-            f32 m_width;    //宽
-            f32 m_height;   //高
-            f32 m_p_zn;     //近
-            f32 m_p_zf;     //远
-            //姿态确认
-            FVec3 m_att_pos;    //位置
-            FVec3 m_att_rot;    //欧拉角
-            FVec3 m_att_scale;  //缩放
-            //目标，方向，向上 计算姿态
-            FVec3 m_pos;
-            FVec3 m_targetEx;
-            FVec3 m_upEx;
-            FVec3 m_direction;
+            void _removeUnuseLinkFboObject();
+
             //各种矩阵
-            FMat4 m_mat_proj;
-            FMat4 m_mat_view;
             FMat4 m_mat_vp;
             //
             f32 m_angle_yaw;
@@ -115,46 +145,15 @@ namespace sv {
             //
             SVLockPtr m_resLock;
             //
-            SVNodeCtrlCameraPtr m_pCtrl;
+            SVCameraCtrlPtr m_pCtrl;
+            //
+            SVProjMethodPtr m_pProjMethod;
             //
             typedef SVArray<SVFboObjectPtr> FBOBJECTPOOL;
             FBOBJECTPOOL m_fbobjectPool;
         };
         
-        //透视投影相机
-        class SVCameraProjNode : public SVCameraNode {
-        public:
-            SVCameraProjNode(SVInst *_app);
-            
-            ~SVCameraProjNode();
-            //
-            sv_inline f32 getFovy(){ return m_fovy; }
-            //
-            void setProjectParam(f32 _znear, f32 _zfar, f32 _fovy, f32 _aspect);
-            //
-            virtual void resetCamera(f32 w, f32 h);
-            
-            virtual void updateProjMat();
-            
-        protected:
-            f32 m_fovy;
-            f32 m_aspect;
-        };
-        
-        //正交相机节点
-        class SVCameraOrthoNode : public SVCameraNode {
-        public:
-            SVCameraOrthoNode(SVInst *_app);
-            
-            ~SVCameraOrthoNode();
-            //
-            virtual void resetCamera(f32 w, f32 h);
-            //
-            virtual void updateProjMat();   //投影矩阵（正交）
-        };
-        
-        //
-        
+
     }//!namespace node
     
 }//!namespace sv

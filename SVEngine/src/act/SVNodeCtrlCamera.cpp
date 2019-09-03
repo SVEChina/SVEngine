@@ -9,49 +9,129 @@
 #include "SVNodeCtrlCamera.h"
 #include "../node/SVCameraNode.h"
 
-SVNodeCtrlCamera::SVNodeCtrlCamera(SVInst* _app)
+SVCameraCtrl::SVCameraCtrl(SVInst* _app)
 :SVNodeCtrl(_app) {
-    m_width = 720;
-    m_height = 1280;
-    m_dis = 100.0f;
+    //m_mat
+}
+
+SVCameraCtrl::~SVCameraCtrl() {
+}
+
+FMat4& SVCameraCtrl::getMat() {
+    return m_mat;
+}
+
+f32* SVCameraCtrl::getMatPoint() {
+    return m_mat.get();
+}
+
+bool SVCameraCtrl::run(SVCameraNodePtr _nodePtr, f32 dt){
+    return true;
+}
+
+/*
+基础相机控制
+ */
+
+SVCamCtrlBase::SVCamCtrlBase(SVInst* _app)
+:SVCameraCtrl(_app) {
+}
+
+SVCamCtrlBase::~SVCamCtrlBase() {
+}
+
+void SVCamCtrlBase::setPosition(f32 _x, f32 _y, f32 _z){
+    m_pos.set(_x,_y,_z);
+    m_dirty = true;
+}
+
+void SVCamCtrlBase::setTarget(f32 _x, f32 _y, f32 _z) {
+    m_targetEx.set(_x,_y,_z);
+    m_dirty = true;
+}
+
+void SVCamCtrlBase::setDirection(f32 _x, f32 _y, f32 _z) {
+    m_direction.set(_x, _y, _z);
+    m_direction.normalize();
+    m_dirty = true;
+}
+
+void SVCamCtrlBase::setUp(f32 _x, f32 _y, f32 _z) {
+    m_upEx.set(_x, _y, _z);
+    m_upEx.normalize();
+    m_dirty = true;
+}
+
+FVec3& SVCamCtrlBase::getUp(){
+    return m_upEx;
+}
+
+FVec3& SVCamCtrlBase::getDirection(){
+    return m_direction;
+}
+
+//相机控制
+bool SVCamCtrlBase::run(SVCameraNodePtr _nodePtr, f32 dt) {
+    if(_nodePtr) {
+        if(m_dirty) {
+            m_dirty = false;
+            m_mat = lookAt(FVec3(m_pos.x,m_pos.y,m_pos.z),
+                           FVec3(m_targetEx.x,m_targetEx.y,m_targetEx.z),
+                           FVec3(m_upEx.x,m_upEx.y,m_upEx.z) );
+        }
+    }
+    return true;
+}
+
+/*
+姿态相机控制
+ */
+SVCamCtrlAttr::SVCamCtrlAttr(SVInst* _app)
+:SVCameraCtrl(_app) {
+}
+
+SVCamCtrlAttr::~SVCamCtrlAttr() {
+}
+
+bool SVCamCtrlAttr::run(SVCameraNodePtr _nodePtr, f32 dt) {
+    return true;
+}
+
+/*
+相机控制
+*/
+
+SVNodeCtrlCamera::SVNodeCtrlCamera(SVInst* _app)
+:SVCameraCtrl(_app) {
 }
 
 SVNodeCtrlCamera::~SVNodeCtrlCamera() {
-    
 }
 
 //
 void SVNodeCtrlCamera::reset() {
-    
 }
 //
 void SVNodeCtrlCamera::reset(s32 _w,s32 _h) {
-    
 }
 //
 void SVNodeCtrlCamera::resize(s32 _w,s32 _h) {
-    
 }
 //平移 像素dert x,y
 void SVNodeCtrlCamera::move(f32 _px,f32 py) {
-    
 }
 //角度旋转 像素dert x,y
 void SVNodeCtrlCamera::angle(f32 _px,f32 py) {
-    
 }
 //推拉
 void SVNodeCtrlCamera::zoom(f32 _dis) {
-    
 }
-
-
 
 //相机控制
-void SVNodeCtrlCamera::run(SVCameraNodePtr _nodePtr, f32 dt) {
-    //
-    
+bool SVNodeCtrlCamera::run(SVCameraNodePtr _nodePtr, f32 dt) {
+    return true;
 }
+
 
 #define PIXEL_UNIT_H1 1.1547
 //2*tan(30.0度)
@@ -123,14 +203,16 @@ void SVCtrlCamera2D::zoom(f32 _dis) {
 }
 
 //相机控制
-void SVCtrlCamera2D::run(SVCameraNodePtr _nodePtr, f32 dt) {
+bool SVCtrlCamera2D::run(SVCameraNodePtr _nodePtr, f32 dt) {
     if(_nodePtr) {
         if(m_dirty) {
-            _nodePtr->setTarget(m_target.x, m_target.y,m_target.z);
-            _nodePtr->setPosition(m_pos);
+            m_mat = lookAt(FVec3(m_pos.x,m_pos.y,m_pos.z),
+                           FVec3(m_target.x,m_target.y,0.0f),
+                           FVec3(0.0f,1.0f,0.0f) );
             m_dirty = false;
         }
     }
+    return true;
 }
 
 //AR控制器

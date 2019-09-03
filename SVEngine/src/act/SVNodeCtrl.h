@@ -23,7 +23,7 @@ namespace sv {
             
             ~SVNodeCtrl();
             
-            virtual void run(SVNodePtr _nodePtr, f32 dt);  //循环action
+            virtual bool run(SVNodePtr _nodePtr, f32 dt);  //循环action
             
         protected:
             

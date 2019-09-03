@@ -39,13 +39,13 @@ void SVRenderPipline::render() {
 //            }
 //        }
         m_rstream_vec[i]->render();
-        if(mApp->getRenderer()) {
-            if(i == RST_UI){
-                mApp->getRenderer()->popProjMat();
-                mApp->getRenderer()->popViewMat();
-                mApp->getRenderer()->popVPMat();
-            }
-        }
+//        if(mApp->getRenderer()) {
+//            if(i == RST_UI){
+//                mApp->getRenderer()->popProjMat();
+//                mApp->getRenderer()->popViewMat();
+//                mApp->getRenderer()->popVPMat();
+//            }
+//        }
     }
     glFlush();
 }

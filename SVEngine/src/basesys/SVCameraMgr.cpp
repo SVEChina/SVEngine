@@ -30,6 +30,7 @@ void SVCameraMgr::init() {
     m_mainCamera = MakeSharedPtr<SVCameraNode>(mApp);
     //ui相机
     m_uiCamera = MakeSharedPtr<SVCameraNode>(mApp);
+    //AR相机
 }
 
 //

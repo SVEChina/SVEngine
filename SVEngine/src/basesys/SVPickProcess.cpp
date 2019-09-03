@@ -186,9 +186,9 @@ void SVPickProcess::moveNode(SVCameraNodePtr _cam,s32 _sx,s32 _sy){
     if (_cam) {
         FVec3 t_start,t_end;
         if( m_curPickNode && _getRay(_cam,_sx,_sy,t_start,t_end) ){
-            //构建移动平面(这个平面可以绘制出来)
-            FVec3 t_pos = m_curPickNode->getPosition();
-            FVec3 t_nor = _cam->getDirection();
+//            //构建移动平面(这个平面可以绘制出来)
+//            FVec3 t_pos = m_curPickNode->getPosition();
+//            FVec3 t_nor = _cam->getDirection();
             //        plane3df t_plane(t_pos,t_nor);
             //        //获取与平面的交点
             //        FVec3 t_out_cross_pt;
