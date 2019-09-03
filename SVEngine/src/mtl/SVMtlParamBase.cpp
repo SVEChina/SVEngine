@@ -35,6 +35,10 @@ void SVMatrixParam::reset(){
     m_mat_view[0] = m_mat_view[5] = m_mat_view[10] = m_mat_view[15] = 1.0f;
     m_mat_project[0] = m_mat_project[5] = m_mat_project[10] = m_mat_project[15] = 1.0f;
     m_mat_vp[0] = m_mat_vp[5] = m_mat_vp[10] = m_mat_vp[15] = 1.0f;
+    m_self_view = 0;
+    m_self_proj = 0;
+    m_self_vp = 0;
+    m_self_null = 0;
 }
 
 void SVMatrixParam::copy(SVMatrixParam& _param){
@@ -42,6 +46,11 @@ void SVMatrixParam::copy(SVMatrixParam& _param){
     memcpy(m_mat_view,_param.m_mat_view,sizeof(f32)*16);
     memcpy(m_mat_project,_param.m_mat_project,sizeof(f32)*16);
     memcpy(m_mat_vp,_param.m_mat_vp,sizeof(f32)*16);
+    //
+    m_self_view = _param.m_self_view;
+    m_self_proj = _param.m_self_proj;
+    m_self_vp = _param.m_self_vp;
+    m_self_null = _param.m_self_null;
 }
 
 //
