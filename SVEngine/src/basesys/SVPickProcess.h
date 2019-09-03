@@ -70,6 +70,8 @@ namespace sv {
             //
             virtual bool procEvent(SVEventPtr _event);
             
+            void transScreenPtToWorld(FVec2 &_screenPt, FVec3 &_worldPt);
+            
         protected:
             //
             void _pick(SVNodePtr _node);

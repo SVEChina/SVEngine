@@ -269,18 +269,46 @@ void SVPickProcess::_pick(SVNodePtr _node){
 
 bool SVPickProcess::procEvent(SVEventPtr _event){
     SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
-    if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_BEGIN){
+    if(_event->eventType == EVN_T_TOUCH_BEGIN){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         f32 t_mod_x = t_touch->x;
         f32 t_mod_y = t_touch->y;
         pickScene(t_camera,t_mod_x,t_mod_y);
-    }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_END){
-        
-    }else if(_event->eventType == SV_EVENT_TYPE::EVN_T_TOUCH_MOVE){
+    }else if(_event->eventType == EVN_T_TOUCH_END){
+        SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
+        f32 t_mod_x = t_touch->x;
+        f32 t_mod_y = t_touch->y;
+    }else if(_event->eventType == EVN_T_TOUCH_MOVE){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         f32 t_mod_x = t_touch->x;
         f32 t_mod_y = t_touch->y;
         moveNode(t_camera,t_mod_x,t_mod_y);
     }
     return true;
+}
+
+void SVPickProcess::transScreenPtToWorld(FVec2 &_screenPt, FVec3 &_worldPt){
+    SVCameraNodePtr t_camera = mApp->getCameraMgr()->getMainCamera();
+    FMat4 t_cameraMatrix = t_camera->getViewMatObj();
+    FVec3 t_cameraEye = t_camera->getPosition();
+    //构建虚拟平面
+    FVec3 t_cameraDir = FVec3(-t_cameraMatrix[2],
+                              -t_cameraMatrix[6],
+                              -t_cameraMatrix[10]);
+    t_cameraDir.normalize();
+    FVec3 t_targetPos = t_cameraEye + t_cameraDir*0.0001f;
+    t_targetPos.normalize();
+    f32 t_dis = dot(t_targetPos,t_cameraDir);
+    FVec4 t_plane = FVec4(-t_cameraDir,t_dis);
+    //求交点
+    FVec3 t_pos;
+    f32 t_pt_x = _screenPt.x;
+    f32 t_pt_y = _screenPt.y;
+    f32 t_pt_z = 0.0f;
+    if(getCrossPointWithPlane(t_camera,t_pt_x, t_pt_y,t_pos, t_plane) ){
+        t_pt_x = t_pos.x;
+        t_pt_y = t_pos.y;
+        t_pt_z = t_pos.z;
+    }
+    _worldPt.set(t_pt_x, t_pt_y, t_pt_z);
 }

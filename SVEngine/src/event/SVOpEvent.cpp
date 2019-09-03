@@ -12,6 +12,12 @@ SVTouchEvent::SVTouchEvent() {
     y = 0;
 }
 
+SVTouchWorldEvent::SVTouchWorldEvent() {
+    x = 0.0f;
+    y = 0.0f;
+    z = 0.0f;
+}
+
 SVARAnchorEvent::SVARAnchorEvent() {
     m_matData = MakeSharedPtr<SVDataSwap>();
 }
