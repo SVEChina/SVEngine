@@ -114,7 +114,7 @@ namespace sv {
             
             f32 *getVPMat();
             
-            FVec3 getPosition();
+            FVec3& getPosition();
             
             FMat4& getProjectMatObj();
             
@@ -142,6 +142,9 @@ namespace sv {
             void _removeUnuseLinkFboObject();
 
             //各种矩阵
+            FVec3 m_pos;
+            FMat4 m_mat_v;
+            FMat4 m_mat_p;
             FMat4 m_mat_vp;
             //
             SVLockPtr m_resLock;

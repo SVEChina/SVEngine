@@ -35,6 +35,8 @@ namespace sv {
             
             void unbind();
             
+            virtual void reset(){}
+            
         protected:
             FMat4 m_mat;
             

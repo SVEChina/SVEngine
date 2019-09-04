@@ -110,6 +110,10 @@ SVCameraNode::SVCameraNode(SVInst *_app)
     //投影矩阵
     m_pProjMethod = MakeSharedPtr<SVProject>();
     m_pProjMethod->reset();
+    //更新矩阵
+    m_pos = m_pCtrl->getPos();
+    m_mat_v = m_pCtrl->getMat();
+    m_mat_p = m_pProjMethod->getMat();
     //
     updateViewProj();
 }
@@ -147,6 +151,8 @@ void SVCameraNode::setProject() {
         m_pProjMethod = MakeSharedPtr<SVProject>();
         m_pProjMethod->reset();
     }
+    //
+    m_mat_p = m_pProjMethod->getMat();
 }
 
 void SVCameraNode::ortho() {
@@ -163,6 +169,8 @@ void SVCameraNode::ortho() {
         m_pProjMethod = MakeSharedPtr<SVProject>();
         m_pProjMethod->reset();
     }
+    //
+    m_mat_p = m_pProjMethod->getMat();
 }
 
 //LINK FBO
@@ -212,31 +220,46 @@ void SVCameraNode::update(f32 _dt) {
         //控制器接管
         bool t_flag = m_pCtrl->run(THIS_TO_SHAREPTR(SVCameraNode),_dt);
         if (m_dirty || t_flag) {
-             updateViewProj();  // 更新vp矩阵
+            m_pos = m_pCtrl->getPos();
+            m_mat_v = m_pCtrl->getMat();
+            m_mat_p = m_pProjMethod->getMat();
+            updateViewProj();  // 更新vp矩阵
         }
         //关联fbo
-        FMat4 m_mat_view = m_pCtrl->getMat();
-        FMat4 m_mat_proj = m_pProjMethod->getMat();
         for (s32 i = 0; i < m_fbobjectPool.size(); i++) {
             SVFboObjectPtr t_fbo = m_fbobjectPool[i];
             t_fbo->setLink(true);
-            t_fbo->setViewMat(m_mat_view);
-            t_fbo->setProjMat(m_mat_proj);
+            t_fbo->setViewMat(m_mat_v);
+            t_fbo->setProjMat(m_mat_p);
         }
     }
 }
 
 void SVCameraNode::_updateForce() {
-    m_dirty = false;
     if(m_pProjMethod) {
         m_pProjMethod->refresh();
     }
+    //
+    m_pos = m_pCtrl->getPos();
+    m_mat_v = m_pCtrl->getMat();
+    m_mat_p = m_pProjMethod->getMat();
+    //
+    m_dirty = false;
 }
 
 void SVCameraNode::resetDefaultCamera() {
+    //控制重制
+    if(m_pCtrl){
+        m_pCtrl->reset();
+    }
+    //投影充值
     if(m_pProjMethod) {
         m_pProjMethod->reset();
     }
+    //
+    m_pos = m_pCtrl->getPos();
+    m_mat_v = m_pCtrl->getMat();
+    m_mat_p = m_pProjMethod->getMat();
 }
 
 void SVCameraNode::resetCamera(f32 w, f32 h) {
@@ -253,27 +276,20 @@ void SVCameraNode::setZ(f32 _near, f32 _far) {
         m_pProjMethod->setNear(_near);
         m_pProjMethod->setFar(_far);
         m_pProjMethod->refresh();
+        m_mat_p = m_pProjMethod->getMat();
     }
 }
 
-FVec3 SVCameraNode::getPosition() {
-    FVec3 t_pos(0.0f,0.0f,0.0f);
-    t_pos = m_pCtrl->getPos();
-    return t_pos;
+FVec3& SVCameraNode::getPosition() {
+    return m_pos;
 }
 
 f32 *SVCameraNode::getProjectMat() {
-    if(m_pProjMethod) {
-        return m_pProjMethod->getMatPoint();
-    }
-    return nullptr;
+    return m_mat_p.get();
 }
 
 f32 *SVCameraNode::getCameraMat() {
-    if(m_pCtrl) {
-        return m_pCtrl->getMatPoint();
-    }
-    return nullptr;
+    return m_mat_v.get();
 }
 
 f32 *SVCameraNode::getVPMat() {
@@ -281,19 +297,11 @@ f32 *SVCameraNode::getVPMat() {
 }
 
 FMat4& SVCameraNode::getProjectMatObj(){
-    if(m_pProjMethod) {
-        return  m_pProjMethod->getMat();
-    }
-    FMat4 tt;   //error fyz
-    return tt;
+    return m_mat_p;
 }
 
 FMat4& SVCameraNode::getViewMatObj(){
-    if(m_pCtrl) {
-        return  m_pCtrl->getMat();
-    }
-    FMat4 tt;   //error fyz
-    return tt;
+    return m_mat_v;
 }
 
 FMat4& SVCameraNode::getVPMatObj(){
@@ -314,6 +322,9 @@ void SVCameraNode::setCtrl(SVCameraCtrlPtr _ctr) {
     m_pCtrl->unbind();
     m_pCtrl = _ctr;
     m_pCtrl->bind(THIS_TO_SHAREPTR(SVCameraNode));
+    //
+    m_pos = m_pCtrl->getPos();
+    m_mat_v = m_pCtrl->getMat();
 }
 
 SVProjMethodPtr SVCameraNode::getProjMethod() {
@@ -322,11 +333,7 @@ SVProjMethodPtr SVCameraNode::getProjMethod() {
 
 
 void SVCameraNode::updateViewProj() {
-    if(m_pCtrl && m_pProjMethod) {
-        FMat4 m_mat_proj = m_pProjMethod->getMat();       //投影矩阵
-        FMat4 m_mat_view = m_pCtrl->getMat();             //视矩阵
-        m_mat_vp =m_mat_proj*m_mat_view;
-    }
+    m_mat_vp =m_mat_p*m_mat_v;
 }
 
 
