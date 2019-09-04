@@ -139,7 +139,8 @@ bool SVPickProcess::pickScene(SVCameraNodePtr _cam,s32 _sx,s32 _sy){
             //射线求交
             SVVisitRayPickPtr t_visit = MakeSharedPtr<SVVisitRayPick>(t_start,t_end);
             t_sc->visit(t_visit);
-            SVNodePtr t_node = t_visit->getCrossNode(_cam->getPosition());
+            FVec3 t_pos = _cam->getPosition();
+            SVNodePtr t_node = t_visit->getCrossNode(t_pos);
             if(t_node){
                 _pick(t_node);
                 return true;

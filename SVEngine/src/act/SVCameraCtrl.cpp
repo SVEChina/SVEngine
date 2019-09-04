@@ -14,6 +14,7 @@
 SVCameraCtrl::SVCameraCtrl(SVInst* _app)
 :SVGBase(_app)
 ,m_linkCam(nullptr){
+    m_pos.set(0.0f,0.0f,0.0f);
 }
 
 SVCameraCtrl::~SVCameraCtrl() {
@@ -26,6 +27,10 @@ FMat4& SVCameraCtrl::getMat() {
 
 f32* SVCameraCtrl::getMatPoint() {
     return m_mat.get();
+}
+
+FVec3& SVCameraCtrl::getPos() {
+    return m_pos;
 }
 
 bool SVCameraCtrl::run(SVCameraNodePtr _nodePtr, f32 dt){

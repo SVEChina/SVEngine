@@ -97,8 +97,8 @@ void SVOrtho::refresh() {
 
 //
 SVCameraNode::SVCameraNode(SVInst *_app)
-: SVNode(_app) {
-    ntype = "SVCameraNode";
+: SVEventProc(_app) {
+    m_dirty = true;
     m_resLock = MakeSharedPtr<SVLock>();
     //视矩阵
     SVCamCtrlBasePtr t_pCtrl =  MakeSharedPtr<SVCamCtrlBase>(_app);
@@ -254,6 +254,12 @@ void SVCameraNode::setZ(f32 _near, f32 _far) {
         m_pProjMethod->setFar(_far);
         m_pProjMethod->refresh();
     }
+}
+
+FVec3 SVCameraNode::getPosition() {
+    FVec3 t_pos(0.0f,0.0f,0.0f);
+    t_pos = m_pCtrl->getPos();
+    return t_pos;
 }
 
 f32 *SVCameraNode::getProjectMat() {

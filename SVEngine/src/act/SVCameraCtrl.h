@@ -29,12 +29,16 @@ namespace sv {
             
             f32* getMatPoint();
             
+            FVec3& getPos();
+            
             void bind(SVCameraNodePtr _cam);
             
             void unbind();
             
         protected:
             FMat4 m_mat;
+            
+            FVec3 m_pos;
             
             SVCameraNodePtr m_linkCam;
         };
@@ -62,7 +66,6 @@ namespace sv {
 
         protected:
             //目标，方向，向上 计算姿态
-            FVec3 m_pos;
             FVec3 m_targetEx;
             FVec3 m_upEx;
             FVec3 m_direction;

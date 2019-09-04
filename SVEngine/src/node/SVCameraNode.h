@@ -81,7 +81,7 @@ namespace sv {
         };
         
         //相机节点 不是节点
-        class SVCameraNode : public SVNode {
+        class SVCameraNode : public SVEventProc {
         public:
             SVCameraNode(SVInst *_app);
             
@@ -113,6 +113,8 @@ namespace sv {
             f32 *getCameraMat();
             
             f32 *getVPMat();
+            
+            FVec3 getPosition();
             
             FMat4& getProjectMatObj();
             
@@ -150,6 +152,8 @@ namespace sv {
             //
             typedef SVArray<SVFboObjectPtr> FBOBJECTPOOL;
             FBOBJECTPOOL m_fbobjectPool;
+            //
+            bool m_dirty;
         };
         
 
