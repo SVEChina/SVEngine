@@ -8,7 +8,7 @@
 #include "SVCameraNode.h"
 #include "../basesys/SVConfig.h"
 #include "../rendercore/SVFboObject.h"
-#include "../act/SVNodeCtrlCamera.h"
+#include "../act/SVCameraCtrl.h"
 
 
 SVProjMethod::SVProjMethod() {
