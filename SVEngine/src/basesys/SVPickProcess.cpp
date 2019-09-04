@@ -87,8 +87,8 @@ bool SVPickProcess::_getRay(SVCameraNodePtr _cam,s32 _sx,s32 _sy,FVec3& _rayStar
         f32 m_screenW = mApp->m_pGlobalParam->m_inner_width;
         f32 m_screenH = mApp->m_pGlobalParam->m_inner_height;
         //投影坐标x(-1,1.0),y(-1,1.0)
-        FVec4 t_proj_v_begin = FVec4((_sx/m_screenW - 0.5f)*2.0f,(_sy/m_screenH - 0.5f)*2.0f,0.1,1.0f);
-        FVec4 t_proj_v_end = FVec4((_sx/m_screenW - 0.5f)*2.0f,(_sy/m_screenH - 0.5f)*2.0f,1000.0,1.0f);
+        FVec4 t_proj_v_begin = FVec4((_sx/m_screenW - 0.5f)*2.0f,(_sy/m_screenH - 0.5f)*2.0f,-1.0f,1.0f);
+        FVec4 t_proj_v_end = FVec4((_sx/m_screenW - 0.5f)*2.0f,(_sy/m_screenH - 0.5f)*2.0f,1.0f,1.0f);
         FMat4 t_vp_inv = inverse(_cam->getVPMatObj());
         FVec4 t_world_begin = t_vp_inv*t_proj_v_begin;
         FVec4 t_world_end = t_vp_inv*t_proj_v_end;
