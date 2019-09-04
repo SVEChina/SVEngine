@@ -124,6 +124,18 @@ SVCameraNode::~SVCameraNode() {
     m_pProjMethod = nullptr;
 }
 
+void SVCameraNode::init() {
+    if(m_pCtrl) {
+        m_pCtrl->bind(THIS_TO_SHAREPTR(SVCameraNode));
+    }
+}
+
+void SVCameraNode::destroy() {
+    if(m_pCtrl) {
+        m_pCtrl->unbind();
+    }
+}
+
 void SVCameraNode::setProject() {
     if(m_pProjMethod) {
         SVProjectPtr tt = MakeSharedPtr<SVProject>();
@@ -296,8 +308,9 @@ void SVCameraNode::setCtrl(SVCameraCtrlPtr _ctr) {
         //error 不允许没有
         return ;
     }
-    //_ctr->bind( );
+    m_pCtrl->unbind();
     m_pCtrl = _ctr;
+    m_pCtrl->bind(THIS_TO_SHAREPTR(SVCameraNode));
 }
 
 SVProjMethodPtr SVCameraNode::getProjMethod() {
