@@ -127,11 +127,16 @@ namespace sv {
             void move(f32 _win_px0,f32 _win_py0,f32 _win_px1,f32 _win_py1);
             //推拉
             void zoom(f32 _dis);
+            
+            void setZoomMult(f32 _mult){ m_zoom_x = _mult; }
+            
+            f32 getZoomMult(){ return m_zoom_x; }
 
         protected:
             f32 m_dis;
             FVec3 m_target;
             f32 m_pixelUnit;
+            f32 m_zoom_x;
             bool m_dirty;
         };
         
