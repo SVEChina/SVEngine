@@ -23,17 +23,21 @@ SVFaceCoord::SVFaceCoord(SVInst *_app)
     ntype = "SVFaceCoord";
     m_meshLock = MakeSharedPtr<SVLock>();
     m_isScreen = false;
+    m_activePt = 0;
     m_size = 5.0f;
     m_aabbBox.clear();
     m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
-    m_pRenderObj = MakeSharedPtr<SVRenderObject>();
+    m_pMeshAct = MakeSharedPtr<SVRenderMesh>(mApp);
+    m_pRObjNor = MakeSharedPtr<SVRenderObject>();
+    m_pRObjAct = MakeSharedPtr<SVRenderObject>();
 }
 
 SVFaceCoord::~SVFaceCoord() {
     m_meshLock = nullptr;
-    m_pRenderObj = nullptr;
     m_pMesh = nullptr;
-    m_pMtl = nullptr;
+    m_pMeshAct = nullptr;
+    m_pRObjNor = nullptr;
+    m_pRObjAct = nullptr;
 }
 
 //加载点位文件
@@ -97,6 +101,16 @@ void SVFaceCoord::setPointSize(f32 _size) {
     m_size = _size;
 }
 
+void SVFaceCoord::active(s32 _pt) {
+    m_activePt = _pt;
+    refresh();
+}
+
+void SVFaceCoord::unActive() {
+    m_activePt = -1;
+    refresh();
+}
+
 //重新构建数据
 void SVFaceCoord::refresh() {
     f32 t_sc_w = 1.0f;
@@ -105,9 +119,11 @@ void SVFaceCoord::refresh() {
 //        t_sc_w = ;
 //        t_sc_h = ;
     }
-    s32 t_count = m_ptList.size() * 6;
+    s32 t_count = 0;
+    s32 t_count_act = 0;
     //
     SVDataSwapPtr t_dataswap = MakeSharedPtr<SVDataSwap>();
+    SVDataSwapPtr t_dataswap_act = MakeSharedPtr<SVDataSwap>();
     for(s32 i=0;i<m_ptList.size();i++) {
         FVec2 t_pt = m_ptList[i];
         //构建mesh
@@ -133,24 +149,43 @@ void SVFaceCoord::refresh() {
         t_pt_2.t0y = 1.0f;
         t_pt_3.t0x = 1.0f;
         t_pt_3.t0y = 1.0f;
-        t_dataswap->appendData(&t_pt_0, sizeof(V3_T0));
-        t_dataswap->appendData(&t_pt_1, sizeof(V3_T0));
-        t_dataswap->appendData(&t_pt_2, sizeof(V3_T0));
-        t_dataswap->appendData(&t_pt_2, sizeof(V3_T0));
-        t_dataswap->appendData(&t_pt_1, sizeof(V3_T0));
-        t_dataswap->appendData(&t_pt_3, sizeof(V3_T0));
+        //
+        if(i == m_activePt) {
+            t_dataswap_act->appendData(&t_pt_0, sizeof(V3_T0));
+            t_dataswap_act->appendData(&t_pt_1, sizeof(V3_T0));
+            t_dataswap_act->appendData(&t_pt_2, sizeof(V3_T0));
+            t_dataswap_act->appendData(&t_pt_2, sizeof(V3_T0));
+            t_dataswap_act->appendData(&t_pt_1, sizeof(V3_T0));
+            t_dataswap_act->appendData(&t_pt_3, sizeof(V3_T0));
+            t_count_act++;
+        }else{
+            t_dataswap->appendData(&t_pt_0, sizeof(V3_T0));
+            t_dataswap->appendData(&t_pt_1, sizeof(V3_T0));
+            t_dataswap->appendData(&t_pt_2, sizeof(V3_T0));
+            t_dataswap->appendData(&t_pt_2, sizeof(V3_T0));
+            t_dataswap->appendData(&t_pt_1, sizeof(V3_T0));
+            t_dataswap->appendData(&t_pt_3, sizeof(V3_T0));
+            t_count++;
+        }
     }
+    //普通
     m_pMesh->setVertexType(E_VF_V3_T0);
-    m_pMesh->setVertexDataNum(t_count);
+    m_pMesh->setVertexDataNum(t_count*6);
     m_pMesh->setVertexData(t_dataswap);
     m_pMesh->setDrawMethod(E_DM_TRIANGLES);
     m_pMesh->createMesh();
+    //act
+    m_pMeshAct->setVertexType(E_VF_V3_T0);
+    m_pMeshAct->setVertexDataNum(t_count_act*6);
+    m_pMeshAct->setVertexData(t_dataswap_act);
+    m_pMeshAct->setDrawMethod(E_DM_TRIANGLES);
+    m_pMeshAct->createMesh();
 }
 
 void SVFaceCoord::update(f32 dt) {
     SVNode::update(dt);
-    //渲染点
-    if (m_pRenderObj && m_pMesh) {
+    //渲染普通点(绿色)
+    if (m_pRObjNor && m_pMesh) {
         SVMtlGeo3dPtr t_mtl_box = MakeSharedPtr<SVMtlGeo3d>(mApp);
         t_mtl_box->setColor(0.1f, 0.80f, 0.05f, 1.0f);
         t_mtl_box->update(dt);
@@ -159,16 +194,33 @@ void SVFaceCoord::update(f32 dt) {
         t_mtl_box->setDepthEnable(false);
         t_mtl_box->setBlendEnable(true);
         t_mtl_box->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-        m_pRenderObj->setMesh(m_pMesh);
-        m_pRenderObj->setMtl(t_mtl_box);
+        m_pRObjNor->setMesh(m_pMesh);
+        m_pRObjNor->setMtl(t_mtl_box);
+    }
+    //渲染激活点(红色)
+    if (m_pRObjAct && m_pMesh && m_activePt>=0 ) {
+        SVMtlGeo3dPtr t_mtl_box = MakeSharedPtr<SVMtlGeo3d>(mApp);
+        t_mtl_box->setColor( 0.80f, 0.02f, 0.05f, 1.0f);
+        t_mtl_box->update(dt);
+        t_mtl_box->setModelMatrix(m_absolutMat.get());
+        t_mtl_box->setTexcoordFlip(1.0, -1.0f);
+        t_mtl_box->setDepthEnable(false);
+        t_mtl_box->setBlendEnable(true);
+        t_mtl_box->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        m_pRObjAct->setMesh(m_pMeshAct);
+        m_pRObjAct->setMtl(t_mtl_box);
     }
 }
 
 void SVFaceCoord::render() {
     if (mApp->m_pGlobalParam->m_curScene && m_visible ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-        if (m_pRenderObj) {
-            m_pRenderObj->pushCmd(t_rs, RST_SKY, "SVFaceCoord");
+        if (m_pRObjNor) {
+            m_pRObjNor->pushCmd(t_rs, RST_SKY, "SVFaceCoord-nor");
+        }
+        //
+        if (m_pRObjAct && m_activePt>=0 ) {
+            m_pRObjAct->pushCmd(t_rs, RST_SKY, "SVFaceCoord-act");
         }
     }
     SVNode::render();

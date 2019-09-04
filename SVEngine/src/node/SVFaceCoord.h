@@ -31,12 +31,21 @@ namespace sv {
             
             void setPointSize(f32 _size);
             
+            void active(s32 _pt);
+            
+            void unActive();
+            
         protected:
+            //激活点
+            s32 m_activePt;
+            //
             SVArray<FVec2> m_ptList;
             //
-            SVRenderObjectPtr m_pRenderObj;
+            SVRenderObjectPtr m_pRObjNor;
+            SVRenderObjectPtr m_pRObjAct;
             //
             SVRenderMeshPtr m_pMesh;
+            SVRenderMeshPtr m_pMeshAct;
             //
             SVLockPtr m_meshLock;
             //
