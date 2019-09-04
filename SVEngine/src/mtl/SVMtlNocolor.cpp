@@ -44,7 +44,7 @@ void SVMtlNocolor::_submitMtl(SVRendererBasePtr _render) {
 
 //
 SVMtlGeo3d::SVMtlGeo3d(SVInst *_app)
-:SVMtlCore(_app,"test1") {//geo3d
+:SVMtlCore(_app,"geo3d") {//geo3d
     m_color.setColorARGB(0xff00ffff);
 }
 
@@ -62,7 +62,7 @@ void SVMtlGeo3d::setColor(f32 _r,f32 _g,f32 _b,f32 _a){
 
 void SVMtlGeo3d::_submitMtl(SVRendererBasePtr _render) {
     SVMtlCore::_submitMtl(_render);
-    //_render->submitUniformf4("u_color", m_color.r, m_color.g, m_color.b, m_color.a);
+    _render->submitUniformf4("u_color", m_color.r, m_color.g, m_color.b, m_color.a);
 }
 
 //坐标
