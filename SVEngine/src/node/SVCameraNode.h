@@ -87,6 +87,10 @@ namespace sv {
             
             ~SVCameraNode();
             
+            void init();
+            
+            void destroy();
+            
             void setProject();
             
             void ortho();
