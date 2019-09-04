@@ -28,16 +28,24 @@ SVCameraMgr::~SVCameraMgr() {
 void SVCameraMgr::init() {
     //主相机
     m_mainCamera = MakeSharedPtr<SVCameraNode>(mApp);
+    m_mainCamera->init();
     //ui相机
     m_uiCamera = MakeSharedPtr<SVCameraNode>(mApp);
+    m_uiCamera->init();
     //AR相机
 }
 
 //
 void SVCameraMgr::destroy() {
     m_camerPool.clear();
-    m_mainCamera = nullptr;
-    m_uiCamera = nullptr;
+    if(m_mainCamera) {
+        m_mainCamera->destroy();
+        m_mainCamera = nullptr;
+    }
+    if(m_uiCamera) {
+        m_uiCamera->destroy();
+        m_uiCamera = nullptr;
+    }    
 }
 
 //更新

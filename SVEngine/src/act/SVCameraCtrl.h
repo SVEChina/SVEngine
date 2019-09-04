@@ -1,14 +1,15 @@
 //
-// SVNodeCtrlCamera.h
+// SVCameraCtrl.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_NODECTRLCAMERA_H
-#define SV_NODECTRLCAMERA_H
+#ifndef SV_CAMERA_CTRL_H
+#define SV_CAMERA_CTRL_H
 
-#include "SVNodeCtrl.h"
+#include "../base/SVGBase.h"
+#include "../node/SVCameraNode.h"
 #include "../base/SVMat4.h"
 
 namespace sv {
@@ -16,7 +17,7 @@ namespace sv {
     namespace logic {
         
         //基础相机控制
-        class SVCameraCtrl: public SVNodeCtrl {
+        class SVCameraCtrl: public SVGBase {
         public:
             SVCameraCtrl(SVInst* _app);
             
@@ -28,12 +29,18 @@ namespace sv {
             
             f32* getMatPoint();
             
+            FVec3& getPos();
+            
             void bind(SVCameraNodePtr _cam);
             
             void unbind();
             
+            virtual void reset(){}
+            
         protected:
             FMat4 m_mat;
+            
+            FVec3 m_pos;
             
             SVCameraNodePtr m_linkCam;
         };
@@ -61,7 +68,6 @@ namespace sv {
 
         protected:
             //目标，方向，向上 计算姿态
-            FVec3 m_pos;
             FVec3 m_targetEx;
             FVec3 m_upEx;
             FVec3 m_direction;
@@ -126,11 +132,16 @@ namespace sv {
             void move(f32 _win_px0,f32 _win_py0,f32 _win_px1,f32 _win_py1);
             //推拉
             void zoom(f32 _dis);
+            
+            void setZoomMult(f32 _mult){ m_zoom_x = _mult; }
+            
+            f32 getZoomMult(){ return m_zoom_x; }
 
         protected:
             f32 m_dis;
             FVec3 m_target;
             f32 m_pixelUnit;
+            f32 m_zoom_x;
             bool m_dirty;
         };
         
@@ -148,4 +159,4 @@ namespace sv {
 
 
 
-#endif //SV_NODECTRLCAMERA_H
+#endif //SV_CAMERA_CTRL_H

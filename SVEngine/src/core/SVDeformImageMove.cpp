@@ -119,7 +119,6 @@ void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
         
         SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dcolor");
         t_mtl->setBlendEnable(false);
-        t_mtl->setModelMatrix(t_camera.getAbsoluteMat());
         t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         t_mtl->setTexcoordFlip(1.0, -1.0);
         t_mtl->setBlendEnable(true);

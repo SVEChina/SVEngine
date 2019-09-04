@@ -81,16 +81,16 @@ namespace sv {
         };
         
         //相机节点 不是节点
-        class SVCameraNode : public SVNode {
+        class SVCameraNode : public SVEventProc {
         public:
             SVCameraNode(SVInst *_app);
             
             ~SVCameraNode();
             
-            void setProject();
+            void init();
             
-            void ortho();
-            
+            void destroy();
+
             //link fbo相关
             void addLinkFboObject(SVFboObjectPtr _fbo);
             
@@ -114,22 +114,26 @@ namespace sv {
             
             f32 *getVPMat();
             
+            FVec3& getPosition();
+            
             FMat4& getProjectMatObj();
             
             FMat4& getViewMatObj();
             
             FMat4& getVPMatObj();
     
-            
             virtual void updateViewProj();
 
             //设置控制器
             void setCtrl(SVCameraCtrlPtr _ctr);
-            
-            //获取控制器
-            SVCameraCtrlPtr getCtrl();      //相机控制 主要是产生视矩阵
-            
+            //获取控制器,相机控制,主要是产生视矩阵
+            SVCameraCtrlPtr getCtrl();
+            //投影方法
             SVProjMethodPtr getProjMethod();
+            //
+            void setProject();
+            //
+            void ortho();
             
         protected:
             //马上更新
@@ -138,10 +142,10 @@ namespace sv {
             void _removeUnuseLinkFboObject();
 
             //各种矩阵
+            FVec3 m_pos;
+            FMat4 m_mat_v;
+            FMat4 m_mat_p;
             FMat4 m_mat_vp;
-            //
-            f32 m_angle_yaw;
-            f32 m_angle_pitch;
             //
             SVLockPtr m_resLock;
             //
@@ -151,6 +155,8 @@ namespace sv {
             //
             typedef SVArray<SVFboObjectPtr> FBOBJECTPOOL;
             FBOBJECTPOOL m_fbobjectPool;
+            //
+            bool m_dirty;
         };
         
 
