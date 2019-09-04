@@ -296,7 +296,7 @@ void SVCameraNode::setCtrl(SVCameraCtrlPtr _ctr) {
         //error 不允许没有
         return ;
     }
-    _ctr->bind( );
+    //_ctr->bind( );
     m_pCtrl = _ctr;
 }
 
