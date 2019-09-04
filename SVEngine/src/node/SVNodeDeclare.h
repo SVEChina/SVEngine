@@ -13,7 +13,6 @@
 namespace sv {
     
     namespace logic {
-        DECLARE_SHAREPTR(SVNodeCtrl);
         DECLARE_SHAREPTR(SVCameraCtrl);
         DECLARE_SHAREPTR(SVCamCtrlBase);
         DECLARE_SHAREPTR(SVCamCtrlAttr);

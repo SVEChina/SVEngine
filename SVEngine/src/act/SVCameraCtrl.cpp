@@ -1,5 +1,5 @@
 //
-// SVNodeCtrlCamera.cpp
+// SVCameraCtrl.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
@@ -12,9 +12,8 @@
 #include "../basesys/SVPickProcess.h"
 
 SVCameraCtrl::SVCameraCtrl(SVInst* _app)
-:SVNodeCtrl(_app)
+:SVGBase(_app)
 ,m_linkCam(nullptr){
-    //m_mat
 }
 
 SVCameraCtrl::~SVCameraCtrl() {

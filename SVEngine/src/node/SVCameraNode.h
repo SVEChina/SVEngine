@@ -90,11 +90,7 @@ namespace sv {
             void init();
             
             void destroy();
-            
-            void setProject();
-            
-            void ortho();
-            
+
             //link fbo相关
             void addLinkFboObject(SVFboObjectPtr _fbo);
             
@@ -124,16 +120,18 @@ namespace sv {
             
             FMat4& getVPMatObj();
     
-            
             virtual void updateViewProj();
 
             //设置控制器
             void setCtrl(SVCameraCtrlPtr _ctr);
-            
-            //获取控制器
-            SVCameraCtrlPtr getCtrl();      //相机控制 主要是产生视矩阵
-            
+            //获取控制器,相机控制,主要是产生视矩阵
+            SVCameraCtrlPtr getCtrl();
+            //投影方法
             SVProjMethodPtr getProjMethod();
+            //
+            void setProject();
+            //
+            void ortho();
             
         protected:
             //马上更新
@@ -143,9 +141,6 @@ namespace sv {
 
             //各种矩阵
             FMat4 m_mat_vp;
-            //
-            f32 m_angle_yaw;
-            f32 m_angle_pitch;
             //
             SVLockPtr m_resLock;
             //

@@ -1,14 +1,15 @@
 //
-// SVNodeCtrlCamera.h
+// SVCameraCtrl.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_NODECTRLCAMERA_H
-#define SV_NODECTRLCAMERA_H
+#ifndef SV_CAMERA_CTRL_H
+#define SV_CAMERA_CTRL_H
 
-#include "SVNodeCtrl.h"
+#include "../base/SVGBase.h"
+#include "../node/SVCameraNode.h"
 #include "../base/SVMat4.h"
 
 namespace sv {
@@ -16,7 +17,7 @@ namespace sv {
     namespace logic {
         
         //基础相机控制
-        class SVCameraCtrl: public SVNodeCtrl {
+        class SVCameraCtrl: public SVGBase {
         public:
             SVCameraCtrl(SVInst* _app);
             
@@ -148,4 +149,4 @@ namespace sv {
 
 
 
-#endif //SV_NODECTRLCAMERA_H
+#endif //SV_CAMERA_CTRL_H

@@ -112,9 +112,6 @@ SVCameraNode::SVCameraNode(SVInst *_app)
     m_pProjMethod->reset();
     //
     updateViewProj();
-    //
-    m_angle_yaw = 0.0f;
-    m_angle_pitch = 0.0f;
 }
 
 SVCameraNode::~SVCameraNode() {
@@ -217,9 +214,9 @@ void SVCameraNode::update(f32 _dt) {
         if (m_dirty || t_flag) {
              updateViewProj();  // 更新vp矩阵
         }
+        //关联fbo
         FMat4 m_mat_view = m_pCtrl->getMat();
         FMat4 m_mat_proj = m_pProjMethod->getMat();
-        //关联fbo
         for (s32 i = 0; i < m_fbobjectPool.size(); i++) {
             SVFboObjectPtr t_fbo = m_fbobjectPool[i];
             t_fbo->setLink(true);
