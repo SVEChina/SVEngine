@@ -64,7 +64,7 @@ void SVProject::setFovy(f32 _fovy) {
 void SVProject::reset() {
     m_width = 720.0f;
     m_height = 1280.0f;
-    m_zfar = 1000.0f;
+    m_zfar = 10000.0f;
     m_znear = 1.0f;
     refresh();
 }
@@ -81,7 +81,7 @@ SVOrtho::SVOrtho() {
 void SVOrtho::reset() {
     m_width = 720.0f;
     m_height = 1280.0f;
-    m_zfar = 1000.0f;
+    m_zfar = 10000.0f;
     m_znear = 1.0f;
     refresh();
 }
@@ -296,6 +296,7 @@ void SVCameraNode::setCtrl(SVCameraCtrlPtr _ctr) {
         //error 不允许没有
         return ;
     }
+    _ctr->bind( );
     m_pCtrl = _ctr;
 }
 

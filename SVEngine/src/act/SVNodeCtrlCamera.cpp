@@ -8,13 +8,17 @@
 
 #include "SVNodeCtrlCamera.h"
 #include "../node/SVCameraNode.h"
+#include "../basesys/SVBasicSys.h"
+#include "../basesys/SVPickProcess.h"
 
 SVCameraCtrl::SVCameraCtrl(SVInst* _app)
-:SVNodeCtrl(_app) {
+:SVNodeCtrl(_app)
+,m_linkCam(nullptr){
     //m_mat
 }
 
 SVCameraCtrl::~SVCameraCtrl() {
+    m_linkCam = nullptr;
 }
 
 FMat4& SVCameraCtrl::getMat() {
@@ -27,6 +31,14 @@ f32* SVCameraCtrl::getMatPoint() {
 
 bool SVCameraCtrl::run(SVCameraNodePtr _nodePtr, f32 dt){
     return true;
+}
+
+void SVCameraCtrl::bind(SVCameraNodePtr _cam) {
+    m_linkCam = _cam;
+}
+
+void SVCameraCtrl::unbind() {
+    m_linkCam = nullptr;
 }
 
 /*
@@ -134,71 +146,42 @@ bool SVNodeCtrlCamera::run(SVCameraNodePtr _nodePtr, f32 dt) {
 
 
 #define PIXEL_UNIT_H1 1.1547
-//2*tan(30.0度)
-/****************************************/
+//纯2d平面控制
 SVCtrlCamera2D::SVCtrlCamera2D(SVInst* _app)
 :SVNodeCtrlCamera(_app){
-    m_width = 720;
-    m_height = 1280;
-    m_dis = 100.0f;
     m_pixelUnit = 0.0f;
-    m_angle = 0.0f;
+    m_dis = 100.0f;
     m_target.set(0.0f);
-    m_pos.set(0.0f);
-    m_pos.z = m_dis;
     m_dirty = true;
     reset();
 }
 
 SVCtrlCamera2D::~SVCtrlCamera2D() {
+    
 }
 
 //重制
 void SVCtrlCamera2D::reset() {
     m_target.set(0.0f);
-    m_pos.set(0.0f);
-    //根据 宽高 计算dis
     m_dis = 1000.0f;
-    m_pos.z = m_dis;
-    m_pixelUnit = PIXEL_UNIT_H1*fabs(m_pos.z)/m_height;
+    //m_pixelUnit = PIXEL_UNIT_H1*fabs(m_pos.z)/m_height;
     m_dirty = true;
 }
-
-void SVCtrlCamera2D::reset(s32 _w,s32 _h) {
-    m_width = _w;
-    m_height = _h;
-    reset();
-}
-
-void SVCtrlCamera2D::resize(s32 _w,s32 _h) {
-    m_width = _w;
-    m_height = _h;
-    // 2*tan30*dis/height
-    m_pixelUnit = PIXEL_UNIT_H1*fabs(m_pos.z)/m_height;
-}
-
 //平移
-void SVCtrlCamera2D::move(f32 _px,f32 _py) {
+void SVCtrlCamera2D::move(f32 _win_px0,f32 _win_py0,f32 _win_px1,f32 _win_py1) {
     m_dirty = true;
-    m_target.x -= PIXEL_UNIT_H1*_px;
-    m_target.y -= PIXEL_UNIT_H1*_py;
-    m_pos.x = m_target.x;
-    m_pos.y = m_target.y;
-}
-
-//角度旋转
-void SVCtrlCamera2D::angle(f32 _px,f32 py) {
-    m_dirty = false;
+    //计算两个三维位置 然后在计算偏移距离
+    SVPickProcessPtr t_pick = mApp->getBasicSys()->getPickModule();
+//    FVec3 t_p0,t_p1;
+//    FVec4 t_plane(0,0f,0.0f,1.0f,0.0f);
+//    t_pick->getCrossPointWithPlane(m_linkCam, _win_px0, _win_py0, t_p0, t_plane);
+//    t_pick->getCrossPointWithPlane(m_linkCam, _win_px1, _win_py1, t_p1, t_plane);
 }
 
 //推拉
 void SVCtrlCamera2D::zoom(f32 _dis) {
     m_dis += _dis*m_pixelUnit*2.0f;
-    m_pos.z = m_dis;
-    //做个限定
-    
-    //
-    m_pixelUnit = PIXEL_UNIT_H1*fabs(m_pos.z)/m_height;
+    //m_pixelUnit = PIXEL_UNIT_H1*fabs(m_pos.z)/m_height;
     m_dirty = true;
 }
 
@@ -206,7 +189,7 @@ void SVCtrlCamera2D::zoom(f32 _dis) {
 bool SVCtrlCamera2D::run(SVCameraNodePtr _nodePtr, f32 dt) {
     if(_nodePtr) {
         if(m_dirty) {
-            m_mat = lookAt(FVec3(m_pos.x,m_pos.y,m_pos.z),
+            m_mat = lookAt(FVec3(m_target.x,m_target.y,m_dis),
                            FVec3(m_target.x,m_target.y,0.0f),
                            FVec3(0.0f,1.0f,0.0f) );
             m_dirty = false;

@@ -28,8 +28,14 @@ namespace sv {
             
             f32* getMatPoint();
             
+            void bind(SVCameraNodePtr _cam);
+            
+            void unbind();
+            
         protected:
             FMat4 m_mat;
+            
+            SVCameraNodePtr m_linkCam;
         };
         
         //基础相机控制
@@ -116,26 +122,16 @@ namespace sv {
             virtual bool run(SVCameraNodePtr _nodePtr, f32 dt);
             //
             void reset();
-            //
-            void reset(s32 _w,s32 _h);
-            //
-            void resize(s32 _w,s32 _h);
-            //平移 像素dert x,y
-            void move(f32 _px,f32 py);
-            //角度旋转 像素dert x,y
-            void angle(f32 _px,f32 py);
+            //平移
+            void move(f32 _win_px0,f32 _win_py0,f32 _win_px1,f32 _win_py1);
             //推拉
             void zoom(f32 _dis);
 
         protected:
             f32 m_dis;
-            f32 m_angle;
-            s32 m_width;
-            s32 m_height;
-            FVec3 m_pos;
             FVec3 m_target;
-            bool m_dirty;
             f32 m_pixelUnit;
+            bool m_dirty;
         };
         
         //AR控制
