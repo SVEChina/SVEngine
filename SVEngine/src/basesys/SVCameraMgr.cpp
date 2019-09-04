@@ -26,12 +26,18 @@ SVCameraMgr::~SVCameraMgr() {
 }
 
 void SVCameraMgr::init() {
+    //主相机
     m_mainCamera = MakeSharedPtr<SVCameraNode>(mApp);
+    //ui相机
+    m_uiCamera = MakeSharedPtr<SVCameraNode>(mApp);
+    //AR相机
 }
 
+//
 void SVCameraMgr::destroy() {
     m_camerPool.clear();
     m_mainCamera = nullptr;
+    m_uiCamera = nullptr;
 }
 
 //更新
@@ -55,6 +61,26 @@ void SVCameraMgr::update(f32 dt) {
             t_rs->pushRenderCmd(RST_SCENE_BEGIN, t_cmd);
         }
     }
+    //更新ui相机
+    if(m_uiCamera) {
+        m_uiCamera->update(dt);
+        //
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+        SVRendererBasePtr t_renderer = mApp->getRenderer();
+        if(t_rs && t_renderer) {
+            FMat4 t_vm = m_uiCamera->getViewMatObj();
+            FMat4 t_pm = m_uiCamera->getProjectMatObj();
+            SVRenderCmdPushVPMatPtr t_cmd_push_ui = MakeSharedPtr<SVRenderCmdPushVPMat>(t_vm,t_pm);
+            t_cmd_push_ui->setRenderer(t_renderer);
+            t_cmd_push_ui->mTag = "ui_camera_begin";
+            t_rs->pushRenderCmd(RST_UI_BEGIN, t_cmd_push_ui);
+            //
+            SVRenderCmdPopVPMatPtr t_cmd_pop_ui = MakeSharedPtr<SVRenderCmdPopVPMat>();
+            t_cmd_pop_ui->setRenderer(t_renderer);
+            t_cmd_pop_ui->mTag = "ui_camera_end";
+            t_rs->pushRenderCmd(RST_UI_END, t_cmd_pop_ui);
+        }
+    }
     //更新其他相机
     m_cameraLock->lock();
     CAMERAPOOL::Iterator it = m_camerPool.begin();
@@ -75,6 +101,10 @@ void SVCameraMgr::setMainCamera(SVCameraNodePtr _camera){
 
 SVCameraNodePtr SVCameraMgr::getMainCamera(){
     return m_mainCamera;
+}
+
+SVCameraNodePtr SVCameraMgr::getUICamera() {
+    return m_uiCamera;
 }
 
 void SVCameraMgr::addCamera(cptr8 _name, SVCameraNodePtr _camera){

@@ -284,12 +284,9 @@ SVOpCreateTest::~SVOpCreateTest(){
 
 void SVOpCreateTest::_process(f32 dt) {
     SVLoaderGLTF t_load(mApp);
-    t_load.loadFromFile("svres/gltf/Test_bone/Test_bone.gltf");
+    t_load.loadFromFile("svres/gltf/dujiaoSHou/DuJiaoShou.gltf");
     t_load.building();
     SVNodePtr t_node = t_load.getNode("Hair");
-//    t_load.loadFromFile("svres/gltf/ForTest/ForTest.gltf");
-//    t_load.building();
-//    SVNodePtr t_node = t_load.getNode("Cylinder001");
     if(t_node) {
         SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
         if (t_pScene) {

@@ -1,21 +1,38 @@
 //
-// SVJsonTool.cpp
+// SVStringHelper.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVJsonTool.h"
+#include "SVStringHelper.h"
 
-SVJsonTool::SVJsonTool(SVInst *_app)
-: SVGBase(_app){
+SVStringHelper::SVStringHelper()
+: SVObject(){
  
 }
 
-SVJsonTool::~SVJsonTool(){
+SVStringHelper::~SVStringHelper(){
+    
 }
 
-SVString SVJsonTool::jsonFormat(const SVString inString){
+void SVStringHelper::encrypt(c8 *_str, s32 *_keys, u32 _keyCount){
+    u32 len= (u32)strlen(_str);//获取长度
+    for(u32 i=0;i<len;i++){
+        s32 key = _keys[i%_keyCount]%9;
+        *(_str+i) = *(_str+i) ^ key;
+    }
+}
+
+void SVStringHelper::decrypt(c8 *_str, s32 *_keys, u32 _keyCount){
+    u32 len= (u32)strlen(_str);//获取长度
+    for(u32 i=0;i<len;i++){
+        s32 key = _keys[i%_keyCount]%9;
+        *(_str+i) = *(_str+i) ^ key;
+    }
+}
+
+SVString SVStringHelper::jsonFormat(const SVString inString){
     SVString outString;
     outString.allocate(inString.size());
     int index = 0;

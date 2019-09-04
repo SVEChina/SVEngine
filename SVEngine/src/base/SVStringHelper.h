@@ -1,5 +1,5 @@
 //
-// SVJsonTool.h
+// SVStringHelper.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
@@ -8,19 +8,23 @@
 #ifndef SV_JSONTOOL_H
 #define SV_JSONTOOL_H
 
-#include "../base/SVGBase.h"
+#include "SVObject.h"
 namespace sv {
     
     namespace logic{
         
         //数据基准类型
-        class SVJsonTool : public SVGBase{
+        class SVStringHelper : public SVObject{
         public:
-            SVJsonTool(SVInst *_app);
+            SVStringHelper();
             
-            ~SVJsonTool();
+            ~SVStringHelper();
             
             static SVString jsonFormat(const SVString inString);
+            
+            static void encrypt(c8 *_str, s32 *_keys, u32 _keyCount);
+            
+            static void decrypt(c8 *_str, s32 *_keys, u32 _keyCount);
         };
         
         

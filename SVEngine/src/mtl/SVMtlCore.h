@@ -59,6 +59,12 @@ namespace sv {
             
             void setModelMatrix(f32 *_mat);
             
+            void setViewMatrix(f32 *_mat);
+            
+            void setProjMatrix(f32 *_mat);
+            
+            void setVPMatrix(f32 *_mat);
+            
             void setTexSizeIndex(s32 index, f32 _w, f32 _h);
             
             void setLineSize(f32 _linewidth);

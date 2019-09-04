@@ -136,3 +136,11 @@ SVEffectMusicEvent::SVEffectMusicEvent(){
 SVEffectMusicEvent::~SVEffectMusicEvent(){
     
 }
+//
+SVEventPersonExpression::SVEventPersonExpression(){
+  ;
+}
+
+SVEventPersonExpression::~SVEventPersonExpression(){
+    
+}

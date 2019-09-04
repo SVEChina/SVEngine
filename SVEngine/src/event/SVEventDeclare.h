@@ -26,6 +26,8 @@ namespace sv {
     DECLARE_SHAREPTR(SVPacketCloseEvent);
     DECLARE_SHAREPTR(SVRedPacketEvent);
     //
+    DECLARE_SHAREPTR(SVEventPersonExpression);
+    //
     DECLARE_SHAREPTR(SVEventVideo);
     DECLARE_SHAREPTR(SVEventVideoCtrl);
     DECLARE_SHAREPTR(SVEventVideoStatus);
@@ -33,6 +35,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVEventMixEnd);
     //
     DECLARE_SHAREPTR(SVTouchEvent);
+    DECLARE_SHAREPTR(SVTouchWorldEvent);
     DECLARE_SHAREPTR(SVPickEvent);
     DECLARE_SHAREPTR(SVCameraOrenEvent);
     DECLARE_SHAREPTR(SVDeviceAccelerometerEvent);

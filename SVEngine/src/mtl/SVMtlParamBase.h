@@ -38,6 +38,10 @@ namespace sv {
             
             void copy(SVMatrixParam& _param);
             
+            s8 m_self_view;
+            s8 m_self_proj;
+            s8 m_self_vp;
+            s8 m_self_null;
             f32 m_mat_model[16];
             f32 m_mat_view[16];
             f32 m_mat_project[16];

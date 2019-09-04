@@ -17,5 +17,6 @@ SVNodeCtrl::SVNodeCtrl(SVInst* _app)
 SVNodeCtrl::~SVNodeCtrl() {
 }
 
-void SVNodeCtrl::run(SVNodePtr _nodePtr, f32 dt) {
+bool SVNodeCtrl::run(SVNodePtr _nodePtr, f32 dt) {
+    return true;
 }

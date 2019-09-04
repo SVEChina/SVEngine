@@ -92,6 +92,24 @@ void SVMtlCore::setModelMatrix(f32 *_mat) {
     m_LogicMtlFlag0 |= MTL_F0_MAT_M;
 }
 
+void SVMtlCore::setViewMatrix(f32 *_mat) {
+    memcpy(m_LogicParamMatrix.m_mat_view, _mat, sizeof(f32) * 16);
+    m_LogicParamMatrix.m_self_view = 1;
+    m_LogicMtlFlag0 |= MTL_F0_MAT_V;
+}
+
+void SVMtlCore::setProjMatrix(f32 *_mat) {
+    memcpy(m_LogicParamMatrix.m_mat_project, _mat, sizeof(f32) * 16);
+    m_LogicParamMatrix.m_self_proj = 1;
+    m_LogicMtlFlag0 |= MTL_F0_MAT_P;
+}
+
+void SVMtlCore::setVPMatrix(f32 *_mat) {
+    memcpy(m_LogicParamMatrix.m_mat_vp, _mat, sizeof(f32) * 16);
+    m_LogicParamMatrix.m_self_vp = 1;
+    m_LogicMtlFlag0 |= MTL_F0_MAT_VP;
+}
+
 void SVMtlCore::setTexcoordFlip(f32 _x, f32 _y) {
     for(s32 i=0;i<MAX_TEXUNIT;i++){
         m_LogicParamTex.setTexClip(i,_x,_y);
@@ -213,17 +231,26 @@ void SVMtlCore::_loadShader() {
 void SVMtlCore::_refreshMatrix(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer){
-        FMat4 t_mat_view = t_renderer->getViewMat();
-        memcpy(m_LogicParamMatrix.m_mat_view, t_mat_view.get(), sizeof(f32) * 16);
-        m_LogicMtlFlag0 |= MTL_F0_MAT_V;
+        if( m_LogicParamMatrix.m_self_view == 0 ) {
+            //使用堆栈的
+            FMat4 t_mat_view = t_renderer->getViewMat();
+            memcpy(m_LogicParamMatrix.m_mat_view, t_mat_view.get(), sizeof(f32) * 16);
+            m_LogicMtlFlag0 |= MTL_F0_MAT_V;
+        }
         
-        FMat4 t_mat_proj = t_renderer->getProjMat();
-        memcpy(m_LogicParamMatrix.m_mat_project, t_mat_proj.get(), sizeof(f32) * 16);
-        m_LogicMtlFlag0 |= MTL_F0_MAT_P;
+        if( m_LogicParamMatrix.m_self_proj == 0 ) {
+            //使用堆栈的
+            FMat4 t_mat_proj = t_renderer->getProjMat();
+            memcpy(m_LogicParamMatrix.m_mat_project, t_mat_proj.get(), sizeof(f32) * 16);
+            m_LogicMtlFlag0 |= MTL_F0_MAT_P;
+        }
         
-        FMat4 t_mat_vp = t_renderer->getVPMat();
-        memcpy(m_LogicParamMatrix.m_mat_vp, t_mat_vp.get(), sizeof(f32) * 16);
-        m_LogicMtlFlag0 |= MTL_F0_MAT_VP;
+        if( m_LogicParamMatrix.m_self_vp == 0 ) {
+            //使用堆栈的
+            FMat4 t_mat_vp = t_renderer->getVPMat();
+            memcpy(m_LogicParamMatrix.m_mat_vp, t_mat_vp.get(), sizeof(f32) * 16);
+            m_LogicMtlFlag0 |= MTL_F0_MAT_VP;
+        }
     }
 }
 

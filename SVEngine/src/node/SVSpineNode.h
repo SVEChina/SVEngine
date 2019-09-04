@@ -20,7 +20,9 @@ typedef void (*sv_spine_callback)(SVSpineNodePtr _node,void* _obj,s32 _status);
 namespace sv {
     
     namespace node{
-        //
+        /*
+         2D骨骼动画
+         */
         class SVSpineNode : public SVNode {
         public:
             SVSpineNode(SVInst *_app);

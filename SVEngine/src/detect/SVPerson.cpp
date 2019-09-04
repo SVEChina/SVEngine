@@ -48,7 +48,7 @@ void SVPerson::update(f32 _dt) {
         }else if(m_detectType == DETECT_T_ST){
             m_pTracker->track_st(m_pFaceData,
                                  m_facePtNum,
-                                 &m_facerect,
+                                 m_facerect,
                                  m_facerot.x,
                                  m_facerot.y,
                                  m_facerot.z,
@@ -191,7 +191,7 @@ void SVPerson::_listenData_ST(SVDetectSTPtr detect) {
         setFaceData(personData->pointdata, sizeof(f32) * 2 * ST_POINT_NUM);
         setFaceDataOriginal(personDataOriginal->pointdata, sizeof(f32) * 2 * ST_POINT_NUM);
         if (m_pTracker) {
-            m_pTracker->track_st(m_pFaceData, m_facePtNum, &m_facerect, m_facerot.y, m_facerot.x, m_facerot.z, m_personID);
+            m_pTracker->track_st(m_pFaceData, m_facePtNum, m_facerect, m_facerot.y, m_facerot.x, m_facerot.z, m_personID);
         }
     }
     //通知其他监听者更新数据
