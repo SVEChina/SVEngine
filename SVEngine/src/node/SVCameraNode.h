@@ -80,6 +80,19 @@ namespace sv {
             
         };
         
+        //ar投影
+        class SVARProj : public SVProjMethod {
+        public:
+            SVARProj();
+            
+            void reset();
+            
+            void refresh();
+            
+        protected:
+            
+        };
+        
         //相机节点 不是节点
         class SVCameraNode : public SVEventProc {
         public:

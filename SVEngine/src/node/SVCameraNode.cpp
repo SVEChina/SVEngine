@@ -95,6 +95,18 @@ void SVOrtho::refresh() {
                        m_zfar );   //投影矩阵
 }
 
+SVARProj::SVARProj() {
+    
+}
+
+void SVARProj::reset() {
+    
+}
+
+void SVARProj::refresh() {
+    //m_projMat =
+}
+
 //
 SVCameraNode::SVCameraNode(SVInst *_app)
 : SVEventProc(_app) {
