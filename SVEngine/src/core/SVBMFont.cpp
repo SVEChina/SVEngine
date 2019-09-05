@@ -216,11 +216,11 @@ void SVBMFont::addKerningPair(s32 _first, s32 _second, s32 _amount){
     }
 }
 
-void SVBMFont::loadPage(s32 _pageID, cptr8 _pageFile, cptr8 _fontFile){
-    SVString rootFile = _fontFile;
+void SVBMFont::loadPage(s32 _pageID, cptr8 _pageFile){
+    SVString rootFile = m_fntFilePath;
     s32 pos = rootFile.rfind('/');
     rootFile = SVString::substr(rootFile.c_str(), 0, pos);
     SVString path = rootFile + "/" + _pageFile;
-    SVTexturePtr texture = mApp->getTexMgr()->getTextureSync(path, true, true);
+    SVTexturePtr texture = mApp->getTexMgr()->getTexture(path, true, true);
     m_textures.append(_pageID, texture);
 }

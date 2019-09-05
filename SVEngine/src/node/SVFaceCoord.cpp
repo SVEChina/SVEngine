@@ -17,10 +17,13 @@
 #include "../base/SVDataSwap.h"
 #include "../base/SVDataChunk.h"
 #include "../file/SVFileMgr.h"
+#include "SVBMFontNode.h"
+#include "../core/SVBMFont.h"
 
 SVFaceCoord::SVFaceCoord(SVInst *_app)
 : SVNode(_app) {
     ntype = "SVFaceCoord";
+    m_rsType = RST_SKY;
     m_meshLock = MakeSharedPtr<SVLock>();
     m_isScreen = false;
     m_activePt = 0;
@@ -85,6 +88,8 @@ bool SVFaceCoord::loadCoord(cptr8 _fname) {
     if( item_param.HasMember("design_img_height") ) {
         m_height = item_param["design_img_height"].GetInt();
     }
+    //清空子节点
+    clearChild();
     //
     m_aabbBox.clear();
     RAPIDJSON_NAMESPACE::Value &item_data = doc["data"];
@@ -93,6 +98,17 @@ bool SVFaceCoord::loadCoord(cptr8 _fname) {
         f32 t_y = m_height - item_data[i*2+1].GetFloat();
         m_ptList.append( FVec2(t_x,t_y) );
         m_aabbBox.expand(FVec3(t_x,t_y,0.0f));
+        //
+        SVBMFontPtr m_font = SVBMFont::creatFnt("/svres/bmfont/sveengine.fnt", mApp);
+        SVBMFontNodePtr bmNode = MakeSharedPtr<SVBMFontNode>(mApp);
+        bmNode->setFont(m_font);
+        SVString t_num;
+        bmNode->setText(t_num.format("%d",i).c_str());
+        bmNode->setSpacing(0.1);
+        bmNode->setFontSize(0.25f);
+        bmNode->setPosition(t_x,t_y-m_size*0.5f,0.0);
+        bmNode->setRSType(m_rsType);
+        addChild(bmNode);
     }
     return true;
 }
@@ -216,11 +232,11 @@ void SVFaceCoord::render() {
     if (mApp->m_pGlobalParam->m_curScene && m_visible ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRObjNor) {
-            m_pRObjNor->pushCmd(t_rs, RST_SKY, "SVFaceCoord-nor");
+            m_pRObjNor->pushCmd(t_rs, m_rsType, "SVFaceCoord-nor");
         }
         //
         if (m_pRObjAct && m_activePt>=0 ) {
-            m_pRObjAct->pushCmd(t_rs, RST_SKY, "SVFaceCoord-act");
+            m_pRObjAct->pushCmd(t_rs, m_rsType, "SVFaceCoord-act");
         }
     }
     SVNode::render();

@@ -150,15 +150,6 @@ f32 SVBMFontNode::getHeight(){
     return m_font->getTextHeight(m_text.c_str())*t_scaleY;
 }
 
-//void SVBMFontNode::setAtcPt(BITFONT_ATCH_PT _type){
-//    m_atchType = _type;
-//    m_textDirty = true;
-//}
-//
-//BITFONT_ATCH_PT SVBMFontNode::getAtcPt(){
-//    return m_atchType;
-//}
-
 void SVBMFontNode::setAlpha(f32 _alpha){
     if (_alpha < 0 || _alpha > 1) {
         return;
@@ -372,7 +363,7 @@ void SVBMFontNode::_genMesh(){
 //序列化接口
 void SVBMFontNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
     _toJsonData(_allocator, _objValue);
-    _objValue.AddMember("fntname", RAPIDJSON_NAMESPACE::StringRef(m_font->m_fntName.c_str()), _allocator);
+    _objValue.AddMember("fntname", RAPIDJSON_NAMESPACE::StringRef(m_font->m_fntFileName.c_str()), _allocator);
     _objValue.AddMember("content", RAPIDJSON_NAMESPACE::StringRef(m_text.c_str()), _allocator);
     _objValue.AddMember("encode", s32(m_font->getTextEncoding()), _allocator);
     _objValue.AddMember("space", m_spacing, _allocator);
@@ -383,8 +374,8 @@ void SVBMFontNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocat
 void SVBMFontNode::fromJSON(RAPIDJSON_NAMESPACE::Value &_item){
     _fromJsonData(_item);
     if (_item.HasMember("fntname") && _item["fntname"].IsString()) {
-        SVString t_textureName = _item["fntname"].GetString();
-        SVString t_resPath = m_rootPath +  t_textureName;
+        SVString t_fntName = _item["fntname"].GetString();
+        SVString t_resPath = m_rootPath +  t_fntName;
         SVBMFontPtr font = MakeSharedPtr<SVBMFont>(mApp);
         font->m_enableMipMap = m_enableMipMap;
         SVBMFontLoader t_loder(mApp);
