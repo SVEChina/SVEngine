@@ -150,15 +150,6 @@ f32 SVBMFontNode::getHeight(){
     return m_font->getTextHeight(m_text.c_str())*t_scaleY;
 }
 
-//void SVBMFontNode::setAtcPt(BITFONT_ATCH_PT _type){
-//    m_atchType = _type;
-//    m_textDirty = true;
-//}
-//
-//BITFONT_ATCH_PT SVBMFontNode::getAtcPt(){
-//    return m_atchType;
-//}
-
 void SVBMFontNode::setAlpha(f32 _alpha){
     if (_alpha < 0 || _alpha > 1) {
         return;
