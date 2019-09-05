@@ -63,7 +63,7 @@ namespace sv {
             
             void addKerningPair(s32 _first, s32 _second, s32 _amount);
             
-            void loadPage(s32 _pageID, cptr8 _pageFile, cptr8 _fontFile);
+            void loadPage(s32 _pageID, cptr8 _pageFile);
         public:
             SVMap<u32, SVTexturePtr> m_textures;
             
@@ -77,7 +77,9 @@ namespace sv {
             
             s16 m_pages;
             
-            SVString m_fntName;
+            SVString m_fntFilePath;
+            
+            SVString m_fntFileName;
             
             bool m_enableMipMap;
         protected:

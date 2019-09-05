@@ -20,33 +20,33 @@ SVBMFontLoader::~SVBMFontLoader() {
     
 }
 
-void SVBMFontLoader::loadData(cptr8 _fontFile, SVBMFontPtr _font) {
+void SVBMFontLoader::loadData(cptr8 _fontFilePath, SVBMFontPtr _font) {
     if (!_font) {
         return;
     }
-    _font->m_fntName = _fontFile;
+    _font->m_fntFilePath = _fontFilePath;
+    s32 pos = _font->m_fntFilePath.rfind('/');
+    _font->m_fntFileName = SVString::substr(_font->m_fntFilePath.c_str(), pos+1, _font->m_fntFilePath.size()-pos-1);
     // Load the font
-    SVString t_fullname = _fontFile;
-    if (strcmp(t_fullname.c_str(), "") == 0) return;
-    FILE *f = fopen(t_fullname.c_str(), "rb");
-    // Determine format by reading the first bytes of the file
+    SVDataChunk tSVDataChunk;
+    bool t_flag = mApp->getFileMgr()->loadFileContentStr(&tSVDataChunk, _fontFilePath);
+    if (!t_flag) {
+        return;
+    }
+    if (tSVDataChunk.m_size == 0){
+        return;
+    }
     c8 str[4] = {0};
-    fread(str, 3, 1, f);
-    fseek(f, 0, SEEK_SET);
+    char* t_p = (char*)tSVDataChunk.m_data;
+    str[0] = *t_p;t_p++;
+    str[1] = *t_p;t_p++;
+    str[2] = *t_p;
     if( strcmp(str, "BMF") == 0 ){
-        SVDataChunk tSVDataChunk;
-        bool t_flag = mApp->getFileMgr()->loadFileContentStr(&tSVDataChunk, _fontFile);
-        if (!t_flag) {
-            return;
-        }
-        if (tSVDataChunk.m_size == 0){
-            return;
-        }
         SVBMFontParseBinaryFormat parseBinaryFormat;
-        parseBinaryFormat.parseConfigFile(_font, f, tSVDataChunk.m_data, tSVDataChunk.m_size, _fontFile);
+        parseBinaryFormat.parseConfigFile(_font, tSVDataChunk.m_data, tSVDataChunk.m_size);
     }else{
         SVBMFontParseTextFormat parseTextFormat;
-        parseTextFormat.parseConfigFile(_font, f, t_fullname.c_str());
+        parseTextFormat.parseConfigFile(_font, tSVDataChunk.m_data, tSVDataChunk.m_size);
     }
 }
 
@@ -59,7 +59,7 @@ SVBMFontParseBinaryFormat::~SVBMFontParseBinaryFormat(){
     
 }
 
-void SVBMFontParseBinaryFormat::parseConfigFile(SVBMFontPtr _font, FILE *_f, c8 *_pData, u64 _size, cptr8 _fontFile){
+void SVBMFontParseBinaryFormat::parseConfigFile(SVBMFontPtr _font, c8 *_pData, u64 _size){
     /* based on http://www.angelcode.com/products/bmfont/doc/file_format.html file format */
     u64 remains = _size;
     _pData += 4; remains -= 4;
@@ -207,22 +207,26 @@ SVBMFontParseTextFormat::~SVBMFontParseTextFormat(){
     
 }
 
-void SVBMFontParseTextFormat::parseConfigFile(SVBMFontPtr _font, FILE *_f, cptr8 _fontFile){
+void SVBMFontParseTextFormat::parseConfigFile(SVBMFontPtr _font, void* _data, u64 _size){
     SVString line;
-    while( !feof(_f) )
-    {
+    //
+    char* t_p = (char*)_data;
+    s32 t_count = 0;
+    //
+    while( t_count<_size ){
         // Read until line feed (or EOF)
         line = "";
         line.reserve(256);
-        while( !feof(_f) )
-        {
-            char ch;
-            if( fread(&ch, 1, 1, _f) )
-            {
-                if( ch != '\n' )
-                    line += ch;
-                else
-                    break;
+        s32 tt_count = 0;
+        while( tt_count<_size ){
+            char ch = *t_p;
+            t_p++;
+            tt_count++;
+            t_count++;
+            if( ch != '\n' ){
+                line += ch;
+            }else {
+                break;
             }
         }
         // Skip white spaces
@@ -231,18 +235,20 @@ void SVBMFontParseTextFormat::parseConfigFile(SVBMFontPtr _font, FILE *_f, cptr8
         s32 pos2 = _findEndOfToken(line.c_str(), pos);
         SVString token = SVString::substr(line.c_str(), pos, pos2-pos);
         // Interpret line
-        if( token == "info" )
+        if( token == "info" ){
             _interpretInfo(_font, line.c_str(), pos2);
-        else if( token == "common" )
-            _interpretCommon(_font, line.c_str(), pos2);
-        else if( token == "char" )
+        }
+        
+        else if( token == "common" ) {
+           _interpretCommon(_font, line.c_str(), pos2);
+        }else if( token == "char" ) {
             _interpretChar(_font, line.c_str(), pos2);
-        else if( token == "kerning" )
+        }else if( token == "kerning" ) {
             _interpretKerning(_font, line.c_str(), pos2);
-        else if( token == "page" )
-            _interpretPage(_font, line.c_str(), pos2, _fontFile);
+        }else if( token == "page" ) {
+            _interpretPage(_font, line.c_str(), pos2);
+        }
     }
-    fclose(_f);
     // Success
 }
 
@@ -433,13 +439,12 @@ void SVBMFontParseTextFormat::_interpretKerning(SVBMFontPtr _font, cptr8 _str, s
     // Store the attributes
     _font->addKerningPair(first, second, amount);
 }
-void SVBMFontParseTextFormat::_interpretPage(SVBMFontPtr _font, cptr8 _str, s32 _start, cptr8 _fontFile){
+void SVBMFontParseTextFormat::_interpretPage(SVBMFontPtr _font, cptr8 _str, s32 _start){
     s32 charID = 0;
     SVString file;
     // Read all attributes
     s32 pos, pos2 = _start;
-    while( true )
-    {
+    while( true ){
         pos = _skipWhiteSpace(_str, pos2);
         pos2 = _findEndOfToken(_str, pos);
         
@@ -453,13 +458,13 @@ void SVBMFontParseTextFormat::_interpretPage(SVBMFontPtr _font, cptr8 _str, s32 
         
         SVString value = SVString::substr(_str, pos, pos2-pos);
         
-        if( token == "id" )
+        if( token == "id" ){
             charID = strtol(value.c_str(), 0, 10);
-        else if( token == "file" )
+        }else if( token == "file" ) {
             file = SVString::substr(value.c_str(), 1, value.size()-2);
-        
-        if( pos == strlen(_str) ) break;
+        }
+        if( pos == strlen(_str) )
+            break;
     }
-    
-    _font->loadPage(charID, file.c_str(), _fontFile);
+    _font->loadPage(charID, file.c_str());
 }

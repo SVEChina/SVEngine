@@ -372,7 +372,7 @@ void SVBMFontNode::_genMesh(){
 //序列化接口
 void SVBMFontNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
     _toJsonData(_allocator, _objValue);
-    _objValue.AddMember("fntname", RAPIDJSON_NAMESPACE::StringRef(m_font->m_fntName.c_str()), _allocator);
+    _objValue.AddMember("fntname", RAPIDJSON_NAMESPACE::StringRef(m_font->m_fntFileName.c_str()), _allocator);
     _objValue.AddMember("content", RAPIDJSON_NAMESPACE::StringRef(m_text.c_str()), _allocator);
     _objValue.AddMember("encode", s32(m_font->getTextEncoding()), _allocator);
     _objValue.AddMember("space", m_spacing, _allocator);

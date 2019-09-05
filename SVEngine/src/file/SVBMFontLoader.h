@@ -16,7 +16,7 @@ namespace sv {
         
         ~SVBMFontLoader();
         
-        void loadData(cptr8 _fontFile, SVBMFontPtr _font);
+        void loadData(cptr8 _fontFilePath, SVBMFontPtr _font);
     private:
         u32  _parseCharacterDefinition(SVBMFontPtr _font, cptr8 line);
         void _parseInfoArguments(cptr8 line);
@@ -34,7 +34,7 @@ namespace sv {
         
         ~SVBMFontParseBinaryFormat();
         
-        void parseConfigFile(SVBMFontPtr _font, FILE *_f, c8 *_pData, u64 _size, cptr8 _fontFile);
+        void parseConfigFile(SVBMFontPtr _font, c8 *_pData, u64 _size);
     private:
         void _readInfoBlock(SVBMFontPtr _font, c8 *_pData, u32 _blockSize);
         void _readCommonBlock(SVBMFontPtr _font, c8 *_pData, u32 _blockSize);
@@ -49,7 +49,7 @@ namespace sv {
         
         ~SVBMFontParseTextFormat();
         
-        void parseConfigFile(SVBMFontPtr _font, FILE *_f, cptr8 _fontFile);
+        void parseConfigFile(SVBMFontPtr _font, void* _data, u64 _size);
     private:
         s32 _skipWhiteSpace(cptr8 _str, s32 _start);
         s32 _findEndOfToken(cptr8 _str, s32 _start);
@@ -57,7 +57,7 @@ namespace sv {
         void _interpretCommon(SVBMFontPtr _font, cptr8 _str, s32 _start);
         void _interpretChar(SVBMFontPtr _font, cptr8 _str, s32 _start);
         void _interpretKerning(SVBMFontPtr _font, cptr8 _str, s32 _start);
-        void _interpretPage(SVBMFontPtr _font, cptr8 _str, s32 _start, cptr8 _fontFile);
+        void _interpretPage(SVBMFontPtr _font, cptr8 _str, s32 _start);
     };
     
 }//!namespace sv
