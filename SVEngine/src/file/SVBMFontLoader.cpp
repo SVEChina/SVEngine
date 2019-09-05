@@ -211,18 +211,14 @@ void SVBMFontParseTextFormat::parseConfigFile(SVBMFontPtr _font, void* _data, u6
     SVString line;
     //
     char* t_p = (char*)_data;
-    s32 t_count = 0;
-    //
-    while( t_count<_size ){
+    char ch = *t_p;
+    while( ch != '\0' ){
         // Read until line feed (or EOF)
         line = "";
         line.reserve(256);
-        s32 tt_count = 0;
-        while( tt_count<_size ){
-            char ch = *t_p;
+        while( ch != '\0' ){
+            ch = *t_p;
             t_p++;
-            tt_count++;
-            t_count++;
             if( ch != '\n' ){
                 line += ch;
             }else {
@@ -238,7 +234,7 @@ void SVBMFontParseTextFormat::parseConfigFile(SVBMFontPtr _font, void* _data, u6
         if( token == "info" ){
             _interpretInfo(_font, line.c_str(), pos2);
         }
-        
+    
         else if( token == "common" ) {
            _interpretCommon(_font, line.c_str(), pos2);
         }else if( token == "char" ) {
