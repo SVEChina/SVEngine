@@ -374,8 +374,8 @@ void SVBMFontNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocat
 void SVBMFontNode::fromJSON(RAPIDJSON_NAMESPACE::Value &_item){
     _fromJsonData(_item);
     if (_item.HasMember("fntname") && _item["fntname"].IsString()) {
-        SVString t_textureName = _item["fntname"].GetString();
-        SVString t_resPath = m_rootPath +  t_textureName;
+        SVString t_fntName = _item["fntname"].GetString();
+        SVString t_resPath = m_rootPath +  t_fntName;
         SVBMFontPtr font = MakeSharedPtr<SVBMFont>(mApp);
         font->m_enableMipMap = m_enableMipMap;
         SVBMFontLoader t_loder(mApp);
