@@ -27,6 +27,8 @@ namespace sv {
             
         protected:
             SVCameraNodePtr m_pARCamera;
+//            SVCtrlCamereARPtr m_pARCtrl;
+//            SVARProj m_pARProj;
         };
         
     }//!namespace logic
