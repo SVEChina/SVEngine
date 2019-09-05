@@ -33,8 +33,8 @@ namespace sv {
         s32 triangles[1200];
     };
     
-    typedef SVMap<SVString, StanderFace*> STANDERFACEPOOL;
-    typedef SVMap<SVString, FaceMesh*> FACEMESHPOOL;
+    typedef SVMap<cptr8, StanderFace*> STANDERFACEPOOL;
+    typedef SVMap<cptr8, FaceMesh*> FACEMESHPOOL;
     
     class SVFaceDataMesh : public SVGBase{
     public:

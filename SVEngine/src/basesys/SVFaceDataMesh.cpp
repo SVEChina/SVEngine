@@ -20,22 +20,22 @@ SVFaceDataMesh::SVFaceDataMesh(SVInst *_app)
 //
 void SVFaceDataMesh::init(){
     //加载as标准脸数据
-    _loadFaceMeshData("facemesh_as");
-    _loadStanderFaceData("standerface_as");
-    _loadFaceMeshData("facemesh_as_simplify");
-    _loadStanderFaceData("standerface_as_simplify");
+//    _loadFaceMeshData("facemesh_as");
+//    _loadStanderFaceData("standerface_as");
+//    _loadFaceMeshData("facemesh_as_simplify");
+//    _loadStanderFaceData("standerface_as_simplify");
     //加载st标准脸数据
-    _loadFaceMeshData("facemesh_st");
-    _loadStanderFaceData("standerface_st");
+//    _loadFaceMeshData("facemesh_st");
+//    _loadStanderFaceData("standerface_st");
     _loadFaceMeshData("facemesh_st_simplify");
     _loadStanderFaceData("standerface_st_simplify");
-    _loadFaceMeshData("facemesh_st_normal");
-    _loadStanderFaceData("standerface_st_normal");
+//    _loadFaceMeshData("facemesh_st_normal");
+//    _loadStanderFaceData("standerface_st_normal");
     //加载fp标准脸数据
-    _loadFaceMeshData("facemesh_fp");
-    _loadStanderFaceData("standerface_fp");
-    _loadFaceMeshData("facemesh_fp_simplify");
-    _loadStanderFaceData("standerface_fp_simplify");
+//    _loadFaceMeshData("facemesh_fp");
+//    _loadStanderFaceData("standerface_fp");
+//    _loadFaceMeshData("facemesh_fp_simplify");
+//    _loadStanderFaceData("standerface_fp_simplify");
 }
 
 //
@@ -90,7 +90,7 @@ void SVFaceDataMesh::_loadFaceMeshData(cptr8 _name){
             }
         }
     }
-    m_facemeshpool.append(SVString(_name),facemesh);
+    m_facemeshpool.append(_name,facemesh);
     SV_LOG_DEBUG("load facemeshdata end\n");
 }
 
@@ -171,7 +171,7 @@ void SVFaceDataMesh::_loadStanderFaceData(cptr8 _name){
             }
         }
     }
-    m_standerfacepool.append(SVString(_name),standerface);
+    m_standerfacepool.append(_name,standerface);
     SV_LOG_DEBUG("load standerfacedata end\n");
 }
 

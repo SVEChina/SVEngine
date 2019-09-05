@@ -30,8 +30,8 @@ SV2DFaceMaskSTNode::SV2DFaceMaskSTNode(SVInst *_app)
     memset(m_newmesh, 0, sizeof(m_newmesh));
     FaceMesh* facemesh = nullptr;
     StanderFace *standerface = nullptr;
-    facemesh = mApp->getDataMgr()->getFaceDataMesh()->getFaceMesh("facemesh_st");
-    standerface = mApp->getDataMgr()->getFaceDataMesh()->getStanderFace("standerface_st");
+    facemesh = mApp->getDataMgr()->getFaceDataMesh()->getFaceMesh("facemesh_st_simplify");
+    standerface = mApp->getDataMgr()->getFaceDataMesh()->getStanderFace("standerface_st_simplify");
     
     if (facemesh == nullptr || standerface == nullptr) {
         return;
@@ -41,11 +41,11 @@ SV2DFaceMaskSTNode::SV2DFaceMaskSTNode(SVInst *_app)
     m_pointsize = standerface->facepoints_count;
     for (s32 i=0; i<m_pointsize*2; i++) {
         m_standervers[i] = standerface->points[i];
-        if (i%2 == 0) {
-            m_standervers[i] = m_standervers[i] - m_texwidth*0.5;
-        }else{
-            m_standervers[i] = m_standervers[i] - m_texheight*0.5;
-        }
+//        if (i%2 == 0) {
+//            m_standervers[i] = m_standervers[i] - m_texwidth*0.5;
+//        }else{
+//            m_standervers[i] = m_standervers[i] - m_texheight*0.5;
+//        }
     }
     
     for (s32 i=0; i<m_pointsize*2; i++) {
@@ -89,7 +89,7 @@ void SV2DFaceMaskSTNode::update(f32 dt) {
         m_mtlFace2D->setModelMatrix(m_absolutMat.get());
         m_mtlFace2D->setBlendEnable(true);
         m_mtlFace2D->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        m_mtlFace2D->setTexcoordFlip(1.0, -1.0);
+        m_mtlFace2D->setTexcoordFlip(1.0, 1.0);
         m_mtlFace2D->setTexSizeIndex(0, 1.0f/m_texwidth, 1.0f/m_texheight);
     }
     if (m_pFaceMesh && m_mtlFace2D) {
@@ -108,20 +108,20 @@ void SV2DFaceMaskSTNode::_updateVerts(){
         s32 t_camera_h = mApp->getConfig()->getCameraHeight();
         //补点
         SVSTPointExt::st_foreHeadPointExtWithFaceLandMark(m_faceDateExt, t_singleface_ptnum);
-        SVSTPointExt::st_lipsPointExtWithFaceLandMark(m_faceDateExt, t_singleface_ptnum);
-        SVSTPointExt::st_faceOutlinePointExtWithFaceLandMark(m_faceDateExt, t_singleface_ptnum);
-        m_faceDateExt[t_singleface_ptnum*2] = -t_camera_w*0.5;
-        m_faceDateExt[t_singleface_ptnum*2+1] = -t_camera_h*0.5;
-        t_singleface_ptnum++;
-        m_faceDateExt[t_singleface_ptnum*2] = t_camera_w*0.5;
-        m_faceDateExt[t_singleface_ptnum*2+1] = -t_camera_h*0.5;
-        t_singleface_ptnum++;
-        m_faceDateExt[t_singleface_ptnum*2] = t_camera_w*0.5;
-        m_faceDateExt[t_singleface_ptnum*2+1] = t_camera_h*0.5;
-        t_singleface_ptnum++;
-        m_faceDateExt[t_singleface_ptnum*2] = -t_camera_w*0.5;
-        m_faceDateExt[t_singleface_ptnum*2+1] = t_camera_h*0.5;
-        t_singleface_ptnum++;
+//        SVSTPointExt::st_lipsPointExtWithFaceLandMark(m_faceDateExt, t_singleface_ptnum);
+//        SVSTPointExt::st_faceOutlinePointExtWithFaceLandMark(m_faceDateExt, t_singleface_ptnum);
+//        m_faceDateExt[t_singleface_ptnum*2] = -t_camera_w*0.5;
+//        m_faceDateExt[t_singleface_ptnum*2+1] = -t_camera_h*0.5;
+//        t_singleface_ptnum++;
+//        m_faceDateExt[t_singleface_ptnum*2] = t_camera_w*0.5;
+//        m_faceDateExt[t_singleface_ptnum*2+1] = -t_camera_h*0.5;
+//        t_singleface_ptnum++;
+//        m_faceDateExt[t_singleface_ptnum*2] = t_camera_w*0.5;
+//        m_faceDateExt[t_singleface_ptnum*2+1] = t_camera_h*0.5;
+//        t_singleface_ptnum++;
+//        m_faceDateExt[t_singleface_ptnum*2] = -t_camera_w*0.5;
+//        m_faceDateExt[t_singleface_ptnum*2+1] = t_camera_h*0.5;
+//        t_singleface_ptnum++;
         m_pVerts->writeData(m_faceDateExt, t_singleface_ptnum * 2 * sizeof(f32));
         m_mtlFace2D->setTexSizeIndex(1, 1.0f/t_camera_w, 1.0f/t_camera_h);
         m_pFaceMesh->setvisible(true);
