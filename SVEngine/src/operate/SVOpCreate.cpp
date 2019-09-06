@@ -50,6 +50,10 @@
 #include "../physics/bodies/SVPhysicsBodyRigid.h"
 #include "../physics/shapes/SVPhysicsShapeBox.h"
 #include "../physics/shapes/SVPhysicsShapeSphere.h"
+#include "../act/SVActionMgr.h"
+#include "../act/SVActionUnit.h"
+#include "../act/SVActFollow.h"
+
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
 : SVOpBase(_app) {
@@ -96,6 +100,7 @@ void SVOpCameraControl::_process(f32 dt) {
 //        mApp->m_pGlobalMgr->m_pNodeMgr->addNode(pCam);
     }
 }
+
 //创建天空
 SVOpCreateSkyDome::SVOpCreateSkyDome(SVInst *_app,cptr8 pStrPath,s32 resId)
 : SVOpBase(_app)
@@ -107,15 +112,8 @@ SVOpCreateSkyDome::~SVOpCreateSkyDome() {
 }
 
 void SVOpCreateSkyDome::_process(f32 dt) {
-//    SVSkyDomeNode *tSkyNode = (SVSkyDomeNode *) mApp->m_pGlobalMgr->m_pNodeMgr->pCreator->createNode(
-//            "SVSkyDomeNode", "skyDome");
-//    SVTexture *pTex = mApp->getTexMgr()->getTexture(m_strPath.c_str(), true);
-//    tSkyNode->generateSkyDome(pTex, 50, 15, 1.0, 1.0, 2000);
-//    SVScenePtr pScene = mApp->getSceneMgr()->getScene();
-//    if (pScene) {
-//        pScene->addChild(tSkyNode);
-//    }
 }
+
 //创建粒子节点
 SVOpCreateParticle::SVOpCreateParticle(SVInst *_app,cptr8 pStrPath)
 : SVOpBase(_app)
@@ -288,18 +286,28 @@ SVOpCreateTest::~SVOpCreateTest(){
     
 }
 
+#include "../act/SVActFollow.h"
+
 void SVOpCreateTest::_process(f32 dt) {
     SVLoaderGLTF t_load(mApp);
-    t_load.loadFromFile("svres/gltf/dujiaoSHou/DuJiaoShou.gltf");
+    t_load.loadFromFile("svres/gltf/For_YZ/Hair_baseColor.gltf");
     t_load.building();
-    SVNodePtr t_node = t_load.getNode("Hair");
+    SVNodePtr t_node = t_load.getNode("hair");
     if(t_node) {
         SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
         if (t_pScene) {
-            t_node->setScale(10.0f,10.0f,10.0f);
+            t_node->setScale(1.0f,1.0f,1.0f);
             t_node->setPosition(0.0f, 0.0f, 0.0f);
             t_node->setRotation(0.0f, 0.0f, 0.0f);
             t_pScene->addNode(t_node);
+            //
+            SVActFollowPerson3dPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson3d>(mApp, 1);
+            t_fllowPerson->setFllowIndex(43);//43
+            t_fllowPerson->setBindOffset(0.0f,0.0f,0.0f);
+            t_fllowPerson->setScale(1.0f,1.0f,1.0f);
+            t_fllowPerson->setEyeDis(9.0f);//9.5设置模型的瞳距
+            SVActionUnitPtr t_personAct = mApp->getActionMgr()->addAction(t_fllowPerson, t_node);
+            t_personAct->play();
         }
     }
     

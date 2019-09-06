@@ -425,5 +425,7 @@ void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
             t_spine->setSpineName(t_spineName.c_str());
             setSpine(t_spine);
         }
+        //从特效包里加载的spine动画，写死了走这个渲染流！！
+        m_rsType = RST_SOLID_3D;
     }
 }

@@ -16,7 +16,6 @@
 #include "../node/SVSpineNode.h"
 #include "../node/SVScene.h"
 #include "../node/SVIOSInstreamNode.h"
-#include "../node/SVFacePointNode.h"
 #include "../node/SVFaceShapeNode.h"
 #include "../node/SVShapeVariedNode.h"
 #include "../node/SVSpriteNode.h"

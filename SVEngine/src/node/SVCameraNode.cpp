@@ -10,103 +10,6 @@
 #include "../rendercore/SVFboObject.h"
 #include "../act/SVCameraCtrl.h"
 
-
-SVProjMethod::SVProjMethod() {
-    m_width = 720.0f;
-    m_height = 1280.0f;
-    m_zfar = 1000.0f;
-    m_znear = 1.0f;
-    m_projMat.setIdentity();
-}
-
-FMat4& SVProjMethod::getMat(){
-    return m_projMat;
-}
-
-f32* SVProjMethod::getMatPoint(){
-    return m_projMat.get();
-}
-
-void SVProjMethod::reset() {
-    m_projMat.setIdentity();
-}
-
-void SVProjMethod::refresh() {
-    m_projMat.setIdentity();
-}
-
-void SVProjMethod::setWidth(f32 _w) {
-    m_width = _w;
-}
-
-void SVProjMethod::setHeight(f32 _h) {
-    m_height = _h;
-}
-
-void SVProjMethod::setNear(f32 _near) {
-    m_znear = _near;
-}
-
-void SVProjMethod::setFar(f32 _far) {
-    m_zfar = _far;
-}
-
-
-//透视投影
-SVProject::SVProject() {
-    m_fovy = 60.0f;
-}
-
-void SVProject::setFovy(f32 _fovy) {
-    m_fovy = _fovy;
-}
-
-void SVProject::reset() {
-    m_width = 720.0f;
-    m_height = 1280.0f;
-    m_zfar = 10000.0f;
-    m_znear = 1.0f;
-    refresh();
-}
-
-void SVProject::refresh() {
-    m_projMat = perspective(m_fovy,m_width/m_height, m_znear, m_zfar);
-}
-
-
-//正交投影
-SVOrtho::SVOrtho() {
-}
-
-void SVOrtho::reset() {
-    m_width = 720.0f;
-    m_height = 1280.0f;
-    m_zfar = 10000.0f;
-    m_znear = 1.0f;
-    refresh();
-}
-
-void SVOrtho::refresh() {
-    m_projMat = ortho( -m_width/2 ,
-                       m_width/2 ,
-                       -m_height/2 ,
-                       m_height/2  ,
-                       m_znear  ,
-                       m_zfar );   //投影矩阵
-}
-
-SVARProj::SVARProj() {
-    
-}
-
-void SVARProj::reset() {
-    
-}
-
-void SVARProj::refresh() {
-    //m_projMat =
-}
-
 //
 SVCameraNode::SVCameraNode(SVInst *_app)
 : SVEventProc(_app) {
@@ -114,7 +17,7 @@ SVCameraNode::SVCameraNode(SVInst *_app)
     m_resLock = MakeSharedPtr<SVLock>();
     //视矩阵
     SVCamCtrlBasePtr t_pCtrl =  MakeSharedPtr<SVCamCtrlBase>(_app);
-    f32 t_pos_z = 0.5f * 1280.0f / tan(30.0f * DEGTORAD);
+    f32 t_pos_z =640.0f / tan(30.0f * DEGTORAD);
     t_pCtrl->setPosition(0.0f, 0.0,t_pos_z);
     t_pCtrl->setTarget(0.0f, 0.0f, 0.0f);
     t_pCtrl->setUp(0.0f,1.0f,0.0f);
@@ -152,10 +55,10 @@ void SVCameraNode::destroy() {
 void SVCameraNode::setProject() {
     if(m_pProjMethod) {
         SVProjectPtr tt = MakeSharedPtr<SVProject>();
-        tt->setWidth(m_pProjMethod->getWidth());
-        tt->setHeight(m_pProjMethod->getHeight());
-        tt->setNear(m_pProjMethod->getNear());
-        tt->setFar(m_pProjMethod->getFar());
+        tt->setWidth(tt->getWidth());
+        tt->setHeight(tt->getHeight());
+        tt->setNear(tt->getNear());
+        tt->setFar(tt->getFar());
         tt->setFovy(60.0f);
         tt->refresh();
         m_pProjMethod = tt;
@@ -337,6 +240,13 @@ void SVCameraNode::setCtrl(SVCameraCtrlPtr _ctr) {
     //
     m_pos = m_pCtrl->getPos();
     m_mat_v = m_pCtrl->getMat();
+}
+
+void SVCameraNode::setProjMethod(SVProjMethodPtr _proj) {
+    if(!_proj){
+        return ;//error 不允许没有
+    }
+    m_pProjMethod = _proj;
 }
 
 SVProjMethodPtr SVCameraNode::getProjMethod() {

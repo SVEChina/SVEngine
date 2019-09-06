@@ -101,6 +101,7 @@ enum BITFONT_ATCH_PT {
 enum SVTEXTYPE {
     E_TEX_MAIN = 0,
     E_TEX_CAMERA = 1,
+    E_TEX_SHADOW,
     E_TEX_INSTREAM = 10,
     E_TEX_OUTSTREAM = 20,
     E_TEX_HELP0 = 21,

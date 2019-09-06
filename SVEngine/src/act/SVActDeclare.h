@@ -36,6 +36,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVActScaleBetween);
         DECLARE_SHAREPTR(SVActFollow);
         DECLARE_SHAREPTR(SVActFollowPerson);
+        DECLARE_SHAREPTR(SVActFollowPerson3d);
         DECLARE_SHAREPTR(SVActCircle);
         DECLARE_SHAREPTR(SVActSequence);
         DECLARE_SHAREPTR(SVActTime);

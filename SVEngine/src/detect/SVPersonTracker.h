@@ -14,6 +14,7 @@
 #include "../base/SVGBase.h"
 #include "../base/SVColor.h"
 #include "../base/SVVec3.h"
+#include "../base/SVBounds.h"
 #include "../base/SVRect.h"
 
 namespace sv {
@@ -29,6 +30,8 @@ namespace sv {
             void track_st(void *_data, s32 _ptnum, SVRect &_rect, f32 yaw, f32 pitch, f32 roll, s32 personID);
             
             void setEnableExpression(bool _enable);
+            
+            f32 getEyeDis();
             
         public:
             FVec3 m_facecenter;
@@ -52,6 +55,9 @@ namespace sv {
             f32 m_eyestd_scale;     //瞳距相对于标准脸的缩放
             f32 m_noisetd_scale;
             f32 m_eye_angle;
+            
+            SVBoundBox m_bound;
+            
         protected:
             void _sendExpressionEvent(SV_EVENT_TYPE _type);
             //精细表情识别

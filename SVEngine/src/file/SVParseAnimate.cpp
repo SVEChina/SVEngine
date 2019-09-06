@@ -15,4 +15,11 @@ SVParseAnimate::parseAnim(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _r
     return t_spineNode;
 }
 
+SVNodePtr SVParseGLTF::parseGLTF(SVInst *app, RAPIDJSON_NAMESPACE::Value &item, s32 _resid, cptr8 _path) {
+//    SVSpineNodePtr t_spineNode = MakeSharedPtr<SVSpineNode>(_app);
+//    t_spineNode->m_rootPath = _path;
+//    t_spineNode->fromJSON(item);
+//    return t_spineNode;
+    return nullptr;
+}
 

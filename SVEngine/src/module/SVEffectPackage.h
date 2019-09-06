@@ -28,8 +28,6 @@ namespace sv{
         void setEnd(bool _end);
         
         bool isEnd();
-        
-        void updateAniEvent(SVAnimateEventPtr _event);
     protected:
         void _attachToPeople(SVNodePtr _node);
     protected:
@@ -42,7 +40,7 @@ namespace sv{
     public:
         enum EFFECTANISTATE{
             EFFECT_ANI_WAIT = 0,
-            EFFECT_ANI_BEGIN,
+            EFFECT_ANI_RUN,
             EFFECT_ANI_END
         };
         SVEffectPackage(SVInst* _app);
@@ -57,23 +55,24 @@ namespace sv{
         
         virtual void open();
         
-        virtual bool procEvent(SVEventPtr _event);
+        virtual void close();
         
         void reset();
         
+        virtual bool procEvent(SVEventPtr _event);
+        
         void addEffectUnit(SVNodePtr _nodePtr);
-        
-        SVNodePtr getNode(cptr8 _name);
-        
-        void addAttachment(SVActTexAttachmentPtr _attachment);
         
         void addFilter(SVFilterBasePtr _filter);
         
         void addDefrom(SVDeformImageMovePtr _deform);
         
+        void addAttachment(SVActTexAttachmentPtr _attachment);
+        
         SVActTexAttachmentPtr getTexAttachment(s32 _channel);
         
         void setEffectMusic(SVEffectMusicPtr _music);
+        
     protected:
         EFFECTANISTATE m_aniState;
         typedef SVArray<SVEffectUnitPtr> SVEFFECTUNITPOOL;

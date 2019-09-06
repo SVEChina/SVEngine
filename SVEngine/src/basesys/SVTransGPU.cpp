@@ -8,7 +8,6 @@
 #include "SVTransGPU.h"
 #include "../node/SVCameraNode.h"
 #include "../node/SVScene.h"
-#include "../node/SVFacePointNode.h"
 #include "../node/SVMultPassNode.h"
 #include "../core/SVPass.h"
 #include "../basesys/SVSceneMgr.h"

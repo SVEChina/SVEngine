@@ -29,6 +29,15 @@ SVPersonTracker::~SVPersonTracker() {
 
 }
 
+f32 SVPersonTracker::getEyeDis() {
+    FVec3 t_dis = m_leftEyePos - m_rightEyePos;
+    f32 t_eyedis = t_dis.length();
+    //t_eyedis = t_eyedis/cos(m_roll*DEG2RAD);
+    t_eyedis = t_eyedis/cos(-m_yaw*DEG2RAD);
+    //t_eyedis = t_eyedis/cos(m_pitch*DEG2RAD);
+    return t_eyedis;
+}
+
 void SVPersonTracker::track_st(void *_data, s32 _ptnum, SVRect &_rect, f32 yaw, f32 pitch, f32 roll, s32 personID) {
     m_pFacedata = (f32 *) _data;
     m_personID = personID;
@@ -99,6 +108,13 @@ void SVPersonTracker::track_st(void *_data, s32 _ptnum, SVRect &_rect, f32 yaw, 
     //精细表情识别
     if (m_enableExpression) {
         _trackExpression_st();
+    }
+    //更新包围盒
+    m_bound.clear();
+    for(s32 i=0;i<106;i++) {
+        f32 t_x = m_pFacedata[2*i];
+        f32 t_y = m_pFacedata[2*i+1];
+        m_bound.expand(FVec3(t_x,t_y,0.0f));
     }
 }
 

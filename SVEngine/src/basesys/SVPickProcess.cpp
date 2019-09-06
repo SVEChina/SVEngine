@@ -156,9 +156,7 @@ bool SVPickProcess::pickScene(SVCameraNodePtr _cam,s32 _sx,s32 _sy){
 }
 
 bool SVPickProcess::pickUI(SVCameraNodePtr _cam,s32 _sx,s32 _sy){
-    SVScenePtr t_sc = mApp->getSceneMgr()->getScene();
-    // error fyz
-//    if (_cam && t_sc) {
+    if ( mApp->getUIMgr() ) {
 //        FVec3 t_start,t_end;
 //        if( _getRayMat(_cam,_cam->getVPMatObjUI(),_sx,_sy,t_start,t_end) ){
 //            //射线求交
@@ -178,7 +176,7 @@ bool SVPickProcess::pickUI(SVCameraNodePtr _cam,s32 _sx,s32 _sy){
 //                mApp->getEventMgr()->pushEvent(t_event);
 //            }
 //        }
-//    }
+    }
     return false;
 }
 
