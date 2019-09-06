@@ -32,12 +32,10 @@ void SVCameraMgr::init() {
     //ui相机
     m_uiCamera = MakeSharedPtr<SVCameraNode>(mApp);
     m_uiCamera->init();
-    //AR相机
 }
 
 //
 void SVCameraMgr::destroy() {
-    m_camerPool.clear();
     if(m_mainCamera) {
         m_mainCamera->destroy();
         m_mainCamera = nullptr;
@@ -89,16 +87,6 @@ void SVCameraMgr::update(f32 dt) {
             t_rs->pushRenderCmd(RST_UI_END, t_cmd_pop_ui);
         }
     }
-    //更新其他相机
-    m_cameraLock->lock();
-    CAMERAPOOL::Iterator it = m_camerPool.begin();
-    while ( it!=m_camerPool.end() ) {
-        SVCameraNodePtr t_camNode = it->data;
-        t_camNode->update(dt);
-        it++;
-    }
-    m_cameraLock->unlock();
-    
 }
 
 void SVCameraMgr::setMainCamera(SVCameraNodePtr _camera){
@@ -114,41 +102,3 @@ SVCameraNodePtr SVCameraMgr::getMainCamera(){
 SVCameraNodePtr SVCameraMgr::getUICamera() {
     return m_uiCamera;
 }
-
-void SVCameraMgr::addCamera(cptr8 _name, SVCameraNodePtr _camera){
-    if (_camera == nullptr) {
-        return;
-    }
-    if (hasCamera(_name)) {
-        return;
-    }
-    m_cameraLock->lock();
-    m_camerPool.append(SVString(_name), _camera);
-    m_cameraLock->unlock();
-}
-
-bool SVCameraMgr::removeCamera(cptr8 _name){
-    CAMERAPOOL::Iterator it = m_camerPool.find(SVString(_name));
-    if( it!=m_camerPool.end() ) {
-        m_camerPool.remove(it);
-        return true;
-    }
-    return false;
-}
-
-SVCameraNodePtr SVCameraMgr::getCamera(cptr8 _name){
-    CAMERAPOOL::Iterator it = m_camerPool.find(SVString(_name));
-    if( it!=m_camerPool.end() ) {
-        return it->data;
-    }
-    return nullptr;
-}
-
-bool SVCameraMgr::hasCamera(cptr8 _name) {
-    CAMERAPOOL::Iterator it = m_camerPool.find(SVString(_name));
-    if( it!=m_camerPool.end() ) {
-        return true;
-    }
-    return false;
-}
-
