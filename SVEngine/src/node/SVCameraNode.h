@@ -13,86 +13,7 @@
 namespace sv {
     
     namespace node{
-        
-        //正交
-        class SVProjMethod : public SVObject {
-        public:
-            SVProjMethod();
-            
-            FMat4& getMat();
-
-            f32* getMatPoint();
-            
-            virtual void reset();
-            
-            virtual void refresh();
-            
-            void setWidth(f32 _w);
-            
-            void setHeight(f32 _h);
-            
-            void setNear(f32 _near);
-            
-            void setFar(f32 _far);
-            
-            f32 getWidth(){ return m_width; }
-            
-            f32 getHeight(){ return m_height; }
-            
-            f32 getNear(){ return m_znear; }
-            
-            f32 getFar(){ return m_zfar; }
-            
-            
-        protected:
-            FMat4 m_projMat;
-            f32 m_width;
-            f32 m_height;
-            f32 m_zfar;
-            f32 m_znear;
-        };
-        
-        //投影
-        class SVProject : public SVProjMethod {
-        public:
-            SVProject();
-            
-            void reset();
-            
-            void refresh();
-            
-            void setFovy(f32 _fovy);
-            
-        protected:
-            f32 m_fovy;
-        };
-        
-        //正交
-        class SVOrtho : public SVProjMethod {
-        public:
-            SVOrtho();
-            
-            void reset();
-            
-            void refresh();
-            
-        protected:
-            
-        };
-        
-        //ar投影
-        class SVARProj : public SVProjMethod {
-        public:
-            SVARProj();
-            
-            void reset();
-            
-            void refresh();
-            
-        protected:
-            
-        };
-        
+    
         //相机节点 不是节点
         class SVCameraNode : public SVEventProc {
         public:
@@ -118,7 +39,6 @@ namespace sv {
             //重制
             virtual void resetCamera(f32 w, f32 h);
 
-            //
             void setZ(f32 _near, f32 _far);
             
             f32 *getProjectMat();
@@ -141,6 +61,8 @@ namespace sv {
             void setCtrl(SVCameraCtrlPtr _ctr);
             //获取控制器,相机控制,主要是产生视矩阵
             SVCameraCtrlPtr getCtrl();
+            //设置投影方法
+            void setProjMethod(SVProjMethodPtr _proj);
             //投影方法
             SVProjMethodPtr getProjMethod();
             //

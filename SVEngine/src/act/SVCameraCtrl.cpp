@@ -11,6 +11,105 @@
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVPickProcess.h"
 
+
+SVProjMethod::SVProjMethod() {
+    m_width = 720.0f;
+    m_height = 1280.0f;
+    m_zfar = 1000.0f;
+    m_znear = 1.0f;
+    m_projMat.setIdentity();
+}
+
+FMat4& SVProjMethod::getMat(){
+    return m_projMat;
+}
+
+f32* SVProjMethod::getMatPoint(){
+    return m_projMat.get();
+}
+
+void SVProjMethod::reset() {
+    m_projMat.setIdentity();
+}
+
+void SVProjMethod::refresh() {
+    m_projMat.setIdentity();
+}
+
+void SVProjMethod::setWidth(f32 _w) {
+    m_width = _w;
+}
+
+void SVProjMethod::setHeight(f32 _h) {
+    m_height = _h;
+}
+
+void SVProjMethod::setNear(f32 _near) {
+    m_znear = _near;
+}
+
+void SVProjMethod::setFar(f32 _far) {
+    m_width = _far;
+}
+
+
+//透视投影
+SVProject::SVProject() {
+    m_fovy = 60.0f;
+}
+
+void SVProject::setFovy(f32 _fovy) {
+    m_fovy = _fovy;
+}
+
+void SVProject::reset() {
+    m_width = 720.0f;
+    m_height = 1280.0f;
+    m_zfar = 10000.0f;
+    m_znear = 1.0f;
+    refresh();
+}
+
+void SVProject::refresh() {
+    m_projMat = perspective(m_fovy,m_width/m_height, m_znear, m_zfar);
+}
+
+
+//正交投影
+SVOrtho::SVOrtho() {
+}
+
+void SVOrtho::reset() {
+    m_width = 720.0f;
+    m_height = 1280.0f;
+    m_zfar = 10000.0f;
+    m_znear = 1.0f;
+    refresh();
+}
+
+void SVOrtho::refresh() {
+    m_projMat = ortho( -m_width/2 ,
+                      m_width/2 ,
+                      -m_height/2 ,
+                      m_height/2  ,
+                      m_znear  ,
+                      m_zfar );   //投影矩阵
+}
+
+SVARProj::SVARProj() {
+}
+
+void SVARProj::reset() {
+}
+
+void SVARProj::refresh() {
+}
+
+void SVARProj::setProjMat(FMat4& _mat) {
+    m_projMat = _mat;
+}
+
+
 SVCameraCtrl::SVCameraCtrl(SVInst* _app)
 :SVGBase(_app)
 ,m_linkCam(nullptr){
@@ -220,9 +319,23 @@ bool SVCtrlCamera2D::run(SVCameraNodePtr _nodePtr, f32 dt) {
 //AR控制器
 SVCtrlCamereAR::SVCtrlCamereAR(SVInst* _app)
 :SVNodeCtrlCamera(_app){
-    
 }
 
 SVCtrlCamereAR::~SVCtrlCamereAR() {
+}
+
+bool SVCtrlCamereAR::run(SVCameraNodePtr _nodePtr, f32 dt){
+    return true;
+}
+
+void SVCtrlCamereAR::setEur(f32 _yaw,f32 _pitch,f32 _roll) {
     
+}
+
+void SVCtrlCamereAR::setPos(FVec3& _pos) {
+    m_pos = _pos;
+}
+
+void SVCtrlCamereAR::setViewMat(FMat4& _mat) {
+    m_mat = _mat;
 }

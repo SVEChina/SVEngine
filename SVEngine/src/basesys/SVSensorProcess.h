@@ -7,10 +7,13 @@
 
 #ifndef SV_SENSORMODULE_H
 #define SV_SENSORMODULE_H
+
 #include "SVProcess.h"
 #include "../base/SVVec3.h"
 #include "../node/SVNodeDeclare.h"
+
 namespace sv {
+    
     namespace logic{
         
         class SVSensorProcess : public SVProcess {
@@ -27,8 +30,8 @@ namespace sv {
             
         protected:
             SVCameraNodePtr m_pARCamera;
-//            SVCtrlCamereARPtr m_pARCtrl;
-//            SVARProj m_pARProj;
+            SVCtrlCamereARPtr m_pARCtrl;
+            SVARProjPtr m_pARProj;
         };
         
     }//!namespace logic

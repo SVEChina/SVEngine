@@ -74,6 +74,7 @@ namespace sv{
         SVActTexAttachmentPtr getTexAttachment(s32 _channel);
         
         void setEffectMusic(SVEffectMusicPtr _music);
+        
     protected:
         EFFECTANISTATE m_aniState;
         typedef SVArray<SVEffectUnitPtr> SVEFFECTUNITPOOL;

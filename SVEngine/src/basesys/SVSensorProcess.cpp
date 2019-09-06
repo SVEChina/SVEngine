@@ -12,30 +12,42 @@
 #include "../event/SVOpEvent.h"
 #include "../basesys/SVSceneMgr.h"
 #include "../basesys/SVCameraMgr.h"
-#include "../node/SVScene.h"
-#include "../node/SVCameraNode.h"
-#include "../node/SV3DBox.h"
-#include "../node/SVBillboardNode.h"
-#include "../node/SVSpriteNode.h"
-#include "../mtl/SVTexMgr.h"
-#include "../mtl/SVTexture.h"
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVPickProcess.h"
+#include "../node/SVScene.h"
+#include "../node/SVCameraNode.h"
+#include "../mtl/SVTexMgr.h"
+#include "../mtl/SVTexture.h"
 #include "../rendercore/SVRenderScene.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRenderMgr.h"
+#include "../act/SVCameraCtrl.h"
 #include <sys/time.h>
 //
 SVSensorProcess::SVSensorProcess(SVInst *_app)
 :SVProcess(_app) {
-    m_pARCamera = MakeSharedPtr<SVCameraNode>(mApp);
     s32 m_sw = mApp->m_pGlobalParam->m_inner_width;
     s32 m_sh = mApp->m_pGlobalParam->m_inner_height;
+    //
+    m_pARCtrl =  MakeSharedPtr<SVCtrlCamereAR>(mApp);
+    //
+    m_pARProj = MakeSharedPtr<SVARProj>();
+    //
+    m_pARCamera = MakeSharedPtr<SVCameraNode>(mApp);
+    m_pARCamera->init();
     m_pARCamera->resetCamera(m_sw,m_sh);
+    m_pARCamera->setCtrl(m_pARCtrl);
+    m_pARCamera->setProjMethod(m_pARProj);
+    
 }
 
 SVSensorProcess::~SVSensorProcess() {
-    m_pARCamera = nullptr;
+    m_pARCtrl = nullptr;
+    m_pARProj = nullptr;
+    if(m_pARCamera) {
+        m_pARCamera->destroy();
+        m_pARCamera = nullptr;
+    }
 }
 
 void SVSensorProcess::update(f32 _dt){
@@ -62,36 +74,30 @@ void SVSensorProcess::update(f32 _dt){
 bool SVSensorProcess::procEvent(SVEventPtr _event){
     if (_event->eventType == SV_EVENT_TYPE::EVN_T_CAMERA_OREN){
         SVCameraOrenEventPtr oren = std::dynamic_pointer_cast<SVCameraOrenEvent>(_event);
-        if(m_pARCamera) {
-            //error fyz
-            //m_pARCamera->setPose(oren->pitch, oren->roll, oren->yaw);
+        if(m_pARCtrl) {
+            m_pARCtrl->setEur( oren->yaw,oren->pitch,oren->roll);
         }
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_CAMERA_MATRIX){
         SVCameraMatrixEventPtr cameraMatrix = std::dynamic_pointer_cast<SVCameraMatrixEvent>(_event);
-        if(m_pARCamera) {
+        if(m_pARCtrl) {
             FMat4 t_viewMat = FMat4((f32 *)cameraMatrix->m_matData->getData());
-            //m_pARCamera->syncViewMatrix(t_viewMat);
+            m_pARCtrl->setViewMat(t_viewMat);
         }
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_PROJECT_MATRIX){
         SVProjectMatrixEventPtr projectMatrix = std::dynamic_pointer_cast<SVProjectMatrixEvent>(_event);
-                SVCameraNodePtr mainCamera = mApp->getCameraMgr()->getMainCamera();
-        if(m_pARCamera) {
+        if(m_pARProj) {
             FMat4 t_projectMat = FMat4((f32 *)projectMatrix->m_matData->getData());
-            //m_pARCamera->syncProjectMatrix(t_projectMat);
+            m_pARProj->setProjMat(t_projectMat);
         }
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHOR_AR){
         SVARAnchorEventPtr anchor = std::dynamic_pointer_cast<SVARAnchorEvent>(_event);
         if (anchor) {
-            
         }
         
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_ANCHORPOINT_AR){
         SVARAnchorProjPosEventPtr anchorPoint = std::dynamic_pointer_cast<SVARAnchorProjPosEvent>(_event);
         if (anchorPoint) {
-            
-            
         }
-        
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_DEVICE_ACCELEROMETER){
         SVDeviceAccelerometerEventPtr accelerometer = std::dynamic_pointer_cast<SVDeviceAccelerometerEvent>(_event);
     }
