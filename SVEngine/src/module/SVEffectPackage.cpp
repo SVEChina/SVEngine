@@ -50,7 +50,7 @@ SVEffectUnit::~SVEffectUnit(){
 void SVEffectUnit::init(SVNodePtr _node){
     SVScenePtr t_scene = mApp->getSceneMgr()->getScene();
     if(_node && t_scene){
-        m_end = true;
+        setEnd(true);
         m_node = _node;
         t_scene->addNode(m_node);
         //需要挂的人身上
@@ -62,7 +62,7 @@ void SVEffectUnit::init(SVNodePtr _node){
             cptr8 t_defAniName = t_spineNode->getCurAniName();
             t_spineNode->setSpineCallback(spinenode_callback, this);
             t_spineNode->play(t_defAniName);
-            m_end = false;
+            setEnd(false);
         }
     }
 }
