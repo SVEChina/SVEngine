@@ -13,6 +13,12 @@
 namespace sv {
     
     namespace logic {
+        //
+        DECLARE_SHAREPTR(SVProjMethod);
+        DECLARE_SHAREPTR(SVProject);
+        DECLARE_SHAREPTR(SVOrtho);
+        DECLARE_SHAREPTR(SVARProj);
+        //
         DECLARE_SHAREPTR(SVCameraCtrl);
         DECLARE_SHAREPTR(SVCamCtrlBase);
         DECLARE_SHAREPTR(SVCamCtrlAttr);
@@ -42,11 +48,6 @@ namespace sv {
         DECLARE_SHAREPTR(SV3DBox);
         DECLARE_SHAREPTR(SVBitFontNode);
         DECLARE_SHAREPTR(SVBMFontNode);
-        
-        DECLARE_SHAREPTR(SVProjMethod);
-        DECLARE_SHAREPTR(SVProject);
-        DECLARE_SHAREPTR(SVOrtho);
-        DECLARE_SHAREPTR(SVARProj);
         DECLARE_SHAREPTR(SVCameraNode);
         DECLARE_SHAREPTR(SVCoordGridNode);
         DECLARE_SHAREPTR(SVDummyNode);

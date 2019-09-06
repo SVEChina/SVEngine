@@ -85,6 +85,19 @@ namespace sv {
             s32 m_bindIndex;
             s32 m_personID;
         };
+        
+        //
+        class SVActFollowPerson3d : public SVActFollowPerson {
+        public:
+            SVActFollowPerson3d(SVInst *_app, s32 _personID);
+            
+            ~SVActFollowPerson3d();
+            
+            void run(SVNodePtr _nodePtr, f32 dt);
+            
+            bool isEnd();
+        };
+        
     }//!namespace node
     
 }//!namespace sv

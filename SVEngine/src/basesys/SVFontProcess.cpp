@@ -61,7 +61,6 @@ SVFontProcess::SVFontProcess(SVInst *_app)
         }
     }while(0);
 #endif
-    
 }
 
 SVFontProcess::~SVFontProcess() {
@@ -77,9 +76,7 @@ bool SVFontProcess::procEvent(SVEventPtr _event){
     return true;
 }
 
-
 #ifdef CONFIG_IS_LOAD_FREETYPE
-
 FT_Library SVFontProcess::getFontLib(){
     return m_fontLib;
 }

@@ -96,6 +96,7 @@ void SVOpCameraControl::_process(f32 dt) {
 //        mApp->m_pGlobalMgr->m_pNodeMgr->addNode(pCam);
     }
 }
+
 //创建天空
 SVOpCreateSkyDome::SVOpCreateSkyDome(SVInst *_app,cptr8 pStrPath,s32 resId)
 : SVOpBase(_app)
@@ -107,15 +108,8 @@ SVOpCreateSkyDome::~SVOpCreateSkyDome() {
 }
 
 void SVOpCreateSkyDome::_process(f32 dt) {
-//    SVSkyDomeNode *tSkyNode = (SVSkyDomeNode *) mApp->m_pGlobalMgr->m_pNodeMgr->pCreator->createNode(
-//            "SVSkyDomeNode", "skyDome");
-//    SVTexture *pTex = mApp->getTexMgr()->getTexture(m_strPath.c_str(), true);
-//    tSkyNode->generateSkyDome(pTex, 50, 15, 1.0, 1.0, 2000);
-//    SVScenePtr pScene = mApp->getSceneMgr()->getScene();
-//    if (pScene) {
-//        pScene->addChild(tSkyNode);
-//    }
 }
+
 //创建粒子节点
 SVOpCreateParticle::SVOpCreateParticle(SVInst *_app,cptr8 pStrPath)
 : SVOpBase(_app)

@@ -8,7 +8,7 @@
 #ifndef SV_UIMGR_H
 #define SV_UIMGR_H
 
-#include "SVSysBase.h"
+#include "../basesys/SVSysBase.h"
 
 namespace sv {
 

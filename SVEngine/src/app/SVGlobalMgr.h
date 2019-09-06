@@ -45,6 +45,8 @@ namespace sv {
         SVUIMgrPtr m_pUIMgr;
         //模块(插件)部分
         SVModuleSysPtr m_pModuleSys;
+        //灯光部分
+        SVLightSysPtr m_pLightSys;
         //shader部分
         SVShaderMgrPtr m_pShaderMgr;
         //纹理部分

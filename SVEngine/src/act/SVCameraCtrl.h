@@ -16,6 +16,86 @@ namespace sv {
     
     namespace logic {
         
+        //正交
+        class SVProjMethod : public SVObject {
+        public:
+            SVProjMethod();
+            
+            FMat4& getMat();
+            
+            f32* getMatPoint();
+            
+            virtual void reset();
+            
+            virtual void refresh();
+            
+            void setWidth(f32 _w);
+            
+            void setHeight(f32 _h);
+            
+            void setNear(f32 _near);
+            
+            void setFar(f32 _far);
+            
+            f32 getWidth(){ return m_width; }
+            
+            f32 getHeight(){ return m_height; }
+            
+            f32 getNear(){ return m_znear; }
+            
+            f32 getFar(){ return m_zfar; }
+            
+        protected:
+            FMat4 m_projMat;
+            f32 m_width;
+            f32 m_height;
+            f32 m_zfar;
+            f32 m_znear;
+        };
+        
+        //投影
+        class SVProject : public SVProjMethod {
+        public:
+            SVProject();
+            
+            void reset();
+            
+            void refresh();
+            
+            void setFovy(f32 _fovy);
+            
+        protected:
+            f32 m_fovy;
+        };
+        
+        //正交
+        class SVOrtho : public SVProjMethod {
+        public:
+            SVOrtho();
+            
+            void reset();
+            
+            void refresh();
+            
+        protected:
+            
+        };
+        
+        //ar投影
+        class SVARProj : public SVProjMethod {
+        public:
+            SVARProj();
+            
+            void reset();
+            
+            void refresh();
+            
+            void setProjMat(FMat4& _mat);
+            
+        protected:
+            
+        };
+        
         //基础相机控制
         class SVCameraCtrl: public SVGBase {
         public:
@@ -99,7 +179,6 @@ namespace sv {
             
             virtual bool run(SVCameraNodePtr _nodePtr, f32 dt);
             
-            //
             void reset();
             //
             void reset(s32 _w,s32 _h);
@@ -151,6 +230,17 @@ namespace sv {
             SVCtrlCamereAR(SVInst* _app);
             
             ~SVCtrlCamereAR();
+            
+            bool run(SVCameraNodePtr _nodePtr, f32 dt);
+            
+            void setPos(FVec3& _pos);
+            
+            void setEur(f32 _yaw,f32 _pitch,f32 _roll);
+            
+            void setViewMat(FMat4& _mat);
+            
+        protected:
+            
         };
         
     }//!namespace logic

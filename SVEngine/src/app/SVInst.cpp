@@ -175,6 +175,12 @@ SVUIMgrPtr SVInst::getUIMgr(){
     return m_pGlobalMgr->m_pUIMgr;
 }
 
+SVLightSysPtr SVInst::getLightSys() {
+    if(!m_pGlobalMgr)
+        return nullptr;
+    return m_pGlobalMgr->m_pLightSys;
+}
+
 SVModuleSysPtr SVInst::getModuleSys(){
     if(!m_pGlobalMgr)
         return nullptr;
