@@ -8,8 +8,8 @@
 #ifndef SV_PARSEDATA_H
 #define SV_PARSEDATA_H
 
-#include "SVParse.h"
 #include "../base/SVGBase.h"
+#include "../node/SVNodeDef.h"
 
 namespace sv {
     

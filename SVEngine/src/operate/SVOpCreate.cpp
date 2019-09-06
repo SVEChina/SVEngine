@@ -50,6 +50,10 @@
 #include "../physics/bodies/SVPhysicsBodyRigid.h"
 #include "../physics/shapes/SVPhysicsShapeBox.h"
 #include "../physics/shapes/SVPhysicsShapeSphere.h"
+#include "../act/SVActionMgr.h"
+#include "../act/SVActionUnit.h"
+#include "../act/SVActFollow.h"
+
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
 : SVOpBase(_app) {
@@ -276,18 +280,28 @@ SVOpCreateTest::~SVOpCreateTest(){
     
 }
 
+#include "../act/SVActFollow.h"
+
 void SVOpCreateTest::_process(f32 dt) {
     SVLoaderGLTF t_load(mApp);
-    t_load.loadFromFile("svres/gltf/dujiaoSHou/DuJiaoShou.gltf");
+    t_load.loadFromFile("svres/gltf/For_YZ/Hair_baseColor.gltf");
     t_load.building();
-    SVNodePtr t_node = t_load.getNode("Hair");
+    SVNodePtr t_node = t_load.getNode("hair");
     if(t_node) {
         SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
         if (t_pScene) {
-            t_node->setScale(10.0f,10.0f,10.0f);
+            t_node->setScale(1.0f,1.0f,1.0f);
             t_node->setPosition(0.0f, 0.0f, 0.0f);
             t_node->setRotation(0.0f, 0.0f, 0.0f);
             t_pScene->addNode(t_node);
+            //
+            SVActFollowPerson3dPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson3d>(mApp, 1);
+            t_fllowPerson->setFllowIndex(43);//43
+            t_fllowPerson->setBindOffset(0.0f,0.0f,0.0f);
+            t_fllowPerson->setScale(1.0f,1.0f,1.0f);
+            t_fllowPerson->setEyeDis(9.5f);//设置模型的瞳距
+            SVActionUnitPtr t_personAct = mApp->getActionMgr()->addAction(t_fllowPerson, t_node);
+            t_personAct->play();
         }
     }
     

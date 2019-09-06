@@ -96,6 +96,11 @@ namespace sv {
             void run(SVNodePtr _nodePtr, f32 dt);
             
             bool isEnd();
+            
+            void setEyeDis(f32 _eyedis);
+            
+        protected:
+            f32 m_src_eyedis;
         };
         
     }//!namespace node
