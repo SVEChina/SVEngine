@@ -67,11 +67,6 @@ void SVEffectUnit::init(SVNodePtr _node){
     }
 }
 
-void SVEffectUnit::updateAniEvent(SVAnimateEventPtr _event){
-    SVSpineNodePtr t_spineNode = DYN_TO_SHAREPTR(SVSpineNode, m_node);
-    
-}
-
 void SVEffectUnit::_attachToPeople(SVNodePtr _node){
     //跟随人脸
     SVActFollowPersonPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson>(mApp, _node->getPersonID());
@@ -122,17 +117,20 @@ void SVEffectPackage::init(){
 
 void SVEffectPackage::destroy(){
     m_lock->lock();
+    SVModuleBase::destroy();
     stopListen();
     for (s32 i = 0; i<m_attachmentPool.size(); i++) {
         SVActTexAttachmentPtr t_attachment = m_attachmentPool[i];
         t_attachment->destroy();
     }
     m_attachmentPool.destroy();
+    //
     for (s32 i = 0; i<m_effectUnitPool.size(); i++) {
         SVEffectUnitPtr t_unit = m_effectUnitPool[i];
         t_unit->destroy();
     }
     m_effectUnitPool.destroy();
+    //
     for (s32 i = 0; i<m_filterBasePool.size(); i++) {
         SVFilterBasePtr t_filterBase = m_filterBasePool[i];
         SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
@@ -140,15 +138,15 @@ void SVEffectPackage::destroy(){
             t_picproc->clearFilter(t_filterBase);
         }
     }
-    
+    m_filterBasePool.destroy();
+    //
     for (s32 i = 0; i<m_deformPool.size(); i++) {
         SVDeformImageMovePtr t_deform = m_deformPool[i];
         SVDeformMgrPtr t_deformMgr = mApp->getDeformMgr();
         t_deform->m_rule=1;
     }
-    
-    m_filterBasePool.destroy();
     m_deformPool.destroy();
+    //
     if (m_music) {
         SVArray<SVString>t_musics;
         m_music->getAllMusic(t_musics);
@@ -159,11 +157,8 @@ void SVEffectPackage::destroy(){
                 (*m_cb)(msg.c_str(), m_obj);
             }
         }
-        
     }
-    
     m_lock->unlock();
-    SVModuleBase::destroy();
     if (m_cb) {
         SVString msg = SVString::format("effectpackageremovesuccess_%s",m_module_name.c_str());
         (*m_cb)(msg.c_str(), m_obj);
@@ -172,11 +167,16 @@ void SVEffectPackage::destroy(){
 
 void SVEffectPackage::open(){
     SVModuleBase::open();
-    m_aniState = EFFECT_ANI_BEGIN;
+    m_aniState = EFFECT_ANI_RUN;
+}
+
+void SVEffectPackage::close(){
+    SVModuleBase::close();
+    m_aniState = EFFECT_ANI_END;
 }
 
 void SVEffectPackage::reset(){
-    m_aniState = EFFECT_ANI_BEGIN;
+    m_aniState = EFFECT_ANI_WAIT;
     for (s32 i = 0; i < m_effectUnitPool.size(); i++) {
         SVEffectUnitPtr t_unit = m_effectUnitPool[i];
         t_unit->setEnd(false);
@@ -185,8 +185,12 @@ void SVEffectPackage::reset(){
 
 void SVEffectPackage::update(f32 _dt) {
     SVModuleBase::update(_dt);
-    bool end = true;
-    if (m_aniState == EFFECT_ANI_BEGIN) {
+    if (m_aniState == EFFECT_ANI_RUN) {
+        for (s32 i = 0; i < m_attachmentPool.size(); i++) {
+            SVActTexAttachmentPtr t_attachment = m_attachmentPool[i];
+            t_attachment->update(_dt);
+        }
+        bool end = true;
         for (s32 i = 0; i < m_effectUnitPool.size(); i++) {
             SVEffectUnitPtr t_unit = m_effectUnitPool[i];
             if (!t_unit->isEnd()) {
@@ -194,19 +198,14 @@ void SVEffectPackage::update(f32 _dt) {
                 break;
             }
         }
-    }
-    if (end && m_aniState == EFFECT_ANI_BEGIN) {
-        m_aniState = EFFECT_ANI_END;
-        if (m_cb) {
-            SVString msg = SVString::format("effectpackageend_%s",m_module_name.c_str());
-            (*m_cb)(msg.c_str(), m_obj);
-            reset();
+        if (end) {
+            m_aniState = EFFECT_ANI_END;
+            if (m_cb) {
+                SVString msg = SVString::format("effectpackageend_%s",m_module_name.c_str());
+                (*m_cb)(msg.c_str(), m_obj);
+                reset();
+            }
         }
-    }
-    
-    for (s32 i = 0; i < m_attachmentPool.size(); i++) {
-        SVActTexAttachmentPtr t_attachment = m_attachmentPool[i];
-        t_attachment->update(_dt);
     }
 }
 
@@ -230,10 +229,7 @@ bool SVEffectPackage::procEvent(SVEventPtr _event) {
     }else if(_event->eventType == EVN_T_ANIMATE){
         SVAnimateEventPtr t_event = DYN_TO_SHAREPTR(SVAnimateEvent, _event);
         if (t_event) {
-            for (s32 i = 0; i<m_effectUnitPool.size(); i++) {
-                SVEffectUnitPtr t_unit = m_effectUnitPool[i];
-                t_unit->updateAniEvent(t_event);
-            }
+            
         }
     }
     return  true;
@@ -288,14 +284,5 @@ void SVEffectPackage::setEffectMusic(SVEffectMusicPtr _music){
     }
 }
 
-SVNodePtr SVEffectPackage::getNode(cptr8 _name){
-    for (s32 i = 0; i < m_effectUnitPool.size(); i++) {
-        SVEffectUnitPtr t_unit = m_effectUnitPool[i];
-        if (strcmp(_name, t_unit->getNode()->getname()) == 0) {
-            return t_unit->getNode();
-        }
-    }
-    return nullptr;
-}
 
 
