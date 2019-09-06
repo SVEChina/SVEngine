@@ -18,6 +18,7 @@
 #include "../basesys/SVDeformMgr.h"
 #include "../basesys/SVModelMgr.h"
 #include "../module/SVModuleSys.h"
+#include "../light/SVLightSys.h"
 #include "../file/SVFileMgr.h"
 #include "../event/SVEventMgr.h"
 #include "../mtl/SVTexMgr.h"
@@ -25,9 +26,9 @@
 #include "../mtl/SVShaderMgr.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../act/SVActionMgr.h"
-#include <sys/time.h>
 #include "../base/svstr.h"
 #include "../physics/SVPhysicsWorld.h"
+#include <sys/time.h>
 //#include <Python/Python.h>
 
 SVGlobalMgr::SVGlobalMgr(SVInst *_app)
@@ -49,6 +50,7 @@ SVGlobalMgr::SVGlobalMgr(SVInst *_app)
     m_pModelMgr = nullptr;
     m_pDeformSys = nullptr;
     m_pPhysics =nullptr;
+    m_pLightSys = nullptr;
 }
 
 SVGlobalMgr::~SVGlobalMgr() {
@@ -68,6 +70,7 @@ SVGlobalMgr::~SVGlobalMgr() {
     m_pModelMgr = nullptr;
     m_pDeformSys = nullptr;
     m_pPhysics =nullptr;
+    m_pLightSys = nullptr;
 }
 
 void SVGlobalMgr::init() {
@@ -101,6 +104,9 @@ void SVGlobalMgr::init() {
     //场景系统
     m_pSceneMgr = MakeSharedPtr<SVSceneMgr>(mApp);
     m_pSceneMgr->init();
+    //灯光系统
+    m_pLightSys = MakeSharedPtr<SVLightSys>(mApp);
+    m_pLightSys->init();
     //UI系统
     m_pUIMgr = MakeSharedPtr<SVUIMgr>(mApp);
     m_pUIMgr->init();
@@ -127,7 +133,7 @@ void SVGlobalMgr::init() {
     //变形系统
     m_pDeformSys = MakeSharedPtr<SVDeformMgr>(mApp);
     m_pDeformSys->init();
-    
+    //
     m_pPhysics = MakeSharedPtr<SVPhysicsWorld>(mApp);
     m_pPhysics->init();
 }
@@ -202,15 +208,21 @@ void SVGlobalMgr::destroy() {
         m_pConfig->destroy();
         SV_LOG_ERROR("SVConfig:destroy sucess");
     }
-    
     if(m_pDeformSys){
+        //
         m_pDeformSys->destroy();
         SV_LOG_ERROR("m_pDeformSys:destroy sucess");
     }
-    
     if(m_pPhysics){
+        //物理销毁
         m_pPhysics->destroy();
         SV_LOG_ERROR("m_pPhysics:destroy sucess");
+    }
+    
+    if(m_pLightSys) {
+        //灯光销毁
+        m_pLightSys->destroy();
+        SV_LOG_ERROR("m_pLightSys:destroy sucess");
     }
 }
 
@@ -221,12 +233,16 @@ void SVGlobalMgr::update(f32 dt) {
     timeTag(false,"basesys cost");
     m_pEventMgr->update(dt);            //事件处理系统更新
     timeTag(false,"event cost");
-    m_pActionMgr->update(dt);
+    m_pActionMgr->update(dt);           //运动系统
     timeTag(false,"action cost");
-    m_pModelMgr->update(dt);
-    timeTag(false,"modelmgr cost");
+    m_pModelMgr->update(dt);            //模型管理
+    timeTag(false,"model cost");
+    m_pPhysics->update(dt);             //物理更新
+    timeTag(false,"physics cost");
     m_pCameraMgr->update(dt);           //相机更新(节点系统)
     timeTag(false,"camera cost");
+    m_pLightSys->update(dt);            //灯光系统更新
+    timeTag(false,"light cost");
     m_pSceneMgr->update(dt);            //场景更新(节点系统)
     timeTag(false,"scene cost");
     m_pDeformSys->update(dt);           //变形更新
@@ -237,9 +253,6 @@ void SVGlobalMgr::update(f32 dt) {
     timeTag(false,"texmgr cost");
     m_pDetectMgr->update(dt);           //识别更新
     timeTag(false,"detect cost");
-    m_pPhysics->update(dt);
-    timeTag(false,"physics cost");
-    
 }
 
 void SVGlobalMgr::timeTag(bool _clear,cptr8 _tag){
