@@ -34,6 +34,9 @@ enum RENDERSTREAMTYPE {
     RST_FACEMORPH,          //面部微整
     RST_IMGFILTER,          //风格化
     RST_IMGFILTER_OUT,      //lut数据输出
+    RST_SHADOW_BEGIN,       //阴影开始
+    RST_SHADOW,             //阴影相关
+    RST_SHADOW_END,         //阴影结束
     RST_AR_BEGIN,           //ar开始
     RST_AR,                 //ar相关
     RST_AR_END,             //ar结束
