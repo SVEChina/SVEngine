@@ -145,13 +145,12 @@ void SVActFollowPerson::run(SVNodePtr _nodePtr, f32 dt){
             f32 t_yaw = t_person->getFaceRot().y;
             f32 t_roll = t_person->getFaceRot().z;
             f32 t_pitch = t_person->getFaceRot().x;
-            FVec2 t_vecOffset;
-            t_vecOffset.x = m_offsetX;
-            t_vecOffset.y = m_offsetY;
-            f32 t_offsetX = t_vecOffset.x*cosf(t_roll*DEGTORAD)-t_vecOffset.y*sinf(t_roll*DEGTORAD);
-            f32 t_offsetY = t_vecOffset.x*sinf(t_roll*DEGTORAD)+t_vecOffset.y*cosf(t_roll*DEGTORAD);
-            t_pt_x = t_pt_x + t_offsetX*t_personTracker->m_eyestd_scale;
-            t_pt_y = t_pt_y + t_offsetY*t_personTracker->m_noisetd_scale;
+            //
+            f32 t_offsetX = m_offsetX*cosf(t_roll*DEGTORAD)-m_offsetY*sinf(t_roll*DEGTORAD);
+            f32 t_offsetY = m_offsetX*sinf(t_roll*DEGTORAD)+m_offsetY*cosf(t_roll*DEGTORAD);
+            //
+            t_pt_x += t_offsetX*t_personTracker->m_eyestd_scale;
+            t_pt_y += t_offsetY*t_personTracker->m_noisetd_scale;
             _nodePtr->setPosition(t_pt_x, t_pt_y, 0.0f);
             _nodePtr->setScale(m_scaleX*t_personTracker->m_eyestd_scale, m_scaleY*t_personTracker->m_eyestd_scale, 1.0f);
             _nodePtr->setRotation(t_pitch, -t_yaw, t_roll);
@@ -159,7 +158,6 @@ void SVActFollowPerson::run(SVNodePtr _nodePtr, f32 dt){
             _nodePtr->setvisible(false);
         }
     }
-    
 }
 
 bool SVActFollowPerson::isEnd(){
