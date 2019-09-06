@@ -15,8 +15,8 @@
 SVProjMethod::SVProjMethod() {
     m_width = 720.0f;
     m_height = 1280.0f;
-    m_zfar = 1000.0f;
-    m_znear = 1.0f;
+    m_zfar = 1500.0f;
+    m_znear = 500.0f;
     m_projMat.setIdentity();
 }
 
@@ -65,8 +65,8 @@ void SVProject::setFovy(f32 _fovy) {
 void SVProject::reset() {
     m_width = 720.0f;
     m_height = 1280.0f;
-    m_zfar = 10000.0f;
-    m_znear = 1.0f;
+    m_zfar = 1500.0f;
+    m_znear = 500.0f;
     refresh();
 }
 
@@ -82,8 +82,8 @@ SVOrtho::SVOrtho() {
 void SVOrtho::reset() {
     m_width = 720.0f;
     m_height = 1280.0f;
-    m_zfar = 10000.0f;
-    m_znear = 1.0f;
+    m_zfar = 1500.0f;
+    m_znear = 500.0f;
     refresh();
 }
 

@@ -30,6 +30,8 @@ namespace sv {
             
             void setEnableExpression(bool _enable);
             
+            f32 getEyeDis();
+            
         public:
             FVec3 m_facecenter;
             FVec3 m_noisecenter;
@@ -52,6 +54,7 @@ namespace sv {
             f32 m_eyestd_scale;     //瞳距相对于标准脸的缩放
             f32 m_noisetd_scale;
             f32 m_eye_angle;
+            
         protected:
             void _sendExpressionEvent(SV_EVENT_TYPE _type);
             //精细表情识别

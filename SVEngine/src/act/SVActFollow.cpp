@@ -186,6 +186,7 @@ void SVActFollowPerson::setScale(f32 _scaleX, f32 _scaleY, f32 _scaleZ){
 //
 SVActFollowPerson3d::SVActFollowPerson3d(SVInst *_app, s32 _personID)
 :SVActFollowPerson(_app,_personID){
+    m_src_eyedis = 1.0f;
 }
 
 SVActFollowPerson3d::~SVActFollowPerson3d(){
@@ -199,19 +200,16 @@ void SVActFollowPerson3d::run(SVNodePtr _nodePtr, f32 dt){
             SVPersonTrackerPtr t_personTracker = t_person->getTracker();
             f32 t_pt_x = t_person->getFaceDataX(m_bindIndex);
             f32 t_pt_y = t_person->getFaceDataY(m_bindIndex);
+            f32 t_pitch = t_person->getFaceRot().x;
             f32 t_yaw = t_person->getFaceRot().y;
             f32 t_roll = t_person->getFaceRot().z;
-            f32 t_pitch = t_person->getFaceRot().x;
-            FVec2 t_vecOffset;
-            t_vecOffset.x = m_offsetX;
-            t_vecOffset.y = m_offsetY;
-            f32 t_offsetX = t_vecOffset.x*cosf(t_roll*DEGTORAD)-t_vecOffset.y*sinf(t_roll*DEGTORAD);
-            f32 t_offsetY = t_vecOffset.x*sinf(t_roll*DEGTORAD)+t_vecOffset.y*cosf(t_roll*DEGTORAD);
-            t_pt_x = t_pt_x + t_offsetX*t_personTracker->m_eyestd_scale;
-            t_pt_y = t_pt_y + t_offsetY*t_personTracker->m_noisetd_scale;
             _nodePtr->setPosition(t_pt_x, t_pt_y, 0.0f);
-            _nodePtr->setScale(m_scaleX*t_personTracker->m_eyestd_scale, m_scaleY*t_personTracker->m_eyestd_scale, 1.0);
+            //计算缩放
+            f32 t_real_eyedis = t_personTracker->getEyeDis();
+            f32 t_sc = t_real_eyedis/m_src_eyedis;
+            _nodePtr->setScale(t_sc,t_sc,t_sc);
             _nodePtr->setRotation(t_pitch, -t_yaw, t_roll);
+            SV_LOG_INFO("pitch %f \n",t_pitch);
         }else{
             _nodePtr->setvisible(false);
         }
@@ -221,4 +219,8 @@ void SVActFollowPerson3d::run(SVNodePtr _nodePtr, f32 dt){
 
 bool SVActFollowPerson3d::isEnd(){
     return false;
+}
+
+void SVActFollowPerson3d::setEyeDis(f32 _eyedis) {
+    m_src_eyedis = _eyedis;
 }
