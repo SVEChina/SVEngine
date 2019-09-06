@@ -7660,6 +7660,8 @@
 		5F48B1EA2319311D00FD720F /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				5F7D5D6F215F407700803BCF /* SVUIMgr.cpp */,
+				5F7D5D6D215F407700803BCF /* SVUIMgr.h */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -7779,8 +7781,6 @@
 				5F7D5D84215F407700803BCF /* SVTransCPU.h */,
 				5F7D5D81215F407700803BCF /* SVTransGPU.cpp */,
 				5F7D5D7C215F407700803BCF /* SVTransGPU.h */,
-				5F7D5D6F215F407700803BCF /* SVUIMgr.cpp */,
-				5F7D5D6D215F407700803BCF /* SVUIMgr.h */,
 			);
 			path = basesys;
 			sourceTree = "<group>";
