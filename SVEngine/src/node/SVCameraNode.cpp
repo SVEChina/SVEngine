@@ -48,7 +48,7 @@ void SVProjMethod::setNear(f32 _near) {
 }
 
 void SVProjMethod::setFar(f32 _far) {
-    m_width = _far;
+    m_zfar = _far;
 }
 
 
@@ -152,10 +152,10 @@ void SVCameraNode::destroy() {
 void SVCameraNode::setProject() {
     if(m_pProjMethod) {
         SVProjectPtr tt = MakeSharedPtr<SVProject>();
-        tt->setWidth(tt->getWidth());
-        tt->setHeight(tt->getHeight());
-        tt->setNear(tt->getNear());
-        tt->setFar(tt->getFar());
+        tt->setWidth(m_pProjMethod->getWidth());
+        tt->setHeight(m_pProjMethod->getHeight());
+        tt->setNear(m_pProjMethod->getNear());
+        tt->setFar(m_pProjMethod->getFar());
         tt->setFovy(60.0f);
         tt->refresh();
         m_pProjMethod = tt;

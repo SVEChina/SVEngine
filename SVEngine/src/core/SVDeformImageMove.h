@@ -130,7 +130,7 @@ namespace sv {
             SVPassPtr m_passDeform;
             SVPassPtr m_passPoint;
             SVPassPtr m_passBack;
-            V2 m_pointScreen[21*21];     //31*81
+            V2 m_pointScreen[21*41];     //31*81
             SVParamDeformPtr m_param;
             SVDeformScalePtr m_deformScale;
 
