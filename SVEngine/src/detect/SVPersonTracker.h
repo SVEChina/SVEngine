@@ -14,6 +14,7 @@
 #include "../base/SVGBase.h"
 #include "../base/SVColor.h"
 #include "../base/SVVec3.h"
+#include "../base/SVBounds.h"
 #include "../base/SVRect.h"
 
 namespace sv {
@@ -54,6 +55,8 @@ namespace sv {
             f32 m_eyestd_scale;     //瞳距相对于标准脸的缩放
             f32 m_noisetd_scale;
             f32 m_eye_angle;
+            
+            SVBoundBox m_bound;
             
         protected:
             void _sendExpressionEvent(SV_EVENT_TYPE _type);
