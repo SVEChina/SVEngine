@@ -39,9 +39,17 @@ namespace sv {
             
             virtual void setPosition(FVec3& _pos);
             
+            virtual void setOffset(FVec3& _pos);
+            
+            virtual void setOffset(f32 _x, f32 _y, f32 _z);
+            
             virtual void setScale(FVec3& _scale);
             
             virtual void setAlpha(f32 _alpha);
+            
+            virtual void setBindOffset(FVec3& _offset);
+            
+            virtual void setBindOffset(f32 _offsetX, f32 _offsetY, f32 _offsetZ);
             
             void setSpine(SVSpinePtr _spine);
             

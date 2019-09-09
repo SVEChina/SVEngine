@@ -532,15 +532,17 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("person") && item["person"].IsInt()) {
         m_personID  = item["person"].GetInt();
     }
+    FVec3 t_bindOffset = FVec3(0.0f, 0.0f, 0.0f);
     if (item.HasMember("bindOffsetX") && item["bindOffsetX"].IsFloat()) {
-        m_bindOffset.x  = item["bindOffsetX"].GetFloat();
+        t_bindOffset.x  = item["bindOffsetX"].GetFloat();
     }
     if (item.HasMember("bindOffsetY") && item["bindOffsetY"].IsFloat()) {
-        m_bindOffset.y  = item["bindOffsetY"].GetFloat();
+        t_bindOffset.y  = item["bindOffsetY"].GetFloat();
     }
     if (item.HasMember("bindOffsetZ") && item["bindOffsetZ"].IsFloat()) {
-        m_bindOffset.z  = item["bindOffsetZ"].GetFloat();
+        t_bindOffset.z  = item["bindOffsetZ"].GetFloat();
     }
+    setBindOffset(t_bindOffset);
     //
     if (item.HasMember("canselect") && item["canselect"].IsBool()) {
         m_canSelect = item["canselect"].GetBool();

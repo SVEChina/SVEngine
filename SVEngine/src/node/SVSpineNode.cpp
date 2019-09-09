@@ -267,6 +267,18 @@ void SVSpineNode::_sendAniEvent(cptr8 _eventName) {
     mApp->getEventMgr()->pushEventToSecondPool(t_event);
 }
 
+void SVSpineNode::setOffset(FVec3& _pos) {
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_offpos = _pos*t_adapt_scale;
+    m_dirty = true;
+}
+
+void SVSpineNode::setOffset(f32 _x, f32 _y, f32 _z){
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_offpos.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
+    m_dirty = true;
+}
+
 void SVSpineNode::setPosition(f32 _x, f32 _y, f32 _z) {
     f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
     m_postion.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
@@ -298,6 +310,18 @@ void SVSpineNode::setAlpha(f32 _alpha){
     if(m_spine){
         m_spine->setAlpha(_alpha);
     }
+}
+
+void SVSpineNode::setBindOffset(FVec3& _offset){
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_bindOffset = _offset*t_adapt_scale;
+    m_dirty = true;
+}
+
+void SVSpineNode::setBindOffset(f32 _offsetX, f32 _offsetY, f32 _offsetZ){
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_bindOffset.set(_offsetX*t_adapt_scale, _offsetY*t_adapt_scale, _offsetZ*t_adapt_scale);
+    m_dirty = true;
 }
 
 bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename, bool _isDesign) {
