@@ -15,7 +15,6 @@
 #include "../core/SVGeoGen.h"
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectST.h"
-#include "SVFacePointNode.h"
 SVFacePointNode::SVFacePointNode(SVInst *_app)
 :SVNode(_app){
     ntype = "SVFacePointNode";
@@ -62,7 +61,7 @@ void SVFacePointNode::render(){
     if (t_person->getExist()) {
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj) {
-            m_pRenderObj->pushCmd(t_rs, RST_DEBUG, "SVFacePointNode");
+            m_pRenderObj->pushCmd(t_rs, RST_SOLID_2D, "SVFacePointNode");
         }
     }
 }

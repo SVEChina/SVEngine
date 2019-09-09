@@ -115,7 +115,7 @@ namespace sv {
             
             void unbind();
             
-            virtual void reset(){}
+            virtual void reset();
             
         protected:
             FMat4 m_mat;
@@ -132,6 +132,8 @@ namespace sv {
             
             ~SVCamCtrlBase();
             
+            virtual void reset();
+            
             virtual bool run(SVCameraNodePtr _nodePtr, f32 dt);
             
             void setPosition(f32 _x, f32 _y, f32 _);
@@ -145,7 +147,6 @@ namespace sv {
             FVec3& getUp();
             
             FVec3& getDirection();
-
         protected:
             //目标，方向，向上 计算姿态
             FVec3 m_targetEx;
