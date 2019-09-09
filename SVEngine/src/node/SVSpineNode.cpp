@@ -268,22 +268,26 @@ void SVSpineNode::_sendAniEvent(cptr8 _eventName) {
 }
 
 void SVSpineNode::setPosition(f32 _x, f32 _y, f32 _z) {
-    m_postion.set(_x, _y, _z);
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_postion.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
     m_dirty = true;
 }
 
 void SVSpineNode::setScale(f32 _x, f32 _y, f32 _z) {
-    m_scale.set(_x, _y, _z);
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_scale.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
     m_dirty = true;
 }
 
 void SVSpineNode::setPosition(FVec3& _pos) {
-    m_postion = FVec3(_pos.x, _pos.y, _pos.z);
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_postion = FVec3(_pos.x*t_adapt_scale, _pos.y*t_adapt_scale, _pos.z*t_adapt_scale);
     m_dirty = true;
 }
 
 void SVSpineNode::setScale(FVec3& _scale) {
-    m_scale = FVec3(_scale.x, _scale.y, _scale.z);
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_scale = FVec3(_scale.x*t_adapt_scale, _scale.y*t_adapt_scale, _scale.z*t_adapt_scale);
     m_dirty = true;
 }
 
@@ -296,16 +300,20 @@ void SVSpineNode::setAlpha(f32 _alpha){
     }
 }
 
-bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename) {
+bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename, bool _isDesign) {
+    f32 t_adapt_scale = 1.0f;
+    if (_isDesign) {
+        t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    }
     spBone *m_bone = m_spine->findBone(bonename);  //绑定的骨头
     if (m_bone) {
-        px = m_bone->worldX*m_scale.x;
-        py = m_bone->worldY*m_scale.y;
+        px = m_bone->worldX*m_scale.x/t_adapt_scale;
+        py = m_bone->worldY*m_scale.y/t_adapt_scale;
         //逐层找父节点，把本地坐标和世界坐标加上
         SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpineNode);
         while (t_curNode) {
-            px = t_curNode->getPosition().x + px;
-            py = t_curNode->getPosition().y + py;
+            px = t_curNode->getPosition().x/t_adapt_scale + px;
+            py = t_curNode->getPosition().y/t_adapt_scale + py;
             
             if (t_curNode->getParent()) {
                 t_curNode = t_curNode->getParent();
@@ -317,15 +325,19 @@ bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename) {
     return false;
 }
 
-bool SVSpineNode::getBoneScale(f32 &sx, f32 &sy, cptr8 bonename){
+bool SVSpineNode::getBoneScale(f32 &sx, f32 &sy, cptr8 bonename, bool _isDesign){
+    f32 t_adapt_scale = 1.0f;
+    if (_isDesign) {
+        t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    }
     spBone *m_bone = m_spine->findBone(bonename);//spSkeleton_findBone(,bonename);           //绑定的骨头
     if (m_bone) {
         sx = m_bone->scaleX;
         sy = m_bone->scaleY;
         SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpineNode);
         while (t_curNode) {
-            sx = sx * t_curNode->getScale().x;
-            sy = sy * t_curNode->getScale().y;
+            sx = sx * t_curNode->getScale().x/t_adapt_scale;
+            sy = sy * t_curNode->getScale().y/t_adapt_scale;
             
             if (t_curNode->getParent()) {
                 t_curNode = t_curNode->getParent();

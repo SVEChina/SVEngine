@@ -70,10 +70,10 @@ namespace sv {
             bool getloop();
             
             void setSpineCallback(sv_spine_callback _cb,void* _obj);
-            
-            bool getBonePosition(f32 &px, f32 &py, cptr8 bonename);
-            
-            bool getBoneScale(f32 &sx, f32 &sy, cptr8 bonename);
+            //返回当前分辨率下骨头的位置
+            bool getBonePosition(f32 &px, f32 &py, cptr8 bonename, bool _isDesign = false);
+            //返回当前分辨率下骨头的缩放
+            bool getBoneScale(f32 &sx, f32 &sy, cptr8 bonename, bool _isDesign = false);
             
             bool getBoneRotation(f32 &rotation, cptr8 bonename);
             

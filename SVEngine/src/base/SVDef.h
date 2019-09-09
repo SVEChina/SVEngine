@@ -67,11 +67,10 @@ enum SV_RENDERER_TYPE {
     E_RENDERER_METAL
 };
 
-//适配模式
-enum ADAPT_MODE {
-    E_APT_M_SCALE=1,  //缩放模式
-    E_APT_M_BODER,  //留黑边模式
-    E_APT_M_FULL    //全屏无黑边
+//设计适配模式
+enum SV_DESIGN_ADAPT_MODE {
+    E_APT_M_BODER = 1,   //留空白模式
+    E_APT_M_FULL         //全屏铺满模式
 };
 
 enum SV_OUTSTEAMFORMATE {
