@@ -19,18 +19,16 @@ SVConfig::SVConfig(SVInst *_app) : SVGBase(_app) {
     height = 1280;
     designWidth = 720;
     designHeight = 1280;
-    designImageWidth = 700;
-    designImageHeight = 1004;
+    designImageWidth = 720;
+    designImageHeight = 1280;
     cameraWidth = 1280;
     cameraHeight = 720;
     cameraAngle = 90;
     cameraFormate = SV_PF_NULL;
     dataoutFormate = SV_OUT_STEAM_NULL;
-    adaptmode = E_APT_M_SCALE;
+    m_designAdaptmode = E_APT_M_FULL;
     glVersion = 0x00020000;
-    useDataSwapOnNode = false;
     detectType = DETECT_T_NULL;
-    loadEffectIsScreen=false;
     m_tag = "svengine";
 }
 
@@ -44,11 +42,11 @@ void SVConfig::init() {
     width = 720;
     height = 1280;
     //设计分辨率
-    designWidth = 720;
-    designHeight = 1280;
+    designWidth = 1080;
+    designHeight = 1920;
     //
-    designImageWidth = 700;
-    designImageHeight = 1004;
+    designImageWidth = 1080;
+    designImageHeight = 1920;
     //相机
     cameraWidth = 1280;
     cameraHeight = 720;
@@ -58,8 +56,8 @@ void SVConfig::init() {
     cameraFormate = SV_PF_NULL;
     //数据流输出格式
     dataoutFormate = SV_OUT_STEAM_NULL;
-    adaptmode = E_APT_M_SCALE;
-    m_AdaptScale.set(1.0f, 1.0f, 1.0f);
+    m_designAdaptmode = E_APT_M_FULL;
+    m_designAdaptScale = 1.0f;
 }
 
 void SVConfig::destroy() {
@@ -76,7 +74,7 @@ void SVConfig::destroy() {
     mirror = true;
     cameraFormate = SV_PF_NULL;
     dataoutFormate = SV_OUT_STEAM_NULL;
-    adaptmode = E_APT_M_SCALE;
+    m_designAdaptmode = E_APT_M_FULL;
     glVersion = 0x00020000;
 }
 
@@ -156,9 +154,9 @@ void SVConfig::loadConfig() {
                 RAPIDJSON_NAMESPACE::Value &t_value = t_param["camera_angle"];
                 cameraAngle = t_value.GetFloat();
             }
-            if (t_param.HasMember("adaptmode")) {
-                RAPIDJSON_NAMESPACE::Value &t_value = t_param["adaptmode"];
-                adaptmode = (ADAPT_MODE)t_value.GetInt();
+            if (t_param.HasMember("designadaptmode")) {
+                RAPIDJSON_NAMESPACE::Value &t_value = t_param["designadaptmode"];
+                m_designAdaptmode = (SV_DESIGN_ADAPT_MODE)t_value.GetInt();
             }
             if (t_param.HasMember("glversion")) {
                 RAPIDJSON_NAMESPACE::Value &t_value = t_param["glversion"];
@@ -245,6 +243,7 @@ void SVConfig::loadConfig() {
             }
         }
     }
+    _adaptScale();
     SV_LOG_ERROR("SVConfig::_loadConfig\n");
 }
 
@@ -256,37 +255,20 @@ void SVConfig::setCameraDsp(s32 inCameraWidth, s32 inCameraHeight, s32 inCameraA
 }
 
 void SVConfig::_adaptScale() {
-    SV_LOG_INFO("mkEnine: scale adapt\n");
-    switch (adaptmode) {
-        SV_LOG_INFO("mkEnine: scale 01");
-        case E_APT_M_SCALE: {
-            f32 fHeight = cameraHeight;
-            f32 fWidth = cameraWidth;
-            if (cameraAngle == 90 || cameraAngle == 270) {
-                f32 change = fHeight;
-                fHeight = fWidth;
-                fWidth = change;
-            }
-            f32 fDesignW = designWidth;
-            f32 fDesignH = designHeight;
-
-            m_AdaptScale.x = fWidth / fDesignW;
-            m_AdaptScale.y = fHeight / fDesignH;
-            SV_LOG_INFO("mkEnine: scale x=%f\n",m_AdaptScale.x);
-        }
-            break;
+    f32 t_ratio_design = designImageWidth*1.0f/designImageHeight;
+    f32 t_ratio_camera = cameraWidth*1.0f/cameraHeight;
+    f32 t_scale_width = cameraWidth*1.0f/designImageWidth;
+    f32 t_scale_height = cameraHeight*1.0f/designImageHeight;
+    switch (m_designAdaptmode) {
         case E_APT_M_BODER: {
-            SV_LOG_INFO("mkEnine: scale 02");
-
-        }
+            m_designAdaptScale = t_ratio_design <= t_ratio_camera ? t_scale_height : t_scale_width;
             break;
+        }
         case E_APT_M_FULL: {
-            SV_LOG_INFO("mkEnine: scale 03");
-
-        }
+            m_designAdaptScale = t_ratio_design <= t_ratio_camera ? t_scale_width : t_scale_height;
             break;
+        }
         default:
-            SV_LOG_INFO("mkEnine: scale 04");
             break;
     }
 

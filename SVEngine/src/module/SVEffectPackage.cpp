@@ -27,6 +27,7 @@
 #include "../basesys/SVPictureProcess.h"
 #include "../basesys/filter/SVFilterLUT.h"
 #include "../basesys/SVDeformMgr.h"
+#include "../basesys/SVConfig.h"
 #include "SVEffectMusic.h"
 void spinenode_callback(SVSpineNodePtr _node,void* _obj,s32 _status) {
     SVEffectUnit *t_unit = (SVEffectUnit*)(_obj);
@@ -68,11 +69,12 @@ void SVEffectUnit::init(SVNodePtr _node){
 }
 
 void SVEffectUnit::_attachToPeople(SVNodePtr _node){
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
     //跟随人脸
     SVActFollowPersonPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson>(mApp, _node->getPersonID());
     t_fllowPerson->setFllowIndex(_node->getBindIndex());
-    t_fllowPerson->setBindOffset(_node->getBindOffset().x, _node->getBindOffset().y, _node->getBindOffset().z);
-    t_fllowPerson->setScale(_node->getScale().x, _node->getScale().y, _node->getScale().z);
+    t_fllowPerson->setBindOffset(_node->getBindOffset().x/t_adapt_scale, _node->getBindOffset().y/t_adapt_scale, _node->getBindOffset().z/t_adapt_scale);
+    t_fllowPerson->setScale(_node->getScale().x/t_adapt_scale, _node->getScale().y/t_adapt_scale, _node->getScale().z/t_adapt_scale);
     m_personAct = mApp->getActionMgr()->addAction(t_fllowPerson, _node);
     m_personAct->play();
 }

@@ -479,15 +479,17 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("name") && item["name"].IsString()) {
         m_name = item["name"].GetString();
     }
+    FVec3 t_pos = FVec3(0.0f, 0.0f, 0.0f);
     if (item.HasMember("posX") && item["posX"].IsFloat()) {
-        m_postion.x = item["posX"].GetFloat();
+        t_pos.x = item["posX"].GetFloat();
     }
     if (item.HasMember("posY") && item["posY"].IsFloat()) {
-        m_postion.y = item["posY"].GetFloat();
+        t_pos.y = item["posY"].GetFloat();
     }
     if (item.HasMember("posZ") && item["posZ"].IsFloat()) {
-        m_postion.z = item["posZ"].GetFloat();
+        t_pos.z = item["posZ"].GetFloat();
     }
+    setPosition(t_pos);
     if (item.HasMember("rotX") && item["rotX"].IsFloat()) {
         m_rotation.x = item["rotX"].GetFloat();
     }
@@ -497,15 +499,17 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("rotZ") && item["rotZ"].IsFloat()) {
         m_rotation.z = item["rotZ"].GetFloat();
     }
+    FVec3 t_scale = FVec3(1.0f, 1.0f, 1.0f);
     if (item.HasMember("scaleX") && item["scaleX"].IsFloat()) {
-        m_scale.x = item["scaleX"].GetFloat();
+        t_scale.x = item["scaleX"].GetFloat();
     }
     if (item.HasMember("scaleY") && item["scaleY"].IsFloat()) {
-        m_scale.y = item["scaleY"].GetFloat();
+        t_scale.y = item["scaleY"].GetFloat();
     }
     if (item.HasMember("scaleZ") && item["scaleZ"].IsFloat()) {
-        m_scale.z = item["scaleZ"].GetFloat();
+        t_scale.z = item["scaleZ"].GetFloat();
     }
+    setScale(t_scale);
     if (item.HasMember("offsetX") && item["offsetX"].IsFloat()) {
         m_offpos.x = item["offsetX"].GetFloat();
     }
@@ -528,15 +532,17 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("person") && item["person"].IsInt()) {
         m_personID  = item["person"].GetInt();
     }
+    FVec3 t_bindOffset = FVec3(0.0f, 0.0f, 0.0f);
     if (item.HasMember("bindOffsetX") && item["bindOffsetX"].IsFloat()) {
-        m_bindOffset.x  = item["bindOffsetX"].GetFloat();
+        t_bindOffset.x  = item["bindOffsetX"].GetFloat();
     }
     if (item.HasMember("bindOffsetY") && item["bindOffsetY"].IsFloat()) {
-        m_bindOffset.y  = item["bindOffsetY"].GetFloat();
+        t_bindOffset.y  = item["bindOffsetY"].GetFloat();
     }
     if (item.HasMember("bindOffsetZ") && item["bindOffsetZ"].IsFloat()) {
-        m_bindOffset.z  = item["bindOffsetZ"].GetFloat();
+        t_bindOffset.z  = item["bindOffsetZ"].GetFloat();
     }
+    setBindOffset(t_bindOffset);
     //
     if (item.HasMember("canselect") && item["canselect"].IsBool()) {
         m_canSelect = item["canselect"].GetBool();

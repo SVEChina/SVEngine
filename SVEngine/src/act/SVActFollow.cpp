@@ -148,11 +148,12 @@ void SVActFollowPerson::run(SVNodePtr _nodePtr, f32 dt){
             //
             f32 t_offsetX = m_offsetX*cosf(t_roll*DEGTORAD)-m_offsetY*sinf(t_roll*DEGTORAD);
             f32 t_offsetY = m_offsetX*sinf(t_roll*DEGTORAD)+m_offsetY*cosf(t_roll*DEGTORAD);
-            //
+            //转到设计分辨率下
+            f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
             t_pt_x += t_offsetX*t_personTracker->m_eyestd_scale;
             t_pt_y += t_offsetY*t_personTracker->m_noisetd_scale;
-            _nodePtr->setPosition(t_pt_x, t_pt_y, 0.0f);
-            _nodePtr->setScale(m_scaleX*t_personTracker->m_eyestd_scale, m_scaleY*t_personTracker->m_eyestd_scale, 1.0f);
+            _nodePtr->setPosition(t_pt_x/t_adapt_scale, t_pt_y/t_adapt_scale, 0.0f);
+            _nodePtr->setScale(m_scaleX*t_personTracker->m_eyestd_scale/t_adapt_scale, m_scaleY*t_personTracker->m_eyestd_scale/t_adapt_scale, 1.0f);
             _nodePtr->setRotation(t_pitch, -t_yaw, t_roll);
         }else{
             _nodePtr->setvisible(false);

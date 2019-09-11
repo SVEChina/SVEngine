@@ -84,11 +84,11 @@ namespace sv {
         
         inline s32 getCameraAngle() { return cameraAngle; }
         
-        inline ADAPT_MODE getAdaptMode() { return adaptmode; }
+        inline SV_DESIGN_ADAPT_MODE getDesignAdaptMode() { return m_designAdaptmode; }
         
         inline s32 getDetectType() { return detectType; }
         
-        inline FVec3& getAdaptScale() { return m_AdaptScale; }
+        inline f32 getDesignAdaptScale() { return m_designAdaptScale; }
         
         void setCameraDsp(s32 inCameraWidth, s32 inCameraHeight, s32 inCameraAngle);
         
@@ -118,19 +118,17 @@ namespace sv {
         FVec4 m_strokeColor;
         f32 m_strokeGlowWidth;
         FVec4 m_strokeGlowColor;
-        //适配模式
-        ADAPT_MODE adaptmode;
+        
         s32 glVersion;
-        bool useDataSwapOnNode;
         bool cameraMirror;      //相机输入数据是否镜像
-        bool loadEffectIsScreen;
         CfgFilter m_cfgFilter;
         bool mirror; //是否镜像显示,即进来什么样就是什么样，不进行翻转
         SVString m_tag;
     private:
         void _adaptScale();
-        
-        FVec3 m_AdaptScale;
+        //适配模式
+        SV_DESIGN_ADAPT_MODE m_designAdaptmode;
+        f32 m_designAdaptScale;
     };
 
 //!namespace

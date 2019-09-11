@@ -49,11 +49,12 @@ void SVActTexAttachment::update(f32 _dt) {
     if (m_tarNode && m_srcNode) {
         f32 t_px;
         f32 t_py;
-        m_tarNode->getBonePosition(t_px, t_py, m_param.boneName.c_str());
-        m_srcNode->setPosition(t_px, t_py, 0);
+        m_tarNode->getBonePosition(t_px, t_py, m_param.boneName.c_str(), true);
+        FVec3 t_offset = m_srcNode->getOffset();
+        m_srcNode->setPosition(t_px+t_offset.x, t_py+t_offset.y, 0);
         f32 t_sx;
         f32 t_sy;
-        m_tarNode->getBoneScale(t_sx, t_sy, m_param.boneName.c_str());
+        m_tarNode->getBoneScale(t_sx, t_sy, m_param.boneName.c_str(), true);
         m_srcNode->setScale(t_sx, t_sy, 0);
         f32 t_alpha;
         t_alpha = m_tarNode->getSlotAlpha(m_param.slotName.c_str());

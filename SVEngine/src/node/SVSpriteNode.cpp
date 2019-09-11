@@ -60,7 +60,8 @@ SVSpriteNode::~SVSpriteNode() {
 void SVSpriteNode::setSize(f32 _w,f32 _h) {
     m_width = _w;
     m_height = _h;
-    m_pMesh = SVGeoGen::genRect(mApp, m_width, m_height, 0, 0, m_width, m_height,m_aabbBox);
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_pMesh = SVGeoGen::genRect(mApp, m_width*t_adapt_scale, m_height*t_adapt_scale, 0, 0, m_width*t_adapt_scale, m_height*t_adapt_scale,m_aabbBox);
 }
 
 void SVSpriteNode::syncTexSize() {
@@ -98,6 +99,7 @@ f32 SVSpriteNode::getRelativeHeight(){
 }
 
 f32 SVSpriteNode::getWidth(){
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
     f32 t_scaleX = 1.0f;
     SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpriteNode);
     while (t_curNode) {
@@ -108,10 +110,11 @@ f32 SVSpriteNode::getWidth(){
             break;
         }
     }
-    return m_width*t_scaleX;
+    return m_width*t_scaleX*t_adapt_scale;
 }
 
 f32 SVSpriteNode::getHeight(){
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
     f32 t_scaleY = 1.0f;
     SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpriteNode);
     while (t_curNode) {
@@ -122,7 +125,7 @@ f32 SVSpriteNode::getHeight(){
             break;
         }
     }
-    return m_height*t_scaleY;
+    return m_height*t_scaleY*t_adapt_scale;
 }
 
 void SVSpriteNode::setTexture(cptr8 _path, bool enableMipMap){
@@ -161,6 +164,30 @@ void SVSpriteNode::setMesh(SVRenderMeshPtr _mesh){
     if (_mesh) {
         m_pMesh = _mesh;
     }
+}
+
+void SVSpriteNode::setPosition(f32 _x, f32 _y, f32 _z) {
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_postion.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
+    m_dirty = true;
+}
+
+void SVSpriteNode::setScale(f32 _x, f32 _y, f32 _z) {
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_scale.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
+    m_dirty = true;
+}
+
+void SVSpriteNode::setPosition(FVec3& _pos) {
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_postion = FVec3(_pos.x*t_adapt_scale, _pos.y*t_adapt_scale, _pos.z*t_adapt_scale);
+    m_dirty = true;
+}
+
+void SVSpriteNode::setScale(FVec3& _scale) {
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_scale = FVec3(_scale.x*t_adapt_scale, _scale.y*t_adapt_scale, _scale.z*t_adapt_scale);
+    m_dirty = true;
 }
 
 void SVSpriteNode::update(f32 dt) {

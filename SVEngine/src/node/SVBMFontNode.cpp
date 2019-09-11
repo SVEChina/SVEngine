@@ -20,6 +20,7 @@
 #include "../event/SVEvent.h"
 #include "../core/SVBMFont.h"
 #include "../file/SVBMFontLoader.h"
+#include "../basesys/SVConfig.h"
 #define SV_BMFONT_MAX_NUM  20
 #define DEFSPACE 40
 //
@@ -98,6 +99,30 @@ void SVBMFontNode::setText(cptr8 _text){
 
 cptr8 SVBMFontNode::getText(){
     return m_text;
+}
+
+void SVBMFontNode::setPosition(f32 _x, f32 _y, f32 _z) {
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_postion.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
+    m_dirty = true;
+}
+
+void SVBMFontNode::setScale(f32 _x, f32 _y, f32 _z) {
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_scale.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
+    m_dirty = true;
+}
+
+void SVBMFontNode::setPosition(FVec3& _pos) {
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_postion = FVec3(_pos.x*t_adapt_scale, _pos.y*t_adapt_scale, _pos.z*t_adapt_scale);
+    m_dirty = true;
+}
+
+void SVBMFontNode::setScale(FVec3& _scale) {
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    m_scale = FVec3(_scale.x*t_adapt_scale, _scale.y*t_adapt_scale, _scale.z*t_adapt_scale);
+    m_dirty = true;
 }
 
 void SVBMFontNode::setSpacing(f32 _spacing){
