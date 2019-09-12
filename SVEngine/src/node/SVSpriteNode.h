@@ -36,14 +36,6 @@ namespace sv {
             
             virtual void setTexcoord(f32 x,f32 y);
             
-            virtual void setPosition(f32 x, f32 y, f32 z);
-            
-            virtual void setScale(f32 x, f32 y, f32 z);
-            
-            virtual void setPosition(FVec3& _pos);
-            
-            virtual void setScale(FVec3& _scale);
-            
             f32 getRelativeWidth();
             
             f32 getRelativeHeight();

@@ -35,6 +35,8 @@ SVSpineNode::SVSpineNode(SVInst *_app)
     m_spine_callback = nullptr;
     m_p_cb_obj = nullptr;
     m_visible = false;
+    m_loop = true;
+    m_immediatelyPlay = true;
     m_state = tANI_STATE_WAIT;
     m_rsType = RST_SOLID_3D;
     m_cur_aniname = "animation";
@@ -110,6 +112,10 @@ bool SVSpineNode::getloop(){
     return m_loop;
 }
 
+bool SVSpineNode::isImmediatelyPlay(){
+    return m_immediatelyPlay;
+}
+
 void SVSpineNode::setSpineCallback(sv_spine_callback _cb,void* _obj) {
     m_spine_callback = _cb;
     m_p_cb_obj = _obj;
@@ -119,6 +125,9 @@ void SVSpineNode::setSpineCallback(sv_spine_callback _cb,void* _obj) {
 void SVSpineNode::update(f32 dt) {
     if (!m_visible)
         return;
+    if (m_state == E_ANISTATE::tANI_STATE_STOP) {
+        return;
+    }
     if( m_pRObj && m_spine) {
         //spine更新
         m_spine->update(dt);
@@ -178,6 +187,9 @@ void SVSpineNode::update(f32 dt) {
 void SVSpineNode::render() {
     if (!m_visible)
         return;
+    if (m_state == E_ANISTATE::tANI_STATE_STOP) {
+        return;
+    }
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
@@ -190,11 +202,11 @@ void SVSpineNode::render() {
 void SVSpineNode::play(cptr8 _actname) {
         if( m_state != E_ANISTATE::tANI_STATE_PLAY ){
         if (m_spine) {
+            m_state = E_ANISTATE::tANI_STATE_PLAY;
             m_cur_aniname = _actname;
             m_spine->setToSetupPose();
             m_spine->setAnimationForTrack(0, _actname, m_loop);
             m_visible = true;
-            m_state = E_ANISTATE::tANI_STATE_PLAY;
         }
     }
 }
@@ -218,7 +230,6 @@ void SVSpineNode::stop() {
     if( m_state != E_ANISTATE::tANI_STATE_STOP ){
         m_state = E_ANISTATE::tANI_STATE_STOP;
         m_visible = false;
-        m_state = E_ANISTATE::tANI_STATE_STOP;
         if (m_spine) {
             m_spine->clearTrack(0);
         }
@@ -259,48 +270,12 @@ void SVSpineNode::_spine_stop() {
 
 //发送事件
 void SVSpineNode::_sendAniEvent(cptr8 _eventName) {
-    SVString t_eventName = m_cur_aniname + SVString("_") + SVString(_eventName);
+    SVString t_eventName = m_name + SVString("_") + SVString(_eventName);
     SVAnimateEventPtr t_event = MakeSharedPtr<SVAnimateEvent>();
     t_event->personID = m_personID;
     t_event->m_AnimateName = m_spine->getSpineName();
     t_event->eventName = t_eventName;
     mApp->getEventMgr()->pushEventToSecondPool(t_event);
-}
-
-void SVSpineNode::setOffset(FVec3& _pos) {
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_offpos = _pos*t_adapt_scale;
-    m_dirty = true;
-}
-
-void SVSpineNode::setOffset(f32 _x, f32 _y, f32 _z){
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_offpos.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
-    m_dirty = true;
-}
-
-void SVSpineNode::setPosition(f32 _x, f32 _y, f32 _z) {
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_postion.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
-    m_dirty = true;
-}
-
-void SVSpineNode::setScale(f32 _x, f32 _y, f32 _z) {
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_scale.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
-    m_dirty = true;
-}
-
-void SVSpineNode::setPosition(FVec3& _pos) {
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_postion = FVec3(_pos.x*t_adapt_scale, _pos.y*t_adapt_scale, _pos.z*t_adapt_scale);
-    m_dirty = true;
-}
-
-void SVSpineNode::setScale(FVec3& _scale) {
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_scale = FVec3(_scale.x*t_adapt_scale, _scale.y*t_adapt_scale, _scale.z*t_adapt_scale);
-    m_dirty = true;
 }
 
 void SVSpineNode::setAlpha(f32 _alpha){
@@ -312,32 +287,16 @@ void SVSpineNode::setAlpha(f32 _alpha){
     }
 }
 
-void SVSpineNode::setBindOffset(FVec3& _offset){
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_bindOffset = _offset*t_adapt_scale;
-    m_dirty = true;
-}
-
-void SVSpineNode::setBindOffset(f32 _offsetX, f32 _offsetY, f32 _offsetZ){
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_bindOffset.set(_offsetX*t_adapt_scale, _offsetY*t_adapt_scale, _offsetZ*t_adapt_scale);
-    m_dirty = true;
-}
-
-bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename, bool _isDesign) {
-    f32 t_adapt_scale = 1.0f;
-    if (_isDesign) {
-        t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    }
+bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename) {
     spBone *m_bone = m_spine->findBone(bonename);  //绑定的骨头
     if (m_bone) {
-        px = m_bone->worldX*m_scale.x/t_adapt_scale;
-        py = m_bone->worldY*m_scale.y/t_adapt_scale;
+        px = m_bone->worldX*m_scale.x;
+        py = m_bone->worldY*m_scale.y;
         //逐层找父节点，把本地坐标和世界坐标加上
         SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpineNode);
         while (t_curNode) {
-            px = t_curNode->getPosition().x/t_adapt_scale + px;
-            py = t_curNode->getPosition().y/t_adapt_scale + py;
+            px = t_curNode->getPosition().x + px;
+            py = t_curNode->getPosition().y + py;
             
             if (t_curNode->getParent()) {
                 t_curNode = t_curNode->getParent();
@@ -349,19 +308,15 @@ bool SVSpineNode::getBonePosition(f32 &px, f32 &py, cptr8 bonename, bool _isDesi
     return false;
 }
 
-bool SVSpineNode::getBoneScale(f32 &sx, f32 &sy, cptr8 bonename, bool _isDesign){
-    f32 t_adapt_scale = 1.0f;
-    if (_isDesign) {
-        t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    }
+bool SVSpineNode::getBoneScale(f32 &sx, f32 &sy, cptr8 bonename){
     spBone *m_bone = m_spine->findBone(bonename);//spSkeleton_findBone(,bonename);           //绑定的骨头
     if (m_bone) {
         sx = m_bone->scaleX;
         sy = m_bone->scaleY;
         SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpineNode);
         while (t_curNode) {
-            sx = sx * t_curNode->getScale().x/t_adapt_scale;
-            sy = sy * t_curNode->getScale().y/t_adapt_scale;
+            sx = sx * t_curNode->getScale().x;
+            sy = sy * t_curNode->getScale().y;
             
             if (t_curNode->getParent()) {
                 t_curNode = t_curNode->getParent();
@@ -427,6 +382,7 @@ void SVSpineNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
         locationObj.AddMember("ske_json", RAPIDJSON_NAMESPACE::StringRef(m_spine->m_spine_json.c_str()), _allocator);
     }
     locationObj.AddMember("loop", m_loop, _allocator);
+    locationObj.AddMember("play", m_immediatelyPlay, _allocator);
     locationObj.AddMember("spine", m_hasSpine, _allocator);
     _objValue.AddMember("SVSpineNode", locationObj, _allocator);
 }
@@ -436,6 +392,11 @@ void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("aniname") && item["aniname"].IsString()) {
         m_cur_aniname = item["aniname"].GetString();
     }
+    
+    if (item.HasMember("play") && item["play"].IsBool()) {
+        m_immediatelyPlay = item["play"].GetBool();
+    }
+    
     if (item.HasMember("loop") && item["loop"].IsBool()) {
         m_loop = item["loop"].GetBool();
     }
