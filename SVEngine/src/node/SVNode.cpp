@@ -486,7 +486,7 @@ void SVNode::_toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     locationObj.AddMember("canselect", m_canSelect, _allocator);
     locationObj.AddMember("drawaabb", m_drawBox, _allocator);
     locationObj.AddMember("canprocevent", m_canProcEvent, _allocator);
-    locationObj.AddMember("autoadaptdesign", true, _allocator);
+    locationObj.AddMember("autoadaptdesign", m_adaptDesign, _allocator);
     locationObj.AddMember("visible", m_visible, _allocator);
     locationObj.AddMember("mipmap", m_enableMipMap, _allocator);
 }
@@ -569,13 +569,12 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("canprocevent") && item["canprocevent"].IsBool()) {
         m_canProcEvent = item["canprocevent"].GetBool();
     }
-    //从特效包生成的先默认都适配设计分辨率
-    m_adaptDesign = true;
-    //
     if (item.HasMember("autoadaptdesign") && item["autoadaptdesign"].IsBool()) {
         m_adaptDesign = item["autoadaptdesign"].GetBool();
+    }else{
+        //特效包里要是没有“m_adaptDesign”这个属性，默认是适配设计分辨率的
+        m_adaptDesign = true;
     }
-    setAutoAdaptDesign(m_adaptDesign);
     if (item.HasMember("visible") && item["visible"].IsBool()) {
         m_visible = item["visible"].GetBool();
     }
