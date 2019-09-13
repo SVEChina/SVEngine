@@ -40,9 +40,10 @@ namespace sv {
         DECLARE_SHAREPTR(SVActCircle);
         DECLARE_SHAREPTR(SVActSequence);
         DECLARE_SHAREPTR(SVActTime);
-        DECLARE_SHAREPTR(SVActTexAttachment);
         DECLARE_SHAREPTR(SVActPosition);
-        
+        //
+        DECLARE_SHAREPTR(SVTexAttachment);
+        DECLARE_SHAREPTR(SVAniTrigger);
         //MOVIE
         DECLARE_SHAREPTR(SVMovie);
         DECLARE_SHAREPTR(SVDragma);

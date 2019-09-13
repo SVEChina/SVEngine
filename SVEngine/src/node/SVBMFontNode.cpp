@@ -20,6 +20,7 @@
 #include "../event/SVEvent.h"
 #include "../core/SVBMFont.h"
 #include "../file/SVBMFontLoader.h"
+#include "../basesys/SVConfig.h"
 #define SV_BMFONT_MAX_NUM  20
 #define DEFSPACE 40
 //

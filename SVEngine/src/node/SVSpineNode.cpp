@@ -35,6 +35,8 @@ SVSpineNode::SVSpineNode(SVInst *_app)
     m_spine_callback = nullptr;
     m_p_cb_obj = nullptr;
     m_visible = false;
+    m_loop = true;
+    m_immediatelyPlay = true;
     m_state = tANI_STATE_WAIT;
     m_rsType = RST_SOLID_3D;
     m_cur_aniname = "animation";
@@ -110,6 +112,10 @@ bool SVSpineNode::getloop(){
     return m_loop;
 }
 
+bool SVSpineNode::isImmediatelyPlay(){
+    return m_immediatelyPlay;
+}
+
 void SVSpineNode::setSpineCallback(sv_spine_callback _cb,void* _obj) {
     m_spine_callback = _cb;
     m_p_cb_obj = _obj;
@@ -119,6 +125,9 @@ void SVSpineNode::setSpineCallback(sv_spine_callback _cb,void* _obj) {
 void SVSpineNode::update(f32 dt) {
     if (!m_visible)
         return;
+    if (m_state == E_ANISTATE::tANI_STATE_STOP) {
+        return;
+    }
     if( m_pRObj && m_spine) {
         //spine更新
         m_spine->update(dt);
@@ -178,6 +187,9 @@ void SVSpineNode::update(f32 dt) {
 void SVSpineNode::render() {
     if (!m_visible)
         return;
+    if (m_state == E_ANISTATE::tANI_STATE_STOP) {
+        return;
+    }
     if (!mApp->m_pGlobalParam->m_curScene)
         return;
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
@@ -190,11 +202,11 @@ void SVSpineNode::render() {
 void SVSpineNode::play(cptr8 _actname) {
         if( m_state != E_ANISTATE::tANI_STATE_PLAY ){
         if (m_spine) {
+            m_state = E_ANISTATE::tANI_STATE_PLAY;
             m_cur_aniname = _actname;
             m_spine->setToSetupPose();
             m_spine->setAnimationForTrack(0, _actname, m_loop);
             m_visible = true;
-            m_state = E_ANISTATE::tANI_STATE_PLAY;
         }
     }
 }
@@ -218,7 +230,6 @@ void SVSpineNode::stop() {
     if( m_state != E_ANISTATE::tANI_STATE_STOP ){
         m_state = E_ANISTATE::tANI_STATE_STOP;
         m_visible = false;
-        m_state = E_ANISTATE::tANI_STATE_STOP;
         if (m_spine) {
             m_spine->clearTrack(0);
         }
@@ -259,32 +270,12 @@ void SVSpineNode::_spine_stop() {
 
 //发送事件
 void SVSpineNode::_sendAniEvent(cptr8 _eventName) {
-    SVString t_eventName = m_cur_aniname + SVString("_") + SVString(_eventName);
+    SVString t_eventName = m_name + SVString("_") + SVString(_eventName);
     SVAnimateEventPtr t_event = MakeSharedPtr<SVAnimateEvent>();
     t_event->personID = m_personID;
     t_event->m_AnimateName = m_spine->getSpineName();
     t_event->eventName = t_eventName;
     mApp->getEventMgr()->pushEventToSecondPool(t_event);
-}
-
-void SVSpineNode::setPosition(f32 _x, f32 _y, f32 _z) {
-    m_postion.set(_x, _y, _z);
-    m_dirty = true;
-}
-
-void SVSpineNode::setScale(f32 _x, f32 _y, f32 _z) {
-    m_scale.set(_x, _y, _z);
-    m_dirty = true;
-}
-
-void SVSpineNode::setPosition(FVec3& _pos) {
-    m_postion = FVec3(_pos.x, _pos.y, _pos.z);
-    m_dirty = true;
-}
-
-void SVSpineNode::setScale(FVec3& _scale) {
-    m_scale = FVec3(_scale.x, _scale.y, _scale.z);
-    m_dirty = true;
 }
 
 void SVSpineNode::setAlpha(f32 _alpha){
@@ -391,6 +382,7 @@ void SVSpineNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
         locationObj.AddMember("ske_json", RAPIDJSON_NAMESPACE::StringRef(m_spine->m_spine_json.c_str()), _allocator);
     }
     locationObj.AddMember("loop", m_loop, _allocator);
+    locationObj.AddMember("play", m_immediatelyPlay, _allocator);
     locationObj.AddMember("spine", m_hasSpine, _allocator);
     _objValue.AddMember("SVSpineNode", locationObj, _allocator);
 }
@@ -400,6 +392,11 @@ void SVSpineNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("aniname") && item["aniname"].IsString()) {
         m_cur_aniname = item["aniname"].GetString();
     }
+    
+    if (item.HasMember("play") && item["play"].IsBool()) {
+        m_immediatelyPlay = item["play"].GetBool();
+    }
+    
     if (item.HasMember("loop") && item["loop"].IsBool()) {
         m_loop = item["loop"].GetBool();
     }

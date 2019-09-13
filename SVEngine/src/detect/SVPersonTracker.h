@@ -33,6 +33,9 @@ namespace sv {
             
             f32 getEyeDis();
             
+            f32 getEyeStdScale();
+            
+            f32 getNoiseStdScale();
         public:
             FVec3 m_facecenter;
             FVec3 m_noisecenter;

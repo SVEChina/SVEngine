@@ -15,7 +15,7 @@
 SVProjMethod::SVProjMethod() {
     m_width = 720.0f;
     m_height = 1280.0f;
-    m_zfar = 1800.0f;
+    m_zfar = 2000.0f;
     m_znear = 500.0f;
     m_projMat.setIdentity();
 }
@@ -65,7 +65,7 @@ void SVProject::setFovy(f32 _fovy) {
 void SVProject::reset() {
     m_width = 720.0f;
     m_height = 1280.0f;
-    m_zfar = 1800.0f;
+    m_zfar = 2000.0f;
     m_znear = 500.0f;
     refresh();
 }
@@ -82,7 +82,7 @@ SVOrtho::SVOrtho() {
 void SVOrtho::reset() {
     m_width = 720.0f;
     m_height = 1280.0f;
-    m_zfar = 1800.0f;
+    m_zfar = 2000.0f;
     m_znear = 500.0f;
     refresh();
 }
@@ -118,6 +118,10 @@ SVCameraCtrl::SVCameraCtrl(SVInst* _app)
 
 SVCameraCtrl::~SVCameraCtrl() {
     m_linkCam = nullptr;
+}
+
+void SVCameraCtrl::reset(){
+    m_pos.set(0.0f,0.0f,0.0f);
 }
 
 FMat4& SVCameraCtrl::getMat() {
@@ -183,6 +187,14 @@ FVec3& SVCamCtrlBase::getUp(){
 
 FVec3& SVCamCtrlBase::getDirection(){
     return m_direction;
+}
+
+void SVCamCtrlBase::reset(){
+    f32 t_height = mApp->m_pGlobalParam->m_inner_height;
+    f32 t_pos_z = (t_height*0.5f) / tan(30.0f * DEGTORAD);
+    m_pos.set(0.0f,0.0f,t_pos_z);
+    m_targetEx.set(0.0f,0.0f,0.0f);
+    m_upEx.set(0.0f, 1.0f, 0.0f);
 }
 
 //相机控制

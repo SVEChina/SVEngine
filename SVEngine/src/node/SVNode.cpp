@@ -27,6 +27,7 @@ SVNode::SVNode(SVInst *_app)
     m_canSelect = false;
     m_beSelect = false;
     m_canProcEvent = false;
+    m_adaptDesign = false;
     m_visible = true;
     m_dirty = false;
     m_parent = nullptr;             //父节点
@@ -105,11 +106,20 @@ void SVNode::update(f32 dt) {
         FMat4 t_mat_rotY = FMat4_identity;
         FMat4 t_mat_rotZ = FMat4_identity;
         FMat4 t_mat_trans = FMat4_identity;
-        t_mat_scale.setScale(FVec3(m_scale.x,m_scale.y,m_scale.z));
+        //
+        FVec3 t_scale = FVec3(m_scale.x,m_scale.y,m_scale.z);
+        FVec3 t_translate = FVec3(m_postion.x + m_offpos.x,m_postion.y + m_offpos.y, m_postion.z + m_offpos.z);
+        //适配设计分辨率
+        if (m_adaptDesign) {
+            f32 t_adaptScale = mApp->getConfig()->getDesignAdaptScale();
+            t_scale *= t_adaptScale;
+            t_translate *= t_adaptScale;
+        }
+        t_mat_scale.setScale(t_scale);
         t_mat_rotX.setRotateX(m_rotation.x);
         t_mat_rotY.setRotateY(m_rotation.y);
         t_mat_rotZ.setRotateZ(m_rotation.z);
-        t_mat_trans.setTranslate( FVec3(m_postion.x + m_offpos.x,m_postion.y + m_offpos.y, m_postion.z + m_offpos.z) );
+        t_mat_trans.setTranslate(t_translate);
         m_localMat = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
         m_dirty = false;
     }
@@ -374,6 +384,11 @@ SVNodePtr SVNode::getParent() {
     return m_parent;
 }
 
+void SVNode::setAutoAdaptDesign(bool _adapt){
+    m_adaptDesign = _adapt;
+    m_dirty = true;
+}
+
 void SVNode::setbeSelect(bool _select){
     m_beSelect = _select;
 }
@@ -471,6 +486,7 @@ void SVNode::_toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     locationObj.AddMember("canselect", m_canSelect, _allocator);
     locationObj.AddMember("drawaabb", m_drawBox, _allocator);
     locationObj.AddMember("canprocevent", m_canProcEvent, _allocator);
+    locationObj.AddMember("autoadaptdesign", m_adaptDesign, _allocator);
     locationObj.AddMember("visible", m_visible, _allocator);
     locationObj.AddMember("mipmap", m_enableMipMap, _allocator);
 }
@@ -479,15 +495,17 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("name") && item["name"].IsString()) {
         m_name = item["name"].GetString();
     }
+    FVec3 t_pos = FVec3(0.0f, 0.0f, 0.0f);
     if (item.HasMember("posX") && item["posX"].IsFloat()) {
-        m_postion.x = item["posX"].GetFloat();
+        t_pos.x = item["posX"].GetFloat();
     }
     if (item.HasMember("posY") && item["posY"].IsFloat()) {
-        m_postion.y = item["posY"].GetFloat();
+        t_pos.y = item["posY"].GetFloat();
     }
     if (item.HasMember("posZ") && item["posZ"].IsFloat()) {
-        m_postion.z = item["posZ"].GetFloat();
+        t_pos.z = item["posZ"].GetFloat();
     }
+    setPosition(t_pos);
     if (item.HasMember("rotX") && item["rotX"].IsFloat()) {
         m_rotation.x = item["rotX"].GetFloat();
     }
@@ -497,15 +515,17 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("rotZ") && item["rotZ"].IsFloat()) {
         m_rotation.z = item["rotZ"].GetFloat();
     }
+    FVec3 t_scale = FVec3(1.0f, 1.0f, 1.0f);
     if (item.HasMember("scaleX") && item["scaleX"].IsFloat()) {
-        m_scale.x = item["scaleX"].GetFloat();
+        t_scale.x = item["scaleX"].GetFloat();
     }
     if (item.HasMember("scaleY") && item["scaleY"].IsFloat()) {
-        m_scale.y = item["scaleY"].GetFloat();
+        t_scale.y = item["scaleY"].GetFloat();
     }
     if (item.HasMember("scaleZ") && item["scaleZ"].IsFloat()) {
-        m_scale.z = item["scaleZ"].GetFloat();
+        t_scale.z = item["scaleZ"].GetFloat();
     }
+    setScale(t_scale);
     if (item.HasMember("offsetX") && item["offsetX"].IsFloat()) {
         m_offpos.x = item["offsetX"].GetFloat();
     }
@@ -528,15 +548,17 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("person") && item["person"].IsInt()) {
         m_personID  = item["person"].GetInt();
     }
+    FVec3 t_bindOffset = FVec3(0.0f, 0.0f, 0.0f);
     if (item.HasMember("bindOffsetX") && item["bindOffsetX"].IsFloat()) {
-        m_bindOffset.x  = item["bindOffsetX"].GetFloat();
+        t_bindOffset.x  = item["bindOffsetX"].GetFloat();
     }
     if (item.HasMember("bindOffsetY") && item["bindOffsetY"].IsFloat()) {
-        m_bindOffset.y  = item["bindOffsetY"].GetFloat();
+        t_bindOffset.y  = item["bindOffsetY"].GetFloat();
     }
     if (item.HasMember("bindOffsetZ") && item["bindOffsetZ"].IsFloat()) {
-        m_bindOffset.z  = item["bindOffsetZ"].GetFloat();
+        t_bindOffset.z  = item["bindOffsetZ"].GetFloat();
     }
+    setBindOffset(t_bindOffset);
     //
     if (item.HasMember("canselect") && item["canselect"].IsBool()) {
         m_canSelect = item["canselect"].GetBool();
@@ -546,6 +568,12 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     }
     if (item.HasMember("canprocevent") && item["canprocevent"].IsBool()) {
         m_canProcEvent = item["canprocevent"].GetBool();
+    }
+    if (item.HasMember("autoadaptdesign") && item["autoadaptdesign"].IsBool()) {
+        m_adaptDesign = item["autoadaptdesign"].GetBool();
+    }else{
+        //特效包里要是没有“m_adaptDesign”这个属性，默认是适配设计分辨率的
+        m_adaptDesign = true;
     }
     if (item.HasMember("visible") && item["visible"].IsBool()) {
         m_visible = item["visible"].GetBool();
