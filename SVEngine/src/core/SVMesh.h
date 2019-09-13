@@ -42,9 +42,13 @@ namespace sv {
             
             SVMtlCorePtr getMtl();
             
+            SVRenderMeshPtr getRenderMesh();
+            
             void update(f32 _dt,FMat4& _mat);
             
             void render();
+            
+            void createShadow();
             
             void setBox(SVBoundBox& _box);
             

@@ -49,7 +49,7 @@ void SVProjMethod::setNear(f32 _near) {
 }
 
 void SVProjMethod::setFar(f32 _far) {
-    m_width = _far;
+    m_zfar = _far;
 }
 
 

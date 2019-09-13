@@ -26,6 +26,10 @@ namespace sv {
             virtual void render();
             
             void randomInit();
+            
+            SVMtlCorePtr getMtl();
+            
+            SVMtlGeo3dPtr m_mtl_box;
         public:
             SVRenderObjectPtr m_pRenderObj;
             

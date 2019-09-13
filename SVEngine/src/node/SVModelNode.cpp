@@ -55,6 +55,16 @@ void SVModelNode::render() {
     SVNode::render();
 }
 
+void SVModelNode::createShadow(){
+    if (!m_visible)
+        return;
+    if (!mApp->m_pGlobalParam->m_curScene)
+        return;
+    if(m_pModel) {
+        m_pModel->createShadow();
+    }
+}
+
 void SVModelNode::setModel(SVModelPtr _model) {
     m_pModel = _model;
     if(m_pModel) {
