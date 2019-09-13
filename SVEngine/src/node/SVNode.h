@@ -80,6 +80,8 @@ namespace sv {
             
             virtual void setBindOffset(f32 _offsetX, f32 _offsetY, f32 _offsetZ);
             
+            void setAutoAdaptDesign(bool _adapt);
+            
             void setbeSelect(bool _select);
             
             void setcanSelect(bool _select);
@@ -132,10 +134,11 @@ namespace sv {
             inline bool getbeSelect(){ return m_beSelect; }
             inline bool getcanProcEvent(){ return m_canProcEvent; }
             inline bool getvisible(){ return m_visible; }
+            inline bool getIsAutoAdaptDesign(){ return m_adaptDesign; }
             inline void setname(const char* _name){ m_name = _name; }
             inline void setvisible(bool _visible){ m_visible = _visible; }
             inline void setPeronID(s32 _personID){ m_personID = _personID;}
-            inline s32 getPersonID(){ return m_personID; }
+            inline s32  getPersonID(){ return m_personID; }
             inline bool getIsMipMap(){ return m_enableMipMap; }
             //设置材质
             void setMtl(SVMtlCorePtr _mtl);
@@ -172,6 +175,7 @@ namespace sv {
             //
             bool m_dirty;
             bool m_beSelect;        //是否被选择
+            bool m_adaptDesign;
             SVBoundBox m_aabbBox;   //AABB包围盒
             SVBoundBox m_aabbBox_sw;//AABB世界包围盒
             FMat4 m_localMat;       //本地矩阵

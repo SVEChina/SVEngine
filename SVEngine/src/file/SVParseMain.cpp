@@ -22,6 +22,7 @@
 #include "SVParseParticles.h"
 #include "SVParseBackground.h"
 #include "SVParseTexAttachment.h"
+#include "SVParseAniTrigger.h"
 #include "SVParseMusic.h"
 #include "SVParseFilter.h"
 #include "../module/SVEffectPackage.h"
@@ -119,8 +120,18 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
         RAPIDJSON_NAMESPACE::Value &attachments = doc["TexAttachment"];
         for (s32 i = 0; i<attachments.Size(); i++) {
             RAPIDJSON_NAMESPACE::Value &attachment = attachments[i];
-            SVActTexAttachmentPtr t_texAttachment = SVParseTexAttachment::parseTexAttachmet(mApp, attachment, 102, t_path.get());
+            SVTexAttachmentPtr t_texAttachment = SVParseTexAttachment::parseTexAttachmet(mApp, attachment, 102, t_path.get());
             t_bundle->addAttachment(t_texAttachment);
+        }
+    }
+    
+    //parse trigger
+    if (doc.HasMember("triggerarray") && doc["triggerarray"].IsArray()) {
+        RAPIDJSON_NAMESPACE::Value &triggers = doc["triggerarray"];
+        for (s32 i = 0; i<triggers.Size(); i++) {
+            RAPIDJSON_NAMESPACE::Value &trigger = triggers[i];
+            SVAniTriggerPtr t_trigger = SVParseAniTrigger::parseAniTrigger(mApp, trigger, 102, t_path.get());
+            t_bundle->addTrigger(t_trigger);
         }
     }
     

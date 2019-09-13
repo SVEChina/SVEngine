@@ -1,12 +1,12 @@
 //
-// SVActTexAttachment.h
+// SVTexAttachment.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_ACTIONTEXATTACHMENT_H
-#define SV_ACTIONTEXATTACHMENT_H
+#ifndef SV_ACT_TEXATTACHMENT_H
+#define SV_ACT_TEXATTACHMENT_H
 
 #include "../base/SVGBase.h"
 #include "../node/SVNodeDeclare.h"
@@ -14,7 +14,7 @@ namespace sv{
     
     namespace logic {
         
-        class SVActTexAttachment : public SVGBase {
+        class SVTexAttachment : public SVGBase {
         public:
             struct TEXATTACHSPARAM{
                 s32             channel;
@@ -24,9 +24,9 @@ namespace sv{
                 SVString        slotName;
                 SVString        metadata;
             };
-            SVActTexAttachment(SVInst* _app);
+            SVTexAttachment(SVInst* _app);
             
-            ~SVActTexAttachment();
+            ~SVTexAttachment();
             
             virtual void init();
             
@@ -55,4 +55,4 @@ namespace sv{
         
     }//!namespace logic
 }//!namespace sv
-#endif //SV_ACTIONTEXATTACHMENT_H
+#endif //SV_ACT_TEXATTACHMENT_H

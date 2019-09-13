@@ -38,6 +38,18 @@ f32 SVPersonTracker::getEyeDis() {
     return t_eyedis;
 }
 
+f32 SVPersonTracker::getEyeStdScale(){
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    f32 t_scale = m_eyeDistance/ t_adapt_scale / STANDARD_EYE_STD;
+    return t_scale;
+}
+
+f32 SVPersonTracker::getNoiseStdScale(){
+    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
+    f32 t_scale = m_noiseDistance/ t_adapt_scale / STANDARD_NOISE_STD;
+    return t_scale;
+}
+
 void SVPersonTracker::track_st(void *_data, s32 _ptnum, SVRect &_rect, f32 yaw, f32 pitch, f32 roll, s32 personID) {
     m_pFacedata = (f32 *) _data;
     m_personID = personID;

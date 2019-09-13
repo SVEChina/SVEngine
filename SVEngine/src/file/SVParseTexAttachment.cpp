@@ -6,9 +6,9 @@
 //
 
 #include "SVParseTexAttachment.h"
-#include "../act/SVActTexAttachment.h"
-SVActTexAttachmentPtr SVParseTexAttachment::parseTexAttachmet(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _resid, cptr8 _path) {
-    SVActTexAttachmentPtr attachment = MakeSharedPtr<SVActTexAttachment>(_app);
+#include "../act/SVTexAttachment.h"
+SVTexAttachmentPtr SVParseTexAttachment::parseTexAttachmet(SVInst *_app, RAPIDJSON_NAMESPACE::Value &item, s32 _resid, cptr8 _path) {
+    SVTexAttachmentPtr attachment = MakeSharedPtr<SVTexAttachment>(_app);
     attachment->init();
     attachment->m_rootPath = _path;
     attachment->fromJson(item);

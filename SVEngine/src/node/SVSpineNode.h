@@ -33,23 +33,7 @@ namespace sv {
             
             void render();
             
-            virtual void setPosition(f32 x, f32 y, f32 z);
-            
-            virtual void setScale(f32 x, f32 y, f32 z);
-            
-            virtual void setPosition(FVec3& _pos);
-            
-            virtual void setOffset(FVec3& _pos);
-            
-            virtual void setOffset(f32 _x, f32 _y, f32 _z);
-            
-            virtual void setScale(FVec3& _scale);
-            
             virtual void setAlpha(f32 _alpha);
-            
-            virtual void setBindOffset(FVec3& _offset);
-            
-            virtual void setBindOffset(f32 _offsetX, f32 _offsetY, f32 _offsetZ);
             
             void setSpine(SVSpinePtr _spine);
             
@@ -77,11 +61,13 @@ namespace sv {
             
             bool getloop();
             
+            bool isImmediatelyPlay();//是否立即播放
+            
             void setSpineCallback(sv_spine_callback _cb,void* _obj);
-            //返回当前分辨率下骨头的位置
-            bool getBonePosition(f32 &px, f32 &py, cptr8 bonename, bool _isDesign = false);
-            //返回当前分辨率下骨头的缩放
-            bool getBoneScale(f32 &sx, f32 &sy, cptr8 bonename, bool _isDesign = false);
+          
+            bool getBonePosition(f32 &px, f32 &py, cptr8 bonename);
+            
+            bool getBoneScale(f32 &sx, f32 &sy, cptr8 bonename);
             
             bool getBoneRotation(f32 &rotation, cptr8 bonename);
             
@@ -116,6 +102,8 @@ namespace sv {
             SVString m_cur_aniname;
     
             bool m_loop;
+            
+            bool m_immediatelyPlay;
             
         public:
             //序列化接口

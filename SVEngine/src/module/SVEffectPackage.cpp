@@ -16,7 +16,8 @@
 #include "../node/SVSpineNode.h"
 #include "../node/SVSpriteNode.h"
 #include "../node/SVBitFontNode.h"
-#include "../act/SVActTexAttachment.h"
+#include "../act/SVTexAttachment.h"
+#include "../act/SVAniTrigger.h"
 #include "../act/SVActFollow.h"
 #include "../act/SVActionMgr.h"
 #include "../act/SVActionUnit.h"
@@ -60,21 +61,24 @@ void SVEffectUnit::init(SVNodePtr _node){
         }
         SVSpineNodePtr t_spineNode = DYN_TO_SHAREPTR(SVSpineNode, m_node);
         if (t_spineNode) {
-            cptr8 t_defAniName = t_spineNode->getCurAniName();
             t_spineNode->setSpineCallback(spinenode_callback, this);
-            t_spineNode->play(t_defAniName);
-            setEnd(false);
+            t_spineNode->stop();
+            if (t_spineNode->isImmediatelyPlay()) {
+                cptr8 t_defAniName = t_spineNode->getCurAniName();
+                t_spineNode->play(t_defAniName);
+                setEnd(false);
+            }
         }
     }
 }
 
 void SVEffectUnit::_attachToPeople(SVNodePtr _node){
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
     //跟随人脸
     SVActFollowPersonPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson>(mApp, _node->getPersonID());
     t_fllowPerson->setFllowIndex(_node->getBindIndex());
-    t_fllowPerson->setBindOffset(_node->getBindOffset().x/t_adapt_scale, _node->getBindOffset().y/t_adapt_scale, _node->getBindOffset().z/t_adapt_scale);
-    t_fllowPerson->setScale(_node->getScale().x/t_adapt_scale, _node->getScale().y/t_adapt_scale, _node->getScale().z/t_adapt_scale);
+    t_fllowPerson->setBindOffset(_node->getBindOffset().x, _node->getBindOffset().y, _node->getBindOffset().z);
+    t_fllowPerson->setScale(_node->getScale().x, _node->getScale().y, _node->getScale().z);
+    t_fllowPerson->setRotation(_node->getRotation().x, _node->getRotation().y, _node->getRotation().z);
     m_personAct = mApp->getActionMgr()->addAction(t_fllowPerson, _node);
     m_personAct->play();
 }
@@ -122,10 +126,16 @@ void SVEffectPackage::destroy(){
     SVModuleBase::destroy();
     stopListen();
     for (s32 i = 0; i<m_attachmentPool.size(); i++) {
-        SVActTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
         t_attachment->destroy();
     }
     m_attachmentPool.destroy();
+    //
+    for (s32 i = 0; i<m_triggerPool.size(); i++) {
+        SVAniTriggerPtr t_trigger = m_triggerPool[i];
+        t_trigger->destroy();
+    }
+    m_triggerPool.destroy();
     //
     for (s32 i = 0; i<m_effectUnitPool.size(); i++) {
         SVEffectUnitPtr t_unit = m_effectUnitPool[i];
@@ -188,25 +198,39 @@ void SVEffectPackage::reset(){
 void SVEffectPackage::update(f32 _dt) {
     SVModuleBase::update(_dt);
     if (m_aniState == EFFECT_ANI_RUN) {
-        for (s32 i = 0; i < m_attachmentPool.size(); i++) {
-            SVActTexAttachmentPtr t_attachment = m_attachmentPool[i];
-            t_attachment->update(_dt);
+        _updateAttachments(_dt);
+        _updateTriggers(_dt);
+        _updateEffectUnits(_dt);
+    }
+}
+
+void SVEffectPackage::_updateAttachments(f32 _dt){
+    for (s32 i = 0; i < m_attachmentPool.size(); i++) {
+        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        t_attachment->update(_dt);
+    }
+}
+void SVEffectPackage::_updateTriggers(f32 _dt){
+    for (s32 i = 0; i < m_triggerPool.size(); i++) {
+        SVAniTriggerPtr t_trigger = m_triggerPool[i];
+        t_trigger->update(_dt);
+    }
+}
+void SVEffectPackage::_updateEffectUnits(f32 _dt){
+    bool end = true;
+    for (s32 i = 0; i < m_effectUnitPool.size(); i++) {
+        SVEffectUnitPtr t_unit = m_effectUnitPool[i];
+        if (!t_unit->isEnd()) {
+            end = false;
+            break;
         }
-        bool end = true;
-        for (s32 i = 0; i < m_effectUnitPool.size(); i++) {
-            SVEffectUnitPtr t_unit = m_effectUnitPool[i];
-            if (!t_unit->isEnd()) {
-                end = false;
-                break;
-            }
-        }
-        if (end) {
-            m_aniState = EFFECT_ANI_END;
-            if (m_cb) {
-                SVString msg = SVString::format("effectpackageend_%s",m_module_name.c_str());
-                (*m_cb)(msg.c_str(), m_obj);
-                reset();
-            }
+    }
+    if (end) {
+        m_aniState = EFFECT_ANI_END;
+        if (m_cb) {
+            SVString msg = SVString::format("effectpackageend_%s",m_module_name.c_str());
+            (*m_cb)(msg.c_str(), m_obj);
+            reset();
         }
     }
 }
@@ -231,7 +255,10 @@ bool SVEffectPackage::procEvent(SVEventPtr _event) {
     }else if(_event->eventType == EVN_T_ANIMATE){
         SVAnimateEventPtr t_event = DYN_TO_SHAREPTR(SVAnimateEvent, _event);
         if (t_event) {
-            
+            for (s32 i = 0; i<m_triggerPool.size(); i++) {
+                SVAniTriggerPtr t_trigger = m_triggerPool[i];
+                t_trigger->noticeTriggerCondition(t_event->eventName);
+            }
         }
     }
     return  true;
@@ -245,10 +272,40 @@ void SVEffectPackage::addEffectUnit(SVNodePtr _nodePtr){
     }
 }
 
-void SVEffectPackage::addAttachment(SVActTexAttachmentPtr _attachment){
-    if (_attachment) {
+bool SVEffectPackage::_hasAttachment(SVTexAttachmentPtr _attachment){
+    for (s32 i = 0; i<m_attachmentPool.size(); i++) {
+        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        if (t_attachment == _attachment) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void SVEffectPackage::addAttachment(SVTexAttachmentPtr _attachment){
+    m_lock->lock();
+    if (_attachment && !_hasAttachment(_attachment)) {
         m_attachmentPool.append(_attachment);
     }
+    m_lock->unlock();
+}
+
+bool SVEffectPackage::_hasTrigger(SVAniTriggerPtr _trigger){
+    for (s32 i = 0; i<m_triggerPool.size(); i++) {
+        SVAniTriggerPtr t_trigger = m_triggerPool[i];
+        if (t_trigger == _trigger) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void SVEffectPackage::addTrigger(SVAniTriggerPtr _trigger){
+    m_lock->lock();
+    if (_trigger && !_hasTrigger(_trigger)) {
+        m_triggerPool.append(_trigger);
+    }
+    m_lock->unlock();
 }
 
 void SVEffectPackage::addFilter(SVFilterBasePtr _filter){
@@ -269,10 +326,10 @@ void SVEffectPackage::addDefrom(SVDeformImageMovePtr _deform){
     }
 }
 
-SVActTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
+SVTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
     for (s32 i = 0; i < m_attachmentPool.size(); i++) {
-        SVActTexAttachmentPtr t_attachment = m_attachmentPool[i];
-        SVActTexAttachment::TEXATTACHSPARAM t_param = t_attachment->getParam();
+        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVTexAttachment::TEXATTACHSPARAM t_param = t_attachment->getParam();
         if (t_param.channel == _channel) {
             return t_attachment;
         }

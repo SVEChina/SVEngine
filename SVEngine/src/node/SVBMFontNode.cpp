@@ -101,30 +101,6 @@ cptr8 SVBMFontNode::getText(){
     return m_text;
 }
 
-void SVBMFontNode::setPosition(f32 _x, f32 _y, f32 _z) {
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_postion.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
-    m_dirty = true;
-}
-
-void SVBMFontNode::setScale(f32 _x, f32 _y, f32 _z) {
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_scale.set(_x*t_adapt_scale, _y*t_adapt_scale, _z*t_adapt_scale);
-    m_dirty = true;
-}
-
-void SVBMFontNode::setPosition(FVec3& _pos) {
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_postion = FVec3(_pos.x*t_adapt_scale, _pos.y*t_adapt_scale, _pos.z*t_adapt_scale);
-    m_dirty = true;
-}
-
-void SVBMFontNode::setScale(FVec3& _scale) {
-    f32 t_adapt_scale = mApp->getConfig()->getDesignAdaptScale();
-    m_scale = FVec3(_scale.x*t_adapt_scale, _scale.y*t_adapt_scale, _scale.z*t_adapt_scale);
-    m_dirty = true;
-}
-
 void SVBMFontNode::setSpacing(f32 _spacing){
     m_spacing = _spacing;
     m_textDirty = true;

@@ -27,6 +27,7 @@ SVNode::SVNode(SVInst *_app)
     m_canSelect = false;
     m_beSelect = false;
     m_canProcEvent = false;
+    m_adaptDesign = false;
     m_visible = true;
     m_dirty = false;
     m_parent = nullptr;             //父节点
@@ -105,11 +106,20 @@ void SVNode::update(f32 dt) {
         FMat4 t_mat_rotY = FMat4_identity;
         FMat4 t_mat_rotZ = FMat4_identity;
         FMat4 t_mat_trans = FMat4_identity;
-        t_mat_scale.setScale(FVec3(m_scale.x,m_scale.y,m_scale.z));
+        //
+        FVec3 t_scale = FVec3(m_scale.x,m_scale.y,m_scale.z);
+        FVec3 t_translate = FVec3(m_postion.x + m_offpos.x,m_postion.y + m_offpos.y, m_postion.z + m_offpos.z);
+        //适配设计分辨率
+        if (m_adaptDesign) {
+            f32 t_adaptScale = mApp->getConfig()->getDesignAdaptScale();
+            t_scale *= t_adaptScale;
+            t_translate *= t_adaptScale;
+        }
+        t_mat_scale.setScale(t_scale);
         t_mat_rotX.setRotateX(m_rotation.x);
         t_mat_rotY.setRotateY(m_rotation.y);
         t_mat_rotZ.setRotateZ(m_rotation.z);
-        t_mat_trans.setTranslate( FVec3(m_postion.x + m_offpos.x,m_postion.y + m_offpos.y, m_postion.z + m_offpos.z) );
+        t_mat_trans.setTranslate(t_translate);
         m_localMat = t_mat_trans*t_mat_rotZ*t_mat_rotY*t_mat_rotX*t_mat_scale;
         m_dirty = false;
     }
@@ -374,6 +384,11 @@ SVNodePtr SVNode::getParent() {
     return m_parent;
 }
 
+void SVNode::setAutoAdaptDesign(bool _adapt){
+    m_adaptDesign = _adapt;
+    m_dirty = true;
+}
+
 void SVNode::setbeSelect(bool _select){
     m_beSelect = _select;
 }
@@ -471,6 +486,7 @@ void SVNode::_toJsonData(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     locationObj.AddMember("canselect", m_canSelect, _allocator);
     locationObj.AddMember("drawaabb", m_drawBox, _allocator);
     locationObj.AddMember("canprocevent", m_canProcEvent, _allocator);
+    locationObj.AddMember("autoadaptdesign", m_adaptDesign, _allocator);
     locationObj.AddMember("visible", m_visible, _allocator);
     locationObj.AddMember("mipmap", m_enableMipMap, _allocator);
 }
@@ -552,6 +568,12 @@ void SVNode::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
     }
     if (item.HasMember("canprocevent") && item["canprocevent"].IsBool()) {
         m_canProcEvent = item["canprocevent"].GetBool();
+    }
+    if (item.HasMember("autoadaptdesign") && item["autoadaptdesign"].IsBool()) {
+        m_adaptDesign = item["autoadaptdesign"].GetBool();
+    }else{
+        //特效包里要是没有“m_adaptDesign”这个属性，默认是适配设计分辨率的
+        m_adaptDesign = true;
     }
     if (item.HasMember("visible") && item["visible"].IsBool()) {
         m_visible = item["visible"].GetBool();
