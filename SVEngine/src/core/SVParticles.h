@@ -351,6 +351,9 @@ namespace sv {
             f32 getDelayMean() const;
             f32 getDelaySpread() const;
             
+            void setPrerunTime(f32 time);
+            f32 getPrerunTime() const;
+            
             void setPeriod(f32 mean,f32 spread);
             f32 getPeriodMean() const;
             f32 getPeriodSpread() const;
@@ -540,6 +543,8 @@ namespace sv {
             
             virtual void update_bounds();
             
+            void prerun_particels();
+            
             // create render buffers
             void sort_particles(const FVec3 &camera);
             
@@ -577,6 +582,7 @@ namespace sv {
             f32 spawn_count;                        // 生产个数
             f32 spawn_scale;                        // 生产缩放
             f32 spawn_threshold;                    // 生产极限值
+            f32 prerun_time;                      // prerun
             f32 delay_time;                         // 延迟时间
             f32 period_time;                        // 时间周期
             f32 duration_time;                      // 持续时间
