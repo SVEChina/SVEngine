@@ -299,7 +299,7 @@ void SVOpCreateTest::_process(f32 dt) {
             t_fllowPerson->setFllowIndex(43);//43
             t_fllowPerson->setBindOffset(0.0f,0.0f,0.0f);
             t_fllowPerson->setScale(1.0f,1.0f,1.0f);
-            t_fllowPerson->setEyeDis(9.0f);//9.5设置模型的瞳距
+            t_fllowPerson->setEyeDis(9.5f);//9.5设置模型的瞳距
             SVActionUnitPtr t_personAct = mApp->getActionMgr()->addAction(t_fllowPerson, t_node);
             t_personAct->play();
         }

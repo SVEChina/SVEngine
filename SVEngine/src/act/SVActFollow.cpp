@@ -206,7 +206,7 @@ void SVActFollowPerson3d::run(SVNodePtr _nodePtr, f32 dt){
             f32 t_pitch = t_person->getFaceRot().x;
             f32 t_yaw = t_person->getFaceRot().y;
             f32 t_roll = t_person->getFaceRot().z;
-            _nodePtr->setPosition(t_pt_x, t_pt_y, 0.0f);
+            _nodePtr->setPosition(t_pt_x, t_pt_y, 300.0f);
             //计算缩放
             f32 t_real_eyedis = t_personTracker->getEyeDis();
             f32 t_sc = t_real_eyedis/m_src_eyedis;
