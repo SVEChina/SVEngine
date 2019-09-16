@@ -30,6 +30,7 @@ namespace sv {
             void setMaterial(SVMtlFace2DPtr _mtlFace2D);
             
             SVMtlFace2DPtr getMaterial();
+            
         protected:
             SVString m_texName;
             SVRenderObjectPtr m_renderObject;
