@@ -178,6 +178,17 @@ namespace sv {
         void _process(f32 dt);
     };
    
+    //测试画线
+    class SVOpCreateTestLine : public SVOpBase {
+    public:
+        SVOpCreateTestLine(SVInst *_app);
+        
+        ~SVOpCreateTestLine();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    
     //分屏
     class SVOpCreateDivision : public SVOpBase {
     public:
