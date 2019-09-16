@@ -302,7 +302,7 @@ void SVOpCreateTest::_process(f32 dt) {
             t_pScene->addNode(t_node);
             //
             SVActFollowPerson3dPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson3d>(mApp, 1);
-            t_fllowPerson->setFllowIndex(43);//43
+            t_fllowPerson->setFllowIndex(46);//43
             t_fllowPerson->setBindOffset(0.0f,0.0f,0.0f);
             t_fllowPerson->setScale(1.0f,1.0f,1.0f);
             t_fllowPerson->setEyeDis(9.5f);//9.5设置模型的瞳距
