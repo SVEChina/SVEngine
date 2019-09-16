@@ -460,6 +460,7 @@ void SVRendererGL::submitStencil(SVStencilParam& _param){
 void SVRendererGL::submitDepth(SVDepthParam& _param){
     if (_param.clear) {
         glClear(GL_DEPTH_BUFFER_BIT);
+        glClearDepthf(1.0f);
     }
     if (_param.enable) {
         if (!glIsEnabled(GL_DEPTH_TEST)) {

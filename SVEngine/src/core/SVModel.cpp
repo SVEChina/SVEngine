@@ -61,6 +61,12 @@ void SVModel::render() {
     }
 }
 
+void SVModel::createShadow() {
+    for (s32 i = 0; i < m_meshPool.size(); i++) {
+        m_meshPool[i]->createShadow();
+    }
+}
+
 void SVModel::bindSke(SVSkeletonPtr _ske) {
     for (s32 i = 0; i < m_meshPool.size(); i++) {
         SVMtlCorePtr t_mtl = m_meshPool[i]->getMtl();

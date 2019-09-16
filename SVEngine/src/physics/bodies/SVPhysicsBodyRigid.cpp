@@ -16,7 +16,8 @@ SVPhysicsBodyRigid::SVPhysicsBodyRigid(SVInst* _app):SVPhysicsBody(_app) {
     m_pBody=nullptr;
     m_pMyMotionState = nullptr;
     p2p=nullptr;
-    m_savedState=0;
+    m_isBindNode = true;
+    m_savedState = 0;
 }
 
 SVPhysicsBodyRigid::SVPhysicsBodyRigid(SVInst* _app , SVPhysicsShapePtr _shape):SVPhysicsBody(_app) {
@@ -24,6 +25,7 @@ SVPhysicsBodyRigid::SVPhysicsBodyRigid(SVInst* _app , SVPhysicsShapePtr _shape):
     m_pShape = _shape;
     m_pBody = nullptr;
     m_pMyMotionState = nullptr;
+    m_isBindNode = true;
 }
 
 SVPhysicsBodyRigid::~SVPhysicsBodyRigid() {
@@ -36,6 +38,10 @@ void SVPhysicsBodyRigid::setRestitution(f32 _dis){
 
 void SVPhysicsBodyRigid::setFriction(f32 _dis){
     m_pBody->setFriction(_dis);
+}
+
+void SVPhysicsBodyRigid::setBindNode(bool isbind){
+    m_isBindNode = isbind;
 }
 
 void SVPhysicsBodyRigid::init(){
@@ -83,7 +89,7 @@ void SVPhysicsBodyRigid::update(f32 _dt){
         trans = m_pBody->getWorldTransform();
     }
     
-    if(m_pNode){
+    if(m_pNode&&m_isBindNode){
         m_pNode->setPosition(trans.getOrigin().getX()*250, trans.getOrigin().getY()*250-640, trans.getOrigin().getZ()*250);
         btQuaternion t_bodyquat = trans.getRotation();
         f32 t_x , t_y ,t_z;
@@ -94,10 +100,6 @@ void SVPhysicsBodyRigid::update(f32 _dt){
 
 PHYSICSBODYTYPE SVPhysicsBodyRigid::getType(){
     return m_type;
-}
-
-btRigidBody* SVPhysicsBodyRigid::getBody(){
-    return m_pBody;
 }
 
 void SVPhysicsBodyRigid::setApplyCentralForce(FVec3 _pos){

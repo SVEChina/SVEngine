@@ -24,6 +24,7 @@ SV3DBox::SV3DBox(SVInst *_app)
     //
     m_pMesh = SVGeoGen::genAABB(mApp,m_aabbBox);
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
+    m_mtl_box = MakeSharedPtr<SVMtlGeo3d>(mApp);
     m_drawBox = true;
 }
 
@@ -61,20 +62,24 @@ void SV3DBox::randomInit(){
     m_canSelect = true;
 }
 
+SVMtlCorePtr SV3DBox::getMtl(){
+    return m_mtl_box;
+}
+
 void SV3DBox::update(f32 dt) {
     SVNode::update(dt);
     if (m_pRenderObj && m_pMesh) {
         //材质独立化
-        SVMtlGeo3dPtr t_mtl_box = MakeSharedPtr<SVMtlGeo3d>(mApp);
-        t_mtl_box->setColor(m_color.r, m_color.g, m_color.b, m_color.a);
-        t_mtl_box->update(dt * 0.001f);
-        t_mtl_box->setModelMatrix(m_absolutMat.get());
-        t_mtl_box->setTexcoordFlip(1.0, -1.0f);
-        t_mtl_box->setDepthEnable(true);
-        t_mtl_box->setBlendEnable(true);
-        t_mtl_box->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+      
+        m_mtl_box->setColor(m_color.r, m_color.g, m_color.b, m_color.a);
+        m_mtl_box->update(dt * 0.001f);
+        m_mtl_box->setModelMatrix(m_absolutMat.get());
+        m_mtl_box->setTexcoordFlip(1.0, -1.0f);
+        m_mtl_box->setDepthEnable(true);
+        m_mtl_box->setBlendEnable(true);
+        m_mtl_box->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
         m_pRenderObj->setMesh(m_pMesh);
-        m_pRenderObj->setMtl(t_mtl_box);
+        m_pRenderObj->setMtl(m_mtl_box);
     }
 }
 

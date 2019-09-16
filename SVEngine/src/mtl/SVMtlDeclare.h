@@ -43,6 +43,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVMtlBillboard);
         DECLARE_SHAREPTR(SVMtlPenStrokeGlow);
         DECLARE_SHAREPTR(SVMtlStrokeBase);
+        DECLARE_SHAREPTR(SVMtlShadowMapping);
         //美颜
         DECLARE_SHAREPTR(SVMtlFilterBrilaterl);
         DECLARE_SHAREPTR(SVMtlFilterBrilaterl2);

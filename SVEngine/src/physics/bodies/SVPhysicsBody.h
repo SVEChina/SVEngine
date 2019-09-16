@@ -16,8 +16,7 @@ namespace sv {
     namespace logic {
         enum PHYSICSBODYTYPE {
             E_PHYSICS_BODY_BASE = 0,
-            E_PHYSICS_BODY_RIGID,
-            E_PHYSICS_BODY_ROPE
+            E_PHYSICS_BODY_RIGID
         };
 
         class SVPhysicsBody : public SVPhysicsBase {
@@ -32,8 +31,6 @@ namespace sv {
 
             virtual void update(f32 _dt);
 
-            PHYSICSBODYTYPE getType() const;
-            
             void setNode(SVNodePtr _node);
 
             inline void setOrigin(FVec3 _origin) {
@@ -44,10 +41,17 @@ namespace sv {
                 return m_origin;
             }
 
+            btRigidBody *getBody();
+            
+            SVNodePtr getNode();
+
+            PHYSICSBODYTYPE getType() const;
+
         protected:
             PHYSICSBODYTYPE m_type;
             FVec3 m_origin;
             SVNodePtr m_pNode;
+            btRigidBody *m_pBody;
         };
 
     }//!namespace logic

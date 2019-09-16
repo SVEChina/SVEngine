@@ -2842,7 +2842,9 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
         radius_spread = dynObj["dyn_radius_spread"].GetFloat();
         growth_mean = dynObj["dyn_growth_mean"].GetFloat();
         growth_spread = dynObj["dyn_growth_spread"].GetFloat();
-        prerun_time = dynObj["dyn_prerun_time"].GetFloat();
+        if(dynObj.HasMember("dyn_prerun_time")&&dynObj["dyn_prerun_time"].IsFloat()){
+            prerun_time = dynObj["dyn_prerun_time"].GetFloat();
+        }
     }
     //
     if (item.HasMember("phy") && item["phy"].IsObject()) {

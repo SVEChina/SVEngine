@@ -37,6 +37,10 @@ void SVMultPassNode::create(s32 _w,s32 _h) {
     mApp->getRenderMgr()->pushRCmdCreate(m_fbo);
 }
 
+void SVMultPassNode::setFbo(SVRenderTexturePtr _fbo){
+    m_fbo = _fbo;
+}
+
 void SVMultPassNode::destroy() {
     m_passPool.destroy();
     m_fbo = nullptr;
