@@ -110,7 +110,7 @@ void SVMesh::createShadow() {
         if(m_pMtl) {
             SVMtlCorePtr t_mtl= MakeSharedPtr<SVMtlCore>(mApp,"depth3d");
             t_mtl->setModelMatrix(m_pMtl->m_LogicParamMatrix.m_mat_model);
-            t_mtl->setBlendEnable(false);
+            t_mtl->setBlendEnable(true);
             t_mtl->setDepthEnable(true);
             t_cmd->setMaterial(t_mtl);
         }else{
