@@ -21,6 +21,7 @@ SVParticles::SVParticles(SVInst *_app) : SVGBase(_app) {
 	spawn_count = 0.0f;
 	spawn_scale = 1.0f;
 	spawn_threshold = 0.0f;
+    prerun_time = 0.0f;
 	delay_time = 0.0f;
 	period_time = 0.0f;
 	duration_time = 0.0f;
@@ -1141,6 +1142,16 @@ void SVParticles::update_bounds() {
 	bound_sphere.set(bound_box);
 }
 
+void SVParticles::prerun_particels(){
+    if (prerun_time <= 0) {
+        return;
+    }
+    s32 t_frame =  (s32)floor(prerun_time/PARTICLES_IFPS);
+    for (s32 i = 0; i<t_frame; i++) {
+        update(PARTICLES_IFPS);
+    }
+}
+
 //******************************** Render **********************************************
 
 static const u16 orientations[28][4] = {
@@ -2224,6 +2235,14 @@ f32 SVParticles::getDelaySpread() const {
 	return delay_spread;
 }
 
+void SVParticles::setPrerunTime(f32 time) {
+    prerun_time = max(time,0.0f);
+}
+
+f32 SVParticles::getPrerunTime() const {
+    return prerun_time;
+}
+
 void SVParticles::setPeriod(f32 mean,f32 spread) {
 	period_mean = max(mean,0.0f);
 	period_spread = spread;
@@ -2231,6 +2250,7 @@ void SVParticles::setPeriod(f32 mean,f32 spread) {
 	duration_time = -1.0f;
     updateEmitter();
 }
+
 
 f32 SVParticles::getPeriodMean() const {
 	return period_mean;
@@ -2701,6 +2721,7 @@ void SVParticles::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
     dynObj.AddMember("dyn_radius_spread", radius_spread, _allocator);
     dynObj.AddMember("dyn_growth_mean", growth_mean, _allocator);
     dynObj.AddMember("dyn_growth_spread", growth_spread, _allocator);
+    dynObj.AddMember("dyn_prerun_time", prerun_time, _allocator);
     _objValue.AddMember("dyn", dynObj, _allocator);
     //
     RAPIDJSON_NAMESPACE::Value phyObj(RAPIDJSON_NAMESPACE::kObjectType);
@@ -2821,6 +2842,7 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
         radius_spread = dynObj["dyn_radius_spread"].GetFloat();
         growth_mean = dynObj["dyn_growth_mean"].GetFloat();
         growth_spread = dynObj["dyn_growth_spread"].GetFloat();
+        prerun_time = dynObj["dyn_prerun_time"].GetFloat();
     }
     //
     if (item.HasMember("phy") && item["phy"].IsObject()) {
@@ -2935,153 +2957,5 @@ void SVParticles::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
             setForceTransform(getNumForces() - 1, t_transform);
         }
     }
+    prerun_particels();
 }
-
-///*
-// */
-//s32 SVParticles::saveState(const Stream &stream) const {
-//    // random seed
-//    stream.writeUInt(getSeed());
-//    // frame number
-//    stream.writeInt(frame);
-//    // update
-//    stream.writeFloat(spawn_count);
-//    // emitter
-//    stream.writeFloatArray(getEmitterTransform(),16);
-//    stream.writeFloatArray(old_emitter_transform,16);
-//    // forces
-//    stream.writeFloatArray(getGravity(),3);
-//    stream.writeInt(getNumForces());
-//    for(s32 i = 0; i < getNumForces(); i++) {
-//        stream.writeUChar(isForceAttached(i));
-//        stream.writeFloatArray(getForceTransform(i),16);
-//        stream.writeFloat(getForceRadius(i));
-//        stream.writeFloat(getForceAttenuation(i));
-//        stream.writeFloat(getForceAttractor(i));
-//        stream.writeFloat(getForceRotator(i));
-//    }
-//    // noises
-//    stream.writeInt(getNumNoises());
-//    for(s32 i = 0; i < getNumNoises(); i++) {
-//        stream.writeUChar(isNoiseAttached(i));
-//        stream.writeFloatArray(getNoiseTransform(i),16);
-//        stream.writeFloatArray(getNoiseOffset(i),3);
-//        stream.writeFloatArray(getNoiseStep(i),3);
-//        stream.writeFloat(getNoiseForce(i));
-//        stream.writeFloat(getNoiseScale(i));
-//        stream.writeInt(getNoiseFrequency(i));
-//        stream.writeInt(getNoiseSize(i));
-//    }
-//    // deflectors
-//    stream.writeInt(getNumDeflectors());
-//    for(s32 i = 0; i < getNumDeflectors(); i++) {
-//        stream.writeUChar(getDeflectorType(i));
-//        stream.writeUChar(isDeflectorAttached(i));
-//        stream.writeFloatArray(getDeflectorTransform(i),16);
-//        stream.writeFloatArray(getDeflectorSize(i),3);
-//        stream.writeFloat(getDeflectorRestitution(i));
-//        stream.writeFloat(getDeflectorRoughness(i));
-//    }
-//    // particles
-//    stream.writeInt(particles.size());
-//    for(s32 i = 0; i < particles.size(); i++) {
-//        const Particle &p = particles[i];
-//        stream.writeFloatArray(p.position,3);
-//        stream.writeFloatArray(p.parameters,3);
-//        stream.writeFloatArray(p.velocity,3);
-//        stream.writeFloat(p.angle);
-//        stream.writeFloat(p.rotation);
-//        stream.writeFloat(p.radius);
-//        stream.writeFloat(p.growth);
-//        stream.writeFloat(p.life);
-//        stream.writeFloat(p.ilife);
-//        stream.writeUChar(p.orientation);
-//    }
-//
-//    // bounds
-//    stream.writeFloatArray(bound_box.getMin(),3);
-//    stream.writeFloatArray(bound_box.getMax(),3);
-//    stream.writeFloatArray(bound_sphere.getCenter(),3);
-//    stream.writeFloat(bound_sphere.getRadius());
-//
-//    return 1;
-//}
-//
-//s32 SVParticles::restoreState(const Stream &stream) {
-//
-//    // random seed
-//    setSeed(stream.readUInt());
-//
-//    // frame number
-//    frame = stream.readInt();
-//
-//    // update
-//    spawn_count = stream.readFloat();
-//    // type
-//    // emitter
-//    stream.readFloatArray(emitter_transform,16);
-//    stream.readFloatArray(old_emitter_transform,16);
-//    // forces
-//    forces.resize(stream.readInt());
-//    for(s32 i = 0; i < getNumForces(); i++) {
-//        setForceAttached(i,stream.readUChar());
-//        stream.readFloatArray(forces[i].transform,16);
-//        setForceRadius(i,stream.readFloat());
-//        setForceAttenuation(i,stream.readFloat());
-//        setForceAttractor(i,stream.readFloat());
-//        setForceRotator(i,stream.readFloat());
-//    }
-//
-//    // noises
-//    noises.resize(stream.readInt());
-//    for(s32 i = 0; i < getNumNoises(); i++) {
-//        noises[i].image = NULL;
-//        setNoiseAttached(i,stream.readUChar());
-//        stream.readFloatArray(noises[i].transform,16);
-//        stream.readFloatArray(noises[i].offset,3);
-//        stream.readFloatArray(noises[i].step,3);
-//        setNoiseForce(i,stream.readFloat());
-//        setNoiseScale(i,stream.readFloat());
-//        setNoiseFrequency(i,stream.readInt());
-//        setNoiseSize(i,stream.readInt());
-//    }
-//
-//    // deflectors
-//    deflectors.resize(stream.readInt());
-//    for(s32 i = 0; i < getNumDeflectors(); i++) {
-//        setDeflectorType(i,stream.readUChar());
-//        setDeflectorAttached(i,stream.readUChar());
-//        stream.readFloatArray(deflectors[i].transform,16);
-//        stream.readFloatArray(deflectors[i].size,3);
-//        setDeflectorRestitution(i,stream.readFloat());
-//        setDeflectorRoughness(i,stream.readFloat());
-//    }
-//
-//    // particles
-//    particles.resize(stream.readInt());
-//    for(s32 i = 0; i < particles.size(); i++) {
-//        Particle &p = particles[i];
-//        stream.readFloatArray(p.position,3);
-//        stream.readFloatArray(p.parameters,3);
-//        stream.readFloatArray(p.velocity,3);
-//        p.angle = stream.readFloat();
-//        p.rotation = stream.readFloat();
-//        p.radius = stream.readFloat();
-//        p.growth = stream.readFloat();
-//        p.life = stream.readFloat();
-//        p.ilife = stream.readFloat();
-//        p.orientation = stream.readUChar();
-//    }
-//
-//    // bounds
-//    FVec3 min,max;
-//    stream.readFloatArray(min,3);
-//    stream.readFloatArray(max,3);
-//    bound_box.set(min,max);
-//
-//    FVec3 center;
-//    stream.readFloatArray(center,3);
-//    bound_sphere.set(center,stream.readFloat());
-//
-//    return 1;
-//}
