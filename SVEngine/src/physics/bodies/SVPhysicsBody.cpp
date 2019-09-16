@@ -13,7 +13,7 @@ SVPhysicsBody::SVPhysicsBody(SVInst* _app):SVPhysicsBase(_app) {
 }
 
 SVPhysicsBody::~SVPhysicsBody() {
-    
+    m_pNode = nullptr;
 }
 
 void SVPhysicsBody::init(){
@@ -21,11 +21,6 @@ void SVPhysicsBody::init(){
 }
 
 void SVPhysicsBody::destroy(){
-    if(m_pBody){
-        free(m_pBody);
-        m_pBody = nullptr;
-    }
-    m_pNode = nullptr;
     
 }
 
@@ -35,10 +30,6 @@ void SVPhysicsBody::update(f32 _dt){
 
 void SVPhysicsBody::setNode(SVNodePtr _node) {
     m_pNode = _node;
-}
-
-btRigidBody* SVPhysicsBody::getBody(){
-    return m_pBody;
 }
 
 PHYSICSBODYTYPE SVPhysicsBody::getType() const{

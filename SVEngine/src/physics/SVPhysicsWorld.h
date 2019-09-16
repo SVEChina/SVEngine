@@ -26,7 +26,7 @@ namespace sv {
             
             void update(f32 _dt);
             
-            void addBody(SVPhysicsBodyPtr _body);
+            void addBody(SVPhysicsBodyRigidPtr _body);
             
             void addShape(SVPhysicsShapePtr _shape, SVPhysicsBodyPtr _body);
             

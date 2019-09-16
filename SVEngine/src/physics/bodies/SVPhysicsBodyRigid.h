@@ -42,6 +42,7 @@ namespace sv {
             
             PHYSICSBODYTYPE getType();
             
+            btRigidBody *getBody();
         protected:
             
             PHYSICSBODYTYPE m_type;
@@ -51,6 +52,8 @@ namespace sv {
             btDefaultMotionState* m_pMyMotionState;
             
             btPoint2PointConstraint* p2p;
+            
+            btRigidBody *m_pBody;
             
             s32 m_savedState;
             

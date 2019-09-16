@@ -2259,6 +2259,14 @@
 		020D1F36228BF30700AEAF73 /* SVPenPackData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020D1F30228BF30600AEAF73 /* SVPenPackData.cpp */; };
 		020D1F37228BF30700AEAF73 /* SVPenPackData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020D1F30228BF30600AEAF73 /* SVPenPackData.cpp */; };
 		020D1F38228BF30700AEAF73 /* SVPenPackData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020D1F30228BF30600AEAF73 /* SVPenPackData.cpp */; };
+		0219DD49232CDC5C00F02C9A /* SVPhysicsBodyRope.h in Headers */ = {isa = PBXBuildFile; fileRef = 0219DD47232CDC5B00F02C9A /* SVPhysicsBodyRope.h */; };
+		0219DD4A232CDC5C00F02C9A /* SVPhysicsBodyRope.h in Headers */ = {isa = PBXBuildFile; fileRef = 0219DD47232CDC5B00F02C9A /* SVPhysicsBodyRope.h */; };
+		0219DD4B232CDC5C00F02C9A /* SVPhysicsBodyRope.h in Headers */ = {isa = PBXBuildFile; fileRef = 0219DD47232CDC5B00F02C9A /* SVPhysicsBodyRope.h */; };
+		0219DD4C232CDC5C00F02C9A /* SVPhysicsBodyRope.h in Headers */ = {isa = PBXBuildFile; fileRef = 0219DD47232CDC5B00F02C9A /* SVPhysicsBodyRope.h */; };
+		0219DD4D232CDC5C00F02C9A /* SVPhysicsBodyRope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0219DD48232CDC5B00F02C9A /* SVPhysicsBodyRope.cpp */; };
+		0219DD4E232CDC5C00F02C9A /* SVPhysicsBodyRope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0219DD48232CDC5B00F02C9A /* SVPhysicsBodyRope.cpp */; };
+		0219DD4F232CDC5C00F02C9A /* SVPhysicsBodyRope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0219DD48232CDC5B00F02C9A /* SVPhysicsBodyRope.cpp */; };
+		0219DD50232CDC5C00F02C9A /* SVPhysicsBodyRope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0219DD48232CDC5B00F02C9A /* SVPhysicsBodyRope.cpp */; };
 		022AF18621AD1F2300BF6F37 /* SVMtl2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022AF18421AD1F2200BF6F37 /* SVMtl2D.cpp */; };
 		022AF18721AD1F2300BF6F37 /* SVMtl2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022AF18421AD1F2200BF6F37 /* SVMtl2D.cpp */; };
 		022AF18821AD1F2300BF6F37 /* SVMtl2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022AF18421AD1F2200BF6F37 /* SVMtl2D.cpp */; };
@@ -5915,6 +5923,8 @@
 		020C518322DCA2E200201753 /* SVPhysicsCollider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPhysicsCollider.cpp; sourceTree = "<group>"; };
 		020D1F2F228BF30600AEAF73 /* SVPenPackData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPenPackData.h; sourceTree = "<group>"; };
 		020D1F30228BF30600AEAF73 /* SVPenPackData.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPenPackData.cpp; sourceTree = "<group>"; };
+		0219DD47232CDC5B00F02C9A /* SVPhysicsBodyRope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPhysicsBodyRope.h; sourceTree = "<group>"; };
+		0219DD48232CDC5B00F02C9A /* SVPhysicsBodyRope.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPhysicsBodyRope.cpp; sourceTree = "<group>"; };
 		022AF18421AD1F2200BF6F37 /* SVMtl2D.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtl2D.cpp; sourceTree = "<group>"; };
 		022AF18521AD1F2300BF6F37 /* SVMtl2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtl2D.h; sourceTree = "<group>"; };
 		022C1B322175EFD200FA5884 /* SVBMFontLoader.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBMFontLoader.cpp; sourceTree = "<group>"; };
@@ -7559,6 +7569,8 @@
 			children = (
 				020C516422DCA1AC00201753 /* SVPhysicsBody.cpp */,
 				020C516322DCA1AC00201753 /* SVPhysicsBody.h */,
+				0219DD48232CDC5B00F02C9A /* SVPhysicsBodyRope.cpp */,
+				0219DD47232CDC5B00F02C9A /* SVPhysicsBodyRope.h */,
 				02EA54AA22E8358F00F5701D /* SVPhysicsBodyRigid.cpp */,
 				5C721C042301144C00E1C3E7 /* SVPhysicsBodyRigid.h */,
 			);
@@ -8889,6 +8901,7 @@
 				5F7D6547215F407800803BCF /* SVOpLoadBase.h in Headers */,
 				5C0C602F219BFF790052A826 /* FIFOSamplePipe.h in Headers */,
 				020C488922DC5DCF00201753 /* btMultiBodyLink.h in Headers */,
+				0219DD4C232CDC5C00F02C9A /* SVPhysicsBodyRope.h in Headers */,
 				020C459D22DC5DCD00201753 /* btCollisionWorldImporter.h in Headers */,
 				5F7D63B5215F407800803BCF /* filereadstream.h in Headers */,
 				020C4D1722DC5DD200201753 /* b3RigidBodyCL.h in Headers */,
@@ -9793,6 +9806,7 @@
 				020C4D6122DC5DD300201753 /* b3Contact4.h in Headers */,
 				020C485F22DC5DCF00201753 /* btKinematicCharacterController.h in Headers */,
 				020C4C7722DC5DD200201753 /* btGeometryUtil.h in Headers */,
+				0219DD4A232CDC5C00F02C9A /* SVPhysicsBodyRope.h in Headers */,
 				020791A32302AF2A0029B759 /* SVImage.h in Headers */,
 				020C4C2722DC5DD200201753 /* btRandom.h in Headers */,
 				020C48D722DC5DCF00201753 /* btMultiBodyConstraintSolver.h in Headers */,
@@ -11062,6 +11076,7 @@
 				5F7D600E215F407700803BCF /* SVDetectST.h in Headers */,
 				5F7D639E215F407800803BCF /* memorystream.h in Headers */,
 				020C455622DC5DCD00201753 /* btCollisionDispatcher.h in Headers */,
+				0219DD49232CDC5C00F02C9A /* SVPhysicsBodyRope.h in Headers */,
 				020C479C22DC5DCE00201753 /* btTriangleMesh.h in Headers */,
 				5F7D68F8215F407900803BCF /* SVDataChunk.h in Headers */,
 				020C44DC22DC5DCC00201753 /* btVoronoiSimplexSolver.h in Headers */,
@@ -11354,6 +11369,7 @@
 				020C4D6222DC5DD300201753 /* b3Contact4.h in Headers */,
 				020C486022DC5DCF00201753 /* btKinematicCharacterController.h in Headers */,
 				020C4C7822DC5DD200201753 /* btGeometryUtil.h in Headers */,
+				0219DD4B232CDC5C00F02C9A /* SVPhysicsBodyRope.h in Headers */,
 				020791A42302AF2A0029B759 /* SVImage.h in Headers */,
 				020C4C2822DC5DD200201753 /* btRandom.h in Headers */,
 				020C48D822DC5DCF00201753 /* btMultiBodyConstraintSolver.h in Headers */,
@@ -12136,6 +12152,7 @@
 				020C473722DC5DCE00201753 /* btTriangleMesh.cpp in Sources */,
 				020C480522DC5DCE00201753 /* b3DNA.cpp in Sources */,
 				5F7D6883215F407900803BCF /* SVIDPool.cpp in Sources */,
+				0219DD50232CDC5C00F02C9A /* SVPhysicsBodyRope.cpp in Sources */,
 				020C474F22DC5DCE00201753 /* btMinkowskiSumShape.cpp in Sources */,
 				5F7D6375215F407800803BCF /* ClippingAttachment.c in Sources */,
 				5FD9B0602265F5A700522317 /* SVRResGLShader.cpp in Sources */,
@@ -12687,6 +12704,7 @@
 				5F7D636A215F407800803BCF /* PathAttachment.c in Sources */,
 				5F7D6172215F407700803BCF /* SVLoaderObj.cpp in Sources */,
 				5F7D66E8215F407900803BCF /* SVMtlFair1.cpp in Sources */,
+				0219DD4D232CDC5C00F02C9A /* SVPhysicsBodyRope.cpp in Sources */,
 				5F06308823223A4900A2BD73 /* SVLightSys.cpp in Sources */,
 				5F7D669C215F407800803BCF /* SVTexture.cpp in Sources */,
 				5F7D650C215F407800803BCF /* SVOpDetect.cpp in Sources */,
@@ -13356,6 +13374,7 @@
 				020C489C22DC5DCF00201753 /* btMultiBodyConstraintSolver.cpp in Sources */,
 				5C0C606A219BFF790052A826 /* BPMDetect.cpp in Sources */,
 				5F7D653E215F407800803BCF /* SVOpFilter.cpp in Sources */,
+				0219DD4F232CDC5C00F02C9A /* SVPhysicsBodyRope.cpp in Sources */,
 				5F7D6832215F407900803BCF /* SVEventProc.cpp in Sources */,
 				020D1F37228BF30700AEAF73 /* SVPenPackData.cpp in Sources */,
 				5F7D6200215F407700803BCF /* pngtest.c in Sources */,
@@ -13922,6 +13941,7 @@
 				020C489B22DC5DCF00201753 /* btMultiBodyConstraintSolver.cpp in Sources */,
 				5C0C6069219BFF790052A826 /* BPMDetect.cpp in Sources */,
 				5F7D653D215F407800803BCF /* SVOpFilter.cpp in Sources */,
+				0219DD4E232CDC5C00F02C9A /* SVPhysicsBodyRope.cpp in Sources */,
 				5F7D6831215F407900803BCF /* SVEventProc.cpp in Sources */,
 				020D1F36228BF30700AEAF73 /* SVPenPackData.cpp in Sources */,
 				5F7D61FF215F407700803BCF /* pngtest.c in Sources */,

@@ -5,7 +5,7 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 #include "SVPhysicsWorld.h"
-#include "bodies/SVPhysicsBody.h"
+#include "bodies/SVPhysicsBodyRigid.h"
 #include "../base/SVLock.h"
 
 SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVPhysicsBase(_app) {
@@ -76,7 +76,7 @@ void SVPhysicsWorld::setp(){
      m_pDynamicsWorld->stepSimulation(1.f/30.f,5);
 }
 
-void SVPhysicsWorld::addBody(SVPhysicsBodyPtr _body){
+void SVPhysicsWorld::addBody(SVPhysicsBodyRigidPtr _body){
     m_lock->lock();
     m_pDynamicsWorld->addRigidBody(_body->getBody());
     m_bodyArray.append(_body);

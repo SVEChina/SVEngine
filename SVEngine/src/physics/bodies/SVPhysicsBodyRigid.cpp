@@ -69,6 +69,10 @@ void SVPhysicsBodyRigid::destroy(){
         free(m_pMyMotionState);
         m_pMyMotionState = nullptr;
     }
+    if(m_pBody){
+        free(m_pBody);
+        m_pBody = nullptr;
+    }
 }
 
 void SVPhysicsBodyRigid::update(f32 _dt){
@@ -90,6 +94,10 @@ void SVPhysicsBodyRigid::update(f32 _dt){
 
 PHYSICSBODYTYPE SVPhysicsBodyRigid::getType(){
     return m_type;
+}
+
+btRigidBody* SVPhysicsBodyRigid::getBody(){
+    return m_pBody;
 }
 
 void SVPhysicsBodyRigid::setApplyCentralForce(FVec3 _pos){
