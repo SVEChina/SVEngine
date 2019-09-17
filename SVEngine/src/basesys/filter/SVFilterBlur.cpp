@@ -87,6 +87,7 @@ void SVFilterBlur::destroy(){
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         t_renderer->destroySVTex(E_TEX_FILTER_GLOW_2);
+        t_renderer->destroySVTex(E_TEX_FILTER_GLOW_3);
     }
 }
 

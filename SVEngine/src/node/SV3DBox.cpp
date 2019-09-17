@@ -26,12 +26,17 @@ SV3DBox::SV3DBox(SVInst *_app)
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_mtl_box = MakeSharedPtr<SVMtlGeo3d>(mApp);
     m_drawBox = true;
+    m_rsType = RST_SOLID_3D;
 }
 
 SV3DBox::~SV3DBox() {
     m_pRenderObj = nullptr;
     m_pMesh = nullptr;
     m_pMtl = nullptr;
+}
+
+void SV3DBox::setMesh(SVRenderMeshPtr _pMesh){
+    m_pMesh = _pMesh;
 }
 
 void SV3DBox::randomInit(){
@@ -70,16 +75,24 @@ void SV3DBox::update(f32 dt) {
     SVNode::update(dt);
     if (m_pRenderObj && m_pMesh) {
         //材质独立化
-      
-        m_mtl_box->setColor(m_color.r, m_color.g, m_color.b, m_color.a);
-        m_mtl_box->update(dt * 0.001f);
-        m_mtl_box->setModelMatrix(m_absolutMat.get());
-        m_mtl_box->setTexcoordFlip(1.0, -1.0f);
-        m_mtl_box->setDepthEnable(true);
-        m_mtl_box->setBlendEnable(true);
-        m_mtl_box->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-        m_pRenderObj->setMesh(m_pMesh);
-        m_pRenderObj->setMtl(m_mtl_box);
+        if(m_pMtl){
+            m_pMtl->update(dt);
+            m_pMtl->setDepthEnable(true);
+            m_pMtl->setModelMatrix(m_absolutMat.get());
+            m_pMtl->setTexcoordFlip(1.0, 1.0);
+            m_pRenderObj->setMesh(m_pMesh);
+            m_pRenderObj->setMtl(m_pMtl);
+        }else{
+            m_mtl_box->setColor(m_color.r, m_color.g, m_color.b, m_color.a);
+            m_mtl_box->update(dt * 0.001f);
+            m_mtl_box->setModelMatrix(m_absolutMat.get());
+            m_mtl_box->setTexcoordFlip(1.0, -1.0f);
+            m_mtl_box->setDepthEnable(true);
+            m_mtl_box->setBlendEnable(true);
+            m_mtl_box->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+            m_pRenderObj->setMesh(m_pMesh);
+            m_pRenderObj->setMtl(m_mtl_box);
+        }
     }
 }
 
@@ -87,7 +100,7 @@ void SV3DBox::render() {
     if (mApp->m_pGlobalParam->m_curScene && m_visible ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj) {
-            m_pRenderObj->pushCmd(t_rs, RST_SOLID_3D, "SV3DBox");
+            m_pRenderObj->pushCmd(t_rs, m_rsType, "SV3DBox");
         }
     }
     SVNode::render();
