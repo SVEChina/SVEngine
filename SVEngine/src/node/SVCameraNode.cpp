@@ -16,7 +16,7 @@ SVCameraNode::SVCameraNode(SVInst *_app)
     m_dirty = true;
     m_resLock = MakeSharedPtr<SVLock>();
     //视矩阵
-    SVCamCtrlBasePtr t_pCtrl =  MakeSharedPtr<SVCamCtrlBase>(_app);
+    SVCamCtrlProjPtr t_pCtrl =  MakeSharedPtr<SVCamCtrlProj>(_app);
     f32 t_pos_z = (1280.0f*0.5f) / tan(30.0f * DEGTORAD);
     t_pCtrl->setPosition(0.0f, 0.0,t_pos_z);
     t_pCtrl->setTarget(0.0f, 0.0f, 0.0f);
@@ -52,7 +52,7 @@ void SVCameraNode::destroy() {
     }
 }
 
-void SVCameraNode::setProject() {
+void SVCameraNode::project() {
     if(m_pProjMethod) {
         SVProjectPtr tt = MakeSharedPtr<SVProject>();
         tt->setWidth(m_pProjMethod->getWidth());
@@ -68,6 +68,8 @@ void SVCameraNode::setProject() {
     }
     //
     m_mat_p = m_pProjMethod->getMat();
+    //设置透视ctrl
+    
 }
 
 void SVCameraNode::ortho() {
@@ -86,6 +88,8 @@ void SVCameraNode::ortho() {
     }
     //
     m_mat_p = m_pProjMethod->getMat();
+    //设置正交ctrl
+    m_pCtrl =  MakeSharedPtr<SVCamCtrlOrtho>(mApp);
 }
 
 //LINK FBO
@@ -178,16 +182,13 @@ void SVCameraNode::resetDefaultCamera() {
 }
 
 void SVCameraNode::resetCamera(f32 w, f32 h) {
+    //主要是改变投影
     if(m_pProjMethod) {
         m_pProjMethod->setWidth(w);
         m_pProjMethod->setHeight(h);
     }
-    SVCamCtrlBasePtr t_camCtrlBase = DYN_TO_SHAREPTR(SVCamCtrlBase, m_pCtrl)
-    if (t_camCtrlBase) {
-        f32 t_pos_z = (h*0.5f) / tan(30.0f * DEGTORAD);
-        t_camCtrlBase->setPosition(0.0f, 0.0,t_pos_z);
-        t_camCtrlBase->setTarget(0.0f, 0.0f, 0.0f);
-        t_camCtrlBase->setUp(0.0f,1.0f,0.0f);
+    if(m_pCtrl) {
+        m_pCtrl->reset(w,h);
     }
     _updateForce();
 }

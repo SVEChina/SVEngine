@@ -311,7 +311,7 @@ u32 SVRResGLShader::_loadTSE(cptr8 _filename){
 
 u32 SVRResGLShader::_createProgram(){
     if (m_vs == 0 || m_fs == 0) {
-        SV_LOG_DEBUG("create program fail, please check out shader:%s\n", m_programme_fname.c_str());
+        SV_LOG_DEBUG("error : create program fail, please check out shader:%s\n", m_programme_fname.c_str());
         return 0;
     }
     s32 t_error = 0;
@@ -350,7 +350,7 @@ u32 SVRResGLShader::_createProgram(){
                 glBindAttribLocation(t_program_id, CHANNEL_POSITION, NAME_POSITION);
             }else if( t_str == "N" ) {
                 glBindAttribLocation(t_program_id, CHANNEL_NORMAL, NAME_NORMAL);
-            }else if( t_str == "T" ) {
+            }else if( t_str == "TA" ) {
                 glBindAttribLocation(t_program_id, CHANNEL_TAGENT, NAME_TAGENT);
             }else if( t_str == "BT" ) {
                 glBindAttribLocation(t_program_id, CHANNEL_BTAGENT, NAME_BNOR);

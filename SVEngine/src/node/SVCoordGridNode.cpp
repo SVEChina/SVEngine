@@ -98,6 +98,89 @@ f32 SVCoordGridNode::getUnit() {
 }
 
 void SVCoordGridNode::_refreshUnit() {
-    
 }
 
+//
+SVNetGridNode::SVNetGridNode(SVInst *_app)
+:SVNode(_app){
+    m_rsType = RST_SOLID_3D;
+    m_refresh = true;
+    m_grid_unit = 16.0f;
+    m_grid_x = 2;
+    m_grid_y = 2;
+    m_pRenderObj = MakeSharedPtr<SVRenderObject>();
+    m_pMesh = nullptr;
+    m_gridTex = nullptr;
+}
+
+SVNetGridNode::~SVNetGridNode(){
+    m_pMesh = nullptr;
+    m_pRenderObj = nullptr;
+    m_gridTex = nullptr;
+}
+
+//
+f32 SVNetGridNode::getWidth() {
+    return m_grid_unit*m_grid_x;
+}
+
+f32 SVNetGridNode::getHeight() {
+    return m_grid_unit*m_grid_y;
+}
+
+f32 SVNetGridNode::getGridUnit(f32 _h) {
+    return m_grid_unit;
+}
+
+void SVNetGridNode::setMaxGridX(s32 _max_gx) {
+    m_grid_x = _max_gx;
+    m_refresh = true;
+}
+
+void SVNetGridNode::setMaxGridY(s32 _max_gy) {
+    m_grid_y = _max_gy;
+    m_refresh = true;
+}
+
+void SVNetGridNode::setGridUnit(f32 _unit) {
+    m_grid_unit = _unit;
+    m_refresh = true;
+}
+
+void SVNetGridNode::update(f32 dt){
+    SVNode::update(dt);
+    if(m_refresh) {
+        m_refresh = false;
+        f32 t_w = m_grid_unit*m_grid_x;
+        f32 t_h = m_grid_unit*m_grid_y;
+        m_pMesh = SVGeoGen::genRectLT(mApp,t_w,t_h,m_aabbBox);
+    }
+    if(!m_gridTex){
+        m_gridTex = mApp->getTexMgr()->getTextureSync("svres/grid6.png",true,true);
+    }
+    SVMtlNetGridPtr t_mtl_netgrid = MakeSharedPtr<SVMtlNetGrid>(mApp);
+    t_mtl_netgrid->update(dt);
+    t_mtl_netgrid->setTexture(0, m_gridTex);
+    t_mtl_netgrid->setTextureParam(0, E_T_PARAM_WRAP_S, E_T_WRAP_REPEAT);
+    t_mtl_netgrid->setTextureParam(0, E_T_PARAM_WRAP_T, E_T_WRAP_REPEAT);
+    t_mtl_netgrid->setModelMatrix(m_absolutMat.get());
+    t_mtl_netgrid->setTexcoordFlip(1.0, -1.0f);
+    t_mtl_netgrid->setDepthEnable(false);
+    t_mtl_netgrid->setZOffEnable(false);
+    t_mtl_netgrid->setZOffParam(-1.0f, -1.0f);
+    t_mtl_netgrid->setBlendEnable(true);
+    t_mtl_netgrid->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    t_mtl_netgrid->setGridSize(m_grid_x,m_grid_y);
+    m_pRenderObj->setMtl(t_mtl_netgrid);
+}
+
+void SVNetGridNode::render(){
+    if (mApp->m_pGlobalParam->m_curScene && m_visible ){
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+        if (m_pRenderObj) {
+            m_pRenderObj->setMesh(m_pMesh);
+            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVNetGridNode");
+        }
+    }
+    SVNode::render();
+}

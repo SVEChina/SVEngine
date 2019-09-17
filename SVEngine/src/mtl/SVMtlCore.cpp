@@ -29,8 +29,7 @@ SVMtlCorePtr SVMtlCoreParam::genMtl(SVInst *_app){
 SVMtlCore::SVMtlCore(SVInst *_app, cptr8 _shader)
 :SVGBase(_app)
 ,m_pShader(nullptr)
-,m_mtlname(_shader)
-{
+,m_mtlname(_shader){
     reset();
     m_renderPool = new MODPOOL();
     m_logicPool = new MODPOOL();

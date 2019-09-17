@@ -68,10 +68,10 @@ namespace sv {
             bool isInScreen(){ return m_inScreen; }
             
         protected:
-            SVString m_pTexName;        //纹理名称
-            SVTEXTYPE m_useTexType;     //内置纹理类型
-            SVDeformImageMovePtr m_pDeform; //形变算法
-            bool m_inScreen;        //是否在屏幕空间
+            SVString m_pTexName;                //纹理名称
+            SVTEXTYPE m_useTexType;             //内置纹理类型
+            SVDeformImageMovePtr m_pDeform;     //形变算法
+            bool m_inScreen;                    //是否在屏幕空间
             bool m_isSyncTex;
             f32 m_width;
             f32 m_height;

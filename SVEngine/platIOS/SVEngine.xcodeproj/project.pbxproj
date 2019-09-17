@@ -5319,6 +5319,14 @@
 		5FB61FAC22365A9B001EA141 /* SVCameraCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FB61FA622365A9B001EA141 /* SVCameraCtrl.cpp */; };
 		5FB61FAD22365A9B001EA141 /* SVCameraCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FB61FA622365A9B001EA141 /* SVCameraCtrl.cpp */; };
 		5FB61FAE22365A9B001EA141 /* SVCameraCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FB61FA622365A9B001EA141 /* SVCameraCtrl.cpp */; };
+		5FC23D342330EC8F0050B7B6 /* SVUIPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FC23D322330EC8F0050B7B6 /* SVUIPanel.cpp */; };
+		5FC23D352330EC8F0050B7B6 /* SVUIPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FC23D322330EC8F0050B7B6 /* SVUIPanel.cpp */; };
+		5FC23D362330EC8F0050B7B6 /* SVUIPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FC23D322330EC8F0050B7B6 /* SVUIPanel.cpp */; };
+		5FC23D372330EC8F0050B7B6 /* SVUIPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FC23D322330EC8F0050B7B6 /* SVUIPanel.cpp */; };
+		5FC23D382330EC8F0050B7B6 /* SVUIPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FC23D332330EC8F0050B7B6 /* SVUIPanel.h */; };
+		5FC23D392330EC8F0050B7B6 /* SVUIPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FC23D332330EC8F0050B7B6 /* SVUIPanel.h */; };
+		5FC23D3A2330EC8F0050B7B6 /* SVUIPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FC23D332330EC8F0050B7B6 /* SVUIPanel.h */; };
+		5FC23D3B2330EC8F0050B7B6 /* SVUIPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FC23D332330EC8F0050B7B6 /* SVUIPanel.h */; };
 		5FC2D1CE20AC42200065DAF6 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC2D1CD20AC42200065DAF6 /* CoreVideo.framework */; };
 		5FC2D1D020AC42EE0065DAF6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC2D1CF20AC42EE0065DAF6 /* CoreMedia.framework */; };
 		5FD9AFF32256096500522317 /* SVPenDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9AFF12256096400522317 /* SVPenDraw.cpp */; };
@@ -6736,6 +6744,8 @@
 		5FB61F922229335F001EA141 /* libpython.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpython.tbd; path = usr/lib/libpython.tbd; sourceTree = SDKROOT; };
 		5FB61FA522365A9A001EA141 /* SVCameraCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCameraCtrl.h; sourceTree = "<group>"; };
 		5FB61FA622365A9B001EA141 /* SVCameraCtrl.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVCameraCtrl.cpp; sourceTree = "<group>"; };
+		5FC23D322330EC8F0050B7B6 /* SVUIPanel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVUIPanel.cpp; sourceTree = "<group>"; };
+		5FC23D332330EC8F0050B7B6 /* SVUIPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUIPanel.h; sourceTree = "<group>"; };
 		5FC2D1CD20AC42200065DAF6 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreVideo.framework; sourceTree = DEVELOPER_DIR; };
 		5FC2D1CF20AC42EE0065DAF6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		5FD9AFF12256096400522317 /* SVPenDraw.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPenDraw.cpp; sourceTree = "<group>"; };
@@ -7736,6 +7746,8 @@
 		5F48B1EA2319311D00FD720F /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				5FC23D322330EC8F0050B7B6 /* SVUIPanel.cpp */,
+				5FC23D332330EC8F0050B7B6 /* SVUIPanel.h */,
 				5F7D5D6F215F407700803BCF /* SVUIMgr.cpp */,
 				5F7D5D6D215F407700803BCF /* SVUIMgr.h */,
 			);
@@ -9442,6 +9454,7 @@
 				020C471722DC5DCE00201753 /* btMultimaterialTriangleMeshShape.h in Headers */,
 				5F7D601D215F407700803BCF /* SVStreamOut.h in Headers */,
 				5C0C6037219BFF790052A826 /* SoundTouch.h in Headers */,
+				5FC23D3B2330EC8F0050B7B6 /* SVUIPanel.h in Headers */,
 				5F7D61C1215F407700803BCF /* SVParseMask.h in Headers */,
 				020C47CB22DC5DCE00201753 /* btTriangleIndexVertexArray.h in Headers */,
 				020C44EB22DC5DCC00201753 /* btContinuousConvexCollision.h in Headers */,
@@ -9788,6 +9801,7 @@
 				020C3E0A22D5CAE300201753 /* SVMtlFlashWhite.h in Headers */,
 				020C473122DC5DCE00201753 /* btCollisionMargin.h in Headers */,
 				5F7D6497215F407800803BCF /* SVTimeLine.h in Headers */,
+				5FC23D392330EC8F0050B7B6 /* SVUIPanel.h in Headers */,
 				020C4C1122DC5DD200201753 /* btIDebugDraw.h in Headers */,
 				5F7D6669215F407800803BCF /* SVGLModify.h in Headers */,
 				5FD9B0622265F5A700522317 /* SVRResGLShader.h in Headers */,
@@ -10610,6 +10624,7 @@
 				5F7D66D8215F407900803BCF /* SVMtlCore.h in Headers */,
 				020C3DE722D49ECF00201753 /* SVFilterShake.h in Headers */,
 				5F7D6146215F407700803BCF /* SVVertDef.h in Headers */,
+				5FC23D382330EC8F0050B7B6 /* SVUIPanel.h in Headers */,
 				020C458E22DC5DCD00201753 /* SphereTriangleDetector.h in Headers */,
 				5C05869E226DDC0B005C3CAF /* SVFilterGlow.h in Headers */,
 				020C482022DC5DCE00201753 /* btDiscreteDynamicsWorldMt.h in Headers */,
@@ -11361,6 +11376,7 @@
 				020C3E0B22D5CAE300201753 /* SVMtlFlashWhite.h in Headers */,
 				020C473222DC5DCE00201753 /* btCollisionMargin.h in Headers */,
 				5F7D6498215F407800803BCF /* SVTimeLine.h in Headers */,
+				5FC23D3A2330EC8F0050B7B6 /* SVUIPanel.h in Headers */,
 				020C4C1222DC5DD200201753 /* btIDebugDraw.h in Headers */,
 				5F7D666A215F407800803BCF /* SVGLModify.h in Headers */,
 				5FD9B0632265F5A700522317 /* SVRResGLShader.h in Headers */,
@@ -12291,6 +12307,7 @@
 				020C44C322DC5DCC00201753 /* btContinuousConvexCollision.cpp in Sources */,
 				02381EE22243625700584EEF /* SVParseFilter.cpp in Sources */,
 				5F7D62F9215F407800803BCF /* AttachmentLoader.c in Sources */,
+				5FC23D372330EC8F0050B7B6 /* SVUIPanel.cpp in Sources */,
 				020C4D0B22DC5DD200201753 /* b3ConvexUtility.cpp in Sources */,
 				5F1475E022E86549000D140E /* SVMtlLib.cpp in Sources */,
 				5F7D60B1215F407700803BCF /* SVRGBToneCurveFilter.cpp in Sources */,
@@ -12893,6 +12910,7 @@
 				5F44287821848CBC00AF4A5B /* SVFrameOutRead.cpp in Sources */,
 				020C46D022DC5DCE00201753 /* btTriangleIndexVertexArray.cpp in Sources */,
 				5F7D632E215F407800803BCF /* MeshAttachment.c in Sources */,
+				5FC23D342330EC8F0050B7B6 /* SVUIPanel.cpp in Sources */,
 				020C462E22DC5DCD00201753 /* gim_box_set.cpp in Sources */,
 				5F7D68B0215F407900803BCF /* SVBounds.cpp in Sources */,
 				02F27E57218EF216007E85C3 /* SVModelNode.cpp in Sources */,
@@ -13772,6 +13790,7 @@
 				5F7D6208215F407700803BCF /* pngerror.c in Sources */,
 				5F5A50CE231FA6E400D8931F /* SVFaceCoord.cpp in Sources */,
 				5F7D6776215F407900803BCF /* SVFaceShapeNode.cpp in Sources */,
+				5FC23D362330EC8F0050B7B6 /* SVUIPanel.cpp in Sources */,
 				5F7D6636215F407800803BCF /* SVResFBO.cpp in Sources */,
 				020C46BE22DC5DCE00201753 /* btSdfCollisionShape.cpp in Sources */,
 				020C46CA22DC5DCE00201753 /* btConvexShape.cpp in Sources */,
@@ -14344,6 +14363,7 @@
 				5F7D6207215F407700803BCF /* pngerror.c in Sources */,
 				5F5A50CD231FA6E400D8931F /* SVFaceCoord.cpp in Sources */,
 				5F7D6775215F407900803BCF /* SVFaceShapeNode.cpp in Sources */,
+				5FC23D352330EC8F0050B7B6 /* SVUIPanel.cpp in Sources */,
 				5F7D6635215F407800803BCF /* SVResFBO.cpp in Sources */,
 				020C46BD22DC5DCE00201753 /* btSdfCollisionShape.cpp in Sources */,
 				020C46C922DC5DCE00201753 /* btConvexShape.cpp in Sources */,

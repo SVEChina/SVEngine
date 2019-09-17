@@ -66,7 +66,7 @@ namespace sv {
             //投影方法
             SVProjMethodPtr getProjMethod();
             //
-            void setProject();
+            void project();
             //
             void ortho();
             

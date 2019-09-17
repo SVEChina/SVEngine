@@ -92,6 +92,9 @@ void SVRenderCmdNor::setMaterial(SVMtlCorePtr _mtl){
 
 void SVRenderCmdNor::render() {
     if (m_pMtl && m_pMesh) {
+        if(mTag == "SVUIPanel") {
+            int a = 0;
+        }
         if (m_pMtl->submitMtl()) {
             m_pMesh->render(m_pRenderer);
             m_pMtl->recoverMtl();

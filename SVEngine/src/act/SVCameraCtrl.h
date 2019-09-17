@@ -117,6 +117,8 @@ namespace sv {
             
             virtual void reset();
             
+            virtual void reset(f32 _w,f32 _h){}
+            
         protected:
             FMat4 m_mat;
             
@@ -125,14 +127,16 @@ namespace sv {
             SVCameraNodePtr m_linkCam;
         };
         
-        //基础相机控制
-        class SVCamCtrlBase : public SVCameraCtrl {
+        //基础投影控制
+        class SVCamCtrlProj : public SVCameraCtrl {
         public:
-            SVCamCtrlBase(SVInst* _app);
+            SVCamCtrlProj(SVInst* _app);
             
-            ~SVCamCtrlBase();
+            ~SVCamCtrlProj();
             
             virtual void reset();
+            
+            virtual void reset(f32 _w,f32 _h);
             
             virtual bool run(SVCameraNodePtr _nodePtr, f32 dt);
             
@@ -152,6 +156,26 @@ namespace sv {
             FVec3 m_targetEx;
             FVec3 m_upEx;
             FVec3 m_direction;
+            bool m_dirty;
+        };
+        
+        //基础正交控制
+        class SVCamCtrlOrtho : public SVCameraCtrl {
+        public:
+            SVCamCtrlOrtho(SVInst* _app);
+            
+            ~SVCamCtrlOrtho();
+            
+            virtual void reset();
+            
+            virtual void reset(f32 _w,f32 _h);
+            
+            virtual bool run(SVCameraNodePtr _nodePtr, f32 dt);
+            
+        protected:
+            f32 m_width;
+            f32 m_height;
+            f32 m_sc;
             bool m_dirty;
         };
         
