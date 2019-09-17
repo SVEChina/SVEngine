@@ -11,7 +11,6 @@
 #include "../base/SVGBase.h"
 #include "../base/SVPreDeclare.h"
 #include "../act/SVActDeclare.h"
-
 namespace sv {
     
     class SVGlobalMgr : public SVGBase {
@@ -66,7 +65,7 @@ namespace sv {
         //变形形同
         SVDeformMgrPtr m_pDeformSys;
         //物理世界
-        SVPhysicsWorldPtr m_pPhysics;
+        SVPhysicsWorldMgrPtr m_pPhysicSys;
         //时间标志
         timeval timTagLast;
     };

@@ -9,7 +9,7 @@
 #include "../shapes/SVPhysicsShape.h"
 #include "../../app/SVGlobalMgr.h"
 #include "../SVPhysicsWorld.h"
-
+#include "../../basesys/SVPhysicsWorldMgr.h"
 SVPhysicsBodyRigid::SVPhysicsBodyRigid(SVInst* _app):SVPhysicsBody(_app) {
     m_type = E_PHYSICS_BODY_RIGID;
     m_pShape = nullptr;
@@ -131,7 +131,7 @@ void SVPhysicsBodyRigid::addConstraint(){
     //printf("pickPos=%f,%f,%f\n",pickPos.getX(),pickPos.getY(),pickPos.getZ());
     btVector3 localPivot = btVector3(0.0,0.0,0.0);
     p2p = new btPoint2PointConstraint(*m_pBody, localPivot);
-    mApp->m_pGlobalMgr->m_pPhysics->addConstraint(p2p);
+    mApp->getPhysicsWorldMgr()->getRigidWorld()->addConstraint(p2p);
     btScalar mousePickClamping = 60.f;
     p2p->m_setting.m_impulseClamp = mousePickClamping;
     p2p->m_setting.m_tau = 0.001f;
@@ -149,7 +149,7 @@ void SVPhysicsBodyRigid::removeConstraint(){
     if(p2p){
         m_pBody->forceActivationState(m_savedState);
         m_pBody->activate();
-        mApp->m_pGlobalMgr->m_pPhysics->removeConstraint(p2p);
+        mApp->getPhysicsWorldMgr()->getRigidWorld()->removeConstraint(p2p);
         p2p=nullptr;
     }
 }

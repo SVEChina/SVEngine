@@ -23,19 +23,25 @@ namespace sv {
             
             ~SVPhysicsSoftRigidWorld();
             
-            void init();
+            virtual void init();
             
-            void destroy();
+            virtual void destroy();
             
-            void update(f32 _dt);
+            virtual void update(f32 _dt);
             
-//            void addSoftBody()
+            void addSoftBody(SVPhysicsBodySoftPtr _body);
+            
+            bool removeSoftBody(SVPhysicsBodySoftPtr _body);
+        protected:
+            bool _hasSoftBody(SVPhysicsBodySoftPtr _body);
         private:
             btBroadphaseInterface       *m_broadPhase;
             btCollisionConfiguration    *m_collisionConfiguration;
             btCollisionDispatcher       *m_collisionDispatcher;
             btConstraintSolver          *m_solver;
             btSoftRigidDynamicsWorld    *m_softWorld;
+            typedef SVArray<SVPhysicsBodySoftPtr> SOFTBODYPOOL;
+            SOFTBODYPOOL m_bodies;
             f32                          m_stepVal;
         };
             

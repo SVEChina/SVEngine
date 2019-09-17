@@ -7,16 +7,13 @@
 
 #ifndef SV_BODIES_PHYSICSBODYROPE_H
 #define SV_BODIES_PHYSICSBODYROPE_H
-#include "SVPhysicsBody.h"
+#include "SVPhysicsBodySoft.h"
 #include "../../base/SVVec3.h"
-#include "btSoftBodyRigidBodyCollisionConfiguration.h"
-#include "btSoftBodyHelpers.h"
-#include "btSoftBody.h"
 namespace sv {
     
     namespace logic {
         
-        class SVPhysicsBodyRope : public SVPhysicsBody {
+        class SVPhysicsBodyRope : public SVPhysicsBodySoft {
         public:
             SVPhysicsBodyRope(SVInst* _app, btSoftBodyWorldInfo& _worldInfo, FVec3 &_from, FVec3 &_to, s32 _resCount, s32 _fixeds = 1+2);
             
@@ -29,7 +26,7 @@ namespace sv {
             virtual void update(f32 _dt);
             
         protected:
-            btSoftBody* m_softBody;
+            
             
         };
     }//!namespace logic

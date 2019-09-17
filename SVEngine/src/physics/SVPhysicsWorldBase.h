@@ -9,8 +9,10 @@
 #define SV_PHYSICS_WORLDBASE_H
 
 #include "../base/SVGBase.h"
+#include "../base/SVLock.h"
 #include "../base/SVVec3.h"
 #include "btBulletDynamicsCommon.h"
+#define PHYSICSWORLDSTEP 1.0f/30.0f
 namespace sv {
     
     namespace logic {
@@ -25,6 +27,12 @@ namespace sv {
             
             ~SVPhysicsWorldBase();
             
+            virtual void init();
+            
+            virtual void destroy();
+            
+            virtual void update(f32 _dt);
+            
             const SV_PHYSICSWORLDTYPE getType() const;
             
             void setGravity(const FVec3 &_gravity);
@@ -34,7 +42,7 @@ namespace sv {
         protected:
             SV_PHYSICSWORLDTYPE m_type;
             FVec3 m_gravity;
-            
+            SVLockPtr m_lock;
         };
             
     }//!namespace logic

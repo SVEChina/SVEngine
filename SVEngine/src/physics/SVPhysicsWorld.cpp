@@ -6,15 +6,12 @@
 //
 #include "SVPhysicsWorld.h"
 #include "bodies/SVPhysicsBodyRigid.h"
-#include "../base/SVLock.h"
-
 SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVPhysicsWorldBase(_app) {
     m_type = E_PHYSICS_WORLD_RIGID;
     m_pCollisionConfiguration = nullptr;
     m_pDispatcher = nullptr;
     m_pOverlappingPairCache = nullptr;
     m_timeStep=0.0;
-    m_lock= MakeSharedPtr<SVLock>();
 }
 
 SVPhysicsWorld::~SVPhysicsWorld() {

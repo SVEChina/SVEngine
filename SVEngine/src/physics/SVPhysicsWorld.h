@@ -20,11 +20,11 @@ namespace sv {
             
             ~SVPhysicsWorld();
             
-            void init();
+            virtual void init();
             
-            void destroy();
+            virtual void destroy();
             
-            void update(f32 _dt);
+            virtual void update(f32 _dt);
             
             void addBody(SVPhysicsBodyRigidPtr _body);
             
@@ -51,7 +51,6 @@ namespace sv {
             btDiscreteDynamicsWorld* m_pDynamicsWorld;
         protected:
             f32 m_timeStep;
-            SVLockPtr m_lock;
             SVArray<SVPhysicsBodyRigidPtr> m_bodyArray;
            // BODYARRAY m_bodyArray;
             

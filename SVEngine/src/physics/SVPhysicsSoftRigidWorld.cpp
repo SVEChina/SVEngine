@@ -5,6 +5,7 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 #include "SVPhysicsSoftRigidWorld.h"
+#include "bodies/SVPhysicsBodySoft.h"
 #include "../base/SVLock.h"
 
 SVPhysicsSoftRigidWorld::SVPhysicsSoftRigidWorld(SVInst* _app):SVPhysicsWorldBase(_app) {
@@ -36,6 +37,12 @@ void SVPhysicsSoftRigidWorld::init(){
 }
 
 void SVPhysicsSoftRigidWorld::destroy(){
+    for (s32 i = 0; i<m_bodies.size(); i++) {
+        SVPhysicsBodySoftPtr t_body = m_bodies[i];
+        t_body->destroy();
+    }
+    m_bodies.destroy();
+    //
     if (m_collisionConfiguration) {
         delete m_collisionConfiguration;
     }
@@ -54,7 +61,57 @@ void SVPhysicsSoftRigidWorld::destroy(){
 }
 
 void SVPhysicsSoftRigidWorld::update(f32 _dt){
-   
+    if (m_softWorld) {
+        m_softWorld->stepSimulation(PHYSICSWORLDSTEP);
+    }
 }
 
+void SVPhysicsSoftRigidWorld::addSoftBody(SVPhysicsBodySoftPtr _body){
+    if (!_body || !m_softWorld) {
+        return;
+    }
+    if (!_hasSoftBody(_body)) {
+        m_lock->lock();
+        m_softWorld->addSoftBody(_body->getBody());
+        m_bodies.append(_body);
+        m_lock->unlock();
+    }
+}
 
+bool SVPhysicsSoftRigidWorld::removeSoftBody(SVPhysicsBodySoftPtr _body){
+    if (!_body || !m_softWorld) {
+        return false;
+    }
+    bool t_ret = false;
+    if (_hasSoftBody(_body)) {
+        m_lock->lock();
+        for (s32 i = 0; i < m_bodies.size(); i++) {
+            SVPhysicsBodySoftPtr t_body = m_bodies[i];
+            if (t_body == _body) {
+                t_body->destroy();
+                m_bodies.removeForce(i);
+                t_ret = true;
+                break;
+            }
+        }
+        if (t_ret) {
+            m_softWorld->removeSoftBody(_body->getBody());
+        }
+        m_lock->unlock();
+    }
+    return t_ret;
+}
+
+bool SVPhysicsSoftRigidWorld::_hasSoftBody(SVPhysicsBodySoftPtr _body){
+    bool t_ret = false;
+    m_lock->lock();
+    for (s32 i = 0; i<m_bodies.size(); i++) {
+        SVPhysicsBodySoftPtr t_body = m_bodies[i];
+        if (t_body == _body) {
+            t_ret = true;
+            break;
+        }
+    }
+    m_lock->unlock();
+    return t_ret;
+}

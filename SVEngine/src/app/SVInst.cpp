@@ -235,6 +235,12 @@ SVModelMgrPtr SVInst::getModelMgr(){
     return m_pGlobalMgr->m_pModelMgr;
 }
 
+SVPhysicsWorldMgrPtr SVInst::getPhysicsWorldMgr(){
+    if(!m_pGlobalMgr)
+        return nullptr;
+    return m_pGlobalMgr->m_pPhysicSys;
+}
+
 SVRendererBasePtr SVInst::getRenderer() {
     if(!m_pGlobalMgr)
         return nullptr;
