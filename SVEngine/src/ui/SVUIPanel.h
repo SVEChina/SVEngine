@@ -32,6 +32,8 @@ namespace sv {
             
             void setArcho(EUIARCHO _cho);
             
+            void setTexture(cptr8 _path, bool enableMipMap = false);
+            
         protected:
             f32 m_width;
             f32 m_height;

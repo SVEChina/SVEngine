@@ -20,8 +20,9 @@ namespace sv {
         DECLARE_SHAREPTR(SVARProj);
         //
         DECLARE_SHAREPTR(SVCameraCtrl);
-        DECLARE_SHAREPTR(SVCamCtrlBase);
+        DECLARE_SHAREPTR(SVCamCtrlProj);
         DECLARE_SHAREPTR(SVCamCtrlAttr);
+        DECLARE_SHAREPTR(SVCamCtrlOrtho);
         DECLARE_SHAREPTR(SVNodeCtrlCamera);
         DECLARE_SHAREPTR(SVCtrlCamera2D);
         DECLARE_SHAREPTR(SVCtrlCamereAR);
@@ -79,6 +80,9 @@ namespace sv {
         DECLARE_SHAREPTR(SVShapeVariedNode);
         DECLARE_SHAREPTR(SVParticlesWorld);
         DECLARE_SHAREPTR(SVParticlesNode);
+        
+        //
+        DECLARE_SHAREPTR(SVUIPanel);
         
     }//!namespace node
     

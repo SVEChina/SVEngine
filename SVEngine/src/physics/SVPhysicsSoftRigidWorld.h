@@ -29,6 +29,12 @@ namespace sv {
             
             virtual void update(f32 _dt);
             
+            virtual void setGravity(const FVec3 &_gravity);
+            
+            const FVec3& getGravity() const;
+            
+            btSoftBodyWorldInfo& getWorldInfo();
+            
             void addSoftBody(SVPhysicsBodySoftPtr _body);
             
             bool removeSoftBody(SVPhysicsBodySoftPtr _body);
