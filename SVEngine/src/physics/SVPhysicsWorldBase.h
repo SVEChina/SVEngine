@@ -35,7 +35,7 @@ namespace sv {
             
             const SV_PHYSICSWORLDTYPE getType() const;
             
-            void setGravity(const FVec3 &_gravity);
+            virtual void setGravity(const FVec3 &_gravity);
             
             const FVec3& getGravity() const;
             

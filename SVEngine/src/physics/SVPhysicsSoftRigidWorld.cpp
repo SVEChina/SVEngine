@@ -15,6 +15,7 @@ SVPhysicsSoftRigidWorld::SVPhysicsSoftRigidWorld(SVInst* _app):SVPhysicsWorldBas
     m_collisionDispatcher = nullptr;
     m_solver = nullptr;
     m_softWorld = nullptr;
+    m_gravity = FVec3(0.0f, -9.8f, 0.0f);
 }
 
 SVPhysicsSoftRigidWorld::~SVPhysicsSoftRigidWorld() {
@@ -33,7 +34,8 @@ void SVPhysicsSoftRigidWorld::init(){
 //    mSoftBodySolver
     m_softWorld =
     new btSoftRigidDynamicsWorld(m_collisionDispatcher, m_broadPhase, m_solver, m_collisionConfiguration);
-    
+//    m_softWorld->setWorldUserInfo(THIS_TO_SHAREPTR(SVPhysicsSoftRigidWorld));
+    m_softWorld->setGravity(btVector3(m_gravity.x, m_gravity.y, m_gravity.z));
 }
 
 void SVPhysicsSoftRigidWorld::destroy(){
@@ -58,12 +60,27 @@ void SVPhysicsSoftRigidWorld::destroy(){
 
 void SVPhysicsSoftRigidWorld::update(f32 _dt){
     if (m_softWorld) {
-        m_softWorld->stepSimulation(PHYSICSWORLDSTEP);
+        m_softWorld->stepSimulation(PHYSICSWORLDSTEP, 80);
     }
     for (s32 i = 0; i < m_bodies.size(); i++) {
         SVPhysicsBodySoftPtr t_body = m_bodies[i];
         t_body->update(_dt);
     }
+}
+
+btSoftBodyWorldInfo& SVPhysicsSoftRigidWorld::getWorldInfo(){
+    return m_softWorld->getWorldInfo();
+}
+
+void SVPhysicsSoftRigidWorld::setGravity(const FVec3 &_gravity){
+    m_gravity = _gravity;
+    if (m_softWorld) {
+        m_softWorld->setGravity(btVector3(m_gravity.x, m_gravity.y, m_gravity.z));
+    }
+}
+
+const FVec3& SVPhysicsSoftRigidWorld::getGravity() const{
+    return m_gravity;
 }
 
 void SVPhysicsSoftRigidWorld::addSoftBody(SVPhysicsBodySoftPtr _body){
