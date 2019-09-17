@@ -81,6 +81,30 @@ void SVMtlCoord::_submitMtl(SVRendererBasePtr _render) {
     SVMtlCore::_submitMtl(_render);
 }
 
+//网格
+SVMtlNetGrid::SVMtlNetGrid(SVInst *_app)
+:SVMtlCore(_app,"netgrid") {
+}
+
+SVMtlNetGrid::SVMtlNetGrid(SVMtlNetGrid *_mtl)
+:SVMtlCore(_mtl){
+    m_width = _mtl->m_width;
+    m_height = _mtl->m_height;
+}
+
+SVMtlNetGrid::~SVMtlNetGrid() {
+}
+
+void SVMtlNetGrid::_submitMtl(SVRendererBasePtr _render) {
+    SVMtlCore::_submitMtl(_render);
+    _render->submitUniformf2("u_grid_size", m_width,m_height);
+}
+
+void SVMtlNetGrid::setGridSize(s32 _width,s32 _height) {
+    m_width = _width*1.0f;
+    m_height = _height*1.0f;
+}
+
 //
 SVMtlParticleAni::SVMtlParticleAni(SVInst *_app)
 :SVMtlCore(_app,"particle_ani_ambient") {

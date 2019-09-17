@@ -64,6 +64,7 @@ namespace sv {
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             
             void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
+            
         protected:
             f32 m_width;
             f32 m_height;
@@ -75,6 +76,7 @@ namespace sv {
             SVTexturePtr m_pTex;
             SVRenderMeshPtr m_pMesh;
             SVRenderObjectPtr m_pRenderObj;
+            
         private:
             SVString m_pTexName;
         };

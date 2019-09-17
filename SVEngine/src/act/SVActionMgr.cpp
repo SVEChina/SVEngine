@@ -10,7 +10,7 @@
 #include "SVActionUnit.h"
 SVActionMgr::SVActionMgr(SVInst *_app)
 :SVSysBase(_app) {
-    m_subsysType = "SVAnimateSys";
+    m_subsysType = "SVActionMgr";
     m_lock = MakeSharedPtr<SVLock>();
 }
 

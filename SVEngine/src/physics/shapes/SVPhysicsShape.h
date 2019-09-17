@@ -8,7 +8,9 @@
 #ifndef SV_PHYSICSSHAPE_H
 #define SV_PHYSICSSHAPE_H
 
-#include "../SVPhysicsBase.h"
+#include "../../base/SVGBase.h"
+#include "../../base/SVVec3.h"
+#include "BulletCollision/CollisionShapes/btCollisionShape.h"
 namespace sv {
     
     namespace logic {
@@ -17,7 +19,7 @@ namespace sv {
             E_PHYSICS_SHAPE_BOX,
             E_PHYSICS_SHAPE_SPHERE
         };
-        class SVPhysicsShape : public SVPhysicsBase {
+        class SVPhysicsShape : public SVGBase {
         public:
             SVPhysicsShape(SVInst* _app);
             

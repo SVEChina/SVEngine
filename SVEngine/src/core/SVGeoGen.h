@@ -12,6 +12,7 @@
 #include "SVVertDef.h"
 #include "../base/SVBounds.h"
 #include "../rendercore/SVRenderDeclare.h"
+#include "../node/SVNodeDef.h"
 
 namespace sv {
     
@@ -22,6 +23,12 @@ namespace sv {
         
         //方形
         static SVRenderMeshPtr genRect(SVInst* _app,f32 _w,f32 _h,f32 _inx,f32 _iny,f32 _inw,f32 _inh,SVBoundBox& _aabb);
+        
+        //以left-top为基准的rect
+        static SVRenderMeshPtr genRectLT(SVInst* _app,f32 _w,f32 _h,SVBoundBox& _aabb);
+        
+        //
+        static SVRenderMeshPtr genRectARCHO(SVInst* _app,f32 _w,f32 _h,EUIARCHO _archo,SVBoundBox& _aabb);
         
         //菱形
         static SVRenderMeshPtr genLing(SVInst* _app,f32 _len,SVBoundBox& _aabb);

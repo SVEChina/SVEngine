@@ -50,6 +50,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVBMFontNode);
         DECLARE_SHAREPTR(SVCameraNode);
         DECLARE_SHAREPTR(SVCoordGridNode);
+        DECLARE_SHAREPTR(SVNetGridNode);
         DECLARE_SHAREPTR(SVDummyNode);
         DECLARE_SHAREPTR(SVMultPassNode);
         DECLARE_SHAREPTR(SVFrameOutNode);
@@ -68,6 +69,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVBillboardNode);
         DECLARE_SHAREPTR(SVBackGroundNode);
         DECLARE_SHAREPTR(SVFacePointNode);
+        DECLARE_SHAREPTR(SVLineNode);
         DECLARE_SHAREPTR(SVFaceDetectPointNode);
         DECLARE_SHAREPTR(SVFaceShapeNode);
         DECLARE_SHAREPTR(SVDeformNode);

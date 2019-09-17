@@ -67,6 +67,25 @@ namespace sv {
             virtual void _submitMtl(SVRendererBasePtr _render);
         };
         
+        //网格
+        class SVMtlNetGrid : public SVMtlCore {
+        public:
+            SVMtlNetGrid(SVInst *_app);
+            
+            SVMtlNetGrid(SVMtlNetGrid *_mtl);
+            
+            ~SVMtlNetGrid();
+            
+            SV_MTL_CLONE(SVMtlNetGrid);
+            
+            void setGridSize(s32 _width,s32 _height);
+            
+        protected:
+            virtual void _submitMtl(SVRendererBasePtr _render);
+            f32 m_width;
+            f32 m_height;
+        };
+        
         //粒子带动画的
         class SVMtlParticleAni : public SVMtlCore {
         public:

@@ -66,6 +66,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVLightSys);
     DECLARE_SHAREPTR(SVPythonSys);
     DECLARE_SHAREPTR(SVModelMgr);
+    DECLARE_SHAREPTR(SVPhysicsWorldMgr);
     //模块
     DECLARE_SHAREPTR(SVModuleBase);
     DECLARE_SHAREPTR(SVModuleSys);
@@ -78,6 +79,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpCreateScene);
     DECLARE_SHAREPTR(SVOpCreateTest);
     DECLARE_SHAREPTR(SVOpCreateDebugFacePt);
+    DECLARE_SHAREPTR(SVOpCreateTestLine);
     DECLARE_SHAREPTR(SVOpEngineResume);
     DECLARE_SHAREPTR(SVOpEngineSuspend);
     DECLARE_SHAREPTR(SVOpEngineDelaySuspend);
@@ -262,10 +264,13 @@ namespace sv {
         DECLARE_SHAREPTR(SVADFilterBase);
         
         //物理部分
-        DECLARE_SHAREPTR(SVPhysicsBase);
+        DECLARE_SHAREPTR(SVPhysicsWorldBase);
         DECLARE_SHAREPTR(SVPhysicsWorld);
+        DECLARE_SHAREPTR(SVPhysicsSoftRigidWorld);
         DECLARE_SHAREPTR(SVPhysicsBody);
+        DECLARE_SHAREPTR(SVPhysicsBodySoft);
         DECLARE_SHAREPTR(SVPhysicsBodyRigid);
+        DECLARE_SHAREPTR(SVPhysicsBodyRope);
         DECLARE_SHAREPTR(SVPhysicsShape);
         DECLARE_SHAREPTR(SVPhysicsShapeBox);
         DECLARE_SHAREPTR(SVPhysicsShapeSphere);
