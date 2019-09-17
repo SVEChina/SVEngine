@@ -8,6 +8,9 @@
 #ifndef SV_PHYSICSBODYRIGID_H
 #define SV_PHYSICSBODYRIGID_H
 #include "SVPhysicsBody.h"
+#include "../../node/SVNodeDef.h"
+#include "../../base/SVVec3.h"
+#include "btBulletDynamicsCommon.h"
 namespace sv {
     
     namespace logic {
@@ -25,6 +28,20 @@ namespace sv {
             virtual void destroy();
             
             virtual void update(f32 _dt);
+            
+            void setNode(SVNodePtr _node);
+            
+            inline void setOrigin(FVec3 _origin) {
+                m_origin = _origin;
+            }
+            
+            inline FVec3 getOrigin() {
+                return m_origin;
+            }
+            
+            btRigidBody *getBody();
+            
+            SVNodePtr getNode();
             
             void setApplyCentralForce(FVec3 _pos);
             
@@ -45,8 +62,11 @@ namespace sv {
             PHYSICSBODYTYPE getType();
             
         protected:
+            FVec3 m_origin;
             
-            PHYSICSBODYTYPE m_type;
+            SVNodePtr m_pNode;
+            
+            btRigidBody *m_pBody;
             
             SVPhysicsShapePtr m_pShape;
             

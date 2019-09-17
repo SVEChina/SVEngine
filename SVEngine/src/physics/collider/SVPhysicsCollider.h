@@ -8,12 +8,12 @@
 #ifndef SV_PHYSICSCOLLIDER_H
 #define SV_PHYSICSCOLLIDER_H
 
-#include "../SVPhysicsBase.h"
+#include "../../base/SVGBase.h"
 namespace sv {
     
     namespace logic {
         
-        class SVPhysicsCollider : public SVPhysicsBase {
+        class SVPhysicsCollider : public SVGBase {
         public:
             SVPhysicsCollider(SVInst* _app);
             

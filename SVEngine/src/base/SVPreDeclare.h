@@ -263,9 +263,11 @@ namespace sv {
         DECLARE_SHAREPTR(SVADFilterBase);
         
         //物理部分
-        DECLARE_SHAREPTR(SVPhysicsBase);
+        DECLARE_SHAREPTR(SVPhysicsWorldBase);
         DECLARE_SHAREPTR(SVPhysicsWorld);
+        DECLARE_SHAREPTR(SVPhysicsSoftRigidWorld);
         DECLARE_SHAREPTR(SVPhysicsBody);
+        DECLARE_SHAREPTR(SVPhysicsBodyRope);
         DECLARE_SHAREPTR(SVPhysicsBodyRigid);
         DECLARE_SHAREPTR(SVPhysicsBodyRope);
         DECLARE_SHAREPTR(SVPhysicsShape);

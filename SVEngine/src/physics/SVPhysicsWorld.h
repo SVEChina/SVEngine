@@ -8,13 +8,13 @@
 #ifndef SV_PHYSICSWORLD_H
 #define SV_PHYSICSWORLD_H
 
-#include "SVPhysicsBase.h"
+#include "SVPhysicsWorldBase.h"
 
 namespace sv {
     
     namespace logic {
         
-        class SVPhysicsWorld : public SVPhysicsBase {
+        class SVPhysicsWorld : public SVPhysicsWorldBase {
         public:
             SVPhysicsWorld(SVInst* _app);
             
@@ -52,7 +52,7 @@ namespace sv {
         protected:
             f32 m_timeStep;
             SVLockPtr m_lock;
-            SVArray<SVPhysicsBodyPtr> m_bodyArray;
+            SVArray<SVPhysicsBodyRigidPtr> m_bodyArray;
            // BODYARRAY m_bodyArray;
             
         };

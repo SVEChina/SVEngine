@@ -5,7 +5,7 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 #include "SVPhysicsShapeSphere.h"
-
+#include "BulletCollision/CollisionShapes/btSphereShape.h"
 SVPhysicsShapeSphere::SVPhysicsShapeSphere(SVInst* _app):SVPhysicsShape(_app) {
     m_type = E_PHYSICS_SHAPE_SPHERE;
     setRadius(0.0f);

@@ -8,18 +8,18 @@
 #ifndef SV_PHYSICSBODY_H
 #define SV_PHYSICSBODY_H
 
-#include "../SVPhysicsBase.h"
-#include "../../node/SVNodeDef.h"
-
+#include "../../base/SVGBase.h"
 namespace sv {
 
     namespace logic {
         enum PHYSICSBODYTYPE {
             E_PHYSICS_BODY_BASE = 0,
-            E_PHYSICS_BODY_RIGID
+            E_PHYSICS_BODY_RIGID,
+            E_PHYSICS_BODY_SOFT,
+            E_PHYSICS_BODY_ROPE
         };
 
-        class SVPhysicsBody : public SVPhysicsBase {
+        class SVPhysicsBody : public SVGBase {
         public:
             SVPhysicsBody(SVInst *_app);
 
@@ -30,28 +30,11 @@ namespace sv {
             virtual void destroy();
 
             virtual void update(f32 _dt);
-
-            void setNode(SVNodePtr _node);
-
-            inline void setOrigin(FVec3 _origin) {
-                m_origin = _origin;
-            }
-
-            inline FVec3 getOrigin() {
-                return m_origin;
-            }
-
-            btRigidBody *getBody();
             
-            SVNodePtr getNode();
-
             PHYSICSBODYTYPE getType() const;
 
         protected:
             PHYSICSBODYTYPE m_type;
-            FVec3 m_origin;
-            SVNodePtr m_pNode;
-            btRigidBody *m_pBody;
         };
 
     }//!namespace logic

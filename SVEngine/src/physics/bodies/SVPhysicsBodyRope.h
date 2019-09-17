@@ -8,6 +8,7 @@
 #ifndef SV_BODIES_PHYSICSBODYROPE_H
 #define SV_BODIES_PHYSICSBODYROPE_H
 #include "SVPhysicsBody.h"
+#include "../../base/SVVec3.h"
 #include "btSoftBodyRigidBodyCollisionConfiguration.h"
 #include "btSoftBodyHelpers.h"
 #include "btSoftBody.h"
@@ -26,8 +27,6 @@ namespace sv {
             virtual void destroy();
             
             virtual void update(f32 _dt);
-            
-            PHYSICSBODYTYPE getType();
             
         protected:
             btSoftBody* m_softBody;

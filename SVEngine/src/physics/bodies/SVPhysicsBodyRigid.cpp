@@ -16,6 +16,7 @@ SVPhysicsBodyRigid::SVPhysicsBodyRigid(SVInst* _app):SVPhysicsBody(_app) {
     m_pBody=nullptr;
     m_pMyMotionState = nullptr;
     p2p=nullptr;
+    m_origin=FVec3(0.0);
     m_isBindNode = true;
     m_savedState = 0;
 }
@@ -25,11 +26,12 @@ SVPhysicsBodyRigid::SVPhysicsBodyRigid(SVInst* _app , SVPhysicsShapePtr _shape):
     m_pShape = _shape;
     m_pBody = nullptr;
     m_pMyMotionState = nullptr;
+    m_pNode = nullptr;
     m_isBindNode = true;
 }
 
 SVPhysicsBodyRigid::~SVPhysicsBodyRigid() {
-    
+    m_pNode = nullptr;
 }
 
 void SVPhysicsBodyRigid::setRestitution(f32 _dis){
@@ -98,8 +100,17 @@ void SVPhysicsBodyRigid::update(f32 _dt){
     }
 }
 
-PHYSICSBODYTYPE SVPhysicsBodyRigid::getType(){
-    return m_type;
+
+void SVPhysicsBodyRigid::setNode(SVNodePtr _node) {
+    m_pNode = _node;
+}
+
+SVNodePtr SVPhysicsBodyRigid::getNode(){
+    return m_pNode;
+}
+
+btRigidBody* SVPhysicsBodyRigid::getBody(){
+    return m_pBody;
 }
 
 void SVPhysicsBodyRigid::setApplyCentralForce(FVec3 _pos){

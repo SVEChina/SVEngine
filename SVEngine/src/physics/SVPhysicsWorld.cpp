@@ -8,7 +8,8 @@
 #include "bodies/SVPhysicsBodyRigid.h"
 #include "../base/SVLock.h"
 
-SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVPhysicsBase(_app) {
+SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVPhysicsWorldBase(_app) {
+    m_type = E_PHYSICS_WORLD_RIGID;
     m_pCollisionConfiguration = nullptr;
     m_pDispatcher = nullptr;
     m_pOverlappingPairCache = nullptr;

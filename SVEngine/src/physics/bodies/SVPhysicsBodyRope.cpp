@@ -5,13 +5,8 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 #include "SVPhysicsBodyRope.h"
-#include "../../node/SVNode.h"
-#include "../shapes/SVPhysicsShape.h"
-#include "../../app/SVGlobalMgr.h"
-#include "../SVPhysicsWorld.h"
-
 SVPhysicsBodyRope::SVPhysicsBodyRope(SVInst* _app, btSoftBodyWorldInfo& _worldInfo, FVec3 &_from, FVec3 &_to, s32 _resCount, s32 _fixeds ):SVPhysicsBody(_app) {
-//    m_type = E_PHYSICS_BODY_ROPE;
+    m_type = E_PHYSICS_BODY_ROPE;
     m_softBody = btSoftBodyHelpers::CreateRope(_worldInfo, btVector3(_from.x, _from.y, _from.z),
                                                     btVector3(_to.x, _to.y, _to.z),
                                                     _resCount,
