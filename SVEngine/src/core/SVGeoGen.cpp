@@ -78,52 +78,6 @@ SVRenderMeshPtr SVGeoGen::genRect(SVInst* _app,
     return t_mesh;
 }
 
-//方形
-SVRenderMeshPtr SVGeoGen::genRectLT(SVInst* _app,f32 _w,f32 _h,SVBoundBox& _aabb) {
-    //
-    _aabb.clear();
-    //
-    V2_T0 verts[4];
-    verts[0].x = 0.0f;
-    verts[0].y = -1.0f*_h;
-    verts[0].t0x = 0.0f;
-    verts[0].t0y = 0.0f;
-    
-    verts[1].x = _w;
-    verts[1].y = -1.0f*_h;
-    verts[1].t0x = 1.0f;
-    verts[1].t0y = 0.0f;
-    
-    verts[2].x = 0.0f;
-    verts[2].y = 0.0f;
-    verts[2].t0x = 0.0f;
-    verts[2].t0y = 1.0f;
-    
-    verts[3].x = _w;
-    verts[3].y = 0.0f;
-    verts[3].t0x = 1.0f;
-    verts[3].t0y = 1.0f;
-    //设置包围盒
-    for(s32 i=0;i<4;i++){
-        if (i == 0) {
-            _aabb.clear();
-            _aabb.expand(FVec3(verts[i].x, verts[i].y, 0.0f));
-        }else{
-            _aabb.expand(FVec3(verts[i].x, verts[i].y, 0.0f));
-        }
-    }
-    //
-    SVRenderMeshPtr t_mesh = _app->getRenderMgr()->createMeshRObj();
-    SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
-    t_data->writeData(&verts[0], sizeof(V2_T0) * 4);
-    t_mesh->setVertexDataNum(4);
-    t_mesh->setVertexData(t_data);
-    t_mesh->setVertexType(E_VF_V2_T0);
-    t_mesh->setDrawMethod(E_DM_TRIANGLE_STRIP);
-    t_mesh->createMesh();
-    return t_mesh;
-}
-
 SVRenderMeshPtr SVGeoGen::genRectARCHO(SVInst* _app,f32 _w,f32 _h,EUIARCHO _archo,SVBoundBox& _aabb) {
     //
     f32 t_off_x = 0.0f;

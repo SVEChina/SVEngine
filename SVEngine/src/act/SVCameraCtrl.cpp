@@ -235,7 +235,7 @@ SVCamCtrlOrtho::~SVCamCtrlOrtho() {
 void SVCamCtrlOrtho::reset(f32 _w,f32 _h) {
     m_width = _w;
     m_height = _h;
-    m_pos.set(0.5f*m_width*m_sc,-0.5f*m_height*m_sc,1000.0f);
+    m_pos.set(0.5f*m_width*m_sc,0.5f*m_height*m_sc,1000.0f);
     m_dirty = true;
 }
 

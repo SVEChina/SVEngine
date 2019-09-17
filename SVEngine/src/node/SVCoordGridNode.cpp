@@ -103,7 +103,7 @@ void SVCoordGridNode::_refreshUnit() {
 //
 SVNetGridNode::SVNetGridNode(SVInst *_app)
 :SVNode(_app){
-    m_rsType = RST_SOLID_3D;
+    m_rsType = RST_UI;
     m_refresh = true;
     m_grid_unit = 16.0f;
     m_grid_x = 2;
@@ -153,7 +153,7 @@ void SVNetGridNode::update(f32 dt){
         m_refresh = false;
         f32 t_w = m_grid_unit*m_grid_x;
         f32 t_h = m_grid_unit*m_grid_y;
-        m_pMesh = SVGeoGen::genRectLT(mApp,t_w,t_h,m_aabbBox);
+        m_pMesh = SVGeoGen::genRectARCHO(mApp,t_w,t_h,E_ARCHO_LB,m_aabbBox);
     }
     if(!m_gridTex){
         m_gridTex = mApp->getTexMgr()->getTextureSync("svres/grid6.png",true,true);
