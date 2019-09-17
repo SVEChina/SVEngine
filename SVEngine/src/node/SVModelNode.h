@@ -29,6 +29,8 @@ namespace sv {
             //渲染
             virtual void render();
             
+            virtual void createShadow();
+            
             void enableDebugNormal(bool _enable);
             
             bool getDebugNormalEnable();

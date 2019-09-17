@@ -62,7 +62,7 @@ SVDeformImageMove::SVDeformImageMove(SVInst *_app)
     m_dataPoint = nullptr;
     m_fbo = nullptr;
     m_wPointCount = 21;
-    m_hPointCont = 21;
+    m_hPointCont = 41;
     m_inw = 10;
     m_inh = 10;
     m_smooth=1.0f;
@@ -434,7 +434,7 @@ void SVDeformImageMove::_updateControl(V2 *t_data){
     m_pIUMP->setControl(FVec2(0.0,m_tt_h));
     m_pIUMP->setTargetControl(FVec2(0.0,m_tt_h));
     for(int j=0;j<m_scaleCtlArray.size();j++){
-        m_deformScale->pushCtl(t_data[m_scaleCtlArray[j]].x,t_data[m_scaleCtlArray[j]].y,leng*0.3);
+        m_deformScale->pushCtl(t_data[m_scaleCtlArray[j]].x,t_data[m_scaleCtlArray[j]].y,leng*0.5);
     }
 
     FVec2 t_rangleV2(t_outlinePoints[46].x,t_outlinePoints[46].y);

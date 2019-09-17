@@ -1,39 +1,36 @@
 //
-// SV3DBox.h
+// SVLineNode.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_3DBOX_H
-#define SV_3DBOX_H
+#ifndef SV_NODE_LINENODE_H
+#define SV_NODE_LINENODE_H
 
 #include "SVNode.h"
-#include "../base/SVBounds.h"
-
 namespace sv {
     
     namespace node{
         
-        class SV3DBox : public SVNode {
+        class SVLineNode : public SVNode {
         public:
-            SV3DBox(SVInst *_app);
+            SVLineNode(SVInst *_app);
             
-            virtual ~SV3DBox();
+            virtual ~SVLineNode();
             
-            virtual void update(f32 dt);
+            virtual void update(f32 _dt);
             
             virtual void render();
             
-            void randomInit();
+            void setLineData(f32 *_data, s32 _size);
             
-            SVMtlCorePtr getMtl();
-            
-            SVMtlGeo3dPtr m_mtl_box;
         public:
             SVRenderObjectPtr m_pRenderObj;
             
             SVRenderMeshPtr m_pMesh;
+            
+            SVMtlGeo3dPtr m_lineMtl;
             
             SVColor m_color;
         };
@@ -42,6 +39,4 @@ namespace sv {
     
 }//!namespace sv
 
-
-
-#endif //SV_3DBOX_H
+#endif //SV_NODE_LINENODE_H

@@ -8,6 +8,8 @@
 #ifndef SV_PHYSICSBODYRIGID_H
 #define SV_PHYSICSBODYRIGID_H
 #include "SVPhysicsBody.h"
+#include "../../base/SVVec3.h"
+#include "btBulletDynamicsCommon.h"
 namespace sv {
     
     namespace logic {
@@ -26,6 +28,16 @@ namespace sv {
             
             virtual void update(f32 _dt);
             
+            inline void setOrigin(FVec3 _origin) {
+                m_origin = _origin;
+            }
+            
+            inline FVec3 getOrigin() {
+                return m_origin;
+            }
+            
+            btRigidBody *getBody();
+            
             void setApplyCentralForce(FVec3 _pos);
             
             void setApplyTorque(FVec3 _pos);
@@ -40,17 +52,22 @@ namespace sv {
             
             void setFriction(f32 _dis);
             
+            void setBindNode(bool isbind);
+            
             PHYSICSBODYTYPE getType();
             
         protected:
+            FVec3 m_origin;
             
-            PHYSICSBODYTYPE m_type;
+            btRigidBody *m_pBody;
             
             SVPhysicsShapePtr m_pShape;
             
             btDefaultMotionState* m_pMyMotionState;
             
             btPoint2PointConstraint* p2p;
+            
+            bool m_isBindNode;
             
             s32 m_savedState;
             

@@ -20,6 +20,7 @@
 #include "../event/SVEventMgr.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
+#include "../node/SVScene.h"
 #include "../node/SVCameraNode.h"
 #include "../node/SVFrameOutNode.h"
 #include "../node/SVNodeVisit.h"
@@ -32,6 +33,7 @@
 #include "../node/SVBMFontNode.h"
 #include "../node/SVFacePointNode.h"
 #include "../node/SVSkinNode.h"
+#include "../node/SVLineNode.h"
 #include "../file/SVParseMain.h"
 #include "../file/SVBMFontLoader.h"
 #include "../file/SVLoaderGLTF.h"
@@ -177,6 +179,12 @@ void SVOpCreateEffcet::_process(f32 dt) {
             SVString msg = SVString::format("effectpackageloadfailed_%s",t_moduleName.c_str());
             (*m_pCB)(msg.c_str(), m_obj);
         }
+    }
+
+    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+    if (t_pScene) {
+        SVFacePointNodePtr t_facePtNode = MakeSharedPtr<SVFacePointNode>(mApp);
+        t_pScene->addNode(t_facePtNode);
     }
 }
 
@@ -484,6 +492,27 @@ void SVOpCreateDebugFacePt::_process(f32 dt) {
         t_pScene->addNode(t_facePtNode);
     }
     
+}
+
+
+//测试操作
+SVOpCreateTestLine::SVOpCreateTestLine(SVInst *_app)
+: SVOpBase(_app){
+    
+}
+
+SVOpCreateTestLine::~SVOpCreateTestLine(){
+    
+}
+
+void SVOpCreateTestLine::_process(f32 dt) {
+    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+    if (t_pScene) {
+        SVLineNodePtr t_lineNode = MakeSharedPtr<SVLineNode>(mApp);
+        f32 t_testLine[6] = {0.0f, 300.0f, 0.0f, 0.0f, 20.0f, 0.0f};
+        t_lineNode->setLineData(t_testLine, 6);
+        t_pScene->addNode(t_lineNode);
+    }
 }
 
 SVOpCreateDivision::SVOpCreateDivision(SVInst *_app) :  SVOpBase(_app){

@@ -5,7 +5,7 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 #include "SVPhysicsShapeBox.h"
-
+#include "BulletCollision/CollisionShapes/btBoxShape.h"
 SVPhysicsShapeBox::SVPhysicsShapeBox(SVInst* _app):SVPhysicsShape(_app) {
     m_type = E_PHYSICS_SHAPE_BOX;
     setSize(FVec3_zero);

@@ -5,15 +5,13 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 #include "SVPhysicsWorld.h"
-#include "bodies/SVPhysicsBody.h"
-#include "../base/SVLock.h"
-
-SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVPhysicsBase(_app) {
+#include "bodies/SVPhysicsBodyRigid.h"
+SVPhysicsWorld::SVPhysicsWorld(SVInst* _app):SVPhysicsWorldBase(_app) {
+    m_type = E_PHYSICS_WORLD_RIGID;
     m_pCollisionConfiguration = nullptr;
     m_pDispatcher = nullptr;
     m_pOverlappingPairCache = nullptr;
     m_timeStep=0.0;
-    m_lock= MakeSharedPtr<SVLock>();
 }
 
 SVPhysicsWorld::~SVPhysicsWorld() {
@@ -76,7 +74,7 @@ void SVPhysicsWorld::setp(){
      m_pDynamicsWorld->stepSimulation(1.f/30.f,5);
 }
 
-void SVPhysicsWorld::addBody(SVPhysicsBodyPtr _body){
+void SVPhysicsWorld::addBody(SVPhysicsBodyRigidPtr _body){
     m_lock->lock();
     m_pDynamicsWorld->addRigidBody(_body->getBody());
     m_bodyArray.append(_body);

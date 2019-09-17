@@ -42,6 +42,8 @@ namespace sv {
             
             void render();
             
+            void createShadow();
+            
             void bindSke(SVSkeletonPtr _ske);
             
             void unbindSke();

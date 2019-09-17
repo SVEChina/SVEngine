@@ -57,15 +57,15 @@ void SVRResGLTex:: create(SVRendererBasePtr _renderer) {
                          m_pData->getData());
             
         }else{
-            glTexImage2D(GL_TEXTURE_2D,
-                         0,
-                         m_informate,
-                         m_width,
-                         m_height,
-                         0,
-                         m_dataformate,
-                         GL_UNSIGNED_BYTE,
-                         nullptr);
+                glTexImage2D(GL_TEXTURE_2D,
+                             0,
+                             m_informate,
+                             m_width,
+                             m_height,
+                             0,
+                             m_dataformate,
+                             GL_UNSIGNED_BYTE,
+                             nullptr);
         }
         m_pData = nullptr;
         if (m_enableMipMap) {
@@ -616,7 +616,12 @@ void SVResGLRenderTexture::create(SVRendererBasePtr _renderer) {
 void SVResGLRenderTexture::_bindColor() {
     if( m_fboID>0 && m_tex) {
         glBindFramebuffer(GL_FRAMEBUFFER, m_fboID);
-        glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,m_tex->getTexID(),0);
+        if(m_tex->getinformate()==GL_DEPTH_COMPONENT){
+            glDrawBuffers(0, GL_NONE);
+            glReadBuffer(GL_NONE); glFramebufferTexture2D(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D,m_tex->getTexID(),0);
+        }else{
+            glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,m_tex->getTexID(),0);
+        }
     }
 }
 

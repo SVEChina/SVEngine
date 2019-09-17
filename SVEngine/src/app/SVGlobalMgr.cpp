@@ -16,6 +16,7 @@
 #include "../basesys/SVStaticData.h"
 #include "../basesys/SVDeformMgr.h"
 #include "../basesys/SVModelMgr.h"
+#include "../basesys/SVPhysicsWorldMgr.h"
 #include "../module/SVModuleSys.h"
 #include "../light/SVLightSys.h"
 #include "../ui/SVUIMgr.h"
@@ -27,7 +28,6 @@
 #include "../rendercore/SVRenderMgr.h"
 #include "../act/SVActionMgr.h"
 #include "../base/svstr.h"
-#include "../physics/SVPhysicsWorld.h"
 #include <sys/time.h>
 //#include <Python/Python.h>
 
@@ -49,7 +49,7 @@ SVGlobalMgr::SVGlobalMgr(SVInst *_app)
     m_pActionMgr = nullptr;
     m_pModelMgr = nullptr;
     m_pDeformSys = nullptr;
-    m_pPhysics =nullptr;
+    m_pPhysicSys =nullptr;
     m_pLightSys = nullptr;
 }
 
@@ -69,7 +69,7 @@ SVGlobalMgr::~SVGlobalMgr() {
     m_pActionMgr = nullptr;
     m_pModelMgr = nullptr;
     m_pDeformSys = nullptr;
-    m_pPhysics =nullptr;
+    m_pPhysicSys =nullptr;
     m_pLightSys = nullptr;
 }
 
@@ -134,8 +134,8 @@ void SVGlobalMgr::init() {
     m_pDeformSys = MakeSharedPtr<SVDeformMgr>(mApp);
     m_pDeformSys->init();
     //
-    m_pPhysics = MakeSharedPtr<SVPhysicsWorld>(mApp);
-    m_pPhysics->init();
+    m_pPhysicSys = MakeSharedPtr<SVPhysicsWorldMgr>(mApp);
+    m_pPhysicSys->init();
 }
 
 void SVGlobalMgr::destroy() {
@@ -213,9 +213,9 @@ void SVGlobalMgr::destroy() {
         m_pDeformSys->destroy();
         SV_LOG_ERROR("m_pDeformSys:destroy sucess");
     }
-    if(m_pPhysics){
+    if(m_pPhysicSys){
         //物理销毁
-        m_pPhysics->destroy();
+        m_pPhysicSys->destroy();
         SV_LOG_ERROR("m_pPhysics:destroy sucess");
     }
     
@@ -237,7 +237,7 @@ void SVGlobalMgr::update(f32 dt) {
     timeTag(false,"action cost");
     m_pModelMgr->update(dt);            //模型管理
     timeTag(false,"model cost");
-    m_pPhysics->update(dt);             //物理更新
+    m_pPhysicSys->update(dt);             //物理更新
     timeTag(false,"physics cost");
     m_pCameraMgr->update(dt);           //相机更新(节点系统)
     timeTag(false,"camera cost");

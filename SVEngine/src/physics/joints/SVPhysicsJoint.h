@@ -8,12 +8,12 @@
 #ifndef SV_PHYSICSJOINT_H
 #define SV_PHYSICSJOINT_H
 
-#include "../SVPhysicsBase.h"
+#include "../../base/SVGBase.h"
 namespace sv {
     
     namespace logic {
         
-        class SVPhysicsJoint : public SVPhysicsBase {
+        class SVPhysicsJoint : public SVGBase {
         public:
             SVPhysicsJoint(SVInst* _app);
             

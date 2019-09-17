@@ -16,6 +16,7 @@ SVPerson::SVPerson(SVInst* _app)
     m_personID = 0;
     m_personDirty = true;
     m_exist = false;
+    m_detectType = DETECT_T_NULL;
     m_pTracker = MakeSharedPtr<SVPersonTracker>(mApp);
     m_pFaceData = new f32[MAX_FACE_PT_NUM * 2];
     m_pFaceDataOriginal= new f32[MAX_FACE_PT_NUM * 2];

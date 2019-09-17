@@ -8,25 +8,25 @@
 #ifndef SV_PHYSICSWORLD_H
 #define SV_PHYSICSWORLD_H
 
-#include "SVPhysicsBase.h"
+#include "SVPhysicsWorldBase.h"
 
 namespace sv {
     
     namespace logic {
         
-        class SVPhysicsWorld : public SVPhysicsBase {
+        class SVPhysicsWorld : public SVPhysicsWorldBase {
         public:
             SVPhysicsWorld(SVInst* _app);
             
             ~SVPhysicsWorld();
             
-            void init();
+            virtual void init();
             
-            void destroy();
+            virtual void destroy();
             
-            void update(f32 _dt);
+            virtual void update(f32 _dt);
             
-            void addBody(SVPhysicsBodyPtr _body);
+            void addBody(SVPhysicsBodyRigidPtr _body);
             
             void addShape(SVPhysicsShapePtr _shape, SVPhysicsBodyPtr _body);
             
@@ -51,8 +51,7 @@ namespace sv {
             btDiscreteDynamicsWorld* m_pDynamicsWorld;
         protected:
             f32 m_timeStep;
-            SVLockPtr m_lock;
-            SVArray<SVPhysicsBodyPtr> m_bodyArray;
+            SVArray<SVPhysicsBodyRigidPtr> m_bodyArray;
            // BODYARRAY m_bodyArray;
             
         };
