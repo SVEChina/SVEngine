@@ -32,6 +32,8 @@ namespace sv {
             void addSoftBody(SVPhysicsBodySoftPtr _body);
             
             bool removeSoftBody(SVPhysicsBodySoftPtr _body);
+            
+            bool removeAllSoftBodies();
         protected:
             bool _hasSoftBody(SVPhysicsBodySoftPtr _body);
         private:
@@ -42,7 +44,6 @@ namespace sv {
             btSoftRigidDynamicsWorld    *m_softWorld;
             typedef SVArray<SVPhysicsBodySoftPtr> SOFTBODYPOOL;
             SOFTBODYPOOL m_bodies;
-            f32                          m_stepVal;
         };
             
     }//!namespace logic

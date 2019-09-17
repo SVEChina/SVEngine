@@ -9,6 +9,7 @@
 #define SV_PHYSICSBODY_H
 
 #include "../../base/SVGBase.h"
+#include "../../node/SVNodeDef.h"
 namespace sv {
 
     namespace logic {
@@ -33,8 +34,13 @@ namespace sv {
             
             PHYSICSBODYTYPE getType() const;
 
+            void setNode(SVNodePtr _node);
+            
+            SVNodePtr getNode();
         protected:
             PHYSICSBODYTYPE m_type;
+            
+            SVNodePtr m_pNode;
         };
 
     }//!namespace logic

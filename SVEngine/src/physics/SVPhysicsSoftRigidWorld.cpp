@@ -37,11 +37,7 @@ void SVPhysicsSoftRigidWorld::init(){
 }
 
 void SVPhysicsSoftRigidWorld::destroy(){
-    for (s32 i = 0; i<m_bodies.size(); i++) {
-        SVPhysicsBodySoftPtr t_body = m_bodies[i];
-        t_body->destroy();
-    }
-    m_bodies.destroy();
+    removeAllSoftBodies();
     //
     if (m_collisionConfiguration) {
         delete m_collisionConfiguration;
@@ -63,6 +59,10 @@ void SVPhysicsSoftRigidWorld::destroy(){
 void SVPhysicsSoftRigidWorld::update(f32 _dt){
     if (m_softWorld) {
         m_softWorld->stepSimulation(PHYSICSWORLDSTEP);
+    }
+    for (s32 i = 0; i < m_bodies.size(); i++) {
+        SVPhysicsBodySoftPtr t_body = m_bodies[i];
+        t_body->update(_dt);
     }
 }
 
@@ -98,6 +98,19 @@ bool SVPhysicsSoftRigidWorld::removeSoftBody(SVPhysicsBodySoftPtr _body){
             m_softWorld->removeSoftBody(_body->getBody());
         }
         m_lock->unlock();
+    }
+    return t_ret;
+}
+
+bool SVPhysicsSoftRigidWorld::removeAllSoftBodies(){
+    bool t_ret = false;
+    if (m_bodies.size() > 0) {
+        t_ret = true;
+        for (s32 i = 0; i<m_bodies.size(); i++) {
+            SVPhysicsBodySoftPtr t_body = m_bodies[i];
+            t_body->destroy();
+        }
+        m_bodies.destroy();
     }
     return t_ret;
 }

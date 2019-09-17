@@ -26,12 +26,10 @@ SVPhysicsBodyRigid::SVPhysicsBodyRigid(SVInst* _app , SVPhysicsShapePtr _shape):
     m_pShape = _shape;
     m_pBody = nullptr;
     m_pMyMotionState = nullptr;
-    m_pNode = nullptr;
     m_isBindNode = true;
 }
 
 SVPhysicsBodyRigid::~SVPhysicsBodyRigid() {
-    m_pNode = nullptr;
 }
 
 void SVPhysicsBodyRigid::setRestitution(f32 _dis){
@@ -98,15 +96,6 @@ void SVPhysicsBodyRigid::update(f32 _dt){
         t_bodyquat.getEulerZYX(t_z, t_y, t_x);
         m_pNode->setRotation(t_x*(180/3.14), t_y*(180/3.14), t_z*(180/3.14));
     }
-}
-
-
-void SVPhysicsBodyRigid::setNode(SVNodePtr _node) {
-    m_pNode = _node;
-}
-
-SVNodePtr SVPhysicsBodyRigid::getNode(){
-    return m_pNode;
 }
 
 btRigidBody* SVPhysicsBodyRigid::getBody(){

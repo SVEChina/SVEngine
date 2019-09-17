@@ -8,7 +8,6 @@
 #ifndef SV_PHYSICSBODYRIGID_H
 #define SV_PHYSICSBODYRIGID_H
 #include "SVPhysicsBody.h"
-#include "../../node/SVNodeDef.h"
 #include "../../base/SVVec3.h"
 #include "btBulletDynamicsCommon.h"
 namespace sv {
@@ -29,8 +28,6 @@ namespace sv {
             
             virtual void update(f32 _dt);
             
-            void setNode(SVNodePtr _node);
-            
             inline void setOrigin(FVec3 _origin) {
                 m_origin = _origin;
             }
@@ -40,8 +37,6 @@ namespace sv {
             }
             
             btRigidBody *getBody();
-            
-            SVNodePtr getNode();
             
             void setApplyCentralForce(FVec3 _pos);
             
@@ -63,8 +58,6 @@ namespace sv {
             
         protected:
             FVec3 m_origin;
-            
-            SVNodePtr m_pNode;
             
             btRigidBody *m_pBody;
             
