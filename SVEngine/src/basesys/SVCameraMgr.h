@@ -24,7 +24,7 @@ namespace sv {
 
         void update(f32 dt);
         
-        void setMainCamera(SVCameraNodePtr _camera);
+        void resize(f32 _w,f32 _h);
         
         SVCameraNodePtr getMainCamera();
         

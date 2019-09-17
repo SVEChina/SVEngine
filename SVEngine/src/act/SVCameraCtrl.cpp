@@ -149,47 +149,54 @@ void SVCameraCtrl::unbind() {
 }
 
 /*
-基础相机控制
+基础Proj控制
  */
 
-SVCamCtrlBase::SVCamCtrlBase(SVInst* _app)
+SVCamCtrlProj::SVCamCtrlProj(SVInst* _app)
 :SVCameraCtrl(_app) {
 }
 
-SVCamCtrlBase::~SVCamCtrlBase() {
+SVCamCtrlProj::~SVCamCtrlProj() {
 }
 
-void SVCamCtrlBase::setPosition(f32 _x, f32 _y, f32 _z){
+void SVCamCtrlProj::reset(f32 _w,f32 _h) {
+    f32 t_pos_z = (_h*0.5f) / tan(30.0f * DEGTORAD);
+    setPosition(0.0f, 0.0,t_pos_z);
+    setTarget(0.0f, 0.0f, 0.0f);
+    setUp(0.0f,1.0f,0.0f);
+}
+
+void SVCamCtrlProj::setPosition(f32 _x, f32 _y, f32 _z){
     m_pos.set(_x,_y,_z);
     m_dirty = true;
 }
 
-void SVCamCtrlBase::setTarget(f32 _x, f32 _y, f32 _z) {
+void SVCamCtrlProj::setTarget(f32 _x, f32 _y, f32 _z) {
     m_targetEx.set(_x,_y,_z);
     m_dirty = true;
 }
 
-void SVCamCtrlBase::setDirection(f32 _x, f32 _y, f32 _z) {
+void SVCamCtrlProj::setDirection(f32 _x, f32 _y, f32 _z) {
     m_direction.set(_x, _y, _z);
     m_direction.normalize();
     m_dirty = true;
 }
 
-void SVCamCtrlBase::setUp(f32 _x, f32 _y, f32 _z) {
+void SVCamCtrlProj::setUp(f32 _x, f32 _y, f32 _z) {
     m_upEx.set(_x, _y, _z);
     m_upEx.normalize();
     m_dirty = true;
 }
 
-FVec3& SVCamCtrlBase::getUp(){
+FVec3& SVCamCtrlProj::getUp(){
     return m_upEx;
 }
 
-FVec3& SVCamCtrlBase::getDirection(){
+FVec3& SVCamCtrlProj::getDirection(){
     return m_direction;
 }
 
-void SVCamCtrlBase::reset(){
+void SVCamCtrlProj::reset(){
     f32 t_height = mApp->m_pGlobalParam->m_inner_height;
     f32 t_pos_z = (t_height*0.5f) / tan(30.0f * DEGTORAD);
     m_pos.set(0.0f,0.0f,t_pos_z);
@@ -198,13 +205,54 @@ void SVCamCtrlBase::reset(){
 }
 
 //相机控制
-bool SVCamCtrlBase::run(SVCameraNodePtr _nodePtr, f32 dt) {
+bool SVCamCtrlProj::run(SVCameraNodePtr _nodePtr, f32 dt) {
     if(_nodePtr) {
         if(m_dirty) {
             m_dirty = false;
             m_mat = lookAt(FVec3(m_pos.x,m_pos.y,m_pos.z),
                            FVec3(m_targetEx.x,m_targetEx.y,m_targetEx.z),
                            FVec3(m_upEx.x,m_upEx.y,m_upEx.z) );
+        }
+    }
+    return true;
+}
+
+/*
+ 基础正交控制
+ */
+
+SVCamCtrlOrtho::SVCamCtrlOrtho(SVInst* _app)
+:SVCameraCtrl(_app) {
+    m_width = 720.0f;
+    m_height = 1280.0f;
+    m_sc = 1.0f;
+    m_dirty = true;
+}
+
+SVCamCtrlOrtho::~SVCamCtrlOrtho() {
+}
+
+void SVCamCtrlOrtho::reset(f32 _w,f32 _h) {
+    m_width = _w;
+    m_height = _h;
+    m_pos.set(0.5f*m_width*m_sc,-0.5f*m_height*m_sc,1000.0f);
+    m_dirty = true;
+}
+
+void SVCamCtrlOrtho::reset(){
+    m_sc = 1.0f;
+    m_pos.set(0.5f*m_width*m_sc,-0.5f*m_height*m_sc,1000.0f);
+    m_dirty = true;
+}
+
+//相机控制
+bool SVCamCtrlOrtho::run(SVCameraNodePtr _nodePtr, f32 dt) {
+    if(_nodePtr) {
+        if(m_dirty) {
+            m_dirty = false;
+            m_mat = lookAt(m_pos,
+                           FVec3(m_pos.x, m_pos.y, 0.0f),
+                           FVec3(0.0f, 1.0f, 0.0f) );
         }
     }
     return true;
