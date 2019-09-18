@@ -183,12 +183,6 @@ void SVOpCreateEffcet::_process(f32 dt) {
             (*m_pCB)(msg.c_str(), m_obj);
         }
     }
-
-    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-    if (t_pScene) {
-        SVFacePointNodePtr t_facePtNode = MakeSharedPtr<SVFacePointNode>(mApp);
-        t_pScene->addNode(t_facePtNode);
-    }
 }
 
 
