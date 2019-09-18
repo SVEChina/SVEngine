@@ -271,6 +271,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVPhysicsBodySoft);
         DECLARE_SHAREPTR(SVPhysicsBodyRigid);
         DECLARE_SHAREPTR(SVPhysicsBodyRope);
+        DECLARE_SHAREPTR(SVPhysicsBodyCloth);
         DECLARE_SHAREPTR(SVPhysicsShape);
         DECLARE_SHAREPTR(SVPhysicsShapeBox);
         DECLARE_SHAREPTR(SVPhysicsShapeSphere);

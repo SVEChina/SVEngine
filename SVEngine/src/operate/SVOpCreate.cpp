@@ -506,13 +506,13 @@ void SVOpCreateTestLine::_process(f32 dt) {
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
         SVLineNodePtr t_lineNode = MakeSharedPtr<SVLineNode>(mApp);
-        f32 t_testLine[6] = {-200.0f, 300.0f, 0.0f, 200.0f, 300.0f, 0.0f};
+        f32 t_testLine[6] = {0, 300.0f, 0.0f, 200.0f, 300.0f, 0.0f};
         t_lineNode->setLineData(t_testLine, 6);
         t_pScene->addNode(t_lineNode);
         SVPhysicsSoftRigidWorldPtr t_softWorld = mApp->getPhysicsWorldMgr()->getSoftWorld();
         FVec3 t_from = FVec3(t_testLine[0], t_testLine[1], t_testLine[2]);
         FVec3 t_to = FVec3(t_testLine[3], t_testLine[4], t_testLine[5]);
-        SVPhysicsBodyRopePtr t_bodyRope = MakeSharedPtr<SVPhysicsBodyRope>(mApp, t_softWorld->getWorldInfo(), t_from, t_to, 30);
+        SVPhysicsBodyRopePtr t_bodyRope = MakeSharedPtr<SVPhysicsBodyRope>(mApp, t_softWorld->getWorldInfo(), t_from, t_to, 30, 1);
         t_bodyRope->setNode(t_lineNode);
         t_softWorld->addSoftBody(t_bodyRope);
         
