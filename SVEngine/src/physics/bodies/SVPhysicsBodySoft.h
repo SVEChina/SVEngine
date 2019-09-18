@@ -7,10 +7,12 @@
 
 #ifndef SV_PHYSICS_BODYSOFT_H
 #define SV_PHYSICS_BODYSOFT_H
+
+
 #include "SVPhysicsBody.h"
-#include "btSoftBodyRigidBodyCollisionConfiguration.h"
-#include "btSoftBodyHelpers.h"
-#include "btSoftBody.h"
+#include "BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h"
+#include "BulletSoftBody/btSoftBodyHelpers.h"
+#include "BulletSoftBody/btSoftBody.h"
 namespace sv {
 
     namespace logic {
