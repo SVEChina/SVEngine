@@ -56,6 +56,7 @@
 #include "../physics/shapes/SVPhysicsShapeSphere.h"
 #include "../physics/SVPhysicsSoftRigidWorld.h"
 #include "../physics/bodies/SVPhysicsBodyRope.h"
+#include "../physics/bodies/SVPhysicsBodyCloth.h"
 #include "../act/SVActionMgr.h"
 #include "../act/SVActionUnit.h"
 #include "../act/SVActFollow.h"
@@ -535,6 +536,18 @@ void SVOpCreateTestPatch::_process(f32 dt) {
     if (t_pScene) {
         SVPatchNodePtr t_patchNode = MakeSharedPtr<SVPatchNode>(mApp);
         t_pScene->addNode(t_patchNode);
+        
+        //
+        SVPhysicsSoftRigidWorldPtr t_softWorld = mApp->getPhysicsWorldMgr()->getSoftWorld();
+        FVec3 t_corner00 = FVec3(-100.0, 0.0f, 0.0f);
+        FVec3 t_corner10 = FVec3(100.0, 0.0f, 0.0f);
+        FVec3 t_corner01 = FVec3(-100.0, 100.0f, 0.0f);
+        FVec3 t_corner11 = FVec3(100.0, 100.0f, 0.0f);
+        
+        SVPhysicsBodyClothPtr t_bodyPatch = MakeSharedPtr<SVPhysicsBodyCloth>(mApp, t_softWorld->getWorldInfo(), t_corner00, t_corner10, t_corner01, t_corner11, 20, 20);
+        t_bodyPatch->setTimeScale(3);
+        t_bodyPatch->setNode(t_patchNode);
+        t_softWorld->addSoftBody(t_bodyPatch);
     }
 }
 

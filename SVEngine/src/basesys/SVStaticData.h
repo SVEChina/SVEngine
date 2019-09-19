@@ -32,7 +32,7 @@ namespace sv {
         
         SVRenderMeshPtr generateAdaptScreenMesh(f32 _fromW, f32 _fromH, f32 _toW, f32 _toH);
         
-        SVRenderMeshDvidPtr generatePatchMesh(FVec3 &_corner00, FVec3 &_corner10, FVec3 &_corner01, FVec3 &_corner11, s32 _rx = 2, s32 _ry = 2);
+        SVRenderMeshPtr generatePatchMesh(FVec3 &_corner00, FVec3 &_corner10, FVec3 &_corner01, FVec3 &_corner11, s32 _rx = 2, s32 _ry = 2);
     public:
         SVRenderMeshPtr m_screenMesh;
         SVRenderMeshPtr m_screenMeshRot90;

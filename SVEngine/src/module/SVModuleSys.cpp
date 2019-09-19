@@ -57,6 +57,7 @@ void SVModuleSys::unregist(cptr8 _name) {
     SVMap<SVString, SVModuleBasePtr>::Iterator it = m_modulePool.find(SVString(_name));
     if (it != m_modulePool.end()) {
         m_modulePool.remove(_name);
+
     }
     m_moduleLock->unlock();
 }

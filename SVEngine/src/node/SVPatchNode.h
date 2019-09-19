@@ -23,12 +23,12 @@ namespace sv {
             
             virtual void render();
             
-            void setPatchData(f32 *_data, s32 _size);
+            void setPatchData(SVDataSwapPtr _vertexData, s32 _vertexCount);
             
         public:
             SVRenderObjectPtr m_pRenderObj;
             
-            SVRenderMeshDvidPtr m_pMesh;
+            SVRenderMeshPtr m_pMesh;
             
             SVMtlGeo3dPtr m_patchMtl;
             

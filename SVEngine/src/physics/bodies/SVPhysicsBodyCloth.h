@@ -21,8 +21,8 @@ namespace sv {
                                const FVec3& _corner11,
                                s32 _resx,
                                s32 _resy,
-                               s32 _fixeds,
-                               bool gendiags);
+                               s32 _fixeds = 1 + 2 + 4 + 8,
+                               bool gendiags = true);
             
             ~SVPhysicsBodyCloth();
             

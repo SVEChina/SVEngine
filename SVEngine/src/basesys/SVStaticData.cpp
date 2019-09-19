@@ -324,7 +324,7 @@ SVRenderMeshPtr SVStaticData::generateAdaptScreenMesh(f32 _fromW, f32 _fromH, f3
     return m_screenAdaptMesh;
 }
 #define IDX(_x_, _y_) ((_y_)*rx + (_x_))
-SVRenderMeshDvidPtr SVStaticData::generatePatchMesh(FVec3 &_corner00, FVec3 &_corner10, FVec3 &_corner01, FVec3 &_corner11, s32 _rx, s32 _ry){
+SVRenderMeshPtr SVStaticData::generatePatchMesh(FVec3 &_corner00, FVec3 &_corner10, FVec3 &_corner01, FVec3 &_corner11, s32 _rx, s32 _ry){
     if (_rx < 2 || _ry < 2) {
         return nullptr;
     }
@@ -332,8 +332,7 @@ SVRenderMeshDvidPtr SVStaticData::generatePatchMesh(FVec3 &_corner00, FVec3 &_co
     const s32 ry = _ry;
     //渲染数据
     //顶点数据
-    SVDataSwapPtr t_pVertexData = MakeSharedPtr<SVDataSwap>();
-    V3 verData[rx*ry];
+    V3 t_verData[rx*ry];
     for (s32 iy = 0; iy<ry; iy++) {
         FVec3 y0 = FVec3_zero;
         FVec3 y1 = FVec3_zero;
@@ -345,14 +344,12 @@ SVRenderMeshDvidPtr SVStaticData::generatePatchMesh(FVec3 &_corner00, FVec3 &_co
             s32 idx = IDX(ix, iy);
             FVec3 x0 = FVec3_zero;
             lerp(x0, y0, y1, t_x);
-            verData[idx].x = x0.x;
-            verData[idx].y = x0.y;
-            verData[idx].z = x0.z;
+            t_verData[idx].x = x0.x;
+            t_verData[idx].y = x0.y;
+            t_verData[idx].z = x0.z;
         }
     }
-    t_pVertexData->writeData(&verData[0], sizeof(V3)*rx*ry);
     //网格数据
-    SVDataSwapPtr t_pIndexData = MakeSharedPtr<SVDataSwap>();
     s32 t_indexCount = (rx - 1)*(ry - 1)*6;
     u16 indexes[t_indexCount];
     s32 index = 0;
@@ -381,19 +378,21 @@ SVRenderMeshDvidPtr SVStaticData::generatePatchMesh(FVec3 &_corner00, FVec3 &_co
             }
         }
     }
-    t_pIndexData->writeData(indexes, sizeof(u16)*t_indexCount);
-    SVRenderMeshDvidPtr patchMesh = MakeSharedPtr<SVRenderMeshDvid>(mApp);
+    //混合顶点数据
+    V3 vertexData[t_indexCount];
+    for (s32 i = 0; i<t_indexCount; i++) {
+        s32 t_index = indexes[i];
+        vertexData[i] = t_verData[t_index];
+    }
+    const s32 t_vertexCount = t_indexCount;
+    SVDataSwapPtr t_pVertexData = MakeSharedPtr<SVDataSwap>();
+    t_pVertexData->writeData(&vertexData[0], sizeof(V3)*t_vertexCount);
+    
+    SVRenderMeshPtr patchMesh = MakeSharedPtr<SVRenderMesh>(mApp);
     patchMesh->setVertexType(E_VF_V3);
-    //这里在 iphone6 上使用 GL_DYNAMIC_DRAW 会导致切动效的时候崩溃，苹果官方文档中说明 GL_STREAM_DRAW 等同于 GL_DYNAMIC_DRAW ，暂时先这样解决。
-#if defined(TARGET_OS_IPHONE)
-    patchMesh->setVertexPoolType(GL_STREAM_DRAW);
-#else
-    patchMesh->setVertexPoolType(GL_DYNAMIC_DRAW);
-#endif
-    patchMesh->setIndexPoolType(GL_STATIC_DRAW);
-    patchMesh->setIndexData(t_pIndexData, t_indexCount);
+    patchMesh->setVertexDataNum(t_indexCount);
+    patchMesh->setVertexData(t_pVertexData);
     patchMesh->setDrawMethod(E_DM_LINES);
-    patchMesh->setVertex3Data(t_pVertexData);
     patchMesh->createMesh();
     return patchMesh;
 }
