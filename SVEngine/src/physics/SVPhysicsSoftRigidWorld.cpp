@@ -6,7 +6,7 @@
 //
 #include "SVPhysicsSoftRigidWorld.h"
 #include "bodies/SVPhysicsBodySoft.h"
-#include "../base/SVLock.h"
+#include "../../base/SVLock.h"
 
 SVPhysicsSoftRigidWorld::SVPhysicsSoftRigidWorld(SVInst* _app):SVPhysicsWorldBase(_app) {
     m_type = E_PHYSICS_WORLD_SOFT_RIGID;
@@ -60,7 +60,7 @@ void SVPhysicsSoftRigidWorld::destroy(){
 
 void SVPhysicsSoftRigidWorld::update(f32 _dt){
     if (m_softWorld) {
-        m_softWorld->stepSimulation(PHYSICSWORLDSTEP, 80);
+        m_softWorld->stepSimulation(PHYSICSWORLDSTEP, 5);
     }
     for (s32 i = 0; i < m_bodies.size(); i++) {
         SVPhysicsBodySoftPtr t_body = m_bodies[i];

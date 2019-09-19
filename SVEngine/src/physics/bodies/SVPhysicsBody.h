@@ -10,6 +10,7 @@
 
 #include "../../base/SVGBase.h"
 #include "../../node/SVNodeDef.h"
+
 namespace sv {
 
     namespace logic {
@@ -19,7 +20,7 @@ namespace sv {
             E_PHYSICS_BODY_SOFT,
             E_PHYSICS_BODY_ROPE
         };
-
+       
         class SVPhysicsBody : public SVGBase {
         public:
             SVPhysicsBody(SVInst *_app);

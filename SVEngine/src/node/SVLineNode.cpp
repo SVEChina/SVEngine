@@ -48,7 +48,7 @@ void SVLineNode::update(f32 _dt) {
     if (m_pRenderObj && m_pMesh) {
         m_lineMtl->update(_dt);
         m_lineMtl->setModelMatrix(m_absolutMat.get());
-        m_lineMtl->setLineSize(10.0f);
+        m_lineMtl->setLineSize(4.0f);
         m_lineMtl->setColor(1.0f, 0.0f, 0.0f, 1.0f);
         m_lineMtl->setBlendEnable(false);
         m_lineMtl->setTexcoordFlip(1.0, 1.0);

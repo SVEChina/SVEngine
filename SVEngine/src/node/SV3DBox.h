@@ -25,6 +25,8 @@ namespace sv {
             
             virtual void render();
             
+            void setMesh(SVRenderMeshPtr _pMesh);
+            
             void randomInit();
             
             SVMtlCorePtr getMtl();

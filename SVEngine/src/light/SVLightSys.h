@@ -25,12 +25,15 @@ namespace sv {
         
         void update(f32 dt);
         
+        SVCameraNodePtr getCamera();
+        
     public:
         FVec3 m_g_ambient;      //全局环境光
         FVec3 m_g_diffuse;      //全局漫反射
         FVec3 m_g_specular;     //全局高光
         FVec3 m_g_direction;    //光向
         f32 m_g_diffuse_sc;     //满反射颜色缩放值
+        SVCameraNodePtr m_pLightCamera;
     };
 
 }//!namespace sv
