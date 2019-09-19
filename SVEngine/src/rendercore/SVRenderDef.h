@@ -54,6 +54,7 @@ enum RENDERSTREAMTYPE {
     RST_UI_BEGIN,           //ui开始
     RST_UI,                 //ui
     RST_UI_END,             //ui结束
+    RST_UI_FRONT,           //ui上层
     RST_LOGO,               //logo
     RST_DEBUG,              //测试
     RST_END

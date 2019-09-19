@@ -39,8 +39,6 @@ namespace sv {
             f32 m_height;
             EUIARCHO m_archo;
             bool m_dirty_mesh;
-            //SVString m_pTexPath;
-            //SVTEXTYPE m_inTexType;
             //运行时属性
             SVTexturePtr m_pTex;
             SVRenderMeshPtr m_pMesh;
