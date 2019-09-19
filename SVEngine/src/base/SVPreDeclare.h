@@ -80,6 +80,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpCreateTest);
     DECLARE_SHAREPTR(SVOpCreateDebugFacePt);
     DECLARE_SHAREPTR(SVOpCreateTestLine);
+    DECLARE_SHAREPTR(SVOpCreateTestPatch);
     DECLARE_SHAREPTR(SVOpEngineResume);
     DECLARE_SHAREPTR(SVOpEngineSuspend);
     DECLARE_SHAREPTR(SVOpEngineDelaySuspend);

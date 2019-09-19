@@ -35,6 +35,7 @@
 #include "../node/SVFacePointNode.h"
 #include "../node/SVSkinNode.h"
 #include "../node/SVLineNode.h"
+#include "../node/SVPatchNode.h"
 #include "../file/SVParseMain.h"
 #include "../file/SVBMFontLoader.h"
 #include "../file/SVLoaderGLTF.h"
@@ -516,6 +517,24 @@ void SVOpCreateTestLine::_process(f32 dt) {
         t_bodyRope->setNode(t_lineNode);
         t_softWorld->addSoftBody(t_bodyRope);
         
+    }
+}
+
+//测试操作
+SVOpCreateTestPatch::SVOpCreateTestPatch(SVInst *_app)
+: SVOpBase(_app){
+    
+}
+
+SVOpCreateTestPatch::~SVOpCreateTestPatch(){
+    
+}
+
+void SVOpCreateTestPatch::_process(f32 dt) {
+    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+    if (t_pScene) {
+        SVPatchNodePtr t_patchNode = MakeSharedPtr<SVPatchNode>(mApp);
+        t_pScene->addNode(t_patchNode);
     }
 }
 

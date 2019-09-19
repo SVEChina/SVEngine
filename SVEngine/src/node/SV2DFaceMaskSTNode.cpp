@@ -41,14 +41,6 @@ SV2DFaceMaskSTNode::SV2DFaceMaskSTNode(SVInst *_app)
     m_pointsize = standerface->facepoints_count;
     for (s32 i=0; i<m_pointsize*2; i++) {
         m_standervers[i] = standerface->points[i];
-//        if (i%2 == 0) {
-//            m_standervers[i] = m_standervers[i] - m_texwidth*0.5;
-//        }else{
-//            m_standervers[i] = m_standervers[i] - m_texheight*0.5;
-//        }
-    }
-    
-    for (s32 i=0; i<m_pointsize*2; i++) {
         m_standertexcoord[i] = standerface->points[i];
     }
     
