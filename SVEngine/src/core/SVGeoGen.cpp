@@ -92,14 +92,14 @@ SVRenderMeshPtr SVGeoGen::genRectARCHO(SVInst* _app,f32 _w,f32 _h,EUIARCHO _arch
         t_off_x = -0.5f*_w;
         t_off_y = -0.5f*_h;
     }else if(_archo == E_ARCHO_LC) {
-        t_off_x = 0.0f;
+        t_off_x = 0.5f*_w ;
         t_off_y = 0.0f;
     }else if(_archo == E_ARCHO_CC) {
-        t_off_x = 0.5f*_w;
+        t_off_x = 0.0f;
         t_off_y = 0.0f;
     }else if(_archo == E_ARCHO_RC) {
-        t_off_x = 0.0f;
-        t_off_y = -0.5f*_w;
+        t_off_x = -0.5f*_w;
+        t_off_y = 0.0f;
     }else if(_archo == E_ARCHO_LB) {
         t_off_x = 0.5f*_w;
         t_off_y = 0.5f*_h;
