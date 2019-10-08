@@ -49,6 +49,7 @@ void SVPatchNode::update(f32 _dt) {
         m_patchMtl->setColor(1.0f, 0.0f, 0.0f, 1.0f);
         m_patchMtl->setBlendEnable(false);
         m_patchMtl->setTexcoordFlip(1.0, 1.0);
+        m_patchMtl->setLineSize(2.0f);
         m_patchMtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
         m_pRenderObj->setMesh(m_pMesh);
         m_pRenderObj->setMtl(m_patchMtl);

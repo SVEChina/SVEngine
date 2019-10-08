@@ -25,6 +25,7 @@ SVPhysicsBodyCloth::SVPhysicsBodyCloth(SVInst* _app, btSoftBodyWorldInfo& _world
     
 //    m_softBody->getCollisionShape()->setMargin(0.5);
     m_softBody->m_materials[0]->m_kLST = 0.005;
+//    m_softBody->m_materials[0]->m_kAST = 0.001;
     m_softBody->generateBendingConstraints(2, m_softBody->m_materials[0]);
     m_softBody->setTotalMass(150);
 }

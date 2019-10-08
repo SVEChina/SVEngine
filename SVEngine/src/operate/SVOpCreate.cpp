@@ -515,6 +515,7 @@ void SVOpCreateTestLine::_process(f32 dt) {
         FVec3 t_from = FVec3(t_testLine[0], t_testLine[1], t_testLine[2]);
         FVec3 t_to = FVec3(t_testLine[3], t_testLine[4], t_testLine[5]);
         SVPhysicsBodyRopePtr t_bodyRope = MakeSharedPtr<SVPhysicsBodyRope>(mApp, t_softWorld->getWorldInfo(), t_from, t_to, 30, 1);
+        t_bodyRope->setTimeScale(2);
         t_bodyRope->setNode(t_lineNode);
         t_softWorld->addSoftBody(t_bodyRope);
         
@@ -539,10 +540,10 @@ void SVOpCreateTestPatch::_process(f32 dt) {
         
         //
         SVPhysicsSoftRigidWorldPtr t_softWorld = mApp->getPhysicsWorldMgr()->getSoftWorld();
-        FVec3 t_corner00 = FVec3(-100.0, 0.0f, 0.0f);
-        FVec3 t_corner10 = FVec3(100.0, 0.0f, 0.0f);
-        FVec3 t_corner01 = FVec3(-100.0, 100.0f, 0.0f);
-        FVec3 t_corner11 = FVec3(100.0, 100.0f, 0.0f);
+        FVec3 t_corner00 = FVec3(-200.0, 60.0f, 0.0f);
+        FVec3 t_corner10 = FVec3(200.0, 60.0f, 0.0f);
+        FVec3 t_corner01 = FVec3(-200.0, 300.0f, 0.0f);
+        FVec3 t_corner11 = FVec3(200.0, 300.0f, 0.0f);
         
         SVPhysicsBodyClothPtr t_bodyPatch = MakeSharedPtr<SVPhysicsBodyCloth>(mApp, t_softWorld->getWorldInfo(), t_corner00, t_corner10, t_corner01, t_corner11, 20, 20);
         t_bodyPatch->setTimeScale(3);

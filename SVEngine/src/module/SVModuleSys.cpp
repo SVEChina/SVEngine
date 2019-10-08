@@ -21,8 +21,8 @@ SVModuleSys::~SVModuleSys() {
 
 void SVModuleSys::init() {
     //默认注册一个定时器组件
-    SVModuleDelaySuspendPtr t_suspend = MakeSharedPtr<SVModuleDelaySuspend>(mApp);
-    regist(t_suspend, "sv_delaysuspend");
+//    SVModuleDelaySuspendPtr t_suspend = MakeSharedPtr<SVModuleDelaySuspend>(mApp);
+//    regist(t_suspend, "sv_delaysuspend");
 }
 
 void SVModuleSys::destroy() {
@@ -57,7 +57,6 @@ void SVModuleSys::unregist(cptr8 _name) {
     SVMap<SVString, SVModuleBasePtr>::Iterator it = m_modulePool.find(SVString(_name));
     if (it != m_modulePool.end()) {
         m_modulePool.remove(_name);
-
     }
     m_moduleLock->unlock();
 }
