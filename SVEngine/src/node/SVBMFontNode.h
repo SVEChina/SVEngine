@@ -62,9 +62,11 @@ namespace sv {
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             
             void fromJSON(RAPIDJSON_NAMESPACE::Value &_item);
+        
         private:
             void _genMesh();
             void _refresh();
+            
         protected:
             SVRenderObjectPtr m_pRenderObj;
             SVRenderMeshPtr m_pMesh;
