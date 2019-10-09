@@ -16,8 +16,11 @@
 SVBMFontPtr SVBMFont::creatFnt(cptr8 _filePath, SVInst *_app){
     SVBMFontPtr font = MakeSharedPtr<SVBMFont>(_app);
     SVBMFontLoader t_loder(_app);
-    t_loder.loadData(_filePath, font);
-    return font;
+    bool t_res = t_loder.loadData(_filePath, font);
+    if (t_res) {
+        return font;
+    }
+    return nullptr;
 }
 
 SVBMFont::SVBMFont(SVInst *_app)

@@ -16,7 +16,7 @@ namespace sv {
         
         ~SVBMFontLoader();
         
-        void loadData(cptr8 _fontFilePath, SVBMFontPtr _font);
+        bool loadData(cptr8 _fontFilePath, SVBMFontPtr _font);
     private:
         u32  _parseCharacterDefinition(SVBMFontPtr _font, cptr8 line);
         void _parseInfoArguments(cptr8 line);

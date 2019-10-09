@@ -51,6 +51,12 @@ void SVBasicSys::init() {
     m_pSensorModule->startListen();
 }
 
+void SVBasicSys::loadDefaultFMFont(){
+    if (m_pFontModule) {
+        m_pFontModule->loadDefBMFont();
+    }
+}
+
 void SVBasicSys::destroy() {
     //
     m_pFontModule = nullptr;

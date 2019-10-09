@@ -32,6 +32,8 @@ namespace sv {
             
             virtual bool procEvent(SVEventPtr _event);
             
+            void loadDefBMFont();
+            
             void getAllBMFontNames(SVArray<SVString> &_array);
             
             void removeBMFont(cptr8 _name);

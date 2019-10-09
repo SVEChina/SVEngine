@@ -24,8 +24,6 @@
 SVFontProcess::SVFontProcess(SVInst *_app)
 :SVProcess(_app) {
     m_lock = MakeSharedPtr<SVLock>();
-    loadBMFont("svres/bmfont/chineses.fnt");
-    loadBMFont("svres/bmfont/sveengine.fnt");
 #ifdef CONFIG_IS_LOAD_FREETYPE
     m_fontFace = nullptr;
     m_fontLib = nullptr;
@@ -69,6 +67,7 @@ SVFontProcess::SVFontProcess(SVInst *_app)
 }
 
 SVFontProcess::~SVFontProcess() {
+    m_lock = nullptr;
 #ifdef CONFIG_IS_LOAD_FREETYPE
     FT_Done_Face( m_fontFace );
     FT_Done_FreeType( m_fontLib );
@@ -80,6 +79,11 @@ SVFontProcess::~SVFontProcess() {
 
 bool SVFontProcess::procEvent(SVEventPtr _event){
     return true;
+}
+
+void SVFontProcess::loadDefBMFont(){
+    loadBMFont("svres/bmfont/chineses.fnt");
+    loadBMFont("svres/bmfont/sveengine.fnt");
 }
 
 void SVFontProcess::loadBMFont(cptr8 _path){
@@ -96,10 +100,10 @@ void SVFontProcess::loadBMFont(cptr8 _path){
         }
     }
     if (!t_result) {
-            SVBMFontPtr font = MakeSharedPtr<SVBMFont>(mApp);
-        SVBMFontLoader t_loder(mApp);
-        t_loder.loadData(_path, font);
-        m_bmFonts.append(font);
+        SVBMFontPtr font = SVBMFont::creatFnt(_path, mApp);
+        if (font) {
+            m_bmFonts.append(font);
+        }
     }
     m_lock->unlock();
 }
