@@ -29,6 +29,7 @@ SVBMFontNode::SVBMFontNode(SVInst *_app)
     ntype = "SVBMFontNode";
     m_font = nullptr;
     m_textDirty = true;
+    m_rsType = RST_SOLID_3D;
     m_atchType = ATCH_MC;
     m_spacing = 0.0f;
     m_alpha = 1.0f;
@@ -76,10 +77,10 @@ void SVBMFontNode::update(f32 dt) {
 }
 
 void SVBMFontNode::render() {
-    if (mApp->m_pGlobalParam->m_curScene && m_visible ){
+    if (m_visible ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj && m_pMesh) {
-            m_pRenderObj->pushCmd(t_rs, RST_SOLID_3D, "SVBMFontNode");
+            m_pRenderObj->pushCmd(t_rs, m_rsType, "SVBMFontNode");
         }
     }
     SVNode::render();
