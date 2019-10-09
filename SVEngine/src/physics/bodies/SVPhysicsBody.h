@@ -18,7 +18,8 @@ namespace sv {
             E_PHYSICS_BODY_BASE = 0,
             E_PHYSICS_BODY_RIGID,
             E_PHYSICS_BODY_SOFT,
-            E_PHYSICS_BODY_ROPE
+            E_PHYSICS_BODY_ROPE,
+            E_PHYSICS_BODY_CLOTH
         };
        
         class SVPhysicsBody : public SVGBase {

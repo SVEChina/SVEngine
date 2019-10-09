@@ -189,6 +189,17 @@ namespace sv {
         void _process(f32 dt);
     };
     
+    //测试画补丁网格
+    class SVOpCreateTestPatch : public SVOpBase {
+    public:
+        SVOpCreateTestPatch(SVInst *_app);
+        
+        ~SVOpCreateTestPatch();
+        
+    protected:
+        void _process(f32 dt);
+    };
+    
     //分屏
     class SVOpCreateDivision : public SVOpBase {
     public:

@@ -21,8 +21,8 @@ SVModuleSys::~SVModuleSys() {
 
 void SVModuleSys::init() {
     //默认注册一个定时器组件
-    SVModuleDelaySuspendPtr t_suspend = MakeSharedPtr<SVModuleDelaySuspend>(mApp);
-    regist(t_suspend, "sv_delaysuspend");
+//    SVModuleDelaySuspendPtr t_suspend = MakeSharedPtr<SVModuleDelaySuspend>(mApp);
+//    regist(t_suspend, "sv_delaysuspend");
 }
 
 void SVModuleSys::destroy() {

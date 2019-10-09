@@ -35,6 +35,7 @@
 #include "../node/SVFacePointNode.h"
 #include "../node/SVSkinNode.h"
 #include "../node/SVLineNode.h"
+#include "../node/SVPatchNode.h"
 #include "../file/SVParseMain.h"
 #include "../file/SVBMFontLoader.h"
 #include "../file/SVLoaderGLTF.h"
@@ -55,6 +56,7 @@
 #include "../physics/shapes/SVPhysicsShapeSphere.h"
 #include "../physics/SVPhysicsSoftRigidWorld.h"
 #include "../physics/bodies/SVPhysicsBodyRope.h"
+#include "../physics/bodies/SVPhysicsBodyCloth.h"
 #include "../act/SVActionMgr.h"
 #include "../act/SVActionUnit.h"
 #include "../act/SVActFollow.h"
@@ -513,9 +515,40 @@ void SVOpCreateTestLine::_process(f32 dt) {
         FVec3 t_from = FVec3(t_testLine[0], t_testLine[1], t_testLine[2]);
         FVec3 t_to = FVec3(t_testLine[3], t_testLine[4], t_testLine[5]);
         SVPhysicsBodyRopePtr t_bodyRope = MakeSharedPtr<SVPhysicsBodyRope>(mApp, t_softWorld->getWorldInfo(), t_from, t_to, 30, 1);
+        t_bodyRope->setTimeScale(2);
         t_bodyRope->setNode(t_lineNode);
         t_softWorld->addSoftBody(t_bodyRope);
         
+    }
+}
+
+//测试操作
+SVOpCreateTestPatch::SVOpCreateTestPatch(SVInst *_app)
+: SVOpBase(_app){
+    
+}
+
+SVOpCreateTestPatch::~SVOpCreateTestPatch(){
+    
+}
+
+void SVOpCreateTestPatch::_process(f32 dt) {
+    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+    if (t_pScene) {
+        SVPatchNodePtr t_patchNode = MakeSharedPtr<SVPatchNode>(mApp);
+        t_pScene->addNode(t_patchNode);
+        
+        //
+        SVPhysicsSoftRigidWorldPtr t_softWorld = mApp->getPhysicsWorldMgr()->getSoftWorld();
+        FVec3 t_corner00 = FVec3(-200.0, 60.0f, 0.0f);
+        FVec3 t_corner10 = FVec3(200.0, 60.0f, 0.0f);
+        FVec3 t_corner01 = FVec3(-200.0, 300.0f, 0.0f);
+        FVec3 t_corner11 = FVec3(200.0, 300.0f, 0.0f);
+        
+        SVPhysicsBodyClothPtr t_bodyPatch = MakeSharedPtr<SVPhysicsBodyCloth>(mApp, t_softWorld->getWorldInfo(), t_corner00, t_corner10, t_corner01, t_corner11, 20, 20);
+        t_bodyPatch->setTimeScale(3);
+        t_bodyPatch->setNode(t_patchNode);
+        t_softWorld->addSoftBody(t_bodyPatch);
     }
 }
 
