@@ -8,19 +8,21 @@
 #include "SVBMFontNode.h"
 #include "SVScene.h"
 #include "SVCameraNode.h"
+#include "../basesys/SVBasicSys.h"
+#include "../basesys/SVStaticData.h"
+#include "../basesys/SVConfig.h"
+#include "../basesys/SVFontProcess.h"
+#include "../core/SVBMFont.h"
+#include "../event/SVEventMgr.h"
+#include "../event/SVEvent.h"
+#include "../file/SVBMFontLoader.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtlCore.h"
 #include "../mtl/SVMtl2D.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderObject.h"
-#include "../basesys/SVStaticData.h"
 #include "../rendercore/SVRenderMesh.h"
-#include "../event/SVEventMgr.h"
-#include "../event/SVEvent.h"
-#include "../core/SVBMFont.h"
-#include "../file/SVBMFontLoader.h"
-#include "../basesys/SVConfig.h"
 #define SV_BMFONT_MAX_NUM  20
 #define DEFSPACE 40
 //
@@ -88,6 +90,15 @@ void SVBMFontNode::render() {
 void SVBMFontNode::setFont(SVBMFontPtr _font){
     if (m_font != _font) {
         m_font = _font;
+        m_textDirty = true;
+    }
+}
+
+void SVBMFontNode::setFont(cptr8 _name){
+    SVFontProcessPtr fontProcess = mApp->getBasicSys()->getFontModule();
+    SVBMFontPtr t_font = fontProcess->getBMFont(_name);
+    if (t_font && t_font != m_font) {
+        m_font = t_font;
         m_textDirty = true;
     }
 }
@@ -377,11 +388,9 @@ void SVBMFontNode::fromJSON(RAPIDJSON_NAMESPACE::Value &_item){
     if (_item.HasMember("fntname") && _item["fntname"].IsString()) {
         SVString t_fntName = _item["fntname"].GetString();
         SVString t_resPath = m_rootPath +  t_fntName;
-        SVBMFontPtr font = MakeSharedPtr<SVBMFont>(mApp);
-        font->m_enableMipMap = m_enableMipMap;
-        SVBMFontLoader t_loder(mApp);
-        t_loder.loadData(t_resPath.c_str(), font);
-        setFont(font);
+        SVFontProcessPtr fontProcess = mApp->getBasicSys()->getFontModule();
+        fontProcess->loadBMFont(t_resPath);
+        setFont(t_fntName.c_str());
     }
     if (_item.HasMember("content") && _item["content"].IsString()) {
         m_text = _item["content"].GetString();

@@ -40,8 +40,10 @@ namespace sv {
             virtual void update(f32 dt);
             
             virtual void render();
-            
+#pragma warning      这个接口将要废弃的
             void setFont(SVBMFontPtr _font);
+            
+            void setFont(cptr8 _name);
             
             void setText(cptr8 _text);
             
