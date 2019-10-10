@@ -32,9 +32,16 @@ namespace sv {
             
             virtual void update(f32 _dt);
             
+            void *getFaceVertexData();
+            
+            u32   getFaceVertexDataSize();
+            
+            u32   getFaceVertexCount();
+        private:
+            void _updateFaceVertexData();
         protected:
-            
-            
+            u32 m_vertexCount;
+            SVDataSwapPtr m_pVertexData;
         };
     }//!namespace logic
 }//!namespace sv

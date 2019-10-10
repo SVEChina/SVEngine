@@ -60,7 +60,7 @@
 #include "../act/SVActionMgr.h"
 #include "../act/SVActionUnit.h"
 #include "../act/SVActFollow.h"
-
+#include "../act/SVActPhysics.h"
 //创建场景OP
 SVOpCreateScene::SVOpCreateScene(SVInst *_app,cptr8 name)
 : SVOpBase(_app) {
@@ -508,17 +508,21 @@ void SVOpCreateTestLine::_process(f32 dt) {
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
         SVLineNodePtr t_lineNode = MakeSharedPtr<SVLineNode>(mApp);
-        f32 t_testLine[6] = {0, 300.0f, 0.0f, 200.0f, 300.0f, 0.0f};
-        t_lineNode->setLineData(t_testLine, 6);
         t_pScene->addNode(t_lineNode);
+        
+        f32 t_testLine[6] = {0, 300.0f, 0.0f, 200.0f, 300.0f, 0.0f};
         SVPhysicsSoftRigidWorldPtr t_softWorld = mApp->getPhysicsWorldMgr()->getSoftWorld();
         FVec3 t_from = FVec3(t_testLine[0], t_testLine[1], t_testLine[2]);
         FVec3 t_to = FVec3(t_testLine[3], t_testLine[4], t_testLine[5]);
         SVPhysicsBodyRopePtr t_bodyRope = MakeSharedPtr<SVPhysicsBodyRope>(mApp, t_softWorld->getWorldInfo(), t_from, t_to, 30, 1);
         t_bodyRope->setTimeScale(2);
-        t_bodyRope->setNode(t_lineNode);
         t_softWorld->addSoftBody(t_bodyRope);
         
+        
+        SVActBodyRopePtr t_actRope = MakeSharedPtr<SVActBodyRope>(mApp, t_bodyRope);
+         SVActionMgrPtr t_actSys = mApp->getActionMgr();
+         SVActionUnitPtr t_unit = t_actSys->addAction(t_actRope, t_lineNode);
+         t_unit->play();
     }
 }
 
@@ -529,7 +533,11 @@ SVOpCreateTestPatch::SVOpCreateTestPatch(SVInst *_app)
 }
 
 SVOpCreateTestPatch::~SVOpCreateTestPatch(){
-    
+//    if (m_actUnit) {
+//        m_actUnit->stop();
+//        m_actUnit->removeFromActionMgr();
+//        m_actUnit = nullptr;
+//    }
 }
 
 void SVOpCreateTestPatch::_process(f32 dt) {
@@ -547,8 +555,12 @@ void SVOpCreateTestPatch::_process(f32 dt) {
         
         SVPhysicsBodyClothPtr t_bodyPatch = MakeSharedPtr<SVPhysicsBodyCloth>(mApp, t_softWorld->getWorldInfo(), t_corner00, t_corner10, t_corner01, t_corner11, 20, 20);
         t_bodyPatch->setTimeScale(3);
-        t_bodyPatch->setNode(t_patchNode);
         t_softWorld->addSoftBody(t_bodyPatch);
+        
+        SVActBodyClothPtr t_actCloth = MakeSharedPtr<SVActBodyCloth>(mApp, t_bodyPatch);
+        SVActionMgrPtr t_actSys = mApp->getActionMgr();
+        m_actUnit = t_actSys->addAction(t_actCloth, t_patchNode);
+        m_actUnit->play();
     }
 }
 

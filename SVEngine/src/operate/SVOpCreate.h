@@ -198,6 +198,8 @@ namespace sv {
         
     protected:
         void _process(f32 dt);
+        
+        SVActionUnitPtr m_actUnit;
     };
     
     //分屏

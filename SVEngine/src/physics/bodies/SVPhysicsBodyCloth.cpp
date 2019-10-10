@@ -5,8 +5,8 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 #include "SVPhysicsBodyCloth.h"
-//test
-#include "../../node/SVPatchNode.h"
+#include "../../base/SVDataSwap.h"
+#include "../../core/SVVertDef.h"
 SVPhysicsBodyCloth::SVPhysicsBodyCloth(SVInst* _app, btSoftBodyWorldInfo& _worldInfo, const FVec3& _corner00,
                                        const FVec3& _corner10,
                                        const FVec3& _corner01,
@@ -16,6 +16,8 @@ SVPhysicsBodyCloth::SVPhysicsBodyCloth(SVInst* _app, btSoftBodyWorldInfo& _world
                                        s32 _fixeds,
                                        bool gendiags):SVPhysicsBodySoft(_app) {
     m_type = E_PHYSICS_BODY_CLOTH;
+    m_vertexCount = 0;
+    m_pVertexData = MakeSharedPtr<SVDataSwap>();
     m_softBody = btSoftBodyHelpers::CreatePatch(_worldInfo, btVector3(_corner00.x, _corner00.y, _corner00.z),
                                                      btVector3(_corner10.x, _corner10.y, _corner10.z),
                                                      btVector3(_corner01.x, _corner01.y, _corner01.z),
@@ -31,7 +33,7 @@ SVPhysicsBodyCloth::SVPhysicsBodyCloth(SVInst* _app, btSoftBodyWorldInfo& _world
 }
 
 SVPhysicsBodyCloth::~SVPhysicsBodyCloth() {
-    m_softBody = nullptr;
+    m_pVertexData = nullptr;
 }
 
 void SVPhysicsBodyCloth::init(){
@@ -45,20 +47,12 @@ void SVPhysicsBodyCloth::destroy(){
 }
 
 void SVPhysicsBodyCloth::update(f32 _dt){
-    //test!!!
-    SVPatchNodePtr t_patchNode = DYN_TO_SHAREPTR(SVPatchNode, m_pNode);
-    if (t_patchNode) {
-        /* Nodes    */
-//        s32 t_nodesSize = m_softBody->m_nodes.size();
-//        V3 vertexData[t_nodesSize];
-//        for (s32 i = 0; i < t_nodesSize; i++) {
-//            const btSoftBody::Node& n = m_softBody->m_nodes[i];
-//            vertexData[i].x = n.m_x[0];
-//            vertexData[i].y = n.m_x[1];
-//            vertexData[i].z = n.m_x[2];
-//        }
-        
-        /* Faces    */
+    _updateFaceVertexData();
+}
+
+void SVPhysicsBodyCloth::_updateFaceVertexData(){
+    /* Faces    */
+    if (m_softBody && m_pVertexData) {
         s32 t_facesSize = m_softBody->m_faces.size();
         s32 t_vertexSize = t_facesSize*3;
         V3 vertexData[t_vertexSize];
@@ -76,10 +70,19 @@ void SVPhysicsBodyCloth::update(f32 _dt){
             vertexData[i*3 + 2].y = f.m_n[2]->m_x[1];
             vertexData[i*3 + 2].z = f.m_n[2]->m_x[2];
         }
-        
-        SVDataSwapPtr t_pVertexData = MakeSharedPtr<SVDataSwap>();
-        t_pVertexData->writeData(&vertexData[0], sizeof(V3)*t_vertexSize);
-        t_patchNode->setPatchData(t_pVertexData, t_vertexSize);
+        m_pVertexData->writeData(&vertexData[0], sizeof(V3)*t_vertexSize);
+        m_vertexCount = t_vertexSize;
     }
 }
 
+void *SVPhysicsBodyCloth::getFaceVertexData(){
+    return m_pVertexData->getData();
+}
+
+u32   SVPhysicsBodyCloth::getFaceVertexDataSize(){
+    return m_pVertexData->getSize();
+}
+
+u32   SVPhysicsBodyCloth::getFaceVertexCount(){
+    return m_vertexCount;
+}
