@@ -36,6 +36,7 @@
 #include "../node/SVSkinNode.h"
 #include "../node/SVLineNode.h"
 #include "../node/SVPatchNode.h"
+#include "../node/SVModelNode.h"
 #include "../file/SVParseMain.h"
 #include "../file/SVBMFontLoader.h"
 #include "../file/SVLoaderGLTF.h"
@@ -561,6 +562,62 @@ void SVOpCreateTestPatch::_process(f32 dt) {
         SVActionMgrPtr t_actSys = mApp->getActionMgr();
         m_actUnit = t_actSys->addAction(t_actCloth, t_patchNode);
         m_actUnit->play();
+    }
+}
+
+//测试操作
+SVOpCreateTestMianSha::SVOpCreateTestMianSha(SVInst *_app)
+: SVOpBase(_app){
+    
+}
+
+SVOpCreateTestMianSha::~SVOpCreateTestMianSha(){
+
+}
+
+void SVOpCreateTestMianSha::_process(f32 dt) {
+    SVLoaderGLTF t_load(mApp);
+    t_load.loadFromFile("svres/gltf/MianSha/MianSha.gltf");
+    t_load.building();
+    SVNodePtr t_node = t_load.getNode("MianSha");
+    SVModelNodePtr t_modelNode = DYN_TO_SHAREPTR(SVModelNode, t_node);
+    if(t_modelNode) {
+        SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+        if (t_pScene) {
+            t_modelNode->setScale(1.0f,1.0f,1.0f);
+            t_modelNode->setPosition(0.0f, 0.0f, 0.0f);
+            t_modelNode->setRotation(0.0f, 0.0f, 0.0f);
+            t_pScene->addNode(t_modelNode);
+            //
+            SVActFollowPerson3dPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson3d>(mApp, 1);
+            t_fllowPerson->setFllowIndex(46);//43
+            t_fllowPerson->setBindOffset(0.0f,0.0f,0.0f);
+            t_fllowPerson->setScale(1.0f,1.0f,1.0f);
+            t_fllowPerson->setEyeDis(9.5f);//9.5设置模型的瞳距
+            SVActionUnitPtr t_personAct = mApp->getActionMgr()->addAction(t_fllowPerson, t_modelNode);
+            t_personAct->play();
+        }
+    
+    
+//    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+//    if (t_pScene) {
+//        SVPatchNodePtr t_patchNode = MakeSharedPtr<SVPatchNode>(mApp);
+//        t_pScene->addNode(t_patchNode);
+//
+//        //
+//        SVPhysicsSoftRigidWorldPtr t_softWorld = mApp->getPhysicsWorldMgr()->getSoftWorld();
+//        FVec3 t_corner00 = FVec3(-200.0, 60.0f, 0.0f);
+//        FVec3 t_corner10 = FVec3(200.0, 60.0f, 0.0f);
+//        FVec3 t_corner01 = FVec3(-200.0, 300.0f, 0.0f);
+//        FVec3 t_corner11 = FVec3(200.0, 300.0f, 0.0f);
+//
+//        SVPhysicsBodyClothPtr t_bodyPatch = MakeSharedPtr<SVPhysicsBodyCloth>(mApp, t_softWorld->getWorldInfo(), t_corner00, t_corner10, t_corner01, t_corner11, 20, 20);
+//        t_bodyPatch->setTimeScale(3);
+//        t_softWorld->addSoftBody(t_bodyPatch);
+//
+//        SVActBodyClothPtr t_actCloth = MakeSharedPtr<SVActBodyCloth>(mApp, t_bodyPatch);
+//        SVActionMgrPtr t_actSys = mApp->getActionMgr();
+
     }
 }
 

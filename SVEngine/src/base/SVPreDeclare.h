@@ -77,10 +77,6 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpBase);
     DECLARE_SHAREPTR(SVOpPushFaceData);
     DECLARE_SHAREPTR(SVOpCreateScene);
-    DECLARE_SHAREPTR(SVOpCreateTest);
-    DECLARE_SHAREPTR(SVOpCreateDebugFacePt);
-    DECLARE_SHAREPTR(SVOpCreateTestLine);
-    DECLARE_SHAREPTR(SVOpCreateTestPatch);
     DECLARE_SHAREPTR(SVOpEngineResume);
     DECLARE_SHAREPTR(SVOpEngineSuspend);
     DECLARE_SHAREPTR(SVOpEngineDelaySuspend);
@@ -95,6 +91,14 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpMarkAppearTime);
     DECLARE_SHAREPTR(SVOpMarkPosition);
     DECLARE_SHAREPTR(SVOpMarkEnableRandom);
+    
+    //Test
+    DECLARE_SHAREPTR(SVOpCreateTest);
+    DECLARE_SHAREPTR(SVOpCreateDebugFacePt);
+    DECLARE_SHAREPTR(SVOpCreateTestLine);
+    DECLARE_SHAREPTR(SVOpCreateTestPatch);
+    DECLARE_SHAREPTR(SVOpCreateTestMianSha);
+    //
     
     DECLARE_SHAREPTR(SVOpDestroyScene);
     DECLARE_SHAREPTR(SVOpCameraControl);

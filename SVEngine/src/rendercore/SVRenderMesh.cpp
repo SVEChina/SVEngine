@@ -161,6 +161,23 @@ void SVRenderMesh::setVertexData(SVDataSwapPtr _data){
     }
 }
 
+void SVRenderMesh::getIndexData(SVDataSwapPtr _data,s32 &_num){
+    if (m_renderMeshData.pDataIndex && _data) {
+        _data->writeData(m_renderMeshData.pDataIndex->getData(), m_renderMeshData.pDataIndex->getSize());
+        _num = m_renderMeshData.indexNum;
+    }
+}
+
+void SVRenderMesh::getVertexData(SVDataSwapPtr _data){
+    if (m_renderMeshData.pDataVertex && _data) {
+        _data->writeData(m_renderMeshData.pDataVertex->getData(), m_renderMeshData.pDataVertex->getSize());
+    }
+}
+
+void SVRenderMesh::getVertexNum(s32 &_vertexNum){
+    _vertexNum = m_renderMeshData.pointNum;
+}
+
 void SVRenderMesh::setSeqMode(s32 _mode) {
     if( m_renderMeshConf.seqMode!=_mode) {
         m_renderMeshConf.seqMode = _mode;
@@ -337,4 +354,22 @@ void SVRenderMeshDvid::setBTagentData(SVDataSwapPtr _pdata){
         m_renderMeshData.pDataBTor = _pdata;
         m_renderMeshData.dirty = true;
     }
+}
+
+
+void SVRenderMeshDvid::getIndexData(SVDataSwapPtr _data,s32 &_num){
+    if (m_renderMeshData.pDataIndex && _data) {
+        _data->writeData(m_renderMeshData.pDataIndex->getData(), m_renderMeshData.pDataIndex->getSize());
+        _num = m_renderMeshData.indexNum;
+    }
+}
+
+void SVRenderMeshDvid::getVertexData(SVDataSwapPtr _data){
+    if (m_renderMeshData.pDataVertex && _data) {
+        _data->writeData(m_renderMeshData.pDataVertex->getData(), m_renderMeshData.pDataVertex->getSize());
+    }
+}
+
+void SVRenderMeshDvid::getVertexNum(s32 &_vertexNum){
+    _vertexNum = m_renderMeshData.pointNum;
 }

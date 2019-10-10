@@ -55,6 +55,12 @@ namespace sv {
             
             void setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanceCount);
             
+            virtual void getIndexData(SVDataSwapPtr _data,s32 &_num);
+            
+            virtual void getVertexData(SVDataSwapPtr _data);
+            
+            virtual void getVertexNum(s32 &_vertexNum);
+            
             void createMesh();
             
         protected:
@@ -109,6 +115,12 @@ namespace sv {
             void setTagentData(SVDataSwapPtr _pdata);
             
             void setBTagentData(SVDataSwapPtr _pdata);
+            
+            virtual void getIndexData(SVDataSwapPtr _data,s32 &_num);
+              
+            virtual void getVertexData(SVDataSwapPtr _data);
+              
+            virtual void getVertexNum(s32 &_vertexNum);
         protected:
             virtual void _resetMeshData();
         };
