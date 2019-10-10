@@ -12,8 +12,11 @@
 #include "../mtl/SVMtlDeclare.h"
 #include "../base/SVMap.h"
 #include "../base/SVSet.h"
+
 namespace sv {
+    
     namespace util{
+        
         class SVBMFont : public SVFont {
         public:
             typedef struct _SVBMFontCharInfo {
@@ -64,6 +67,7 @@ namespace sv {
             void addKerningPair(s32 _first, s32 _second, s32 _amount);
             
             void loadPage(s32 _pageID, cptr8 _pageFile);
+            
         public:
             SVMap<u32, SVTexturePtr> m_textures;
             
@@ -82,10 +86,12 @@ namespace sv {
             SVString m_fntFileName;
             
             bool m_enableMipMap;
+            
         protected:
             s32 _getTextLength(cptr8 _text);
             f32 _adjustForKerningPairs(s32 _first, s32 _second);
             s32 _findTextChar(cptr8 _text, s32 _start, s32 _length, s32 _ch);
+            
         protected:
             SVMap<u32, SVBMFONTCHARINFO> m_charsMap;
             SVBMFONTCHARINFO m_defChar;

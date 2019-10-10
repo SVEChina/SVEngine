@@ -20,9 +20,9 @@ SVBMFontLoader::~SVBMFontLoader() {
     
 }
 
-void SVBMFontLoader::loadData(cptr8 _fontFilePath, SVBMFontPtr _font) {
+bool SVBMFontLoader::loadData(cptr8 _fontFilePath, SVBMFontPtr _font) {
     if (!_font) {
-        return;
+        return false;
     }
     _font->m_fntFilePath = _fontFilePath;
     s32 pos = _font->m_fntFilePath.rfind('/');
@@ -31,10 +31,10 @@ void SVBMFontLoader::loadData(cptr8 _fontFilePath, SVBMFontPtr _font) {
     SVDataChunk tSVDataChunk;
     bool t_flag = mApp->getFileMgr()->loadFileContentStr(&tSVDataChunk, _fontFilePath);
     if (!t_flag) {
-        return;
+        return false;
     }
     if (tSVDataChunk.m_size == 0){
-        return;
+        return false;
     }
     c8 str[4] = {0};
     char* t_p = (char*)tSVDataChunk.m_data;
@@ -48,6 +48,7 @@ void SVBMFontLoader::loadData(cptr8 _fontFilePath, SVBMFontPtr _font) {
         SVBMFontParseTextFormat parseTextFormat;
         parseTextFormat.parseConfigFile(_font, tSVDataChunk.m_data, tSVDataChunk.m_size);
     }
+    return true;
 }
 
 //parse font binary format

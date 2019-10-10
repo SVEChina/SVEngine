@@ -40,8 +40,10 @@ namespace sv {
             virtual void update(f32 dt);
             
             virtual void render();
-            
+#pragma warning      这个接口将要废弃的
             void setFont(SVBMFontPtr _font);
+            
+            void setFont(cptr8 _name);
             
             void setText(cptr8 _text);
             
@@ -60,9 +62,11 @@ namespace sv {
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             
             void fromJSON(RAPIDJSON_NAMESPACE::Value &_item);
+        
         private:
             void _genMesh();
             void _refresh();
+            
         protected:
             SVRenderObjectPtr m_pRenderObj;
             SVRenderMeshPtr m_pMesh;

@@ -32,6 +32,15 @@ namespace sv {
             
             virtual bool procEvent(SVEventPtr _event);
             
+            void loadDefBMFont();
+            
+            void getAllBMFontNames(SVArray<SVString> &_array);
+            
+            void removeBMFont(cptr8 _name);
+            
+            SVBMFontPtr getBMFont(cptr8 _name);
+            
+            void loadBMFont(cptr8 _path);
 #ifdef CONFIG_IS_LOAD_FREETYPE
             
             FT_Library getFontLib();
@@ -47,6 +56,9 @@ namespace sv {
             s32             m_fontCharSize;
             
 #endif
+        protected:
+            SVLockPtr m_lock;
+            SVArray<SVBMFontPtr> m_bmFonts;
         };
         
     }//!namespace logic

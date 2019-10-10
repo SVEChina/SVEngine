@@ -26,6 +26,8 @@ namespace sv{
         
         void output();
         
+        void loadDefaultFMFont();
+        
         //回收模块
         SVRecycleProcessPtr getRecycleModule();
         //拾取模块

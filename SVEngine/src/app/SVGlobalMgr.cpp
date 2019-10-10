@@ -136,6 +136,8 @@ void SVGlobalMgr::init() {
     //
     m_pPhysicSys = MakeSharedPtr<SVPhysicsWorldMgr>(mApp);
     m_pPhysicSys->init();
+    //加载默认字体
+    m_pBasicSys->loadDefaultFMFont();
 }
 
 void SVGlobalMgr::destroy() {
