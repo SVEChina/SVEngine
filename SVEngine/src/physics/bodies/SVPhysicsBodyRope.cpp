@@ -5,10 +5,11 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 #include "SVPhysicsBodyRope.h"
-//test
-#include "../../node/SVLineNode.h"
+#include "../../base/SVDataSwap.h"
 SVPhysicsBodyRope::SVPhysicsBodyRope(SVInst* _app, btSoftBodyWorldInfo& _worldInfo, FVec3 &_from, FVec3 &_to, s32 _resCount, s32 _fixeds ):SVPhysicsBodySoft(_app) {
     m_type = E_PHYSICS_BODY_ROPE;
+    m_vertexCount = 0;
+    m_pVertexData = MakeSharedPtr<SVDataSwap>();
     m_softBody = btSoftBodyHelpers::CreateRope(_worldInfo, btVector3(_from.x, _from.y, _from.z),
                                                     btVector3(_to.x, _to.y, _to.z),
                                                     _resCount,
@@ -20,7 +21,7 @@ SVPhysicsBodyRope::SVPhysicsBodyRope(SVInst* _app, btSoftBodyWorldInfo& _worldIn
 }
 
 SVPhysicsBodyRope::~SVPhysicsBodyRope() {
-    m_softBody = nullptr;
+    m_pVertexData = nullptr;
 }
 
 void SVPhysicsBodyRope::init(){
@@ -34,9 +35,11 @@ void SVPhysicsBodyRope::destroy(){
 }
 
 void SVPhysicsBodyRope::update(f32 _dt){
-    //test!!!
-    SVLineNodePtr t_lineNode = DYN_TO_SHAREPTR(SVLineNode, m_pNode);
-    if (t_lineNode) {
+    _updateLineVertexData();
+}
+
+void SVPhysicsBodyRope::_updateLineVertexData(){
+    if (m_softBody && m_pVertexData) {
         /* Links    */
         s32 t_linksSize = m_softBody->m_links.size();
         s32 t_dataSize = t_linksSize*6;
@@ -58,29 +61,20 @@ void SVPhysicsBodyRope::update(f32 _dt){
             t_data[i*6 + 3] = t_to_x;
             t_data[i*6 + 4] = t_to_y;
             t_data[i*6 + 5] = t_to_z;
-            s32 t = 0;
         }
-        /*
-        s32 t_nodesSize = m_softBody->m_nodes.size();
-        s32 t_dataSize = t_nodesSize*3;
-        f32 t_data[t_dataSize];
-        for (s32 i = 0; i < t_nodesSize; i++)
-        {
-            const btSoftBody::Node& n = m_softBody->m_nodes[i];
-            f32 t_x = n.m_x[0];
-            f32 t_y = n.m_x[1];
-            f32 t_z = n.m_x[2];
-//
-            t_data[i*3 + 0] = t_x;
-            t_data[i*3 + 1] = t_y;
-            t_data[i*3 + 2] = t_z;
-//            t_data[i*6 + 3] = t_to_x;
-//            t_data[i*6 + 4] = t_to_y;
-//            t_data[i*6 + 5] = t_to_z;
-            s32 t = 0;
-        }
-         */
-        t_lineNode->setLineData(t_data, t_dataSize);
+        m_pVertexData->writeData(t_data, sizeof(f32)*t_dataSize);
+        m_vertexCount = t_dataSize;
     }
 }
 
+void *SVPhysicsBodyRope::getLineVertexData(){
+    return m_pVertexData->getData();
+}
+
+u32   SVPhysicsBodyRope::getLineVertexDataSize(){
+    return m_pVertexData->getSize();
+}
+
+u32   SVPhysicsBodyRope::getLineVertexCount(){
+    return m_vertexCount;
+}

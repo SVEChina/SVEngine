@@ -198,8 +198,21 @@ namespace sv {
         
     protected:
         void _process(f32 dt);
+        
+        SVActionUnitPtr m_actUnit;
     };
-    
+
+    //测试面纱
+    class SVOpCreateTestMianSha : public SVOpBase {
+    public:
+        SVOpCreateTestMianSha(SVInst *_app);
+        
+        ~SVOpCreateTestMianSha();
+        
+    protected:
+        void _process(f32 dt);
+    };
+
     //分屏
     class SVOpCreateDivision : public SVOpBase {
     public:

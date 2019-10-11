@@ -41,6 +41,10 @@ namespace sv {
         DECLARE_SHAREPTR(SVActSequence);
         DECLARE_SHAREPTR(SVActTime);
         DECLARE_SHAREPTR(SVActPosition);
+        //PHYSICS
+        DECLARE_SHAREPTR(SVActPhysics);
+        DECLARE_SHAREPTR(SVActBodyRope);
+        DECLARE_SHAREPTR(SVActBodyCloth);
         //
         DECLARE_SHAREPTR(SVTexAttachment);
         DECLARE_SHAREPTR(SVAniTrigger);

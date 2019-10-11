@@ -25,9 +25,17 @@ namespace sv {
             
             virtual void update(f32 _dt);
             
+            void *getLineVertexData();
+            
+            u32   getLineVertexDataSize();
+            
+            u32   getLineVertexCount();
+        private:
+            void _updateLineVertexData();
         protected:
-            
-            
+            u32 m_vertexCount;
+            SVDataSwapPtr m_pVertexData;
+
         };
     }//!namespace logic
 }//!namespace sv

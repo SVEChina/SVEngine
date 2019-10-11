@@ -23,7 +23,7 @@ namespace sv {
             
             virtual void render();
             
-            void setLineData(f32 *_data, s32 _size);
+            void setLineData(f32 *_data, s32 _size, s32 _count);
             
         public:
             SVRenderObjectPtr m_pRenderObj;

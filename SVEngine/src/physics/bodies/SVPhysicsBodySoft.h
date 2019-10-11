@@ -64,6 +64,7 @@ namespace sv {
                               SVPhysicsBodyRigidPtr _body, bool _disableCollisionBetweenLinkedBodies = false, f32 _influence = 1);
         protected:
             btSoftBody* m_softBody;
+            
         };
 
     }//!namespace logic

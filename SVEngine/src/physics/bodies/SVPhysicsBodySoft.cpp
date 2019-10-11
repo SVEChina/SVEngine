@@ -6,6 +6,7 @@
 //
 #include "SVPhysicsBodySoft.h"
 #include "SVPhysicsBodyRigid.h"
+#include "../../base/SVVec3.h"
 SVPhysicsBodySoft::SVPhysicsBodySoft(SVInst* _app):SVPhysicsBody(_app) {
     m_type = E_PHYSICS_BODY_SOFT;
     m_softBody = nullptr;
@@ -20,7 +21,9 @@ void SVPhysicsBodySoft::init(){
 }
 
 void SVPhysicsBodySoft::destroy(){
-   
+    if (m_softBody) {
+        delete m_softBody;
+    }
 }
 
 void SVPhysicsBodySoft::update(f32 _dt){
@@ -103,3 +106,4 @@ s32 SVPhysicsBodySoft::getFacesSize(){
     }
     return 0;
 }
+
