@@ -34,10 +34,16 @@ SVPatchNode::~SVPatchNode() {
     m_patchMtl = nullptr;
 }
 
-void SVPatchNode::setPatchData(SVDataSwapPtr _vertexData, s32 _vertexCount){
+void SVPatchNode::setPatchVertexData(SVDataSwapPtr _vertexData, s32 _vertexCount){
     if (m_patchMtl && m_pMesh && _vertexData) {
         m_pMesh->setVertexDataNum(_vertexCount);
         m_pMesh->setVertexData(_vertexData);
+    }
+}
+
+void SVPatchNode::setPatchIndexData(SVDataSwapPtr _indicesData, s32 _indicesCount){
+    if (m_patchMtl && m_pMesh && _indicesData) {
+        m_pMesh->setIndexData(_indicesData, _indicesCount);
     }
 }
 

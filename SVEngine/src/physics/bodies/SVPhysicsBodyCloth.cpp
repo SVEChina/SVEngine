@@ -32,23 +32,24 @@ SVPhysicsBodyCloth::SVPhysicsBodyCloth(SVInst* _app, btSoftBodyWorldInfo& _world
     m_softBody->setTotalMass(150);
 }
 
-SVPhysicsBodyCloth::SVPhysicsBodyCloth(SVInst* _app, btSoftBodyWorldInfo& _worldInfo, const f32 *_vertices, const s32 *_indices, s32 _nindices,
+SVPhysicsBodyCloth::SVPhysicsBodyCloth(SVInst* _app, btSoftBodyWorldInfo& _worldInfo, const f32 *_vertices, const s32 *_indices, s32 _ntrangles,
                    bool randomizeConstraints ):SVPhysicsBodySoft(_app){
     m_type = E_PHYSICS_BODY_CLOTH;
     m_vertexCount = 0;
     m_pVertexData = MakeSharedPtr<SVDataSwap>();
     m_softBody = btSoftBodyHelpers::CreateFromTriMesh(_worldInfo, _vertices,
                                                            _indices,
-                                                           _nindices);
+                                                           _ntrangles);
     btSoftBody::Material* pm = m_softBody->appendMaterial();
-    pm->m_kLST = 0.5;
-    pm->m_flags -= btSoftBody::fMaterial::DebugDraw;
+    pm->m_kLST = 0.005;
+//    pm->m_flags -= btSoftBody::fMaterial::DebugDraw;
     m_softBody->generateBendingConstraints(2, pm);
     m_softBody->m_cfg.piterations = 2;
     m_softBody->m_cfg.kDF = 0.5;
     m_softBody->randomizeConstraints();
     m_softBody->scale(btVector3(6, 6, 6));
-    m_softBody->setTotalMass(100, true);
+        m_softBody->setTotalMass(150);
+//    m_softBody->setMass(0, 0);
 }
 
 SVPhysicsBodyCloth::~SVPhysicsBodyCloth() {

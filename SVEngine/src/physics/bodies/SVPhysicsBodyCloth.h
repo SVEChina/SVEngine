@@ -24,7 +24,7 @@ namespace sv {
                                s32 _fixeds = 1 + 2 + 4 + 8,
                                bool gendiags = true);
             //根据已有的mesh顶点创建
-            SVPhysicsBodyCloth(SVInst* _app, btSoftBodyWorldInfo& _worldInfo, const f32 *_vertices, const s32 *_indices, s32 _nindices,
+            SVPhysicsBodyCloth(SVInst* _app, btSoftBodyWorldInfo& _worldInfo, const f32 *_vertices, const s32 *_indices, s32 _ntrangles,
             bool randomizeConstraints = true);
             
             ~SVPhysicsBodyCloth();

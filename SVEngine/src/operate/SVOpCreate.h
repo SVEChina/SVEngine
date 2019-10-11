@@ -213,6 +213,17 @@ namespace sv {
         void _process(f32 dt);
     };
 
+    //测试扑克牌
+    class SVOpCreateTestPoker : public SVOpBase {
+    public:
+        SVOpCreateTestPoker(SVInst *_app);
+        
+        ~SVOpCreateTestPoker();
+        
+    protected:
+        void _process(f32 dt);
+    };
+
     //分屏
     class SVOpCreateDivision : public SVOpBase {
     public:

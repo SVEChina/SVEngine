@@ -390,7 +390,7 @@ SVRenderMeshPtr SVStaticData::generatePatchMesh(FVec3 &_corner00, FVec3 &_corner
     
     SVRenderMeshPtr patchMesh = MakeSharedPtr<SVRenderMesh>(mApp);
     patchMesh->setVertexType(E_VF_V3);
-    patchMesh->setVertexDataNum(t_indexCount);
+    patchMesh->setVertexDataNum(t_vertexCount);
     patchMesh->setVertexData(t_pVertexData);
     patchMesh->setDrawMethod(E_DM_LINES);
     patchMesh->createMesh();

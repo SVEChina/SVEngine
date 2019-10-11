@@ -30,6 +30,8 @@ namespace sv {
         
             SVMeshPtr getMesh(s32 _index);
             
+            s32  getMeshNum();
+            
             void clearMesh();
             
             SVBoundBox getBox();

@@ -41,6 +41,10 @@ SVMeshPtr SVModel::getMesh(s32 _index) {
     return m_meshPool[_index];
 }
 
+s32  SVModel::getMeshNum(){
+    return m_meshPool.size();
+}
+
 void SVModel::clearMesh() {
     m_meshPool.destroy();
 }

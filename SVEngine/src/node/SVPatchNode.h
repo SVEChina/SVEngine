@@ -23,8 +23,9 @@ namespace sv {
             
             virtual void render();
             
-            void setPatchData(SVDataSwapPtr _vertexData, s32 _vertexCount);
+            void setPatchVertexData(SVDataSwapPtr _vertexData, s32 _vertexCount);
             
+            void setPatchIndexData(SVDataSwapPtr _indicesData, s32 _indicesCount);
         public:
             SVRenderObjectPtr m_pRenderObj;
             

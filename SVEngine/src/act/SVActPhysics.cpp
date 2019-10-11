@@ -6,10 +6,16 @@
 //
 
 #include "SVActPhysics.h"
+#include "../core/SVModel.h"
+#include "../core/SVMesh.h"
 #include "../node/SVPatchNode.h"
 #include "../node/SVLineNode.h"
+#include "../node/SVModelNode.h"
 #include "../physics/bodies/SVPhysicsBodyRope.h"
 #include "../physics/bodies/SVPhysicsBodyCloth.h"
+#include "../rendercore/SVRenderMgr.h"
+#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderMesh.h"
 SVActPhysics::SVActPhysics(SVInst *_app, SVPhysicsBodyPtr _physicsBody):SVActBase(_app){
     m_physicsBody = _physicsBody;
 }
@@ -79,11 +85,28 @@ void SVActBodyCloth::run(SVNodePtr _nodePtr, f32 dt) {
             if (t_data && t_size > 0) {
                 SVDataSwapPtr t_pVertexData = MakeSharedPtr<SVDataSwap>();
                 t_pVertexData->writeData(t_data, t_size);
-                t_patchNode->setPatchData(t_pVertexData, t_count);
+                t_patchNode->setPatchVertexData(t_pVertexData, t_count);
+            }
+        }
+        //
+        SVModelNodePtr t_modelNode = DYN_TO_SHAREPTR(SVModelNode, _nodePtr);
+        if (t_modelNode) {
+            void *t_data = t_bodyCloth->getFaceVertexData();
+            u32 t_size = t_bodyCloth->getFaceVertexDataSize();
+            u32 t_count = t_bodyCloth->getFaceVertexCount();
+            if (t_data && t_size > 0) {
+                int a = 0;
+                //测试面纱就一个mesh
+                SVModelPtr t_model = t_modelNode->getModel();
+                SVMeshPtr t_mesh = t_model->getMesh(0);
+                SVRenderMeshPtr t_renderMesh = t_mesh->getRenderMesh();
+                SVDataSwapPtr t_vertexData = MakeSharedPtr<SVDataSwap>();
+                t_vertexData->writeData(t_data, t_size);
+                t_renderMesh->setVertexData(t_vertexData);
+                
             }
         }
     }
-    
     //
 }
 
