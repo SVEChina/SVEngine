@@ -3959,10 +3959,6 @@
 		5F7D6443215F407800803BCF /* SVModuleBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E84215F407700803BCF /* SVModuleBase.cpp */; };
 		5F7D6444215F407800803BCF /* SVModuleBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E84215F407700803BCF /* SVModuleBase.cpp */; };
 		5F7D6445215F407800803BCF /* SVModuleBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E84215F407700803BCF /* SVModuleBase.cpp */; };
-		5F7D6446215F407800803BCF /* SVModuleDelaySuspend.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5E85215F407700803BCF /* SVModuleDelaySuspend.h */; };
-		5F7D6447215F407800803BCF /* SVModuleDelaySuspend.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5E85215F407700803BCF /* SVModuleDelaySuspend.h */; };
-		5F7D6448215F407800803BCF /* SVModuleDelaySuspend.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5E85215F407700803BCF /* SVModuleDelaySuspend.h */; };
-		5F7D6449215F407800803BCF /* SVModuleDelaySuspend.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5E85215F407700803BCF /* SVModuleDelaySuspend.h */; };
 		5F7D644A215F407800803BCF /* SVGameEnd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E86215F407700803BCF /* SVGameEnd.cpp */; };
 		5F7D644B215F407800803BCF /* SVGameEnd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E86215F407700803BCF /* SVGameEnd.cpp */; };
 		5F7D644C215F407800803BCF /* SVGameEnd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E86215F407700803BCF /* SVGameEnd.cpp */; };
@@ -4003,10 +3999,6 @@
 		5F7D646F215F407800803BCF /* SVGamePart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E8F215F407700803BCF /* SVGamePart.cpp */; };
 		5F7D6470215F407800803BCF /* SVGamePart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E8F215F407700803BCF /* SVGamePart.cpp */; };
 		5F7D6471215F407800803BCF /* SVGamePart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E8F215F407700803BCF /* SVGamePart.cpp */; };
-		5F7D6472215F407800803BCF /* SVModuleDelaySuspend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E90215F407700803BCF /* SVModuleDelaySuspend.cpp */; };
-		5F7D6473215F407800803BCF /* SVModuleDelaySuspend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E90215F407700803BCF /* SVModuleDelaySuspend.cpp */; };
-		5F7D6474215F407800803BCF /* SVModuleDelaySuspend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E90215F407700803BCF /* SVModuleDelaySuspend.cpp */; };
-		5F7D6475215F407800803BCF /* SVModuleDelaySuspend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5E90215F407700803BCF /* SVModuleDelaySuspend.cpp */; };
 		5F7D6476215F407800803BCF /* SVGameRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5E91215F407700803BCF /* SVGameRun.h */; };
 		5F7D6477215F407800803BCF /* SVGameRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5E91215F407700803BCF /* SVGameRun.h */; };
 		5F7D6478215F407800803BCF /* SVGameRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7D5E91215F407700803BCF /* SVGameRun.h */; };
@@ -6434,7 +6426,6 @@
 		5F7D5E82215F407700803BCF /* SVEffectPackage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVEffectPackage.cpp; sourceTree = "<group>"; };
 		5F7D5E83215F407700803BCF /* SVGameReady.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVGameReady.cpp; sourceTree = "<group>"; };
 		5F7D5E84215F407700803BCF /* SVModuleBase.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVModuleBase.cpp; sourceTree = "<group>"; };
-		5F7D5E85215F407700803BCF /* SVModuleDelaySuspend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVModuleDelaySuspend.h; sourceTree = "<group>"; };
 		5F7D5E86215F407700803BCF /* SVGameEnd.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVGameEnd.cpp; sourceTree = "<group>"; };
 		5F7D5E87215F407700803BCF /* SVEffectPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEffectPackage.h; sourceTree = "<group>"; };
 		5F7D5E88215F407700803BCF /* SVGameReady.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGameReady.h; sourceTree = "<group>"; };
@@ -6445,7 +6436,6 @@
 		5F7D5E8D215F407700803BCF /* SVDivisonFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDivisonFilter.h; sourceTree = "<group>"; };
 		5F7D5E8E215F407700803BCF /* SVModuleSys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVModuleSys.h; sourceTree = "<group>"; };
 		5F7D5E8F215F407700803BCF /* SVGamePart.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVGamePart.cpp; sourceTree = "<group>"; };
-		5F7D5E90215F407700803BCF /* SVModuleDelaySuspend.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVModuleDelaySuspend.cpp; sourceTree = "<group>"; };
 		5F7D5E91215F407700803BCF /* SVGameRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGameRun.h; sourceTree = "<group>"; };
 		5F7D5E94215F407700803BCF /* SVActSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActSequence.h; sourceTree = "<group>"; };
 		5F7D5E95215F407700803BCF /* SVTimeLine.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVTimeLine.cpp; sourceTree = "<group>"; };
@@ -8334,8 +8324,6 @@
 				5F7D5E84215F407700803BCF /* SVModuleBase.cpp */,
 				5F7D5E80215F407700803BCF /* SVModuleBase.h */,
 				5F7D5E8C215F407700803BCF /* SVModuleDef.h */,
-				5F7D5E90215F407700803BCF /* SVModuleDelaySuspend.cpp */,
-				5F7D5E85215F407700803BCF /* SVModuleDelaySuspend.h */,
 				5F7D5E81215F407700803BCF /* SVModuleSys.cpp */,
 				5F7D5E8E215F407700803BCF /* SVModuleSys.h */,
 			);
@@ -9159,7 +9147,6 @@
 				5F7D62E9215F407800803BCF /* BoneData.h in Headers */,
 				5F7D66F7215F407900803BCF /* SVMtlAni2D.h in Headers */,
 				020C45A522DC5DCD00201753 /* btGhostObject.h in Headers */,
-				5F7D6449215F407800803BCF /* SVModuleDelaySuspend.h in Headers */,
 				5F7D68C7215F407900803BCF /* SVGBase.h in Headers */,
 				5F7D62A9215F407800803BCF /* AnimationStateData.h in Headers */,
 				5F7D64F3215F407800803BCF /* SVTimeLineMtl.h in Headers */,
@@ -9955,7 +9942,6 @@
 				5F7D62E7215F407800803BCF /* BoneData.h in Headers */,
 				5F7D66F5215F407900803BCF /* SVMtlAni2D.h in Headers */,
 				020C45A322DC5DCD00201753 /* btGhostObject.h in Headers */,
-				5F7D6447215F407800803BCF /* SVModuleDelaySuspend.h in Headers */,
 				5F7D68C5215F407900803BCF /* SVGBase.h in Headers */,
 				5F7D62A7215F407800803BCF /* AnimationStateData.h in Headers */,
 				5F7D64F1215F407800803BCF /* SVTimeLineMtl.h in Headers */,
@@ -11249,7 +11235,6 @@
 				020C44E422DC5DCC00201753 /* btPersistentManifold.h in Headers */,
 				022AF18A21AD1F2300BF6F37 /* SVMtl2D.h in Headers */,
 				02F27E7A21915B30007E85C3 /* SVSensorProcess.h in Headers */,
-				5F7D6446215F407800803BCF /* SVModuleDelaySuspend.h in Headers */,
 				020C45FA22DC5DCD00201753 /* gim_hash_table.h in Headers */,
 				020C3DDD22D316BE00201753 /* SVMtlDark.h in Headers */,
 				020C478422DC5DCE00201753 /* btConvexShape.h in Headers */,
@@ -11538,7 +11523,6 @@
 				5F7D62E8215F407800803BCF /* BoneData.h in Headers */,
 				5F7D66F6215F407900803BCF /* SVMtlAni2D.h in Headers */,
 				020C45A422DC5DCD00201753 /* btGhostObject.h in Headers */,
-				5F7D6448215F407800803BCF /* SVModuleDelaySuspend.h in Headers */,
 				5F7D68C6215F407900803BCF /* SVGBase.h in Headers */,
 				5F7D62A8215F407800803BCF /* AnimationStateData.h in Headers */,
 				5F7D64F2215F407800803BCF /* SVTimeLineMtl.h in Headers */,
@@ -12568,7 +12552,6 @@
 				020C48D522DC5DCF00201753 /* btMultiBodyGearConstraint.cpp in Sources */,
 				020C494322DC5DCF00201753 /* btTypedConstraint.cpp in Sources */,
 				5F7D6439215F407800803BCF /* SVModuleSys.cpp in Sources */,
-				5F7D6475215F407800803BCF /* SVModuleDelaySuspend.cpp in Sources */,
 				020C4C1F22DC5DD200201753 /* btSerializer64.cpp in Sources */,
 				5F7D64B5215F407800803BCF /* SVActBase.cpp in Sources */,
 				5F7D630D215F407800803BCF /* Array.c in Sources */,
@@ -13108,7 +13091,6 @@
 				5CED28DB22840EF500A6817B /* SVDeformScale.cpp in Sources */,
 				02381F0B224399F400584EEF /* SVMtlStreak.cpp in Sources */,
 				02EA54A622E6D93600F5701D /* SVFaceDataMesh.cpp in Sources */,
-				5F7D6472215F407800803BCF /* SVModuleDelaySuspend.cpp in Sources */,
 				5C0C6070219BFF790052A826 /* TDStretch.cpp in Sources */,
 				020C473422DC5DCE00201753 /* btTriangleMesh.cpp in Sources */,
 				5F7D614A215F407700803BCF /* SVParticles.cpp in Sources */,
@@ -13725,7 +13707,6 @@
 				020C48D422DC5DCF00201753 /* btMultiBodyGearConstraint.cpp in Sources */,
 				020C494222DC5DCF00201753 /* btTypedConstraint.cpp in Sources */,
 				5F7D6438215F407800803BCF /* SVModuleSys.cpp in Sources */,
-				5F7D6474215F407800803BCF /* SVModuleDelaySuspend.cpp in Sources */,
 				020C4C1E22DC5DD200201753 /* btSerializer64.cpp in Sources */,
 				5F7D64B4215F407800803BCF /* SVActBase.cpp in Sources */,
 				5F7D630C215F407800803BCF /* Array.c in Sources */,
@@ -14302,7 +14283,6 @@
 				020C48D322DC5DCF00201753 /* btMultiBodyGearConstraint.cpp in Sources */,
 				020C494122DC5DCF00201753 /* btTypedConstraint.cpp in Sources */,
 				5F7D6437215F407800803BCF /* SVModuleSys.cpp in Sources */,
-				5F7D6473215F407800803BCF /* SVModuleDelaySuspend.cpp in Sources */,
 				020C4C1D22DC5DD200201753 /* btSerializer64.cpp in Sources */,
 				5F7D64B3215F407800803BCF /* SVActBase.cpp in Sources */,
 				5F7D630B215F407800803BCF /* Array.c in Sources */,

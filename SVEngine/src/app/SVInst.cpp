@@ -72,6 +72,12 @@ void SVInst::updateSVE(f32 _dt) {
     }
 }
 
+void SVInst::clearCache(){
+    if((!m_sync) && m_pTPool && m_pTPool->getMainThread()){
+        m_pTPool->getMainThread()->clearThreadCache();
+    }
+}
+
 void SVInst::svSuspend(){
     if( (!m_sync) && m_pTPool && m_pTPool->getMainThread()){
         m_svst = SV_ST_SUSPEND;

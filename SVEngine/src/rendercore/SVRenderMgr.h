@@ -30,6 +30,8 @@ namespace sv {
         
         void render();
         
+        void clearScreen();
+        
         void swapData();
         
         void recycleRes();  //回收GL资源
