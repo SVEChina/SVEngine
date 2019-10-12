@@ -642,25 +642,6 @@ void SVOpCreateTestMianSha::_process(f32 dt) {
     }
 }
 
-
-SVOpCreateTestPoker::SVOpCreateTestPoker(SVInst *_app)
-: SVOpBase(_app){
-    
-}
-
-SVOpCreateTestPoker::~SVOpCreateTestPoker(){
-
-}
-
-void SVOpCreateTestPoker::_process(f32 dt) {
-    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-    if (t_pScene) {
-        SVSpriteNodePtr t_sprite1 = MakeSharedPtr<SVSpriteNode>(mApp, 30, 60);
-        t_sprite1->setTexture("svres/textures/p1.png");
-        t_pScene->addNode(t_sprite1);
-    }
-}
-
 SVOpCreateDivision::SVOpCreateDivision(SVInst *_app) :  SVOpBase(_app){
     
 }

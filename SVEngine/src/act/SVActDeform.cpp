@@ -208,8 +208,26 @@ SVActRotTo::~SVActRotTo(){
     
 }
 
+void SVActRotTo::setSrc(FVec3& _src){
+    m_src = _src;
+}
+
+void SVActRotTo::setDir(FVec3& _dir){
+    m_dir = _dir;
+}
+
 void SVActRotTo::run(SVNodePtr _nodePtr, f32 _dt) {
     SVActDeform::run(_nodePtr, _dt);
+    if(_nodePtr && m_time>0.0f){
+        f32 t_lerp = m_acctime/m_time;
+        if(t_lerp<0)
+            t_lerp = 0.0f;
+        if(t_lerp>1.0f)
+            t_lerp = 1.0f;
+        
+        FVec3 t_result = m_src*(1.0f-t_lerp) + m_dir*t_lerp;
+        _nodePtr->setRotation(t_result);
+    }
 }
 
 //
