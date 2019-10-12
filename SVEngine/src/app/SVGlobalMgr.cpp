@@ -229,6 +229,10 @@ void SVGlobalMgr::destroy() {
 }
 
 void SVGlobalMgr::update(f32 dt) {
+    //
+    m_pDetectMgr->update(dt);           //识别数据新更新
+    timeTag(false,"detect cost");
+    //
     m_pModuleSys->update(dt);           //组件系统更新
     timeTag(false,"module cost");
     m_pBasicSys->update(dt);            //基础系统更新
@@ -253,8 +257,6 @@ void SVGlobalMgr::update(f32 dt) {
     timeTag(false,"ui cost");
     m_pTexMgr->update(dt);              //删除不用的纹理
     timeTag(false,"texmgr cost");
-    m_pDetectMgr->update(dt);           //识别更新
-    timeTag(false,"detect cost");
 }
 
 void SVGlobalMgr::timeTag(bool _clear,cptr8 _tag){
