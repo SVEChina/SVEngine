@@ -98,7 +98,6 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpCreateTestLine);
     DECLARE_SHAREPTR(SVOpCreateTestPatch);
     DECLARE_SHAREPTR(SVOpCreateTestMianSha);
-    DECLARE_SHAREPTR(SVOpCreateTestPoker);
     //
     
     DECLARE_SHAREPTR(SVOpDestroyScene);

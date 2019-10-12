@@ -117,7 +117,7 @@ namespace sv {
             ~SVActRot();
             
             virtual void run(SVNodePtr _nodePtr, f32 _dt);
-
+            
         };
 
         class SVActRotTo : public SVActDeform {
@@ -128,7 +128,12 @@ namespace sv {
             
             virtual void run(SVNodePtr _nodePtr, f32 _dt);
             
+            void setSrc(FVec3& _src);
+            
+            void setDir(FVec3& _dir);
         protected:
+            FVec3 m_src;
+            FVec3 m_dir;
         };
 
         class SVActRotBetween : public SVActDeform {
