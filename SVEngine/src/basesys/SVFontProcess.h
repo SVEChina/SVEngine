@@ -34,13 +34,13 @@ namespace sv {
             
             void loadDefBMFont();
             
+            void loadBMFont(cptr8 _path);
+            
             void getAllBMFontNames(SVArray<SVString> &_array);
             
             void removeBMFont(cptr8 _name);
             
             SVBMFontPtr getBMFont(cptr8 _name);
-            
-            void loadBMFont(cptr8 _path);
 #ifdef CONFIG_IS_LOAD_FREETYPE
             
             FT_Library getFontLib();
