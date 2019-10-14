@@ -29,6 +29,8 @@ namespace sv {
         virtual void stopSVE();
         //同步模式调用的借口
         void updateSVE(f32 _dt);
+        //清楚缓存
+        void clearCache();
         //挂起SV
         void svSuspend();
         //将要挂起SV

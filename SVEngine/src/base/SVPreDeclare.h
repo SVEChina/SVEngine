@@ -70,7 +70,6 @@ namespace sv {
     //模块
     DECLARE_SHAREPTR(SVModuleBase);
     DECLARE_SHAREPTR(SVModuleSys);
-    DECLARE_SHAREPTR(SVModuleDelaySuspend);
     //静态类......
     DECLARE_SHAREPTR(SVGeoGen);
     //操作Operate
@@ -79,7 +78,6 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpCreateScene);
     DECLARE_SHAREPTR(SVOpEngineResume);
     DECLARE_SHAREPTR(SVOpEngineSuspend);
-    DECLARE_SHAREPTR(SVOpEngineDelaySuspend);
     DECLARE_SHAREPTR(SVOpCreateDivision);
     DECLARE_SHAREPTR(SVOpCreateMark);
     DECLARE_SHAREPTR(SVOpMarkContent);

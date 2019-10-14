@@ -129,19 +129,6 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
-    
-    //延时挂起
-    class SVOpEngineDelaySuspend : public SVOpBase {
-    public:
-        SVOpEngineDelaySuspend(SVInst *_app, f32 _time);
-        
-        ~SVOpEngineDelaySuspend();
-        
-    protected:
-        void _process(f32 dt);
-        
-        f32 m_time;
-    };
 
     //推送人脸识别点
     class SVOpPushFaceData : public SVOpBase {

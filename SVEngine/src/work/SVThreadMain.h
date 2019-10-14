@@ -19,6 +19,8 @@ namespace sv {
         ~SVThreadMain();
         
         void resetTime();
+        
+        void clearThreadCache();
     protected:
         void _innerUpdate();
         

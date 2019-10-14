@@ -67,6 +67,20 @@ void SVThreadMain::resetTime(){
     m_first = true;
 }
 
+
+void SVThreadMain::clearThreadCache(){
+    SVThreadWork::_innerUpdate();
+    //逻辑更新
+    mApp->m_pGlobalMgr->update(0.0f);
+    //逻辑数据交换到渲染数据
+    mApp->getRenderMgr()->swapData();
+    //渲染
+    mApp->getRenderMgr()->clearScreen();
+    //输出
+    mApp->getBasicSys()->output();
+}
+
+
 SVThreadSync::SVThreadSync(SVInst *_app)
 : SVThreadMain(_app) {
     m_name = "SVThreadSync";

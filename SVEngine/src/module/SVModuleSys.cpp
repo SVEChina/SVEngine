@@ -8,7 +8,6 @@
 #include "SVModuleSys.h"
 #include "SVModuleBase.h"
 #include "../base/SVLock.h"
-#include "SVModuleDelaySuspend.h"
 SVModuleSys::SVModuleSys(SVInst *_app)
 :SVSysBase(_app) {
     m_subsysType = "SVModuleSys";
@@ -20,9 +19,7 @@ SVModuleSys::~SVModuleSys() {
 }
 
 void SVModuleSys::init() {
-    //默认注册一个定时器组件
-//    SVModuleDelaySuspendPtr t_suspend = MakeSharedPtr<SVModuleDelaySuspend>(mApp);
-//    regist(t_suspend, "sv_delaysuspend");
+
 }
 
 void SVModuleSys::destroy() {

@@ -32,9 +32,9 @@ namespace sv {
             
             virtual void setSize(f32 _w,f32 _h);
             
-            void syncTexSize();
-            
             virtual void setTexcoord(f32 x,f32 y);
+            
+            void syncTexSize();
             
             f32 getRelativeWidth();
             

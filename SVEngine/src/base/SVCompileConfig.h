@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 
-#define LOG_ENABLE
+//#define LOG_ENABLE
 
 #if defined(__ANDROID__)
 #define SV_ANDROID
