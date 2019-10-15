@@ -31,6 +31,7 @@ namespace sv {
         bool m_first;
         
         timeval m_lastT;
+        SVLockPtr m_lock;
     };
     
     class SVThreadSync : public SVThreadMain {
