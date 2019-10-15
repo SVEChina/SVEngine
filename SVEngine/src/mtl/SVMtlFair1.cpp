@@ -242,7 +242,7 @@ SVMtlCorePtr SVMtlBlurFair::clone(){
 }
 
 SVMtlFairLtraLow::SVMtlFairLtraLow(SVInst *_app)
-:SVMtlCore(_app,"beauty02"){
+:SVMtlCore(_app,"beauty"){
      m_smooth=0.0;
 }
 
