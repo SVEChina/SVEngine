@@ -8,20 +8,24 @@
 #include "SVThreadMain.h"
 #include "../app/SVInst.h"
 #include "../rendercore/SVRenderMgr.h"
+#include "../base/SVLock.h"
 #include "../basesys/SVSceneMgr.h"
 #include "../basesys/SVBasicSys.h"
 
 SVThreadMain::SVThreadMain(SVInst *_app)
 : SVThreadWork(_app,"SVThreadMain")
 ,m_first(true) {
+    m_lock = MakeSharedPtr<SVLock>();
 }
 
 SVThreadMain::~SVThreadMain() {
+    m_lock= nullptr;
     SV_LOG_INFO("SVThreadMain::~SVThreadMain\n");
 }
 
 void SVThreadMain::_innerUpdate(){
     SVThreadWork::_innerUpdate();
+    m_lock->lock();
     //逻辑更新
     mApp->m_pGlobalMgr->update(_getDert());
     //逻辑数据交换到渲染数据
@@ -30,6 +34,7 @@ void SVThreadMain::_innerUpdate(){
     mApp->getRenderMgr()->render();
     //输出
     mApp->getBasicSys()->output();
+    m_lock->unlock();
 }
 
 void SVThreadMain::_innerDestroy(){
@@ -70,6 +75,7 @@ void SVThreadMain::resetTime(){
 
 void SVThreadMain::clearThreadCache(){
     SVThreadWork::_innerUpdate();
+    m_lock->lock();
     //逻辑更新
     mApp->m_pGlobalMgr->update(0.0f);
     //逻辑数据交换到渲染数据
@@ -78,6 +84,7 @@ void SVThreadMain::clearThreadCache(){
     mApp->getRenderMgr()->clearScreen();
     //输出
     mApp->getBasicSys()->output();
+    m_lock->unlock();
 }
 
 
@@ -100,6 +107,7 @@ void SVThreadSync::stopThread(){
 
 void SVThreadSync::syncUpdate(f32 _dt){
     SVThreadWork::_innerUpdate();
+    m_lock->lock();
     //逻辑更新
     mApp->m_pGlobalMgr->update(_dt);
     //逻辑数据交换到渲染数据
@@ -108,4 +116,5 @@ void SVThreadSync::syncUpdate(f32 _dt){
     mApp->getRenderMgr()->render();
     //输出
     mApp->getBasicSys()->output();
+    m_lock->unlock();
 }

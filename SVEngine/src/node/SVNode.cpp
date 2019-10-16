@@ -110,7 +110,7 @@ void SVNode::update(f32 dt) {
         FVec3 t_scale = FVec3(m_scale.x,m_scale.y,m_scale.z);
         FVec3 t_translate = FVec3(m_postion.x + m_offpos.x,m_postion.y + m_offpos.y, m_postion.z + m_offpos.z);
         //适配设计分辨率
-        if (m_adaptDesign) {
+        if (!m_parent && m_adaptDesign) {
             f32 t_adaptScale = mApp->getConfig()->getDesignAdaptScale();
             t_scale *= t_adaptScale;
             t_translate *= t_adaptScale;
