@@ -14,6 +14,7 @@
 #include "../basesys/SVConfig.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVTexMgr.h"
+#include "../mtl/SVMtlColor.h"
 #include "../app/SVInst.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderMgr.h"
@@ -32,7 +33,9 @@ SVUIPanel::SVUIPanel(SVInst *_app)
     m_canSelect = false;
     m_pTex = nullptr;
     m_pMesh = nullptr;
+    m_colorMtl = MakeSharedPtr<SVMtlColor>(mApp);
     m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d");
+    setColor(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 SVUIPanel::SVUIPanel(SVInst *_app,f32 _w,f32 _h)
@@ -46,7 +49,9 @@ SVUIPanel::SVUIPanel(SVInst *_app,f32 _w,f32 _h)
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pTex = nullptr;
     m_pMesh = nullptr;
+    m_colorMtl = MakeSharedPtr<SVMtlColor>(mApp);
     m_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d");
+    setColor(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 SVUIPanel::~SVUIPanel() {
@@ -54,6 +59,7 @@ SVUIPanel::~SVUIPanel() {
     m_pRenderObj = nullptr;
     m_pMtl = nullptr;
     m_pTex = nullptr;
+    m_colorMtl = nullptr;
 }
 
 //
@@ -75,6 +81,12 @@ void SVUIPanel::setTexture(cptr8 _path, bool enableMipMap){
     m_pTex = mApp->getTexMgr()->getTextureSync(_path,true, enableMipMap);
 }
 
+void SVUIPanel::setColor(f32 _r, f32 _g, f32 _b, f32 _a){
+    if (m_colorMtl) {
+        m_colorMtl->setColor(_r, _g, _b, _a);
+    }
+}
+
 void SVUIPanel::update(f32 dt) {
     SVNode::update(dt);
     if(m_dirty_mesh) {
@@ -84,12 +96,17 @@ void SVUIPanel::update(f32 dt) {
     //
     if (m_pRenderObj && m_pMesh && m_pMtl) {
         //创建新的材质
-        SVMtlCorePtr t_mtl = m_pMtl->clone();
+        SVMtlCorePtr t_mtl;
+        if (m_pTex) {
+            t_mtl = m_pMtl->clone();
+            t_mtl->setTexture(0,m_pTex);
+        }else{
+            t_mtl = m_colorMtl->clone();
+        }
         t_mtl->setModelMatrix(m_absolutMat.get());
         t_mtl->setTexcoordFlip(-1.0f, -1.0f);
         t_mtl->setBlendEnable(true);
         t_mtl->setBlendState(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        t_mtl->setTexture(0,m_pTex);
         t_mtl->update(dt);
         m_pRenderObj->setMesh(m_pMesh);
         m_pRenderObj->setMtl(t_mtl);

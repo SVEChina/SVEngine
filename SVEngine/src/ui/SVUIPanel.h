@@ -34,11 +34,14 @@ namespace sv {
             
             void setTexture(cptr8 _path, bool enableMipMap = false);
             
+            void setColor(f32 _r, f32 _g, f32 _b, f32 _a); //0~1
         protected:
             f32 m_width;
             f32 m_height;
             EUIARCHO m_archo;
             bool m_dirty_mesh;
+            SVColor m_color;
+            SVMtlColorPtr m_colorMtl;
             //运行时属性
             SVTexturePtr m_pTex;
             SVRenderMeshPtr m_pMesh;
