@@ -227,7 +227,7 @@ void SVScene::create(f32 _worldw ,f32 _worldh,s32 _depth){
     //
     SVCameraNodePtr uiCamera = mApp->getCameraMgr()->getUICamera();
     if(uiCamera) {
-        //uiCamera->resetCamera(m_sw,m_sh);
+        uiCamera->resetCamera(m_sw,m_sh);
     }
     //
 }

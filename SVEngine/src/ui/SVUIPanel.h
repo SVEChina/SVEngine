@@ -30,8 +30,6 @@ namespace sv {
             
             void setSize(f32 _w,f32 _h);
             
-            void setFlip(bool _fx, bool _fy);
-            
             void setArcho(EUIARCHO _cho);
             
             void setTexture(cptr8 _path, bool enableMipMap = false);
@@ -41,8 +39,6 @@ namespace sv {
             f32 m_height;
             EUIARCHO m_archo;
             bool m_dirty_mesh;
-            bool m_flipX;
-            bool m_flipY;
             //运行时属性
             SVTexturePtr m_pTex;
             SVRenderMeshPtr m_pMesh;
