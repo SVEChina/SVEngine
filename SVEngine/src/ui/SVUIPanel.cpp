@@ -42,6 +42,8 @@ SVUIPanel::SVUIPanel(SVInst *_app,f32 _w,f32 _h)
     m_height = _h;
     m_archo = E_ARCHO_CC;
     m_dirty_mesh = true;
+    m_flipX = false;
+    m_flipY = false;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pTex = nullptr;
     m_pMesh = nullptr;
@@ -60,6 +62,11 @@ void SVUIPanel::setSize(f32 _w,f32 _h) {
     m_width = _w;
     m_height = _h;
     m_dirty_mesh = true;
+}
+
+void SVUIPanel::setFlip(bool _fx, bool _fy){
+    m_flipX = _fx;
+    m_flipY = _fy;
 }
 
 //改变锚点
@@ -85,7 +92,15 @@ void SVUIPanel::update(f32 dt) {
         //创建新的材质
         SVMtlCorePtr t_mtl = m_pMtl->clone();
         t_mtl->setModelMatrix(m_absolutMat.get());
-        t_mtl->setTexcoordFlip(1.0f, -1.0f);
+        f32 t_flipx = 1.0f;
+        f32 t_flipy = -1.0f;
+        if (m_flipX) {
+            t_flipx = -1.0f;
+        }
+        if (m_flipY) {
+            t_flipy = 1.0f;
+        }
+        t_mtl->setTexcoordFlip(t_flipx, t_flipy);
         t_mtl->setBlendEnable(true);
         t_mtl->setBlendState(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         t_mtl->setTexture(0,m_pTex);
