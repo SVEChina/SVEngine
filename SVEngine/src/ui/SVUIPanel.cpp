@@ -69,6 +69,10 @@ void SVUIPanel::setSize(f32 _w,f32 _h) {
     m_dirty_mesh = true;
 }
 
+void SVUIPanel::getSize(FVec2 &_size){
+    _size.set(m_width, m_height);
+}
+
 //改变锚点
 void SVUIPanel::setArcho(EUIARCHO _cho) {
     if(m_archo!=_cho) {

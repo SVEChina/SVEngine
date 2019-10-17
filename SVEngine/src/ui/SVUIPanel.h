@@ -30,6 +30,8 @@ namespace sv {
             
             void setSize(f32 _w,f32 _h);
             
+            void getSize(FVec2 &_size);
+            
             void setArcho(EUIARCHO _cho);
             
             void setTexture(cptr8 _path, bool enableMipMap = false);
