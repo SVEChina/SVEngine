@@ -22,9 +22,9 @@ namespace sv {
         };
     
         //网格元素
-        class SVUINetElem : public SVObject {
+        class SVUINetElem : public SVGBase {
         public:
-            SVUINetElem();
+            SVUINetElem(SVInst* _app);
             
             ~SVUINetElem();
             
@@ -37,7 +37,14 @@ namespace sv {
             bool delData(s32 _row,s32 _col);
             
             //刷新数据
-            void refreshData(s32 _unit,SVRenderMgrPtr _renderMgr);
+            void refreshData(s32 _unit);
+            
+            void update(f32 _dt,f32 *_mat);
+            
+            void render(RENDERSTREAMTYPE _rsType);
+            
+            //标记
+            s32 m_tag;
             
             //纹理
             SVTexturePtr m_pTex;
@@ -45,8 +52,11 @@ namespace sv {
             //数据池
             SVArray<ElemCoord> m_elemPool;
             
+        protected:
+            bool m_dirty;
             //一堆格子的mesh
             SVRenderMeshPtr m_pMesh;
+            SVRenderObjectPtr m_pRObj;
         };
         
         //网格节点
@@ -66,6 +76,10 @@ namespace sv {
             
             f32 getGridUnit(f32 _h);
             
+            s32 getMaxGridX();
+            
+            s32 getMaxGridY();
+            
             void setMaxGridX(s32 _max_gx);
             
             void setMaxGridY(s32 _max_gy);
@@ -83,6 +97,8 @@ namespace sv {
             
             //查找一种元素
             bool hasElem(s32 _type);
+            
+            SVUINetElemPtr getElem(s32 _type);
             
             //增加某一元素的数据
             bool addElemData(s32 _type,s32 _row,s32 _col);
@@ -113,7 +129,7 @@ namespace sv {
             SVTexturePtr m_gridTex;
             
             //元素表
-            typedef SVMap<s32,SVUINetElemPtr> ELEMTBL;
+            typedef SVArray<SVUINetElemPtr> ELEMTBL;
             ELEMTBL m_elemTbl;
             
             void _updateElemShow(s32 _type);
