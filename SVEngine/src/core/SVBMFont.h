@@ -48,9 +48,9 @@ namespace sv {
             
             void init();
             
-            f32 getTextWidth(cptr8 _text);
+            f32 getTextWidth(cptr8 _text, f32 _fontSize);
             
-            f32 getTextHeight(cptr8 _text);
+            f32 getTextHeight(cptr8 _text, f32 _fontSize);
             
             s32 getTextLength(cptr8 _text);
             
@@ -71,8 +71,6 @@ namespace sv {
         public:
             SVMap<u32, SVTexturePtr> m_textures;
             
-            f32 m_scale;
-            
             s16 m_base;// y of base line
             
             s16 m_fontScaleW;
@@ -89,7 +87,7 @@ namespace sv {
             
         protected:
             s32 _getTextLength(cptr8 _text);
-            f32 _adjustForKerningPairs(s32 _first, s32 _second);
+            f32 _adjustForKerningPairs(s32 _first, s32 _second, f32 _fontSize);
             s32 _findTextChar(cptr8 _text, s32 _start, s32 _length, s32 _ch);
             
         protected:

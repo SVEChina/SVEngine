@@ -35,7 +35,6 @@ SVBMFont::SVBMFont(SVInst *_app)
     m_defChar.xAdvance = 0;
     m_defChar.page = 0;
     //
-    m_scale = 1.0f;
     m_fontHeight = 0;
     m_fontScaleW = 0;
     m_fontScaleH = 0;
@@ -54,7 +53,7 @@ void SVBMFont::init(){
 
 }
 
-f32 SVBMFont::getTextWidth(cptr8 _text){
+f32 SVBMFont::getTextWidth(cptr8 _text, f32 _fontSize){
     s32 count = _getTextLength(_text);
 
     f32 x = 0;
@@ -64,17 +63,17 @@ f32 SVBMFont::getTextWidth(cptr8 _text){
         s32 charId = getTextChar(_text,n,&n);
 
         SVBMFont::SVBMFONTCHARINFO ch = getChar(charId);
-        x += m_scale * (ch.xAdvance);
+        x += _fontSize * (ch.xAdvance);
 
         if( n < count )
-            x += _adjustForKerningPairs(charId, getTextChar(_text,n));
+            x += _adjustForKerningPairs(charId, getTextChar(_text,n), _fontSize);
     }
 
     return x;
 }
 
-f32 SVBMFont::getTextHeight(cptr8 _text){
-    return m_scale*m_fontHeight;
+f32 SVBMFont::getTextHeight(cptr8 _text, f32 _fontSize){
+    return _fontSize*m_fontHeight;
 }
 
 s32 SVBMFont::getTextLength(cptr8 _text){
@@ -131,13 +130,13 @@ SVBMFont::SVBMFONTCHARINFO SVBMFont::getChar(s32 _charID){
     
 }
 
-f32 SVBMFont::_adjustForKerningPairs(s32 _first, s32 _second){
+f32 SVBMFont::_adjustForKerningPairs(s32 _first, s32 _second, f32 _fontSize){
     SVBMFont::SVBMFONTCHARINFO ch = getChar(_first);
     if( ch.charID == 10000000 ) return 0;
     for( u32 n = 0; n < ch.kerningPairs.size(); n += 2 )
     {
         if( ch.kerningPairs[n] == _second )
-            return ch.kerningPairs[n+1] * m_scale;
+            return ch.kerningPairs[n+1] * _fontSize;
     }
     return 0;
 }
