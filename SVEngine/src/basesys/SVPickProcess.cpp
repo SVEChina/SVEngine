@@ -14,6 +14,7 @@
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVScene.h"
 #include "../node/SVCameraNode.h"
+#include "../ui/SVUIMgr.h"
 
 //获取射线求教节点
 SVVisitRayPick::SVVisitRayPick(FVec3& _rayStart,FVec3& _rayEnd)
@@ -155,28 +156,28 @@ bool SVPickProcess::pickScene(SVCameraNodePtr _cam,s32 _sx,s32 _sy){
     return false;
 }
 
-bool SVPickProcess::pickUI(SVCameraNodePtr _cam,s32 _sx,s32 _sy){
-    if ( mApp->getUIMgr() ) {
-//        FVec3 t_start,t_end;
-//        if( _getRayMat(_cam,_cam->getVPMatObjUI(),_sx,_sy,t_start,t_end) ){
-//            //射线求交
-//            SVVisitRayPickPtr t_visit = MakeSharedPtr<SVVisitRayPick>(t_start,t_end);
-//            t_sc->visit(t_visit);
-//            FVec3 t_postion(0.0,0.0,0.0);
-//            SVNodePtr t_node = t_visit->getCrossNode(t_postion);
-//            if(t_node){
-//                if(t_node->getRSType() == RST_UI){
-//                    _pick(t_node);
-//                    return true;
-//                }
-//            }else{
-//                SVPickGetNothingEventPtr t_event = MakeSharedPtr<SVPickGetNothingEvent>();
-//                t_event->m_px = _sx;
-//                t_event->m_py = _sy;
-//                mApp->getEventMgr()->pushEvent(t_event);
-//            }
+//相机和屏幕坐标(都是以左下角为（0，0）)
+bool SVPickProcess::pickUI(s32 _sx,s32 _sy){
+    SVCameraNodePtr t_ui_cam = mApp->getCameraMgr()->getUICamera();
+    FVec3 t_start,t_end;
+    t_start.set(_sx, _sy, -10000.0f);
+    t_end.set(_sx, _sy, 10000.0f);
+    //构建射线
+    SVVisitRayPickPtr t_visit = MakeSharedPtr<SVVisitRayPick>(t_start,t_end);
+    mApp->getUIMgr()->visit(t_visit);
+//    FVec3 t_postion(0.0,0.0,0.0);
+//    SVNodePtr t_node = t_visit->getCrossNode(t_postion);
+//    if(t_node){
+//        if(t_node->getRSType() == RST_UI){
+//            _pick(t_node);
+//            return true;
 //        }
-    }
+//    }else{
+//        SVPickGetNothingEventPtr t_event = MakeSharedPtr<SVPickGetNothingEvent>();
+//        t_event->m_px = _sx;
+//        t_event->m_py = _sy;
+//        mApp->getEventMgr()->pushEvent(t_event);
+//    }
     return false;
 }
 

@@ -56,7 +56,7 @@ namespace sv {
             //场景拾取
             bool pickScene(SVCameraNodePtr _cam,s32 _sx,s32 _sy);
             //UI拾取
-            bool pickUI(SVCameraNodePtr _cam,s32 _sx,s32 _sy);
+            bool pickUI(s32 _sx,s32 _sy);
             //移动节点
             void moveNode(SVCameraNodePtr _cam,s32 _sx,s32 _sy);
             //获取交叉点

@@ -8,7 +8,7 @@
 #ifndef SV_UINETGRID_H
 #define SV_UINETGRID_H
 
-#include "../node/SVNode.h"
+#include "SVUIBase.h"
 #include "../base/SVMap.h"
 #include "../base/SVArray.h"
 
@@ -60,7 +60,7 @@ namespace sv {
         };
         
         //网格节点
-        class SVUINetGrid : public SVNode {
+        class SVUINetGrid : public SVUIBase {
         public :
             SVUINetGrid(SVInst *_app);
             
@@ -86,8 +86,7 @@ namespace sv {
             
             void setGridUnit(f32 _unit);
             
-            void setArcho(EUIARCHO _archo);
-            
+            void setArcho(EUIARCHO _cho);
             //元素操作
             //增加一种元素
             bool addElem(s32 _type,cptr8 _texname);
@@ -116,7 +115,6 @@ namespace sv {
             f32 m_grid_unit;
             s32 m_grid_x;
             s32 m_grid_y;
-            EUIARCHO m_archo;
             bool m_refresh;
             
             //偏移值 主要用于横滚

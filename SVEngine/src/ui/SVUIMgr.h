@@ -24,6 +24,8 @@ namespace sv {
 
         void update(f32 dt);
         
+        void visit(SVVisitorBasePtr _visitor);
+        
         SVNodePtr getRoot();
         
         void pushUINode(SVNodePtr _node);

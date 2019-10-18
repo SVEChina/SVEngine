@@ -156,8 +156,10 @@ void SVUINetElem::render(RENDERSTREAMTYPE _rsType) {
 
 //
 SVUINetGrid::SVUINetGrid(SVInst *_app)
-:SVNode(_app){
+:SVUIBase(_app){
     m_rsType = RST_UI;
+    m_canSelect = true;
+    m_visible = true;
     m_archo = E_ARCHO_LT;
     m_refresh = true;
     m_grid_unit = 16.0f;
@@ -222,6 +224,12 @@ void SVUINetGrid::update(f32 dt){
         f32 t_w = m_grid_unit*m_grid_x;
         f32 t_h = m_grid_unit*m_grid_y;
         m_pMesh = SVGeoGen::genRectARCHO(mApp,t_w,t_h,m_archo,m_aabbBox);
+        //包围盒更新
+        m_aabbBox.clear();
+        FVec3 t_min;
+        FVec3 t_max;
+        m_aabbBox.expand(t_min);
+        m_aabbBox.expand(t_max);
     }
     if(!m_gridTex){
         m_gridTex = mApp->getTexMgr()->getTextureSync("svres/grid6.png",true,true);

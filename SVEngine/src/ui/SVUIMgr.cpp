@@ -36,6 +36,12 @@ void SVUIMgr::update(f32 dt) {
     m_uiLock->unlock();
 }
 
+void SVUIMgr::visit(SVVisitorBasePtr _visitor) {
+    if(m_pUIRoot) {
+        m_pUIRoot->deep_visit(_visitor);
+    }
+}
+
 SVNodePtr SVUIMgr::getRoot() {
     return m_pUIRoot;
 }

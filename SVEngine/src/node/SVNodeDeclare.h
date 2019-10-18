@@ -82,6 +82,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVParticlesNode);
         
         //
+        DECLARE_SHAREPTR(SVUIBase);
         DECLARE_SHAREPTR(SVUIPanel);
         DECLARE_SHAREPTR(SVUINetElem);
         DECLARE_SHAREPTR(SVUINetGrid);

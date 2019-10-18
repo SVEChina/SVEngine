@@ -8,7 +8,7 @@
 #ifndef SV_UIPANEL_H
 #define SV_UIPANEL_H
 
-#include "../node/SVNode.h"
+#include "SVUIBase.h"
 
 namespace sv {
     
@@ -16,7 +16,7 @@ namespace sv {
         /*
          ui 板子
          */
-        class SVUIPanel: public SVNode {
+        class SVUIPanel: public SVUIBase {
         public:
             SVUIPanel(SVInst *_app);
             
@@ -32,15 +32,15 @@ namespace sv {
             
             void getSize(FVec2 &_size);
             
-            void setArcho(EUIARCHO _cho);
-            
             void setTexture(cptr8 _path, bool enableMipMap = false);
             
             void setColor(f32 _r, f32 _g, f32 _b, f32 _a); //0~1
+            
+            virtual void setArcho(EUIARCHO _cho);
+            
         protected:
             f32 m_width;
             f32 m_height;
-            EUIARCHO m_archo;
             bool m_dirty_mesh;
             SVColor m_color;
             SVMtlColorPtr m_colorMtl;

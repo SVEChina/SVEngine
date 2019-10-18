@@ -22,7 +22,7 @@
 #include "../basesys/SVStaticData.h"
 //
 SVUIPanel::SVUIPanel(SVInst *_app)
-:SVNode(_app) {
+:SVUIBase(_app) {
     ntype = "SVUIPanel";
     m_width = 100.0f;
     m_height = 100.0f;
@@ -39,8 +39,10 @@ SVUIPanel::SVUIPanel(SVInst *_app)
 }
 
 SVUIPanel::SVUIPanel(SVInst *_app,f32 _w,f32 _h)
-:SVNode(_app) {
+:SVUIBase(_app) {
     ntype = "SVUIPanel";
+    m_canSelect = true;
+    m_visible = true;
     m_width = _w;
     m_height = _h;
     m_archo = E_ARCHO_CC;
