@@ -64,7 +64,7 @@ void SVBMFontNode::update(f32 dt) {
         //材质独立性
         SVMtl2DPtr t_mtl = MakeSharedPtr<SVMtl2D>(mApp, "normal2d_c");
         t_mtl->setBlendEnable(true);
-        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        t_mtl->setBlendState(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         if (m_texture) {
             t_mtl->setTexture(0,m_texture);
             t_mtl->setTexSizeIndex(0, 1.0/m_texture->getwidth(), 1.0/m_texture->getheight());
