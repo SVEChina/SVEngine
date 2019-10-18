@@ -226,8 +226,9 @@ void SVUINetGrid::update(f32 dt){
         m_pMesh = SVGeoGen::genRectARCHO(mApp,t_w,t_h,m_archo,m_aabbBox);
         //包围盒更新
         m_aabbBox.clear();
-        FVec3 t_min;
-        FVec3 t_max;
+        SVRect t_rc = SVUIBase::getRect(m_archo,t_w,t_h);
+        FVec3 t_min(t_rc.m_lb_pt);
+        FVec3 t_max(t_rc.m_rt_pt);
         m_aabbBox.expand(t_min);
         m_aabbBox.expand(t_max);
     }

@@ -98,6 +98,13 @@ void SVUIPanel::update(f32 dt) {
     if(m_dirty_mesh) {
         m_dirty_mesh = false;
         m_pMesh = SVGeoGen::genRectARCHO(mApp, m_width, m_height,m_archo,m_aabbBox);
+        //
+        m_aabbBox.clear();
+        SVRect t_rc = SVUIBase::getRect(m_archo,m_width,m_height);
+        FVec3 t_min(t_rc.m_lb_pt);
+        FVec3 t_max(t_rc.m_rt_pt);
+        m_aabbBox.expand(t_min);
+        m_aabbBox.expand(t_max);
     }
     //
     if (m_pRenderObj && m_pMesh && m_pMtl) {

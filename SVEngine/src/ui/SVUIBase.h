@@ -13,9 +13,7 @@
 namespace sv {
     
     namespace node{
-        /*
-         ui 板子
-         */
+
         class SVUIBase: public SVNode {
         public:
             SVUIBase(SVInst *_app);
@@ -26,7 +24,7 @@ namespace sv {
             
             EUIARCHO getArcho();
             
-            SVRect getRect(EUIARCHO _archo,f32 _w,f32 _h);
+            static SVRect getRect(EUIARCHO _archo,f32 _w,f32 _h);
 
         protected:
             EUIARCHO m_archo;
