@@ -35,6 +35,7 @@ SVBMFontNode::SVBMFontNode(SVInst *_app)
     m_atchType = ATCH_MC;
     m_spacing = 0.0f;
     m_alpha = 1.0f;
+    m_fontSize = 1.0f;
     m_pRenderVertex = MakeSharedPtr<SVDataSwap>();
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pMesh = MakeSharedPtr<SVRenderMesh>(mApp);
@@ -79,7 +80,7 @@ void SVBMFontNode::update(f32 dt) {
 }
 
 void SVBMFontNode::render() {
-    if (m_visible ){
+    if (m_visible){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj && m_pMesh) {
             m_pRenderObj->pushCmd(t_rs, m_rsType, "SVBMFontNode");
@@ -122,9 +123,7 @@ void SVBMFontNode::setFontSize(f32 _size){
     if (_size <= 0.0f) {
         return;
     }
-    if (m_font) {
-        m_font->m_scale = _size;
-    }
+    m_fontSize = _size;
 }
 
 f32 SVBMFontNode::getWidth(){
@@ -141,7 +140,7 @@ f32 SVBMFontNode::getWidth(){
             break;
         }
     }
-    f32 t_total_w = m_font->getTextWidth(m_text.c_str());
+    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), m_fontSize);
     t_total_w = t_total_w + (m_text.size() - 1)*m_spacing;
     return t_total_w*t_scaleX;
 }
@@ -160,7 +159,7 @@ f32 SVBMFontNode::getHeight(){
             break;
         }
     }
-    return m_font->getTextHeight(m_text.c_str())*t_scaleY;
+    return m_font->getTextHeight(m_text.c_str(), m_fontSize)*t_scaleY;
 }
 
 void SVBMFontNode::setAlpha(f32 _alpha){
@@ -177,7 +176,7 @@ void SVBMFontNode::_refresh(){
     //顶点数据
     V2_C_T0 tVerts[SV_BMFONT_MAX_NUM * 6];
     s32 t_texLen = m_font->getTextLength(m_text.c_str());
-    f32 t_total_w = m_font->getTextWidth(m_text.c_str());
+    f32 t_total_w = m_font->getTextWidth(m_text.c_str(), m_fontSize);
     if (m_text.size() > 1) {
         t_total_w = t_total_w + (m_text.size() - 1)*m_spacing;
     }
@@ -201,11 +200,11 @@ void SVBMFontNode::_refresh(){
         f32 u2 = u + f32(ch.width) / m_font->m_fontScaleW;
         f32 v2 = v + f32(ch.height) / m_font->m_fontScaleH;
         
-        f32 a = m_font->m_scale * f32(ch.xAdvance);
-        f32 w = m_font->m_scale * f32(ch.width);
-        f32 h = m_font->m_scale * f32(ch.height);
-        f32 ox = m_font->m_scale * f32(ch.xOffset);
-        f32 oy = m_font->m_scale * f32(ch.yOffset);
+        f32 a = m_fontSize * f32(ch.xAdvance);
+        f32 w = m_fontSize * f32(ch.width);
+        f32 h = m_fontSize * f32(ch.height);
+        f32 ox = m_fontSize * f32(ch.xOffset);
+        f32 oy = m_fontSize * f32(ch.yOffset);
         
         if( ch.page != page )
         {
