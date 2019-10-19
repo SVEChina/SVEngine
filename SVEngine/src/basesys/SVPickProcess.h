@@ -38,6 +38,20 @@ namespace sv {
             typedef SVArray<SVNodePtr> NodeArray;
             NodeArray m_nodearray;
         };
+    
+        class SVVisitRayPickUI : public SVVisitRayPick {
+        public:
+            SVVisitRayPickUI(FVec3& _rayStart,FVec3& _rayEnd);
+            
+            ~SVVisitRayPickUI();
+            
+            virtual bool visit(SVNodePtr _node);
+            
+            SVNodePtr getPickNode();
+            
+        protected:
+            SVNodePtr m_pNode;
+        };
     }
     
     namespace logic{

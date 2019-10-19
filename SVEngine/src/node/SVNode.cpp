@@ -60,7 +60,6 @@ SVNode::~SVNode() {
 }
 
 void SVNode::enter(){
-   
 }
 
 void SVNode::exit(){
@@ -87,12 +86,26 @@ void SVNode::deep_update(f32 dt) {
     }
 }
 
+//深度访问
 void SVNode::deep_visit(SVVisitorBasePtr _visit) {
     if( _visit && _visit->visit( THIS_TO_SHAREPTR(SVNode) ) ){
         for (s32 i = 0; i < m_childNodePool.size(); i++) {
             m_childNodePool[i]->deep_visit(_visit);
         }
     }
+}
+
+void SVNode::select_visit(SVVisitorBasePtr _visit) {
+    if(!_visit)
+        return ;
+    for (s32 i = 0; i < m_childNodePool.size(); i++) {
+        bool t_flag = _visit->visit(  m_childNodePool[i] ); //如果子被访问成功
+        if(t_flag) {
+            m_childNodePool[i]->select_visit(_visit);
+            break;
+        }
+    }
+    return ;
 }
 
 void SVNode::update(f32 dt) {
@@ -281,13 +294,6 @@ FMat4& SVNode::getAbsoluteMat() {
 
 FMat4& SVNode::getIAbsoluteMat() {
     return m_iabsolutMat;
-}
-
-//获取世界矩阵
-void SVNode::getWorldMatrix(FMat4& outMat) {
-    if (m_parent) {
-        m_parent->getWorldMatrix(outMat);
-    }
 }
 
 void SVNode::setPosition(f32 _x, f32 _y, f32 _z) {

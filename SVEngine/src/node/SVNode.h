@@ -46,15 +46,17 @@ namespace sv {
             
             void deep_update(f32 dt);
             
+            //深度访问
             void deep_visit(SVVisitorBasePtr _visit);
+            
+            //选择访问 用于子访问
+            void select_visit(SVVisitorBasePtr _visit);
             
             FMat4& getLocalMat();
             
             FMat4& getAbsoluteMat();
             
             FMat4& getIAbsoluteMat();
-            
-            void getWorldMatrix(FMat4& outMat);
             
             virtual void setPosition(f32 x, f32 y, f32 z);
             

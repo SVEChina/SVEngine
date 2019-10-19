@@ -38,7 +38,7 @@ void SVUIMgr::update(f32 dt) {
 
 void SVUIMgr::visit(SVVisitorBasePtr _visitor) {
     if(m_pUIRoot) {
-        m_pUIRoot->deep_visit(_visitor);
+        m_pUIRoot->select_visit(_visitor);
     }
 }
 

@@ -53,6 +53,34 @@ SVNodePtr SVVisitRayPick::getCrossNode(FVec3& _campos){
     return t_node;
 }
 
+
+//
+//获取射线求教节点
+SVVisitRayPickUI::SVVisitRayPickUI(FVec3& _rayStart,FVec3& _rayEnd)
+:SVVisitRayPick(_rayStart,_rayEnd)
+,m_pNode(nullptr){
+}
+
+SVVisitRayPickUI::~SVVisitRayPickUI() {
+    m_pNode = nullptr;
+}
+
+bool SVVisitRayPickUI::visit(SVNodePtr _node) {
+    if(_node->getvisible() && _node->getcanSelect() ){
+        SVBoundBox t_box_sw = _node->getAABBSW();
+        if( t_box_sw.getIntersectionValid(m_rayStart, m_rayEnd) ){
+            m_pNode = _node;
+            return true;
+        }
+    }
+    return false;
+}
+
+
+SVNodePtr SVVisitRayPickUI::getPickNode() {
+    return m_pNode;
+}
+
 //
 SVPickProcess::SVPickProcess(SVInst *_app)
 :SVProcess(_app) {
@@ -163,21 +191,17 @@ bool SVPickProcess::pickUI(s32 _sx,s32 _sy){
     t_start.set(_sx, _sy, -10000.0f);
     t_end.set(_sx, _sy, 10000.0f);
     //构建射线
-    SVVisitRayPickPtr t_visit = MakeSharedPtr<SVVisitRayPick>(t_start,t_end);
+    SVVisitRayPickUIPtr t_visit = MakeSharedPtr<SVVisitRayPickUI>(t_start,t_end);
     mApp->getUIMgr()->visit(t_visit);
-//    FVec3 t_postion(0.0,0.0,0.0);
-//    SVNodePtr t_node = t_visit->getCrossNode(t_postion);
-//    if(t_node){
-//        if(t_node->getRSType() == RST_UI){
-//            _pick(t_node);
-//            return true;
-//        }
-//    }else{
-//        SVPickGetNothingEventPtr t_event = MakeSharedPtr<SVPickGetNothingEvent>();
-//        t_event->m_px = _sx;
-//        t_event->m_py = _sy;
-//        mApp->getEventMgr()->pushEvent(t_event);
-//    }
+    SVNodePtr t_pNode = t_visit->getPickNode();
+    if(t_pNode) {
+        //send msg
+        SVPickGetNothingEventPtr t_event = MakeSharedPtr<SVPickGetNothingEvent>();
+        t_event->m_px = _sx;
+        t_event->m_py = _sy;
+        mApp->getEventMgr()->pushEvent(t_event);
+        return true;
+    }
     return false;
 }
 

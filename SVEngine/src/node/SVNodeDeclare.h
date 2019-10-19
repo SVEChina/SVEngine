@@ -36,6 +36,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVSpineNodeNameVisitor);
         DECLARE_SHAREPTR(SVVisitCollectAllNode);
         DECLARE_SHAREPTR(SVVisitRayPick);
+        DECLARE_SHAREPTR(SVVisitRayPickUI);
         DECLARE_SHAREPTR(SVVisitorNodeName);
         
         //
