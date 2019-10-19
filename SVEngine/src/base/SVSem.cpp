@@ -1,5 +1,6 @@
 #include "SVSem.h"
 #include <fcntl.h>
+#include <cerrno>
 
 SVSem::SVSem(cptr8 _name,s32 _resvalue){
     m_semName = _name;
