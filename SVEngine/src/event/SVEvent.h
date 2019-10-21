@@ -86,6 +86,14 @@ namespace sv {
         
         SVNodePtr m_pNode;
     };
+    class SVPickGetUIEvent : public SVEvent {
+    public:
+        SVPickGetUIEvent(SVNodePtr _node);
+       
+        ~SVPickGetUIEvent();
+       
+        SVNodePtr m_pNode;
+    };
     //
     class SVPickGetNothingEvent : public SVEvent {
     public:

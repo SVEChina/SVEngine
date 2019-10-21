@@ -68,7 +68,7 @@ SVVisitRayPickUI::~SVVisitRayPickUI() {
 bool SVVisitRayPickUI::visit(SVNodePtr _node) {
     if(_node->getvisible() && _node->getcanSelect() ){
         SVBoundBox t_box_sw = _node->getAABBSW();
-        if( t_box_sw.getIntersectionValid(m_rayStart, m_rayEnd) ){
+        if( t_box_sw.getIntersectionValid(m_rayStart, m_rayEnd)){
             m_pNode = _node;
             return true;
         }
@@ -86,10 +86,12 @@ SVPickProcess::SVPickProcess(SVInst *_app)
 :SVProcess(_app) {
     m_enablePick = false;
     m_curPickNode = nullptr;
+    m_curPickUI = nullptr;
 }
 
 SVPickProcess::~SVPickProcess() {
     m_curPickNode = nullptr;
+    m_curPickUI = nullptr;
 }
 
 void SVPickProcess::enablePick() {
@@ -103,11 +105,16 @@ void SVPickProcess::disablePick() {
 
 void SVPickProcess::clear() {
     m_curPickNode = nullptr;
+    m_curPickUI = nullptr;
 }
 
 //
 SVNodePtr SVPickProcess::getPickNode(){
     return m_curPickNode;
+}
+
+SVNodePtr SVPickProcess::getPickUI(){
+    return m_curPickUI;
 }
 
 //获取射线
@@ -194,14 +201,16 @@ bool SVPickProcess::pickUI(s32 _sx,s32 _sy){
     SVVisitRayPickUIPtr t_visit = MakeSharedPtr<SVVisitRayPickUI>(t_start,t_end);
     mApp->getUIMgr()->visit(t_visit);
     SVNodePtr t_pNode = t_visit->getPickNode();
-    if(t_pNode) {
-        //send msg
+    if(t_pNode){
+        _pickUI(t_pNode);
+        return true;
+    }else{
         SVPickGetNothingEventPtr t_event = MakeSharedPtr<SVPickGetNothingEvent>();
         t_event->m_px = _sx;
         t_event->m_py = _sy;
         mApp->getEventMgr()->pushEvent(t_event);
-        return true;
     }
+    
     return false;
 }
 
@@ -291,6 +300,25 @@ void SVPickProcess::_pick(SVNodePtr _node){
     }
 }
 
+void SVPickProcess::_pickUI(SVNodePtr _node){
+    if (_node) {
+        if (m_curPickUI != _node) {
+            if(m_curPickUI){
+                m_curPickUI->setbeSelect(false);
+//                SVPickLoseEventPtr t_event = MakeSharedPtr<SVPickLoseEvent>(m_curPickUI);
+//                mApp->getEventMgr()->pushEvent(t_event);
+            }
+            m_curPickUI = _node;
+//            SVPickChangeEventPtr t_event = MakeSharedPtr<SVPickChangeEvent>(m_curPickUI,_node);
+//            mApp->getEventMgr()->pushEvent(t_event);
+        }
+        
+        _node->setbeSelect(true);
+        SVPickGetUIEventPtr t_event = MakeSharedPtr<SVPickGetUIEvent>(_node);
+        mApp->getEventMgr()->pushEvent(t_event);
+    }
+}
+
 bool SVPickProcess::procEvent(SVEventPtr _event){
     SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();
     if(_event->eventType == EVN_T_TOUCH_BEGIN){
@@ -298,6 +326,7 @@ bool SVPickProcess::procEvent(SVEventPtr _event){
         f32 t_mod_x = t_touch->x;
         f32 t_mod_y = t_touch->y;
         pickScene(t_camera,t_mod_x,t_mod_y);
+        pickUI(t_mod_x,t_mod_y);
     }else if(_event->eventType == EVN_T_TOUCH_END){
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         f32 t_mod_x = t_touch->x;

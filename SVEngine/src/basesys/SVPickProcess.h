@@ -82,6 +82,8 @@ namespace sv {
             //
             SVNodePtr getPickNode();
             //
+            SVNodePtr getPickUI();
+            //
             virtual bool procEvent(SVEventPtr _event);
             
             void transScreenPtToWorld(FVec2 &_screenPt, FVec3 &_worldPt);
@@ -89,12 +91,15 @@ namespace sv {
         protected:
             //
             void _pick(SVNodePtr _node);
+            //
+            void _pickUI(SVNodePtr _node);
             //获取射线
             bool _getRay(SVCameraNodePtr _cam,s32 _sx,s32 _sy,FVec3& _rayStart,FVec3& _rayEnd);
             bool _getRayMat(SVCameraNodePtr _cam,FMat4 _vpMat,s32 _sx,s32 _sy,FVec3& _rayStart,FVec3& _rayEnd);
             //
             bool m_enablePick;
             SVNodePtr m_curPickNode;
+            SVNodePtr m_curPickUI;
         };
         
     }//!namespace logic

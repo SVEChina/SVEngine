@@ -34,6 +34,7 @@ namespace sv {
         EVN_T_PICK_COLOR,
         EVN_T_PICK_NODE_CHANGE,
         EVN_T_PICK_GET_NODE,
+        EVN_T_PICK_GET_UI,
         EVN_T_PICK_GET_NOTHING,
         EVN_T_ANIMATE,
         EVN_T_LINK,

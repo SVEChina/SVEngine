@@ -41,7 +41,7 @@ SVUIPanel::SVUIPanel(SVInst *_app)
 SVUIPanel::SVUIPanel(SVInst *_app,f32 _w,f32 _h)
 :SVUIBase(_app) {
     ntype = "SVUIPanel";
-    m_canSelect = true;
+    m_canSelect = false;
     m_visible = true;
     m_width = _w;
     m_height = _h;

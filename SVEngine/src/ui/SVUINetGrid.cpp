@@ -158,7 +158,7 @@ void SVUINetElem::render(RENDERSTREAMTYPE _rsType) {
 SVUINetGrid::SVUINetGrid(SVInst *_app)
 :SVUIBase(_app){
     m_rsType = RST_UI;
-    m_canSelect = true;
+    m_canSelect = false;
     m_visible = true;
     m_archo = E_ARCHO_LT;
     m_refresh = true;

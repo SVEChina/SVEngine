@@ -91,6 +91,16 @@ SVPickGetEvent::~SVPickGetEvent(){
     m_pNode = nullptr;
 }
 
+//拾取焦点信息
+SVPickGetUIEvent::SVPickGetUIEvent(SVNodePtr _node){
+    eventType = EVN_T_PICK_GET_UI;
+    m_pNode = _node;
+}
+
+SVPickGetUIEvent::~SVPickGetUIEvent(){
+    m_pNode = nullptr;
+}
+
 SVPickGetNothingEvent::SVPickGetNothingEvent(){
     eventType = EVN_T_PICK_GET_NOTHING;
 }

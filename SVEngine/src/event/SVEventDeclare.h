@@ -19,6 +19,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVAnimateEvent);
     DECLARE_SHAREPTR(SVParseEvent);
     DECLARE_SHAREPTR(SVPickGetEvent);
+    DECLARE_SHAREPTR(SVPickGetUIEvent);
     DECLARE_SHAREPTR(SVPickGetNothingEvent);
     DECLARE_SHAREPTR(SVPickLoseEvent);
     DECLARE_SHAREPTR(SVPickChangeEvent);
