@@ -39,7 +39,20 @@ SVUINetElem::~SVUINetElem() {
     m_elemPool.clear();
 }
 
+bool SVUINetElem::hasData(s32 _row,s32 _col) {
+    for(s32 i=0;i<m_elemPool.size();i++) {
+        if( (m_elemPool[i].m_row == _row) &&
+            (m_elemPool[i].m_col == _col) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void SVUINetElem::pushData(s32 _row,s32 _col) {
+    if( hasData(_row,_col) ) {
+        return ;
+    }
     ElemCoord t_coord;
     t_coord.m_row = _row;
     t_coord.m_col = _col;
@@ -129,6 +142,8 @@ void SVUINetElem::refreshData(s32 _unit) {
 }
 
 void SVUINetElem::update(f32 _dt,f32 *_mat) {
+    if(m_elemPool.size() == 0)
+        return ;//没有数据 不渲染
     if(m_pRObj && m_pMesh) {
         m_pRObj->setMesh(m_pMesh);
         SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d");
@@ -148,6 +163,8 @@ void SVUINetElem::update(f32 _dt,f32 *_mat) {
 }
 
 void SVUINetElem::render(RENDERSTREAMTYPE _rsType) {
+    if(m_elemPool.size() == 0)
+        return ;//没有数据 不渲染
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_pRObj) {
         m_pRObj->pushCmd(t_rs, _rsType, "SVUINetElem");
