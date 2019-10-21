@@ -28,6 +28,8 @@ namespace sv {
             
             ~SVUINetElem();
             
+            bool hasData(s32 _row,s32 _col);
+            
             void pushData(s32 _row,s32 _col);
             
             void popData();
