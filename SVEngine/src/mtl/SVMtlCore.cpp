@@ -186,8 +186,9 @@ void SVMtlCore::recoverMtl() {
     }
     //模板测试
     if((m_LogicMtlFlag0&MTL_F0_STENCIL)>0){
-        m_LogicParamStencil.enable = false;
-        t_renderer->submitStencil(m_LogicParamStencil);
+//        m_LogicParamStencil.enable = false;
+//        m_LogicParamStencil.clear = false;
+//        t_renderer->submitStencil(m_LogicParamStencil);
     }
     //alpha测试
     if((m_LogicMtlFlag0&MTL_F0_ALPHA)>0){

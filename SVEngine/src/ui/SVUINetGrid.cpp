@@ -171,6 +171,16 @@ void SVUINetElem::update(f32 _dt,f32 *_mat) {
         t_mtl->setZOffParam(-1.0f, -1.0f);
         t_mtl->setBlendEnable(true);
         t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        //开启模版缓存
+        t_mtl->setStencilEnable(true);
+        t_mtl->setStencilClear(false);
+        t_mtl->setStencilPass(SV_EQUAL);
+        t_mtl->setStencilZPass(SV_KEEP);
+        t_mtl->setStencilSfail(SV_KEEP);
+        t_mtl->setStencilZfail(SV_KEEP);
+        t_mtl->setStencilRef(0x01);
+        t_mtl->setStencilMask(0xff);
+        //
         m_pRObj->setMtl(t_mtl);
     }
 }
@@ -293,7 +303,15 @@ void SVUINetGrid::update(f32 dt){
     t_mtl_netgrid->setZOffParam(-1.0f, -1.0f);
     t_mtl_netgrid->setBlendEnable(true);
     t_mtl_netgrid->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    //t_mtl_netgrid->
+    //开启模版缓存
+    t_mtl_netgrid->setStencilEnable(true);
+    t_mtl_netgrid->setStencilClear(true);
+    t_mtl_netgrid->setStencilPass(SV_ALWAYS);
+    t_mtl_netgrid->setStencilZPass(SV_REPLACE);
+    t_mtl_netgrid->setStencilSfail(SV_REPLACE);
+    t_mtl_netgrid->setStencilZfail(SV_KEEP);
+    t_mtl_netgrid->setStencilRef(0x01);
+    t_mtl_netgrid->setStencilMask(0xff);
     //
     t_mtl_netgrid->setGridParam(m_grid_unit,2.0f);
     f32 t_w = m_grid_unit*m_grid_x;
@@ -302,6 +320,7 @@ void SVUINetGrid::update(f32 dt){
     
     m_pRenderObj->setMtl(t_mtl_netgrid);
     //绘制元素
+    m_off_x = -15.0f;
     FMat4 t_off_mat;
     t_off_mat.setTranslate(FVec3(m_off_x,m_off_y,0.0f));
     t_off_mat = m_absolutMat*t_off_mat;
