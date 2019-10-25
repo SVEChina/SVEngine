@@ -82,15 +82,22 @@ namespace sv {
             
             void setGridSize(s32 _width,s32 _height);
             
+            void setGridBGColor(f32 _r,f32 _g,f32 _b,f32 _a);
+            
+            void setGridLineColor(f32 _r,f32 _g,f32 _b,f32 _a);
+            
+            void setGridBoderColor(f32 _r,f32 _g,f32 _b,f32 _a);
+            
         protected:
             virtual void _submitMtl(SVRendererBasePtr _render);
             f32 m_boder;
             f32 m_gridsize;
             f32 m_width;
             f32 m_height;
-            SVColor m_linecolor;
-            SVColor m_bgcolor;
-            SVColor m_bodercolor;
+            SVColor m_bg_color;
+            SVColor m_border_color;
+            SVColor m_line_color;
+            
         };
         
         //粒子带动画的

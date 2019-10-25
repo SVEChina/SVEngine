@@ -88,6 +88,9 @@ SVMtlNetGrid::SVMtlNetGrid(SVInst *_app)
     m_gridsize = 10.0f;
     m_width = 100.0f;
     m_height = 100.0f;
+    m_bg_color.setColor(1.0f,1.0f,1.0f,0.03f);
+    m_border_color.setColor(1.0f,1.0f,1.0f,0.5f);
+    m_line_color.setColor(1.0f,1.0f,1.0f,0.15f);
 }
 
 SVMtlNetGrid::SVMtlNetGrid(SVMtlNetGrid *_mtl)
@@ -96,10 +99,17 @@ SVMtlNetGrid::SVMtlNetGrid(SVMtlNetGrid *_mtl)
     m_gridsize = _mtl->m_gridsize;
     m_width = _mtl->m_width;
     m_height = _mtl->m_height;
+    m_bg_color = _mtl->m_bg_color;
+    m_border_color = _mtl->m_border_color;
+    m_line_color = _mtl->m_line_color;
 }
 
 SVMtlNetGrid::~SVMtlNetGrid() {
 }
+
+//uniform vec4 u_bg_color;
+//uniform vec4 u_border_color;
+//uniform vec4 u_line_color;
 
 void SVMtlNetGrid::_submitMtl(SVRendererBasePtr _render) {
     SVMtlCore::_submitMtl(_render);
@@ -107,6 +117,19 @@ void SVMtlNetGrid::_submitMtl(SVRendererBasePtr _render) {
     _render->submitUniformf("u_border", m_boder); //最小是2.0f
     _render->submitUniformf("u_tbl_w", m_width); //最小是2.0f
     _render->submitUniformf("u_tbl_h", m_height); //最小是2.0f
+    //设置颜色
+    _render->submitUniformf4("u_bg_color", m_bg_color.r,
+                             m_bg_color.g,
+                             m_bg_color.b,
+                             m_bg_color.a);
+    _render->submitUniformf4("u_border_color", m_border_color.r,
+                             m_border_color.g,
+                             m_border_color.b,
+                             m_border_color.a);
+    _render->submitUniformf4("u_line_color", m_line_color.r,
+                             m_line_color.g,
+                             m_line_color.b,
+                             m_line_color.a);
 }
 
 void SVMtlNetGrid::setGridParam(s32 _gridsize,s32 _border) {
@@ -117,6 +140,18 @@ void SVMtlNetGrid::setGridParam(s32 _gridsize,s32 _border) {
 void SVMtlNetGrid::setGridSize(s32 _width,s32 _height) {
     m_width = _width;
     m_height = _height;
+}
+
+void SVMtlNetGrid::setGridBGColor(f32 _r,f32 _g,f32 _b,f32 _a) {
+    m_bg_color.setColor(_r,_g,_b,_a);
+}
+
+void SVMtlNetGrid::setGridLineColor(f32 _r,f32 _g,f32 _b,f32 _a) {
+    m_line_color.setColor(_r,_g,_b,_a);
+}
+
+void SVMtlNetGrid::setGridBoderColor(f32 _r,f32 _g,f32 _b,f32 _a) {
+    m_border_color.setColor(_r,_g,_b,_a);
 }
 
 //
