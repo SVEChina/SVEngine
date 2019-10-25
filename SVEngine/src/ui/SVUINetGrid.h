@@ -19,6 +19,8 @@ namespace sv {
         struct ElemCoord {
             s32 m_row;
             s32 m_col;
+            s32 m_render_row;   //渲染行
+            s32 m_render_col;
         };
     
         //网格元素
@@ -30,7 +32,9 @@ namespace sv {
             
             bool hasData(s32 _row,s32 _col);
             
-            void pushData(s32 _row,s32 _col);
+            bool hasRenderData(s32 _render_row,s32 _render_col);
+            
+            void pushData(s32 _row,s32 _col,s32 _rendr_row,s32 _render_col);
             
             void popData();
             
@@ -118,10 +122,14 @@ namespace sv {
             s32 m_grid_x;
             s32 m_grid_y;
             bool m_refresh;
+            s32 m_valid_row;    //有效行
+            s32 m_valid_col;    //有效列
             
             //偏移值 主要用于横滚
             f32 m_off_x;
             f32 m_off_y;
+            
+            bool _isRenderValid(s32 _row,s32 _col);
             
             //
             SVRenderObjectPtr m_pRenderObj;

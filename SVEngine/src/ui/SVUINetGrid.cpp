@@ -49,13 +49,25 @@ bool SVUINetElem::hasData(s32 _row,s32 _col) {
     return false;
 }
 
-void SVUINetElem::pushData(s32 _row,s32 _col) {
+bool SVUINetElem::hasRenderData(s32 _render_row,s32 _render_col) {
+    for(s32 i=0;i<m_elemPool.size();i++) {
+        if( (m_elemPool[i].m_render_row == _render_row) &&
+            (m_elemPool[i].m_render_col == _render_col) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void SVUINetElem::pushData(s32 _row,s32 _col,s32 _rendr_row,s32 _render_col) {
     if( hasData(_row,_col) ) {
         return ;
     }
     ElemCoord t_coord;
     t_coord.m_row = _row;
     t_coord.m_col = _col;
+    t_coord.m_render_row = _rendr_row;
+    t_coord.m_render_col = _render_col;
     m_elemPool.append(t_coord);
     m_dirty = true;
 }
@@ -95,8 +107,8 @@ void SVUINetElem::refreshData(s32 _unit) {
     SVDataSwapPtr t_index_data = MakeSharedPtr<SVDataSwap>();
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
     for(s32 i=0;i<t_len;i++) {
-        s32 t_x = m_elemPool[i].m_col;
-        s32 t_y = m_elemPool[i].m_row;
+        s32 t_x = m_elemPool[i].m_render_col;
+        s32 t_y = m_elemPool[i].m_render_row;
         V2_T0 verts[6];
         //0
         verts[0].x = t_x*_unit;
@@ -185,6 +197,8 @@ SVUINetGrid::SVUINetGrid(SVInst *_app)
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pMesh = nullptr;
     m_gridTex = nullptr;
+    m_valid_row = m_grid_y;  //有效行
+    m_valid_col = 0;         //有效列
 }
 
 SVUINetGrid::~SVUINetGrid(){
@@ -249,9 +263,11 @@ void SVUINetGrid::update(f32 dt){
         m_aabbBox.expand(t_min);
         m_aabbBox.expand(t_max);
     }
+    
     if(!m_gridTex){
         m_gridTex = mApp->getTexMgr()->getTextureSync("svres/grid6.png",true,true);
     }
+    
     SVMtlNetGridPtr t_mtl_netgrid = MakeSharedPtr<SVMtlNetGrid>(mApp);
     t_mtl_netgrid->update(dt);
     t_mtl_netgrid->setTexture(0, m_gridTex);
@@ -333,11 +349,47 @@ SVUINetElemPtr SVUINetGrid::getElem(s32 _type) {
     return nullptr;
 }
 
+bool SVUINetGrid::_isRenderValid(s32 _row,s32 _col) {
+    for(s32 i=0;i<m_elemTbl.size();i++) {
+        if( m_elemTbl[i]->hasRenderData(_row, _col) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 //增加某一元素的数据
 bool SVUINetGrid::addElemData(s32 _type,s32 _row,s32 _col) {
     SVUINetElemPtr t_elem = getElem(_type);
     if(t_elem){
-        t_elem->pushData(_row, _col);
+        if(_row == 0) {
+            //查找有效列
+            m_valid_row = m_grid_y-1;
+            for(s32 i=0;i<m_grid_y;i++) {
+                if(!_isRenderValid(i,_col)) {
+                    m_valid_row = i-1;
+                    break;
+                }
+            }
+        }
+        s32 t_render_row = _row;
+        s32 t_render_col = _col;
+        if(_row>m_valid_row) {
+            //做位置修正
+            t_render_col = _col + (_row-m_valid_row);
+            t_render_row = m_valid_row;
+            while(1) {
+                if(_isRenderValid(t_render_row,t_render_col)) {
+                    break;  //找到有效位置
+                }
+                t_render_row--;
+                t_render_col++;
+                if(t_render_row<0) {
+                    break;  //出现了绘制error by fyz
+                }
+            }
+        }
+        t_elem->pushData(_row, _col,t_render_row,t_render_col);
     }
     return true;
 }
