@@ -84,10 +84,16 @@ void SVMtlCoord::_submitMtl(SVRendererBasePtr _render) {
 //网格
 SVMtlNetGrid::SVMtlNetGrid(SVInst *_app)
 :SVMtlCore(_app,"netgrid") {
+    m_boder = 2.0f;
+    m_gridsize = 10.0f;
+    m_width = 100.0f;
+    m_height = 100.0f;
 }
 
 SVMtlNetGrid::SVMtlNetGrid(SVMtlNetGrid *_mtl)
 :SVMtlCore(_mtl){
+    m_boder = _mtl->m_boder;
+    m_gridsize = _mtl->m_gridsize;
     m_width = _mtl->m_width;
     m_height = _mtl->m_height;
 }
@@ -97,12 +103,20 @@ SVMtlNetGrid::~SVMtlNetGrid() {
 
 void SVMtlNetGrid::_submitMtl(SVRendererBasePtr _render) {
     SVMtlCore::_submitMtl(_render);
-    _render->submitUniformf2("u_grid_size", m_width,m_height);
+    _render->submitUniformf("u_gsize", m_gridsize);
+    _render->submitUniformf("u_border", m_boder); //最小是2.0f
+    _render->submitUniformf("u_tbl_w", m_width); //最小是2.0f
+    _render->submitUniformf("u_tbl_h", m_height); //最小是2.0f
+}
+
+void SVMtlNetGrid::setGridParam(s32 _gridsize,s32 _border) {
+    m_boder = _border;
+    m_gridsize = _gridsize;
 }
 
 void SVMtlNetGrid::setGridSize(s32 _width,s32 _height) {
-    m_width = _width*1.0f;
-    m_height = _height*1.0f;
+    m_width = _width;
+    m_height = _height;
 }
 
 //

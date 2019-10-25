@@ -78,12 +78,19 @@ namespace sv {
             
             SV_MTL_CLONE(SVMtlNetGrid);
             
+            void setGridParam(s32 _gridsize,s32 _border);
+            
             void setGridSize(s32 _width,s32 _height);
             
         protected:
             virtual void _submitMtl(SVRendererBasePtr _render);
+            f32 m_boder;
+            f32 m_gridsize;
             f32 m_width;
             f32 m_height;
+            SVColor m_linecolor;
+            SVColor m_bgcolor;
+            SVColor m_bodercolor;
         };
         
         //粒子带动画的
