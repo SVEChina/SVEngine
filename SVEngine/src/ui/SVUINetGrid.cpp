@@ -195,6 +195,8 @@ SVUINetGrid::SVUINetGrid(SVInst *_app)
     m_grid_unit = 16.0f;
     m_grid_x = 2;
     m_grid_y = 2;
+    m_off_x = 0.0f;
+    m_off_y = 0.0f;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pMesh = nullptr;
     m_gridTex = nullptr;
@@ -248,6 +250,17 @@ void SVUINetGrid::setArcho(EUIARCHO _archo) {
     m_refresh = true;
 }
 
+//滚动
+void SVUINetGrid::scroll(f32 _x,f32 _y) {
+    m_off_x += _x;
+    m_off_y += _y;
+}
+
+void SVUINetGrid::scrollReset() {
+    m_off_x = 0.0f;
+    m_off_y = 0.0f;
+}
+
 void SVUINetGrid::update(f32 dt){
     SVNode::update(dt);
     if(m_refresh) {
@@ -280,6 +293,7 @@ void SVUINetGrid::update(f32 dt){
     t_mtl_netgrid->setZOffParam(-1.0f, -1.0f);
     t_mtl_netgrid->setBlendEnable(true);
     t_mtl_netgrid->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    //t_mtl_netgrid->
     //
     t_mtl_netgrid->setGridParam(m_grid_unit,2.0f);
     f32 t_w = m_grid_unit*m_grid_x;
@@ -291,7 +305,7 @@ void SVUINetGrid::update(f32 dt){
     FMat4 t_off_mat;
     t_off_mat.setTranslate(FVec3(m_off_x,m_off_y,0.0f));
     t_off_mat = m_absolutMat*t_off_mat;
-    t_off_mat = m_absolutMat;
+    //
     for(s32 i=0;i<m_elemTbl.size();i++) {
         m_elemTbl[i]->refreshData(m_grid_unit);
         m_elemTbl[i]->update(dt,t_off_mat.get());

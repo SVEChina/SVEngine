@@ -83,6 +83,24 @@ namespace sv {
             
             void setZOffParam(f32 _factor,f32 _unit);
             
+            //设置模版测试
+            void setStencilEnable(bool _bStencilEnable);
+            
+            void setStencilClear(bool _clear);
+            
+            void setStencilPass(s32 _pass);
+            
+            void setStencilRef(s32 _ref);
+            
+            void setStencilMask(s32 _mask);
+            
+            void setStencilZPass(s32 _method);
+            
+            void setStencilZfail(s32 _method);
+            
+            void setStencilSfail(s32 _method);
+            
+            //
             void reloadShader(cptr8 _shader);
             
         public:
