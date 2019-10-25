@@ -117,13 +117,15 @@ namespace sv {
             //弹出某一元素的数据
             void popElemData(s32 _type);
             
+            //清空所有类型的数据
+            void clearAllElemData();
+            
         protected:
             f32 m_grid_unit;
             s32 m_grid_x;
             s32 m_grid_y;
             bool m_refresh;
             s32 m_valid_row;    //有效行
-            s32 m_valid_col;    //有效列
             
             //偏移值 主要用于横滚
             f32 m_off_x;

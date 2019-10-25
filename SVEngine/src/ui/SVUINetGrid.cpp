@@ -101,8 +101,9 @@ void SVUINetElem::refreshData(s32 _unit) {
     m_dirty = false;
     //构建数据
     s32 t_len = m_elemPool.size();
-    if(t_len ==0 )
+    if(t_len ==0 ) {
         return ;
+    }
     s32 t_index_num = t_len*6;
     SVDataSwapPtr t_index_data = MakeSharedPtr<SVDataSwap>();
     SVDataSwapPtr t_data = MakeSharedPtr<SVDataSwap>();
@@ -198,7 +199,6 @@ SVUINetGrid::SVUINetGrid(SVInst *_app)
     m_pMesh = nullptr;
     m_gridTex = nullptr;
     m_valid_row = m_grid_y;  //有效行
-    m_valid_col = 0;         //有效列
 }
 
 SVUINetGrid::~SVUINetGrid(){
@@ -437,5 +437,11 @@ void SVUINetGrid::_updateAllElemShow() {
 void SVUINetGrid::_updateElemShow(SVUINetElemPtr _elem) {
     if(_elem) {
         _elem->refreshData(m_grid_unit);
+    }
+}
+
+void SVUINetGrid::clearAllElemData() {
+    for(s32 i=0;i<m_elemTbl.size();i++) {
+        m_elemTbl[i]->clearData();
     }
 }
