@@ -70,6 +70,16 @@ void SVRenderMgr::swapData(){
     m_logicLock->unlock();
 }
 
+void SVRenderMgr::clearData(){
+    m_logicLock->lock();
+    m_renderLock->lock();
+    if(m_pRenderScene && m_pRenderer){
+        m_RStreamCache->clearSVRenderCmd();
+    }
+    m_renderLock->unlock();
+    m_logicLock->unlock();
+}
+
 void SVRenderMgr::pushRCmdCreate(SVRObjBasePtr _robj){
     m_logicLock->lock();
     if(_robj){

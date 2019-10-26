@@ -33,8 +33,6 @@ namespace sv {
         void clearCache();
         //挂起SV
         void svSuspend();
-        //将要挂起SV
-        void svWillSuspend();
         //唤醒SV
         void svResume();
 //        //同步模式
