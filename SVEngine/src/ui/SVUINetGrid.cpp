@@ -320,7 +320,7 @@ void SVUINetGrid::update(f32 dt){
     
     m_pRenderObj->setMtl(t_mtl_netgrid);
     //绘制元素
-    m_off_x = -15.0f;
+    //m_off_x = -15.0f;
     FMat4 t_off_mat;
     t_off_mat.setTranslate(FVec3(m_off_x,m_off_y,0.0f));
     t_off_mat = m_absolutMat*t_off_mat;
