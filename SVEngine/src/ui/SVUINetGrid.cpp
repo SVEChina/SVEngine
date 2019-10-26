@@ -171,6 +171,16 @@ void SVUINetElem::update(f32 _dt,f32 *_mat) {
         t_mtl->setZOffParam(-1.0f, -1.0f);
         t_mtl->setBlendEnable(true);
         t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        //开启模版缓存
+        t_mtl->setStencilEnable(true);
+        t_mtl->setStencilClear(false);
+        t_mtl->setStencilPass(SV_EQUAL);
+        t_mtl->setStencilZPass(SV_KEEP);
+        t_mtl->setStencilSfail(SV_KEEP);
+        t_mtl->setStencilZfail(SV_KEEP);
+        t_mtl->setStencilRef(0x01);
+        t_mtl->setStencilMask(0xff);
+        //
         m_pRObj->setMtl(t_mtl);
     }
 }
@@ -195,6 +205,8 @@ SVUINetGrid::SVUINetGrid(SVInst *_app)
     m_grid_unit = 16.0f;
     m_grid_x = 2;
     m_grid_y = 2;
+    m_off_x = 0.0f;
+    m_off_y = 0.0f;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_pMesh = nullptr;
     m_gridTex = nullptr;
@@ -248,6 +260,17 @@ void SVUINetGrid::setArcho(EUIARCHO _archo) {
     m_refresh = true;
 }
 
+//滚动
+void SVUINetGrid::scroll(f32 _x,f32 _y) {
+    m_off_x += _x;
+    m_off_y += _y;
+}
+
+void SVUINetGrid::scrollReset() {
+    m_off_x = 0.0f;
+    m_off_y = 0.0f;
+}
+
 void SVUINetGrid::update(f32 dt){
     SVNode::update(dt);
     if(m_refresh) {
@@ -280,19 +303,36 @@ void SVUINetGrid::update(f32 dt){
     t_mtl_netgrid->setZOffParam(-1.0f, -1.0f);
     t_mtl_netgrid->setBlendEnable(true);
     t_mtl_netgrid->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    t_mtl_netgrid->setGridSize(m_grid_x,m_grid_y);
+    //开启模版缓存
+    t_mtl_netgrid->setStencilEnable(true);
+    t_mtl_netgrid->setStencilClear(true);
+    t_mtl_netgrid->setStencilPass(SV_ALWAYS);
+    t_mtl_netgrid->setStencilZPass(SV_REPLACE);
+    t_mtl_netgrid->setStencilSfail(SV_REPLACE);
+    t_mtl_netgrid->setStencilZfail(SV_KEEP);
+    t_mtl_netgrid->setStencilRef(0x01);
+    t_mtl_netgrid->setStencilMask(0xff);
+    //
+    t_mtl_netgrid->setGridParam(m_grid_unit,2.0f);
+    f32 t_w = m_grid_unit*m_grid_x;
+    f32 t_h = m_grid_unit*m_grid_y;
+    t_mtl_netgrid->setGridSize(t_w,t_h);
+    
     m_pRenderObj->setMtl(t_mtl_netgrid);
     //绘制元素
+    m_off_x = -15.0f;
+    FMat4 t_off_mat;
+    t_off_mat.setTranslate(FVec3(m_off_x,m_off_y,0.0f));
+    t_off_mat = m_absolutMat*t_off_mat;
+    //
     for(s32 i=0;i<m_elemTbl.size();i++) {
         m_elemTbl[i]->refreshData(m_grid_unit);
-        m_elemTbl[i]->update(dt,m_absolutMat.get());
+        m_elemTbl[i]->update(dt,t_off_mat.get());
     }
 }
 
 void SVUINetGrid::render(){
     if (m_visible ){
-        //绘制背景
-        
         //绘制网格
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_pRenderObj) {
@@ -362,33 +402,33 @@ bool SVUINetGrid::_isRenderValid(s32 _row,s32 _col) {
 bool SVUINetGrid::addElemData(s32 _type,s32 _row,s32 _col) {
     SVUINetElemPtr t_elem = getElem(_type);
     if(t_elem){
-        if(_row == 0) {
-            //查找有效列
-            m_valid_row = m_grid_y-1;
-            for(s32 i=0;i<m_grid_y;i++) {
-                if(!_isRenderValid(i,_col)) {
-                    m_valid_row = i-1;
-                    break;
-                }
-            }
-        }
+//        if(_row == 0) {
+//            //查找有效列
+//            m_valid_row = m_grid_y-1;
+//            for(s32 i=0;i<m_grid_y;i++) {
+//                if(!_isRenderValid(i,_col)) {
+//                    m_valid_row = i-1;
+//                    break;
+//                }
+//            }
+//        }
         s32 t_render_row = _row;
         s32 t_render_col = _col;
-        if(_row>m_valid_row) {
-            //做位置修正
-            t_render_col = _col + (_row-m_valid_row);
-            t_render_row = m_valid_row;
-            while(1) {
-                if(_isRenderValid(t_render_row,t_render_col)) {
-                    break;  //找到有效位置
-                }
-                t_render_row--;
-                t_render_col++;
-                if(t_render_row<0) {
-                    break;  //出现了绘制error by fyz
-                }
-            }
-        }
+//        if(_row>m_valid_row) {
+//            //做位置修正
+//            t_render_col = _col + (_row-m_valid_row);
+//            t_render_row = m_valid_row;
+//            while(1) {
+//                if(_isRenderValid(t_render_row,t_render_col)) {
+//                    break;  //找到有效位置
+//                }
+//                t_render_row--;
+//                t_render_col++;
+//                if(t_render_row<0) {
+//                    break;  //出现了绘制error by fyz
+//                }
+//            }
+//        }
         t_elem->pushData(_row, _col,t_render_row,t_render_col);
     }
     return true;

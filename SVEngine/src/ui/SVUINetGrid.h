@@ -120,6 +120,11 @@ namespace sv {
             //清空所有类型的数据
             void clearAllElemData();
             
+            //滚动
+            void scroll(f32 _x,f32 _y);
+            
+            void scrollReset();
+            
         protected:
             f32 m_grid_unit;
             s32 m_grid_x;
