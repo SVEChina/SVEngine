@@ -46,7 +46,7 @@ SVMtlCore::SVMtlCore(SVMtlCore* _mtl)
     m_LogicParamBlend.copy(_mtl->m_LogicParamBlend);
     m_LogicParamCull.copy(_mtl->m_LogicParamCull);
     m_LogicParamDepth.copy(_mtl->m_LogicParamDepth);
-    m_LogicParamStencil.copy(_mtl->m_LogicParamStencil);
+    //m_LogicParamStencil.copy(_mtl->m_LogicParamStencil);
     m_LogicParamAlpha.copy(_mtl->m_LogicParamAlpha);
     m_LogicParamSize.copy(_mtl->m_LogicParamSize);
     m_LogicParamMatrix.copy(_mtl->m_LogicParamMatrix);
@@ -343,7 +343,7 @@ void SVMtlCore::_submitState(SVRendererBasePtr _render) {
     }
     //模板测试
     if((m_LogicMtlFlag0&MTL_F0_STENCIL)>0){
-        _render->submitStencil(m_LogicParamStencil);
+       // _render->submitStencil(m_LogicParamStencil);
     }
     //alpha测试
     if((m_LogicMtlFlag0&MTL_F0_ALPHA)>0){
