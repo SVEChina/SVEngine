@@ -72,7 +72,6 @@ void SVThreadMain::resetTime(){
     m_first = true;
 }
 
-
 void SVThreadMain::clearThreadCache(){
     m_lock->lock();
     SVThreadWork::_innerUpdate();
