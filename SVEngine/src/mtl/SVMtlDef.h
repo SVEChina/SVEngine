@@ -160,6 +160,27 @@ namespace sv {
         MTL_F_BASEON_TINT         = 0x00040000,
     };
     
+    /* Blending
+     */
+    enum MTLBLEND{
+        MTL_BLEND_NONE = 0,
+        MTL_BLEND_ZERO,
+        MTL_BLEND_ONE,
+        MTL_BLEND_SRC_COLOR,
+        MTL_BLEND_ONE_MINUS_SRC_COLOR,
+        MTL_BLEND_SRC_ALPHA,
+        MTL_BLEND_ONE_MINUS_SRC_ALPHA,
+        MTL_BLEND_DEST_COLOR,
+        MTL_BLEND_ONE_MINUS_DEST_COLOR,
+        MTL_BLEND_DEST_ALPHA,
+        MTL_BLEND_ONE_MINUS_DEST_ALPHA,
+        MTL_BLEND_SRC1_COLOR,
+        MTL_BLEND_ONE_MINUS_SRC1_COLOR,
+        MTL_BLEND_SRC1_ALPHA,
+        MTL_BLEND_ONE_MINUS_SRC1_ALPHA,
+        MTL_NUM_BLEND_FUNC,
+    };
+
     //美颜滤镜(FTB filter beauty)
     enum  FTBTYPE{
         FTB_ORIGIN = 0,
