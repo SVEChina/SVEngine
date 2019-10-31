@@ -43,6 +43,7 @@ namespace sv {
             f32 m_height;
             bool m_dirty_mesh;
             SVColor m_color;
+            SVMtlCorePtr m_texMtl;
             SVMtlColorPtr m_colorMtl;
             //运行时属性
             SVTexturePtr m_pTex;
