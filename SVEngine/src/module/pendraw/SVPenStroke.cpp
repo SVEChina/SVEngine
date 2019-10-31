@@ -858,7 +858,7 @@ void SVPenStroke::renderStroke(){
         }
         m_pMtl->setDepthEnable(true);
         m_pMtl->setBlendEnable(true);
-        m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        m_pMtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
         m_pMtl->setCullEnable(false);
         m_pMtl->setModelMatrix(m_localMat);
         //更新顶点数据
@@ -943,7 +943,7 @@ void SVPenStroke::renderGlow(){
         }
         m_pGlowMtl->setDepthEnable(false);
         m_pGlowMtl->setBlendEnable(true);
-        m_pGlowMtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
+        m_pGlowMtl->setBlendState(MTL_BLEND_SRC_ALPHA, MTL_BLEND_ONE);
         m_pGlowMtl->setCullEnable(false);
         m_pGlowMtl->setModelMatrix(m_localMat);
         //更新顶点数据

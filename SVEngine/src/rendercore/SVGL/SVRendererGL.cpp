@@ -424,12 +424,26 @@ void SVRendererGL::submitUniformf4v(cptr8 _name,f32* _data,s32 _size){
 
 //提交融合参数
 void SVRendererGL::submitBlend(SVBlendParam& _param){
-    
+    assert(_param.srcParam >= 0 && _param.srcParam < NUM_BLEND_FUNC && "SVRendererGL::submitBlend(): bad blend source function");
+    assert(_param.dstParam >= 0 && _param.dstParam < NUM_BLEND_FUNC && "SVRendererGL::submitBlend(): bad blend destination function");
+    static const GLuint blend_functions[] = {
+        0,
+        GL_ZERO,
+        GL_ONE,
+        GL_SRC_COLOR,
+        GL_ONE_MINUS_SRC_COLOR,
+        GL_SRC_ALPHA,
+        GL_ONE_MINUS_SRC_ALPHA,
+        GL_DST_COLOR,
+        GL_ONE_MINUS_DST_COLOR,
+        GL_DST_ALPHA,
+        GL_ONE_MINUS_DST_ALPHA
+    };
     if (_param.enable) {
         if (!glIsEnabled(GL_BLEND)) {
             glEnable(GL_BLEND);
         }
-        glBlendFunc(_param.srcParam, _param.dstParam);
+        glBlendFunc(blend_functions[_param.srcParam], blend_functions[_param.dstParam]);
     } else {
         if (glIsEnabled(GL_BLEND)) {
             glDisable(GL_BLEND);

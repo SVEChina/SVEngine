@@ -71,7 +71,7 @@ namespace sv {
             
             void setBlendEnable(bool _bBlendEnable);
             
-            void setBlendState(s32 _src , s32 _dst);
+            void setBlendState(MTLBLENDFUNC _src , MTLBLENDFUNC _dst);
             
             void setDepthEnable(bool _bDepthEnable);
             

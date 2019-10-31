@@ -117,8 +117,8 @@ namespace sv {
             void copy(SVBlendParam& _param);
             
             bool enable;
-            s32 srcParam;
-            s32 dstParam;
+            MTLBLENDFUNC srcParam;
+            MTLBLENDFUNC dstParam;
         };
         
         //

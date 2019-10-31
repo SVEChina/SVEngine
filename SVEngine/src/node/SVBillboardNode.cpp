@@ -39,7 +39,7 @@ SVBillboardNode::SVBillboardNode(SVInst *_app)
     m_pMtl = MakeSharedPtr<SVMtlBillboard>(_app);
     m_pMtl->setDepthEnable(false);
     m_pMtl->setBlendEnable(true);
-    m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    m_pMtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
 }
 
 SVBillboardNode::SVBillboardNode(SVInst *_app,f32 _w,f32 _h)
@@ -160,7 +160,7 @@ void SVBillboardNode::update(f32 dt) {
             t_mtl->setModelMatrix(m_absolutMat.get());
             t_mtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
             t_mtl->setBlendEnable(true);
-            t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            t_mtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
             if(m_inTexType == E_TEX_END) {
                 t_mtl->setTexture(0,m_pTex);
             }else{

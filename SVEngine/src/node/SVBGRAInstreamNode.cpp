@@ -64,7 +64,7 @@ void SVBGRAInstreamNode::update(f32 dt) {
     if (m_pRenderObj && m_pMesh) {
         if(m_pMtl){
             m_pMtl->setBlendEnable(true);
-            m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            m_pMtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
             m_pMtl->setModelMatrix(m_absolutMat.get());
             m_pMtl->setTexcoordFlip(1.0f, -1.0f);
             m_pMtl->update(dt);
@@ -74,12 +74,12 @@ void SVBGRAInstreamNode::update(f32 dt) {
             //创建新的材质
             SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2dBGRA");
             t_mtl->setBlendEnable(false);
-            t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            t_mtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
             t_mtl->setModelMatrix(m_absolutMat.get());
             t_mtl->setTexcoordFlip(1.0f, -1.0f);
             t_mtl->setTexture(0,m_pTex);
             t_mtl->setBlendEnable(true);
-            t_mtl->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+            t_mtl->setBlendState(MTL_BLEND_SRC_ALPHA,MTL_BLEND_ONE_MINUS_SRC_ALPHA);
             t_mtl->update(dt);
             m_pRenderObj->setMesh(m_pMesh);
             m_pRenderObj->setMtl(t_mtl);

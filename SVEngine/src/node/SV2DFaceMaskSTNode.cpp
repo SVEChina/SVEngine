@@ -80,7 +80,7 @@ void SV2DFaceMaskSTNode::update(f32 dt) {
         m_mtlFace2D->update(dt);
         m_mtlFace2D->setModelMatrix(m_absolutMat.get());
         m_mtlFace2D->setBlendEnable(true);
-        m_mtlFace2D->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        m_mtlFace2D->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
         m_mtlFace2D->setTexcoordFlip(1.0, 1.0);
         m_mtlFace2D->setTexSizeIndex(0, 1.0f/m_texwidth, 1.0f/m_texheight);
     }

@@ -119,7 +119,7 @@ void SVUIPanel::update(f32 dt) {
         t_mtl->setModelMatrix(m_absolutMat.get());
         t_mtl->setTexcoordFlip(1.0f, -1.0f);
         t_mtl->setBlendEnable(true);
-        t_mtl->setBlendState(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        t_mtl->setBlendState(MTL_BLEND_SRC_ALPHA, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
         t_mtl->update(dt);
         m_pRenderObj->setMesh(m_pMesh);
         m_pRenderObj->setMtl(t_mtl);
