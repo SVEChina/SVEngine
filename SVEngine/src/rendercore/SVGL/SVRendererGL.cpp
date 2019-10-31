@@ -439,12 +439,11 @@ void SVRendererGL::submitBlend(SVBlendParam& _param){
 
 //提交模板参数
 void SVRendererGL::submitStencil(SVStencilParam& _param){
-    return;
-    if (false) {
+    if (_param.clear) {
         //glClearStencil(0);
         glClear(GL_STENCIL_BUFFER_BIT);
     }
-    if (false) {
+    if (_param.enable) {
         if (!glIsEnabled(GL_STENCIL_TEST)) {
             glEnable(GL_STENCIL_TEST);
         }
