@@ -5327,6 +5327,8 @@
 		5F82682F2282FECB003D4476 /* SVMtlGLTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F8268292282FECA003D4476 /* SVMtlGLTF.cpp */; };
 		5F8268302282FECB003D4476 /* SVMtlGLTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F8268292282FECA003D4476 /* SVMtlGLTF.cpp */; };
 		5F8268312282FECB003D4476 /* SVMtlGLTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F8268292282FECA003D4476 /* SVMtlGLTF.cpp */; };
+		5F8E68BE236FF736003FE1E0 /* SVFrameAniNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8E68BC236FF735003FE1E0 /* SVFrameAniNode.h */; };
+		5F8E68BF236FF736003FE1E0 /* SVFrameAniNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E68BD236FF735003FE1E0 /* SVFrameAniNode.cpp */; };
 		5FAB9DD82189AC6700B05ED5 /* SVAniBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */; };
 		5FAB9DD92189AC6700B05ED5 /* SVAniBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */; };
 		5FAB9DDA2189AC6700B05ED5 /* SVAniBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */; };
@@ -6792,6 +6794,8 @@
 		5F82681F2282C455003D4476 /* SVMorphNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMorphNode.h; sourceTree = "<group>"; };
 		5F8268282282FECA003D4476 /* SVMtlGLTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlGLTF.h; sourceTree = "<group>"; };
 		5F8268292282FECA003D4476 /* SVMtlGLTF.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlGLTF.cpp; sourceTree = "<group>"; };
+		5F8E68BC236FF735003FE1E0 /* SVFrameAniNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFrameAniNode.h; sourceTree = "<group>"; };
+		5F8E68BD236FF735003FE1E0 /* SVFrameAniNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFrameAniNode.cpp; sourceTree = "<group>"; };
 		5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVAniBase.cpp; sourceTree = "<group>"; };
 		5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAniBase.h; sourceTree = "<group>"; };
 		5FB61F842227E36A001EA141 /* libpython2.7.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpython2.7.tbd; path = usr/lib/libpython2.7.tbd; sourceTree = SDKROOT; };
@@ -8704,6 +8708,8 @@
 				5F7D5F73215F407700803BCF /* SVFacePointNode.h */,
 				5F7D5F5D215F407700803BCF /* SVFaceShapeNode.cpp */,
 				5F7D5F74215F407700803BCF /* SVFaceShapeNode.h */,
+				5F8E68BD236FF735003FE1E0 /* SVFrameAniNode.cpp */,
+				5F8E68BC236FF735003FE1E0 /* SVFrameAniNode.h */,
 				5F7D5F6B215F407700803BCF /* SVFrameOutIOS.cpp */,
 				5F7D5F52215F407700803BCF /* SVFrameOutIOS.h */,
 				5F7D5F56215F407700803BCF /* SVFrameOutNode.cpp */,
@@ -10946,6 +10952,7 @@
 				020C4D3022DC5DD200201753 /* b3BvhTraversal.h in Headers */,
 				5F7D67BC215F407900803BCF /* SVBGRAInstreamNode.h in Headers */,
 				020C446C22DC5DCC00201753 /* btCollisionAlgorithm.h in Headers */,
+				5F8E68BE236FF736003FE1E0 /* SVFrameAniNode.h in Headers */,
 				5C0C6028219BFF790052A826 /* FIFOSampleBuffer.h in Headers */,
 				020C4CA022DC5DD200201753 /* btConvexHull.h in Headers */,
 				5F7D6496215F407800803BCF /* SVTimeLine.h in Headers */,
@@ -13039,6 +13046,7 @@
 				020C479422DC5DCE00201753 /* btEmptyShape.cpp in Sources */,
 				020C44F822DC5DCC00201753 /* btSubSimplexConvexCast.cpp in Sources */,
 				020C45EE22DC5DCD00201753 /* btCollisionObject.cpp in Sources */,
+				5F8E68BF236FF736003FE1E0 /* SVFrameAniNode.cpp in Sources */,
 				5F7D611E215F407700803BCF /* SVVertDef.cpp in Sources */,
 				5F7D60F6215F407700803BCF /* SVModel.cpp in Sources */,
 				020C48CA22DC5DCF00201753 /* btMultiBodyJointLimitConstraint.cpp in Sources */,
