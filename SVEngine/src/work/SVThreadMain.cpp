@@ -72,14 +72,13 @@ void SVThreadMain::resetTime(){
     m_first = true;
 }
 
-
 void SVThreadMain::clearThreadCache(){
     m_lock->lock();
     SVThreadWork::_innerUpdate();
     //逻辑更新
     mApp->m_pGlobalMgr->update(0.033f);
     //清楚渲染数据
-    mApp->getRenderMgr()->clearData();
+    mApp->getRenderMgr()->swapData();
     //清屏
     mApp->getRenderMgr()->clearScreen();
     m_lock->unlock();

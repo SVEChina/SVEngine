@@ -409,7 +409,7 @@ void SVMtlCore::setLineSize(f32 _linewidth){
     }
 }
 
-void SVMtlCore::setBlendState(s32 _src , s32 _dst){
+void SVMtlCore::setBlendState(MTLBLENDFUNC _src , MTLBLENDFUNC _dst){
     m_LogicParamBlend.srcParam = _src;
     m_LogicParamBlend.dstParam = _dst;
 }
@@ -531,7 +531,7 @@ void SVMtlCore::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
         if (t_blend.HasMember("dst") && t_blend["dst"].IsInt()) {
             dst = t_blend["dst"].GetInt();
         }
-        setBlendState(src, dst);
+        setBlendState((MTLBLENDFUNC)src, (MTLBLENDFUNC)dst);
     }
     //shader
     if (item.HasMember("shader") && item["shader"].IsString()) {

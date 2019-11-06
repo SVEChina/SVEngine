@@ -57,7 +57,7 @@ void SVBitFontNode::update(f32 dt) {
         //材质独立性
         SVMtlCorePtr t_mtl = MakeSharedPtr<SVMtlCore>(mApp, "normal2d_c");
         t_mtl->setBlendEnable(true);
-        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        t_mtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
         if (m_texture) {
             t_mtl->setTexture(0,m_texture);
         }

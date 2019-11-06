@@ -209,7 +209,7 @@ void SVFaceCoord::update(f32 dt) {
         t_mtl_box->setTexcoordFlip(1.0, -1.0f);
         t_mtl_box->setDepthEnable(false);
         t_mtl_box->setBlendEnable(true);
-        t_mtl_box->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        t_mtl_box->setBlendState(MTL_BLEND_SRC_ALPHA,MTL_BLEND_ONE_MINUS_SRC_ALPHA);
         m_pRObjNor->setMesh(m_pMesh);
         m_pRObjNor->setMtl(t_mtl_box);
     }
@@ -222,7 +222,7 @@ void SVFaceCoord::update(f32 dt) {
         t_mtl_box->setTexcoordFlip(1.0, -1.0f);
         t_mtl_box->setDepthEnable(false);
         t_mtl_box->setBlendEnable(true);
-        t_mtl_box->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        t_mtl_box->setBlendState(MTL_BLEND_SRC_ALPHA,MTL_BLEND_ONE_MINUS_SRC_ALPHA);
         m_pRObjAct->setMesh(m_pMeshAct);
         m_pRObjAct->setMtl(t_mtl_box);
     }

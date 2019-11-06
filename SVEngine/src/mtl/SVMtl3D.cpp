@@ -12,8 +12,8 @@
 #include "../node/SVCameraNode.h"
 SVMtl3D::SVMtl3D(SVInst *_app, cptr8 _shader)
 :SVMtlCore(_app, _shader) {
-    m_LogicParamBlend.srcParam = GL_ONE;
-    m_LogicParamBlend.dstParam = GL_ONE_MINUS_SRC_ALPHA;
+    m_LogicParamBlend.srcParam = MTL_BLEND_ONE;
+    m_LogicParamBlend.dstParam = MTL_BLEND_ONE_MINUS_SRC_ALPHA;
     m_ambientStrength = 1.0f;
     m_ambient_color.set(1.0f, 1.0f, 1.0f);
     m_lightColor.set(1.0f, 1.0f, 1.0f);

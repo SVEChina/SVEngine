@@ -146,36 +146,35 @@ void SVSpineNode::update(f32 dt) {
             t_mtl->setModelMatrix(m_absolutMat.get());
             t_mtl->setTexture(0,pMeshData->m_pTex);
             t_mtl->setBlendEnable(true);
-            t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            t_mtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
             t_mtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_NORMAL);
             
             switch (pMeshData->m_blendMode) {
                 case SP_BLEND_MODE_NORMAL:{
                     if(m_spine->m_preMultAlpha){
-                        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+                        t_mtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
                     }else{
-                        t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+                        t_mtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
                     }
                     break;
                 }
                 case SP_BLEND_MODE_ADDITIVE:{
-                    t_mtl->setBlendState(m_spine->m_preMultAlpha ? GL_ONE : GL_SRC_ALPHA, GL_ONE);
-//                    t_mtl->setBlendState(GL_SRC_ALPHA, GL_ONE);
+                    t_mtl->setBlendState(m_spine->m_preMultAlpha ? MTL_BLEND_ONE : MTL_BLEND_SRC_ALPHA, MTL_BLEND_ONE);
                     t_mtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_ADDITIVE);
                     break;
                 }
                 case SP_BLEND_MODE_MULTIPLY:{
-                    t_mtl->setBlendState(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+                    t_mtl->setBlendState(MTL_BLEND_DEST_COLOR, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
                     t_mtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_MULTIPLY);
                     break;
                 }
                 case SP_BLEND_MODE_SCREEN:{
-                    t_mtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
+                    t_mtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_COLOR);
                     t_mtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_SCREEN);
                     break;
                 }
                 default:{
-                    t_mtl->setBlendState(m_spine->m_preMultAlpha ? GL_ONE : GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                    t_mtl->setBlendState(m_spine->m_preMultAlpha ? MTL_BLEND_ONE : MTL_BLEND_SRC_ALPHA, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
                     break;
                 }
             }

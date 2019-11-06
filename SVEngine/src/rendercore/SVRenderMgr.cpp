@@ -70,16 +70,6 @@ void SVRenderMgr::swapData(){
     m_logicLock->unlock();
 }
 
-void SVRenderMgr::clearData(){
-    m_logicLock->lock();
-    m_renderLock->lock();
-    if(m_pRenderScene && m_pRenderer){
-        m_RStreamCache->clearSVRenderCmd();
-    }
-    m_renderLock->unlock();
-    m_logicLock->unlock();
-}
-
 void SVRenderMgr::pushRCmdCreate(SVRObjBasePtr _robj){
     m_logicLock->lock();
     if(_robj){
@@ -174,7 +164,7 @@ void SVRenderMgr::_adapt() {
             SVMtlCorePtr t_pMtl = MakeSharedPtr<SVMtlCore>(mApp, "screennor");
             t_pMtl->setTexture(0,E_TEX_MAIN);    //那第一张纹理
             t_pMtl->setBlendEnable(false);
-            t_pMtl->setBlendState(GL_ONE,GL_ZERO);
+            t_pMtl->setBlendState(MTL_BLEND_ONE,MTL_BLEND_ZERO);
             bool t_mirror = mApp->getConfig()->mirror;
             if( !t_mirror ) {
                 t_pMtl->setTexcoordFlip(-1.0f, 1.0f);

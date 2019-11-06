@@ -13,8 +13,8 @@ SVMtlFace2D::SVMtlFace2D(SVInst *_app)
 ,m_pMaskTexture(nullptr) {
     m_LogicParamDepth.enable = false;
     m_LogicParamBlend.enable = true;
-    m_LogicParamBlend.srcParam = GL_ONE;
-    m_LogicParamBlend.dstParam = GL_ONE_MINUS_SRC_ALPHA;
+    m_LogicParamBlend.srcParam = MTL_BLEND_ONE;
+    m_LogicParamBlend.dstParam = MTL_BLEND_ONE_MINUS_SRC_ALPHA;
 }
 
 SVMtlFace2D::SVMtlFace2D(SVMtlFace2D *_mtl)
