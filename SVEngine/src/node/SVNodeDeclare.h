@@ -87,7 +87,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVUIPanel);
         DECLARE_SHAREPTR(SVUINetElem);
         DECLARE_SHAREPTR(SVUINetGrid);
-        
+        DECLARE_SHAREPTR(SVUIButton);
     }//!namespace node
     
 }//!namespace sv

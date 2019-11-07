@@ -85,6 +85,10 @@ void SVEffectUnit::_attachToPeople(SVNodePtr _node){
 
 void SVEffectUnit::destroy(){
     if (m_node) {
+        SVSpineNodePtr t_spineNode = DYN_TO_SHAREPTR(SVSpineNode, m_node);
+        if (t_spineNode) {
+            t_spineNode->stop();
+        }
         m_node->removeFromParent();
     }
     if (m_personAct) {

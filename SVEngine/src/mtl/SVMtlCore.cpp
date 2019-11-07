@@ -187,6 +187,7 @@ void SVMtlCore::recoverMtl() {
     //模板测试
     if((m_LogicMtlFlag0&MTL_F0_STENCIL)>0){
         m_LogicParamStencil.enable = false;
+        m_LogicParamStencil.clear = false;
         t_renderer->submitStencil(m_LogicParamStencil);
     }
     //alpha测试
@@ -408,7 +409,7 @@ void SVMtlCore::setLineSize(f32 _linewidth){
     }
 }
 
-void SVMtlCore::setBlendState(s32 _src , s32 _dst){
+void SVMtlCore::setBlendState(MTLBLENDFUNC _src , MTLBLENDFUNC _dst){
     m_LogicParamBlend.srcParam = _src;
     m_LogicParamBlend.dstParam = _dst;
 }
@@ -443,6 +444,48 @@ void SVMtlCore::setZOffParam(f32 _factor,f32 _unit) {
     m_LogicParamZOff.m_unit = _unit;
 }
 
+//设置模版测试
+void SVMtlCore::setStencilEnable(bool _bStencilEnable) {
+    m_LogicParamStencil.enable = _bStencilEnable;
+    m_LogicMtlFlag0 |= MTL_F0_STENCIL;
+}
+
+void SVMtlCore::setStencilClear(bool _clear) {
+    m_LogicParamStencil.clear = _clear;
+    m_LogicMtlFlag0 |= MTL_F0_STENCIL;
+}
+
+void SVMtlCore::setStencilPass(s32 _pass) {
+    m_LogicParamStencil.passMethod = _pass;
+    m_LogicMtlFlag0 |= MTL_F0_STENCIL;
+}
+
+void SVMtlCore::setStencilRef(s32 _ref) {
+    m_LogicParamStencil.refValue = _ref;
+    m_LogicMtlFlag0 |= MTL_F0_STENCIL;
+}
+
+void SVMtlCore::setStencilMask(s32 _mask) {
+    m_LogicParamStencil.maskValue = _mask;
+    m_LogicMtlFlag0 |= MTL_F0_STENCIL;
+}
+
+void SVMtlCore::setStencilZPass(s32 _method) {
+    m_LogicParamStencil.zpass = _method;
+    m_LogicMtlFlag0 |= MTL_F0_STENCIL;
+}
+
+void SVMtlCore::setStencilZfail(s32 _method) {
+    m_LogicParamStencil.zfail = _method;
+    m_LogicMtlFlag0 |= MTL_F0_STENCIL;
+}
+
+void SVMtlCore::setStencilSfail(s32 _method) {
+    m_LogicParamStencil.sfail = _method;
+    m_LogicMtlFlag0 |= MTL_F0_STENCIL;
+}
+
+//
 void SVMtlCore::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator,
                        RAPIDJSON_NAMESPACE::Value &_objValue){
     _toJsonData(_allocator, _objValue);
@@ -488,7 +531,7 @@ void SVMtlCore::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
         if (t_blend.HasMember("dst") && t_blend["dst"].IsInt()) {
             dst = t_blend["dst"].GetInt();
         }
-        setBlendState(src, dst);
+        setBlendState((MTLBLENDFUNC)src, (MTLBLENDFUNC)dst);
     }
     //shader
     if (item.HasMember("shader") && item["shader"].IsString()) {
@@ -553,4 +596,5 @@ void SVMtlCore::_fromJsonData(RAPIDJSON_NAMESPACE::Value &item){
             }
         }
     }
+    //stencil
 }

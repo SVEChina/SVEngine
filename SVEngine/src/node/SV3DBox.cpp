@@ -89,7 +89,7 @@ void SV3DBox::update(f32 dt) {
             m_mtl_box->setTexcoordFlip(1.0, -1.0f);
             m_mtl_box->setDepthEnable(true);
             m_mtl_box->setBlendEnable(true);
-            m_mtl_box->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+            m_mtl_box->setBlendState(MTL_BLEND_SRC_ALPHA,MTL_BLEND_ONE_MINUS_SRC_ALPHA);
             m_pRenderObj->setMesh(m_pMesh);
             m_pRenderObj->setMtl(m_mtl_box);
         }

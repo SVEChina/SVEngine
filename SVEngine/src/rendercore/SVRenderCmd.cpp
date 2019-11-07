@@ -124,7 +124,7 @@ void SVRenderCmdClear::setClearColor(f32 _r,f32 _g,f32 _b,f32 _a) {
 void SVRenderCmdClear::render(){
     if(m_pRenderer){
         m_pRenderer->svClearColor(m_color_r,m_color_g,m_color_b,m_color_a);
-        m_pRenderer->svClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+        m_pRenderer->svClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     }
 }
 
@@ -145,9 +145,9 @@ void SVRenderCmdAdapt::setWinSize(s32 _w,s32 _h){
 void SVRenderCmdAdapt::render(){
     glViewport( 0, 0,m_winWidth,m_winHeight);
     m_pRenderer->svClearColor(m_color_r,m_color_g,m_color_b,m_color_a);
-    m_pRenderer->svClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+    m_pRenderer->svClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 //    glClearColor(m_color_r,m_color_g,m_color_b,m_color_a);
-//    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+//    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     SVRenderCmdNor::render();
 }
 

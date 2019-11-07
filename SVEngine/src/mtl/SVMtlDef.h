@@ -18,6 +18,30 @@ virtual SVMtlCorePtr clone() {\
 }
 
 namespace sv {
+
+//暂时用这个
+
+/* AccumOp */
+#define SV_ACCUM                          0x0100
+#define SV_LOAD                           0x0101
+#define SV_RETURN                         0x0102
+#define SV_MULT                           0x0103
+#define SV_ADD                            0x0104
+
+/* AlphaFunction */
+#define SV_NEVER                          0x0200
+#define SV_LESS                           0x0201
+#define SV_EQUAL                          0x0202
+#define SV_LEQUAL                         0x0203
+#define SV_GREATER                        0x0204
+#define SV_NOTEQUAL                       0x0205
+#define SV_GEQUAL                         0x0206
+#define SV_ALWAYS                         0x0207
+
+#define SV_KEEP                           0x1E00
+#define SV_REPLACE                        0x1E01
+#define SV_INCR                           0x1E02
+#define SV_DECR                           0x1E03
     
     class SVInst;
     
@@ -136,6 +160,23 @@ namespace sv {
         MTL_F_BASEON_TINT         = 0x00040000,
     };
     
+    /* Blending
+     */
+    enum MTLBLENDFUNC{
+        MTL_BLEND_NONE = 0,
+        MTL_BLEND_ZERO,
+        MTL_BLEND_ONE,
+        MTL_BLEND_SRC_COLOR,
+        MTL_BLEND_ONE_MINUS_SRC_COLOR,
+        MTL_BLEND_SRC_ALPHA,
+        MTL_BLEND_ONE_MINUS_SRC_ALPHA,
+        MTL_BLEND_DEST_COLOR,
+        MTL_BLEND_ONE_MINUS_DEST_COLOR,
+        MTL_BLEND_DEST_ALPHA,
+        MTL_BLEND_ONE_MINUS_DEST_ALPHA,
+        MTL_NUM_BLEND_FUNC
+    };
+
     //美颜滤镜(FTB filter beauty)
     enum  FTBTYPE{
         FTB_ORIGIN = 0,

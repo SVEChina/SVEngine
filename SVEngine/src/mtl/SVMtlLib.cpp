@@ -35,8 +35,6 @@ SVMtlCorePtr SVMtlLib::getSkinMtl(SVInst* _app) {
     m_pSkinMtl->setModelMatrix(tMat.get());
     m_pSkinMtl->setBlendEnable(false);
     m_pSkinMtl->setDepthEnable(true);
-    //m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-    //m_pMtl->setBlendMode(SVMtlAni2D::SV_MTL_BLENDMODE_NORMAL);
     m_pSkinMtl->update(0.03f);
     //
     return m_pSkinMtl;

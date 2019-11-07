@@ -85,12 +85,6 @@ void SVInst::svSuspend(){
     }
 }
 
-void SVInst::svWillSuspend(){
-    if( (!m_sync) && m_pTPool && m_pTPool->getMainThread()){
-        m_svst = SV_ST_WILLSUSPEND;
-    }
-}
-
 void SVInst::svResume(){
     if( (!m_sync) && m_pTPool && m_pTPool->getMainThread()){
         m_pTPool->getMainThread()->resetTime();//重新开始的时候要重置下时间，否则第一帧有问题

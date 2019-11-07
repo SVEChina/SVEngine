@@ -163,8 +163,8 @@ SVBlendParam::~SVBlendParam(){
 
 void SVBlendParam::reset(){
     enable = false;
-    srcParam = GL_ONE;
-    dstParam = GL_ONE_MINUS_SRC_ALPHA;
+    srcParam = MTL_BLEND_ONE;
+    dstParam = MTL_BLEND_ONE_MINUS_SRC_ALPHA;
 }
 
 void SVBlendParam::copy(SVBlendParam& _param){

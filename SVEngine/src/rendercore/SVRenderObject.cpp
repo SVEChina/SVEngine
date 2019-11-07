@@ -198,8 +198,10 @@ SVMultMeshMtlRenderObject::pushCmd(SVRenderScenePtr _rs, RENDERSTREAMTYPE stream
 }
 
 void SVMultMeshMtlRenderObject::addRenderObj(SVRenderMeshPtr _pMesh, SVMtlCorePtr _pMtl) {
-    m_objMeshPool.append(_pMesh);
-    m_objMaterialPool.append(_pMtl->clone());
+    if (_pMtl && _pMesh) {
+        m_objMeshPool.append(_pMesh);
+        m_objMaterialPool.append(_pMtl->clone());
+    }
 }
 
 void SVMultMeshMtlRenderObject::clearMesh() {

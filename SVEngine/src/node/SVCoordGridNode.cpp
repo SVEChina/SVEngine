@@ -54,7 +54,7 @@ void SVCoordGridNode::update(f32 dt){
     t_mtl_coord->setZOffEnable(true);
     t_mtl_coord->setZOffParam(-1.0f, -1.0f);
     t_mtl_coord->setBlendEnable(true);
-    t_mtl_coord->setBlendState(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    t_mtl_coord->setBlendState(MTL_BLEND_SRC_ALPHA,MTL_BLEND_ONE_MINUS_SRC_ALPHA);
     m_pRenderObj->setMtl(t_mtl_coord);
 }
 

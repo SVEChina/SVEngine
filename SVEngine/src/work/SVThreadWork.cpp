@@ -71,7 +71,6 @@ void SVThreadWork::_innerUpdateBegin(){
 
 void SVThreadWork::_innerUpdate(){
     SVThread::_innerUpdate();
-    
     //交换操作 swap
     m_OpWaitLock->lock();
     OPPOOL* tmpPool = m_opPoolWait;
@@ -118,10 +117,6 @@ void SVThreadWork::_innerDestroy(){
 }
 
 bool SVThreadWork::pushThreadOp(SVOpBasePtr _op) {
-    if (mApp->getState() == SV_ST_WILLSUSPEND) {
-        //将要挂起的时候不能再有操作
-        return false;
-    }
     m_OpWaitLock->lock();
     if (_op) {
         m_opPoolWait->append(_op);

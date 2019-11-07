@@ -13,8 +13,8 @@ SVMtl2D::SVMtl2D(SVInst *_app , cptr8 _shader)
     m_alpha = 1.0f;
     m_LogicParamDepth.enable = false;
     m_LogicParamBlend.enable = true;
-    m_LogicParamBlend.srcParam = GL_ONE;
-    m_LogicParamBlend.dstParam = GL_ONE_MINUS_SRC_ALPHA;
+    m_LogicParamBlend.srcParam = MTL_BLEND_ONE;
+    m_LogicParamBlend.dstParam = MTL_BLEND_ONE_MINUS_SRC_ALPHA;
 }
 
 SVMtl2D::SVMtl2D(SVMtl2D *_mtl)

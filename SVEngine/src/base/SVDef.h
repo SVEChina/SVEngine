@@ -25,7 +25,6 @@ enum SV_STATE{
     SV_ST_NULL = 0,
     SV_ST_WAIT,         //等待
     SV_ST_RUN,          //运行
-    SV_ST_WILLSUSPEND,  //将要挂起
     SV_ST_SUSPEND       //挂起
 };
 

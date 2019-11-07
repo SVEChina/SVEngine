@@ -66,7 +66,7 @@ void SVFreeTypeNode::update(f32 dt) {
         m_pMtl->setTexcoordFlip(1.0, -1.0f);
         m_pMtl->setTexture(0,m_texture);
         m_pMtl->setBlendEnable(true);
-        m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        m_pMtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
         m_renderObject->setMesh(m_pMesh);
         m_renderObject->setMtl(m_pMtl);
     }

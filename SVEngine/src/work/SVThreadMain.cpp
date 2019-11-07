@@ -24,8 +24,8 @@ SVThreadMain::~SVThreadMain() {
 }
 
 void SVThreadMain::_innerUpdate(){
-    SVThreadWork::_innerUpdate();
     m_lock->lock();
+    SVThreadWork::_innerUpdate();
     //逻辑更新
     mApp->m_pGlobalMgr->update(_getDert());
     //逻辑数据交换到渲染数据
@@ -72,18 +72,15 @@ void SVThreadMain::resetTime(){
     m_first = true;
 }
 
-
 void SVThreadMain::clearThreadCache(){
-    SVThreadWork::_innerUpdate();
     m_lock->lock();
+    SVThreadWork::_innerUpdate();
     //逻辑更新
-    mApp->m_pGlobalMgr->update(0.0f);
-    //逻辑数据交换到渲染数据
+    mApp->m_pGlobalMgr->update(0.033f);
+    //清楚渲染数据
     mApp->getRenderMgr()->swapData();
-    //渲染
+    //清屏
     mApp->getRenderMgr()->clearScreen();
-    //输出
-    mApp->getBasicSys()->output();
     m_lock->unlock();
 }
 
@@ -106,8 +103,8 @@ void SVThreadSync::stopThread(){
 }
 
 void SVThreadSync::syncUpdate(f32 _dt){
-    SVThreadWork::_innerUpdate();
     m_lock->lock();
+    SVThreadWork::_innerUpdate();
     //逻辑更新
     mApp->m_pGlobalMgr->update(_dt);
     //逻辑数据交换到渲染数据

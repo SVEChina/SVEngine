@@ -99,14 +99,14 @@ void SVPenDraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) 
     m_mtl1->setTexture(0, E_TEX_HELP0);
     m_mtl1->setDepthEnable(false);
     m_mtl1->setBlendEnable(true);
-    m_mtl1->setBlendState(GL_SRC_ALPHA, GL_ONE);
+    m_mtl1->setBlendState(MTL_BLEND_SRC_ALPHA, MTL_BLEND_ONE);
     m_mesh1 = mApp->getDataMgr()->m_screenMesh;
     m_mtl2 = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_mtl2->setTexcoordFlip(1.0f, 1.0f);
     m_mtl2->setTexture(0, E_TEX_HELP1);
     m_mtl2->setDepthEnable(false);
     m_mtl2->setBlendEnable(true);
-    m_mtl2->setBlendState(GL_SRC_ALPHA, GL_ONE);
+    m_mtl2->setBlendState(MTL_BLEND_SRC_ALPHA, MTL_BLEND_ONE);
     m_mesh2 = mApp->getDataMgr()->m_screenMesh;
     //做辉光效果处理
     m_glowFilter = MakeSharedPtr<SVFilterGlow>(mApp);
