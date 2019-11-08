@@ -30,6 +30,7 @@ void SVFaceDataMesh::init(){
     _loadFaceMeshData("facemesh_st_simplify");
     _loadStanderFaceData("standerface_st_simplify");
 //    _loadFaceMeshData("facemesh_st_normal");
+    _loadFaceMeshData("facemesh_st_108");
 //    _loadStanderFaceData("standerface_st_normal");
     //加载fp标准脸数据
 //    _loadFaceMeshData("facemesh_fp");
