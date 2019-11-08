@@ -57,7 +57,7 @@ namespace sv {
             void clearFrame();
 
         protected:
-            FrameTex _selectTex(f32 _time);
+            SVTexturePtr _selectTex(f32 _time);
             
             void _preload();    //预加载
             
@@ -72,6 +72,10 @@ namespace sv {
             f32 m_height;
             bool m_loop;
             bool m_preloadframe;        //预加载的帧数
+            
+            s32 m_curFrame; //当前帧
+            s32 m_aimFrame; //目标帧
+            s32 m_preFrame; //预先帧
             
             SVTexturePtr m_pActTex;
             SVRenderMeshPtr m_pMesh;

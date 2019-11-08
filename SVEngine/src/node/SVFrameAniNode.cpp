@@ -8,10 +8,13 @@
 #include "SVFrameAniNode.h"
 #include "SVCameraNode.h"
 #include "SVScene.h"
-#include "../event/SVEventMgr.h"
-#include "../basesys/SVConfig.h"
-#include "../core/SVModel.h"
-#include "../core/SVAnimateSkin.h"
+#include "../mtl/SVMtlCore.h"
+#include "../mtl/SVMtl2D.h"
+#include "../mtl/SVTexMgr.h"
+#include "../core/SVGeoGen.h"
+#include "../rendercore/SVRenderObject.h"
+#include "../rendercore/SVRenderScene.h"
+#include "../rendercore/SVRenderMgr.h"
 
 SVFrameAniNode::SVFrameAniNode(SVInst *_app)
 :SVNode(_app){
@@ -19,11 +22,14 @@ SVFrameAniNode::SVFrameAniNode(SVInst *_app)
     m_rsType = RST_SOLID_3D;
     m_canSelect = false;
     m_accTime = 0.0f;
-    m_totalTime = 0.0f;
+    m_totalTime = 100.0f;
     m_pActTex = nullptr;
     m_pMesh = nullptr;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
-    setSize(100,100);
+    m_width = 500;
+    m_height = 1083;
+    setSize(m_width,m_height);
+    m_loop = true;
 }
 
 SVFrameAniNode::~SVFrameAniNode() {
@@ -60,38 +66,38 @@ void SVFrameAniNode::update(f32 dt) {
             m_accTime = m_totalTime;
         }
     }
+    //预先加载
+    _preload();
     //根据时间计算激活纹理
     m_pActTex = _selectTex(m_accTime);
     if(!m_pActTex) {
-        //m_pActTex = ;
+        m_pActTex = mApp->getTexMgr()->getSVETexture();
     }
+    //卸载
+    _unload();
     //更新材质
-    if (m_pRenderObj && m_pMesh && m_pMtl) {
-        m_pMtl->setBlendEnable(true);
-        m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        m_pMtl->setModelMatrix(m_absolutMat.get());
-        //m_pMtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
-        m_pMtl->setTexture(0,m_pActTex);
-        m_pMtl->update(dt);
+    if (m_pRenderObj && m_pMesh ) {
+        //创建新的材质
+        SVMtl2DPtr t_mtl = MakeSharedPtr<SVMtl2D>(mApp, "normal2d_c");
+        t_mtl->setModelMatrix(m_absolutMat.get());
+        t_mtl->setTexcoordFlip(1.0f, -1.0f);
+        t_mtl->setBlendEnable(true);
+        t_mtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
+        t_mtl->setAlpha(1.0f);
+        t_mtl->setTexture(0,m_pActTex);
+        t_mtl->update(dt);
         m_pRenderObj->setMesh(m_pMesh);
-        m_pRenderObj->setMtl(m_pMtl);
+        m_pRenderObj->setMtl(t_mtl);
+        m_pMtl = t_mtl;
     }
 }
 
 void SVFrameAniNode::render() {
     if (m_visible && m_pRenderObj ){
-        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene()
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         m_pRenderObj->pushCmd(t_rs, m_rsType, "SVFrameAniNode");
     }
     SVNode::render();
-}
-
-FrameTex SVFrameAniNode::_selectTex(f32 _time) {
-    //二分法查目标
-    
-    //FRAMEPOOL m_framePool;
-    
-    return nullptr;
 }
 
 //播放控制
@@ -104,72 +110,45 @@ void SVFrameAniNode::pause() {
 void SVFrameAniNode::stop() {
 }
 
+SVTexturePtr SVFrameAniNode::_selectTex(f32 _time) {
+    //二分法查目标
+    s32 t_ct =m_framePool.size();
+    if(t_ct<0)
+        return nullptr;
+    m_curFrame = _time*12;
+    if(m_curFrame>=t_ct)
+        return nullptr;
+    for(s32 i=0;i<2;i++) {
+        s32 t_aim_index = (m_curFrame + i)%t_ct;
+        m_framePool[t_aim_index].m_pTex = mApp->getTexMgr()->getTextureSync( m_framePool[t_aim_index].m_pTexName.c_str(),true,true);
+    }
+    return m_framePool[m_curFrame].m_pTex;
+}
+
+void SVFrameAniNode::_preload() {
+    //预加载
+//    s32 m_curFrame; //当前帧
+//    s32 m_aimFrame; //目标帧
+//    s32 m_preFrame; //预先帧
+}
+
+void SVFrameAniNode::_unload() {
+    //卸载当前帧就可以，用一帧，卸一帧
+    if(m_curFrame>=0 && m_curFrame<m_framePool.size()) {
+        m_framePool[m_curFrame].m_pTex = nullptr;
+    }
+}
+
 void SVFrameAniNode::pushFrame(cptr8 _texname) {
-    
+    FrameTex t_ftex;
+    t_ftex.m_pTexName = _texname;
+    t_ftex.m_pTex = nullptr;
+    m_framePool.append(t_ftex);
 }
 
 void SVFrameAniNode::clearFrame() {
-    
-}
-
-
-//f32 SVSpriteNode::getWidth(){
-//    f32 t_scaleX = 1.0f;
-//    SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpriteNode);
-//    while (t_curNode) {
-//        t_scaleX = t_scaleX * t_curNode->getScale().x;
-//        if (t_curNode->getParent()) {
-//            t_curNode = t_curNode->getParent();
-//        } else {
-//            break;
-//        }
-//    }
-//    return m_width*t_scaleX;
-//}
-//
-//f32 SVSpriteNode::getHeight(){
-//    f32 t_scaleY = 1.0f;
-//    SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpriteNode);
-//    while (t_curNode) {
-//        t_scaleY = t_scaleY * t_curNode->getScale().y;
-//        if (t_curNode->getParent()) {
-//            t_curNode = t_curNode->getParent();
-//        } else {
-//            break;
-//        }
-//    }
-//    return m_height*t_scaleY;
-//}
-
-//序列化
-void SVFrameAniNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
-//    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
-//    _toJsonData(_allocator, locationObj);
-//    locationObj.AddMember("spriteW", m_width, _allocator);
-//    locationObj.AddMember("spriteH", m_height, _allocator);
-//    s32 pos = m_pTexPath.rfind('/');
-//    m_pTexName = SVString::substr(m_pTexPath.c_str(), pos+1);
-//    locationObj.AddMember("texture", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
-//    locationObj.AddMember("textype", s32(m_inTexType), _allocator);
-//    _objValue.AddMember("SVSpriteNode", locationObj, _allocator);
-}
-
-void SVFrameAniNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
-//    _fromJsonData(item);
-//    if (item.HasMember("spriteW") && item["spriteW"].IsFloat()) {
-//        m_width = item["spriteW"].GetFloat();
-//    }
-//    if (item.HasMember("spriteH") && item["spriteH"].IsFloat()) {
-//        m_height = item["spriteH"].GetFloat();
-//    }
-//    setSize(m_width, m_height);
-//    if (item.HasMember("texture") && item["texture"].IsString()) {
-//        SVString t_textureName = item["texture"].GetString();
-//        SVString t_texturePath = m_rootPath + t_textureName;
-//        setTexture(t_texturePath.c_str(), m_enableMipMap);
-//    }
-//    if (item.HasMember("textype") && item["textype"].IsInt()) {
-//        m_inTexType = SVTEXTYPE(item["textype"].GetInt());
-//    }
-//    m_dirty = true;
+    for(s32 i=0;i<m_framePool.size();i++) {
+        m_framePool[i].m_pTex = nullptr;
+    }
+    m_framePool.destroy();
 }

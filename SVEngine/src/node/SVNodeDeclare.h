@@ -81,6 +81,8 @@ namespace sv {
         DECLARE_SHAREPTR(SVShapeVariedNode);
         DECLARE_SHAREPTR(SVParticlesWorld);
         DECLARE_SHAREPTR(SVParticlesNode);
+        DECLARE_SHAREPTR(SVFrameAniNode);
+    
         
         //
         DECLARE_SHAREPTR(SVUIBase);
