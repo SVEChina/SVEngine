@@ -40,6 +40,7 @@
 #include "../node/SVLineNode.h"
 #include "../node/SVPatchNode.h"
 #include "../node/SVModelNode.h"
+#include "../node/SVFrameAniNode.h"
 #include "../file/SVParseMain.h"
 #include "../file/SVBMFontLoader.h"
 #include "../file/SVLoaderGLTF.h"
@@ -275,27 +276,38 @@ SVOpCreateTest::~SVOpCreateTest(){
 #include "../act/SVActFollow.h"
 
 void SVOpCreateTest::_process(f32 dt) {
-    SVLoaderGLTF t_load(mApp);
-    t_load.loadFromFile("svres/gltf/For_YZ/Hair_baseColor.gltf");
-    t_load.building();
-    SVNodePtr t_node = t_load.getNode("hair");
-    if(t_node) {
-        SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-        if (t_pScene) {
-            t_node->setScale(1.0f,1.0f,1.0f);
-            t_node->setPosition(0.0f, 0.0f, 0.0f);
-            t_node->setRotation(0.0f, 0.0f, 0.0f);
-            t_pScene->addNode(t_node);
-            //
-            SVActFollowPerson3dPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson3d>(mApp, 1);
-            t_fllowPerson->setFllowIndex(46);//43
-            t_fllowPerson->setBindOffset(0.0f,0.0f,0.0f);
-            t_fllowPerson->setScale(1.0f,1.0f,1.0f);
-            t_fllowPerson->setEyeDis(9.5f);//9.5设置模型的瞳距
-            SVActionUnitPtr t_personAct = mApp->getActionMgr()->addAction(t_fllowPerson, t_node);
-            t_personAct->play();
+    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+    if (t_pScene) {
+        SVFrameAniNodePtr t_frame_ain = MakeSharedPtr<SVFrameAniNode>(mApp);
+        for(s32 i=0;i<293;i++) {
+            SVString t_name = "svres/ForYiZh/Car00.png";
+            t_name.printf("svres/ForYiZh/Car-%d.png",i);
+            t_frame_ain->pushFrame(t_name.c_str());
         }
+        t_pScene->addNode(t_frame_ain);
     }
+    
+    //    SVLoaderGLTF t_load(mApp);
+//    t_load.loadFromFile("svres/gltf/For_YZ/Hair_baseColor.gltf");
+//    t_load.building();
+//    SVNodePtr t_node = t_load.getNode("hair");
+//    if(t_node) {
+//        SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
+//        if (t_pScene) {
+//            t_node->setScale(1.0f,1.0f,1.0f);
+//            t_node->setPosition(0.0f, 0.0f, 0.0f);
+//            t_node->setRotation(0.0f, 0.0f, 0.0f);
+//            t_pScene->addNode(t_node);
+//            //
+//            SVActFollowPerson3dPtr t_fllowPerson = MakeSharedPtr<SVActFollowPerson3d>(mApp, 1);
+//            t_fllowPerson->setFllowIndex(46);//43
+//            t_fllowPerson->setBindOffset(0.0f,0.0f,0.0f);
+//            t_fllowPerson->setScale(1.0f,1.0f,1.0f);
+//            t_fllowPerson->setEyeDis(9.5f);//9.5设置模型的瞳距
+//            SVActionUnitPtr t_personAct = mApp->getActionMgr()->addAction(t_fllowPerson, t_node);
+//            t_personAct->play();
+//        }
+//    }
     
 ////    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
 ////    if (t_pScene) {
