@@ -26,8 +26,8 @@ SVFrameAniNode::SVFrameAniNode(SVInst *_app)
     m_pActTex = nullptr;
     m_pMesh = nullptr;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
-    m_width = 500;
-    m_height = 1083;
+    m_width = 850;
+    m_height = 1000;
     setSize(m_width,m_height);
     m_loop = true;
 }
@@ -115,13 +115,14 @@ SVTexturePtr SVFrameAniNode::_selectTex(f32 _time) {
     s32 t_ct =m_framePool.size();
     if(t_ct<0)
         return nullptr;
-    m_curFrame = _time*12;
+    m_curFrame = s32(_time*7.2f);
     if(m_curFrame>=t_ct)
         return nullptr;
-    for(s32 i=0;i<2;i++) {
-        s32 t_aim_index = (m_curFrame + i)%t_ct;
-        m_framePool[t_aim_index].m_pTex = mApp->getTexMgr()->getTextureSync( m_framePool[t_aim_index].m_pTexName.c_str(),true,true);
-    }
+     m_framePool[m_curFrame].m_pTex = mApp->getTexMgr()->getTextureSync( m_framePool[m_curFrame].m_pTexName.c_str(),true,true);
+//    for(s32 i=0;i<2;i++) {
+//        s32 t_aim_index = (m_curFrame + i)%t_ct;
+//        m_framePool[t_aim_index].m_pTex = mApp->getTexMgr()->getTextureSync( m_framePool[t_aim_index].m_pTexName.c_str(),true,true);
+//    }
     return m_framePool[m_curFrame].m_pTex;
 }
 
