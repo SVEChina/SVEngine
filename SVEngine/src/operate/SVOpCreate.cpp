@@ -279,12 +279,16 @@ void SVOpCreateTest::_process(f32 dt) {
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
         SVFrameAniNodePtr t_frame_ain = MakeSharedPtr<SVFrameAniNode>(mApp);
-        for(s32 i=0;i<675;i++) {
-            SVString t_name = "svres/ForYiZh/Car00.png";
-            //t_name.printf("svres/ForYiZh/Car-%d.png",i);
-            t_name.printf("svres/jljt90/jljt-%d.png",i);
+        for(s32 i=0;i<293;i++) {
+//            SVString t_name = "svres/ForYiZh/Car00.png";
+            SVString t_name = SVString::format("svres/ForYiZh/Car-%d.png",i);
+//            SVString t_name = SVString::format("svres/ForYiZh/Car-%d.png",i);
+            t_name.printf("svres/ForYiZh/Car-%d.png",i);
+//            t_name.printf("svres/jljt90/jljt-%d.png",i);
             t_frame_ain->pushFrame(t_name.c_str());
         }
+        t_frame_ain->setSize(500, 1083);
+        t_frame_ain->setScale(2.0f, 2.0f, 1.0f);
         t_pScene->addNode(t_frame_ain);
     }
     

@@ -115,7 +115,7 @@ SVTexturePtr SVFrameAniNode::_selectTex(f32 _time) {
     s32 t_ct =m_framePool.size();
     if(t_ct<0)
         return nullptr;
-    m_curFrame = s32(_time*7.2f);
+    m_curFrame = s32(_time*12.0f);
     if(m_curFrame>=t_ct)
         return nullptr;
      m_framePool[m_curFrame].m_pTex = mApp->getTexMgr()->getTextureSync( m_framePool[m_curFrame].m_pTexName.c_str(),true,true);
