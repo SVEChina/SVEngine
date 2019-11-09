@@ -22,7 +22,7 @@ SVFrameAniNode::SVFrameAniNode(SVInst *_app)
     m_rsType = RST_SOLID_3D;
     m_canSelect = false;
     m_accTime = 0.0f;
-    m_totalTime = 100.0f;
+    m_totalTime = 90.0f;
     m_pActTex = nullptr;
     m_pMesh = nullptr;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
@@ -59,7 +59,7 @@ void SVFrameAniNode::update(f32 dt) {
     m_accTime += dt;
     if(m_loop) {
         if(m_accTime>m_totalTime) {
-            m_accTime -= m_totalTime;
+            m_accTime = 0.0f;
         }
     }else{
         if(m_accTime>m_totalTime) {
