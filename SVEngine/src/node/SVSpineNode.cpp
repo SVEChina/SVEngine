@@ -189,8 +189,8 @@ void SVSpineNode::render() {
     if (m_state == E_ANISTATE::tANI_STATE_STOP) {
         return;
     }
-    if (!mApp->m_pGlobalParam->m_curScene)
-        return;
+//    if (!mApp->m_pGlobalParam->m_curScene)
+//        return;
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (m_pRObj) {
         m_pRObj->pushCmd(t_rs, m_rsType, "SVSpineNode");
