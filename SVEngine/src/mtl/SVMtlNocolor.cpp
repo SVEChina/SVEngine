@@ -88,9 +88,9 @@ SVMtlNetGrid::SVMtlNetGrid(SVInst *_app)
     m_gridsize = 10.0f;
     m_width = 100.0f;
     m_height = 100.0f;
-    m_bg_color.setColor(0.0f,0.0f,0.0f,0.01f);
-    m_border_color.setColor(0.3f,0.3f,0.3f,0.2f);
-    m_line_color.setColor(0.3f,0.3f,0.3f,0.05f);
+    m_bg_color.setColor(0.05f,0.05f,0.05f,0.02f);
+    m_border_color.setColor(0.4f,0.4f,0.4f,0.2f);
+    m_line_color.setColor(0.25f,0.25f,0.25f,0.01f);
 }
 
 SVMtlNetGrid::SVMtlNetGrid(SVMtlNetGrid *_mtl)

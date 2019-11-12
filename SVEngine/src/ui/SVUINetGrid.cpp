@@ -170,7 +170,7 @@ void SVUINetElem::update(f32 _dt,f32 *_mat) {
         t_mtl->setZOffEnable(false);
         t_mtl->setZOffParam(-1.0f, -1.0f);
         t_mtl->setBlendEnable(true);
-        t_mtl->setBlendState(MTL_BLEND_SRC_ALPHA,MTL_BLEND_ONE_MINUS_SRC_ALPHA);
+        t_mtl->setBlendState(MTL_BLEND_ONE,MTL_BLEND_ONE_MINUS_SRC_ALPHA);
         //开启模版缓存
         t_mtl->setStencilEnable(true);
         t_mtl->setStencilClear(false);
