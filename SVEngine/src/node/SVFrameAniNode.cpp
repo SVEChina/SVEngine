@@ -20,7 +20,9 @@ SVFrameAniNode::SVFrameAniNode(SVInst *_app)
 :SVNode(_app){
     ntype = "SVFrameAniNode";
     m_rsType = RST_SOLID_3D;
+    m_state = tANI_STATE_WAIT;
     m_canSelect = false;
+    m_visible = false;
     m_accTime = 0.0f;
     m_totalTime = 90.0f;
     m_frameRate = 15.0f;
@@ -56,15 +58,23 @@ f32 SVFrameAniNode::getRelativeHeight(){
 
 void SVFrameAniNode::update(f32 dt) {
     SVNode::update(dt);
+    if (!m_visible) {
+        return;
+    }
+    if (m_state == tANI_STATE_STOP) {
+        return;
+    }
     //时间更新
-    m_accTime += dt;
-    if(m_loop) {
-        if(m_accTime>m_totalTime) {
+    if (m_state == tANI_STATE_PLAY) {
+        m_accTime += dt;
+    }
+    if(m_accTime>m_totalTime) {
+        _complete();
+        if(m_loop) {
             m_accTime = 0.0f;
-        }
-    }else{
-        if(m_accTime>m_totalTime) {
+        }else{
             m_accTime = m_totalTime;
+            stop();
         }
     }
     //预先加载
@@ -94,6 +104,9 @@ void SVFrameAniNode::update(f32 dt) {
 }
 
 void SVFrameAniNode::render() {
+    if (m_state == tANI_STATE_STOP) {
+        return;
+    }
     if (m_visible && m_pRenderObj ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         m_pRenderObj->pushCmd(t_rs, m_rsType, "SVFrameAniNode");
@@ -103,12 +116,35 @@ void SVFrameAniNode::render() {
 
 //播放控制
 void SVFrameAniNode::play() {
+    if (m_state != tANI_STATE_PLAY) {
+        m_state = tANI_STATE_PLAY;
+        m_visible = true;
+        if(m_frameani_callback){
+            (*m_frameani_callback)(THIS_TO_SHAREPTR(SVFrameAniNode),m_p_cb_obj,1);
+        }
+    }
 }
 
 void SVFrameAniNode::pause() {
+    if (m_state != tANI_STATE_PAUSE) {
+        m_state = tANI_STATE_PAUSE;
+    }
 }
 
 void SVFrameAniNode::stop() {
+    if (m_state != tANI_STATE_STOP) {
+        m_state = tANI_STATE_STOP;
+        m_visible = false;
+                if(m_frameani_callback){
+            (*m_frameani_callback)(THIS_TO_SHAREPTR(SVFrameAniNode),m_p_cb_obj,3);
+        }
+    }
+}
+
+void SVFrameAniNode::_complete(){
+    if(m_frameani_callback){
+        (*m_frameani_callback)(THIS_TO_SHAREPTR(SVFrameAniNode),m_p_cb_obj,2);
+    }
 }
 
 SVTexturePtr SVFrameAniNode::_selectTex(f32 _time) {
@@ -155,6 +191,10 @@ void SVFrameAniNode::clearFrame() {
     m_framePool.destroy();
 }
 
+void SVFrameAniNode::setCallback(sv_frameani_callback _cb,void* _obj){
+    m_frameani_callback = _cb;
+    m_p_cb_obj = _obj;
+}
 
 //序列化
 void SVFrameAniNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){

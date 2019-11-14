@@ -16,6 +16,7 @@
 #include "../node/SVSpineNode.h"
 #include "../node/SVSpriteNode.h"
 #include "../node/SVBitFontNode.h"
+#include "../node/SVFrameAniNode.h"
 #include "../act/SVTexAttachment.h"
 #include "../act/SVAniTrigger.h"
 #include "../act/SVActFollow.h"
@@ -39,8 +40,17 @@ void spinenode_callback(SVSpineNodePtr _node,void* _obj,s32 _status) {
     }
 }
 
+void frameani_callback(SVFrameAniNodePtr _node,void* _obj,s32 _status){
+    SVEffectUnit *t_unit = (SVEffectUnit*)(_obj);
+    if(_status == 2) {
+        t_unit->setEnd(true);
+    }else if(_status == 3) {
+        t_unit->setEnd(true);
+    }
+}
+
 SVEffectUnit::SVEffectUnit(SVInst* _app):SVGBase(_app){
-    m_end = false;
+    m_end = true;
     m_personAct = nullptr;
 }
 
@@ -52,7 +62,6 @@ SVEffectUnit::~SVEffectUnit(){
 void SVEffectUnit::init(SVNodePtr _node){
     SVScenePtr t_scene = mApp->getSceneMgr()->getScene();
     if(_node && t_scene){
-        setEnd(true);
         m_node = _node;
         t_scene->addNode(m_node);
         //需要挂的人身上
@@ -68,6 +77,13 @@ void SVEffectUnit::init(SVNodePtr _node){
                 t_spineNode->play(t_defAniName);
                 setEnd(false);
             }
+        }
+        //
+        SVFrameAniNodePtr t_frameAni = DYN_TO_SHAREPTR(SVFrameAniNode, m_node);
+        if (t_frameAni) {
+            t_frameAni->setCallback(frameani_callback, this);
+            t_frameAni->play();
+            setEnd(false);
         }
     }
 }
