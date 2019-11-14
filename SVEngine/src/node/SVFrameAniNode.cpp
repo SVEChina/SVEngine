@@ -23,6 +23,7 @@ SVFrameAniNode::SVFrameAniNode(SVInst *_app)
     m_canSelect = false;
     m_accTime = 0.0f;
     m_totalTime = 90.0f;
+    m_frameRate = 15.0f;
     m_pActTex = nullptr;
     m_pMesh = nullptr;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
@@ -115,7 +116,7 @@ SVTexturePtr SVFrameAniNode::_selectTex(f32 _time) {
     s32 t_ct =m_framePool.size();
     if(t_ct<0)
         return nullptr;
-    m_curFrame = s32(_time*12.0f);
+    m_curFrame = s32(_time*m_frameRate);
     if(m_curFrame>=t_ct)
         return nullptr;
      m_framePool[m_curFrame].m_pTex = mApp->getTexMgr()->getTextureSync( m_framePool[m_curFrame].m_pTexName.c_str(),true,true);
@@ -152,4 +153,57 @@ void SVFrameAniNode::clearFrame() {
         m_framePool[i].m_pTex = nullptr;
     }
     m_framePool.destroy();
+}
+
+
+//序列化
+void SVFrameAniNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    _toJsonData(_allocator, locationObj);
+//    locationObj.AddMember("spriteW", m_width, _allocator);
+//    locationObj.AddMember("spriteH", m_height, _allocator);
+//    s32 pos = m_pTexPath.rfind('/');
+//    m_pTexName = SVString::substr(m_pTexPath.c_str(), pos+1);
+//    locationObj.AddMember("texture", RAPIDJSON_NAMESPACE::StringRef(m_pTexName.c_str()), _allocator);
+//    locationObj.AddMember("textype", s32(m_inTexType), _allocator);
+//    _objValue.AddMember("SVSpriteNode", locationObj, _allocator);
+}
+
+void SVFrameAniNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    _fromJsonData(item);
+    if (item.HasMember("width") && item["width"].IsFloat()) {
+        m_width = item["width"].GetFloat();
+    }
+    if (item.HasMember("height") && item["height"].IsFloat()) {
+        m_height = item["height"].GetFloat();
+    }
+    setSize(m_width, m_height);
+    //
+    if (item.HasMember("loop") && item["loop"].IsBool()) {
+        m_loop = item["loop"].GetBool();
+    }
+    //
+    if (item.HasMember("time") && item["time"].IsFloat()) {
+         m_totalTime = item["time"].GetFloat();
+    }
+    //
+    s32 count = 0;
+    if (item.HasMember("count") && item["count"].IsInt()) {
+        count = item["count"].GetInt();
+    }
+    if (count > 0 && m_totalTime > 0) {
+        m_frameRate = count/m_totalTime;
+    }
+    //
+    SVString preName = "";
+    if (item.HasMember("prename") && item["prename"].IsString()) {
+        preName = item["prename"].GetString();
+    }
+    //
+    for (s32 i = 0; i<count; i++) {
+        SVString t_name = SVString::format("%s-%d.png",preName.c_str(), i);
+        t_name = m_rootPath + t_name;
+        pushFrame(t_name.c_str());
+    }
+    m_dirty = true;
 }

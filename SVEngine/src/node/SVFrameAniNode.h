@@ -56,6 +56,10 @@ namespace sv {
             
             void clearFrame();
 
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         protected:
             SVTexturePtr _selectTex(f32 _time);
             
@@ -68,6 +72,7 @@ namespace sv {
             
             f32 m_accTime;
             f32 m_totalTime;
+            f32 m_frameRate;
             f32 m_width;
             f32 m_height;
             bool m_loop;
