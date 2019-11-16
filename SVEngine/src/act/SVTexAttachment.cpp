@@ -76,7 +76,9 @@ void SVTexAttachment::setAttachmentTex(void *_data, s32 _width, s32 _height){
             t_texture = t_renderer->createSVTex(t_texType, _width, _height, GL_RGBA,GL_RGBA);
         }
         t_texture->setTexData(_data, _width*_height*4);
-        m_srcNode->setSize(m_srcNode->getRelativeWidth()*(_width*1.0/_height), m_srcNode->getRelativeHeight());
+        f32 t_relH = m_srcNode->getRelativeHeight();
+        f32 t_relW = m_srcNode->getRelativeWidth();
+        m_srcNode->setSize(_width*(t_relH*1.0/_height), t_relH);
         m_srcNode->setTexture(t_texture);
     }
 }
