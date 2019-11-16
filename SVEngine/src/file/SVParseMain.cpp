@@ -20,6 +20,7 @@
 #include "SVParseBitfont.h"
 #include "SVParseBMFont.h"
 #include "SVParseParticles.h"
+#include "SVParseFrameAni.h"
 #include "SVParseBackground.h"
 #include "SVParseTexAttachment.h"
 #include "SVParseAniTrigger.h"
@@ -32,6 +33,7 @@ SVParseMain::SVParseMain(SVInst *_app)
 :SVGBase(_app) {
     m_app = _app;
     _registDictionary("SVSpineNode", SVParseAnimate::parseAnim);
+    _registDictionary("SVFrameAniNode", SVParseFrameAni::parseFrameAni);
     _registDictionary("SV2DFaceMaskSTNode", SVParseMask::parseMask);
     _registDictionary("SVSpriteNode", SVParseSprite::parseSprite);
     _registDictionary("SVBitFontNode", SVParseBitfont::parseBitfont);

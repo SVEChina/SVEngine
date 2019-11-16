@@ -10,7 +10,8 @@
 
 #include "SVNode.h"
 #include "../base/SVMap.h"
-
+//回调
+typedef void (*sv_frameani_callback)(SVFrameAniNodePtr _node,void* _obj,s32 _status);
 namespace sv {
     
     namespace node{
@@ -56,8 +57,14 @@ namespace sv {
             
             void clearFrame();
 
+            void setCallback(sv_frameani_callback _cb,void* _obj);
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJSON(RAPIDJSON_NAMESPACE::Value &item);
         protected:
-            FrameTex _selectTex(f32 _time);
+            void _complete();
+            SVTexturePtr _selectTex(f32 _time);
             
             void _preload();    //预加载
             
@@ -66,16 +73,26 @@ namespace sv {
             typedef SVArray<FrameTex> FRAMEPOOL;
             FRAMEPOOL m_framePool;
             
+            E_ANISTATE m_state;
             f32 m_accTime;
             f32 m_totalTime;
+            f32 m_frameRate;
             f32 m_width;
             f32 m_height;
             bool m_loop;
             bool m_preloadframe;        //预加载的帧数
             
+            s32 m_curFrame; //当前帧
+            s32 m_aimFrame; //目标帧
+            s32 m_preFrame; //预先帧
+            
             SVTexturePtr m_pActTex;
             SVRenderMeshPtr m_pMesh;
             SVRenderObjectPtr m_pRenderObj;
+            
+            void* m_p_cb_obj;
+            
+            sv_frameani_callback m_frameani_callback;
         };
         
     }//!namespace node

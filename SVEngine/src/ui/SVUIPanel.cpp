@@ -67,7 +67,7 @@ SVUIPanel::SVUIPanel(SVInst *_app,f32 _w,f32 _h)
     //
     m_colorMtl = MakeSharedPtr<SVMtlColor>(mApp);
     m_colorMtl->setBlendEnable(true);
-    m_colorMtl->setBlendState(MTL_BLEND_SRC_ALPHA, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
+    m_colorMtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
     setColor(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
@@ -129,6 +129,7 @@ void SVUIPanel::update(f32 dt) {
             m_pMtl->setTexture(0,m_pTex);
         }else{
             m_pMtl = m_colorMtl->clone();
+            m_pMtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
         }
         m_pMtl->setModelMatrix(m_absolutMat.get());
         m_pMtl->update(dt);

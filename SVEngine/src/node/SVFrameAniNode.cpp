@@ -8,22 +8,31 @@
 #include "SVFrameAniNode.h"
 #include "SVCameraNode.h"
 #include "SVScene.h"
-#include "../event/SVEventMgr.h"
-#include "../basesys/SVConfig.h"
-#include "../core/SVModel.h"
-#include "../core/SVAnimateSkin.h"
+#include "../mtl/SVMtlCore.h"
+#include "../mtl/SVMtl2D.h"
+#include "../mtl/SVTexMgr.h"
+#include "../core/SVGeoGen.h"
+#include "../rendercore/SVRenderObject.h"
+#include "../rendercore/SVRenderScene.h"
+#include "../rendercore/SVRenderMgr.h"
 
 SVFrameAniNode::SVFrameAniNode(SVInst *_app)
 :SVNode(_app){
     ntype = "SVFrameAniNode";
     m_rsType = RST_SOLID_3D;
+    m_state = tANI_STATE_WAIT;
     m_canSelect = false;
+    m_visible = false;
     m_accTime = 0.0f;
-    m_totalTime = 0.0f;
+    m_totalTime = 90.0f;
+    m_frameRate = 15.0f;
     m_pActTex = nullptr;
     m_pMesh = nullptr;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
-    setSize(100,100);
+    m_width = 850;
+    m_height = 1000;
+    setSize(m_width,m_height);
+    m_loop = true;
 }
 
 SVFrameAniNode::~SVFrameAniNode() {
@@ -49,102 +58,148 @@ f32 SVFrameAniNode::getRelativeHeight(){
 
 void SVFrameAniNode::update(f32 dt) {
     SVNode::update(dt);
+    if (!m_visible) {
+        return;
+    }
+    if (m_state == tANI_STATE_STOP) {
+        return;
+    }
     //时间更新
-    m_accTime += dt;
-    if(m_loop) {
-        if(m_accTime>m_totalTime) {
-            m_accTime -= m_totalTime;
-        }
-    }else{
-        if(m_accTime>m_totalTime) {
+    if (m_state == tANI_STATE_PLAY) {
+        m_accTime += dt;
+    }
+    if(m_accTime>m_totalTime) {
+        _complete();
+        if(m_loop) {
+            m_accTime = 0.0f;
+        }else{
             m_accTime = m_totalTime;
+            stop();
         }
     }
+    //预先加载
+    _preload();
     //根据时间计算激活纹理
     m_pActTex = _selectTex(m_accTime);
     if(!m_pActTex) {
-        //m_pActTex = ;
+        m_pActTex = mApp->getTexMgr()->getSVETexture();
     }
+    //卸载
+    _unload();
     //更新材质
-    if (m_pRenderObj && m_pMesh && m_pMtl) {
-        m_pMtl->setBlendEnable(true);
-        m_pMtl->setBlendState(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        m_pMtl->setModelMatrix(m_absolutMat.get());
-        //m_pMtl->setTexcoordFlip(m_texcoordX, m_texcoordY);
-        m_pMtl->setTexture(0,m_pActTex);
-        m_pMtl->update(dt);
+    if (m_pRenderObj && m_pMesh ) {
+        //创建新的材质
+        SVMtl2DPtr t_mtl = MakeSharedPtr<SVMtl2D>(mApp, "normal2d_c");
+        t_mtl->setModelMatrix(m_absolutMat.get());
+        t_mtl->setTexcoordFlip(1.0f, -1.0f);
+        t_mtl->setBlendEnable(true);
+        t_mtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
+        t_mtl->setAlpha(1.0f);
+        t_mtl->setTexture(0,m_pActTex);
+        t_mtl->update(dt);
         m_pRenderObj->setMesh(m_pMesh);
-        m_pRenderObj->setMtl(m_pMtl);
+        m_pRenderObj->setMtl(t_mtl);
+        m_pMtl = t_mtl;
     }
 }
 
 void SVFrameAniNode::render() {
+    if (m_state == tANI_STATE_STOP) {
+        return;
+    }
     if (m_visible && m_pRenderObj ){
-        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene()
+        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         m_pRenderObj->pushCmd(t_rs, m_rsType, "SVFrameAniNode");
     }
     SVNode::render();
 }
 
-FrameTex SVFrameAniNode::_selectTex(f32 _time) {
-    //二分法查目标
-    
-    //FRAMEPOOL m_framePool;
-    
-    return nullptr;
-}
-
 //播放控制
 void SVFrameAniNode::play() {
+    if (m_state != tANI_STATE_PLAY) {
+        m_state = tANI_STATE_PLAY;
+        m_visible = true;
+        if(m_frameani_callback){
+            (*m_frameani_callback)(THIS_TO_SHAREPTR(SVFrameAniNode),m_p_cb_obj,1);
+        }
+    }
 }
 
 void SVFrameAniNode::pause() {
+    if (m_state != tANI_STATE_PAUSE) {
+        m_state = tANI_STATE_PAUSE;
+    }
 }
 
 void SVFrameAniNode::stop() {
+    if (m_state != tANI_STATE_STOP) {
+        m_state = tANI_STATE_STOP;
+        m_visible = false;
+                if(m_frameani_callback){
+            (*m_frameani_callback)(THIS_TO_SHAREPTR(SVFrameAniNode),m_p_cb_obj,3);
+        }
+    }
+}
+
+void SVFrameAniNode::_complete(){
+    if(m_frameani_callback){
+        (*m_frameani_callback)(THIS_TO_SHAREPTR(SVFrameAniNode),m_p_cb_obj,2);
+    }
+}
+
+SVTexturePtr SVFrameAniNode::_selectTex(f32 _time) {
+    //二分法查目标
+    s32 t_ct =m_framePool.size();
+    if(t_ct<0)
+        return nullptr;
+    m_curFrame = s32(_time*m_frameRate);
+    if(m_curFrame>=t_ct)
+        return nullptr;
+     m_framePool[m_curFrame].m_pTex = mApp->getTexMgr()->getTextureSync( m_framePool[m_curFrame].m_pTexName.c_str(),true,true);
+//    for(s32 i=0;i<2;i++) {
+//        s32 t_aim_index = (m_curFrame + i)%t_ct;
+//        m_framePool[t_aim_index].m_pTex = mApp->getTexMgr()->getTextureSync( m_framePool[t_aim_index].m_pTexName.c_str(),true,true);
+//    }
+    return m_framePool[m_curFrame].m_pTex;
+}
+
+void SVFrameAniNode::_preload() {
+    //预加载
+//    s32 m_curFrame; //当前帧
+//    s32 m_aimFrame; //目标帧
+//    s32 m_preFrame; //预先帧
+}
+
+void SVFrameAniNode::_unload() {
+    //卸载当前帧就可以，用一帧，卸一帧
+    if(m_curFrame>=0 && m_curFrame<m_framePool.size()) {
+        m_framePool[m_curFrame].m_pTex = nullptr;
+    }
 }
 
 void SVFrameAniNode::pushFrame(cptr8 _texname) {
-    
+    FrameTex t_ftex;
+    t_ftex.m_pTexName = _texname;
+    t_ftex.m_pTex = nullptr;
+    m_framePool.append(t_ftex);
 }
 
 void SVFrameAniNode::clearFrame() {
-    
+    for(s32 i=0;i<m_framePool.size();i++) {
+        m_framePool[i].m_pTex = nullptr;
+    }
+    m_framePool.destroy();
 }
 
-
-//f32 SVSpriteNode::getWidth(){
-//    f32 t_scaleX = 1.0f;
-//    SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpriteNode);
-//    while (t_curNode) {
-//        t_scaleX = t_scaleX * t_curNode->getScale().x;
-//        if (t_curNode->getParent()) {
-//            t_curNode = t_curNode->getParent();
-//        } else {
-//            break;
-//        }
-//    }
-//    return m_width*t_scaleX;
-//}
-//
-//f32 SVSpriteNode::getHeight(){
-//    f32 t_scaleY = 1.0f;
-//    SVNodePtr t_curNode = THIS_TO_SHAREPTR(SVSpriteNode);
-//    while (t_curNode) {
-//        t_scaleY = t_scaleY * t_curNode->getScale().y;
-//        if (t_curNode->getParent()) {
-//            t_curNode = t_curNode->getParent();
-//        } else {
-//            break;
-//        }
-//    }
-//    return m_height*t_scaleY;
-//}
+void SVFrameAniNode::setCallback(sv_frameani_callback _cb,void* _obj){
+    m_frameani_callback = _cb;
+    m_p_cb_obj = _obj;
+}
 
 //序列化
 void SVFrameAniNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
-//    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
-//    _toJsonData(_allocator, locationObj);
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    _toJsonData(_allocator, locationObj);
 //    locationObj.AddMember("spriteW", m_width, _allocator);
 //    locationObj.AddMember("spriteH", m_height, _allocator);
 //    s32 pos = m_pTexPath.rfind('/');
@@ -155,21 +210,40 @@ void SVFrameAniNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc
 }
 
 void SVFrameAniNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
-//    _fromJsonData(item);
-//    if (item.HasMember("spriteW") && item["spriteW"].IsFloat()) {
-//        m_width = item["spriteW"].GetFloat();
-//    }
-//    if (item.HasMember("spriteH") && item["spriteH"].IsFloat()) {
-//        m_height = item["spriteH"].GetFloat();
-//    }
-//    setSize(m_width, m_height);
-//    if (item.HasMember("texture") && item["texture"].IsString()) {
-//        SVString t_textureName = item["texture"].GetString();
-//        SVString t_texturePath = m_rootPath + t_textureName;
-//        setTexture(t_texturePath.c_str(), m_enableMipMap);
-//    }
-//    if (item.HasMember("textype") && item["textype"].IsInt()) {
-//        m_inTexType = SVTEXTYPE(item["textype"].GetInt());
-//    }
-//    m_dirty = true;
+    _fromJsonData(item);
+    if (item.HasMember("width") && item["width"].IsFloat()) {
+        m_width = item["width"].GetFloat();
+    }
+    if (item.HasMember("height") && item["height"].IsFloat()) {
+        m_height = item["height"].GetFloat();
+    }
+    setSize(m_width, m_height);
+    //
+    if (item.HasMember("loop") && item["loop"].IsBool()) {
+        m_loop = item["loop"].GetBool();
+    }
+    //
+    if (item.HasMember("time") && item["time"].IsFloat()) {
+         m_totalTime = item["time"].GetFloat();
+    }
+    //
+    s32 count = 0;
+    if (item.HasMember("count") && item["count"].IsInt()) {
+        count = item["count"].GetInt();
+    }
+    if (count > 0 && m_totalTime > 0) {
+        m_frameRate = count/m_totalTime;
+    }
+    //
+    SVString preName = "";
+    if (item.HasMember("prename") && item["prename"].IsString()) {
+        preName = item["prename"].GetString();
+    }
+    //
+    for (s32 i = 0; i<count; i++) {
+        SVString t_name = SVString::format("%s-%d.png",preName.c_str(), i);
+        t_name = m_rootPath + t_name;
+        pushFrame(t_name.c_str());
+    }
+    m_dirty = true;
 }
