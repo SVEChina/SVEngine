@@ -81,6 +81,18 @@ void SVPhysicsWorld::addBody(SVPhysicsBodyRigidPtr _body){
     m_lock->unlock();
 }
 
+void SVPhysicsWorld::removeBody(SVPhysicsBodyRigidPtr _body){
+    m_lock->lock();
+    m_pDynamicsWorld->removeRigidBody(_body->getBody());
+    for(s32 i = 0; i< m_bodyArray.size(); i++){
+        if(m_bodyArray[i] == _body){
+            m_bodyArray.remove(i);
+            break;
+        }
+    }
+    m_lock->unlock();
+}
+
 void SVPhysicsWorld::addShape(SVPhysicsShapePtr _shape, SVPhysicsBodyPtr _body){
     
 }

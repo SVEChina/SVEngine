@@ -139,7 +139,7 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
         RAPIDJSON_NAMESPACE::Value &attachments = doc["SVLutFlter"];
         SVString t_name = attachments["name"].GetString();
         SVString t_pathLut = t_path + t_name;
-        SVFilterBasePtr t_baseFilter = SVParseLUTFilter::parseLUT(mApp,t_pathLut, 102);
+        SVFilterBasePtr t_baseFilter = SVParseLUTFilter::parseLUT(mApp,t_pathLut, 107);
         t_bundle->addFilter(t_baseFilter);
     }
     

@@ -28,6 +28,8 @@ namespace sv {
             
             void addBody(SVPhysicsBodyRigidPtr _body);
             
+            void removeBody(SVPhysicsBodyRigidPtr _body);
+            
             void addShape(SVPhysicsShapePtr _shape, SVPhysicsBodyPtr _body);
             
             void addJoint(SVPhysicsJointPtr _joint);
