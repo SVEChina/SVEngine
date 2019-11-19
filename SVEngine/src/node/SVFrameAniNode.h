@@ -36,9 +36,9 @@ namespace sv {
             //
             void setSize(f32 _w,f32 _h);
             
-            f32 getRelativeWidth();
+            f32 getWidth();
 
-            f32 getRelativeHeight();
+            f32 getHeight();
             
             //更新
             virtual void update(f32 dt);
@@ -58,6 +58,20 @@ namespace sv {
             void clearFrame();
 
             void setCallback(sv_frameani_callback _cb,void* _obj);
+            
+            void setTexPrename(cptr8 _prename);
+            
+            void setTotalTime(f32 _time);
+            
+            f32  getTotlaTime();
+            
+            void setFrameCount(s32 _count);
+            
+            s32  getFrameCount();
+            
+            void setLoop(bool _loop);
+            
+            bool getLoop();
             //序列化接口
             void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
             
@@ -79,6 +93,8 @@ namespace sv {
             f32 m_frameRate;
             f32 m_width;
             f32 m_height;
+            s32 m_framecount;
+            SVString m_texprename;
             bool m_loop;
             bool m_preloadframe;        //预加载的帧数
             
