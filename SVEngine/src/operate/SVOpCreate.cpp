@@ -170,7 +170,7 @@ void SVOpCreateEffcet::_process(f32 dt) {
                     if (t_texAtt) {
                         SVAniTexAttachment::TEXATTACHSPARAM t_param = t_texAtt->getParam();
                         if (m_pCB) {
-                            SVString msg = SVString::format("effectpackagetexattachment_%s_channel:%d_metadata:%s",t_moduleName.c_str(), i, t_param.metadata.c_str());
+                            SVString msg = SVString::format("effectpackagetexattachment_%s_channel:%d_metadata:%s",t_moduleName.c_str(), i, t_param.matadata.c_str());
                             (*m_pCB)(msg.c_str(), m_obj);
                         }
                     }

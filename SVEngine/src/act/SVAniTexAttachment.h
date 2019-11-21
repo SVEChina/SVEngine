@@ -10,19 +10,25 @@
 
 #include "SVAniBase.h"
 #include "../node/SVNodeDeclare.h"
+#include "../mtl/SVMtlDeclare.h"
 namespace sv{
     
     namespace logic {
         
         class SVAniTexAttachment : public SVAniBase {
         public:
+            struct TEXINFOPARAM{
+                SVDataSwapPtr   dataSwap;
+                s32             width;
+                s32             height;
+            };
             struct TEXATTACHSPARAM{
                 s32             channel;
                 SVString        sourceNodeName;
                 SVString        targetNodeName;
                 SVString        boneName;
                 SVString        slotName;
-                SVString        metadata;
+                SVString        matadata;
             };
             SVAniTexAttachment(SVInst* _app);
             
@@ -42,7 +48,33 @@ namespace sv{
 
             void setAttachmentTex(void *_data, s32 _width, s32 _height);
             
-//            void setAttachmentTex(void *_data, s32 _width, s32 _height);
+            void setParam(TEXATTACHSPARAM &_param);
+            
+            void getParam(TEXATTACHSPARAM &_param);
+            
+            void setChannel(s32 _channel);
+            
+            void setSrcNodeName(cptr8 _name);
+            
+            void setTarNodeName(cptr8 _name);
+            
+            void setBoneName(cptr8 _name);
+            
+            void setSlotName(cptr8 _name);
+            
+            void setMataData(cptr8 _mata);
+            
+            s32  getChannel();
+            
+            cptr8 getSrcNodeName();
+            
+            cptr8 getTarNodeName();
+            
+            cptr8 getBoneName();
+            
+            cptr8 getSlotName();
+            
+            cptr8 getMataData();
             
             void fromJson(RAPIDJSON_NAMESPACE::Value &item);
             
@@ -50,9 +82,16 @@ namespace sv{
             
             SVString m_rootPath;
         protected:
+            void _genTexture();
+            void _findAttachmentNode();
+            void _refreshAttachmentNode();
+        protected:
             SVSpriteNodePtr m_srcNode;
             SVSpineNodePtr  m_tarNode;
+            SVTexturePtr    m_texture;
+            TEXINFOPARAM    m_texInfo;
             TEXATTACHSPARAM m_param;
+            bool            m_dirty;
         };
         
     }//!namespace logic
