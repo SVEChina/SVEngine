@@ -22,7 +22,7 @@ void SVActionMgr::init() {
 }
 
 void SVActionMgr::destroy() {
-    removeAllActions();
+    removeAllAni();
 }
 
 void SVActionMgr::update(f32 _dt) {
@@ -45,25 +45,23 @@ SVActionUnitPtr SVActionMgr::addAction(SVActBasePtr _action, SVNodePtr _node){
     return nullptr;
 }
 
-SVActionUnitPtr SVActionMgr::addAction(SVActionUnitPtr _actUnit){
-    if (_actUnit) {
+void SVActionMgr::addAni(SVAniBasePtr _aniBase){
+    if (_aniBase) {
         m_lock->lock();
-        m_aniPool.append(_actUnit);
+        m_aniPool.append(_aniBase);
         m_lock->unlock();
-        return _actUnit;
     }
-    return nullptr;
 }
 
-bool SVActionMgr::removeAction(SVActionUnitPtr _actUnit){
+bool SVActionMgr::removeAni(SVAniBasePtr _aniBase){
     bool t_ret = false;
     m_lock->lock();
     for (s32 i = 0; i < m_aniPool.size(); i++) {
-        SVActionUnitPtr t_aniUnit = m_aniPool[i];
-        if (t_aniUnit == _actUnit) {
-            t_aniUnit->destroy();
+        SVAniBasePtr t_aniBase = m_aniPool[i];
+        if (t_aniBase == _aniBase) {
+            t_aniBase->destroy();
             m_aniPool.removeForce(i);
-            t_aniUnit = nullptr;
+            t_aniBase = nullptr;
             t_ret = true;
             break;
         }
@@ -72,11 +70,11 @@ bool SVActionMgr::removeAction(SVActionUnitPtr _actUnit){
     return t_ret;
 }
 
-bool SVActionMgr::removeAllActions() {
+bool SVActionMgr::removeAllAni() {
     m_lock->lock();
     for (s32 i = 0; i < m_aniPool.size(); i++) {
-        SVActionUnitPtr t_aniUnit = m_aniPool[i];
-        t_aniUnit->destroy();
+        SVAniBasePtr t_aniBase = m_aniPool[i];
+        t_aniBase->destroy();
     }
     m_aniPool.destroy();
     m_lock->unlock();

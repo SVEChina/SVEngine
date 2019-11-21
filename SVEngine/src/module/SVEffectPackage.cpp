@@ -17,7 +17,7 @@
 #include "../node/SVSpriteNode.h"
 #include "../node/SVBitFontNode.h"
 #include "../node/SVFrameAniNode.h"
-#include "../act/SVTexAttachment.h"
+#include "../act/SVAniTexAttachment.h"
 #include "../act/SVAniTrigger.h"
 #include "../act/SVActFollow.h"
 #include "../act/SVActionMgr.h"
@@ -146,7 +146,8 @@ void SVEffectPackage::destroy(){
     SVModuleBase::destroy();
     stopListen();
     for (s32 i = 0; i<m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVAniTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        t_attachment->removeFromActionMgr();
         t_attachment->destroy();
     }
     m_attachmentPool.destroy();
@@ -218,18 +219,11 @@ void SVEffectPackage::reset(){
 void SVEffectPackage::update(f32 _dt) {
     SVModuleBase::update(_dt);
     if (m_aniState == EFFECT_ANI_RUN) {
-        _updateAttachments(_dt);
         _updateTriggers(_dt);
         _updateEffectUnits(_dt);
     }
 }
 
-void SVEffectPackage::_updateAttachments(f32 _dt){
-    for (s32 i = 0; i < m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
-        t_attachment->update(_dt);
-    }
-}
 void SVEffectPackage::_updateTriggers(f32 _dt){
     for (s32 i = 0; i < m_triggerPool.size(); i++) {
         SVAniTriggerPtr t_trigger = m_triggerPool[i];
@@ -292,9 +286,9 @@ void SVEffectPackage::addEffectUnit(SVNodePtr _nodePtr){
     }
 }
 
-bool SVEffectPackage::_hasAttachment(SVTexAttachmentPtr _attachment){
+bool SVEffectPackage::_hasAttachment(SVAniTexAttachmentPtr _attachment){
     for (s32 i = 0; i<m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVAniTexAttachmentPtr t_attachment = m_attachmentPool[i];
         if (t_attachment == _attachment) {
             return true;
         }
@@ -302,9 +296,10 @@ bool SVEffectPackage::_hasAttachment(SVTexAttachmentPtr _attachment){
     return false;
 }
 
-void SVEffectPackage::addAttachment(SVTexAttachmentPtr _attachment){
+void SVEffectPackage::addAttachment(SVAniTexAttachmentPtr _attachment){
     m_lock->lock();
     if (_attachment && !_hasAttachment(_attachment)) {
+        mApp->getActionMgr()->addAni(_attachment);
         m_attachmentPool.append(_attachment);
     }
     m_lock->unlock();
@@ -346,10 +341,10 @@ void SVEffectPackage::addDefrom(SVDeformImageMovePtr _deform){
     }
 }
 
-SVTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
+SVAniTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
     for (s32 i = 0; i < m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
-        SVTexAttachment::TEXATTACHSPARAM t_param = t_attachment->getParam();
+        SVAniTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVAniTexAttachment::TEXATTACHSPARAM t_param = t_attachment->getParam();
         if (t_param.channel == _channel) {
             return t_attachment;
         }

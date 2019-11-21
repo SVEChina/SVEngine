@@ -1,11 +1,11 @@
 //
-// SVTexAttachment.cpp
+// SVAniTexAttachment.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVTexAttachment.h"
+#include "SVAniTexAttachment.h"
 #include "../mtl/SVMtlCore.h"
 #include "../mtl/SVMtl2D.h"
 #include "../node/SVSpineNode.h"
@@ -17,21 +17,21 @@
 #include "../mtl/SVTexture.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRendererBase.h"
-SVTexAttachment::SVTexAttachment(SVInst *_app)
-:SVGBase(_app) {
+SVAniTexAttachment::SVAniTexAttachment(SVInst *_app)
+:SVAniBase(_app) {
     m_srcNode = nullptr;
     m_tarNode = nullptr;
 }
 
-SVTexAttachment::~SVTexAttachment() {
+SVAniTexAttachment::~SVAniTexAttachment() {
     m_srcNode = nullptr;
     m_tarNode = nullptr;
 }
 
-void SVTexAttachment::init() {
+void SVAniTexAttachment::init() {
 }
 
-void SVTexAttachment::destroy() {
+void SVAniTexAttachment::destroy() {
     SVRendererBasePtr t_renderer = mApp->getRenderer();
     SVTEXTYPE t_texType = SVTEXTYPE(E_TEX_AVATAR_0 + m_param.channel);
     if (t_renderer->hasSVTex(t_texType)) {
@@ -39,13 +39,13 @@ void SVTexAttachment::destroy() {
     }
 }
 
-void SVTexAttachment::enter(){
+void SVAniTexAttachment::enter(){
 }
 
-void SVTexAttachment::exit(){
+void SVAniTexAttachment::exit(){
 }
 
-void SVTexAttachment::update(f32 _dt) {
+void SVAniTexAttachment::update(f32 _dt) {
     if (m_tarNode && m_srcNode) {
         f32 t_px;
         f32 t_py;
@@ -61,11 +61,11 @@ void SVTexAttachment::update(f32 _dt) {
     }
 }
 
-bool SVTexAttachment::isEnd(){
+bool SVAniTexAttachment::isEnd(){
     return true;
 }
 
-void SVTexAttachment::setAttachmentTex(void *_data, s32 _width, s32 _height){
+void SVAniTexAttachment::setAttachmentTex(void *_data, s32 _width, s32 _height){
     if (m_srcNode) {
         SVRendererBasePtr t_renderer = mApp->getRenderer();
         SVTEXTYPE t_texType = SVTEXTYPE(E_TEX_AVATAR_0 + m_param.channel);
@@ -83,7 +83,7 @@ void SVTexAttachment::setAttachmentTex(void *_data, s32 _width, s32 _height){
     }
 }
 
-void SVTexAttachment::fromJson(RAPIDJSON_NAMESPACE::Value &item){
+void SVAniTexAttachment::fromJson(RAPIDJSON_NAMESPACE::Value &item){
     if (item.HasMember("channel") && item["channel"].IsInt()) {
         m_param.channel = item["channel"].GetInt();
     }
@@ -122,6 +122,6 @@ void SVTexAttachment::fromJson(RAPIDJSON_NAMESPACE::Value &item){
     }
 }
 
-SVTexAttachment::TEXATTACHSPARAM SVTexAttachment::getParam(){
+SVAniTexAttachment::TEXATTACHSPARAM SVAniTexAttachment::getParam(){
     return m_param;
 }

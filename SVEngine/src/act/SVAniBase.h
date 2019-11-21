@@ -32,6 +32,8 @@ namespace sv{
             virtual bool isEnd();
             
             virtual void update(f32 _dt);
+            
+            void removeFromActionMgr();
 
         };
         

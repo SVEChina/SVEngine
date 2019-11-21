@@ -51,7 +51,7 @@
 #include "../module/SVMark.h"
 #include "../module/SVEffectPackage.h"
 #include "../module/pendraw/SVPenDraw.h"
-#include "../act/SVTexAttachment.h"
+#include "../act/SVAniTexAttachment.h"
 #include "../detect/SVDetectMgr.h"
 #include "../detect/SVDetectBase.h"
 #include "../physics/SVPhysicsWorld.h"
@@ -166,9 +166,9 @@ void SVOpCreateEffcet::_process(f32 dt) {
             SVEffectPackagePtr t_effectPackage = DYN_TO_SHAREPTR(SVEffectPackage, t_modulePtr);
             if (t_effectPackage) {
                 for (s32 i = 0; i<10; i++) {
-                    SVTexAttachmentPtr t_texAtt = t_effectPackage->getTexAttachment(i);
+                    SVAniTexAttachmentPtr t_texAtt = t_effectPackage->getTexAttachment(i);
                     if (t_texAtt) {
-                        SVTexAttachment::TEXATTACHSPARAM t_param = t_texAtt->getParam();
+                        SVAniTexAttachment::TEXATTACHSPARAM t_param = t_texAtt->getParam();
                         if (m_pCB) {
                             SVString msg = SVString::format("effectpackagetexattachment_%s_channel:%d_metadata:%s",t_moduleName.c_str(), i, t_param.metadata.c_str());
                             (*m_pCB)(msg.c_str(), m_obj);
@@ -212,7 +212,7 @@ void SVOpTexAttachment::_process(f32 dt) {
     if (t_module) {
         SVEffectPackagePtr t_effect = std::dynamic_pointer_cast<SVEffectPackage>(t_module);
         if (t_effect) {
-            SVTexAttachmentPtr t_attachment = t_effect->getTexAttachment(m_channel);
+            SVAniTexAttachmentPtr t_attachment = t_effect->getTexAttachment(m_channel);
             if (t_attachment) {
                 t_attachment->setAttachmentTex(m_data, m_width, m_height);
             }

@@ -46,7 +46,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVActBodyRope);
         DECLARE_SHAREPTR(SVActBodyCloth);
         //
-        DECLARE_SHAREPTR(SVTexAttachment);
+        DECLARE_SHAREPTR(SVAniTexAttachment);
         DECLARE_SHAREPTR(SVAniTrigger);
         //MOVIE
         DECLARE_SHAREPTR(SVMovie);

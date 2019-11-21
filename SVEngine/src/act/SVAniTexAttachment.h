@@ -1,5 +1,5 @@
 //
-// SVTexAttachment.h
+// SVAniTexAttachment.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
@@ -8,13 +8,13 @@
 #ifndef SV_ACT_TEXATTACHMENT_H
 #define SV_ACT_TEXATTACHMENT_H
 
-#include "../base/SVGBase.h"
+#include "SVAniBase.h"
 #include "../node/SVNodeDeclare.h"
 namespace sv{
     
     namespace logic {
         
-        class SVTexAttachment : public SVGBase {
+        class SVAniTexAttachment : public SVAniBase {
         public:
             struct TEXATTACHSPARAM{
                 s32             channel;
@@ -24,9 +24,9 @@ namespace sv{
                 SVString        slotName;
                 SVString        metadata;
             };
-            SVTexAttachment(SVInst* _app);
+            SVAniTexAttachment(SVInst* _app);
             
-            ~SVTexAttachment();
+            ~SVAniTexAttachment();
             
             virtual void init();
             
@@ -41,6 +41,8 @@ namespace sv{
             virtual void update(f32 _dt);
 
             void setAttachmentTex(void *_data, s32 _width, s32 _height);
+            
+//            void setAttachmentTex(void *_data, s32 _width, s32 _height);
             
             void fromJson(RAPIDJSON_NAMESPACE::Value &item);
             

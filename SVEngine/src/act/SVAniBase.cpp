@@ -7,7 +7,8 @@
 
 #include "SVAniBase.h"
 #include "SVActBase.h"
-
+#include "../app/SVInst.h"
+#include "SVActionMgr.h"
 SVAniBase::SVAniBase(SVInst *_app)
 :SVGBase(_app) {
 }
@@ -32,4 +33,11 @@ void SVAniBase::update(f32 _dt) {
 
 bool SVAniBase::isEnd(){
     return true;
+}
+
+void SVAniBase::removeFromActionMgr(){
+    SVActionMgrPtr t_actSys = mApp->getActionMgr();
+    if (t_actSys) {
+        t_actSys->removeAni(THIS_TO_SHAREPTR(SVAniBase));
+    }
 }
