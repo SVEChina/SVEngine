@@ -284,7 +284,7 @@ void SVFrameAniNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
     setTexPrename(t_prename.c_str());
     //
     for (s32 i = 0; i<m_framecount; i++) {
-        SVString t_name = SVString::format("%s-%d.png",m_texprename.c_str(), i);
+        SVString t_name = SVString::format("%s%d.png",m_texprename.c_str(), i);
         t_name = m_rootPath + t_name;
         pushFrame(t_name.c_str());
     }
