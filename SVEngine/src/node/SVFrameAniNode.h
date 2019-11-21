@@ -61,6 +61,8 @@ namespace sv {
             
             void setTexPrename(cptr8 _prename);
             
+            cptr8 getTexPrename();
+            
             void setTotalTime(f32 _time);
             
             f32  getTotlaTime();

@@ -204,6 +204,10 @@ void SVFrameAniNode::setTexPrename(cptr8 _prename){
     m_texprename = _prename;
 }
 
+cptr8 SVFrameAniNode::getTexPrename(){
+    return m_texprename.c_str();
+}
+
 void SVFrameAniNode::setTotalTime(f32 _time){
     m_totalTime = _time;
     if (m_framecount > 0 && m_totalTime > 0) {
