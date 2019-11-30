@@ -76,11 +76,14 @@ namespace sv{
             
             cptr8 getMataData();
             
-            void fromJson(RAPIDJSON_NAMESPACE::Value &item);
-            
             TEXATTACHSPARAM getParam();
             
             SVString m_rootPath;
+            
+            //序列化接口
+            void toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue);
+            
+            void fromJson(RAPIDJSON_NAMESPACE::Value &item);
         protected:
             void _genTexture();
             void _findAttachmentNode();

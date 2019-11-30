@@ -161,9 +161,6 @@ cptr8 SVAniTexAttachment::getMataData(){
 
 void SVAniTexAttachment::_genTexture(){
     if (m_texInfo.dataSwap) {
-        if (m_texture) {
-            m_texture = nullptr;
-        }
         SVRendererBasePtr t_renderer = mApp->getRenderer();
         SVTEXTYPE t_texType = SVTEXTYPE(E_TEX_AVATAR_0 + m_param.channel);
         if (t_renderer->hasSVTex(t_texType)) {
@@ -205,6 +202,15 @@ void SVAniTexAttachment::_refreshAttachmentNode(){
         m_srcNode->setSize(t_texW*(t_relH*1.0/t_texH), t_texH);
         m_srcNode->setTexture(m_texture);
     }
+}
+
+void SVAniTexAttachment::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+    _objValue.AddMember("channel", m_param.channel, _allocator);
+    _objValue.AddMember("srcnode", RAPIDJSON_NAMESPACE::StringRef(m_param.sourceNodeName.c_str()), _allocator);
+    _objValue.AddMember("tarspine", RAPIDJSON_NAMESPACE::StringRef(m_param.targetNodeName.c_str()), _allocator);
+    _objValue.AddMember("bonename", RAPIDJSON_NAMESPACE::StringRef(m_param.boneName.c_str()), _allocator);
+    _objValue.AddMember("slotname", RAPIDJSON_NAMESPACE::StringRef(m_param.slotName.c_str()), _allocator);
+    _objValue.AddMember("metadata", RAPIDJSON_NAMESPACE::StringRef(m_param.matadata.c_str()), _allocator);
 }
 
 void SVAniTexAttachment::fromJson(RAPIDJSON_NAMESPACE::Value &item){
