@@ -16,7 +16,8 @@
 #include "../node/SVSpineNode.h"
 #include "../node/SVSpriteNode.h"
 #include "../node/SVBitFontNode.h"
-#include "../act/SVTexAttachment.h"
+#include "../node/SVFrameAniNode.h"
+#include "../act/SVAniTexAttachment.h"
 #include "../act/SVAniTrigger.h"
 #include "../act/SVActFollow.h"
 #include "../act/SVActionMgr.h"
@@ -39,8 +40,17 @@ void spinenode_callback(SVSpineNodePtr _node,void* _obj,s32 _status) {
     }
 }
 
+void frameani_callback(SVFrameAniNodePtr _node,void* _obj,s32 _status){
+    SVEffectUnit *t_unit = (SVEffectUnit*)(_obj);
+    if(_status == 2) {
+        t_unit->setEnd(true);
+    }else if(_status == 3) {
+        t_unit->setEnd(true);
+    }
+}
+
 SVEffectUnit::SVEffectUnit(SVInst* _app):SVGBase(_app){
-    m_end = false;
+    m_end = true;
     m_personAct = nullptr;
 }
 
@@ -52,7 +62,6 @@ SVEffectUnit::~SVEffectUnit(){
 void SVEffectUnit::init(SVNodePtr _node){
     SVScenePtr t_scene = mApp->getSceneMgr()->getScene();
     if(_node && t_scene){
-        setEnd(true);
         m_node = _node;
         t_scene->addNode(m_node);
         //需要挂的人身上
@@ -68,6 +77,13 @@ void SVEffectUnit::init(SVNodePtr _node){
                 t_spineNode->play(t_defAniName);
                 setEnd(false);
             }
+        }
+        //
+        SVFrameAniNodePtr t_frameAni = DYN_TO_SHAREPTR(SVFrameAniNode, m_node);
+        if (t_frameAni) {
+            t_frameAni->setCallback(frameani_callback, this);
+            t_frameAni->play();
+            setEnd(false);
         }
     }
 }
@@ -130,7 +146,8 @@ void SVEffectPackage::destroy(){
     SVModuleBase::destroy();
     stopListen();
     for (s32 i = 0; i<m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVAniTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        t_attachment->removeFromActionMgr();
         t_attachment->destroy();
     }
     m_attachmentPool.destroy();
@@ -202,18 +219,11 @@ void SVEffectPackage::reset(){
 void SVEffectPackage::update(f32 _dt) {
     SVModuleBase::update(_dt);
     if (m_aniState == EFFECT_ANI_RUN) {
-        _updateAttachments(_dt);
         _updateTriggers(_dt);
         _updateEffectUnits(_dt);
     }
 }
 
-void SVEffectPackage::_updateAttachments(f32 _dt){
-    for (s32 i = 0; i < m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
-        t_attachment->update(_dt);
-    }
-}
 void SVEffectPackage::_updateTriggers(f32 _dt){
     for (s32 i = 0; i < m_triggerPool.size(); i++) {
         SVAniTriggerPtr t_trigger = m_triggerPool[i];
@@ -276,9 +286,9 @@ void SVEffectPackage::addEffectUnit(SVNodePtr _nodePtr){
     }
 }
 
-bool SVEffectPackage::_hasAttachment(SVTexAttachmentPtr _attachment){
+bool SVEffectPackage::_hasAttachment(SVAniTexAttachmentPtr _attachment){
     for (s32 i = 0; i<m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVAniTexAttachmentPtr t_attachment = m_attachmentPool[i];
         if (t_attachment == _attachment) {
             return true;
         }
@@ -286,9 +296,10 @@ bool SVEffectPackage::_hasAttachment(SVTexAttachmentPtr _attachment){
     return false;
 }
 
-void SVEffectPackage::addAttachment(SVTexAttachmentPtr _attachment){
+void SVEffectPackage::addAttachment(SVAniTexAttachmentPtr _attachment){
     m_lock->lock();
     if (_attachment && !_hasAttachment(_attachment)) {
+        mApp->getActionMgr()->addAni(_attachment);
         m_attachmentPool.append(_attachment);
     }
     m_lock->unlock();
@@ -330,10 +341,10 @@ void SVEffectPackage::addDefrom(SVDeformImageMovePtr _deform){
     }
 }
 
-SVTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
+SVAniTexAttachmentPtr SVEffectPackage::getTexAttachment(s32 _channel){
     for (s32 i = 0; i < m_attachmentPool.size(); i++) {
-        SVTexAttachmentPtr t_attachment = m_attachmentPool[i];
-        SVTexAttachment::TEXATTACHSPARAM t_param = t_attachment->getParam();
+        SVAniTexAttachmentPtr t_attachment = m_attachmentPool[i];
+        SVAniTexAttachment::TEXATTACHSPARAM t_param = t_attachment->getParam();
         if (t_param.channel == _channel) {
             return t_attachment;
         }

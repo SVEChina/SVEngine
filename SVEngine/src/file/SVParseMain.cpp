@@ -20,6 +20,7 @@
 #include "SVParseBitfont.h"
 #include "SVParseBMFont.h"
 #include "SVParseParticles.h"
+#include "SVParseFrameAni.h"
 #include "SVParseBackground.h"
 #include "SVParseTexAttachment.h"
 #include "SVParseAniTrigger.h"
@@ -32,6 +33,7 @@ SVParseMain::SVParseMain(SVInst *_app)
 :SVGBase(_app) {
     m_app = _app;
     _registDictionary("SVSpineNode", SVParseAnimate::parseAnim);
+    _registDictionary("SVFrameAniNode", SVParseFrameAni::parseFrameAni);
     _registDictionary("SV2DFaceMaskSTNode", SVParseMask::parseMask);
     _registDictionary("SVSpriteNode", SVParseSprite::parseSprite);
     _registDictionary("SVBitFontNode", SVParseBitfont::parseBitfont);
@@ -120,7 +122,7 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
         RAPIDJSON_NAMESPACE::Value &attachments = doc["TexAttachment"];
         for (s32 i = 0; i<attachments.Size(); i++) {
             RAPIDJSON_NAMESPACE::Value &attachment = attachments[i];
-            SVTexAttachmentPtr t_texAttachment = SVParseTexAttachment::parseTexAttachmet(mApp, attachment, 102, t_path.get());
+            SVAniTexAttachmentPtr t_texAttachment = SVParseTexAttachment::parseTexAttachmet(mApp, attachment, 102, t_path.get());
             t_bundle->addAttachment(t_texAttachment);
         }
     }
@@ -139,7 +141,7 @@ SVModuleBasePtr SVParseMain::parse(cptr8 path, s32 resid) {
         RAPIDJSON_NAMESPACE::Value &attachments = doc["SVLutFlter"];
         SVString t_name = attachments["name"].GetString();
         SVString t_pathLut = t_path + t_name;
-        SVFilterBasePtr t_baseFilter = SVParseLUTFilter::parseLUT(mApp,t_pathLut, 102);
+        SVFilterBasePtr t_baseFilter = SVParseLUTFilter::parseLUT(mApp,t_pathLut, 107);
         t_bundle->addFilter(t_baseFilter);
     }
     

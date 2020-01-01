@@ -21,14 +21,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0204F50C21B7AC370012C0AC /* SVTexAttachment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0204F50A21B7AC360012C0AC /* SVTexAttachment.cpp */; };
-		0204F50D21B7AC370012C0AC /* SVTexAttachment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0204F50A21B7AC360012C0AC /* SVTexAttachment.cpp */; };
-		0204F50E21B7AC370012C0AC /* SVTexAttachment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0204F50A21B7AC360012C0AC /* SVTexAttachment.cpp */; };
-		0204F50F21B7AC370012C0AC /* SVTexAttachment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0204F50A21B7AC360012C0AC /* SVTexAttachment.cpp */; };
-		0204F51021B7AC370012C0AC /* SVTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F50B21B7AC370012C0AC /* SVTexAttachment.h */; };
-		0204F51121B7AC370012C0AC /* SVTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F50B21B7AC370012C0AC /* SVTexAttachment.h */; };
-		0204F51221B7AC370012C0AC /* SVTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F50B21B7AC370012C0AC /* SVTexAttachment.h */; };
-		0204F51321B7AC370012C0AC /* SVTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F50B21B7AC370012C0AC /* SVTexAttachment.h */; };
+		0204F50C21B7AC370012C0AC /* SVAniTexAttachment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0204F50A21B7AC360012C0AC /* SVAniTexAttachment.cpp */; };
+		0204F50D21B7AC370012C0AC /* SVAniTexAttachment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0204F50A21B7AC360012C0AC /* SVAniTexAttachment.cpp */; };
+		0204F50E21B7AC370012C0AC /* SVAniTexAttachment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0204F50A21B7AC360012C0AC /* SVAniTexAttachment.cpp */; };
+		0204F50F21B7AC370012C0AC /* SVAniTexAttachment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0204F50A21B7AC360012C0AC /* SVAniTexAttachment.cpp */; };
+		0204F51021B7AC370012C0AC /* SVAniTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F50B21B7AC370012C0AC /* SVAniTexAttachment.h */; };
+		0204F51121B7AC370012C0AC /* SVAniTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F50B21B7AC370012C0AC /* SVAniTexAttachment.h */; };
+		0204F51221B7AC370012C0AC /* SVAniTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F50B21B7AC370012C0AC /* SVAniTexAttachment.h */; };
+		0204F51321B7AC370012C0AC /* SVAniTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F50B21B7AC370012C0AC /* SVAniTexAttachment.h */; };
 		0204F51621B7BCEE0012C0AC /* SVParseTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F51421B7BCED0012C0AC /* SVParseTexAttachment.h */; };
 		0204F51721B7BCEE0012C0AC /* SVParseTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F51421B7BCED0012C0AC /* SVParseTexAttachment.h */; };
 		0204F51821B7BCEE0012C0AC /* SVParseTexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 0204F51421B7BCED0012C0AC /* SVParseTexAttachment.h */; };
@@ -2534,6 +2534,14 @@
 		02A16A5F2284427500FE2B99 /* SVParseMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A592284427500FE2B99 /* SVParseMusic.h */; };
 		02A16A602284427500FE2B99 /* SVParseMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A592284427500FE2B99 /* SVParseMusic.h */; };
 		02A16A612284427500FE2B99 /* SVParseMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A16A592284427500FE2B99 /* SVParseMusic.h */; };
+		02A50759237D2D6200C721CE /* SVParseFrameAni.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A50757237D2D6100C721CE /* SVParseFrameAni.h */; };
+		02A5075A237D2D6200C721CE /* SVParseFrameAni.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A50757237D2D6100C721CE /* SVParseFrameAni.h */; };
+		02A5075B237D2D6200C721CE /* SVParseFrameAni.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A50757237D2D6100C721CE /* SVParseFrameAni.h */; };
+		02A5075C237D2D6200C721CE /* SVParseFrameAni.h in Headers */ = {isa = PBXBuildFile; fileRef = 02A50757237D2D6100C721CE /* SVParseFrameAni.h */; };
+		02A5075D237D2D6200C721CE /* SVParseFrameAni.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A50758237D2D6200C721CE /* SVParseFrameAni.cpp */; };
+		02A5075E237D2D6200C721CE /* SVParseFrameAni.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A50758237D2D6200C721CE /* SVParseFrameAni.cpp */; };
+		02A5075F237D2D6200C721CE /* SVParseFrameAni.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A50758237D2D6200C721CE /* SVParseFrameAni.cpp */; };
+		02A50760237D2D6200C721CE /* SVParseFrameAni.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A50758237D2D6200C721CE /* SVParseFrameAni.cpp */; };
 		02AD982C21EF44A800130131 /* SVMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 02AD982A21EF44A800130131 /* SVMark.h */; };
 		02AD982D21EF44A800130131 /* SVMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 02AD982A21EF44A800130131 /* SVMark.h */; };
 		02AD982E21EF44A800130131 /* SVMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 02AD982A21EF44A800130131 /* SVMark.h */; };
@@ -5467,8 +5475,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0204F50A21B7AC360012C0AC /* SVTexAttachment.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVTexAttachment.cpp; sourceTree = "<group>"; };
-		0204F50B21B7AC370012C0AC /* SVTexAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVTexAttachment.h; sourceTree = "<group>"; };
+		0204F50A21B7AC360012C0AC /* SVAniTexAttachment.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVAniTexAttachment.cpp; sourceTree = "<group>"; };
+		0204F50B21B7AC370012C0AC /* SVAniTexAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAniTexAttachment.h; sourceTree = "<group>"; };
 		0204F51421B7BCED0012C0AC /* SVParseTexAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseTexAttachment.h; sourceTree = "<group>"; };
 		0204F51521B7BCEE0012C0AC /* SVParseTexAttachment.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseTexAttachment.cpp; sourceTree = "<group>"; };
 		020776CF21BF993100B4A471 /* SVParseParticles.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseParticles.cpp; sourceTree = "<group>"; };
@@ -6097,6 +6105,8 @@
 		02A16A4F22842C5C00FE2B99 /* SVEffectMusic.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVEffectMusic.cpp; sourceTree = "<group>"; };
 		02A16A582284427400FE2B99 /* SVParseMusic.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseMusic.cpp; sourceTree = "<group>"; };
 		02A16A592284427500FE2B99 /* SVParseMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseMusic.h; sourceTree = "<group>"; };
+		02A50757237D2D6100C721CE /* SVParseFrameAni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVParseFrameAni.h; sourceTree = "<group>"; };
+		02A50758237D2D6200C721CE /* SVParseFrameAni.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVParseFrameAni.cpp; sourceTree = "<group>"; };
 		02AD982A21EF44A800130131 /* SVMark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMark.h; sourceTree = "<group>"; };
 		02AD982B21EF44A800130131 /* SVMark.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMark.cpp; sourceTree = "<group>"; };
 		02C92B41224C99A60065216F /* SVMtlADFilterBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlADFilterBase.h; sourceTree = "<group>"; };
@@ -8078,6 +8088,8 @@
 				5F7D5DE4215F407700803BCF /* SVLoaderPng.h */,
 				5F7D5DC1215F407700803BCF /* SVParseAnimate.cpp */,
 				5F7D5DD5215F407700803BCF /* SVParseAnimate.h */,
+				02A50758237D2D6200C721CE /* SVParseFrameAni.cpp */,
+				02A50757237D2D6100C721CE /* SVParseFrameAni.h */,
 				5CA05D4D21873E8100D1C033 /* SVParseBackground.cpp */,
 				5CA05D4E21873E8100D1C033 /* SVParseBackground.h */,
 				5F7D5DD0215F407700803BCF /* SVParseBitfont.cpp */,
@@ -8399,8 +8411,8 @@
 				5F7D5EAE215F407700803BCF /* SVActTime.h */,
 				5FAB9DD62189AC6600B05ED5 /* SVAniBase.cpp */,
 				5FAB9DD72189AC6600B05ED5 /* SVAniBase.h */,
-				0204F50A21B7AC360012C0AC /* SVTexAttachment.cpp */,
-				0204F50B21B7AC370012C0AC /* SVTexAttachment.h */,
+				0204F50A21B7AC360012C0AC /* SVAniTexAttachment.cpp */,
+				0204F50B21B7AC370012C0AC /* SVAniTexAttachment.h */,
 				027F34FD2328F56900911195 /* SVAniTrigger.cpp */,
 				027F34FC2328F56800911195 /* SVAniTrigger.h */,
 				5FB61FA622365A9B001EA141 /* SVCameraCtrl.cpp */,
@@ -9575,6 +9587,7 @@
 				020C4BAD22DC5DD100201753 /* b3Random.h in Headers */,
 				020C4D0322DC5DD200201753 /* b3OverlappingPairCache.h in Headers */,
 				5F7D654F215F407800803BCF /* SVEConfig.h in Headers */,
+				02A5075C237D2D6200C721CE /* SVParseFrameAni.h in Headers */,
 				5F7D668B215F407800803BCF /* SVMtlFilterEx.h in Headers */,
 				5F7D68AF215F407900803BCF /* SVVec4.h in Headers */,
 				020C489922DC5DCF00201753 /* btMultiBodyJointMotor.h in Headers */,
@@ -9721,7 +9734,7 @@
 				020C460D22DC5DCD00201753 /* btContactProcessingStructs.h in Headers */,
 				020C474722DC5DCE00201753 /* btHeightfieldTerrainShape.h in Headers */,
 				020C469122DC5DCD00201753 /* btGImpactBvhStructs.h in Headers */,
-				0204F51321B7AC370012C0AC /* SVTexAttachment.h in Headers */,
+				0204F51321B7AC370012C0AC /* SVAniTexAttachment.h in Headers */,
 				020C490F22DC5DCF00201753 /* btTypedConstraint.h in Headers */,
 				020C449322DC5DCC00201753 /* btGjkCollisionDescription.h in Headers */,
 				5F7D6359215F407800803BCF /* Json.h in Headers */,
@@ -10238,6 +10251,7 @@
 				5F7D66CD215F407900803BCF /* SVMtlDeclare.h in Headers */,
 				5F7D63A7215F407800803BCF /* prettywriter.h in Headers */,
 				5F7D608B215F407700803BCF /* SVRGBToneCurveFilter.h in Headers */,
+				02A5075A237D2D6200C721CE /* SVParseFrameAni.h in Headers */,
 				020C43B722DC5DCC00201753 /* b3SolverBody.h in Headers */,
 				5F7D6143215F407700803BCF /* SVImageUsingMove.h in Headers */,
 				0279A4222264A5B100308871 /* SVMtlStrokeBase.h in Headers */,
@@ -10514,7 +10528,7 @@
 				020C460B22DC5DCD00201753 /* btContactProcessingStructs.h in Headers */,
 				020C474522DC5DCE00201753 /* btHeightfieldTerrainShape.h in Headers */,
 				020C468F22DC5DCD00201753 /* btGImpactBvhStructs.h in Headers */,
-				0204F51121B7AC370012C0AC /* SVTexAttachment.h in Headers */,
+				0204F51121B7AC370012C0AC /* SVAniTexAttachment.h in Headers */,
 				020C490D22DC5DCF00201753 /* btTypedConstraint.h in Headers */,
 				020C449122DC5DCC00201753 /* btGjkCollisionDescription.h in Headers */,
 				5F7D6357215F407800803BCF /* Json.h in Headers */,
@@ -10764,6 +10778,7 @@
 				0219DD6F232FB74A00F02C9A /* SVLineNode.h in Headers */,
 				020C475822DC5DCE00201753 /* btTetrahedronShape.h in Headers */,
 				5F7D695C215F407900803BCF /* SVMathLib.h in Headers */,
+				02A50759237D2D6200C721CE /* SVParseFrameAni.h in Headers */,
 				5F7D66FC215F407900803BCF /* SVMtlFair1.h in Headers */,
 				5F7D64AE215F407800803BCF /* SVActMtl.h in Headers */,
 				5C56B692224A059A007D7DC8 /* SVMtlSmooth.h in Headers */,
@@ -11088,7 +11103,7 @@
 				5F7D621E215F407800803BCF /* png.h in Headers */,
 				020C498C22DC5DCF00201753 /* btPoint2PointConstraint.h in Headers */,
 				5F7D62E2215F407800803BCF /* Slot.h in Headers */,
-				0204F51021B7AC370012C0AC /* SVTexAttachment.h in Headers */,
+				0204F51021B7AC370012C0AC /* SVAniTexAttachment.h in Headers */,
 				020C434622DC5DCB00201753 /* btSoftRigidCollisionAlgorithm.h in Headers */,
 				020776D521BF993100B4A471 /* SVParseParticles.h in Headers */,
 				020C4BBE22DC5DD100201753 /* b3Mat3x3.h in Headers */,
@@ -11827,6 +11842,7 @@
 				5F7D66CE215F407900803BCF /* SVMtlDeclare.h in Headers */,
 				5F7D63A8215F407800803BCF /* prettywriter.h in Headers */,
 				5F7D608C215F407700803BCF /* SVRGBToneCurveFilter.h in Headers */,
+				02A5075B237D2D6200C721CE /* SVParseFrameAni.h in Headers */,
 				020C43B822DC5DCC00201753 /* b3SolverBody.h in Headers */,
 				5F7D6144215F407700803BCF /* SVImageUsingMove.h in Headers */,
 				0279A4232264A5B100308871 /* SVMtlStrokeBase.h in Headers */,
@@ -12103,7 +12119,7 @@
 				020C460C22DC5DCD00201753 /* btContactProcessingStructs.h in Headers */,
 				020C474622DC5DCE00201753 /* btHeightfieldTerrainShape.h in Headers */,
 				020C469022DC5DCD00201753 /* btGImpactBvhStructs.h in Headers */,
-				0204F51221B7AC370012C0AC /* SVTexAttachment.h in Headers */,
+				0204F51221B7AC370012C0AC /* SVAniTexAttachment.h in Headers */,
 				020C490E22DC5DCF00201753 /* btTypedConstraint.h in Headers */,
 				020C449222DC5DCC00201753 /* btGjkCollisionDescription.h in Headers */,
 				5F7D6358215F407800803BCF /* Json.h in Headers */,
@@ -12405,6 +12421,7 @@
 				5F7D60C9215F407700803BCF /* SVStaticData.cpp in Sources */,
 				020C453522DC5DCD00201753 /* btCollisionWorld.cpp in Sources */,
 				5F7D6953215F407900803BCF /* SVLockSpin.cpp in Sources */,
+				02A50760237D2D6200C721CE /* SVParseFrameAni.cpp in Sources */,
 				02381F0022437FE300584EEF /* SVMtlBlackWhite.cpp in Sources */,
 				5F7D6983215F407900803BCF /* svstr.cpp in Sources */,
 				020C3E0822D5CAE300201753 /* SVMtlFlashWhite.cpp in Sources */,
@@ -12554,7 +12571,7 @@
 				5C0C6027219BFF790052A826 /* InterpolateShannon.cpp in Sources */,
 				020C447322DC5DCC00201753 /* btSimpleBroadphase.cpp in Sources */,
 				020C518B22DCA2E200201753 /* SVPhysicsCollider.cpp in Sources */,
-				0204F50F21B7AC370012C0AC /* SVTexAttachment.cpp in Sources */,
+				0204F50F21B7AC370012C0AC /* SVAniTexAttachment.cpp in Sources */,
 				020C457D22DC5DCD00201753 /* btActivatingCollisionAlgorithm.cpp in Sources */,
 				020C452122DC5DCD00201753 /* btInternalEdgeUtility.cpp in Sources */,
 				5F7D677B215F407900803BCF /* SVFacePointNode.cpp in Sources */,
@@ -13267,7 +13284,7 @@
 				5F7D653C215F407800803BCF /* SVOpFilter.cpp in Sources */,
 				0279A4112261E68A00308871 /* SVPenCurve.cpp in Sources */,
 				5F7D67D8215F407900803BCF /* SV2DFaceMaskNode.cpp in Sources */,
-				0204F50C21B7AC370012C0AC /* SVTexAttachment.cpp in Sources */,
+				0204F50C21B7AC370012C0AC /* SVAniTexAttachment.cpp in Sources */,
 				0234D826227FFBB5009FE9BD /* SVParsePen.cpp in Sources */,
 				020C45DA22DC5DCD00201753 /* btCompoundCompoundCollisionAlgorithm.cpp in Sources */,
 				02130D992365C044002964D2 /* SVUIButton.cpp in Sources */,
@@ -13369,6 +13386,7 @@
 				02381EF72243754900584EEF /* SVADFilterBase.cpp in Sources */,
 				5FD9B02D22644E9400522317 /* SVResMetalTex.mm in Sources */,
 				5F7D648A215F407800803BCF /* SVTimeLineMtl.cpp in Sources */,
+				02A5075D237D2D6200C721CE /* SVParseFrameAni.cpp in Sources */,
 				5C0C6030219BFF790052A826 /* InterpolateLinear.cpp in Sources */,
 				020C44A022DC5DCC00201753 /* btGjkPairDetector.cpp in Sources */,
 				5F82682E2282FECB003D4476 /* SVMtlGLTF.cpp in Sources */,
@@ -13708,6 +13726,7 @@
 				5FD9B0122261E67F00522317 /* SVResMetal.mm in Sources */,
 				5F7D650E215F407800803BCF /* SVOpDetect.cpp in Sources */,
 				020C478A22DC5DCE00201753 /* btScaledBvhTriangleMeshShape.cpp in Sources */,
+				02A5075F237D2D6200C721CE /* SVParseFrameAni.cpp in Sources */,
 				5F7D66EA215F407900803BCF /* SVMtlFair1.cpp in Sources */,
 				0219DD6D232FB74A00F02C9A /* SVLineNode.cpp in Sources */,
 				020C44E222DC5DCC00201753 /* btVoronoiSimplexSolver.cpp in Sources */,
@@ -13716,7 +13735,7 @@
 				5C0C6026219BFF790052A826 /* InterpolateShannon.cpp in Sources */,
 				020C447222DC5DCC00201753 /* btSimpleBroadphase.cpp in Sources */,
 				020C518022DCA29400201753 /* SVPhysicsJoint.cpp in Sources */,
-				0204F50E21B7AC370012C0AC /* SVTexAttachment.cpp in Sources */,
+				0204F50E21B7AC370012C0AC /* SVAniTexAttachment.cpp in Sources */,
 				020C457C22DC5DCD00201753 /* btActivatingCollisionAlgorithm.cpp in Sources */,
 				020C452022DC5DCD00201753 /* btInternalEdgeUtility.cpp in Sources */,
 				5F7D677A215F407900803BCF /* SVFacePointNode.cpp in Sources */,
@@ -14288,6 +14307,7 @@
 				5FD9B0112261E67E00522317 /* SVResMetal.mm in Sources */,
 				5F7D650D215F407800803BCF /* SVOpDetect.cpp in Sources */,
 				020C478922DC5DCE00201753 /* btScaledBvhTriangleMeshShape.cpp in Sources */,
+				02A5075E237D2D6200C721CE /* SVParseFrameAni.cpp in Sources */,
 				5F7D66E9215F407900803BCF /* SVMtlFair1.cpp in Sources */,
 				0219DD6C232FB74A00F02C9A /* SVLineNode.cpp in Sources */,
 				020C44E122DC5DCC00201753 /* btVoronoiSimplexSolver.cpp in Sources */,
@@ -14296,7 +14316,7 @@
 				5C0C6025219BFF790052A826 /* InterpolateShannon.cpp in Sources */,
 				020C447122DC5DCC00201753 /* btSimpleBroadphase.cpp in Sources */,
 				020C517F22DCA29400201753 /* SVPhysicsJoint.cpp in Sources */,
-				0204F50D21B7AC370012C0AC /* SVTexAttachment.cpp in Sources */,
+				0204F50D21B7AC370012C0AC /* SVAniTexAttachment.cpp in Sources */,
 				020C457B22DC5DCD00201753 /* btActivatingCollisionAlgorithm.cpp in Sources */,
 				020C451F22DC5DCC00201753 /* btInternalEdgeUtility.cpp in Sources */,
 				5F7D6779215F407900803BCF /* SVFacePointNode.cpp in Sources */,

@@ -20,9 +20,14 @@ SVFrameAniNode::SVFrameAniNode(SVInst *_app)
 :SVNode(_app){
     ntype = "SVFrameAniNode";
     m_rsType = RST_SOLID_3D;
+    m_state = tANI_STATE_WAIT;
     m_canSelect = false;
+    m_visible = false;
     m_accTime = 0.0f;
     m_totalTime = 90.0f;
+    m_frameRate = 15.0f;
+    m_framecount = 0;
+    m_texprename = "";
     m_pActTex = nullptr;
     m_pMesh = nullptr;
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
@@ -30,6 +35,8 @@ SVFrameAniNode::SVFrameAniNode(SVInst *_app)
     m_height = 1000;
     setSize(m_width,m_height);
     m_loop = true;
+    m_p_cb_obj = nullptr;
+    m_frameani_callback = nullptr;
 }
 
 SVFrameAniNode::~SVFrameAniNode() {
@@ -45,25 +52,33 @@ void SVFrameAniNode::setSize(f32 _w,f32 _h) {
     m_pMesh = SVGeoGen::genRect(mApp, m_width, m_height, 0, 0, m_width, m_height,m_aabbBox);
 }
 
-f32 SVFrameAniNode::getRelativeWidth(){
+f32 SVFrameAniNode::getWidth(){
     return m_width;
 }
 
-f32 SVFrameAniNode::getRelativeHeight(){
+f32 SVFrameAniNode::getHeight(){
     return m_height;
 }
 
 void SVFrameAniNode::update(f32 dt) {
     SVNode::update(dt);
+    if (!m_visible) {
+        return;
+    }
+    if (m_state == tANI_STATE_STOP) {
+        return;
+    }
     //时间更新
-    m_accTime += dt;
-    if(m_loop) {
-        if(m_accTime>m_totalTime) {
+    if (m_state == tANI_STATE_PLAY) {
+        m_accTime += dt;
+    }
+    if(m_accTime>m_totalTime) {
+        _complete();
+        if(m_loop) {
             m_accTime = 0.0f;
-        }
-    }else{
-        if(m_accTime>m_totalTime) {
+        }else{
             m_accTime = m_totalTime;
+            stop();
         }
     }
     //预先加载
@@ -93,6 +108,9 @@ void SVFrameAniNode::update(f32 dt) {
 }
 
 void SVFrameAniNode::render() {
+    if (m_state == tANI_STATE_STOP) {
+        return;
+    }
     if (m_visible && m_pRenderObj ){
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         m_pRenderObj->pushCmd(t_rs, m_rsType, "SVFrameAniNode");
@@ -102,12 +120,35 @@ void SVFrameAniNode::render() {
 
 //播放控制
 void SVFrameAniNode::play() {
+    if (m_state != tANI_STATE_PLAY) {
+        m_state = tANI_STATE_PLAY;
+        m_visible = true;
+        if(m_frameani_callback){
+            (*m_frameani_callback)(THIS_TO_SHAREPTR(SVFrameAniNode),m_p_cb_obj,1);
+        }
+    }
 }
 
 void SVFrameAniNode::pause() {
+    if (m_state != tANI_STATE_PAUSE) {
+        m_state = tANI_STATE_PAUSE;
+    }
 }
 
 void SVFrameAniNode::stop() {
+    if (m_state != tANI_STATE_STOP) {
+        m_state = tANI_STATE_STOP;
+        m_visible = false;
+        if(m_frameani_callback){
+            (*m_frameani_callback)(THIS_TO_SHAREPTR(SVFrameAniNode),m_p_cb_obj,3);
+        }
+    }
+}
+
+void SVFrameAniNode::_complete(){
+    if(m_frameani_callback){
+        (*m_frameani_callback)(THIS_TO_SHAREPTR(SVFrameAniNode),m_p_cb_obj,2);
+    }
 }
 
 SVTexturePtr SVFrameAniNode::_selectTex(f32 _time) {
@@ -115,7 +156,7 @@ SVTexturePtr SVFrameAniNode::_selectTex(f32 _time) {
     s32 t_ct =m_framePool.size();
     if(t_ct<0)
         return nullptr;
-    m_curFrame = s32(_time*7.2f);
+    m_curFrame = s32(_time*m_frameRate);
     if(m_curFrame>=t_ct)
         return nullptr;
      m_framePool[m_curFrame].m_pTex = mApp->getTexMgr()->getTextureSync( m_framePool[m_curFrame].m_pTexName.c_str(),true,true);
@@ -152,4 +193,104 @@ void SVFrameAniNode::clearFrame() {
         m_framePool[i].m_pTex = nullptr;
     }
     m_framePool.destroy();
+}
+
+void SVFrameAniNode::setCallback(sv_frameani_callback _cb,void* _obj){
+    m_frameani_callback = _cb;
+    m_p_cb_obj = _obj;
+}
+
+void SVFrameAniNode::setTexPrename(cptr8 _prename){
+    m_texprename = _prename;
+}
+
+cptr8 SVFrameAniNode::getTexPrename(){
+    return m_texprename.c_str();
+}
+
+void SVFrameAniNode::setTotalTime(f32 _time){
+    m_totalTime = _time;
+    if (m_framecount > 0 && m_totalTime > 0) {
+        m_frameRate = m_framecount/m_totalTime;
+    }
+}
+
+f32  SVFrameAniNode::getTotlaTime(){
+    return m_totalTime;
+}
+
+void SVFrameAniNode::setFrameCount(s32 _count){
+    m_framecount = _count;
+    if (m_framecount > 0 && m_totalTime > 0) {
+        m_frameRate = m_framecount/m_totalTime;
+    }
+}
+
+s32  SVFrameAniNode::getFrameCount(){
+    return m_framecount;
+}
+
+void SVFrameAniNode::setLoop(bool _loop){
+    m_loop = _loop;
+}
+
+bool SVFrameAniNode::getLoop(){
+    return m_loop;
+}
+
+//序列化
+void SVFrameAniNode::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocator, RAPIDJSON_NAMESPACE::Value &_objValue){
+    RAPIDJSON_NAMESPACE::Value locationObj(RAPIDJSON_NAMESPACE::kObjectType);//创建一个Object类型的元素
+    _toJsonData(_allocator, locationObj);
+    locationObj.AddMember("width", m_width, _allocator);
+    locationObj.AddMember("height", m_height, _allocator);
+    locationObj.AddMember("loop", m_loop, _allocator);
+    locationObj.AddMember("time", m_totalTime, _allocator);
+    locationObj.AddMember("count", m_framecount, _allocator);
+    locationObj.AddMember("prename", RAPIDJSON_NAMESPACE::StringRef(m_texprename.c_str()), _allocator);
+    _objValue.AddMember("SVFrameAniNode", locationObj, _allocator);
+}
+
+void SVFrameAniNode::fromJSON(RAPIDJSON_NAMESPACE::Value &item){
+    _fromJsonData(item);
+    f32 t_width = 100.0f;
+    if (item.HasMember("width") && item["width"].IsFloat()) {
+        t_width = item["width"].GetFloat();
+    }
+    f32 t_height = 100.0f;
+    if (item.HasMember("height") && item["height"].IsFloat()) {
+        t_height = item["height"].GetFloat();
+    }
+    setSize(t_width, t_height);
+    //
+    bool t_loop = false;
+    if (item.HasMember("loop") && item["loop"].IsBool()) {
+        t_loop = item["loop"].GetBool();
+    }
+    setLoop(t_loop);
+    //
+    f32 t_time = 90.0f;
+    if (item.HasMember("time") && item["time"].IsFloat()) {
+         t_time = item["time"].GetFloat();
+    }
+    setTotalTime(t_time);
+    //
+    s32 t_count = 0;
+    if (item.HasMember("count") && item["count"].IsInt()) {
+        t_count = item["count"].GetInt();
+    }
+    setFrameCount(t_count);
+    //
+    SVString t_prename = "";
+    if (item.HasMember("prename") && item["prename"].IsString()) {
+        t_prename = item["prename"].GetString();
+    }
+    setTexPrename(t_prename.c_str());
+    //
+    for (s32 i = 0; i<m_framecount; i++) {
+        SVString t_name = SVString::format("%s%d.png",m_texprename.c_str(), i);
+        t_name = m_rootPath + t_name;
+        pushFrame(t_name.c_str());
+    }
+    m_dirty = true;
 }

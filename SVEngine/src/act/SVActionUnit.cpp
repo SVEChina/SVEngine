@@ -74,10 +74,3 @@ void SVActionUnit::stop(){
         m_actPtr->exit(m_nodePtr);
     }
 }
-
-void SVActionUnit::removeFromActionMgr(){
-    SVActionMgrPtr t_actSys = mApp->getActionMgr();
-    if (t_actSys) {
-        t_actSys->removeAction(THIS_TO_SHAREPTR(SVActionUnit));
-    }
-}

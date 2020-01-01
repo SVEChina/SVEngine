@@ -39,8 +39,6 @@ namespace sv{
             
             void stop();
             
-            void removeFromActionMgr();
-            
             SVActBasePtr getAct();
             
             SVNodePtr getNode();
