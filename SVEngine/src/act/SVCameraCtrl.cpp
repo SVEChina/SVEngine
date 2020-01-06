@@ -399,3 +399,47 @@ void SVCtrlCamereAR::setPos(FVec3& _pos) {
 void SVCtrlCamereAR::setViewMat(FMat4& _mat) {
     m_mat = _mat;
 }
+
+//
+//Top2D-follow
+SVCtrlCamereFollow2DTop::SVCtrlCamereFollow2DTop(SVInst* _app)
+:SVNodeCtrlCamera(_app){
+    m_hDis = 400.0f;
+    m_follow_dis = 50.0f;
+}
+
+SVCtrlCamereFollow2DTop::~SVCtrlCamereFollow2DTop() {
+}
+
+bool SVCtrlCamereFollow2DTop::run(SVCameraNodePtr _nodePtr, f32 dt){
+    if(m_bindNode) {
+        //
+            
+        //
+        FVec3 t_targetPos = m_bindNode->getPosition();
+        m_pos.y = t_targetPos.y + m_hDis;
+        m_pos.x = t_targetPos.x;
+        m_pos.z = t_targetPos.z;
+        //
+        m_mat = lookAt(m_pos,t_targetPos,FVec3(0.0f,0.0f,1.0f) );
+    }else{
+        m_mat = lookAt(FVec3(0.0f,m_hDis,0.0f),FVec3(0.0f,0.0f,0.0f),FVec3(0.0f,0.0f,1.0f) );
+    }
+    return true;
+}
+
+void SVCtrlCamereFollow2DTop::bindTarget(SVNodePtr _node) {
+    m_bindNode = _node;
+}
+
+void SVCtrlCamereFollow2DTop::unbindTarget() {
+    m_bindNode = nullptr;
+}
+
+void SVCtrlCamereFollow2DTop::setHDis(f32 _hdis) {
+    m_hDis = _hdis;
+}
+
+void SVCtrlCamereFollow2DTop::setMaxFollowDis(f32 _fdis) {
+    m_follow_dis = _fdis;
+}

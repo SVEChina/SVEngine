@@ -26,6 +26,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVNodeCtrlCamera);
         DECLARE_SHAREPTR(SVCtrlCamera2D);
         DECLARE_SHAREPTR(SVCtrlCamereAR);
+        DECLARE_SHAREPTR(SVCtrlCamereFollow2DTop);
     }
     
     namespace node {

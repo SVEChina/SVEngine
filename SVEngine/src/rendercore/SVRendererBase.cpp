@@ -137,6 +137,9 @@ SVRenderTexturePtr SVRendererBase::getRenderTexture() {
 }
 
 SVTexturePtr SVRendererBase::getSVTex(SVTEXTYPE _type){
+    if(E_TEX_END == _type) {
+        return nullptr;
+    }
     return m_svTex[_type];
 }
 

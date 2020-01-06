@@ -267,6 +267,29 @@ namespace sv {
         protected:
             
         };
+    
+        //Follow2d
+        class SVCtrlCamereFollow2DTop : public SVNodeCtrlCamera {
+        public:
+            SVCtrlCamereFollow2DTop(SVInst* _app);
+            
+            ~SVCtrlCamereFollow2DTop();
+            
+            bool run(SVCameraNodePtr _nodePtr, f32 dt);
+            
+            void bindTarget(SVNodePtr _node);
+            
+            void unbindTarget();
+            
+            void setHDis(f32 _hdis);
+            
+            void setMaxFollowDis(f32 _fdis);
+            
+        protected:
+            SVNodePtr m_bindNode;
+            f32 m_hDis;//高度
+            f32 m_follow_dis;  //跟随的最大距离
+        };
         
     }//!namespace logic
     

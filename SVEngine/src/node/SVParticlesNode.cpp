@@ -66,13 +66,13 @@ void SVParticlesNode::testInit() {
         //发射器类型
         m_pParticles->setEmitterType(0);
         //发射器尺寸
-        m_pParticles->setEmitterSize(FVec3(100.0f,100.0f,100.0f));
+        m_pParticles->setEmitterSize(FVec3(10.0f,10.0f,10.0f));
         //发射器连续
         m_pParticles->setEmitterContinuous(1);
         //发射器速度
         setEmitterVelocity(FVec3(0.0f,0.0f,0.0f));
         //发射繁衍
-        m_pParticles->setEmitterSpread(FVec3(0.3f,0.3f,0.0f));
+        m_pParticles->setEmitterSpread(FVec3(0.3f,0.3f,0.3f));
         //发射器方向
         m_pParticles->setEmitterDirection(FVec3(0.0f,0.0f,0.0f));
         //设置增长
@@ -80,9 +80,9 @@ void SVParticlesNode::testInit() {
         //重力速度
         m_pParticles->setGravity(FVec3(0.0f,0.0f,0.0f));
         //
-        m_pParticles->setVelocity(80,0.0);
+        m_pParticles->setVelocity(40,0.0);
         //
-        m_pParticles->setRadius(5.0f,0.0f);
+        m_pParticles->setRadius(8.0f,5.0f);
         //
         m_pParticles->setLife(10.0f,2.0f);
     }
