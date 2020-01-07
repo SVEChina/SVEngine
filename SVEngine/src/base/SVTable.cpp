@@ -29,6 +29,7 @@ void SVTable::reset() {
 
 void SVTable::setHead(SVStringArray<>& _head) {
     if(!_hasHead) {
+        _hasHead = true;
         for(s32 i=0;i<_head.size();i++) {
             m_tblHead.append(_head[i]);
         }

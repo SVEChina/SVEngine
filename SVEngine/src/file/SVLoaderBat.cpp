@@ -21,7 +21,17 @@ bool SVLoaderBat::loadFromFile(cptr8 _filename,SVTable& _tbl) {
     if (t_flag) {
         SVStringArray<> t_str_array = SVString::split(tSVDataChunk.m_data,"\r");
         for(s32 i=0;i<t_str_array.size();i++) {
-            SVString t_str = t_str_array[i];
+            SVString t_line_value = t_str_array[i];
+            if(i == 0) {
+                SVStringArray<> t_tbl_head = SVString::split(t_line_value.c_str(),",");
+                _tbl.setHead(t_tbl_head);
+            }else{
+                SVStringArray<> t_tbl_cxt = SVString::split(t_line_value.c_str(),",");
+                if(t_tbl_cxt.size()>0) {
+                    s32 t_key = SVString::atoi(t_tbl_cxt[0]);
+                    _tbl.pushCxt(t_key, t_tbl_cxt);
+                }
+            }
         }
     }
     return true;
