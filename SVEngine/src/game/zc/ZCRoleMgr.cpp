@@ -3,6 +3,9 @@
 //
 
 #include "ZCRoleMgr.h"
+#include "../../app/SVInst.h"
+#include "../../file/SVFileMgr.h"
+#include "../../file/SVLoaderBat.h"
 
 using namespace zc;
 
@@ -15,5 +18,6 @@ ZCRoleMgr::~ZCRoleMgr(){
 
 //加载角色表
 void ZCRoleMgr::load(cptr8 _tbl) {
-    
+    SVLoaderBat t_loader(mApp);
+    t_loader.loadFromFile(_tbl);
 }

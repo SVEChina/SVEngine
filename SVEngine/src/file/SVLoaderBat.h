@@ -17,6 +17,7 @@ namespace sv {
     public:
         SVLoaderBat(SVInst *_app);
         
+        bool loadFromFile(cptr8 _filename);
     };
     
 }//!namespace sv

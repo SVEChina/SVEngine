@@ -6,6 +6,7 @@
 #define SV_ZC_MGR_H
 
 #include "../../module/SVModuleBase.h"
+#include "ZCDef.h"
 
 namespace sv {
     
@@ -27,7 +28,14 @@ namespace zc{
         
 
     protected:
-        
+        //组织
+        ZCOrgMgrPtr m_pOrgMgr;
+        //故事
+        ZCStoryPtr m_pStory;
+        //角色
+        ZCRoleMgrPtr m_pRoleMgr;
+        //控制
+        ZCCtrlPtr m_pCtrl;
     };
 
 

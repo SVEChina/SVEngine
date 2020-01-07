@@ -16,8 +16,8 @@ namespace sv {
     
 namespace zc {
         
-DECLARE_SHAREPTR(SVLTMgr);
-DECLARE_SHAREPTR(SVLTCtrl);
+DECLARE_SHAREPTR(ZCMgr);
+DECLARE_SHAREPTR(ZCCtrl);
 
 //内容剧情相关
 DECLARE_SHAREPTR(ZCContext);
