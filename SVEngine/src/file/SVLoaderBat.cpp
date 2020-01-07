@@ -12,14 +12,27 @@
 
 SVLoaderBat::SVLoaderBat(SVInst *_app)
 :SVFileLoader(_app) {
+    m_dataCxt.clear();
 }
 
-bool SVLoaderBat::loadFromFile(cptr8 _filename) {
+bool SVLoaderBat::loadFromFile(cptr8 _filename,SVTable& _tbl) {
     SVDataChunk tSVDataChunk;
     bool t_flag = mApp->getFileMgr()->loadFileContent(&tSVDataChunk, _filename);
     if (t_flag) {
-        //
-        int a = 0;
+        SVStringArray<> t_str_array = SVString::split(tSVDataChunk.m_data,"\r");
+        for(s32 i=0;i<t_str_array.size();i++) {
+            SVString t_str = t_str_array[i];
+        }
     }
     return true;
+}
+
+void SVLoaderBat::_parse() {
+    s32 t_len = m_dataCxt.size();
+    for(s32 i=0;i<t_len;i++) {
+        SVStringArray<> t_str_array = SVString::split(m_dataCxt[i],",");
+        for(s32 j=0;j<t_str_array.size();j++) {
+            SVString t_str = t_str_array[j];
+        }
+    }
 }

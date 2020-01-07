@@ -8,6 +8,7 @@
 #include "../../base/SVGBase.h"
 #include "ZCDef.h"
 #include "../../base/SVArray.h"
+#include "../../base/SVTable.h"
 
 namespace sv {
     
@@ -68,7 +69,7 @@ namespace zc{
         ~ZCStory();
         
         //加载故事表
-        void load(cptr8 _tbl);
+        void load(cptr8 _name);
         
         //跳转到目标章节的，目标行数
         void jump(s32 _chapter,s32 _code);
@@ -78,6 +79,7 @@ namespace zc{
         
     protected:
         ZCChapterPtr m_curChapter;
+        SVTable m_tbl;
     };
 
 

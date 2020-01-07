@@ -6,6 +6,7 @@
 #define SV_ZC_ORGMGR_H
 
 #include "../../base/SVGBase.h"
+#include "../../base/SVTable.h"
 
 namespace sv {
     
@@ -32,10 +33,10 @@ namespace zc{
         ~ZCOrgMgr();
         
         //加载组织表
-        void load(cptr8 _tbl) ;
+        void load(cptr8 _name) ;
         
     protected:
-        
+        SVTable m_tbl;
     };
 
 }   //!namespace zc

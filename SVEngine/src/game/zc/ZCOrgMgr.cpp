@@ -3,6 +3,9 @@
 //
 
 #include "ZCOrgMgr.h"
+#include "../../app/SVInst.h"
+#include "../../file/SVFileMgr.h"
+#include "../../file/SVLoaderBat.h"
 
 using namespace zc;
 
@@ -25,6 +28,7 @@ ZCOrgMgr::~ZCOrgMgr(){
 }
 
 //加载组织
-void ZCOrgMgr::load(cptr8 _tbl) {
-    
+void ZCOrgMgr::load(cptr8 _name) {
+    SVLoaderBat t_loader(mApp);
+    t_loader.loadFromFile(_name,m_tbl);
 }

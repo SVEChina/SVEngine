@@ -6,6 +6,7 @@
 #define SV_ZC_ROLEMGR_H
 
 #include "../../base/SVGBase.h"
+#include "../../base/SVTable.h"
 
 namespace sv {
     
@@ -18,10 +19,10 @@ namespace zc{
         ~ZCRoleMgr();
         
         //加载角色表
-        void load(cptr8 _tbl) ;
+        void load(cptr8 _name) ;
         
     protected:
-        
+        SVTable m_tbl;
     };
 
 }   //!namespace zc

@@ -14,7 +14,7 @@ ZCStory::~ZCStory(){
 }
 
 //加载
-void ZCStory::load(cptr8 _tbl) {
+void ZCStory::load(cptr8 _name) {
     
 }
 

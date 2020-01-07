@@ -9,6 +9,8 @@
 #define SV_BATLOADER_H
 
 #include "SVFileLoader.h"
+#include "../base/SVArray.h"
+#include "../base/SVTable.h"
 
 namespace sv {
     
@@ -17,7 +19,12 @@ namespace sv {
     public:
         SVLoaderBat(SVInst *_app);
         
-        bool loadFromFile(cptr8 _filename);
+        bool loadFromFile(cptr8 _filename,SVTable& _tbl);
+        
+    protected:
+        SVArray<SVString> m_dataCxt;
+        
+        void _parse();
     };
     
 }//!namespace sv

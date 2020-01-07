@@ -28,12 +28,12 @@ ZCMgr::~ZCMgr(){
 }
 
 void ZCMgr::init() {
-    //角色
-    m_pRoleMgr = MakeSharedPtr<ZCRoleMgr>(mApp);
-    m_pRoleMgr->load("zc-role.csv");
     //组织
     m_pOrgMgr = MakeSharedPtr<ZCOrgMgr>(mApp);
     m_pOrgMgr->load("zc-org.csv");
+    //角色
+    m_pRoleMgr = MakeSharedPtr<ZCRoleMgr>(mApp);
+    m_pRoleMgr->load("zc-role.csv");
     //故事
     m_pStory = MakeSharedPtr<ZCStory>(mApp);
     m_pStory->load("zc-story.csv");
