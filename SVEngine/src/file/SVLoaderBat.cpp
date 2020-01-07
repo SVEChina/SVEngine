@@ -18,6 +18,8 @@ bool SVLoaderBat::loadFromFile(cptr8 _filename) {
     SVDataChunk tSVDataChunk;
     bool t_flag = mApp->getFileMgr()->loadFileContent(&tSVDataChunk, _filename);
     if (t_flag) {
+        //
+        int a = 0;
     }
     return true;
 }
