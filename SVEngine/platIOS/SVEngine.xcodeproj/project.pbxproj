@@ -3011,6 +3011,14 @@
 		5F6598E723C718A50075A17C /* ZCStoryMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6598E123C718A40075A17C /* ZCStoryMgr.cpp */; };
 		5F6598E823C718A50075A17C /* ZCStoryMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6598E123C718A40075A17C /* ZCStoryMgr.cpp */; };
 		5F6598E923C718A50075A17C /* ZCStoryMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6598E123C718A40075A17C /* ZCStoryMgr.cpp */; };
+		5F6598EC23C731AB0075A17C /* ZCStoryJC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6598EA23C731A90075A17C /* ZCStoryJC.cpp */; };
+		5F6598ED23C731AB0075A17C /* ZCStoryJC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6598EA23C731A90075A17C /* ZCStoryJC.cpp */; };
+		5F6598EE23C731AB0075A17C /* ZCStoryJC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6598EA23C731A90075A17C /* ZCStoryJC.cpp */; };
+		5F6598EF23C731AB0075A17C /* ZCStoryJC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6598EA23C731A90075A17C /* ZCStoryJC.cpp */; };
+		5F6598F023C731AB0075A17C /* ZCStoryJC.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6598EB23C731AA0075A17C /* ZCStoryJC.h */; };
+		5F6598F123C731AB0075A17C /* ZCStoryJC.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6598EB23C731AA0075A17C /* ZCStoryJC.h */; };
+		5F6598F223C731AB0075A17C /* ZCStoryJC.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6598EB23C731AA0075A17C /* ZCStoryJC.h */; };
+		5F6598F323C731AB0075A17C /* ZCStoryJC.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6598EB23C731AA0075A17C /* ZCStoryJC.h */; };
 		5F7D5FE6215F407700803BCF /* SVDetectMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */; };
 		5F7D5FE7215F407700803BCF /* SVDetectMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */; };
 		5F7D5FE8215F407700803BCF /* SVDetectMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */; };
@@ -6305,6 +6313,8 @@
 		5F6598D723C45AAF0075A17C /* SVTable.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVTable.cpp; sourceTree = "<group>"; };
 		5F6598E023C718A40075A17C /* ZCStoryMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCStoryMgr.h; sourceTree = "<group>"; };
 		5F6598E123C718A40075A17C /* ZCStoryMgr.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ZCStoryMgr.cpp; sourceTree = "<group>"; };
+		5F6598EA23C731A90075A17C /* ZCStoryJC.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ZCStoryJC.cpp; sourceTree = "<group>"; };
+		5F6598EB23C731AA0075A17C /* ZCStoryJC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCStoryJC.h; sourceTree = "<group>"; };
 		5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVDetectMgr.cpp; sourceTree = "<group>"; };
 		5F7D5D5D215F407700803BCF /* SVPerson.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPerson.cpp; sourceTree = "<group>"; };
 		5F7D5D5E215F407700803BCF /* SVDetectMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDetectMgr.h; sourceTree = "<group>"; };
@@ -7982,6 +7992,8 @@
 				5F6598AD23C338520075A17C /* ZCRoleMgr.h */,
 				5F6598A423C336430075A17C /* ZCStory.cpp */,
 				5F6598A323C336420075A17C /* ZCStory.h */,
+				5F6598EA23C731A90075A17C /* ZCStoryJC.cpp */,
+				5F6598EB23C731AA0075A17C /* ZCStoryJC.h */,
 				5F6598E123C718A40075A17C /* ZCStoryMgr.cpp */,
 				5F6598E023C718A40075A17C /* ZCStoryMgr.h */,
 			);
@@ -9539,6 +9551,7 @@
 				020C45F522DC5DCD00201753 /* gim_geometry.h in Headers */,
 				5F7D6259215F407800803BCF /* Animation.h in Headers */,
 				5F7D605D215F407700803BCF /* SVStaticData.h in Headers */,
+				5F6598F323C731AB0075A17C /* ZCStoryJC.h in Headers */,
 				5F7D696F215F407900803BCF /* SVVecbase.h in Headers */,
 				020C4D2322DC5DD200201753 /* b3ClipFaces.h in Headers */,
 				5F7D66DF215F407900803BCF /* SVMtlDef.h in Headers */,
@@ -10046,6 +10059,7 @@
 				020C4C1922DC5DD200201753 /* btMatrixX.h in Headers */,
 				5F7D5FF3215F407700803BCF /* SVPerson.h in Headers */,
 				020C3E0A22D5CAE300201753 /* SVMtlFlashWhite.h in Headers */,
+				5F6598F123C731AB0075A17C /* ZCStoryJC.h in Headers */,
 				020C473122DC5DCE00201753 /* btCollisionMargin.h in Headers */,
 				5F7D6497215F407800803BCF /* SVTimeLine.h in Headers */,
 				5FC23D392330EC8F0050B7B6 /* SVUIPanel.h in Headers */,
@@ -10883,6 +10897,7 @@
 				5F7D63CA215F407800803BCF /* regex.h in Headers */,
 				020C4BC622DC5DD100201753 /* b3Int2.h in Headers */,
 				5F7D679C215F407900803BCF /* SVSpineNode.h in Headers */,
+				5F6598F023C731AB0075A17C /* ZCStoryJC.h in Headers */,
 				5F7D6056215F407700803BCF /* SVConfig.h in Headers */,
 				020C438422DC5DCC00201753 /* btSoftBodyRigidBodyCollisionConfiguration.h in Headers */,
 				02381EDB2243625600584EEF /* SVParseFilter.h in Headers */,
@@ -11657,6 +11672,7 @@
 				020C4C1A22DC5DD200201753 /* btMatrixX.h in Headers */,
 				5F7D5FF4215F407700803BCF /* SVPerson.h in Headers */,
 				020C3E0B22D5CAE300201753 /* SVMtlFlashWhite.h in Headers */,
+				5F6598F223C731AB0075A17C /* ZCStoryJC.h in Headers */,
 				020C473222DC5DCE00201753 /* btCollisionMargin.h in Headers */,
 				5F7D6498215F407800803BCF /* SVTimeLine.h in Headers */,
 				5FC23D3A2330EC8F0050B7B6 /* SVUIPanel.h in Headers */,
@@ -12699,6 +12715,7 @@
 				5C56B67E2248AFFD007D7DC8 /* SVMtlGradientMap.cpp in Sources */,
 				5F7D6159215F407700803BCF /* SVInst.cpp in Sources */,
 				5F7D6309215F407800803BCF /* PathConstraintData.c in Sources */,
+				5F6598EF23C731AB0075A17C /* ZCStoryJC.cpp in Sources */,
 				5F7D6319215F407800803BCF /* VertexEffect.c in Sources */,
 				5FB61F8C2227E521001EA141 /* SVPythonSys.cpp in Sources */,
 				020C49AB22DC5DD000201753 /* btGeneric6DofSpringConstraint.cpp in Sources */,
@@ -13501,6 +13518,7 @@
 				020C47A022DC5DCE00201753 /* btConvexHullShape.cpp in Sources */,
 				5F8268202282C456003D4476 /* SVMorphNode.cpp in Sources */,
 				5F7D6212215F407800803BCF /* pngtrans.c in Sources */,
+				5F6598EC23C731AB0075A17C /* ZCStoryJC.cpp in Sources */,
 				5F7D6650215F407800803BCF /* SVThreadMain.cpp in Sources */,
 				020C44CC22DC5DCC00201753 /* btGjkEpa2.cpp in Sources */,
 				020C457A22DC5DCD00201753 /* btActivatingCollisionAlgorithm.cpp in Sources */,
@@ -14004,6 +14022,7 @@
 				02381F352247AF8800584EEF /* SVMtlDistorted.cpp in Sources */,
 				020C437E22DC5DCC00201753 /* btSoftRigidDynamicsWorld.cpp in Sources */,
 				020C459422DC5DCD00201753 /* btDefaultCollisionConfiguration.cpp in Sources */,
+				5F6598EE23C731AB0075A17C /* ZCStoryJC.cpp in Sources */,
 				020C458022DC5DCD00201753 /* btConvex2dConvex2dAlgorithm.cpp in Sources */,
 				5F06308A23223A4900A2BD73 /* SVLightSys.cpp in Sources */,
 				020C469422DC5DCD00201753 /* btGImpactShape.cpp in Sources */,
@@ -14594,6 +14613,7 @@
 				02381F342247AF8800584EEF /* SVMtlDistorted.cpp in Sources */,
 				020C437D22DC5DCC00201753 /* btSoftRigidDynamicsWorld.cpp in Sources */,
 				020C459322DC5DCD00201753 /* btDefaultCollisionConfiguration.cpp in Sources */,
+				5F6598ED23C731AB0075A17C /* ZCStoryJC.cpp in Sources */,
 				020C457F22DC5DCD00201753 /* btConvex2dConvex2dAlgorithm.cpp in Sources */,
 				5F06308923223A4900A2BD73 /* SVLightSys.cpp in Sources */,
 				020C469322DC5DCD00201753 /* btGImpactShape.cpp in Sources */,
