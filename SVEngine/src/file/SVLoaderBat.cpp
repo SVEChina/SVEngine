@@ -28,8 +28,7 @@ bool SVLoaderBat::loadFromFile(cptr8 _filename,SVTable& _tbl) {
             }else{
                 SVStringArray<> t_tbl_cxt = SVString::split(t_line_value.c_str(),",");
                 if(t_tbl_cxt.size()>0) {
-                    s32 t_key = SVString::atoi(t_tbl_cxt[0]);
-                    _tbl.pushCxt(t_key, t_tbl_cxt);
+                    _tbl.pushCxt(t_tbl_cxt);
                 }
             }
         }

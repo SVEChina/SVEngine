@@ -36,7 +36,7 @@ void SVTable::setHead(SVStringArray<>& _head) {
     }
 }
 
-void SVTable::pushCxt(s32 _key,SVStringArray<>& _value) {
+void SVTable::pushCxt(SVStringArray<>& _value) {
     if(!_hasHead)
         return;
     if(_value.size() == m_tblHead.size() ) {
@@ -44,7 +44,7 @@ void SVTable::pushCxt(s32 _key,SVStringArray<>& _value) {
         for(s32 i=0;i<_value.size();i++){
             t_array.append(_value[i]);
         }
-        m_tblCtx.append(_key,t_array);
+        m_tblCtx.append(t_array);
     }
 }
 
@@ -56,15 +56,21 @@ void SVTable::removeCxt(s32 _key) {
 void SVTable::clearCxt() {
     if(!_hasHead)
         return;
-    SVMap<s32,SVArray<SVString>>::Iterator it = m_tblCtx.begin();
-    while(it!=m_tblCtx.end()) {
-        it->data.clear();
-        it++;
-    }
-    m_tblCtx.clear();
+//    SVMap<s32,SVArray<SVString>>::Iterator it = m_tblCtx.begin();
+//    while(it!=m_tblCtx.end()) {
+//        it->data.clear();
+//        it++;
+//    }
+//    m_tblCtx.clear();
 }
 
-SVString SVTable::getCtx(s32 _key,cptr8 _name) {
+s32 SVTable::getCtxNum() {
+    return m_tblCtx.size();
+}
+
+SVString SVTable::getCtx(s32 _index,cptr8 _name) {
+    if(_index>=m_tblCtx.size())
+        return "nil";
     if(!_hasHead)
         return "nil";
     s32 t_index = -1;
@@ -74,25 +80,23 @@ SVString SVTable::getCtx(s32 _key,cptr8 _name) {
             break;
         }
     }
+    //
     if(t_index!=-1) {
-        SVMap<s32,SVArray<SVString>>::Iterator it = m_tblCtx.find(_key);
-        if(it!=m_tblCtx.end()) {
-            return it->data[t_index];
-        }
+        return m_tblCtx[_index][t_index];
     }
     return "nil";
 }
 
-f32 SVTable::getCtxF(s32 _key,cptr8 _name) {
-    SVString t_value = getCtx(_key,_name);
+f32 SVTable::getCtxF(s32 _index,cptr8 _name) {
+    SVString t_value = getCtx(_index,_name);
     if(t_value!="nil") {
         return SVString::atof(t_value.c_str());
     }
     return 0.0f;
 }
 
-s32 SVTable::getCtxI(s32 _key,cptr8 _name) {
-    SVString t_value = getCtx(_key,_name);
+s32 SVTable::getCtxI(s32 _index,cptr8 _name) {
+    SVString t_value = getCtx(_index,_name);
     if(t_value!="nil") {
         return SVString::atoi(t_value.c_str());
     }
