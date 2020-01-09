@@ -3,6 +3,9 @@
 //
 
 #include "ZCStory.h"
+#include "../../app/SVInst.h"
+#include "../../file/SVFileMgr.h"
+#include "../../file/SVLoaderBat.h"
 
 using namespace zc;
 
@@ -53,7 +56,8 @@ ZCStory::~ZCStory(){
 
 //加载
 void ZCStory::load(cptr8 _name) {
-    
+    SVLoaderBat t_loader(mApp);
+    t_loader.loadFromFile(_name,m_tbl);
 }
 
 //跳转到目标章节的，目标行数

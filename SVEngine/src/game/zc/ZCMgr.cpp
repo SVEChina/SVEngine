@@ -14,29 +14,17 @@ using namespace zc;
 
 ZCMgr::ZCMgr(SVInst *_app)
 :SVModuleBase(_app){
-    m_pOrgMgr = nullptr;
-    m_pStory = nullptr;
-    m_pRoleMgr = nullptr;
+    m_pStoryMgr = nullptr;
     m_pCtrl = nullptr;
 }
 
 ZCMgr::~ZCMgr(){
-    m_pOrgMgr = nullptr;
-    m_pStory = nullptr;
-    m_pRoleMgr = nullptr;
+    m_pStoryMgr = nullptr;
     m_pCtrl = nullptr;
 }
 
 void ZCMgr::init() {
-    //组织
-    m_pOrgMgr = MakeSharedPtr<ZCOrgMgr>(mApp);
-    m_pOrgMgr->load("zc-org.csv");
-    //角色
-    m_pRoleMgr = MakeSharedPtr<ZCRoleMgr>(mApp);
-    m_pRoleMgr->load("zc-role.csv");
-    //故事
-    m_pStory = MakeSharedPtr<ZCStory>(mApp);
-    m_pStory->load("zc-story.csv");
+    m_pStoryMgr = MakeSharedPtr<ZCStory>(mApp);
     //控制
     m_pCtrl = MakeSharedPtr<ZCCtrl>(mApp);
 }

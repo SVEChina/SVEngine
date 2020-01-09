@@ -70,7 +70,6 @@ namespace zc{
         SVArray<ZCContextPtr> m_ctxs;   //内容
         //
         s32 m_curCtxCode;   //当前内容序号
-        
         //
         f32 m_percent;      //进度
     };
