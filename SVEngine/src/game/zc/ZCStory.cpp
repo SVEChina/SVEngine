@@ -58,6 +58,7 @@ ZCStory::~ZCStory(){
 void ZCStory::load(cptr8 _name) {
     SVLoaderBat t_loader(mApp);
     t_loader.loadFromFile(_name,m_tbl);
+    int a = 0;
 }
 
 //跳转到目标章节的，目标行数

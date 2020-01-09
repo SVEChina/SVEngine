@@ -7,6 +7,7 @@
 #include "ZCRoleMgr.h"
 #include "ZCStory.h"
 #include "ZCOrgMgr.h"
+#include "ZCStoryMgr.h"
 #include "../../app/SVInst.h"
 #include "../../file/SVFileMgr.h"
 
@@ -24,7 +25,9 @@ ZCMgr::~ZCMgr(){
 }
 
 void ZCMgr::init() {
-    m_pStoryMgr = MakeSharedPtr<ZCStory>(mApp);
+    m_pStoryMgr = MakeSharedPtr<ZCStoryMgr>(mApp);
+    m_pStoryMgr->load("zcstory.csv");
+    
     //控制
     m_pCtrl = MakeSharedPtr<ZCCtrl>(mApp);
 }

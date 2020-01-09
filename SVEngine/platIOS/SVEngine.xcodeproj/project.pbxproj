@@ -6304,7 +6304,7 @@
 		5F6598D623C45AAE0075A17C /* SVTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVTable.h; sourceTree = "<group>"; };
 		5F6598D723C45AAF0075A17C /* SVTable.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVTable.cpp; sourceTree = "<group>"; };
 		5F6598E023C718A40075A17C /* ZCStoryMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCStoryMgr.h; sourceTree = "<group>"; };
-		5F6598E123C718A40075A17C /* ZCStoryMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZCStoryMgr.cpp; sourceTree = "<group>"; };
+		5F6598E123C718A40075A17C /* ZCStoryMgr.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ZCStoryMgr.cpp; sourceTree = "<group>"; };
 		5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVDetectMgr.cpp; sourceTree = "<group>"; };
 		5F7D5D5D215F407700803BCF /* SVPerson.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPerson.cpp; sourceTree = "<group>"; };
 		5F7D5D5E215F407700803BCF /* SVDetectMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDetectMgr.h; sourceTree = "<group>"; };

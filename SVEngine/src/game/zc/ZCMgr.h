@@ -28,7 +28,7 @@ namespace zc{
         
     protected:
         //
-        ZCStoryMgr m_pStoryMgr;
+        ZCStoryMgrPtr m_pStoryMgr;
         //控制
         ZCCtrlPtr m_pCtrl;
     };
