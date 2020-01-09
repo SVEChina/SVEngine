@@ -26,7 +26,7 @@ ZCMgr::~ZCMgr(){
 
 void ZCMgr::init() {
     m_pStoryMgr = MakeSharedPtr<ZCStoryMgr>(mApp);
-    m_pStoryMgr->load("list/zcstory.csv");
+    m_pStoryMgr->load("list/storylist.csv");
     
     //控制
     m_pCtrl = MakeSharedPtr<ZCCtrl>(mApp);

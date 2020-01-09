@@ -31,7 +31,8 @@ void SVTable::setHead(SVStringArray<>& _head) {
     if(!_hasHead) {
         _hasHead = true;
         for(s32 i=0;i<_head.size();i++) {
-            m_tblHead.append(_head[i]);
+            SVString t_head_value = _head[i];
+            m_tblHead.append(t_head_value);
         }
     }
 }
@@ -42,7 +43,8 @@ void SVTable::pushCxt(SVStringArray<>& _value) {
     if(_value.size() == m_tblHead.size() ) {
         SVArray<SVString> t_array;
         for(s32 i=0;i<_value.size();i++){
-            t_array.append(_value[i]);
+            SVString t_ctx_value = _value[i];
+            t_array.append(t_ctx_value);
         }
         m_tblCtx.append(t_array);
     }

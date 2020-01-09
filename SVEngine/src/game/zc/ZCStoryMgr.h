@@ -24,15 +24,13 @@ namespace zc{
         
         //加载组织表
         void load(cptr8 _name) ;
+        //
+        void loadStory(cptr8 _name);
         
     protected:
         SVTable m_tbl;
-        //组织
-        ZCOrgMgrPtr m_pOrgMgr;
-        //故事
-        ZCStoryPtr m_pStory;
-        //角色
-        ZCRoleMgrPtr m_pRoleMgr;
+        
+        SVArray<ZCStoryPtr> m_storyVec;
     };
 
 }   //!namespace zc

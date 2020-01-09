@@ -47,11 +47,19 @@ namespace zc{
        
         ~ZCChapter();
         
+        void setID(s32 _id);
+        
+        void setName(cptr8 _name);
+        
+        void setRes(cptr8 _res);
+        
         //解锁
         void unlock();
         
         //是否锁定
         bool isLock();
+        
+        void load();
         
         ZCContextPtr getCtx();
         
@@ -64,8 +72,10 @@ namespace zc{
         bool m_lock;
         //id
         s8 m_id;
-        //
-        SVString m_name;    //章节的名字
+        //章节的名字
+        SVString m_name;
+        //内容路径
+        SVString m_ctxpath;
         //
         SVArray<ZCContextPtr> m_ctxs;   //内容
         //
@@ -82,16 +92,39 @@ namespace zc{
         
         ~ZCStory();
         
+        void setAuthor(cptr8 _name);
+        
+        cptr8 getAuthor();
+        
+        void setList(cptr8 _name);
+        
+        //
+        void setName(cptr8 _name);
+        
+        cptr8 getName();
+        
+        void setID(s32 _id);
+        
+        s32 getID();
+        
         //加载故事表
-        void load(cptr8 _name);
+        void load();
         
         //跳转到目标章节的，目标行数
         void jump(s32 _chapter,s32 _code);
         
         //执行下一句
         void nxt();
-        
+
     protected:
+        //故事id
+        s32 m_id;
+        //故事名称
+        SVString m_name;
+        //
+        SVString m_author;
+        //
+        SVString m_list;
         //当前章节
         ZCChapterPtr m_curChapter;
         //章节集合
