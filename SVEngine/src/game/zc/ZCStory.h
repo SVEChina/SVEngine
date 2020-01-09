@@ -53,11 +53,26 @@ namespace zc{
         //是否锁定
         bool isLock();
         
+        ZCContextPtr getCtx();
+        
+        ZCContextPtr nxt();
+        
+        cptr8 getName();
+        
     protected:
         //锁定
         bool m_lock;
         //id
         s8 m_id;
+        //
+        SVString m_name;    //章节的名字
+        //
+        SVArray<ZCContextPtr> m_ctxs;   //内容
+        //
+        s32 m_curCtxCode;   //当前内容序号
+        
+        //
+        f32 m_percent;      //进度
     };
 
 
@@ -78,7 +93,11 @@ namespace zc{
         void nxt();
         
     protected:
+        //当前章节
         ZCChapterPtr m_curChapter;
+        //章节集合
+        SVArray<ZCChapterPtr> m_chapters;
+        //
         SVTable m_tbl;
     };
 
