@@ -4,6 +4,7 @@
 
 #include "ZCStoryMgr.h"
 #include "ZCStory.h"
+#include "ZCStoryJC.h"
 #include "../../app/SVInst.h"
 #include "../../file/SVFileMgr.h"
 #include "../../file/SVLoaderBat.h"
@@ -13,15 +14,6 @@ using namespace zc;
 //
 ZCStoryMgr::ZCStoryMgr(SVInst *_app)
 :SVGBase(_app){
-//    //组织
-//    m_pOrgMgr = MakeSharedPtr<ZCOrgMgr>(mApp);
-//    m_pOrgMgr->load("");
-//    //角色
-//    m_pRoleMgr = MakeSharedPtr<ZCRoleMgr>(mApp);
-//    m_pRoleMgr->load("");
-//    //故事
-//    m_pStory = MakeSharedPtr<ZCStory>(mApp);
-//    m_pStory->load("");
 }
 
 ZCStoryMgr::~ZCStoryMgr(){
@@ -33,7 +25,7 @@ void ZCStoryMgr::load(cptr8 _name) {
     //
     s32 t_cnt = m_tbl.getCtxNum();
     for(s32 i=0;i<t_cnt;i++) {
-        ZCStoryPtr t_story = MakeSharedPtr<ZCStory>(mApp);
+        ZCStoryJCPtr t_story = MakeSharedPtr<ZCStoryJC>(mApp);
         //作者
         SVString t_author = m_tbl.getCtx(i,"作者");
         t_story->setAuthor(t_author.c_str());

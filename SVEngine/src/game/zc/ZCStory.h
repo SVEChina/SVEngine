@@ -108,7 +108,7 @@ namespace zc{
         s32 getID();
         
         //加载故事表
-        void load();
+        virtual void load();
         
         //跳转到目标章节的，目标行数
         void jump(s32 _chapter,s32 _code);

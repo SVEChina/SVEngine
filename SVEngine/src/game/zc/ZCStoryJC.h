@@ -6,6 +6,7 @@
 #define SV_ZC_STORY_JC_H
 
 #include "ZCStory.h"
+#include "ZCDef.h"
 
 namespace sv {
     
@@ -20,6 +21,13 @@ namespace zc{
         
         ~ZCStoryJC();
         
+        void load();
+        
+    private:
+        //组织
+        ZCOrgMgrPtr m_pOrgMgr;
+        //角色
+        ZCRoleMgrPtr m_pRoleMgr;
     };
 
 
