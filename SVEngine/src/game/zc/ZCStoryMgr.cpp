@@ -29,4 +29,5 @@ ZCStoryMgr::~ZCStoryMgr(){
 void ZCStoryMgr::load(cptr8 _name) {
     SVLoaderBat t_loader(mApp);
     t_loader.loadFromFile(_name,m_tbl);
+    int a = 0;
 }
