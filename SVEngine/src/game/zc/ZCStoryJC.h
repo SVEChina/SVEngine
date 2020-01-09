@@ -5,10 +5,7 @@
 #ifndef SV_ZC_STORY_JC_H
 #define SV_ZC_STORY_JC_H
 
-#include "../../base/SVGBase.h"
-#include "ZCDef.h"
-#include "../../base/SVArray.h"
-#include "../../base/SVTable.h"
+#include "ZCStory.h"
 
 namespace sv {
     
