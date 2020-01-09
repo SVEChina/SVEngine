@@ -3,6 +3,7 @@
 //
 
 #include "ZCStory.h"
+#include "ZCRoleMgr.h"
 #include "../../app/SVInst.h"
 #include "../../file/SVFileMgr.h"
 #include "../../file/SVLoaderBat.h"
@@ -62,8 +63,6 @@ void ZCChapter::load() {
 }
 
 
-
-
 /*
     故事
  */
@@ -72,13 +71,17 @@ ZCStory::ZCStory(SVInst *_app)
 :SVGBase(_app){
     m_author = "";
     m_list = "";
+    m_roletbl = "";
     //故事id
     m_id = 0;
     //故事名称
     m_name = "sve";
+    //角色
+    m_pRoleMgr = MakeSharedPtr<ZCRoleMgr>(mApp);
 }
 
 ZCStory::~ZCStory(){
+    m_pRoleMgr = nullptr;
 }
 
 //
@@ -110,9 +113,14 @@ void ZCStory::setList(cptr8 _name) {
     m_list = _name;
 }
 
+void ZCStory::setRoleTbl(cptr8 _roletbl) {
+    m_roletbl = _roletbl;
+}
+
 //加载
 void ZCStory::load() {
     SVLoaderBat t_loader(mApp);
+    //加载目录
     if( t_loader.loadFromFile(m_list.c_str(),m_tbl) ) {
         //加载完毕之后，构建章节
         s32 t_ctx_num = m_tbl.getCtxNum();
@@ -132,6 +140,8 @@ void ZCStory::load() {
         }
         //m_chapters
     }
+    //加载角色表
+    m_pRoleMgr->load(m_roletbl.c_str());
 }
 
 //跳转到目标章节的，目标行数

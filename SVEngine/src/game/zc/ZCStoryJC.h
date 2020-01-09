@@ -26,8 +26,6 @@ namespace zc{
     private:
         //组织
         ZCOrgMgrPtr m_pOrgMgr;
-        //角色
-        ZCRoleMgrPtr m_pRoleMgr;
     };
 
 

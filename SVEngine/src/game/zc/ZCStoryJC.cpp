@@ -15,13 +15,10 @@ ZCStoryJC::ZCStoryJC(SVInst *_app)
 :ZCStory(_app){
     //组织
     m_pOrgMgr = MakeSharedPtr<ZCOrgMgr>(mApp);
-    //角色
-    m_pRoleMgr = MakeSharedPtr<ZCRoleMgr>(mApp);
 }
 
 ZCStoryJC::~ZCStoryJC(){
     m_pOrgMgr = nullptr;
-    m_pRoleMgr = nullptr;
 }
 
 void ZCStoryJC::load() {

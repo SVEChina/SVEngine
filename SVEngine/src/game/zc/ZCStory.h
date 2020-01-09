@@ -97,7 +97,8 @@ namespace zc{
         cptr8 getAuthor();
         
         void setList(cptr8 _name);
-        
+        //
+        void setRoleTbl(cptr8 _roletbl);
         //
         void setName(cptr8 _name);
         
@@ -121,16 +122,20 @@ namespace zc{
         s32 m_id;
         //故事名称
         SVString m_name;
-        //
+        //作者
         SVString m_author;
-        //
+        //目录
         SVString m_list;
+        //角色表
+        SVString m_roletbl;
         //当前章节
         ZCChapterPtr m_curChapter;
         //章节集合
         SVArray<ZCChapterPtr> m_chapters;
         //
         SVTable m_tbl;
+        //角色
+        ZCRoleMgrPtr m_pRoleMgr;
     };
 
 
