@@ -66,9 +66,9 @@ namespace sv {
             
             void reset();
             
-            void setHead(SVStringArray<> _head);
+            void setHead(cptr8 _head);
             
-            void pushCxt(SVStringArray<> _value);
+            void pushCxt(cptr8 _value);
             
             void removeCxt(s32 _key);
             

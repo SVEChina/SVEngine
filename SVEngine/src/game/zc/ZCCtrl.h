@@ -17,6 +17,14 @@ namespace zc{
         
         ~ZCCtrl();
         
+        //播放音乐
+        void playMusic(s32 _code);
+        
+        //播放特效
+        void playEffect(s32 _effect);
+        
+        //播放背景
+        void playBG(s32 _bg);
         
     };
 

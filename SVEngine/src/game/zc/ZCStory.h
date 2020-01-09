@@ -26,6 +26,11 @@ namespace zc{
         
         //内容id
         s32 m_id;
+        //
+        SVString m_player;
+        s32 m_music;
+        s32 m_bg;
+        s32 m_effect;
     };
 
     //带选择的内容
@@ -35,8 +40,9 @@ namespace zc{
        
         ~ZCContextSelect();
         
-        SVArray<SVString> m_contexts;   //内容列表;
-        SVArray<s32>    m_jumpID;       //跳转内容的id；
+        SVString m_context1;
+        SVString m_context2;
+        SVString m_context3;
     };
 
 
@@ -111,8 +117,12 @@ namespace zc{
         //加载故事表
         virtual void load();
         
+        void loadChapter(s32 _index);
+        //
+        bool activeChapter(s32 _index);
+        
         //跳转到目标章节的，目标行数
-        void jump(s32 _chapter,s32 _code);
+        void jump(s32 _index,s32 _code);
         
         //执行下一句
         void nxt();

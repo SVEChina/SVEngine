@@ -10,7 +10,27 @@
 
 using namespace zc;
 
-ZCChapter::ZCChapter(SVInst *_app):SVGBase(_app) {
+//内容
+ZCContext::ZCContext() {
+    
+}
+
+ZCContext::~ZCContext() {
+    
+}
+
+//内容选择
+ZCContextSelect::ZCContextSelect() {
+    
+}
+
+ZCContextSelect::~ZCContextSelect() {
+    
+}
+
+//章节
+ZCChapter::ZCChapter(SVInst *_app)
+:SVGBase(_app) {
     m_lock = true;
     m_name = "sve";
     m_curCtxCode = 0;
@@ -20,7 +40,6 @@ ZCChapter::ZCChapter(SVInst *_app):SVGBase(_app) {
 }
 
 ZCChapter::~ZCChapter() {
-    
 }
 
 void ZCChapter::setID(s32 _id) {
@@ -59,7 +78,37 @@ ZCContextPtr ZCChapter::nxt() {
 
 //加载章节
 void ZCChapter::load() {
-    
+    SVLoaderBat t_loader(mApp);
+    //加载目录
+    SVTable m_tbl;
+    if( t_loader.loadFromFile(m_ctxpath.c_str(),m_tbl) ) {
+        //加载内容
+        ZCContextPtr t_cxt_ptr;
+        s32 t_ctx_num = m_tbl.getCtxNum();
+        for(s32 i=0;i<t_ctx_num;i++) {
+             //编号,角色,内容类型,内容0,内容1,音乐,背景,特效
+            s32 t_ctx_type = m_tbl.getCtxI(i,"内容类型");
+            if(t_ctx_type == 1) {
+                t_cxt_ptr = MakeSharedPtr<ZCContextSelect>();
+            }else{
+                t_cxt_ptr = MakeSharedPtr<ZCContext>();
+            }
+            t_cxt_ptr->m_id = m_tbl.getCtxI(i,"编号");
+            t_cxt_ptr->m_player = m_tbl.getCtx(i,"角色");
+            t_cxt_ptr->m_context = m_tbl.getCtx(i,"内容0");
+            if(t_ctx_type == 1) {
+                ZCContextSelectPtr t_ctx_type1 = DYN_TO_SHAREPTR(ZCContextSelect, t_cxt_ptr);
+                t_ctx_type1->m_context1 = m_tbl.getCtx(i,"内容1");
+            }
+            //公共组建
+            t_cxt_ptr->m_bg = m_tbl.getCtxI(i,"背景");
+            t_cxt_ptr->m_music = m_tbl.getCtxI(i,"音乐");
+            t_cxt_ptr->m_effect = m_tbl.getCtxI(i,"特效");
+            //
+            m_ctxs.append(t_cxt_ptr);
+            //
+        }
+    }
 }
 
 
@@ -78,10 +127,13 @@ ZCStory::ZCStory(SVInst *_app)
     m_name = "sve";
     //角色
     m_pRoleMgr = MakeSharedPtr<ZCRoleMgr>(mApp);
+    //
+    m_curChapter = nullptr;
 }
 
 ZCStory::~ZCStory(){
     m_pRoleMgr = nullptr;
+    m_curChapter = nullptr;
 }
 
 //
@@ -144,9 +196,28 @@ void ZCStory::load() {
     m_pRoleMgr->load(m_roletbl.c_str());
 }
 
+//加载指定章节
+void ZCStory::loadChapter(s32 _index) {
+    if(_index<m_chapters.size()) {
+        m_chapters[_index]->load();
+    }
+}
+
+bool ZCStory::activeChapter(s32 _index) {
+    if(_index<m_chapters.size()) {
+        m_curChapter = m_chapters[_index];
+        return true;
+    }
+    return false;
+}
+
 //跳转到目标章节的，目标行数
-void ZCStory::jump(s32 _chapter,s32 _code) {
-    
+void ZCStory::jump(s32 _index,s32 _code) {
+    if(_index>=m_chapters.size())
+        return;
+    //
+    activeChapter(_index);
+    //
 }
 
 //执行下一句

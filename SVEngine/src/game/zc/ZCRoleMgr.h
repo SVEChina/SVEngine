@@ -7,6 +7,7 @@
 
 #include "../../base/SVGBase.h"
 #include "../../base/SVTable.h"
+#include "ZCDef.h"
 
 namespace sv {
     
@@ -23,6 +24,7 @@ namespace zc{
         
     protected:
         SVTable m_tbl;
+        SVArray<ZCRolePtr> m_roleVec;
     };
 
 }   //!namespace zc
