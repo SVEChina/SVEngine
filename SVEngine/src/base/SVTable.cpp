@@ -7,6 +7,59 @@
 
 #include "SVTable.h"
 
+SVTableCell::SVTableCell() {
+    m_str_value = "";
+    m_f_value = 0.0f;
+    m_s_value = 0;
+};
+
+SVTableCell& SVTableCell::operator=(const SVTableCell &s) {
+    m_str_value = s.m_str_value;
+    m_f_value = s.m_f_value;
+    m_s_value = s.m_s_value;
+    return *this;
+}
+
+void SVTableCell::setValue(cptr8 _value) {
+    m_str_value = _value;
+}
+
+void SVTableCell::setValue(f32 _value) {
+    m_f_value = _value;
+}
+
+void SVTableCell::setValue(s32 _value) {
+    m_s_value = _value;
+}
+
+//
+SVTableLine::SVTableLine() {
+}
+
+//SVTableLine::SVTableLine(s32 _num) {
+//    m_cells.allocate(_num);
+//}
+
+SVTableLine::~SVTableLine() {
+    m_cells.destroy();
+}
+
+SVTableLine &SVTableLine::operator=(const SVTableLine &s) {
+    m_cells.destroy();
+    for(s32 i=0;i<s.m_cells.size();i++) {
+        m_cells.append(s.m_cells[i]);
+    }
+    return *this;
+}
+
+cptr8 SVTableLine::getStrValue(s32 _index) {
+    if(_index<m_cells.size() ) {
+        return m_cells[_index].getStrValue();
+    }
+    return nullptr;
+}
+//
+
 SVTable::SVTable(){
     _hasHead = false;
 }
@@ -27,7 +80,7 @@ void SVTable::reset() {
     m_tblHead.clear();
 }
 
-void SVTable::setHead(SVStringArray<>& _head) {
+void SVTable::setHead(SVStringArray<> _head) {
     if(!_hasHead) {
         _hasHead = true;
         for(s32 i=0;i<_head.size();i++) {
@@ -37,16 +90,17 @@ void SVTable::setHead(SVStringArray<>& _head) {
     }
 }
 
-void SVTable::pushCxt(SVStringArray<>& _value) {
+void SVTable::pushCxt(SVStringArray<> _value) {
     if(!_hasHead)
         return;
     if(_value.size() == m_tblHead.size() ) {
-        SVArray<SVString> t_array;
+        SVTableLine t_line;
         for(s32 i=0;i<_value.size();i++){
-            SVString t_ctx_value = _value[i];
-            t_array.append(t_ctx_value);
+            SVTableCell t_cell;
+            t_cell.setValue( _value[i]);
+            t_line.m_cells.append(t_cell);
         }
-        m_tblCtx.append(t_array);
+        m_tblCtx.append(t_line);
     }
 }
 
@@ -58,12 +112,7 @@ void SVTable::removeCxt(s32 _key) {
 void SVTable::clearCxt() {
     if(!_hasHead)
         return;
-//    SVMap<s32,SVArray<SVString>>::Iterator it = m_tblCtx.begin();
-//    while(it!=m_tblCtx.end()) {
-//        it->data.clear();
-//        it++;
-//    }
-//    m_tblCtx.clear();
+    m_tblCtx.destroy();
 }
 
 s32 SVTable::getCtxNum() {
@@ -84,7 +133,7 @@ SVString SVTable::getCtx(s32 _index,cptr8 _name) {
     }
     //
     if(t_index!=-1) {
-        return m_tblCtx[_index][t_index];
+        return m_tblCtx[_index].getStrValue(t_index);
     }
     return "nil";
 }

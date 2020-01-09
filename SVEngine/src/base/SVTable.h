@@ -20,6 +20,44 @@ namespace sv {
     
     namespace util {
         
+        class SVTableCell {
+        public:
+            SVTableCell();
+            
+            SVTableCell &operator=(const SVTableCell &s);
+            
+            void setValue(cptr8 _value);
+            
+            void setValue(f32 _value);
+            
+            void setValue(s32 _value);
+            
+            cptr8 getStrValue(){ return m_str_value.c_str(); }
+            
+            s32 getSValue() { return m_s_value; }
+            
+            f32 getFValue() { return m_f_value; }
+            
+            SVString m_str_value;
+            f32 m_f_value;
+            s32 m_s_value;
+        };
+    
+        //
+        class SVTableLine {
+        public:
+            SVTableLine();
+
+            ~SVTableLine();
+            
+            SVTableLine &operator=(const SVTableLine &s);
+            
+            cptr8 getStrValue(s32 _index);
+            
+            SVArray<SVTableCell> m_cells;  //表头
+        };
+    
+        //
         class SVTable{
         public:
             SVTable();
@@ -28,9 +66,9 @@ namespace sv {
             
             void reset();
             
-            void setHead(SVStringArray<>& _head);
+            void setHead(SVStringArray<> _head);
             
-            void pushCxt(SVStringArray<>& _value);
+            void pushCxt(SVStringArray<> _value);
             
             void removeCxt(s32 _key);
             
@@ -48,7 +86,7 @@ namespace sv {
         private:
             bool _hasHead;
             SVArray<SVString> m_tblHead;  //表头
-            SVArray<SVArray<SVString>> m_tblCtx;  //内容
+            SVArray<SVTableLine> m_tblCtx;  //内容
         };
         
         

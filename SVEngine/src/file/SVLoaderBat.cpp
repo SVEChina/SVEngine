@@ -25,11 +25,13 @@ bool SVLoaderBat::loadFromFile(cptr8 _filename,SVTable& _tbl) {
             if(i == 0) {
                 SVStringArray<> t_tbl_head = SVString::split(t_line_value.c_str(),",");
                 _tbl.setHead(t_tbl_head);
+                t_tbl_head.empty();
             }else{
                 SVStringArray<> t_tbl_cxt = SVString::split(t_line_value.c_str(),",");
                 if(t_tbl_cxt.size()>0) {
                     _tbl.pushCxt(t_tbl_cxt);
                 }
+                t_tbl_cxt.empty();
             }
         }
     }
