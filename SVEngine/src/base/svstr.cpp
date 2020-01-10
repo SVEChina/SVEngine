@@ -1000,15 +1000,23 @@ namespace sv {
                         *d++ = '\0';
                         s++;
                     }
-                    if(index != -1) ret.append(index);
+                    if(index != -1){
+                        ret.append(index);
+                    }
                     index = -1;
                 } else {
-                    if(*s == '\\' && *(s + 1) != '\0' && strchr(delimiters,*(s + 1))) s++;
-                    if(index == -1) index = (s32)(d - ret.data);
+                    if(*s == '\\' && *(s + 1) != '\0' && strchr(delimiters,*(s + 1))) {
+                        s++;
+                    }
+                    if(index == -1) {
+                        index = (s32)(d - ret.data);
+                    }
                     *d++ = *s++;
                 }
             }
-            if(index != -1) ret.append(index);
+            if(index != -1){
+                ret.append(index);
+            }
             *d = '\0';
             return ret;
         }
@@ -1016,11 +1024,18 @@ namespace sv {
         SVStringStack<> SVString::substr(cptr8 str,s32 pos,s32 len) {
             SVStringStack<> ret;
             s32 length = (s32)strlen(str);
-            if(len == -1) len = length - pos;
+            if(len == -1) {
+                len = length - pos;
+            }
             for(s32 i = 0; i < len; i++) {
-                if(pos + i < 0) ret += ' ';
-                else if(pos + i < length) ret += str[pos + i];
-                else ret += ' ';
+                if(pos + i < 0){
+                    ret += ' ';
+                } else if (pos + i < length) {
+                    ret += str[pos + i];
+                } else {
+                    ret += ' ';
+                }
+                    
             }
             return ret;
         }
