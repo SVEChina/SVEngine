@@ -83,7 +83,8 @@ void SVTable::reset() {
 void SVTable::setHead(cptr8 _head) {
     if(!_hasHead) {
         _hasHead = true;
-        SVStringArray<> t_tbl_head = SVString::split(_head,",");
+        SVStringArray t_tbl_head;
+        t_tbl_head.setData(_head,',');
         for(s32 i=0;i<t_tbl_head.size();i++) {
             SVString t_str = t_tbl_head[i];
             m_tblHead.append(t_str);
@@ -94,7 +95,8 @@ void SVTable::setHead(cptr8 _head) {
 void SVTable::pushCxt(cptr8 _value) {
     if(!_hasHead)
         return;
-    SVStringArray<> t_tbl_cxt = SVString::split(_value,",");
+    SVStringArray t_tbl_cxt;
+    t_tbl_cxt.setData(_value,',');
     if(t_tbl_cxt.size() == m_tblHead.size() ) {
         SVTableLine t_line;
         for(s32 i=0;i<t_tbl_cxt.size();i++){

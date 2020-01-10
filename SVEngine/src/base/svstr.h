@@ -2,14 +2,15 @@
 #define __STRING_H__
 
 #include "SVBase.h"
+#include "SVArray.h"
 
 namespace sv {
     
     namespace util {
         
         class SVString;
+        class SVStringArray;
         template <s32 Capacity = 256> class SVStringStack;
-        template <s32 Capacity = 256> class SVStringArray;
         
         class SVString {
         public:
@@ -146,7 +147,6 @@ namespace sv {
             static SVStringStack<> trim(cptr8 str,cptr8 symbols = 0);
             static SVStringStack<> replace(cptr8 str,cptr8 before,cptr8 after);
             
-            static SVStringArray<> split(cptr8 str,cptr8 delimiters);
             static SVStringStack<> substr(cptr8 str,s32 pos,s32 len = -1);
             static SVStringStack<> addslashes(cptr8 str);
             static SVStringStack<> stripslashes(cptr8 str);
@@ -248,92 +248,76 @@ namespace sv {
             c8 stack_data[Capacity];
         };
         
-
-        template <s32 Capacity> class SVStringArray {
+        //
+        class SVStringArray {
         private:
             friend class SVString;
-            SVStringArray(s32 size)
-            : data_length(size)
-            , data(stack_data)
-            , indices_length(0)
-            , indices_capacity(Capacity)
-            , indices(stack_indices) {
-                if(data_length + 1 > Capacity) {
-                    data = new c8[data_length + 1];
-                }
-                data[data_length] = '\0';
-            }
-            
-            void append(s32 index) {
-                if(indices_length + 1 > indices_capacity) {
-                    indices_capacity = (indices_length + 1) * 2;
-                    s32 *new_indices = new s32[indices_capacity];
-                    for(s32 i = 0; i < indices_length; i++) {
-                        new_indices[i] = indices[i];
-                    }
-                    if(indices != stack_indices) {
-                        delete [] indices;
-                    }
-                    indices = new_indices;
-                }
-                indices[indices_length++] = index;
+
+            void append(cptr8 _str) {
+                m_strvec.append(_str);
             }
             
         public:
-            SVStringArray(const SVStringArray &s)
-            : data_length(s.data_length)
-            , data(stack_data)
-            , indices_length(s.indices_length)
-            , indices_capacity(Capacity)
-            , indices(stack_indices) {
-                if(data_length + 1 > Capacity) {
-                    data = new c8[data_length + 1];
-                }
-                for(s32 i = 0; i < data_length; i++) {
-                    data[i] = s.data[i];
-                }
-                data[data_length] = '\0';
-                if(indices_length > indices_capacity) {
-                    indices_capacity = indices_length;
-                    indices = new s32[indices_capacity];
-                }
-                for(s32 i = 0; i < indices_length; i++) {
-                    indices[i] = s.indices[i];
+            SVStringArray(){}
+            
+            SVStringArray(const SVStringArray &s){
+                for(s32 i=0;i<s.size();i++) {
+                    m_strvec.append(s[i]);
                 }
             }
             ~SVStringArray() {
-                if(data != stack_data) {
-                    delete [] data;
+                m_strvec.destroy();
+            }
+            
+            void setData(cptr8 _data,char delimiters) {
+                m_strvec.destroy();
+                //
+                cptr8 t_pData = _data;
+                s32 t_num = 0;
+                cptr8 t_lastPoint = nullptr;
+                while(*t_pData!='\0') {
+                    cptr8 t_pointer = strchr(t_pData,delimiters);
+                    if(t_pointer) {
+                        //找到目标字符
+                        s32 t_size = t_pointer - t_pData;
+                        SVString t_str;
+                        t_str.append(t_pData,t_size);
+                        t_pData = t_pointer;
+                        t_pData += sizeof(delimiters);
+                        m_strvec.append(t_str);
+                    }else{
+                        if(!t_lastPoint){
+                            t_lastPoint = t_pData;
+                        }
+                        //最后一组词
+                        t_pData++;
+                        t_num++;
+                    }
                 }
-                
-                if(indices != stack_indices) {
-                    delete [] indices;
-                }
+                //
+                SVString t_str;
+                t_str.append(t_lastPoint,t_num);
+                m_strvec.append(t_str);
             }
             
             sv_inline const c8 *operator[](s32 index) const {
-                assert((u32)index < (u32)indices_length && "SVStringArray::operator[](): bad index");
-                return data + indices[index];
+                assert((u32)index < (u32)m_strvec.size() && "SVStringArray::operator[](): bad index");
+                return m_strvec[index].c_str();
             }
             
             sv_inline s32 size() const {
-                return indices_length;
+                return m_strvec.size();
             }
             
             sv_inline s32 empty() const {
-                return (indices_length == 0);
+                return (m_strvec.size() == 0);
             }
             
         private:
-            s32 data_length;
-            c8 *data;
-            c8 stack_data[Capacity];
-            s32 indices_length;
-            s32 indices_capacity;
-            s32 *indices;
-            s32 stack_indices[Capacity];
+            SVArray<SVString> m_strvec;
         };
-
+    
+        //
         SVStringStack<> operator+(const SVString &s0,const SVString &s1);
         SVStringStack<> operator+(const SVString &s0,cptr8 s1);
         SVStringStack<> operator+(cptr8 s0,const SVString &s1);

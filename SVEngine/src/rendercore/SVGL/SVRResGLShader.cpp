@@ -341,7 +341,8 @@ u32 SVRResGLShader::_createProgram(){
         glBindAttribLocation(t_program_id, CHANNEL_ATTRI_6, "s_attribute_6");
         glBindAttribLocation(t_program_id, CHANNEL_ATTRI_7, "s_attribute_7");
     } else {
-        SVStringArray<> t_str_array = SVString::split(m_attri_formate.c_str(),"-");
+        SVStringArray t_str_array;
+        t_str_array.setData(m_attri_formate.c_str(),'-');
         for(s32 i=0;i<t_str_array.size();i++) {
             SVString t_str = t_str_array[i];
             if( t_str == "V2" ) {

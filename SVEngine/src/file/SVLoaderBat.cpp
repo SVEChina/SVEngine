@@ -19,7 +19,8 @@ bool SVLoaderBat::loadFromFile(cptr8 _filename,SVTable& _tbl) {
     SVDataChunk tSVDataChunk;
     bool t_flag = mApp->getFileMgr()->loadFileContent(&tSVDataChunk, _filename);
     if (t_flag) {
-        SVStringArray<> t_str_array = SVString::split(tSVDataChunk.m_data,"\r");
+        SVStringArray t_str_array;
+        t_str_array.setData(tSVDataChunk.m_data,'\r');
         for(s32 i=0;i<t_str_array.size();i++) {
             SVString t_line_value = t_str_array[i];
             if(i == 0) {
@@ -35,7 +36,8 @@ bool SVLoaderBat::loadFromFile(cptr8 _filename,SVTable& _tbl) {
 void SVLoaderBat::_parse() {
     s32 t_len = m_dataCxt.size();
     for(s32 i=0;i<t_len;i++) {
-        SVStringArray<> t_str_array = SVString::split(m_dataCxt[i],",");
+        SVStringArray t_str_array;
+        t_str_array.setData(m_dataCxt[i],',');
         for(s32 j=0;j<t_str_array.size();j++) {
             SVString t_str = t_str_array[j];
         }

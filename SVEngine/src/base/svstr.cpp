@@ -989,38 +989,6 @@ namespace sv {
             return ret;
         }
         
-        SVStringArray<> SVString::split(cptr8 str,cptr8 delimiters) {
-            SVStringArray<> ret((s32)strlen(str));
-            cptr8 s = str;
-            char *d = ret.data;
-            s32 index = -1;
-            while(*s) {
-                if(strchr(delimiters,*s)) {
-                    while(*s && strchr(delimiters,*s)) {
-                        *d++ = '\0';
-                        s++;
-                    }
-                    if(index != -1){
-                        ret.append(index);
-                    }
-                    index = -1;
-                } else {
-                    if(*s == '\\' && *(s + 1) != '\0' && strchr(delimiters,*(s + 1))) {
-                        s++;
-                    }
-                    if(index == -1) {
-                        index = (s32)(d - ret.data);
-                    }
-                    *d++ = *s++;
-                }
-            }
-            if(index != -1){
-                ret.append(index);
-            }
-            *d = '\0';
-            return ret;
-        }
-        
         SVStringStack<> SVString::substr(cptr8 str,s32 pos,s32 len) {
             SVStringStack<> ret;
             s32 length = (s32)strlen(str);
