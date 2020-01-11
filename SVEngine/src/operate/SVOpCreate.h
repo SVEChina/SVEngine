@@ -417,6 +417,16 @@ namespace sv {
         void _process(f32 dt);
         s32 m_mode;
     };
+
+    class SVOpCreateGameZCMgr : public SVOpBase {
+    public:
+        SVOpCreateGameZCMgr(SVInst *_app);
+        
+        ~SVOpCreateGameZCMgr();
+        
+    protected:
+        void _process(f32 dt);
+    };
 }//!namespace sv
 
 

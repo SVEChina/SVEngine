@@ -81,3 +81,19 @@ void SVOpClosePen::_process(float dt) {
     }
     
 }
+
+SVOpDestroyGameZCMgr::SVOpDestroyGameZCMgr(SVInst *_app)
+:SVOpBase(_app) {
+    
+}
+
+void SVOpDestroyGameZCMgr::_process(float dt) {
+    SVString t_name = "sv_gamezc_module";
+    SVModuleBasePtr t_module = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_module) {
+        mApp->getModuleSys()->unregist(t_name.c_str());
+        t_module->close();
+        t_module->destroy();
+    }
+    
+}
