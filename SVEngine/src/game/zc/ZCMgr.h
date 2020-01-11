@@ -26,6 +26,7 @@ namespace zc{
         
         virtual void reset();
         
+        ZCStoryMgrPtr getStroyMgr();
     protected:
         //
         ZCStoryMgrPtr m_pStoryMgr;

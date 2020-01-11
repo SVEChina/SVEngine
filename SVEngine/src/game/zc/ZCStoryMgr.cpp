@@ -72,3 +72,9 @@ void ZCStoryMgr::loadStory(cptr8 _name) {
         }
     }
 }
+
+void ZCStoryMgr::getAllStory(SVArray<ZCStoryPtr> &_storyVec){
+    for(s32 i=0;i<m_storyVec.size();i++) {
+        _storyVec.append(m_storyVec[i]);
+    }
+}

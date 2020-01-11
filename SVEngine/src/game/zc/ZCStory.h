@@ -121,6 +121,12 @@ namespace zc{
         //
         bool activeChapter(s32 _index);
         
+        s32 getChapterCount();
+        
+        ZCChapterPtr getActiveChapter();
+        
+        ZCChapterPtr getChapter(s32 _index);
+        
         //跳转到目标章节的，目标行数
         void jump(s32 _index,s32 _code);
         

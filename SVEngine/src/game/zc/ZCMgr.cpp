@@ -42,3 +42,7 @@ void ZCMgr::update(f32 _dt) {
 void ZCMgr::reset() {
     
 }
+
+ZCStoryMgrPtr ZCMgr::getStroyMgr(){
+    return m_pStoryMgr;
+}

@@ -69,11 +69,15 @@ bool ZCChapter::isLock() {
 }
 
 ZCContextPtr ZCChapter::getCtx() {
+    if (m_curCtxCode >= 0 && m_curCtxCode < m_ctxs.size()) {
+        return m_ctxs[m_curCtxCode];
+    }
     return nullptr;
 }
  
 ZCContextPtr ZCChapter::nxt() {
-    return nullptr;
+    m_curCtxCode++;
+    return getCtx();
 }
 
 //加载章节
@@ -209,6 +213,21 @@ bool ZCStory::activeChapter(s32 _index) {
         return true;
     }
     return false;
+}
+
+s32 ZCStory::getChapterCount(){
+    return m_chapters.size();
+}
+
+ZCChapterPtr ZCStory::getActiveChapter(){
+    return m_curChapter;
+}
+
+ZCChapterPtr ZCStory::getChapter(s32 _index){
+    if (_index >=0 && _index < m_chapters.size()) {
+        return m_chapters[_index];
+    }
+    return nullptr;
 }
 
 //跳转到目标章节的，目标行数
