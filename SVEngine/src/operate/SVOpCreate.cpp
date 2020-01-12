@@ -45,6 +45,8 @@
 #include "../file/SVBMFontLoader.h"
 #include "../file/SVLoaderGLTF.h"
 #include "../file/SVParsePen.h"
+#include "../game/zc/ZCMgr.h"
+#include "../game/zc/ZCDef.h"
 #include "../module/SVModuleSys.h"
 #include "../module/SVModuleBase.h"
 #include "../module/SVDivisonFilter.h"
@@ -859,6 +861,28 @@ void SVOpPenMode::_process(f32 dt) {
         SVPenDrawPtr t_penDraw = DYN_TO_SHAREPTR(SVPenDraw, t_modulePtr);
         if (t_penDraw) {
             t_penDraw->setPenMode(SVPENMODE(m_mode));
+        }
+    }
+}
+
+SVOpCreateGameZCMgr::SVOpCreateGameZCMgr(SVInst *_app) :  SVOpBase(_app){
+    
+}
+
+SVOpCreateGameZCMgr::~SVOpCreateGameZCMgr(){
+    
+}
+
+void SVOpCreateGameZCMgr::_process(f32 dt) {
+    SVString t_name = "sv_gamezc_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr == nullptr) {
+        t_modulePtr = MakeSharedPtr<zc::ZCMgr>(mApp);
+        t_modulePtr->init();
+        t_modulePtr->open();
+        mApp->getModuleSys()->regist(t_modulePtr, t_name.c_str());
+        if (m_pCB) {
+            (*m_pCB)("", m_obj);
         }
     }
 }

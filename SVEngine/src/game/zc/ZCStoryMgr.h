@@ -27,6 +27,7 @@ namespace zc{
         //
         void loadStory(cptr8 _name);
         
+        void getAllStory(SVArray<ZCStoryPtr> &_storyVec);
     protected:
         SVTable m_tbl;
         

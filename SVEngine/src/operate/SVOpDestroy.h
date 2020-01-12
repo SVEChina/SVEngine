@@ -46,6 +46,15 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
+
+    //
+    class SVOpDestroyGameZCMgr : public SVOpBase {
+    public:
+        SVOpDestroyGameZCMgr(SVInst *_app);
+        
+    protected:
+        void _process(f32 dt);
+    };
 }//!namespace sv
 
 
