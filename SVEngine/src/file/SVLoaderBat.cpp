@@ -20,7 +20,7 @@ bool SVLoaderBat::loadFromFile(cptr8 _filename,SVTable& _tbl) {
     bool t_flag = mApp->getFileMgr()->loadFileContent(&tSVDataChunk, _filename);
     if (t_flag) {
         SVStringArray t_str_array;
-        t_str_array.setData(tSVDataChunk.m_data,'\r');
+        t_str_array.setData(tSVDataChunk.m_data,'&');
         for(s32 i=0;i<t_str_array.size();i++) {
             SVString t_line_value = t_str_array[i];
             if(i == 0) {
