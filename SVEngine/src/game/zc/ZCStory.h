@@ -20,6 +20,7 @@ namespace zc{
         ZCContext();
        
         ~ZCContext();
+        s32 m_type;
         
         //内容
         SVString m_context;
@@ -73,6 +74,7 @@ namespace zc{
         
         cptr8 getName();
         
+        s32 getCurCtxCode();
     protected:
         //锁定
         bool m_lock;

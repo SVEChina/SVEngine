@@ -27,6 +27,16 @@ ZCMgr::~ZCMgr(){
 void ZCMgr::init() {
     m_pStoryMgr = MakeSharedPtr<ZCStoryMgr>(mApp);
     m_pStoryMgr->load("list/story-list.svbat");
+    //test
+    /*
+    m_pStoryMgr->loadStory("我的修融时代");
+    m_pStoryMgr->activeStory("我的修融时代");
+    ZCStoryPtr t_activeStory = m_pStoryMgr->getActiveStory();
+    t_activeStory->loadChapter(0);
+    t_activeStory->activeChapter(0);
+    ZCChapterPtr t_activeChapter = t_activeStory->getActiveChapter();
+    ZCContextPtr t_context = t_activeChapter->getCtx();
+     */
     //控制
     m_pCtrl = MakeSharedPtr<ZCCtrl>(mApp);
 }

@@ -12,7 +12,7 @@ using namespace zc;
 
 //内容
 ZCContext::ZCContext() {
-    
+    m_type = 0;
 }
 
 ZCContext::~ZCContext() {
@@ -21,7 +21,7 @@ ZCContext::~ZCContext() {
 
 //内容选择
 ZCContextSelect::ZCContextSelect() {
-    
+    m_type = 1;
 }
 
 ZCContextSelect::~ZCContextSelect() {
@@ -78,6 +78,10 @@ ZCContextPtr ZCChapter::getCtx() {
 ZCContextPtr ZCChapter::nxt() {
     m_curCtxCode++;
     return getCtx();
+}
+
+s32 ZCChapter::getCurCtxCode(){
+    return m_curCtxCode;
 }
 
 //加载章节

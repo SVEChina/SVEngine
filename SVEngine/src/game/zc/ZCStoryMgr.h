@@ -27,11 +27,17 @@ namespace zc{
         //
         void loadStory(cptr8 _name);
         
+        bool activeStory(cptr8 _name);
+        
+        ZCStoryPtr getActiveStory();
+        
         void getAllStory(SVArray<ZCStoryPtr> &_storyVec);
     protected:
         SVTable m_tbl;
         
         SVArray<ZCStoryPtr> m_storyVec;
+        
+        ZCStoryPtr m_activeStory;
     };
 
 }   //!namespace zc

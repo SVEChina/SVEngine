@@ -14,9 +14,11 @@ using namespace zc;
 //
 ZCStoryMgr::ZCStoryMgr(SVInst *_app)
 :SVGBase(_app){
+    m_activeStory = nullptr;
 }
 
 ZCStoryMgr::~ZCStoryMgr(){
+    m_activeStory = nullptr;
 }
 
 void ZCStoryMgr::load(cptr8 _name) {
@@ -71,6 +73,21 @@ void ZCStoryMgr::loadStory(cptr8 _name) {
             m_storyVec[i]->load();
         }
     }
+}
+
+bool ZCStoryMgr::activeStory(cptr8 _name){
+    for(s32 i=0;i<m_storyVec.size();i++) {
+        SVString t_storyname = m_storyVec[i]->getName();
+        if( t_storyname == _name) {
+            m_activeStory = m_storyVec[i];
+            return true;
+        }
+    }
+    return false;
+}
+
+ZCStoryPtr ZCStoryMgr::getActiveStory(){
+    return m_activeStory;
 }
 
 void ZCStoryMgr::getAllStory(SVArray<ZCStoryPtr> &_storyVec){
