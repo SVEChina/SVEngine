@@ -97,11 +97,9 @@ void SV3DBox::update(f32 dt) {
 }
 
 void SV3DBox::render() {
-    if (mApp->m_pGlobalParam->m_curScene && m_visible ){
-        SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-        if (m_pRenderObj) {
-            m_pRenderObj->pushCmd(t_rs, m_rsType, "SV3DBox");
-        }
+    SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
+    if (m_pRenderObj && t_rs) {
+        m_pRenderObj->pushCmd(t_rs, m_rsType, "SV3DBox");
     }
     SVNode::render();
 }

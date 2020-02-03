@@ -51,6 +51,7 @@
 #include "../module/SVModuleBase.h"
 #include "../module/SVDivisonFilter.h"
 #include "../module/SVMark.h"
+#include "../module/SVARAnchor.h"
 #include "../module/SVEffectPackage.h"
 #include "../module/pendraw/SVPenDraw.h"
 #include "../act/SVAniTexAttachment.h"
@@ -278,31 +279,14 @@ SVOpCreateTest::~SVOpCreateTest(){
 #include "../act/SVActFollow.h"
 
 void SVOpCreateTest::_process(f32 dt) {
-    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-    if (t_pScene) {
-        SVFrameAniNodePtr t_frame_ain = MakeSharedPtr<SVFrameAniNode>(mApp);
-        for(s32 i=0;i<293;i++) {
-//            SVString t_name = "svres/ForYiZh/Car00.png";
-            SVString t_name = SVString::format("svres/ForYiZh/Car-%d.png",i);
-//            SVString t_name = SVString::format("svres/ForYiZh/Car-%d.png",i);
-            t_name.printf("svres/ForYiZh/Car-%d.png",i);
-//            t_name.printf("svres/jljt90/jljt-%d.png",i);
-            t_frame_ain->pushFrame(t_name.c_str());
-        }
-        t_frame_ain->setSize(500, 1083);
-        t_frame_ain->setScale(2.0f, 2.0f, 1.0f);
-        t_pScene->addNode(t_frame_ain);
+    SVString t_name = "sv_aranchor_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr == nullptr) {
+        t_modulePtr = MakeSharedPtr<SVARAnchor>(mApp);
+        t_modulePtr->init();
+        t_modulePtr->open();
+        mApp->getModuleSys()->regist(t_modulePtr, t_name.c_str());
     }
-    
-////    SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
-////    if (t_pScene) {
-////        //创建测试盒子®
-////        for(s32 i=0;i<1;i++){
-////            SV3DBoxPtr t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-////            t_testBox->randomInit();
-////            t_pScene->addNode(t_testBox);
-////        }
-////    }
 }
 
 
