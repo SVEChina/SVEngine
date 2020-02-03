@@ -427,6 +427,27 @@ namespace sv {
     protected:
         void _process(f32 dt);
     };
+
+    //
+    class SVOpEnableTouchAnchor : public SVOpBase {
+    public:
+        SVOpEnableTouchAnchor(SVInst *_app);
+        
+        ~SVOpEnableTouchAnchor();
+        
+    protected:
+        void _process(f32 dt);
+    };
+
+    class SVOpDisableTouchAnchor : public SVOpBase {
+    public:
+        SVOpDisableTouchAnchor(SVInst *_app);
+        
+        ~SVOpDisableTouchAnchor();
+        
+    protected:
+        void _process(f32 dt);
+    };
 }//!namespace sv
 
 

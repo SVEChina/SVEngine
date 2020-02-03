@@ -49,7 +49,7 @@ namespace sv{
         void _generateBox(SVAnchorPoint &_worldPoint);
         
         void _screenPointToWorldAnchorPoint(FVec2 &_point, SVAnchorPoint &_worldPoint);
-        
+         
         f32 m_plane_dis;
         SVRenderTexturePtr m_fbo;
         SVTexturePtr m_pTex;

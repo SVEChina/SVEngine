@@ -56,10 +56,10 @@ void SVARAnchor::init(){
         SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
         s32 t_w = t_tex->getwidth();
         s32 t_h = t_tex->getheight();
-        if (t_renderer->hasSVTex(E_TEX_HELP0)) {
-            m_pTex = t_renderer->getSVTex(E_TEX_HELP0);
+        if (t_renderer->hasSVTex(E_TEX_HELP7)) {
+            m_pTex = t_renderer->getSVTex(E_TEX_HELP7);
         }else{
-            m_pTex = t_renderer->createSVTex(E_TEX_HELP0, t_w, t_h, GL_RGBA);
+            m_pTex = t_renderer->createSVTex(E_TEX_HELP7, t_w, t_h, GL_RGBA);
         }
     }
     m_fbo = MakeSharedPtr<SVRenderTexture>(mApp,m_pTex,true,true);
@@ -67,7 +67,7 @@ void SVARAnchor::init(){
     m_pRenderObj = MakeSharedPtr<SVRenderObject>();
     m_mtl = MakeSharedPtr<SVMtlCore>(mApp,"screennor");
     m_mtl->setTexcoordFlip(1.0f, 1.0f);
-    m_mtl->setTexture(0, E_TEX_HELP0);
+    m_mtl->setTexture(0, E_TEX_HELP7);
     m_mtl->setBlendEnable(true);
     m_mtl->setBlendState(MTL_BLEND_ONE, MTL_BLEND_ONE_MINUS_SRC_ALPHA);
     m_pMesh = mApp->getDataMgr()->m_screenMesh;
@@ -116,7 +116,7 @@ void SVARAnchor::update(f32 _dt) {
         t_fbo_unbind->mTag = "draw_aranchor_unbind";
         t_rs->pushRenderCmd(RST_AR, t_fbo_unbind);
         
-//        再画回主纹理
+//      再画回主纹理
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
         if (m_mtl && m_pMesh && m_pRenderObj) {
             m_pRenderObj->setMtl(m_mtl);
@@ -183,7 +183,7 @@ bool SVARAnchor::procEvent(SVEventPtr _event) {
         SVTouchEventPtr t_touch = DYN_TO_SHAREPTR(SVTouchEvent,_event);
         _addAnchor(t_touch->x, t_touch->y);
     }
-    return  true;
+    return true;
 }
 
 

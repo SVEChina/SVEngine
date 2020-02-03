@@ -100,6 +100,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpCreateTestPatch);
     DECLARE_SHAREPTR(SVOpCreateTestMianSha);
     //
+
     
     DECLARE_SHAREPTR(SVOpDestroyScene);
     DECLARE_SHAREPTR(SVOpCameraControl);
@@ -128,6 +129,9 @@ namespace sv {
     DECLARE_SHAREPTR(SVOpPenUndoIsEnable);
     DECLARE_SHAREPTR(SVOpPenRedoIsEnable);
     DECLARE_SHAREPTR(SVOpPenMode);
+    //
+    DECLARE_SHAREPTR(SVOpEnableTouchAnchor);
+    DECLARE_SHAREPTR(SVOpDisableTouchAnchor);
     //
     DECLARE_SHAREPTR(SVOpCreateIOSTexIDInstream);
     DECLARE_SHAREPTR(SVOpCreateIOSInstream);

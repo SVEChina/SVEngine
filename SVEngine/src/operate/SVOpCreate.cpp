@@ -870,3 +870,42 @@ void SVOpCreateGameZCMgr::_process(f32 dt) {
         }
     }
 }
+
+SVOpEnableTouchAnchor::SVOpEnableTouchAnchor(SVInst *_app)
+: SVOpBase(_app){
+    
+}
+
+SVOpEnableTouchAnchor::~SVOpEnableTouchAnchor(){
+    
+}
+
+void SVOpEnableTouchAnchor::_process(f32 dt) {
+    SVString t_name = "sv_aranchor_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr == nullptr) {
+        t_modulePtr = MakeSharedPtr<SVARAnchor>(mApp);
+        t_modulePtr->init();
+        t_modulePtr->open();
+        mApp->getModuleSys()->regist(t_modulePtr, t_name.c_str());
+    }
+}
+
+SVOpDisableTouchAnchor::SVOpDisableTouchAnchor(SVInst *_app)
+: SVOpBase(_app){
+    
+}
+
+SVOpDisableTouchAnchor::~SVOpDisableTouchAnchor(){
+    
+}
+
+void SVOpDisableTouchAnchor::_process(f32 dt) {
+    SVString t_name = "sv_aranchor_module";
+    SVModuleBasePtr t_modulePtr = mApp->getModuleSys()->getModule(t_name.c_str());
+    if (t_modulePtr) {
+        t_modulePtr->close();
+        t_modulePtr->destroy();
+        mApp->getModuleSys()->unregist(t_name.c_str());
+    }
+}
