@@ -127,7 +127,7 @@ void SVARAnchor::update(f32 _dt) {
         }
     }
     f32 t_distance = _getAnchorDis();
-    if (*m_cb) {
+    if (m_cb) {
         SVString t_distanceStr = SVString::format("%f",t_distance);
         (*m_cb)(t_distanceStr.c_str(), m_obj);
     }

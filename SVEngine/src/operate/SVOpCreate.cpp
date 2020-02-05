@@ -285,6 +285,7 @@ void SVOpCreateTest::_process(f32 dt) {
         t_modulePtr = MakeSharedPtr<SVARAnchor>(mApp);
         t_modulePtr->init();
         t_modulePtr->open();
+        t_modulePtr->setOpCallBack(m_pCB, m_obj);
         mApp->getModuleSys()->regist(t_modulePtr, t_name.c_str());
     }
 }
