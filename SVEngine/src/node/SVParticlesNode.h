@@ -16,6 +16,12 @@ namespace sv {
             
             ~SVParticlesNode();
             
+            //更新
+            virtual void update(f32 ifps);
+            
+            //渲染
+            virtual void render();
+            
             void testInit();
             
             void setDiffuse(SVTexturePtr _texture);
@@ -79,11 +85,6 @@ namespace sv {
             //
             virtual void renderVisualizer();
         protected:
-            //更新
-            virtual void update(f32 ifps);
-
-            //渲染
-            virtual void render();
             
             // update transformation
             virtual void update_transform();

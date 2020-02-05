@@ -42,6 +42,8 @@ namespace sv {
     DECLARE_SHAREPTR(SVDeviceAccelerometerEvent);
     DECLARE_SHAREPTR(SVCameraMatrixEvent);
     DECLARE_SHAREPTR(SVProjectMatrixEvent);
+    DECLARE_SHAREPTR(SVCameraPosEvent);
+    DECLARE_SHAREPTR(SVCameraDirEvent);
     DECLARE_SHAREPTR(SVReactEvent);
     DECLARE_SHAREPTR(SVARAnchorEvent);
     DECLARE_SHAREPTR(SVARAnchorProjPosEvent);

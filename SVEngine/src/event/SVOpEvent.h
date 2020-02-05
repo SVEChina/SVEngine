@@ -82,6 +82,24 @@ namespace sv {
         
         SVDataSwapPtr m_matData;
     };
+
+    class SVCameraPosEvent : public SVEvent {
+    public:
+        SVCameraPosEvent();
+        
+        f32 m_px;
+        f32 m_py;
+        f32 m_pz;
+    };
+
+    class SVCameraDirEvent : public SVEvent {
+    public:
+        SVCameraDirEvent();
+        
+        f32 m_dx;
+        f32 m_dy;
+        f32 m_dz;
+    };
     
     class SVReactEvent : public SVEvent {
     public:

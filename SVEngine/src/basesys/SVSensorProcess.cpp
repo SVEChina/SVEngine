@@ -77,6 +77,12 @@ bool SVSensorProcess::procEvent(SVEventPtr _event){
         if(m_pARCtrl) {
             m_pARCtrl->setEur( oren->yaw,oren->pitch,oren->roll);
         }
+    }if (_event->eventType == SV_EVENT_TYPE::EVN_T_CAMERA_POSITION){
+        SVCameraPosEventPtr t_cameraPos = std::dynamic_pointer_cast<SVCameraPosEvent>(_event);
+        if(t_cameraPos) {
+            FVec3 t_camPos = FVec3(t_cameraPos->m_px, t_cameraPos->m_py, t_cameraPos->m_pz);
+            m_pARCtrl->setPos(t_camPos);
+        }
     }else if (_event->eventType == SV_EVENT_TYPE::EVN_T_CAMERA_MATRIX){
         SVCameraMatrixEventPtr cameraMatrix = std::dynamic_pointer_cast<SVCameraMatrixEvent>(_event);
         if(m_pARCtrl) {

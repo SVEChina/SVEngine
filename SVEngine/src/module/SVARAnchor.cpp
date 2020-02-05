@@ -6,7 +6,7 @@
 //
 
 #include "SVARAnchor.h"
-#include "../node/SVNode.h"
+#include "../act/SVCameraCtrl.h"
 #include "../base/SVPreDeclare.h"
 #include "../basesys/SVSceneMgr.h"
 #include "../basesys/SVBasicSys.h"
@@ -36,7 +36,8 @@ SVARAnchor::SVARAnchor(SVInst* _app)
     m_pRenderObj = nullptr;
     m_mtl = nullptr;
     m_pMesh = nullptr;
-    t_testBox = nullptr;
+    t_testNode = nullptr;
+    m_cb = nullptr;
 }
 
 SVARAnchor::~SVARAnchor(){
@@ -45,7 +46,8 @@ SVARAnchor::~SVARAnchor(){
     m_pRenderObj = nullptr;
     m_mtl = nullptr;
     m_pMesh = nullptr;
-    t_testBox = nullptr;
+    t_testNode = nullptr;
+    m_cb = nullptr;
 }
 
 void SVARAnchor::init(){
@@ -107,9 +109,9 @@ void SVARAnchor::update(f32 _dt) {
         t_clear->setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         t_rs->pushRenderCmd(RST_AR, t_clear);
         
-        if (t_testBox) {
-            t_testBox->update(0.0f);
-            t_testBox->render();
+        if (t_testNode) {
+            t_testNode->update(_dt);
+            t_testNode->render();
         }
         
         SVRenderCmdFboUnbindPtr t_fbo_unbind = MakeSharedPtr<SVRenderCmdFboUnbind>(m_fbo);
@@ -124,6 +126,11 @@ void SVARAnchor::update(f32 _dt) {
             m_pRenderObj->pushCmd(t_rs, RST_AR_END, "ARAnchorDrawReback");
         }
     }
+    f32 t_distance = _getAnchorDis();
+    if (*m_cb) {
+        SVString t_distanceStr = SVString::format("%f",t_distance);
+        (*m_cb)(t_distanceStr.c_str(), m_obj);
+    }
 }
 
 void SVARAnchor::_addAnchor(f32 _x, f32 _y){
@@ -136,13 +143,28 @@ void SVARAnchor::_addAnchor(f32 _x, f32 _y){
 void SVARAnchor::_generateBox(SVAnchorPoint &_worldPoint){
     SVScenePtr t_pScene = mApp->getSceneMgr()->getScene();
     if (t_pScene) {
-        t_testBox = nullptr;
-        t_testBox = MakeSharedPtr<SV3DBox>(mApp);
-        t_testBox->setRSType(RST_AR);
-        t_testBox->setdrawAABB(true);
-        t_testBox->setScale(0.002, 0.002, 0.002);
-        t_testBox->setPosition(_worldPoint.point.x, _worldPoint.point.y, _worldPoint.point.z);
+        t_testNode = nullptr;
+        t_testNode = MakeSharedPtr<SV3DBox>(mApp);
+        t_testNode->setRSType(RST_AR);
+        t_testNode->setdrawAABB(true);
+        t_testNode->setScale(0.001, 0.001, 0.001);
+        t_testNode->setPosition(_worldPoint.point.x, _worldPoint.point.y, _worldPoint.point.z);
     }
+}
+
+f32 SVARAnchor::_getAnchorDis(){
+    SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
+    SVCameraNodePtr t_arCam = t_sensor->getARCamera();
+    if(!t_arCam)
+        return 0.0f;
+    
+    if (!t_testNode) {
+        return 0.0f;
+    }
+    FVec3 t_cameraPos = t_arCam->getPosition();
+    FVec3 t_anchorPos =  t_testNode->getPosition();
+    f32 distance = (t_cameraPos - t_anchorPos).length();
+    return distance;
 }
 
 void SVARAnchor::_screenPointToWorldAnchorPoint(FVec2 &_point, SVAnchorPoint &_worldPoint){

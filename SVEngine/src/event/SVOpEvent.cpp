@@ -59,6 +59,18 @@ SVProjectMatrixEvent::~SVProjectMatrixEvent(){
     m_matData = nullptr;
 }
 
+SVCameraPosEvent::SVCameraPosEvent() {
+    m_px = 0.0f;
+    m_py = 0.0f;
+    m_pz = 0.0f;
+}
+
+SVCameraDirEvent::SVCameraDirEvent() {
+    m_dx = 0.0f;
+    m_dx = 0.0f;
+    m_dx = 0.0f;
+}
+
 SVReactEvent::SVReactEvent(){
     m_actAniName = "";
     m_actAniLoop = 0;
