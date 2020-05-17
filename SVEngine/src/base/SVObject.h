@@ -11,6 +11,18 @@
 #include "SVDef.h"
 #include "SVPreDeclare.h"
 
+/* c++ 11 标准 sharepter
+ * share_ptr是一个模版类
+ * share_ptr
+ * unique_ptr
+ * weak_pter
+ * 本质是模版，重载了->和*
+ * 转换类型
+ * static_point_case<T>(), const_pointer_case<T>(),dynamic_pointer_cast<T>()
+ * 创建 make_shared 而不是new
+ */
+
+
 namespace sv {
     
     //对象
