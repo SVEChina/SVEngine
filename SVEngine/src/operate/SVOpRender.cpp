@@ -17,11 +17,10 @@
 #include "../rendercore/SVRenderTarget.h"
 #include "../rendercore/SVGL/SVRendererGL.h"
 #include "../rendercore/SVVulkan/SVRendererVK.h"
-#include "../rendercore/SVContextBase.h"
+
 #if defined(SV_IOS) || defined(SV_OSX)
 #include "../rendercore/SVMetal/SVRendererMetal.h"
 #endif
-
 
 
 #ifdef SV_IOS

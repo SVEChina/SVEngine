@@ -14,10 +14,10 @@
 namespace sv {
     
     //环境
-    DECLARE_SHAREPTR(SVContextBase);
+    DECLARE_SHAREPTR(SVCtxBase);
 #ifdef SV_IOS
     DECLARE_SHAREPTR(SVContextIOS);
-    DECLARE_SHAREPTR(SVContextMetal);
+    //DECLARE_SHAREPTR(SVContextMetal);
 #endif
         
 #ifdef SV_ANDROID

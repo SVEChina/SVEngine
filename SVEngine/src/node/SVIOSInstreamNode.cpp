@@ -18,7 +18,6 @@
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRendererBase.h"
-#include "../rendercore/SVContextBase.h"
 #include "../core/SVGeoGen.h"
 
 SVIOSInstreamNode::SVIOSInstreamNode(SVInst *_app)

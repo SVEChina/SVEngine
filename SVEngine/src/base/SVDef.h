@@ -169,16 +169,6 @@ enum PICFORMATE {
     SV_PF_NULL
 };
 
-
-//创建外部GL环境
-namespace sv {
-    namespace render{
-        class SVContextBase;
-        typedef void (SVContextBase::*glEnvCreate)();
-        typedef void (SVContextBase::*glEnvDestroy)();
-    }
-}
-
 namespace sv {
     class SVInst;
     class SVThread;

@@ -8,7 +8,7 @@
 #ifndef SV_CONTEXTOSX_H
 #define SV_CONTEXTOSX_H
 
-#include "SVContextBase.h"
+#include "SVCtxBase.h"
 
 #ifdef SV_OSX
 
@@ -16,29 +16,22 @@
 #import <AppKit/NSOpenGL.h>
 
 namespace sv {
-    
-    namespace render{
-    
-        //mac上跑的 只有gl20,gl30,metle的渲染器
-        
-        class SVContextOSX: public SVContextBase {
-        public:
-            SVContextOSX(SVInst* _app,void* _context,void* _pixelFormate,s32 _glversion);
-            
-            ~SVContextOSX();
-            
-            virtual void swapRenderTarget(SVRenderTargetPtr _target);
-            
-            virtual bool activeContext();
-            
-            virtual void* getContext();
-            
-        protected:
-            s32 m_glversion;
-            NSOpenGLContext* m_pGLContext;
-        };
 
-    }//!namespace render
+    //mac上跑的 只有gl20,gl30,metle的渲染器
+    class SVContextOSX: public SVCtxBase {
+    public:
+        SVContextOSX(void* _context,void* _pixelFormate,s32 _glversion);
+        
+        ~SVContextOSX();
+        
+        virtual bool activeContext();
+        
+        virtual void* getContext();
+        
+    protected:
+        s32 m_glversion;
+        NSOpenGLContext* m_pGLContext;
+    };
     
 }//!namespace sv
 

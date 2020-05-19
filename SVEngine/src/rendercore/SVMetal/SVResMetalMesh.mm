@@ -16,7 +16,6 @@
 #include "../../base/SVDataSwap.h"
 #include "../../base/SVLock.h"
 #include "../../rendercore/SVRenderMgr.h"
-#include "../SVContextBase.h"
 #include "../SVRendererBase.h"
 
 /*

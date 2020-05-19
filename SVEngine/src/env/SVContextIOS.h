@@ -7,7 +7,7 @@
 
 #ifndef SV_CONTEXTIOS_H
 #define SV_CONTEXTIOS_H
-#include "SVContextBase.h"
+#include "SVCtxBase.h"
 
 #ifdef SV_IOS
 
@@ -16,28 +16,23 @@
 
 namespace sv {
     
-    namespace render{
-        
-        //苹果手机上跑的 只有gles20,gles30,metle的渲染器
-    
-        class SVContextIOS: public SVContextBase {
-        public:
-            SVContextIOS(SVInst* _app,void* _context,s32 _glversion);
-            
-            ~SVContextIOS();
-            
-            virtual void swapRenderTarget(SVRenderTargetPtr _target);
-            
-            virtual bool activeContext();
-            
-            virtual void* getContext();
-            
-        protected:
-            s32 m_glversion;
-            EAGLContext* m_pGLContext;
-        };
+    //苹果手机上跑的 只有gles20,gles30,metle的渲染器
 
-    }//!namespace render
+    class SVContextIOS: public SVCtxBase {
+    public:
+        SVContextIOS(void* _context,s32 _glversion);
+        
+        ~SVContextIOS();
+
+        virtual bool activeContext();
+        
+        virtual void* getContext();
+        
+    protected:
+        s32 m_glversion;
+        EAGLContext* m_pGLContext;
+    };
+
     
 }//!namespace sv
 

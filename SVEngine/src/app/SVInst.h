@@ -35,8 +35,6 @@ namespace sv {
         void svSuspend();
         //唤醒SV
         void svResume();
-        //获取环境(上下文)
-        SVContextBase* getContext();
         //设置时间状态
         void setTimeState(SV_ENG_TIMESTATE _mode);
         //获取时间状态

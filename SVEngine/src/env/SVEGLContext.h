@@ -11,62 +11,60 @@
 
 //c++层context
 
-#include "SVContextBase.h"
+#include "SVCtxBase.h"
 
 //只有一个后台  所谓多场景输出 指的是多纹理输出
 #ifdef SV_ANDROID
+
 namespace sv {
 
-    namespace render {
+    class SVEGLContext : public SVCtxBase {
 
-        class SVEGLContext : public SVContextBase {
+    public:
+        SVEGLContext(void* _window, void *_context, s32 _glversion);
 
-        public:
-            SVEGLContext(SVInst *_app,void* _window, void *_context, s32 _glversion);
+        ~SVEGLContext();
 
-            ~SVEGLContext();
+//        virtual void swapRenderTarget(SVRenderTargetPtr _target);
 
-            virtual void swapRenderTarget(SVRenderTargetPtr _target);
+        virtual bool activeContext();
 
-            virtual bool activeContext();
+        virtual void* getContext();
 
-            virtual void* getContext();
+    protected:
+        EGLDisplay m_Display;
+        EGLConfig *m_pConfigsList;
+        EGLConfig m_GLConfigOff;
+        EGLContext m_pGLContext;
+        EGLContext m_pGLContextShare;
+        EGLSurface m_pGLSurface;
+        u32 m_color_size_;
+        u32 m_depth_size_;
+        GLint m_screen_width_;
+        GLint m_screen_height_;
+        void* m_pwindow;
+        bool m_context_valid_;
+        bool m_egl_context_initialized_;
+        bool m_gles_initialized_;
+        bool m_es3_supported_;
+        s32 m_gl_version_;
 
-        protected:
-            EGLDisplay m_Display;
-            EGLConfig *m_pConfigsList;
-            EGLConfig m_GLConfigOff;
-            EGLContext m_pGLContext;
-            EGLContext m_pGLContextShare;
-            EGLSurface m_pGLSurface;
-            u32 m_color_size_;
-            u32 m_depth_size_;
-            GLint m_screen_width_;
-            GLint m_screen_height_;
-            void* m_pwindow;
-            bool m_context_valid_;
-            bool m_egl_context_initialized_;
-            bool m_gles_initialized_;
-            bool m_es3_supported_;
-            s32 m_gl_version_;
+        void initGLES();
 
-            void initGLES();
+        bool init(ANativeWindow* window);
 
-            bool init(ANativeWindow* window);
+        bool initEGLContext();
 
-            bool initEGLContext();
+        void createSurface();
 
-            void createSurface();
+        EGLint resume(ANativeWindow* window);
 
-            EGLint resume(ANativeWindow* window);
+        void destroyContext();
 
-            void destroyContext();
+        bool active();
 
-            bool active();
-
-            bool swap();
-        };
-    }//!namespace render
+        bool swap();
+    };
 
 }//!namespace sv
 #endif  //SVE_ANDROID

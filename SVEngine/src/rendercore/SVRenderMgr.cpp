@@ -12,7 +12,6 @@
 #include "SVRenderTarget.h"
 #include "SVRenderPipline.h"
 #include "SVRendererBase.h"
-#include "SVContextBase.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtlCore.h"
 #include "../base/SVLock.h"
@@ -133,7 +132,7 @@ void SVRenderMgr::render(){
     m_renderLock->unlock();
 }
 
-//        SVContextBasePtr t_context = m_pRenderer->getRenderContext();
+//        SVCtxBasePtr t_context = m_pRenderer->getRenderContext();
 //        if( t_context && t_context->activeContext() ){
 //            SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
 //            if( t_context->activeRenderTarget( t_rt ) ){
@@ -148,7 +147,7 @@ void SVRenderMgr::render(){
 void SVRenderMgr::clearScreen(){
     m_renderLock->lock();
     if(m_pRenderer && m_pRenderScene ){
-//        SVContextBasePtr t_context = m_pRenderer->getRenderContext();
+//        SVCtxBasePtr t_context = m_pRenderer->getRenderContext();
 //        if( t_context && t_context->activeContext() ){
 //            m_pRenderer->renderBegin();
 //            SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );

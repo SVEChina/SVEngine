@@ -7,7 +7,6 @@
 
 #include "SVRendererMetal.h"
 #include "SVResMetalFbo.h"
-#include "SVContextMetal.h"
 #include "../../app/SVInst.h"
 #include "../../base/SVDataSwap.h"
 

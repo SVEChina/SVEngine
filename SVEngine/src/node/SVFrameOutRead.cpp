@@ -16,7 +16,6 @@
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRendererBase.h"
-#include "../rendercore/SVContextBase.h"
 #include "../rendercore/SVRenderScene.h"
 #include "../rendercore/SVRenderCmdOut.h"
 #include "../mtl/SVTexMgr.h"

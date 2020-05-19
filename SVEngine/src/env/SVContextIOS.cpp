@@ -11,8 +11,8 @@
 #ifdef SV_IOS
 
 //设备上下文 真的不能随意切换啊 否则这这个设备上下文中创建的所有GL资源全部都失效
-SVContextIOS::SVContextIOS(SVInst *_app,void* _context,s32 _glversion)
-:SVContextBase(_app) {
+SVContextIOS::SVContextIOS(void* _context,s32 _glversion)
+:SVCtxBase() {
     m_glversion = _glversion;
     if(_context){
         EAGLContext* t_context = (__bridge EAGLContext*)_context;
@@ -38,16 +38,16 @@ SVContextIOS::~SVContextIOS() {
     SV_LOG_INFO("destroy context ios\n");
 }
 
-//交换场景
-void SVContextIOS::swapRenderTarget(SVRenderTargetPtr _target){
-    SVContextBase::swapRenderTarget(_target);   //切换到目标的FBO
-    if(m_pGLContext){
-        bool t_flag = [m_pGLContext presentRenderbuffer:GL_RENDERBUFFER];
-        if(!t_flag){
-            NSLog(@"presentRenderbuffer error!");
-        }
-    }
-}
+////交换场景
+//void SVContextIOS::swapRenderTarget(SVRenderTargetPtr _target){
+//    SVCtxBase::swapRenderTarget(_target);   //切换到目标的FBO
+//    if(m_pGLContext){
+//        bool t_flag = [m_pGLContext presentRenderbuffer:GL_RENDERBUFFER];
+//        if(!t_flag){
+//            NSLog(@"presentRenderbuffer error!");
+//        }
+//    }
+//}
 
 bool SVContextIOS::activeContext(){
     if(m_pGLContext){

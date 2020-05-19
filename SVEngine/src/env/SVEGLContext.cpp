@@ -8,7 +8,8 @@
 
 
 #ifdef SV_ANDROID
-SVEGLContext::SVEGLContext(SVInst* _app,void* _window,void* _context,s32 _glversion) : SVContextBase(_app) {
+SVEGLContext::SVEGLContextvoid* _window,void* _context,s32 _glversion)
+: SVCtxBase(_app) {
     m_Display = nullptr;
     m_pConfigsList = nullptr;
     //离线环境
@@ -232,16 +233,15 @@ EGLint SVEGLContext::resume(ANativeWindow* window) {
     return err;
 }
 
-
- void SVEGLContext::swapRenderTarget(SVRenderTargetPtr _target){
-     SV_LOG_ERROR("SVEContext::active!");
-     SVContextBase::swapRenderTarget(_target);
-     if(!swap()){
-         SV_LOG_ERROR("SVEContext::SWAP! ERROR");
-         return;
-     };
-     SV_LOG_ERROR("SVEContext::SWAP! SUCESS");
- }
+// void SVEGLContext::swapRenderTarget(SVRenderTargetPtr _target){
+//     SV_LOG_ERROR("SVEContext::active!");
+//     SVCtxBase::swapRenderTarget(_target);
+//     if(!swap()){
+//         SV_LOG_ERROR("SVEContext::SWAP! ERROR");
+//         return;
+//     };
+//     SV_LOG_ERROR("SVEContext::SWAP! SUCESS");
+// }
 
  bool SVEGLContext::activeContext(){
 

@@ -17,7 +17,6 @@
 #include "../../mtl/SVTexture.h"
 #include "../../file/SVFileMgr.h"
 #include "../../rendercore/SVRenderMgr.h"
-#include "../SVContextBase.h"
 #include "../SVRendererBase.h"
 #include "../SVGL/SVRendererGL.h"
 
@@ -257,7 +256,7 @@ void SVRResGLTexiOS::create(SVRendererBasePtr _renderer){
         return ;
     SVRObjBase::create(_renderer);
 #ifdef SV_IOS
-//    SVContextBasePtr t_contextbase = _renderer->getRenderContext();
+//    SVCtxBasePtr t_contextbase = _renderer->getRenderContext();
 //    CVEAGLContext t_glcontext = CVEAGLContext((__bridge id)t_contextbase->getContext());
 //    CVReturn t_flag = CVOpenGLESTextureCacheCreate(nullptr,
 //                                                   nullptr,

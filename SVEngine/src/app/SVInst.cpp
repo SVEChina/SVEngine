@@ -15,7 +15,6 @@
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderState.h"
 #include "../rendercore/SVRendererBase.h"
-#include "../rendercore/SVContextBase.h"
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVConfig.h"
 #include "../operate/SVOpBase.h"
@@ -91,17 +90,6 @@ void SVInst::svResume(){
         m_pTPool->getMainThread()->resume();
         m_svst = SV_ST_RUN;
     }
-}
-
-//
-SVContextBase* SVInst::getContext(){
-    if(m_pGlobalMgr->m_pRenderMgr){
-        SVRendererBasePtr t_renderer = m_pGlobalMgr->m_pRenderMgr->getRenderer();
-//        if(t_renderer && t_renderer->getRenderContext() ){
-//            return t_renderer->getRenderContext().get();
-//        }
-    }
-    return nullptr;
 }
 
 //

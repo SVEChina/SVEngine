@@ -12,8 +12,8 @@
 #ifdef SV_OSX
 
 //设备上下文 真的不能随意切换啊 否则这这个设备上下文中创建的所有GL资源全部都失效
-SVContextOSX::SVContextOSX(SVInst* _app,void* _context,void* _pixelFormate,s32 _glversion)
-:SVContextBase(_app) {
+SVContextOSX::SVContextOSX(void* _context,void* _pixelFormate,s32 _glversion)
+:SVCtxBase() {
     m_glversion = _glversion;
     if(_context){
         NSOpenGLContext* t_context = (__bridge NSOpenGLContext*)_context;
@@ -26,13 +26,13 @@ SVContextOSX::~SVContextOSX() {
     m_pGLContext = nullptr;
 }
 
-//交换场景
-void SVContextOSX::swapRenderTarget(SVRenderTargetPtr _target){
-    SVContextBase::swapRenderTarget(_target);   //切换到目标的FBO
-    if( m_pGLContext ) {
-        [m_pGLContext flushBuffer];
-    }
-}
+////交换场景
+//void SVContextOSX::swapRenderTarget(SVRenderTargetPtr _target){
+//    SVCtxBase::swapRenderTarget(_target);   //切换到目标的FBO
+//    if( m_pGLContext ) {
+//        [m_pGLContext flushBuffer];
+//    }
+//}
 
 bool SVContextOSX::activeContext(){
     if( m_pGLContext ) {

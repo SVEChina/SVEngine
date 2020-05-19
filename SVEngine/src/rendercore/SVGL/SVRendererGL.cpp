@@ -108,16 +108,6 @@ void SVRendererGL::resize(s32 _w,s32 _h) {
     m_pRenderTex->setTexture(t_tex);
 }
 
-////
-//void SVRendererGL::submitShader(u32 _shader) {
-////    if (m_pRState->m_shaderID != _shader) {
-////        m_pRState->m_shaderID = _shader;
-////        glUseProgram(_shader);
-////    }
-//    glUseProgram(_shader);
-//    m_pRState->m_shaderID = _shader;
-//}
-
 //
 void SVRendererGL::submitTex(u32 _channel,TexUnit& _unit){
     SVRenderStateGLPtr pState = std::static_pointer_cast<SVRenderStateGL>(m_pRState);
