@@ -257,62 +257,62 @@ void SVRResGLTexiOS::create(SVRendererBasePtr _renderer){
         return ;
     SVRObjBase::create(_renderer);
 #ifdef SV_IOS
-    SVContextBasePtr t_contextbase = _renderer->getRenderContext();
-    CVEAGLContext t_glcontext = CVEAGLContext((__bridge id)t_contextbase->getContext());
-    CVReturn t_flag = CVOpenGLESTextureCacheCreate(nullptr,
-                                                   nullptr,
-                                                   t_glcontext,
-                                                   nullptr,
-                                                   &m_pTexCacheRef);
-    if (t_flag) {
-        SV_LOG_ERROR("SVTextureIOS create texture cache failed");
-    }
-    const void *keys[] = {
-        kCVPixelBufferOpenGLESCompatibilityKey,
-        kCVPixelBufferIOSurfacePropertiesKey,
-        kCVPixelBufferBytesPerRowAlignmentKey,
-    };
-    const void *values[] = {
-        (__bridge const void *)([NSNumber numberWithBool:YES]),
-        (__bridge const void *)([NSDictionary dictionary]),
-        (__bridge const void *)([NSNumber numberWithInteger:16])
-    };
-    CFDictionaryRef opDic = CFDictionaryCreate(NULL, keys,
-                                               values, 2,
-                                               NULL, NULL);
-    t_flag = CVPixelBufferCreate(kCFAllocatorDefault,
-                                 m_width,
-                                 m_height,
-                                 kCVPixelFormatType_32BGRA,
-                                 opDic,
-                                 &m_pPixelBuf);
-    if( t_flag == 0) {
-
-    }
-    t_flag = CVOpenGLESTextureCacheCreateTextureFromImage(nullptr,
-                                                          m_pTexCacheRef,
-                                                          m_pPixelBuf,
-                                                          nullptr,
-                                                          GL_TEXTURE_2D,
-                                                          m_informate,
-                                                          m_width,
-                                                          m_height,
-                                                          m_dataformate,
-                                                          GL_UNSIGNED_BYTE,
-                                                          0,
-                                                          &m_pTexRef);
-    if(t_flag == 0){
-        m_id = CVOpenGLESTextureGetName(m_pTexRef);
-        glBindTexture(GL_TEXTURE_2D , m_id);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
-    CVOpenGLESTextureCacheFlush(m_pTexCacheRef,0);
-    CFRelease(opDic);
-    m_bLoad = true;
+//    SVContextBasePtr t_contextbase = _renderer->getRenderContext();
+//    CVEAGLContext t_glcontext = CVEAGLContext((__bridge id)t_contextbase->getContext());
+//    CVReturn t_flag = CVOpenGLESTextureCacheCreate(nullptr,
+//                                                   nullptr,
+//                                                   t_glcontext,
+//                                                   nullptr,
+//                                                   &m_pTexCacheRef);
+//    if (t_flag) {
+//        SV_LOG_ERROR("SVTextureIOS create texture cache failed");
+//    }
+//    const void *keys[] = {
+//        kCVPixelBufferOpenGLESCompatibilityKey,
+//        kCVPixelBufferIOSurfacePropertiesKey,
+//        kCVPixelBufferBytesPerRowAlignmentKey,
+//    };
+//    const void *values[] = {
+//        (__bridge const void *)([NSNumber numberWithBool:YES]),
+//        (__bridge const void *)([NSDictionary dictionary]),
+//        (__bridge const void *)([NSNumber numberWithInteger:16])
+//    };
+//    CFDictionaryRef opDic = CFDictionaryCreate(NULL, keys,
+//                                               values, 2,
+//                                               NULL, NULL);
+//    t_flag = CVPixelBufferCreate(kCFAllocatorDefault,
+//                                 m_width,
+//                                 m_height,
+//                                 kCVPixelFormatType_32BGRA,
+//                                 opDic,
+//                                 &m_pPixelBuf);
+//    if( t_flag == 0) {
+//
+//    }
+//    t_flag = CVOpenGLESTextureCacheCreateTextureFromImage(nullptr,
+//                                                          m_pTexCacheRef,
+//                                                          m_pPixelBuf,
+//                                                          nullptr,
+//                                                          GL_TEXTURE_2D,
+//                                                          m_informate,
+//                                                          m_width,
+//                                                          m_height,
+//                                                          m_dataformate,
+//                                                          GL_UNSIGNED_BYTE,
+//                                                          0,
+//                                                          &m_pTexRef);
+//    if(t_flag == 0){
+//        m_id = CVOpenGLESTextureGetName(m_pTexRef);
+//        glBindTexture(GL_TEXTURE_2D , m_id);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//        glBindTexture(GL_TEXTURE_2D, 0);
+//    }
+//    CVOpenGLESTextureCacheFlush(m_pTexCacheRef,0);
+//    CFRelease(opDic);
+//    m_bLoad = true;
 #endif
 }
 

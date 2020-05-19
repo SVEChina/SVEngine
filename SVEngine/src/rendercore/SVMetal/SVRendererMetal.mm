@@ -33,8 +33,6 @@ void SVRendererMetal::init(void* _device,s32 _w,s32 _h){
     //创建主fbo
     m_inWidth = _w;
     m_inHeight = _h;
-    //
-    m_pRenderContext = MakeSharedPtr<SVContextMetal>(mApp);
     //创建主纹理
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;

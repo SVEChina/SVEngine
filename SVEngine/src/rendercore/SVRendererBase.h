@@ -52,10 +52,6 @@ namespace sv {
             void clearRes();
             //自动回收
             virtual void removeUnuseRes();
-            //设置渲染上下文
-            void setRendererContext(SVContextBasePtr _context);
-            //获取渲染上下文
-            SVContextBasePtr getRenderContext();
             //获取渲染到纹理
             SVRenderTexturePtr getRenderTexture();
             //创建内置纹理
@@ -90,9 +86,8 @@ namespace sv {
             void popVPMat();
             //
             void clearMatStack();
+            
         protected:
-            //渲染上下文
-            SVContextBasePtr m_pRenderContext;
             //主FBO
             SVRenderTexturePtr m_pRenderTex;
             //各种内置纹理

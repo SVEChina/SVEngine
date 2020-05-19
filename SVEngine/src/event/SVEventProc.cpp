@@ -18,6 +18,7 @@ SVEventProc::~SVEventProc() {
 
 void SVEventProc::startListen(){
     mApp->getEventMgr()->registProcer(THIS_TO_SHAREPTR(SVEventProc));
+    int && a = 0;
 }
 
 void SVEventProc::stopListen(){

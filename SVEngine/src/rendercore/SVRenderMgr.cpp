@@ -115,49 +115,57 @@ SVRenderTargetPtr SVRenderMgr::getRenderTarget(cptr8 _name) {
     return nullptr;
 }
 
-//渲染目标(这是要搞走的啊)
+//只关心渲染，不应该关心环境的切换 环境放到外面去调用
 void SVRenderMgr::render(){
     m_renderLock->lock();
-    if(m_pRenderer && m_pRenderScene ){
-        SVContextBasePtr t_context = m_pRenderer->getRenderContext();
-        if( t_context && t_context->activeContext() ){
-            m_pRenderer->renderBegin();
-            _adapt();
-            SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
-            if( t_context->activeRenderTarget( t_rt ) ){
-                m_pRenderScene->render();
-                m_pRenderer->resetState();
-                t_context->swapRenderTarget( t_rt );   //交换场景
-            }else{
-                m_pRenderScene->clearRenderCmd();
-            }
+    if(m_pRenderScene ){
+        if( m_pRenderer ) {
+            m_pRenderer->renderBegin();     //渲染器开始
+            _adapt();                       //适配
+            m_pRenderScene->render();       //渲染
+            m_pRenderer->resetState();      //重置状态
             m_pRenderer->removeUnuseRes();  //资源释放
-            m_pRenderer->renderEnd();
+            m_pRenderer->renderEnd();       //渲染器结束
+        }else {
+            m_pRenderScene->clearRenderCmd();
         }
     }
     m_renderLock->unlock();
 }
 
+//        SVContextBasePtr t_context = m_pRenderer->getRenderContext();
+//        if( t_context && t_context->activeContext() ){
+//            SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
+//            if( t_context->activeRenderTarget( t_rt ) ){
+//                m_pRenderScene->render();
+//                m_pRenderer->resetState();
+//                t_context->swapRenderTarget( t_rt );   //交换场景
+//            }else{
+//                m_pRenderScene->clearRenderCmd();
+//            }
+//        }
+
 void SVRenderMgr::clearScreen(){
     m_renderLock->lock();
     if(m_pRenderer && m_pRenderScene ){
-        SVContextBasePtr t_context = m_pRenderer->getRenderContext();
-        if( t_context && t_context->activeContext() ){
-            m_pRenderer->renderBegin();
-            SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
-            if( t_context->activeRenderTarget( t_rt ) ){
-                m_pRenderer->resetState();
-                t_context->swapRenderTarget( t_rt );   //交换场景
-            }
-            m_pRenderScene->clearRenderCmd();
-            m_pRenderer->removeUnuseRes();  //资源释放
-            m_pRenderer->renderEnd();
-        }
+//        SVContextBasePtr t_context = m_pRenderer->getRenderContext();
+//        if( t_context && t_context->activeContext() ){
+//            m_pRenderer->renderBegin();
+//            SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
+//            if( t_context->activeRenderTarget( t_rt ) ){
+//                m_pRenderer->resetState();
+//                t_context->swapRenderTarget( t_rt );   //交换场景
+//            }
+//            m_pRenderScene->clearRenderCmd();
+//            m_pRenderer->removeUnuseRes();  //资源释放
+//            m_pRenderer->renderEnd();
+//        }
     }
     m_renderLock->unlock();
 }
 
 void SVRenderMgr::_adapt() {
+    return;
     if(m_pRenderer) {
         if(m_adaptMode == 0) {
             //形变 填充
@@ -188,7 +196,6 @@ void SVRenderMgr::_adapt() {
             
         }else if(m_adaptMode == 3) {
             //非形变 固定 外接
-            
         }
     }
 }

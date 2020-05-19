@@ -26,11 +26,15 @@
 namespace sv {
     
     //对象
-    class SVObject : public ShareFromThis<SVObject>{
+    class SVObject : public std::enable_shared_from_this<SVObject> {
     public:
         SVObject();
         
         virtual ~SVObject();
+        
+        auto shareObject() {
+            return shared_from_this();
+        }
         
         virtual void listenData(SVObjectPtr datagen) {};
     };

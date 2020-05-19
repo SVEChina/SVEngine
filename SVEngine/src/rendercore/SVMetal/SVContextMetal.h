@@ -8,7 +8,7 @@
 #ifndef SV_CONTEXT_METAL_H
 #define SV_CONTEXT_METAL_H
 
-#include "../SVContextBase.h"
+#include "SVContextBase.h"
 #import <Foundation/Foundation.h>
 #import <QuartzCore/CAMetalLayer.h>
 

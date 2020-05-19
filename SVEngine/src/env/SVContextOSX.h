@@ -1,28 +1,31 @@
 //
-// SVContextIOS.cpp
+// SVContextOSX.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#ifndef SV_CONTEXTIOS_H
-#define SV_CONTEXTIOS_H
+#ifndef SV_CONTEXTOSX_H
+#define SV_CONTEXTOSX_H
+
 #include "SVContextBase.h"
 
-#ifdef SV_IOS
+#ifdef SV_OSX
 
 #import <Foundation/Foundation.h>
-#import <GLKit/GLKit.h>
+#import <AppKit/NSOpenGL.h>
 
 namespace sv {
     
     namespace render{
+    
+        //mac上跑的 只有gl20,gl30,metle的渲染器
         
-        class SVContextIOS: public SVContextBase {
+        class SVContextOSX: public SVContextBase {
         public:
-            SVContextIOS(SVInst* _app,void* _context,s32 _glversion);
+            SVContextOSX(SVInst* _app,void* _context,void* _pixelFormate,s32 _glversion);
             
-            ~SVContextIOS();
+            ~SVContextOSX();
             
             virtual void swapRenderTarget(SVRenderTargetPtr _target);
             
@@ -32,7 +35,7 @@ namespace sv {
             
         protected:
             s32 m_glversion;
-            EAGLContext* m_pGLContext;
+            NSOpenGLContext* m_pGLContext;
         };
 
     }//!namespace render
@@ -41,6 +44,6 @@ namespace sv {
 
 
 
-#endif  //SV_IOS
+#endif  //SV_OSX
 
-#endif  //SV_CONTEXTIOS_H
+#endif  //SV_CONTEXTOSX_H

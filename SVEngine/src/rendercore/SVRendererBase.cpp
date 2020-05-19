@@ -19,7 +19,6 @@
 
 SVRendererBase::SVRendererBase(SVInst* _app)
 :SVGBase(_app)
-,m_pRenderContext(nullptr)
 ,m_pRenderTex(nullptr)
 ,m_pRState(nullptr)
 ,m_inWidth(256)
@@ -122,14 +121,6 @@ void SVRendererBase::removeUnuseRes() {
     }
     m_robjList.reserveForce(m_robjList.size());
     m_resLock->unlock();
-}
-
-void SVRendererBase::setRendererContext(SVContextBasePtr _context){
-    m_pRenderContext = _context;
-}
-
-SVContextBasePtr SVRendererBase::getRenderContext(){
-    return m_pRenderContext;
 }
 
 SVRenderTexturePtr SVRendererBase::getRenderTexture() {

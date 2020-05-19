@@ -93,28 +93,13 @@ void SVInst::svResume(){
     }
 }
 
-////同步模式
-//void SVInst::svSync() {
-//    if(m_pTPool && m_pTPool->getMainThread()){
-//        m_pTPool->getMainThread()->setAuoWait(true);
-//    }
-//}
-
-////异步模式
-//void SVInst::syASync() {
-//    if(m_pTPool && m_pTPool->getMainThread()){
-//        m_pTPool->getMainThread()->setAuoWait(false);
-//        m_pTPool->getMainThread()->notice();
-//    }
-//}
-
 //
 SVContextBase* SVInst::getContext(){
     if(m_pGlobalMgr->m_pRenderMgr){
         SVRendererBasePtr t_renderer = m_pGlobalMgr->m_pRenderMgr->getRenderer();
-        if(t_renderer && t_renderer->getRenderContext() ){
-            return t_renderer->getRenderContext().get();
-        }
+//        if(t_renderer && t_renderer->getRenderContext() ){
+//            return t_renderer->getRenderContext().get();
+//        }
     }
     return nullptr;
 }

@@ -14,21 +14,7 @@
 namespace sv {
     
     namespace render {
-        //环境
-        DECLARE_SHAREPTR(SVContextBase);
-#ifdef SV_IOS
-        DECLARE_SHAREPTR(SVContextIOS);
-        DECLARE_SHAREPTR(SVContextMetal);
-#endif
-        
-#ifdef SV_ANDROID
-        DECLARE_SHAREPTR(SVContextAndriod);
-        DECLARE_SHAREPTR(SVEGLContext);
-#endif
-        
-#ifdef SV_OSX
-        DECLARE_SHAREPTR(SVContextOSX);
-#endif
+
         //渲染资源
         DECLARE_SHAREPTR(SVRRes);
         DECLARE_SHAREPTR(SVResTex);

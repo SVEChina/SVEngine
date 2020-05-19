@@ -8,28 +8,23 @@
 #include "SVRendererGL.h"
 #include "SVRenderStateGL.h"
 #include "SVRResGL.h"
-#include "../../app/SVInst.h"
-#include "../../app/SVGlobalParam.h"
-#include "../SVContextIOS.h"
-#include "../SVContextOSX.h"
-#include "../SVEGLContext.h"
 #include "../SVRenderMgr.h"
 #include "../SVRenderTarget.h"
 #include "../SVRenderTexture.h"
 #include "../SVRenderMesh.h"
+#include "../../app/SVInst.h"
+#include "../../app/SVGlobalParam.h"
 #include "../../base/SVCompileConfig.h"
 #include "../../mtl/SVTexture.h"
 
 SVRendererGL::SVRendererGL(SVInst* _app)
 :SVRendererBase(_app){
     m_pRState = MakeSharedPtr<SVRenderStateGL>(_app);
-    m_pRenderContext = nullptr;
 }
 
 SVRendererGL::~SVRendererGL(){
     m_pRState = nullptr;
     m_pRenderTex = nullptr;
-    m_pRenderContext = nullptr;
 }
 
 #if defined SV_IOS
@@ -38,7 +33,6 @@ void SVRendererGL::init(s32 _ver,void* _context,s32 _w,s32 _h){
     m_inWidth = _w;
     m_inHeight = _h;
     m_glVersion = _ver;
-    m_pRenderContext = MakeSharedPtr<SVContextIOS>(mApp,_context,_ver);
     //创建主纹理
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
@@ -57,7 +51,6 @@ void SVRendererGL::init(s32 _ver,void * _windows,void* _context,s32 _w,s32 _h) {
     m_inWidth = _w;
     m_inHeight = _h;
     m_glVersion = _ver;
-    m_pRenderContext = MakeSharedPtr<SVEGLContext>(mApp, _windows,_context,_ver);
     //创建主纹理
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
@@ -77,7 +70,6 @@ void SVRendererGL::init(s32 _ver,void* _context,void* _pixelFormate,s32 _w,s32 _
     m_inWidth = _w;
     m_inHeight = _h;
     m_glVersion = _ver;
-    m_pRenderContext = MakeSharedPtr<SVContextOSX>(mApp,_context,_pixelFormate,3);
     //创建主纹理
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
@@ -95,11 +87,6 @@ void SVRendererGL::init(s32 _ver,void* _context,void* _pixelFormate,s32 _w,s32 _
 #endif
 
 void SVRendererGL::destroy(){
-    //释放OpenGL资源前，要激活当前上下文。
-    SVContextBasePtr t_context = getRenderContext();
-    if( t_context ){
-        t_context->activeContext();
-    }
     SVRendererBase::destroy();
 }
 

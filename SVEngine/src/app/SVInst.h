@@ -35,10 +35,6 @@ namespace sv {
         void svSuspend();
         //唤醒SV
         void svResume();
-//        //同步模式
-//        void svSync();
-//        //异步模式
-//        void syASync();
         //获取环境(上下文)
         SVContextBase* getContext();
         //设置时间状态

@@ -5485,6 +5485,10 @@
 		5FCE603A2359BD6E001A47F1 /* SVUIBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE60342359BD6B001A47F1 /* SVUIBase.cpp */; };
 		5FCE603B2359BD6E001A47F1 /* SVUIBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE60342359BD6B001A47F1 /* SVUIBase.cpp */; };
 		5FCE603C2359BD6E001A47F1 /* SVUIBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE60342359BD6B001A47F1 /* SVUIBase.cpp */; };
+		5FCFE9672474205E00C17421 /* SVEnvDeclare.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FCFE9662474205E00C17421 /* SVEnvDeclare.h */; };
+		5FCFE9682474205E00C17421 /* SVEnvDeclare.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FCFE9662474205E00C17421 /* SVEnvDeclare.h */; };
+		5FCFE9692474205E00C17421 /* SVEnvDeclare.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FCFE9662474205E00C17421 /* SVEnvDeclare.h */; };
+		5FCFE96A2474205E00C17421 /* SVEnvDeclare.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FCFE9662474205E00C17421 /* SVEnvDeclare.h */; };
 		5FD9AFF32256096500522317 /* SVPenDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9AFF12256096400522317 /* SVPenDraw.cpp */; };
 		5FD9AFF42256096500522317 /* SVPenDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9AFF12256096400522317 /* SVPenDraw.cpp */; };
 		5FD9AFF52256096500522317 /* SVPenDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD9AFF12256096400522317 /* SVPenDraw.cpp */; };
@@ -6943,6 +6947,7 @@
 		5FC2D1CF20AC42EE0065DAF6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		5FCE60332359BD6B001A47F1 /* SVUIBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUIBase.h; sourceTree = "<group>"; };
 		5FCE60342359BD6B001A47F1 /* SVUIBase.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVUIBase.cpp; sourceTree = "<group>"; };
+		5FCFE9662474205E00C17421 /* SVEnvDeclare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEnvDeclare.h; sourceTree = "<group>"; };
 		5FD9AFF12256096400522317 /* SVPenDraw.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPenDraw.cpp; sourceTree = "<group>"; };
 		5FD9AFF22256096400522317 /* SVPenDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPenDraw.h; sourceTree = "<group>"; };
 		5FD9AFFD225B286200522317 /* SVPenStroke.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPenStroke.cpp; sourceTree = "<group>"; };
@@ -8013,6 +8018,7 @@
 		5F7D5D5A215F407700803BCF /* src */ = {
 			isa = PBXGroup;
 			children = (
+				5FCFE96524741FE900C17421 /* env */,
 				5F7D5E93215F407700803BCF /* act */,
 				5F7D5DB9215F407700803BCF /* app */,
 				5F7D5F93215F407700803BCF /* base */,
@@ -8617,14 +8623,6 @@
 		5F7D5ECB215F407700803BCF /* rendercore */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D5EE1215F407700803BCF /* SVContextBase.cpp */,
-				5F7D5EDB215F407700803BCF /* SVContextBase.h */,
-				5F7D5ED9215F407700803BCF /* SVContextIOS.cpp */,
-				5F7D5EDC215F407700803BCF /* SVContextIOS.h */,
-				5F7D5EDD215F407700803BCF /* SVContextOSX.cpp */,
-				5F7D5EE2215F407700803BCF /* SVContextOSX.h */,
-				5F7D5EDA215F407700803BCF /* SVEGLContext.cpp */,
-				5F7D5EE4215F407700803BCF /* SVEGLContext.h */,
 				5F7D5EF6215F407700803BCF /* SVFboObject.cpp */,
 				5F7D5EF2215F407700803BCF /* SVFboObject.h */,
 				5F7D5ECD215F407700803BCF /* SVGL */,
@@ -9051,6 +9049,22 @@
 			path = script;
 			sourceTree = "<group>";
 		};
+		5FCFE96524741FE900C17421 /* env */ = {
+			isa = PBXGroup;
+			children = (
+				5FCFE9662474205E00C17421 /* SVEnvDeclare.h */,
+				5F7D5EE1215F407700803BCF /* SVContextBase.cpp */,
+				5F7D5EDB215F407700803BCF /* SVContextBase.h */,
+				5F7D5ED9215F407700803BCF /* SVContextIOS.cpp */,
+				5F7D5EDC215F407700803BCF /* SVContextIOS.h */,
+				5F7D5EDD215F407700803BCF /* SVContextOSX.cpp */,
+				5F7D5EE2215F407700803BCF /* SVContextOSX.h */,
+				5F7D5EDA215F407700803BCF /* SVEGLContext.cpp */,
+				5F7D5EE4215F407700803BCF /* SVEGLContext.h */,
+			);
+			path = env;
+			sourceTree = "<group>";
+		};
 		5FD9AFF02256096400522317 /* pendraw */ = {
 			isa = PBXGroup;
 			children = (
@@ -9215,6 +9229,7 @@
 				5F7D689F215F407900803BCF /* SVModify.h in Headers */,
 				020C495B22DC5DCF00201753 /* btContactSolverInfo.h in Headers */,
 				5F7D6405215F407800803BCF /* document.h in Headers */,
+				5FCFE96A2474205E00C17421 /* SVEnvDeclare.h in Headers */,
 				5C0C604F219BFF790052A826 /* InterpolateShannon.h in Headers */,
 				020C4C5522DC5DD200201753 /* btGrahamScan2dConvexHull.h in Headers */,
 				020812D222F42286006E653A /* SVStringHelper.h in Headers */,
@@ -10625,6 +10640,7 @@
 				5F7D6871215F407900803BCF /* SVVec3.h in Headers */,
 				020C46A922DC5DCD00201753 /* btBoxShape.h in Headers */,
 				5F1CA67C2268AA72002373BF /* SVContextMetal.h in Headers */,
+				5FCFE9682474205E00C17421 /* SVEnvDeclare.h in Headers */,
 				5F6598B023C338520075A17C /* ZCRoleMgr.h in Headers */,
 				5F7D628F215F407800803BCF /* RegionAttachment.h in Headers */,
 				020C46AD22DC5DCD00201753 /* btBvhTriangleMeshShape.h in Headers */,
@@ -10877,6 +10893,7 @@
 				5C0C6064219BFF790052A826 /* cpu_detect.h in Headers */,
 				5F7D6594215F407800803BCF /* SVRendererBase.h in Headers */,
 				020C481022DC5DCE00201753 /* bullet2.h in Headers */,
+				5FCFE9672474205E00C17421 /* SVEnvDeclare.h in Headers */,
 				022C1B382175EFD400FA5884 /* SVBMFontLoader.h in Headers */,
 				020C453622DC5DCD00201753 /* btActivatingCollisionAlgorithm.h in Headers */,
 				5F7D6016215F407700803BCF /* SVTrans.h in Headers */,
@@ -12240,6 +12257,7 @@
 				5F7D6872215F407900803BCF /* SVVec3.h in Headers */,
 				020C46AA22DC5DCD00201753 /* btBoxShape.h in Headers */,
 				5F1CA67D2268AA72002373BF /* SVContextMetal.h in Headers */,
+				5FCFE9692474205E00C17421 /* SVEnvDeclare.h in Headers */,
 				5F6598B123C338520075A17C /* ZCRoleMgr.h in Headers */,
 				5F7D6290215F407800803BCF /* RegionAttachment.h in Headers */,
 				020C46AE22DC5DCD00201753 /* btBvhTriangleMeshShape.h in Headers */,
