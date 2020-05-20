@@ -12,13 +12,9 @@
 #ifdef SV_OSX
 
 //设备上下文 真的不能随意切换啊 否则这这个设备上下文中创建的所有GL资源全部都失效
-SVCtxOSXGL::SVCtxOSXGL(void* _context,void* _pixelFormate,s32 _glversion)
+SVCtxOSXGL::SVCtxOSXGL(void* _context)
 :SVCtxBase() {
-    if(_context){
-//        NSOpenGLContext* t_context = (__bridge NSOpenGLContext*)_context;
-//        NSOpenGLPixelFormat* t_pixel = (__bridge NSOpenGLPixelFormat*)_pixelFormate;
-//        m_pGLContext = t_context;   //mac 不用share直接赋值 就好了啊
-    }
+    m_pGLContext = (__bridge NSOpenGLContext*)_context;
 }
 
 SVCtxOSXGL::~SVCtxOSXGL() {
@@ -41,6 +37,14 @@ bool SVCtxOSXGL::activeContext(){
     return false;
 }
 
+bool SVCtxOSXGL::swap(){
+    if( m_pGLContext ) {
+        [m_pGLContext flushBuffer];
+        return true;
+    }
+    return false;
+}
+
 //
 //设备上下文 真的不能随意切换啊 否则这这个设备上下文中创建的所有GL资源全部都失效
 SVCtxOSXMetal::SVCtxOSXMetal()
@@ -54,6 +58,9 @@ bool SVCtxOSXMetal::activeContext(){
     return true;
 }
 
+bool SVCtxOSXMetal::swap() {
+    return false;
+}
 
 #endif
 

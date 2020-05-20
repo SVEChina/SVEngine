@@ -24,14 +24,11 @@ namespace sv {
         
         ~SVThreadPool();
         
-        void init();
+        SVThreadPtr applyThread();
         
-        void destroy();
+        SVThreadPtr getThread(s32 && _index);
         
-        void start();
-        
-        void stop();
-        
+        SVArray<SVThreadPtr> m_threadPool;
     };
     
 }//!namespace sv

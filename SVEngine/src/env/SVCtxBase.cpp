@@ -7,8 +7,7 @@
 
 #include "SVCtxBase.h"
 
-SVCtxBase::SVCtxBase()
-:m_call_create(nullptr){
+SVCtxBase::SVCtxBase(){
 }
 
 SVCtxBase::~SVCtxBase() {
@@ -18,6 +17,6 @@ bool SVCtxBase::activeContext(){
     return false;
 }
 
-void* SVCtxBase::getContext(){
-    return nullptr;
+bool SVCtxBase::swap(){
+    return false;
 }

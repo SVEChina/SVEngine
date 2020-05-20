@@ -26,7 +26,7 @@ namespace sv {
 
         virtual bool activeContext();
         
-        virtual void* getContext();
+        virtual bool swap();
         
     protected:
         s32 m_glversion;

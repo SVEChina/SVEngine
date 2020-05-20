@@ -21,11 +21,13 @@ namespace sv {
 
     class SVCtxOSXGL: public SVCtxBase {
     public:
-        SVCtxOSXGL(void* _context,void* _pixelFormate,s32 _glversion);
+        SVCtxOSXGL(void* _context);
         
         ~SVCtxOSXGL();
         
         virtual bool activeContext();
+        
+        virtual bool swap();
         
         NSOpenGLContext* m_pGLContext;
     };
@@ -39,6 +41,7 @@ namespace sv {
         
         virtual bool activeContext();
         
+        virtual bool swap();
     };
     
 }//!namespace sv

@@ -32,9 +32,11 @@ void SVInst::init() {
     //同步方式
     m_pGlobalMgr = MakeSharedPtr<SVGlobalMgr>(this);
     m_pGlobalParam = MakeSharedPtr<SVGlobalParam>(this);
-    m_pTPool = MakeSharedPtr<SVThreadPool>(this);
+    m_pTPool = MakeSharedPtr<SVThreadPool>();
+    //构建线程池
     m_pGlobalMgr->m_pConfig = MakeSharedPtr<SVConfig>(this);
     m_pGlobalMgr->m_pConfig->init();
+    //
     m_svst = SV_ST_WAIT;
 }
 
@@ -48,43 +50,30 @@ void SVInst::destroy() {
 void SVInst::startSVE() {
     //开启一个线程，构建引擎，引擎构建完毕之后，调用返回
     m_pGlobalMgr->init();
-//    m_pTPool->init();
-//    m_pTPool->start();
     m_svst = SV_ST_RUN;
 }
 
 void SVInst::stopSVE() {
     //开启一个线程，销毁引擎，引擎销毁完毕以后，调用返回
     m_svst = SV_ST_WAIT;
-    m_pTPool->stop();
-    m_pTPool->destroy();        //跑一边线程 该干掉的都干掉了
     m_pGlobalMgr->destroy();    //引擎各个模块开始销毁(这里 opengl 没有回收 尴尬)
 }
 
 void SVInst::updateSVE(f32 _dt) {
-    if(m_pTPool) {
-    }
+    m_pGlobalMgr->update(_dt);
 }
 
-void SVInst::clearCache(){
-//    if(m_pTPool && m_pTPool->getMainThread()){
-//        m_pTPool->getMainThread()->clearThreadCache();
-//    }
+void SVInst::renderSVE() {
+    m_pGlobalMgr->m_pRenderMgr->render();
 }
 
 void SVInst::svSuspend(){
-//    if( m_pTPool && m_pTPool->getMainThread()){
-//        m_svst = SV_ST_SUSPEND;
-//        m_pTPool->getMainThread()->suspend();
-//    }
 }
 
 void SVInst::svResume(){
-//    if( m_pTPool && m_pTPool->getMainThread()){
-//        m_pTPool->getMainThread()->resetTime();//重新开始的时候要重置下时间，否则第一帧有问题
-//        m_pTPool->getMainThread()->resume();
-//        m_svst = SV_ST_RUN;
-//    }
+}
+
+void SVInst::clearCache(){
 }
 
 //

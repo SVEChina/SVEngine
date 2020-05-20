@@ -3,6 +3,7 @@
 
 SVThread::SVThread(){
     m_svTState = TS_INIT;
+    m_use = false;
     m_once = true;
     m_run = true;
     m_pThread = nullptr;

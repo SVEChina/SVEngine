@@ -11,7 +11,7 @@
 //线程基类
 
 #include "../base/SVObject.h"
-#include "SVPreDeclare.h"
+#include "../base/SVPreDeclare.h"
 #include <thread>
 
 namespace sv {
@@ -32,17 +32,8 @@ namespace sv {
         //同步接口-停止(销毁)
         void stopThread();
         
-//        //同步接口-挂起
-//        virtual void suspend();
-//
-//        //同步接口-唤醒
-//        virtual void resume();
-//
-//        //设置自动等待
-//        virtual void setAuoWait(bool _autowait);
-//
-//        //通知
-//        virtual void notice();
+        //执行一次
+        void execonce();
         
     protected:
         
@@ -55,12 +46,10 @@ namespace sv {
         SV_THREAD_STATE m_svTState;     //SV线程状态
         std::thread *m_pThread;         //线程
         cb_thread_mission m_pWorkCallback;
+        bool m_use;
         bool m_once;
         bool m_run;
-        
-    public:
-        virtual void swapData();
-        
+
         f32 getThreadTime();
         
         void setThreadTime(f32 _time);

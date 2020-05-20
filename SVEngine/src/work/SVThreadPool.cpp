@@ -11,21 +11,29 @@ SVThreadPool::SVThreadPool(){
 }
 
 SVThreadPool::~SVThreadPool(){
+    m_threadPool.clear();
 }
 
-void SVThreadPool::init(){
-    //预先分配5个线程
-
+//申请一个线程
+SVThreadPtr SVThreadPool::applyThread() {
+    for(s32 i=0;i<m_threadPool.size();i++) {
+        if( m_threadPool[i]->m_use == false ) {
+            m_threadPool[i]->m_use  = true;
+            return m_threadPool[i];
+        }
+    }
+    //
+    SVThreadPtr t_thread = MakeSharedPtr<SVThread>();
+    t_thread->m_use = false;
+    m_threadPool.append(t_thread);
+    //
+    return nullptr;
 }
 
-void SVThreadPool::destroy(){
-}
-
-//
-void SVThreadPool::start(){
-}
-
-//
-void SVThreadPool::stop(){
+SVThreadPtr SVThreadPool::getThread(s32 && _index) {
+    if( _index<m_threadPool.size() ) {
+        return m_threadPool[_index];
+    }
+    return nullptr;
 }
 

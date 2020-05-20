@@ -3019,6 +3019,14 @@
 		5F6598F123C731AB0075A17C /* ZCStoryJC.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6598EB23C731AA0075A17C /* ZCStoryJC.h */; };
 		5F6598F223C731AB0075A17C /* ZCStoryJC.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6598EB23C731AA0075A17C /* ZCStoryJC.h */; };
 		5F6598F323C731AB0075A17C /* ZCStoryJC.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6598EB23C731AA0075A17C /* ZCStoryJC.h */; };
+		5F6D899A24751A9100D33318 /* SVThreadGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D899824751A9000D33318 /* SVThreadGroup.cpp */; };
+		5F6D899B24751A9100D33318 /* SVThreadGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D899824751A9000D33318 /* SVThreadGroup.cpp */; };
+		5F6D899C24751A9100D33318 /* SVThreadGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D899824751A9000D33318 /* SVThreadGroup.cpp */; };
+		5F6D899D24751A9100D33318 /* SVThreadGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D899824751A9000D33318 /* SVThreadGroup.cpp */; };
+		5F6D899E24751A9100D33318 /* SVThreadGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6D899924751A9100D33318 /* SVThreadGroup.h */; };
+		5F6D899F24751A9100D33318 /* SVThreadGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6D899924751A9100D33318 /* SVThreadGroup.h */; };
+		5F6D89A024751A9100D33318 /* SVThreadGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6D899924751A9100D33318 /* SVThreadGroup.h */; };
+		5F6D89A124751A9100D33318 /* SVThreadGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6D899924751A9100D33318 /* SVThreadGroup.h */; };
 		5F7D5FE6215F407700803BCF /* SVDetectMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */; };
 		5F7D5FE7215F407700803BCF /* SVDetectMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */; };
 		5F7D5FE8215F407700803BCF /* SVDetectMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */; };
@@ -6287,6 +6295,8 @@
 		5F6598E123C718A40075A17C /* ZCStoryMgr.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ZCStoryMgr.cpp; sourceTree = "<group>"; };
 		5F6598EA23C731A90075A17C /* ZCStoryJC.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ZCStoryJC.cpp; sourceTree = "<group>"; };
 		5F6598EB23C731AA0075A17C /* ZCStoryJC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCStoryJC.h; sourceTree = "<group>"; };
+		5F6D899824751A9000D33318 /* SVThreadGroup.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVThreadGroup.cpp; sourceTree = "<group>"; };
+		5F6D899924751A9100D33318 /* SVThreadGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVThreadGroup.h; sourceTree = "<group>"; };
 		5F7D5D5C215F407700803BCF /* SVDetectMgr.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVDetectMgr.cpp; sourceTree = "<group>"; };
 		5F7D5D5D215F407700803BCF /* SVPerson.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVPerson.cpp; sourceTree = "<group>"; };
 		5F7D5D5E215F407700803BCF /* SVDetectMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDetectMgr.h; sourceTree = "<group>"; };
@@ -8671,6 +8681,8 @@
 		5F7D5F0A215F407700803BCF /* work */ = {
 			isa = PBXGroup;
 			children = (
+				5F6D899824751A9000D33318 /* SVThreadGroup.cpp */,
+				5F6D899924751A9100D33318 /* SVThreadGroup.h */,
 				5F7D5FC7215F407700803BCF /* SVThread.cpp */,
 				5F7D5FD1215F407700803BCF /* SVThread.h */,
 				5F7D5F14215F407700803BCF /* SVThreadPool.cpp */,
@@ -9855,6 +9867,7 @@
 				020C449322DC5DCC00201753 /* btGjkCollisionDescription.h in Headers */,
 				5F7D6359215F407800803BCF /* Json.h in Headers */,
 				020C444F22DC5DCC00201753 /* btDbvtBroadphase.h in Headers */,
+				5F6D89A124751A9100D33318 /* SVThreadGroup.h in Headers */,
 				5F8E68C523750D24003FE1E0 /* SVFrameAniNode.h in Headers */,
 				020C436322DC5DCB00201753 /* btSoftBodyHelpers.h in Headers */,
 				5F7D663F215F407800803BCF /* SVThreadPool.h in Headers */,
@@ -9998,6 +10011,7 @@
 				5F7D63C3215F407800803BCF /* strtod.h in Headers */,
 				020C456F22DC5DCD00201753 /* btEmptyCollisionAlgorithm.h in Headers */,
 				5F7D614F215F407700803BCF /* SVGlobalMgr.h in Headers */,
+				5F6D899F24751A9100D33318 /* SVThreadGroup.h in Headers */,
 				5F7D6921215F407900803BCF /* SVDef.h in Headers */,
 				5F7D6699215F407800803BCF /* SVTexture.h in Headers */,
 				020C471122DC5DCE00201753 /* btSdfCollisionShape.h in Headers */,
@@ -11464,6 +11478,7 @@
 				5F7D6820215F407900803BCF /* SVEventMgr.h in Headers */,
 				5F7D6560215F407800803BCF /* SVRenderStateGL.h in Headers */,
 				5F7D6704215F407900803BCF /* SVThreadWorkCallback.h in Headers */,
+				5F6D899E24751A9100D33318 /* SVThreadGroup.h in Headers */,
 				020C4C3E22DC5DD200201753 /* btTransform.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -11605,6 +11620,7 @@
 				5F7D63C4215F407800803BCF /* strtod.h in Headers */,
 				020C457022DC5DCD00201753 /* btEmptyCollisionAlgorithm.h in Headers */,
 				5F7D6150215F407700803BCF /* SVGlobalMgr.h in Headers */,
+				5F6D89A024751A9100D33318 /* SVThreadGroup.h in Headers */,
 				5F7D6922215F407900803BCF /* SVDef.h in Headers */,
 				5F7D669A215F407800803BCF /* SVTexture.h in Headers */,
 				020C471222DC5DCE00201753 /* btSdfCollisionShape.h in Headers */,
@@ -12632,6 +12648,7 @@
 				5F7D636D215F407800803BCF /* PathAttachment.c in Sources */,
 				020C47A322DC5DCE00201753 /* btConvexHullShape.cpp in Sources */,
 				020C454522DC5DCD00201753 /* btGhostObject.cpp in Sources */,
+				5F6D899D24751A9100D33318 /* SVThreadGroup.cpp in Sources */,
 				5F7D61ED215F407700803BCF /* SVParseMask.cpp in Sources */,
 				5F7D6907215F407900803BCF /* SVGBase.cpp in Sources */,
 				5F7D656B215F407800803BCF /* SVRResGL.cpp in Sources */,
@@ -13130,6 +13147,7 @@
 				5C0C6040219BFF790052A826 /* SoundTouch.cpp in Sources */,
 				5F7D6316215F407800803BCF /* VertexEffect.c in Sources */,
 				020C43D622DC5DCC00201753 /* b3TypedConstraint.cpp in Sources */,
+				5F6D899A24751A9100D33318 /* SVThreadGroup.cpp in Sources */,
 				5C0C6044219BFF790052A826 /* PeakFinder.cpp in Sources */,
 				02381EFD22437FE300584EEF /* SVMtlBlackWhite.cpp in Sources */,
 				021B237E23E56D8F00BFC66D /* SVARAnchor.cpp in Sources */,
@@ -14079,6 +14097,7 @@
 				020C46B222DC5DCD00201753 /* btConvexTriangleMeshShape.cpp in Sources */,
 				020C48A022DC5DCF00201753 /* btMultiBodyMLCPConstraintSolver.cpp in Sources */,
 				5F7D614C215F407700803BCF /* SVParticles.cpp in Sources */,
+				5F6D899C24751A9100D33318 /* SVThreadGroup.cpp in Sources */,
 				020C470A22DC5DCE00201753 /* btStaticPlaneShape.cpp in Sources */,
 				5F7D6094215F407700803BCF /* SVFilterGenLUT.cpp in Sources */,
 				020C3DE322D316BE00201753 /* SVMtlDark.cpp in Sources */,
@@ -14666,6 +14685,7 @@
 				020C46B122DC5DCD00201753 /* btConvexTriangleMeshShape.cpp in Sources */,
 				020C489F22DC5DCF00201753 /* btMultiBodyMLCPConstraintSolver.cpp in Sources */,
 				5F7D614B215F407700803BCF /* SVParticles.cpp in Sources */,
+				5F6D899B24751A9100D33318 /* SVThreadGroup.cpp in Sources */,
 				020C470922DC5DCE00201753 /* btStaticPlaneShape.cpp in Sources */,
 				5F7D6093215F407700803BCF /* SVFilterGenLUT.cpp in Sources */,
 				020C3DE222D316BE00201753 /* SVMtlDark.cpp in Sources */,

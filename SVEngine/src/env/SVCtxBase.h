@@ -21,11 +21,7 @@ namespace sv {
         
         virtual bool activeContext();           //激活上下文
         
-        virtual void* getContext();             //获取上下文
-        
-    protected:
-        cb_func_op m_call_create;
-        SVString m_info_create;
+        virtual bool swap();
     };
     
 }//!namespace sv

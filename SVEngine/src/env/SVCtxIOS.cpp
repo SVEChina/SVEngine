@@ -38,17 +38,6 @@ SVCtxIOS::~SVCtxIOS() {
     SV_LOG_INFO("destroy context ios\n");
 }
 
-////交换场景
-//void SVCtxIOS::swapRenderTarget(SVRenderTargetPtr _target){
-//    SVCtxBase::swapRenderTarget(_target);   //切换到目标的FBO
-//    if(m_pGLContext){
-//        bool t_flag = [m_pGLContext presentRenderbuffer:GL_RENDERBUFFER];
-//        if(!t_flag){
-//            NSLog(@"presentRenderbuffer error!");
-//        }
-//    }
-//}
-
 bool SVCtxIOS::activeContext(){
     if(m_pGLContext){
         return [EAGLContext setCurrentContext:m_pGLContext];
@@ -57,8 +46,17 @@ bool SVCtxIOS::activeContext(){
     return false;
 }
 
-void* SVCtxIOS::getContext(){
-    return (__bridge void *)m_pGLContext;
+//交换场景
+bool SVCtxIOS::swap(){
+    if(m_pGLContext){
+        bool t_flag = [m_pGLContext presentRenderbuffer:GL_RENDERBUFFER];
+        if(!t_flag){
+            NSLog(@"presentRenderbuffer error!");
+            return false;
+        }
+        return true;
+    }
+    return false;
 }
 
 #endif

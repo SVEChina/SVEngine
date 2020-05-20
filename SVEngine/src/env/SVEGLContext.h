@@ -25,9 +25,9 @@ namespace sv {
 
         ~SVEGLContext();
 
-//        virtual void swapRenderTarget(SVRenderTargetPtr _target);
-
         virtual bool activeContext();
+        
+        virtual bool swap();
 
         virtual void* getContext();
 
@@ -62,8 +62,6 @@ namespace sv {
         void destroyContext();
 
         bool active();
-
-        bool swap();
     };
 
 }//!namespace sv
