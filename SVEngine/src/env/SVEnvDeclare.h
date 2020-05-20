@@ -26,7 +26,7 @@ namespace sv {
 #endif
         
 #ifdef SV_OSX
-    DECLARE_SHAREPTR(SVContextOSX);
+    DECLARE_SHAREPTR(SVCtxOSXGL);
 #endif
 
 

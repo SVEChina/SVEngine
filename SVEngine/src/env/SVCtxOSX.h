@@ -1,5 +1,5 @@
 //
-// SVContextOSX.h
+// SVCtxOSXGL.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
@@ -18,19 +18,27 @@
 namespace sv {
 
     //mac上跑的 只有gl20,gl30,metle的渲染器
-    class SVContextOSX: public SVCtxBase {
+
+    class SVCtxOSXGL: public SVCtxBase {
     public:
-        SVContextOSX(void* _context,void* _pixelFormate,s32 _glversion);
+        SVCtxOSXGL(void* _context,void* _pixelFormate,s32 _glversion);
         
-        ~SVContextOSX();
+        ~SVCtxOSXGL();
         
         virtual bool activeContext();
         
-        virtual void* getContext();
-        
-    protected:
-        s32 m_glversion;
         NSOpenGLContext* m_pGLContext;
+    };
+
+    //
+    class SVCtxOSXMetal: public SVCtxBase {
+    public:
+        SVCtxOSXMetal();
+        
+        ~SVCtxOSXMetal();
+        
+        virtual bool activeContext();
+        
     };
     
 }//!namespace sv
