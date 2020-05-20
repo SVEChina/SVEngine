@@ -15,69 +15,66 @@
 
 SVThreadPool::SVThreadPool(SVInst* _app)
 :SVGBase(_app){
-    m_pHelpThread = nullptr;
-    m_pMainThread = nullptr;
-    m_pSyncThread = nullptr;
 }
 
 SVThreadPool::~SVThreadPool(){
 }
 
 void SVThreadPool::init(s32 _sync){
-    //帮助线程
-    m_pHelpThread = MakeSharedPtr<SVThreadHelp>(mApp);
-    m_pHelpThread->startThread();
-    m_pHelpThread->notice();
-    //主线程
-    if(_sync == 0) {
-        //异步方式
-        m_pMainThread = MakeSharedPtr<SVThreadMain>(mApp);
-        m_pMainThread->startThread();
-        m_pMainThread->notice();
-    }else{
-        m_pSyncThread = MakeSharedPtr<SVThreadSync>(mApp);
-        m_pSyncThread->startThread();
-        m_pSyncThread->notice();
-    }
-    m_sync = _sync;
+//    //帮助线程
+//    m_pHelpThread = MakeSharedPtr<SVThreadHelp>(mApp);
+//    m_pHelpThread->startThread();
+//    m_pHelpThread->notice();
+//    //主线程
+//    if(_sync == 0) {
+//        //异步方式
+//        m_pMainThread = MakeSharedPtr<SVThreadMain>(mApp);
+//        m_pMainThread->startThread();
+//        m_pMainThread->notice();
+//    }else{
+//        m_pSyncThread = MakeSharedPtr<SVThreadSync>(mApp);
+//        m_pSyncThread->startThread();
+//        m_pSyncThread->notice();
+//    }
+//    m_sync = _sync;
 }
 
 void SVThreadPool::destroy(){
-    if(m_pHelpThread){
-        m_pHelpThread->stopThread();
-        m_pHelpThread = nullptr;
-    }
-    //
-    if(m_pMainThread){
-        m_pMainThread->stopThread();
-        m_pMainThread = nullptr;
-    }
-    if(m_pSyncThread){
-        m_pSyncThread->stopThread();
-        m_pSyncThread = nullptr;
-    }
+//    if(m_pHelpThread){
+//        m_pHelpThread->stopThread();
+//        m_pHelpThread = nullptr;
+//    }
+//    //
+//    if(m_pMainThread){
+//        m_pMainThread->stopThread();
+//        m_pMainThread = nullptr;
+//    }
+//    if(m_pSyncThread){
+//        m_pSyncThread->stopThread();
+//        m_pSyncThread = nullptr;
+//    }
 }
 
 //
 void SVThreadPool::start(){
-    if(m_pMainThread){
-        m_pMainThread->setAuoWait(false);
-        m_pMainThread->notice();
-    }
-    if(m_pSyncThread){
-        m_pSyncThread->setAuoWait(false);
-        m_pSyncThread->notice();
-    }
+//    if(m_pMainThread){
+//        m_pMainThread->setAuoWait(false);
+//        m_pMainThread->notice();
+//    }
+//    if(m_pSyncThread){
+//        m_pSyncThread->setAuoWait(false);
+//        m_pSyncThread->notice();
+//    }
     
 }
 
 //
 void SVThreadPool::stop(){
-    if(m_pMainThread){
-        m_pMainThread->setAuoWait(false);
-    }
-    if(m_pSyncThread){
-        m_pSyncThread->setAuoWait(false);
-    }
+//    if(m_pMainThread){
+//        m_pMainThread->setAuoWait(false);
+//    }
+//    if(m_pSyncThread){
+//        m_pSyncThread->setAuoWait(false);
+//    }
 }
 

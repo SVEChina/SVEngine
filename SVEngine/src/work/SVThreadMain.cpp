@@ -31,7 +31,7 @@ void SVThreadMain::_innerUpdate(){
     //逻辑数据交换到渲染数据
     mApp->getRenderMgr()->swapData();
     //渲染
-    mApp->getRenderMgr()->render();
+    //mApp->getRenderMgr()->render();
     //输出
     mApp->getBasicSys()->output();
     m_lock->unlock();
@@ -95,11 +95,9 @@ SVThreadSync::~SVThreadSync() {
 }
 
 void SVThreadSync::startThread(){
-    
 }
 
 void SVThreadSync::stopThread(){
-    
 }
 
 void SVThreadSync::syncUpdate(f32 _dt){

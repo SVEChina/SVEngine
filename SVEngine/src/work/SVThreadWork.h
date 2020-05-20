@@ -7,8 +7,7 @@
 #ifndef SV_WORKTHREAD_H
 #define SV_WORKTHREAD_H
 
-#include <thread>
-#include "../base/SVThread.h"
+#include "SVThread.h"
 #include "../base/SVArray.h"
 #include <sys/time.h>
 
