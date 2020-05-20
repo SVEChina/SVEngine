@@ -50,13 +50,11 @@ enum SV_THREAD_STAGE {
     THREAD_STAGE_UPDATE_END
 };
 
-//sv线程运行状态
+//sv线程只有两个状态
+//work和free
 enum SV_THREAD_STATE {
-    THREAD_STATE_NULL = 0,
-    THREAD_STATE_START,
-    THREAD_STATE_SUSPEND,
-    THREAD_STATE_RUN,
-    THREAD_STATE_DESTROY
+    TS_WORK,
+    TS_FREE
 };
 
 //sv渲染器类型

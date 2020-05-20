@@ -1,17 +1,17 @@
 //
-// SVContextIOS.cpp
+// SVCtxIOS.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVContextIOS.h"
+#include "SVCtxIOS.h"
 #include "../app/SVInst.h"
 
 #ifdef SV_IOS
 
 //设备上下文 真的不能随意切换啊 否则这这个设备上下文中创建的所有GL资源全部都失效
-SVContextIOS::SVContextIOS(void* _context,s32 _glversion)
+SVCtxIOS::SVCtxIOS(void* _context,s32 _glversion)
 :SVCtxBase() {
     m_glversion = _glversion;
     if(_context){
@@ -32,14 +32,14 @@ SVContextIOS::SVContextIOS(void* _context,s32 _glversion)
     activeContext();
 }
 
-SVContextIOS::~SVContextIOS() {
+SVCtxIOS::~SVCtxIOS() {
     [EAGLContext setCurrentContext:nil];
     m_pGLContext = nil;
     SV_LOG_INFO("destroy context ios\n");
 }
 
 ////交换场景
-//void SVContextIOS::swapRenderTarget(SVRenderTargetPtr _target){
+//void SVCtxIOS::swapRenderTarget(SVRenderTargetPtr _target){
 //    SVCtxBase::swapRenderTarget(_target);   //切换到目标的FBO
 //    if(m_pGLContext){
 //        bool t_flag = [m_pGLContext presentRenderbuffer:GL_RENDERBUFFER];
@@ -49,7 +49,7 @@ SVContextIOS::~SVContextIOS() {
 //    }
 //}
 
-bool SVContextIOS::activeContext(){
+bool SVCtxIOS::activeContext(){
     if(m_pGLContext){
         return [EAGLContext setCurrentContext:m_pGLContext];
     }
@@ -57,7 +57,7 @@ bool SVContextIOS::activeContext(){
     return false;
 }
 
-void* SVContextIOS::getContext(){
+void* SVCtxIOS::getContext(){
     return (__bridge void *)m_pGLContext;
 }
 

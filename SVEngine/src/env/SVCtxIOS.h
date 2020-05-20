@@ -1,5 +1,5 @@
 //
-// SVContextIOS.cpp
+// SVCtxIOS.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
@@ -18,11 +18,11 @@ namespace sv {
     
     //苹果手机上跑的 只有gles20,gles30,metle的渲染器
 
-    class SVContextIOS: public SVCtxBase {
+    class SVCtxIOS: public SVCtxBase {
     public:
-        SVContextIOS(void* _context,s32 _glversion);
+        SVCtxIOS(void* _context,s32 _glversion);
         
-        ~SVContextIOS();
+        ~SVCtxIOS();
 
         virtual bool activeContext();
         

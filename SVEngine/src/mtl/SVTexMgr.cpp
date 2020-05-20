@@ -167,10 +167,10 @@ void SVTexMgr::_loadTextureSync(SVTexturePtr _tex,cptr8 _name, bool _enableMipMa
 }
 
 void SVTexMgr::_loadTextureAsync(SVTexturePtr _tex, cptr8 _name, bool _enableMipMap) {
-    SVOpTexLoadPtr tTexLoad = MakeSharedPtr<SVOpTexLoad>(mApp, _tex, _name, _enableMipMap);
-    if(mApp->m_pTPool->getHelpThread()){
-        mApp->m_pTPool->getHelpThread()->pushThreadOp(tTexLoad);
-    }
+//    SVOpTexLoadPtr tTexLoad = MakeSharedPtr<SVOpTexLoad>(mApp, _tex, _name, _enableMipMap);
+//    if(mApp->m_pTPool->getHelpThread()){
+//        mApp->m_pTPool->getHelpThread()->pushThreadOp(tTexLoad);
+//    }
 }
 
 bool SVTexMgr::hasTexture(SVTexturePtr _tex){

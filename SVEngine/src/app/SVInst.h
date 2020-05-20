@@ -17,12 +17,14 @@ namespace sv {
     class SVInst : public SVObject {
     public:
         SVInst();
-        
+        //
         virtual ~SVInst();
         //初始化SV
-        virtual void init(s32 _sync = 0);
+        virtual void init();
         //销毁SVå
         virtual void destroy();
+        //增加资源路径
+        void addRespath(cptr8 _path);
         //开始SV
         virtual void startSVE();
         //停止SV
@@ -39,8 +41,6 @@ namespace sv {
         void setTimeState(SV_ENG_TIMESTATE _mode);
         //获取时间状态
         SV_ENG_TIMESTATE getTimeState();
-        //增加资源路径
-        void addRespath(cptr8 _path);
         //获取引擎状态
         inline SV_STATE getState() { return m_svst; }
         
@@ -53,10 +53,9 @@ namespace sv {
         SVGlobalParamPtr m_pGlobalParam;
         //线程管理部分
         SVThreadPoolPtr m_pTPool;
-        
-    protected:
-        s32 m_sync;
+        //
         SV_STATE m_svst;
+        //
         SV_ENG_TIMESTATE m_engTimeState;
         
     public:

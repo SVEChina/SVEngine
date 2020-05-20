@@ -7,7 +7,7 @@
 
 #include "SVOpThread.h"
 #include "../app/SVInst.h"
-#include "../base/SVThread.h"
+#include "../work/SVThread.h"
 #include "../work/SVThreadPool.h"
 #include "../work/SVThreadWork.h"
 

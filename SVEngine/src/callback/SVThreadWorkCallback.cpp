@@ -7,7 +7,7 @@
 
 #include "SVThreadWorkCallback.h"
 #include "../app/SVInst.h"
-#include "../base/SVThread.h"
+#include "../work/SVThread.h"
 #include "../base/SVSign.h"
 #include "../work/SVThreadPool.h"
 //空跑模式

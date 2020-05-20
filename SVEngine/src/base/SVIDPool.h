@@ -28,6 +28,7 @@ namespace sv {
         
         bool _hasID(u32 _uid);
         
+    public:
         u8 m_initialized;
         
         u64 m_seed;

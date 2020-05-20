@@ -33,7 +33,6 @@ void SVRendererGL::init(s32 _ver,void* _context,s32 _w,s32 _h){
     m_inWidth = _w;
     m_inHeight = _h;
     m_glVersion = _ver;
-    //创建主纹理
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
     SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);

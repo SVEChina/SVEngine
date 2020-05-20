@@ -10,9 +10,16 @@
 #include "../base/SVGBase.h"
 #include "SVThreadMain.h"
 #include "SVThreadHelp.h"
+
+//线程池之
+/*  1.单一任务线程
+ *  2.线程组 同时进行 同时等待
+ */
+
 namespace sv {
 
     //线程组(控制线程同步逻辑的)
+
     class SVThreadPool: public SVGBase {
     public:
         SVThreadPool(SVInst* _app);
@@ -27,15 +34,7 @@ namespace sv {
         
         void stop();
         
-        inline SVThreadHelpPtr getHelpThread(){ return m_pHelpThread; }
-        
-        inline SVThreadMainPtr getMainThread(){
-            if (m_sync == 0) {
-                return m_pMainThread;
-            }else{
-                return m_pSyncThread;
-            }
-        }
+
     protected:
         SVThreadHelpPtr m_pHelpThread; //辅助线程
         

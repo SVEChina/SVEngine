@@ -16,7 +16,7 @@ namespace sv {
     //环境
     DECLARE_SHAREPTR(SVCtxBase);
 #ifdef SV_IOS
-    DECLARE_SHAREPTR(SVContextIOS);
+    DECLARE_SHAREPTR(SVCtxIOS);
     //DECLARE_SHAREPTR(SVContextMetal);
 #endif
         
