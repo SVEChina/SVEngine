@@ -9,7 +9,6 @@
 #include "../app/SVInst.h"
 #include "../work/SVThread.h"
 #include "../work/SVThreadPool.h"
-#include "../work/SVThreadWork.h"
 
 //
 SVOpAppMode::SVOpAppMode(SVInst* _app,SV_STATE _mode)

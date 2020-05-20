@@ -17,7 +17,7 @@
 #include "../operate/SVOpParse.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../work/SVThreadPool.h"
-#include "../work/SVThreadHelp.h"
+
 SVTexMgr::SVTexMgr(SVInst *_app)
 :SVGBase(_app) {
     mAsync = false;

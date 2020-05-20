@@ -27,31 +27,36 @@ namespace sv {
         ~SVThread();
         
         //同步接口-开启(创建)
-        virtual void startThread(cb_thread_mission _mission);
+        bool startThread(cb_thread_mission _mission,bool _once = true);
         
         //同步接口-停止(销毁)
-        virtual void stopThread();
+        void stopThread();
         
-        //同步接口-挂起
-        virtual void suspend();
-        
-        //同步接口-唤醒
-        virtual void resume();
-        
-        //设置自动等待
-        virtual void setAuoWait(bool _autowait);
-        
-        //通知
-        virtual void notice();
+//        //同步接口-挂起
+//        virtual void suspend();
+//
+//        //同步接口-唤醒
+//        virtual void resume();
+//
+//        //设置自动等待
+//        virtual void setAuoWait(bool _autowait);
+//
+//        //通知
+//        virtual void notice();
         
     protected:
         
         virtual void _update();
         
     public:
+        pthread_mutex_t m_mutex;
+        pthread_cond_t m_cond;
+        //
         SV_THREAD_STATE m_svTState;     //SV线程状态
         std::thread *m_pThread;         //线程
         cb_thread_mission m_pWorkCallback;
+        bool m_once;
+        bool m_run;
         
     public:
         virtual void swapData();

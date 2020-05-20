@@ -7,7 +7,6 @@
 
 #include "SVOpParse.h"
 #include "../work/SVThreadPool.h"
-#include "../work/SVThreadMain.h"
 #include "../basesys/SVSceneMgr.h"
 #include "../file/SVParseMain.h"
 #include "../node/SVNodeVisit.h"

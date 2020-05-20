@@ -13,7 +13,6 @@
 #include "../mtl/SVMtlCore.h"
 #include "../mtl/SVMtlBeauty.h"
 #include "../work/SVThreadPool.h"
-#include "../work/SVThreadMain.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderCmd.h"

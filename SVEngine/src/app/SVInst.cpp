@@ -10,7 +10,6 @@
 #include "SVGlobalParam.h"
 #include "../base/SVLock.h"
 #include "../work/SVThreadPool.h"
-#include "../work/SVThreadMain.h"
 #include "../file/SVFileMgr.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderState.h"
@@ -64,10 +63,6 @@ void SVInst::stopSVE() {
 
 void SVInst::updateSVE(f32 _dt) {
     if(m_pTPool) {
-//        SVThreadSyncPtr threadSync = DYN_TO_SHAREPTR(SVThreadSync, m_pTPool->getMainThread());
-//        if (threadSync) {
-//            threadSync->syncUpdate(_dt);
-//        }
     }
 }
 

@@ -1,139 +1,82 @@
 #include <sys/time.h>
 #include "SVThread.h"
-#include "../app/SVInst.h"
-#include "../event/SVEventMgr.h"
-#include "../event/SVEventThread.h"
-#include "../base/SVLock.h"
-#include "../base/SVSign.h"
-#include "../callback/SVThreadCallback.h"
 
 SVThread::SVThread(){
-    m_pThread = new std::thread(&SVThread::_update, this);
-    m_pThread.detach(); //线程自动启动，不会等待
-    m_pWorkCallback = nullptr;
+    m_svTState = TS_INIT;
+    m_once = true;
+    m_run = true;
+    m_pThread = nullptr;
+    pthread_mutex_init(&m_mutex, nullptr);
+    if( pthread_mutex_trylock(&m_mutex) == 0 ) {
+        pthread_cond_init(&m_cond, nullptr);    //创建信号量
+        m_pThread = new std::thread(&SVThread::_update, this);  //创建线程
+        m_pThread->detach();     //线程自动启动，不会等待
+        pthread_mutex_unlock(&m_mutex); //释放锁
+    }
 }
 
 SVThread::~SVThread(){
-    //析构线程(这块怎么保证同步销毁？)
     m_pWorkCallback = nullptr;
-    if ( m_pThread->joinable() ) {
+    if ( m_pThread && m_pThread->joinable() ) {
         m_pThread->join();
         delete m_pThread;
         m_pThread = nullptr;
     }
+    pthread_cond_destroy(&m_cond);
+    pthread_mutex_destroy(&m_mutex);
 }
 
-//同步接口
-void SVThread::startThread(cb_thread_mission _mission){
-    m_pWorkCallback = _mission;
-//    if(m_pThread)
-//        return;
-//    SV_LOG_INFO("thread %s start begin \n",m_name.c_str());
-//    m_run = true;
-//    m_signrun->lock();
-//    m_pThread = new std::thread(&SVThread::_update, this);
-//    m_signrun->wait();
-//    m_signrun->unlock();
-//    SV_LOG_INFO("thread %s start success \n",m_name.c_str());
+//如果被多次调用很显然是不行的
+bool SVThread::startThread(cb_thread_mission _mission,bool _once){
+    if( m_svTState == TS_FREE ) {
+        m_once = _once;
+        m_pWorkCallback = _mission;
+        if( pthread_mutex_trylock(&m_mutex) == 0 ) {
+            pthread_cond_signal(&m_cond);   //加锁的目的 是防止被多次调用
+            pthread_mutex_unlock(&m_mutex); //释放锁
+        }
+        return true;
+    }
+    return false;
 }
 
 //同步接口
 void SVThread::stopThread(){
-//    SV_LOG_INFO("thread %s stop begin \n",m_name.c_str());
-//    if (m_pThread) {
-//        m_signrun->lock();
-//        m_run = false;
-//        m_signrun->notice();
-//        m_signrun->unlock();
-//        //析构线程(这块怎么保证同步销毁？)
-//        if (m_pThread->joinable()) {
-//            m_pThread->join();
-//            delete m_pThread;
-//            m_pThread = nullptr;
-//        }
-//    }
-//    SV_LOG_INFO("thread %s stop success \n",m_name.c_str());
-}
-
-void SVThread::_update(){
-    while(1) {
-        //挂起来
+    m_run = false;
+    //空闲状态，让他自动跑起来，结束掉线城
+    if(m_svTState == TS_FREE) {
         
-        //
-        try {
-            if(m_pWorkCallback) {
-                m_pWorkCallback();
-            }
-        }catch( ... ) {
-            m_pThread.join();
-            throw;
-        }
     }
 }
 
-//同步接口-挂起
-void SVThread::suspend(){
-    //m_svTState = THREAD_STATE_SUSPEND;
+void SVThread::_update(){
+    //刚进来，就要挂起来
+    pthread_mutex_lock(&m_mutex);
+    m_svTState = TS_FREE;
+    pthread_cond_wait(&m_cond, &m_mutex);
+    pthread_mutex_unlock(&m_mutex);
+    //进入逻辑主循环
+    m_svTState = TS_WORK;
+    while( m_run ) {
+        try {
+            //执行逻辑
+            if(m_pWorkCallback) {
+                m_pWorkCallback();
+            }
+            if(m_once) {
+                m_pWorkCallback = nullptr;
+            }
+            SV_LOG_ERROR(m_pThread->id);
+            //挂起
+            pthread_mutex_lock(&m_mutex);
+            m_svTState = TS_FREE;
+            pthread_cond_wait(&m_cond, &m_mutex);
+            pthread_mutex_unlock(&m_mutex);
+        }catch( ... ) {
+            m_pThread->join();
+            throw;
+        }
+    }
+    //表示线程已死
+    m_svTState = TS_DESTROY;
 }
-
-//同步接口-唤醒
-void SVThread::resume(){
-//    if( m_signrun ) {
-//        m_signrun->notice();
-//    }
-}
-
-void SVThread::notice(){
-//    if(m_signrun){
-//        m_signrun->notice();
-//    }
-}
-
-void SVThread::setAuoWait(bool _autowait){
-    //m_autoWait = _autowait;
-}
-
-void SVThread::swapData(){
-}
-
-//    //
-//    _innerInit();
-//    //启动
-//    m_signrun->lock();
-//    m_svTState = THREAD_STATE_RUN;
-//    m_signrun->notice();
-//    m_signrun->wait();
-//    m_signrun->unlock();
-//    //
-//    while(m_run){
-//        SV_LOG_INFO("thread %s run begin \n",m_name.c_str());
-//        //线程逻辑
-//        _innerUpdateBegin();
-//        _innerUpdate();
-//        _innerUpdateEnd();
-//        SV_LOG_INFO("thread %s run end \n",m_name.c_str());
-//        //
-//        m_signrun->lock();
-//        if(m_svTState == THREAD_STATE_RUN){
-//            if( _checkAutoWait() ){//自动挂起检测
-//                SV_LOG_INFO("thread %s wait \n",m_name.c_str());
-//                m_signrun->wait();
-//            }
-//        }else if( m_svTState == THREAD_STATE_SUSPEND ) {
-//            m_signrun->wait();
-//            m_svTState = THREAD_STATE_RUN;
-//        }
-//        m_signrun->unlock();
-//    }
-//    //
-//    SV_LOG_INFO("thread %s out run \n",m_name.c_str());
-//    _innerDestroy();    //数据清理
-
-f32 SVThread::getThreadTime(){
-    return m_threadTime;
-}
-
-void SVThread::setThreadTime(f32 _time){
-    m_threadTime = _time;
-}
-

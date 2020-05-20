@@ -7,9 +7,7 @@
 #ifndef SV_THREADPOOL_H
 #define SV_THREADPOOL_H
 
-#include "../base/SVGBase.h"
-#include "SVThreadMain.h"
-#include "SVThreadHelp.h"
+#include "SVThread.h"
 
 //线程池之
 /*  1.单一任务线程
@@ -20,13 +18,13 @@ namespace sv {
 
     //线程组(控制线程同步逻辑的)
 
-    class SVThreadPool: public SVGBase {
+    class SVThreadPool: public SVObject {
     public:
-        SVThreadPool(SVInst* _app);
+        SVThreadPool();
         
         ~SVThreadPool();
         
-        void init(s32 _sync);
+        void init();
         
         void destroy();
         
@@ -34,15 +32,6 @@ namespace sv {
         
         void stop();
         
-
-    protected:
-        SVThreadHelpPtr m_pHelpThread; //辅助线程
-        
-        SVThreadMainPtr m_pMainThread; //主线程
-        
-        SVThreadSyncPtr m_pSyncThread; //同步线程
-        
-        s32 m_sync;
     };
     
 }//!namespace sv

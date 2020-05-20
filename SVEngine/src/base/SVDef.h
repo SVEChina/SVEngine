@@ -53,6 +53,8 @@ enum SV_THREAD_STAGE {
 //sv线程只有两个状态
 //work和free
 enum SV_THREAD_STATE {
+    TS_INIT,
+    TS_DESTROY,
     TS_WORK,
     TS_FREE
 };
