@@ -7,7 +7,7 @@
 
 #include "SVMtlBasedOn.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlBasedOn::SVMtlBasedOn(SVInst *_app)
 :SVMtlCore(_app,"baseFilterAdjustment") {
@@ -188,7 +188,7 @@ void SVMtlBasedOn::setTint(f32 _tint){
     }
 }
 
-void SVMtlBasedOn::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlBasedOn::_submitMtl(SVRendererPtr _render) {
     if((m_BaseOnFlag&MTL_F_BASEON_SHADOW)>0){
         _render->submitUniformf("shadows", m_shadows);
     }
@@ -290,7 +290,7 @@ void SVMtlAcutance::setAcutance(f32 _acutance) {
     }
 }
 
-void SVMtlAcutance::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlAcutance::_submitMtl(SVRendererPtr _render) {
     if((m_BaseOnFlag&MTL_F_BASEON_ACUTANCE)>0){
         _render->submitUniformf("acutance", m_acutance);
     }

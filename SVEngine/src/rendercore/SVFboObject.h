@@ -24,9 +24,9 @@ namespace sv {
             
             virtual ~SVFboObject();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
             virtual void refresh();
             
@@ -67,9 +67,9 @@ namespace sv {
             
             ~SVOutFboObject();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
         private:
             u32 m_fboID;
         };

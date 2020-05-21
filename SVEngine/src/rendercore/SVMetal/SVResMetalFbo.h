@@ -25,9 +25,9 @@ namespace sv {
             
             virtual ~SVResMetalFBO();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
             id<MTLRenderCommandEncoder> getEncoder();
             
@@ -42,9 +42,9 @@ namespace sv {
             
             ~SVResMetalOutFBO();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
         };
         
         //RenderTarget
@@ -54,9 +54,9 @@ namespace sv {
             
             ~SVResMetalRenderTarget();
             
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
             
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
             
             inline int getColorID() { return m_colorID; }
             
@@ -70,9 +70,9 @@ namespace sv {
             
             ~SVResMetalRenderTargetOut();
             
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
             
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
         };
         //
         class SVResMetalRenderTexture : public SVResMetalFBO {
@@ -81,9 +81,9 @@ namespace sv {
             
             ~SVResMetalRenderTexture();
             
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
             
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
             
             void setTexture(SVRResGLTexPtr _tex);
             

@@ -8,7 +8,7 @@
 #include "SVResShader.h"
 #include "../app/SVInst.h"
 #include "../base/SVLock.h"
-#include "SVRendererBase.h"
+#include "SVRenderer.h"
 
 SVResShader::SVResShader(SVInst* _app)
 :SVRObjBase(_app){

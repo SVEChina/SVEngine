@@ -6,7 +6,7 @@
 //
 
 #include "SVMtlNocolor.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 //
 SVMtlNocolor::SVMtlNocolor(SVInst *_app)
@@ -37,7 +37,7 @@ void SVMtlNocolor::update(f32 dt) {
     }
 }
 
-void SVMtlNocolor::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlNocolor::_submitMtl(SVRendererPtr _render) {
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("u_lerp", m_lerp);
 }
@@ -60,7 +60,7 @@ void SVMtlGeo3d::setColor(f32 _r,f32 _g,f32 _b,f32 _a){
     m_color.setColor(_r, _g, _b, _a);
 }
 
-void SVMtlGeo3d::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlGeo3d::_submitMtl(SVRendererPtr _render) {
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf4("u_color", m_color.r, m_color.g, m_color.b, m_color.a);
 }
@@ -77,7 +77,7 @@ SVMtlCoord::SVMtlCoord(SVMtlCoord *_mtl)
 SVMtlCoord::~SVMtlCoord() {
 }
 
-void SVMtlCoord::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlCoord::_submitMtl(SVRendererPtr _render) {
     SVMtlCore::_submitMtl(_render);
 }
 
@@ -111,7 +111,7 @@ SVMtlNetGrid::~SVMtlNetGrid() {
 //uniform vec4 u_border_color;
 //uniform vec4 u_line_color;
 
-void SVMtlNetGrid::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlNetGrid::_submitMtl(SVRendererPtr _render) {
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("u_gsize", m_gridsize);
     _render->submitUniformf("u_border", m_boder); //最小是2.0f
@@ -179,7 +179,7 @@ SVMtlParticleAni::SVMtlParticleAni(SVMtlParticleAni *_mtl)
 SVMtlParticleAni::~SVMtlParticleAni() {
 }
 
-void SVMtlParticleAni::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlParticleAni::_submitMtl(SVRendererPtr _render) {
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformMatrix("s_p_transform", m_p_transform.get());
     _render->submitUniformf4v("animation_transform", m_ani_trans.get());

@@ -8,7 +8,7 @@
 #include "SVResFBO.h"
 #include "../app/SVInst.h"
 #include "../base/SVLock.h"
-#include "SVRendererBase.h"
+#include "SVRenderer.h"
 
 SVResFBO::SVResFBO(SVInst* _app)
 :SVRObjBase(_app){
@@ -19,11 +19,11 @@ SVResFBO:: ~SVResFBO(){
     mApp->m_IDPool.returnUID(m_uid);
 }
 
-void SVResFBO::create(SVRendererBasePtr _renderer){
+void SVResFBO::create(SVRendererPtr _renderer){
     
 }
 
-void SVResFBO::destroy(SVRendererBasePtr _renderer){
+void SVResFBO::destroy(SVRendererPtr _renderer){
     
 }
 

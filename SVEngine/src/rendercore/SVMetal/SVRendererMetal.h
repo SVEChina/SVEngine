@@ -8,7 +8,7 @@
 #ifndef SV_RENDERER_METAL_H
 #define SV_RENDERER_METAL_H
 
-#include "../SVRendererBase.h"
+#include "../SVRenderer.h"
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 //#import <QuartzCore/CAMetalLayer.h>
@@ -20,14 +20,14 @@ namespace sv {
     
     namespace render{
         
-        class SVRendererMetal : public SVRendererBase {
+        class SVRendererMetal : public SVRenderer {
         public:
             SVRendererMetal(SVInst* _app);
             
             ~SVRendererMetal();
             
             //初始化
-            virtual void init(void* _device,s32 _w,s32 _h);
+            virtual void init(s32 _w,s32 _h);
             //销毁
             virtual void destroy();
             //重置大小

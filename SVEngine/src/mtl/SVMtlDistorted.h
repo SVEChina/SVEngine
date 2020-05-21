@@ -28,7 +28,7 @@ namespace sv {
             
             void update(f32 dt);
         protected:
-            virtual void _submitUniform(SVRendererBasePtr _render);
+            virtual void _submitUniform(SVRendererPtr _render);
             void _resetTime();
         };
 

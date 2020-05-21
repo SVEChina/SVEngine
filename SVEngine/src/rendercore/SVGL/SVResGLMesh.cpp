@@ -17,7 +17,7 @@
 #include "../../base/SVDataSwap.h"
 #include "../../base/SVLock.h"
 #include "../../rendercore/SVRenderMgr.h"
-#include "../SVRendererBase.h"
+#include "../SVRenderer.h"
 #include "../SVGL/SVRendererGL.h"
 #include "../SVResShader.h"
 
@@ -28,15 +28,15 @@ SVResGLVBO::SVResGLVBO(SVInst* _app)
 SVResGLVBO::~SVResGLVBO(){
 }
 
-void SVResGLVBO::create(SVRendererBasePtr _renderer) {
+void SVResGLVBO::create(SVRendererPtr _renderer) {
     SVResVBO::create(_renderer);
 }
 
-void SVResGLVBO::destroy(SVRendererBasePtr _renderer) {
+void SVResGLVBO::destroy(SVRendererPtr _renderer) {
     SVResVBO::destroy(_renderer);
 }
 
-void SVResGLVBO::render(SVRendererBasePtr _renderer) {
+void SVResGLVBO::render(SVRendererPtr _renderer) {
     SVResVBO::render(_renderer);
 }
 
@@ -67,11 +67,11 @@ void SVResGLRenderMesh::_reset(){
     m_useVAO = false;
 }
 
-void SVResGLRenderMesh::create(SVRendererBasePtr _renderer){
+void SVResGLRenderMesh::create(SVRendererPtr _renderer){
     SVResGLVBO::create(_renderer);
 }
 
-void SVResGLRenderMesh::destroy(SVRendererBasePtr _renderer) {
+void SVResGLRenderMesh::destroy(SVRendererPtr _renderer) {
     if (m_indexID > 0) {
         glDeleteBuffers(1, &m_indexID);
         m_indexID = 0;
@@ -135,7 +135,7 @@ void SVResGLRenderMesh::setVertexType(VFTYPE type) {
 }
 
 void SVResGLRenderMesh::setIndexData(SVDataSwapPtr _data,s32 _num){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(_data && t_renderer){
         if(_num>m_indexNum) {
             if (m_indexID > 0) {
@@ -188,7 +188,7 @@ void SVResGLRenderMesh::setInstanceOffsetData(SVDataSwapPtr _pdata, u32 _instanc
 }
 
 void SVResGLRenderMesh::setVertexData(SVDataSwapPtr _data){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(_data && t_renderer){
         if(m_vboID == 0) {
             glGenBuffers(1, &m_vboID);
@@ -201,8 +201,8 @@ void SVResGLRenderMesh::setVertexData(SVDataSwapPtr _data){
     }
 }
 
-void SVResGLRenderMesh::render(SVRendererBasePtr _renderer) {
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+void SVResGLRenderMesh::render(SVRendererPtr _renderer) {
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer) {
         return ;
     }
@@ -276,7 +276,7 @@ void SVResGLRenderMesh::render(SVRendererBasePtr _renderer) {
 }
 
 void SVResGLRenderMesh::_updateVertDsp() {
-     SVRendererBasePtr t_renderer = mApp->getRenderer();
+     SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         t_renderer->svUpdateVertexFormate(m_vftype,m_pointNum,m_seqMode);
     }
@@ -296,7 +296,7 @@ void SVResGLRenderMesh::_updateInstanceDsp(){
 }
 
 void SVResGLRenderMesh::_bindVerts(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         if(m_indexID>0){
             t_renderer->svBindIndexBuffer(m_indexID);
@@ -313,7 +313,7 @@ void SVResGLRenderMesh::_bindVerts(){
 }
 
 void SVResGLRenderMesh::_unbindVerts(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         for(s32 i=0;i<8;i++){
             glDisableVertexAttribArray(i);
@@ -352,11 +352,11 @@ void SVResGLRenderMeshDvid::_reset(){
     btagentID = 0;
 }
 
-void SVResGLRenderMeshDvid::create(SVRendererBasePtr _renderer){
+void SVResGLRenderMeshDvid::create(SVRendererPtr _renderer){
     SVResGLRenderMesh::create(_renderer);
 }
 
-void SVResGLRenderMeshDvid::destroy(SVRendererBasePtr _renderer) {
+void SVResGLRenderMeshDvid::destroy(SVRendererPtr _renderer) {
     SVResGLRenderMesh::destroy(_renderer);
     if (vertex2ID_0 != 0){
         glDeleteBuffers(1, &vertex2ID_0);
@@ -584,8 +584,8 @@ void SVResGLRenderMeshDvid::updateData(RENDERMESHDATA& _data) {
     setInstanceOffsetData(_data.pDataInsOffset, _data.instanceCount);
 }
 
-void SVResGLRenderMeshDvid::render(SVRendererBasePtr _renderer){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+void SVResGLRenderMeshDvid::render(SVRendererPtr _renderer){
+    SVRendererPtr t_renderer = mApp->getRenderer();
     SVRendererGLPtr t_rendererGL = std::dynamic_pointer_cast<SVRendererGL>(t_renderer);
     if(t_rendererGL) {
         

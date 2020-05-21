@@ -21,9 +21,9 @@ namespace sv {
             
             ~SVRenderTexture();
             
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
             
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
             
             void setTexture(SVTexturePtr _tex);
             

@@ -24,9 +24,9 @@ namespace sv {
 
             virtual void init(cptr8 _name, s32 _type, s32 _width, s32 _height, s32 _informate, s32 _dateformate);
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
             virtual void refreshParam();
             
@@ -73,9 +73,9 @@ namespace sv {
             
             virtual void init(cptr8 _name, s32 _type, s32 _width, s32 _height, s32 _informate, s32 _dateformate);
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
         };
         
     }//!namespace mtl

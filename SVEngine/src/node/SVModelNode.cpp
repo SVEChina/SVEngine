@@ -19,7 +19,7 @@
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../basesys/SVConfig.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../core/SVModel.h"
 #include "../core/SVMesh.h"
 

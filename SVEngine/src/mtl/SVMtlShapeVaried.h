@@ -27,7 +27,7 @@ namespace sv {
             virtual void update(f32 dt);
             
         protected:
-            void _submitMtl(SVRendererBasePtr _render); 
+            void _submitMtl(SVRendererPtr _render); 
 
             f32 m_startPoint[48];
             f32 m_endPoint[48];

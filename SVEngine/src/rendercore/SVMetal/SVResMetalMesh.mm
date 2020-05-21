@@ -16,7 +16,7 @@
 #include "../../base/SVDataSwap.h"
 #include "../../base/SVLock.h"
 #include "../../rendercore/SVRenderMgr.h"
-#include "../SVRendererBase.h"
+#include "../SVRenderer.h"
 
 /*
 SVResMetalBuf
@@ -30,7 +30,7 @@ SVResMetalBuf::SVResMetalBuf(SVInst* _app)
 SVResMetalBuf::~SVResMetalBuf() {
 }
 
-void SVResMetalBuf::create(SVRendererBasePtr _renderer) {
+void SVResMetalBuf::create(SVRendererPtr _renderer) {
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
     if (t_rendeMetalPtr && m_pData) {
         m_pData->lockData();
@@ -40,7 +40,7 @@ void SVResMetalBuf::create(SVRendererBasePtr _renderer) {
     }
 }
 
-void SVResMetalBuf::destroy(SVRendererBasePtr _renderer) {
+void SVResMetalBuf::destroy(SVRendererPtr _renderer) {
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
     if (t_rendeMetalPtr) {
         
@@ -87,7 +87,7 @@ SVResMetalRenderMesh::~SVResMetalRenderMesh() {
     
 }
 
-void SVResMetalRenderMesh::create(SVRendererBasePtr _renderer) {
+void SVResMetalRenderMesh::create(SVRendererPtr _renderer) {
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
     if (t_rendeMetalPtr) {
         if(m_pDataVertex) {
@@ -178,13 +178,13 @@ void SVResMetalRenderMesh::create(SVRendererBasePtr _renderer) {
     }
 }
 
-void SVResMetalRenderMesh::destroy(SVRendererBasePtr _renderer) {
+void SVResMetalRenderMesh::destroy(SVRendererPtr _renderer) {
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
     if (t_rendeMetalPtr) {
     }
 }
 
-void SVResMetalRenderMesh::render(SVRendererBasePtr _renderer) {
+void SVResMetalRenderMesh::render(SVRendererPtr _renderer) {
     SVRendererMetalPtr t_rendeMetalPtr = std::dynamic_pointer_cast<SVRendererMetal>(_renderer);
     if (t_rendeMetalPtr) {
         //设置顶点

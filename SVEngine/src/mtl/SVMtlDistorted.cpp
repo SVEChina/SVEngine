@@ -8,7 +8,7 @@
 
 #include "SVMtlDistorted.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlDistorted::SVMtlDistorted(SVInst *_app)
 :SVMtlADFilterBase(_app,"filterdistorted") {
@@ -42,7 +42,7 @@ void SVMtlDistorted::update(f32 dt) {
     m_accTime += dt;
 }
 
-void SVMtlDistorted::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlDistorted::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf("time", m_accTime/m_time);
 }

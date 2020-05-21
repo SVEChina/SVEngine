@@ -28,6 +28,8 @@ namespace sv {
         
         virtual bool swap();
         
+        virtual SVRendererPtr createRenderer();
+        
     protected:
         s32 m_glversion;
         EAGLContext* m_pGLContext;

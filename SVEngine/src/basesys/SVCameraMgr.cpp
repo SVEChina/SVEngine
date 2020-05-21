@@ -10,7 +10,7 @@
 #include "../node/SVCameraNode.h"
 #include "../base/SVLock.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../rendercore/SVRenderTexture.h"
 #include "../rendercore/SVRenderScene.h"
 #include "../rendercore/SVRenderCmd.h"
@@ -55,7 +55,7 @@ void SVCameraMgr::update(f32 dt) {
         m_mainCamera->update(dt);
         //
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-        SVRendererBasePtr t_renderer = mApp->getRenderer();
+        SVRendererPtr t_renderer = mApp->getRenderer();
         if(t_renderer && t_renderer->getRenderTexture() ) {
             m_mainCamera->addLinkFboObject( t_renderer->getRenderTexture() );
         }
@@ -74,7 +74,7 @@ void SVCameraMgr::update(f32 dt) {
         m_uiCamera->update(dt);
         //
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-        SVRendererBasePtr t_renderer = mApp->getRenderer();
+        SVRendererPtr t_renderer = mApp->getRenderer();
         if(t_rs && t_renderer) {
             FMat4 t_vm = m_uiCamera->getViewMatObj();
             FMat4 t_pm = m_uiCamera->getProjectMatObj();

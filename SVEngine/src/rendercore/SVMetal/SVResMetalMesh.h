@@ -23,9 +23,9 @@ namespace sv {
             
             virtual ~SVResMetalBuf();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
         protected:
             id<MTLBuffer> m_pVerBuf;
@@ -38,11 +38,11 @@ namespace sv {
             
             ~SVResMetalRenderMesh();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
-            virtual void render(SVRendererBasePtr _renderer);
+            virtual void render(SVRendererPtr _renderer);
             
             virtual void updateConf(RENDERMESHCONF& _conf);
             

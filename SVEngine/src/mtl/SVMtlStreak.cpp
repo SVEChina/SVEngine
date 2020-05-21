@@ -8,7 +8,7 @@
 
 #include "SVMtlStreak.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlStreak::SVMtlStreak(SVInst *_app)
 :SVMtlADFilterBase(_app,"filterstreak2") {
@@ -64,7 +64,7 @@ void SVMtlStreak::update(f32 dt) {
     m_accTime += dt;
 }
 
-void SVMtlStreak::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlStreak::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf("lerp", m_lerp);
 }

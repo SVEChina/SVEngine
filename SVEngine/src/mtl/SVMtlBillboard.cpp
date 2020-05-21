@@ -7,7 +7,7 @@
 
 #include "SVMtlBillboard.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVCameraNode.h"
 SVMtlBillboard::SVMtlBillboard(SVInst *_app)
@@ -48,7 +48,7 @@ void SVMtlBillboard::setUp(FVec3 &_up){
     m_up.set(_up);
 }
 
-void SVMtlBillboard::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlBillboard::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf3v("u_up", m_up.get());
     _render->submitUniformf3v("u_viewPos", m_viewPos.get());

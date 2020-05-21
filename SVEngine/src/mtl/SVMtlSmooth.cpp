@@ -7,7 +7,7 @@
 //
 
 #include "SVMtlSmooth.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 
 SVMtlSmooth::SVMtlSmooth(SVInst *_app , SVString _name)
@@ -32,7 +32,7 @@ SVMtlCorePtr SVMtlSmooth::clone(){
     return PointerSharedPtr<SVMtlSmooth>(new SVMtlSmooth(this));
 }
 
-void SVMtlSmooth::_submitMtl(SVRendererBasePtr _render){
+void SVMtlSmooth::_submitMtl(SVRendererPtr _render){
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("m_smooth", m_smooth);
     _render->submitUniformf("m_width", m_w);

@@ -30,7 +30,7 @@ SVRenderTexture::SVRenderTexture(SVInst *_app,SVTexturePtr _tex ,bool _depth,boo
 SVRenderTexture::~SVRenderTexture() {
 }
 
-void SVRenderTexture::create(SVRendererBasePtr _renderer) {
+void SVRenderTexture::create(SVRendererPtr _renderer) {
     SVRObjBase::create(_renderer);
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(_renderer);
     if (t_renderGLPtr) {
@@ -55,7 +55,7 @@ void SVRenderTexture::create(SVRendererBasePtr _renderer) {
 //    }
 }
 
-void SVRenderTexture::destroy(SVRendererBasePtr _renderer) {
+void SVRenderTexture::destroy(SVRendererPtr _renderer) {
     if (m_objFBOPtr) {
         m_objFBOPtr->destroy(_renderer);
     }

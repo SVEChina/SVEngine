@@ -8,7 +8,7 @@
 
 #include "SVMtlRainbowColor.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlRainbowColor::SVMtlRainbowColor(SVInst *_app)
 :SVMtlADFilterBase(_app,"filterrainbowcolor") {
@@ -48,7 +48,7 @@ void SVMtlRainbowColor::update(f32 dt) {
     m_accTime += dt;
 }
 
-void SVMtlRainbowColor::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlRainbowColor::_submitUniform(SVRendererPtr _render) {
     SVMtlADFilterBase::_submitUniform(_render);
     _render->submitUniformf("lerp", m_lerp);
 }

@@ -44,7 +44,7 @@ namespace sv {
             
             FVec3& getLightPos();
         protected:
-            void _submitMtl(SVRendererBasePtr _render);
+            void _submitMtl(SVRendererPtr _render);
             f32   m_ambientStrength;
             FVec3 m_ambient_color;
             FVec3 m_lightPos;

@@ -8,7 +8,7 @@
 
 #include "SVMtlShake.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlShake::SVMtlShake(SVInst *_app)
 :SVMtlCore(_app,"filtershake") {
@@ -61,7 +61,7 @@ void SVMtlShake::setSpeed(f32 _speed){
     }
 }
 
-void SVMtlShake::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlShake::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf("time", m_time);
     _render->submitUniformf("amount", m_amount);

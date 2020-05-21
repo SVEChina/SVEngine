@@ -18,7 +18,7 @@
 #include "../../rendercore/SVRenderObject.h"
 #include "../../rendercore/SVRenderMesh.h"
 #include "../../rendercore/SVRenderMgr.h"
-#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderer.h"
 #include "../../rendercore/SVRenderTexture.h"
 #include "../../mtl/SVMtlCore.h"
 #include "../../mtl/SVTexMgr.h"
@@ -844,7 +844,7 @@ void SVPenStroke::_updateARFaceStroke(float _dt){
 
 
 void SVPenStroke::renderStroke(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
     SVCameraNodePtr t_arCam = t_sensor->getARCamera();
@@ -928,7 +928,7 @@ void SVPenStroke::_updateARFaceGlow(float _dt){
 }
 
 void SVPenStroke::renderGlow(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     SVSensorProcessPtr t_sensor = mApp->getBasicSys()->getSensorModule();
     SVCameraNodePtr t_arCam = t_sensor->getARCamera();

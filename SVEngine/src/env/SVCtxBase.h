@@ -9,6 +9,7 @@
 #define SV_CONTEXTBASE_H
 
 #include "../base/SVObject.h"
+#include "../rendercore/SVRenderDeclare.h"
 #include "SVEnvDeclare.h"
 
 namespace sv {
@@ -22,6 +23,8 @@ namespace sv {
         virtual bool activeContext();           //激活上下文
         
         virtual bool swap();
+        
+        virtual SVRendererPtr createRenderer(){ return nullptr;}
     };
     
 }//!namespace sv

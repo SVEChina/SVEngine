@@ -28,7 +28,7 @@ namespace sv {
             virtual void update(f32 dt);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render); 
+            virtual void _submitMtl(SVRendererPtr _render); 
             f32 m_lerp;
             f32 m_transTime;
             f32 m_accTime;
@@ -48,7 +48,7 @@ namespace sv {
             void setColor(f32 _r,f32 _g,f32 _b,f32 _a);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render); 
+            virtual void _submitMtl(SVRendererPtr _render); 
             SVColor m_color;
         };
         
@@ -64,7 +64,7 @@ namespace sv {
             SV_MTL_CLONE(SVMtlCoord);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
         };
         
         //网格
@@ -89,7 +89,7 @@ namespace sv {
             void setGridBoderColor(f32 _r,f32 _g,f32 _b,f32 _a);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             f32 m_boder;
             f32 m_gridsize;
             f32 m_width;
@@ -112,7 +112,7 @@ namespace sv {
             SV_MTL_CLONE(SVMtlParticleAni);
 
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
 
         public:
             FMat4 m_p_transform;

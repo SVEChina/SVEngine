@@ -13,7 +13,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../mtl/SVMtlSmooth.h"
-#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderer.h"
 #include "../../rendercore/SVRenderMgr.h"
 
 
@@ -29,7 +29,7 @@ SVSharpFilter::~SVSharpFilter(){
 }
 
 bool SVSharpFilter::create(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
     SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);

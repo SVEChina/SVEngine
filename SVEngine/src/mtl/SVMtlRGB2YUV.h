@@ -25,7 +25,7 @@ namespace sv {
             
             void setTex(f32 _w, f32 _h);
             
-            void _submitMtl(SVRendererBasePtr _render); 
+            void _submitMtl(SVRendererPtr _render); 
             
         private:
             s32 m_tex_w;

@@ -18,7 +18,7 @@
 #include "../rendercore/SVRenderTexture.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRenderScene.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../core/SVGeoGen.h"
 #include "../core/SVPass.h"
 #include "../app/SVGlobalMgr.h"
@@ -42,7 +42,7 @@ SVFaceShapeNode::~SVFaceShapeNode(){
 
 void SVFaceShapeNode::init(){
     startListen();
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return ;
     SVTexturePtr t_tex = mApp->getTexMgr()->createUnctrlTexture(mApp->m_pGlobalParam->m_inner_width, mApp->m_pGlobalParam->m_inner_height,GL_RGBA, GL_RGBA);

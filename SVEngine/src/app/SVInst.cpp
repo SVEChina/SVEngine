@@ -13,7 +13,7 @@
 #include "../file/SVFileMgr.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderState.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVConfig.h"
 #include "../operate/SVOpBase.h"
@@ -198,7 +198,7 @@ SVPhysicsWorldMgrPtr SVInst::getPhysicsWorldMgr(){
     return m_pGlobalMgr->m_pPhysicSys;
 }
 
-SVRendererBasePtr SVInst::getRenderer() {
+SVRendererPtr SVInst::getRenderer() {
     if(!m_pGlobalMgr)
         return nullptr;
     if(!m_pGlobalMgr->m_pRenderMgr)

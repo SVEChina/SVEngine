@@ -8,7 +8,7 @@
 #include "SVMtl3D.h"
 #include "../basesys/SVCameraMgr.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../node/SVCameraNode.h"
 SVMtl3D::SVMtl3D(SVInst *_app, cptr8 _shader)
 :SVMtlCore(_app, _shader) {
@@ -72,7 +72,7 @@ FVec3& SVMtl3D::getAmbientLightColor(){
     return m_ambient_color;
 }
 
-void SVMtl3D::_submitMtl(SVRendererBasePtr _render){
+void SVMtl3D::_submitMtl(SVRendererPtr _render){
     _render->submitUniformf("u_ambientStrength", m_ambientStrength);
     _render->submitUniformf3v("u_ambient_color", m_ambient_color.get());
     _render->submitUniformf3v("u_lightPos", m_lightPos.get());

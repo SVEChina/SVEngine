@@ -36,7 +36,7 @@ namespace sv {
                 m_h = _h;
             }
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             
             f32 m_smooth;
             f32 m_w;

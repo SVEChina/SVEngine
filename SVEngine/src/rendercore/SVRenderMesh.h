@@ -29,11 +29,11 @@ namespace sv {
             
             ~SVRenderMesh();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
         
-            virtual void render(SVRendererBasePtr _renderer);
+            virtual void render(SVRendererPtr _renderer);
             
             void setIndexPoolType(u32 itype);
             
@@ -88,9 +88,9 @@ namespace sv {
             
             ~SVRenderMeshDvid();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
             virtual void setVertexDataNum(s32 _vertexNum);
             

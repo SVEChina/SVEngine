@@ -30,7 +30,7 @@ namespace sv {
             void setContrast(f32 _smooth);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_brightness;
             f32 m_contrast;
@@ -49,7 +49,7 @@ namespace sv {
             void setSaturation(f32 _smooth);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_saturation;
         };
@@ -67,7 +67,7 @@ namespace sv {
             void setVibrance(f32 _smooth);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_vibrance;
         };
@@ -91,7 +91,7 @@ namespace sv {
             }
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_shadow;
             f32 m_HighLight;
@@ -117,7 +117,7 @@ namespace sv {
             }
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_shadow;
             f32 m_HighLight;
@@ -163,7 +163,7 @@ namespace sv {
             virtual SVMtlCorePtr clone();
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             f32 m_redShift;
             f32 m_greenShift;
             f32 m_blueShift;
@@ -259,7 +259,7 @@ namespace sv {
             }
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_saturationRed;
             f32 m_HueRed;
@@ -303,7 +303,7 @@ namespace sv {
             void setTint(f32 _smooth);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_Temperature;
             f32 m_Tint;
@@ -323,7 +323,7 @@ namespace sv {
             void setGamma(f32 _smooth);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_Gamma;
         };
@@ -342,7 +342,7 @@ namespace sv {
             void setExposure(f32 _smooth);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_Exposure;
         };

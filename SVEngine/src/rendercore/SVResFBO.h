@@ -21,9 +21,9 @@ namespace sv {
             
             virtual ~SVResFBO();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
         protected:
             u32     m_uid;          //唯一ID对象

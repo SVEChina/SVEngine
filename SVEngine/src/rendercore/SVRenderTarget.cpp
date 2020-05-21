@@ -37,9 +37,9 @@ int SVRenderTarget::getColorID() {
     return 0;
 }
 
-void SVRenderTarget::create(SVRendererBasePtr _renderer) {
+void SVRenderTarget::create(SVRendererPtr _renderer) {
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+    SVRendererPtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -61,7 +61,7 @@ void SVRenderTarget::create(SVRendererBasePtr _renderer) {
     }
 }
 
-void SVRenderTarget::destroy(SVRendererBasePtr _renderer) {
+void SVRenderTarget::destroy(SVRendererPtr _renderer) {
     if (m_objFBOPtr) {
         m_objFBOPtr->destroy(_renderer);
     }
@@ -78,9 +78,9 @@ SVRenderTargetDefault::SVRenderTargetDefault(SVInst *_app,s32 _w, s32 _h)
 SVRenderTargetDefault::~SVRenderTargetDefault() {
 }
 
-void SVRenderTargetDefault::create(SVRendererBasePtr _renderer) {
+void SVRenderTargetDefault::create(SVRendererPtr _renderer) {
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+    SVRendererPtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -102,7 +102,7 @@ void SVRenderTargetDefault::create(SVRendererBasePtr _renderer) {
     }
 }
 
-void SVRenderTargetDefault::destroy(SVRendererBasePtr _renderer) {
+void SVRenderTargetDefault::destroy(SVRendererPtr _renderer) {
     if (m_objFBOPtr) {
         m_objFBOPtr->destroy(_renderer);
     }
@@ -123,9 +123,9 @@ SVRenderTargetOut::~SVRenderTargetOut() {
 
 }
 
-void SVRenderTargetOut::create(SVRendererBasePtr _renderer) {
+void SVRenderTargetOut::create(SVRendererPtr _renderer) {
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+    SVRendererPtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -148,7 +148,7 @@ void SVRenderTargetOut::create(SVRendererBasePtr _renderer) {
     }
 }
 
-void SVRenderTargetOut::destroy(SVRendererBasePtr _renderer) {
+void SVRenderTargetOut::destroy(SVRendererPtr _renderer) {
     if (m_objFBOPtr) {
         m_objFBOPtr->destroy(_renderer);
     }
@@ -166,10 +166,10 @@ SVRenderTargetOutTexture::~SVRenderTargetOutTexture() {
 
 }
 
-void SVRenderTargetOutTexture::create(SVRendererBasePtr _renderer) {
+void SVRenderTargetOutTexture::create(SVRendererPtr _renderer) {
     SVRenderTarget::create(_renderer);
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+    SVRendererPtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -199,7 +199,7 @@ void SVRenderTargetOutTexture::create(SVRendererBasePtr _renderer) {
     }
 }
 
-void SVRenderTargetOutTexture::destroy(SVRendererBasePtr _renderer) {
+void SVRenderTargetOutTexture::destroy(SVRendererPtr _renderer) {
     SVRenderTarget::destroy(_renderer);
     if (m_objFBOPtr) {
         m_objFBOPtr->destroy(_renderer);

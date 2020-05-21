@@ -55,9 +55,9 @@ void SVRenderMesh::_resetMeshConf(){
     m_renderMeshConf.dirty = false;
 }
 
-void SVRenderMesh::create(SVRendererBasePtr _renderer){
+void SVRenderMesh::create(SVRendererPtr _renderer){
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+    SVRendererPtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -81,7 +81,7 @@ void SVRenderMesh::create(SVRendererBasePtr _renderer){
     }
 }
 
-void SVRenderMesh::destroy(SVRendererBasePtr _renderer) {
+void SVRenderMesh::destroy(SVRendererPtr _renderer) {
     if (m_objVBOPtr) {
         m_objVBOPtr->destroy(_renderer);
     }
@@ -200,7 +200,7 @@ void SVRenderMesh::createMesh(){
     }
 }
 
-void SVRenderMesh::render(SVRendererBasePtr _renderer) {
+void SVRenderMesh::render(SVRendererPtr _renderer) {
     if (m_objVBOPtr) {
         _updateConf();
         _updateData();
@@ -241,9 +241,9 @@ SVRenderMeshDvid::~SVRenderMeshDvid() {
     _resetMeshData();
 }
 
-void SVRenderMeshDvid::create(SVRendererBasePtr _renderer){
+void SVRenderMeshDvid::create(SVRendererPtr _renderer){
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+    SVRendererPtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -266,7 +266,7 @@ void SVRenderMeshDvid::create(SVRendererBasePtr _renderer){
     }
 }
 
-void SVRenderMeshDvid::destroy(SVRendererBasePtr _renderer) {
+void SVRenderMeshDvid::destroy(SVRendererPtr _renderer) {
     if (m_objVBOPtr) {
         m_objVBOPtr->destroy(_renderer);
     }

@@ -28,9 +28,9 @@ namespace sv {
 
             virtual ~SVRResGLTex();
 
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
 
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
 
             virtual void setTexData(void *_data, s32 _len);
 
@@ -43,9 +43,9 @@ namespace sv {
             
             virtual ~SVRResGLTexWithTexID();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
             virtual void setTexID(u32 _texID);
         };
@@ -103,9 +103,9 @@ namespace sv {
 
             ~SVRResGLTexiOS();
 
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
 
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
 
             void pushData(u8* _srcPtr,s32 _w,s32 _h,s32 _pixelformate);
 
@@ -127,9 +127,9 @@ namespace sv {
 
             virtual ~SVRResGLFBO();
 
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
 
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
 
             virtual void refresh();
 
@@ -180,9 +180,9 @@ namespace sv {
 
             ~SVRResGLOutFBO();
 
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
 
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
         };
 
         //RenderTarget
@@ -192,9 +192,9 @@ namespace sv {
 
             ~SVResGLRenderTarget();
 
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
 
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
 
             inline int getColorID() { return m_colorID; }
 
@@ -209,9 +209,9 @@ namespace sv {
 
             ~SVResGLRenderTargetOut();
 
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
 
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
         };
         
         //
@@ -221,9 +221,9 @@ namespace sv {
 
             ~SVResGLRenderTexture();
 
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
 
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
 
             void setTexture(SVRResGLTexPtr _tex);
 

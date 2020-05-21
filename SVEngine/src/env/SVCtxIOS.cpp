@@ -38,6 +38,10 @@ SVCtxIOS::~SVCtxIOS() {
     SV_LOG_INFO("destroy context ios\n");
 }
 
+SVRendererPtr SVCtxIOS::createRenderer() {
+    return nullptr;
+}
+
 bool SVCtxIOS::activeContext(){
     if(m_pGLContext){
         return [EAGLContext setCurrentContext:m_pGLContext];

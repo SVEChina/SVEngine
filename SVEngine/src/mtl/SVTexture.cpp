@@ -46,12 +46,12 @@ SVTexture::~SVTexture() {
     m_bCreated = false;
 }
 
-void SVTexture::create(SVRendererBasePtr _renderer){
+void SVTexture::create(SVRendererPtr _renderer){
     SV_LOG_INFO("texture create id %d \n",m_uid);
     SVRObjBase::create(_renderer);
     if (!m_bCreated) {
         m_bCreated = true;
-        SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+        SVRendererPtr t_renderBasePtr = mApp->getRenderer();
         SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
         if (t_renderGLPtr) {
             //渲染器类型E_RENDERER_GLES,
@@ -93,7 +93,7 @@ void SVTexture::init(cptr8 _name, s32 _type, s32 _width, s32 _height, s32 _infor
     m_bEnableMipMap = _enableMipMap;
 }
 
-void SVTexture::destroy(SVRendererBasePtr _renderer){
+void SVTexture::destroy(SVRendererPtr _renderer){
     if (m_objTexPtr) {
         m_objTexPtr->destroy(_renderer);
     }
@@ -212,9 +212,9 @@ void SVTextureInputTexID::init(cptr8 _name, s32 _type, s32 _width, s32 _height, 
     m_dataformate = _dateformate;
 }
 
-void SVTextureInputTexID::create(SVRendererBasePtr _renderer){
+void SVTextureInputTexID::create(SVRendererPtr _renderer){
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+    SVRendererPtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -251,7 +251,7 @@ void SVTextureInputTexID::setTexID(u32 _texID){
     }
 }
 
-void SVTextureInputTexID::destroy(SVRendererBasePtr _renderer){
+void SVTextureInputTexID::destroy(SVRendererPtr _renderer){
     if (m_objTexPtr) {
         m_objTexPtr->destroy(_renderer);
     }

@@ -11,7 +11,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../mtl/SVMtlBasedOn.h"
-#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderer.h"
 #include "../../mtl/SVMtlShinning.h"
 #include "../../rendercore/SVRenderMgr.h"
 SVADFilterBase::SVADFilterBase(SVInst *_app, SVMtlCorePtr _mtl)
@@ -30,7 +30,7 @@ bool SVADFilterBase::create(){
     if (!m_mtl) {
         return false;
     }
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
     SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
@@ -64,7 +64,7 @@ void SVADFilterBase::destroy(){
     if(m_pPassNode){
         m_pPassNode->removeFromParent();
     }
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         t_renderer->destroySVTex(E_TEX_FILTER_1);
     }
@@ -96,7 +96,7 @@ void SVADFilterBase::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_alloc
 
 void SVADFilterBase::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //    if (item.HasMember("data") && item["data"].IsString()) {
-//        SVRendererBasePtr t_renderer = mApp->getRenderer();
+//        SVRendererPtr t_renderer = mApp->getRenderer();
 //        if(t_renderer){
 //            t_renderer->createSVTex(E_TEX_FILTER_LUT, 512, 512, GL_RGBA,GL_RGBA);
 //            SVTexturePtr t_tex=t_renderer->getSVTex(E_TEX_FILTER_LUT);

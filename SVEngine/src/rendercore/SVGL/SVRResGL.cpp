@@ -17,7 +17,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../file/SVFileMgr.h"
 #include "../../rendercore/SVRenderMgr.h"
-#include "../SVRendererBase.h"
+#include "../SVRenderer.h"
 #include "../SVGL/SVRendererGL.h"
 
 SVRResGLTex::SVRResGLTex(SVInst* _app)
@@ -37,7 +37,7 @@ SVRResGLTex::~SVRResGLTex(){
     SV_LOG_INFO("SVRResGLTex destroy %d ",m_uid);
 }
 
-void SVRResGLTex:: create(SVRendererBasePtr _renderer) {
+void SVRResGLTex:: create(SVRendererPtr _renderer) {
     SVRObjBase::create(_renderer);
     SV_LOG_INFO("SVRResGLTex create %d ",m_uid);
     if( m_id == 0 ){
@@ -80,7 +80,7 @@ void SVRResGLTex:: create(SVRendererBasePtr _renderer) {
     }
 }
 
-void SVRResGLTex::destroy(SVRendererBasePtr _renderer) {
+void SVRResGLTex::destroy(SVRendererPtr _renderer) {
     SVRObjBase::destroy(_renderer);
     if(m_id>0){
         glDeleteTextures(1, &m_id);
@@ -133,7 +133,7 @@ SVRResGLTexWithTexID::~SVRResGLTexWithTexID(){
     
 }
 
-void SVRResGLTexWithTexID:: create(SVRendererBasePtr _renderer) {
+void SVRResGLTexWithTexID:: create(SVRendererPtr _renderer) {
     SVRObjBase::create(_renderer);
     m_bLoad = true;
     glBindTexture(GL_TEXTURE_2D, m_id);
@@ -143,7 +143,7 @@ void SVRResGLTexWithTexID:: create(SVRendererBasePtr _renderer) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
-void SVRResGLTexWithTexID::destroy(SVRendererBasePtr _renderer) {
+void SVRResGLTexWithTexID::destroy(SVRendererPtr _renderer) {
     SVRObjBase::destroy(_renderer);
     if(m_id>0){
         m_id = 0;
@@ -251,7 +251,7 @@ SVRResGLTexiOS::SVRResGLTexiOS(SVInst *_app): SVRResGLTex(_app)
 SVRResGLTexiOS::~SVRResGLTexiOS() {
 }
 
-void SVRResGLTexiOS::create(SVRendererBasePtr _renderer){
+void SVRResGLTexiOS::create(SVRendererPtr _renderer){
     if(!_renderer)
         return ;
     SVRObjBase::create(_renderer);
@@ -315,7 +315,7 @@ void SVRResGLTexiOS::create(SVRendererBasePtr _renderer){
 #endif
 }
 
-void SVRResGLTexiOS::destroy(SVRendererBasePtr _renderer){
+void SVRResGLTexiOS::destroy(SVRendererPtr _renderer){
 #ifdef SV_IOS
     if(m_pPixelBuf){
         CFRelease(m_pPixelBuf);
@@ -401,7 +401,7 @@ SVRResGLFBO::SVRResGLFBO(SVInst* _app)
 SVRResGLFBO::~SVRResGLFBO(){
 }
 
-void SVRResGLFBO::create(SVRendererBasePtr _renderer){
+void SVRResGLFBO::create(SVRendererPtr _renderer){
     SVRObjBase::create(_renderer);
     glGenFramebuffers(1,&m_fboID);
     _bindColor();
@@ -437,7 +437,7 @@ void SVRResGLFBO::create(SVRendererBasePtr _renderer){
     }
 }
 
-void SVRResGLFBO::destroy(SVRendererBasePtr _renderer){
+void SVRResGLFBO::destroy(SVRendererPtr _renderer){
     if(m_fboID>0) {
         glBindFramebuffer(GL_FRAMEBUFFER,m_fboID);
         if(m_stencil) {
@@ -490,7 +490,7 @@ void SVRResGLFBO::bind() {
         m_dirty = false;
         refresh();
     }
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         t_renderer->svBindFrameBuffer(m_fboID);
         t_renderer->svPushViewPort(0,0,m_width,m_height);
@@ -498,14 +498,14 @@ void SVRResGLFBO::bind() {
 }
 
 void  SVRResGLFBO::clear(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         t_renderer->svBindClearColor(m_fboID);
     }
 }
 
 void SVRResGLFBO::unbind() {
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         t_renderer->svPopViewPort();
         t_renderer->svBindFrameBuffer(m_lastFboID);
@@ -523,11 +523,11 @@ SVRResGLOutFBO::~SVRResGLOutFBO() {
     m_fboID = 0;
 }
 
-void SVRResGLOutFBO::create(SVRendererBasePtr _renderer){
+void SVRResGLOutFBO::create(SVRendererPtr _renderer){
     //外部设置的FBO 直接使用外部的就好
 }
 
-void SVRResGLOutFBO::destroy(SVRendererBasePtr _renderer){
+void SVRResGLOutFBO::destroy(SVRendererPtr _renderer){
     m_fboID = 0;
 }
 
@@ -546,7 +546,7 @@ SVResGLRenderTarget::~SVResGLRenderTarget() {
 
 }
 
-void SVResGLRenderTarget::create(SVRendererBasePtr _renderer) {
+void SVResGLRenderTarget::create(SVRendererPtr _renderer) {
     SVRResGLFBO::create(_renderer);
     if( m_fboID >0 ) {
         glBindFramebuffer(GL_FRAMEBUFFER, m_fboID);
@@ -557,7 +557,7 @@ void SVResGLRenderTarget::create(SVRendererBasePtr _renderer) {
     }
 }
 
-void SVResGLRenderTarget::destroy(SVRendererBasePtr _renderer) {
+void SVResGLRenderTarget::destroy(SVRendererPtr _renderer) {
     if( m_fboID >0 ) {
         glBindFramebuffer(GL_FRAMEBUFFER, m_fboID);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, 0);
@@ -580,10 +580,10 @@ SVResGLRenderTargetOut::~SVResGLRenderTargetOut(){
     m_colorID = 0;
 }
 
-void SVResGLRenderTargetOut::create(SVRendererBasePtr _renderer) {
+void SVResGLRenderTargetOut::create(SVRendererPtr _renderer) {
 }
 
-void SVResGLRenderTargetOut::destroy(SVRendererBasePtr _renderer) {
+void SVResGLRenderTargetOut::destroy(SVRendererPtr _renderer) {
     m_fboID = 0;
     m_colorID = 0;
 }
@@ -607,7 +607,7 @@ SVResGLRenderTexture::SVResGLRenderTexture(SVInst *_app,SVRResGLTexPtr _tex, boo
 SVResGLRenderTexture::~SVResGLRenderTexture() {
 }
 
-void SVResGLRenderTexture::create(SVRendererBasePtr _renderer) {
+void SVResGLRenderTexture::create(SVRendererPtr _renderer) {
     SVRResGLFBO::create(_renderer);
     m_dirty = true;
 }
@@ -624,7 +624,7 @@ void SVResGLRenderTexture::_bindColor() {
     }
 }
 
-void SVResGLRenderTexture::destroy(SVRendererBasePtr _renderer) {
+void SVResGLRenderTexture::destroy(SVRendererPtr _renderer) {
     if(m_fboID>0) {
         glBindFramebuffer(GL_FRAMEBUFFER, m_fboID);
         glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,0,0);

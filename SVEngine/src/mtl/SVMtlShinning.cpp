@@ -8,7 +8,7 @@
 
 #include "SVMtlShinning.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlShinning::SVMtlShinning(SVInst *_app)
 :SVMtlADFilterBase(_app,"filtershinning") {
@@ -62,7 +62,7 @@ void SVMtlShinning::update(f32 dt) {
     m_accTime += dt;
 }
 
-void SVMtlShinning::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlShinning::_submitUniform(SVRendererPtr _render) {
     SVMtlADFilterBase::_submitUniform(_render);
     _render->submitUniformf("lerp", m_lerp);
 }

@@ -8,13 +8,13 @@
 #ifndef SV_RENDERERVULKAN_H
 #define SV_RENDERERVULKAN_H
 
-#include "../SVRendererBase.h"
+#include "../SVRenderer.h"
 
 namespace sv {
     
     namespace render{
         
-        class SVRendererVK : public SVRendererBase {
+        class SVRendererVK : public SVRenderer {
         public:
             SVRendererVK(SVInst* _app);
             

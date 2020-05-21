@@ -13,7 +13,7 @@
 #include "../detect/SVDetectBase.h"
 #include "../detect/SVDetectST.h"
 #include "../detect/SVPerson.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 f32 representParam[24][9]={
     {0,1,-0.688264,-0.666764,0.226535,0.450114,95,0.809862,0.4 },
@@ -142,7 +142,7 @@ void SVMtlFaceShapeVaried::update(f32 dt){
     }
 }
 
-void SVMtlFaceShapeVaried::_submitMtl(SVRendererBasePtr _render){
+void SVMtlFaceShapeVaried::_submitMtl(SVRendererPtr _render){
     _render->submitUniformf2v("startPoint", m_startPoint,24);
     _render->submitUniformf2v("endPoint", m_endPoint,24);
     _render->submitUniformf1v("actionType", m_actionType,24);

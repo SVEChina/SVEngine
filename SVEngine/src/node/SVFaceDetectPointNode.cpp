@@ -16,7 +16,7 @@
 #include "../app/SVInst.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../basesys/SVStaticData.h"
 
 SVFaceDetectPointNode::SVFaceDetectPointNode(SVInst *_app):SVNode(_app) {

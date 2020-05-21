@@ -13,7 +13,7 @@
 #include "../core/SVModel.h"
 #include "../core/SVMesh.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../rendercore/SVRenderMesh.h"
 #include "../base/SVDataSwap.h"
 #include "../basesys/SVSceneMgr.h"

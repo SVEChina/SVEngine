@@ -9,7 +9,7 @@
 #include "SVRenderStream.h"
 #include "SVRenderCmd.h"
 #include "SVRenderMgr.h"
-#include "SVRendererBase.h"
+#include "SVRenderer.h"
 #include "../app/SVInst.h"
 #include "../base/SVLock.h"
 #include "../basesys/SVCameraMgr.h"

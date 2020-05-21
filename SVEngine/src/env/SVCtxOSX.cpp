@@ -21,13 +21,10 @@ SVCtxOSXGL::~SVCtxOSXGL() {
     m_pGLContext = nullptr;
 }
 
-////交换场景
-//void SVCtxOSXGL::swapRenderTarget(SVRenderTargetPtr _target){
-//    SVCtxBase::swapRenderTarget(_target);   //切换到目标的FBO
-//    if( m_pGLContext ) {
-//        [m_pGLContext flushBuffer];
-//    }
-//}
+SVRendererPtr SVCtxOSXGL::createRenderer() {
+    //SVRendererGLPtr t_renderer = Ma
+    return nullptr;
+}
 
 bool SVCtxOSXGL::activeContext(){
     if( m_pGLContext ) {
@@ -52,6 +49,10 @@ SVCtxOSXMetal::SVCtxOSXMetal()
 }
 
 SVCtxOSXMetal::~SVCtxOSXMetal() {
+}
+
+SVRendererPtr SVCtxOSXMetal::createRenderer() {
+    return nullptr;
 }
 
 bool SVCtxOSXMetal::activeContext(){

@@ -31,9 +31,9 @@ SVFboObject::SVFboObject(SVInst *_app)
 SVFboObject::~SVFboObject() {
 }
 
-void SVFboObject::create(SVRendererBasePtr _renderer){
+void SVFboObject::create(SVRendererPtr _renderer){
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+    SVRendererPtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -55,7 +55,7 @@ void SVFboObject::create(SVRendererBasePtr _renderer){
     }
 }
 
-void SVFboObject::destroy(SVRendererBasePtr _renderer) {
+void SVFboObject::destroy(SVRendererPtr _renderer) {
     if (m_objFBOPtr) {
         m_objFBOPtr->destroy(_renderer);
     }
@@ -77,7 +77,7 @@ void SVFboObject::bind() {
     SVRResGLFBOPtr t_tmp = std::dynamic_pointer_cast<SVRResGLFBO>(m_objFBOPtr);
     if (t_tmp) {
         t_tmp->bind();
-        SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+        SVRendererPtr t_renderBasePtr = mApp->getRenderer();
         if(m_link && t_renderBasePtr){
             t_renderBasePtr->pushViewMat(m_mat_view);
             t_renderBasePtr->pushProjMat(m_mat_proj);
@@ -97,7 +97,7 @@ void SVFboObject::unbind() {
     SVRResGLFBOPtr t_tmp = std::dynamic_pointer_cast<SVRResGLFBO>(m_objFBOPtr);
     if (t_tmp) {
         t_tmp->unbind();
-        SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+        SVRendererPtr t_renderBasePtr = mApp->getRenderer();
         if(m_link && t_renderBasePtr){
             t_renderBasePtr->popViewMat();
             t_renderBasePtr->popProjMat();
@@ -166,10 +166,10 @@ SVOutFboObject::~SVOutFboObject() {
     
 }
 
-void SVOutFboObject::create(SVRendererBasePtr _renderer){
+void SVOutFboObject::create(SVRendererPtr _renderer){
     //外部设置的FBO 直接使用外部的就好
     SVRObjBase::create(_renderer);
-    SVRendererBasePtr t_renderBasePtr = mApp->getRenderer();
+    SVRendererPtr t_renderBasePtr = mApp->getRenderer();
     SVRendererGLPtr t_renderGLPtr = std::dynamic_pointer_cast<SVRendererGL>(t_renderBasePtr);
     if (t_renderGLPtr) {
         //渲染器类型E_RENDERER_GLES,
@@ -191,7 +191,7 @@ void SVOutFboObject::create(SVRendererBasePtr _renderer){
     }
 }
 
-void SVOutFboObject::destroy(SVRendererBasePtr _renderer){
+void SVOutFboObject::destroy(SVRendererPtr _renderer){
     if (m_objFBOPtr) {
         m_objFBOPtr->destroy(_renderer);
     }

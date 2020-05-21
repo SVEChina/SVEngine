@@ -21,7 +21,7 @@
 #include "../../rendercore/SVRenderCmd.h"
 #include "../../rendercore/SVRenderScene.h"
 #include "../../rendercore/SVRenderObject.h"
-#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderer.h"
 #include "../../basesys/SVBasicSys.h"
 #include "../../basesys/filter/SVFilterGlow.h"
 #include "../../basesys/filter/SVFilterBlur.h"
@@ -72,7 +72,7 @@ SVPenDraw::~SVPenDraw() {
 
 void SVPenDraw::init(SVGameReadyPtr _ready,SVGameRunPtr _run,SVGameEndPtr _end) {
     SVGameBase::init(_ready,_run,_end);
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if (t_renderer) {
         SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
         s32 t_w = t_tex->getwidth();
@@ -149,7 +149,7 @@ void SVPenDraw::update(f32 _dt) {
 }
 
 void SVPenDraw::_drawStroke(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (t_rs && t_renderer && m_pRenderObj && m_fbo2) {
         SVRenderCmdFboBindPtr t_fbo_bind = MakeSharedPtr<SVRenderCmdFboBind>(m_fbo2);
@@ -184,7 +184,7 @@ void SVPenDraw::_drawStroke(){
     }
 }
 void SVPenDraw::_drawGlow(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if (t_rs && t_renderer && m_pRenderObj && m_fbo1) {
         SVRenderCmdFboBindPtr t_fbo_bind = MakeSharedPtr<SVRenderCmdFboBind>(m_fbo1);

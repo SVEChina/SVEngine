@@ -9,7 +9,7 @@
 #include "SVFboObject.h"
 #include "SVRenderScene.h"
 #include "SVRenderTexture.h"
-#include "SVRendererBase.h"
+#include "SVRenderer.h"
 #include "../base/SVDataSwap.h"
 #include "../event/SVEvent.h"
 #include "../event/SVEventMgr.h"
@@ -31,7 +31,7 @@ SVRenderCmd::~SVRenderCmd() {
     m_pRenderer = nullptr;
 }
 
-void SVRenderCmd::setRenderer(SVRendererBasePtr _renderer) {
+void SVRenderCmd::setRenderer(SVRendererPtr _renderer) {
     m_pRenderer = _renderer;
 }
 

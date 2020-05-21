@@ -58,7 +58,7 @@ namespace sv {
             void setTint(f32 _tint);
             
         protected:
-            void _submitMtl(SVRendererBasePtr _render);
+            void _submitMtl(SVRendererPtr _render);
             
             s32 m_BaseOnFlag;
             //
@@ -95,7 +95,7 @@ namespace sv {
             void setAcutance(f32 _acutance);
             
         protected:
-            void _submitMtl(SVRendererBasePtr _render);
+            void _submitMtl(SVRendererPtr _render);
             
         protected:
             s32 m_BaseOnFlag;

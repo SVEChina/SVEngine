@@ -54,7 +54,7 @@ void SVSensorProcess::update(f32 _dt){
     if(m_pARCamera) {
         m_pARCamera->update(_dt);
         SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-        SVRendererBasePtr t_renderer = mApp->getRenderer();
+        SVRendererPtr t_renderer = mApp->getRenderer();
         if(t_rs && t_renderer) {
             //这不知道要写到哪，先写这了. 晓帆
             FMat4 t_vm = m_pARCamera->getViewMatObj();

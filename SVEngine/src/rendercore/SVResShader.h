@@ -88,11 +88,11 @@ namespace sv {
             
             virtual ~SVResShader();
             
-            virtual void create(SVRendererBasePtr _renderer){}
+            virtual void create(SVRendererPtr _renderer){}
             
-            virtual void destroy(SVRendererBasePtr _renderer){}
+            virtual void destroy(SVRendererPtr _renderer){}
             
-            virtual bool active(SVRendererBasePtr _render){ return false; }
+            virtual bool active(SVRendererPtr _render){ return false; }
             
             void setAF(cptr8 _af);
             

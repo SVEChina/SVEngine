@@ -18,7 +18,7 @@
 #include "../../mtl/SVTexture.h"
 
 SVRendererGL::SVRendererGL(SVInst* _app)
-:SVRendererBase(_app){
+:SVRenderer(_app){
     m_pRState = MakeSharedPtr<SVRenderStateGL>(_app);
 }
 
@@ -27,67 +27,47 @@ SVRendererGL::~SVRendererGL(){
     m_pRenderTex = nullptr;
 }
 
+//#if defined SV_IOS
+//#elif defined SV_ANDROID
+//            virtual void init(s32 _ver,void * _windows,void* context,s32 _w,s32 _h);
+//#elif defined SV_OSX
+//            virtual void init(s32 _ver,void* _context,void* _pixelFormate,s32 _w,s32 _h);
+//#endif
+
 #if defined SV_IOS
 
-void SVRendererGL::init(s32 _ver,void* _context,s32 _w,s32 _h){
+void SVRendererGL::init(s32 _w,s32 _h){
     m_inWidth = _w;
     m_inHeight = _h;
-    m_glVersion = _ver;
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
-    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
-    //主FBO
-    m_pRenderTex = MakeSharedPtr<SVRenderTexture>(mApp,
-                                                  t_tex,
-                                                  true,
-                                                  true);
-    mApp->getRenderMgr()->pushRCmdCreate(m_pRenderTex);
 }
 
 #elif defined SV_ANDROID
 
-void SVRendererGL::init(s32 _ver,void * _windows,void* _context,s32 _w,s32 _h) {
+void SVRendererGL::init(s32 _w,s32 _h) {
     m_inWidth = _w;
     m_inHeight = _h;
-    m_glVersion = _ver;
-    //创建主纹理
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
-    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
-    //主FBO
-    m_pRenderTex = MakeSharedPtr<SVRenderTexture>(mApp,
-                                                  t_tex,
-                                                  true,
-                                                  true);
-    mApp->getRenderMgr()->pushRCmdCreate(m_pRenderTex);
-    //
-    m_pRenderTex->setTexture(t_tex);
 }
 
 #elif defined SV_OSX
-void SVRendererGL::init(s32 _ver,void* _context,void* _pixelFormate,s32 _w,s32 _h) {
+void SVRendererGL::init(s32 _w,s32 _h) {
     m_inWidth = _w;
     m_inHeight = _h;
-    m_glVersion = _ver;
-    //创建主纹理
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
-    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
-    //主FBO
-    m_pRenderTex = MakeSharedPtr<SVRenderTexture>(mApp,
-                                                  t_tex,
-                                                  true,
-                                                  true);
-    mApp->getRenderMgr()->pushRCmdCreate(m_pRenderTex);
-    //
-    m_pRenderTex->setTexture(t_tex);
+//    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
+//    m_pRenderTex = MakeSharedPtr<SVRenderTexture>(mApp,
+//                                                  t_tex,
+//                                                  true,
+//                                                  true);
+//    mApp->getRenderMgr()->pushRCmdCreate(m_pRenderTex);
+//    m_pRenderTex->setTexture(t_tex);
 }
 
 #endif
-
-void SVRendererGL::destroy(){
-    SVRendererBase::destroy();
-}
 
 void SVRendererGL::resize(s32 _w,s32 _h) {
     //
@@ -545,7 +525,7 @@ void SVRendererGL::svBindIndexBuffer(u32 _id) {
 
 //视口
 void SVRendererGL::svPushViewPort(u32 _x,u32 _y,u32 _w,u32 _h) {
-    SVRendererBase::svPushViewPort(_x,_y,_w,_h);
+    SVRenderer::svPushViewPort(_x,_y,_w,_h);
     glViewport(_x, _y, _w, _h);
 }
 

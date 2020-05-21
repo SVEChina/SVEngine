@@ -29,9 +29,9 @@ namespace sv {
             
             virtual ~SVRResMetalTex();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
             virtual void setTexData(void *_data, s32 _len);
             
@@ -56,11 +56,11 @@ namespace sv {
             
             virtual ~SVRResMetalShader();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
-            virtual bool active(SVRendererBasePtr _render);
+            virtual bool active(SVRendererPtr _render);
             
         protected:
             id<MTLFunction> m_pVS;

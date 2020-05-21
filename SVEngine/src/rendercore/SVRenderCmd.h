@@ -27,14 +27,14 @@ namespace sv {
             
             ~SVRenderCmd();
             
-            void setRenderer(SVRendererBasePtr _renderer);
+            void setRenderer(SVRendererPtr _renderer);
             
             virtual void render();
             
             SVString mTag;
             
         protected:
-            SVRendererBasePtr m_pRenderer;
+            SVRendererPtr m_pRenderer;
         };
         
         class SVRenderCmdTransGPU : public SVRenderCmd {

@@ -20,9 +20,9 @@ namespace sv {
             
             ~SVRenderTarget();
             
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
             
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
             
             int getColorID();
             
@@ -40,9 +40,9 @@ namespace sv {
             
             ~SVRenderTargetDefault();
             
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
             
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
         private:
             s32 m_w;
             s32 m_h;
@@ -55,9 +55,9 @@ namespace sv {
             
             ~SVRenderTargetOut();
             
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
             
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
         private:
             s32 m_w;
             s32 m_h;
@@ -71,9 +71,9 @@ namespace sv {
 
             ~SVRenderTargetOutTexture();
 
-            void create(SVRendererBasePtr _renderer);
+            void create(SVRendererPtr _renderer);
 
-            void destroy(SVRendererBasePtr _renderer);
+            void destroy(SVRendererPtr _renderer);
         private:
             s32 m_w;
             s32 m_h;

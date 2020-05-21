@@ -20,9 +20,9 @@ namespace sv {
             
             virtual ~SVResTex();
             
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
             
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
             virtual void setTexData(void *_data, s32 _len);
             

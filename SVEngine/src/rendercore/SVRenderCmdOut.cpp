@@ -13,7 +13,7 @@
 #include "../base/SVDataSwap.h"
 #include "SVRenderMgr.h"
 #include "SVRenderTexture.h"
-#include "SVRendererBase.h"
+#include "SVRenderer.h"
 #include <sys/time.h>
 #include "SVGL/SVRResGL.h"
 #include "SVFboObject.h"
@@ -143,7 +143,7 @@ void SVRenderCmdStreamOutIOS::_fectchdata() {
     s32 m_width = m_fbo->getWidth();
     s32 m_height = m_fbo->getHeight();
     //
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if( t_renderer ) {
         SVTexturePtr t_tex_main = t_renderer->getSVTex(E_TEX_OUTSTREAM);
         SVTextureIOSPtr t_tex_main_ios = std::dynamic_pointer_cast<SVTextureIOS>(t_tex_main);

@@ -7,7 +7,7 @@
 
 #include "SVMtlRGB2YUV.h"
 #include "../app/SVInst.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlRGB2YUV::SVMtlRGB2YUV(SVInst *_app, SV_OUTSTEAMFORMATE formate)
 :SVMtlCore(_app,"rgb2yuvnv21") {
@@ -43,7 +43,7 @@ void SVMtlRGB2YUV::setTex(f32 _w, f32 _h) {
     m_tex_h = _h;
 }
 
-void SVMtlRGB2YUV::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlRGB2YUV::_submitMtl(SVRendererPtr _render) {
     _render->submitUniformf("width", m_tex_w);
     _render->submitUniformf("height", m_tex_h);
 }

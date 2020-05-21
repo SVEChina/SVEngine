@@ -14,7 +14,7 @@
 #include "../physics/bodies/SVPhysicsBodyRope.h"
 #include "../physics/bodies/SVPhysicsBodyCloth.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../rendercore/SVRenderMesh.h"
 SVActPhysics::SVActPhysics(SVInst *_app, SVPhysicsBodyPtr _physicsBody):SVActBase(_app){
     m_physicsBody = _physicsBody;

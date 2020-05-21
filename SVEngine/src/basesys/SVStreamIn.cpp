@@ -20,7 +20,7 @@
 #include "../node/SVShapeVariedNode.h"
 #include "../node/SVSpriteNode.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRenderScene.h"
 #include "../mtl/SVTexture.h"

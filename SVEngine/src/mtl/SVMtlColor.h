@@ -30,7 +30,7 @@ namespace sv {
             
             void setColor(f32 _r, f32 _g, f32 _b, f32 _a);
         protected:
-            virtual void _submitUniform(SVRendererBasePtr _render);
+            virtual void _submitUniform(SVRendererPtr _render);
             
             SVColor m_color;
             

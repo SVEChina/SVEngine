@@ -28,7 +28,7 @@ namespace sv {
             void setSmooth(f32 _smooth);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_lSmoothSize;
         };

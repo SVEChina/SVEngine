@@ -8,7 +8,7 @@
 
 #include "SVMtlFlashWhite.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlFlashWhite::SVMtlFlashWhite(SVInst *_app)
 :SVMtlCore(_app,"filterflashwhite") {
@@ -53,7 +53,7 @@ void SVMtlFlashWhite::setCycle(f32 _cycle){
     }
 }
 
-void SVMtlFlashWhite::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlFlashWhite::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf("time", m_time);
     _render->submitUniformf("cycle", m_cycle);

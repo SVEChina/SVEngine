@@ -8,7 +8,7 @@
 #include "SVResVBO.h"
 #include "../app/SVInst.h"
 #include "../base/SVLock.h"
-#include "SVRendererBase.h"
+#include "SVRenderer.h"
 
 s32 SVResVBO::getVertexFormateSize(VFTYPE _type) {
     if (_type == E_VF_V2) {
@@ -68,13 +68,13 @@ SVResVBO::~SVResVBO(){
     mApp->m_IDPool.returnUID(m_uid);
 }
 
-void SVResVBO::create(SVRendererBasePtr _renderer) {
+void SVResVBO::create(SVRendererPtr _renderer) {
 }
 
-void SVResVBO::destroy(SVRendererBasePtr _renderer) {
+void SVResVBO::destroy(SVRendererPtr _renderer) {
 }
 
-void SVResVBO::render(SVRendererBasePtr _renderer) {
+void SVResVBO::render(SVRendererPtr _renderer) {
     
 }
 

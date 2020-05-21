@@ -11,7 +11,7 @@
 #include "SVRenderStream.h"
 #include "SVRenderTarget.h"
 #include "SVRenderPipline.h"
-#include "SVRendererBase.h"
+#include "SVRenderer.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtlCore.h"
 #include "../base/SVLock.h"
@@ -78,11 +78,11 @@ void SVRenderMgr::pushRCmdCreate(SVRObjBasePtr _robj){
     m_logicLock->unlock();
 }
 
-void SVRenderMgr::setRenderer(SVRendererBasePtr _renderer){
+void SVRenderMgr::setRenderer(SVRendererPtr _renderer){
     m_pRenderer = _renderer;
 }
 
-SVRendererBasePtr SVRenderMgr::getRenderer(){
+SVRendererPtr SVRenderMgr::getRenderer(){
     return m_pRenderer;
 }
 
@@ -98,19 +98,10 @@ SVRenderScenePtr SVRenderMgr::getRenderScene() {
 
 void SVRenderMgr::setRenderTarget(cptr8 _name,SVRenderTargetPtr _rt) {
     m_renderLock->lock();
-    if(!_rt) {
-        m_targetPool.remove(_name);
-    } else {
-        m_targetPool[_name] = _rt;    //没有就增加，有就替换
-    }
     m_renderLock->unlock();
 }
 
 SVRenderTargetPtr SVRenderMgr::getRenderTarget(cptr8 _name) {
-    TARGETPOOL::Iterator it = m_targetPool.find(_name);
-    if(it!=m_targetPool.end()){
-        return it->data;
-    }
     return nullptr;
 }
 
@@ -209,7 +200,6 @@ void SVRenderMgr::clear() {
         m_pRenderScene->clearRenderCmd();
         m_pRenderScene = nullptr;
     }
-    m_targetPool.clear();
     m_renderLock->unlock();
 }
 

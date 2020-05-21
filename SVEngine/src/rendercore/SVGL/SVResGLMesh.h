@@ -25,11 +25,11 @@ namespace sv {
 
             virtual ~SVResGLVBO();
 
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
 
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
             
-            virtual void render(SVRendererBasePtr _renderer);
+            virtual void render(SVRendererPtr _renderer);
         };
         
         //mesh
@@ -39,11 +39,11 @@ namespace sv {
 
             ~SVResGLRenderMesh();
 
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
 
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
 
-            virtual void render(SVRendererBasePtr _renderer);
+            virtual void render(SVRendererPtr _renderer);
             
             virtual void updateConf(RENDERMESHCONF& _conf);
             
@@ -97,11 +97,11 @@ namespace sv {
 
             ~SVResGLRenderMeshDvid();
 
-            virtual void create(SVRendererBasePtr _renderer);
+            virtual void create(SVRendererPtr _renderer);
 
-            virtual void destroy(SVRendererBasePtr _renderer);
+            virtual void destroy(SVRendererPtr _renderer);
 
-            virtual void render(SVRendererBasePtr _renderer);
+            virtual void render(SVRendererPtr _renderer);
             
             virtual void updateData(RENDERMESHDATA& _data);
 

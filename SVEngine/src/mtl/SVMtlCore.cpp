@@ -13,7 +13,7 @@
 #include "../rendercore/SVRenderScene.h"
 #include "../rendercore/SVGL/SVRResGL.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../rendercore/SVResShader.h"
 
 SVMtlCoreParam::SVMtlCoreParam(){
@@ -147,7 +147,7 @@ void SVMtlCore::reloadShader(cptr8 _shader){
 bool SVMtlCore::submitMtl() {
 //    //单线程(交换改变池)
 //    swap();
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
     if (!m_pShader){
@@ -170,7 +170,7 @@ bool SVMtlCore::submitMtl() {
 }
 
 void SVMtlCore::recoverMtl() {
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return ;
     //状态回滚 先
@@ -222,14 +222,14 @@ void SVMtlCore::swap() {
 }
 
 void SVMtlCore::_loadShader() {
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         m_pShader = mApp->getShaderMgr()->getShader(m_mtlname.c_str());
     }
 }
 
 void SVMtlCore::_refreshMatrix(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         if( m_LogicParamMatrix.m_self_view == 0 ) {
             //使用堆栈的
@@ -264,7 +264,7 @@ void SVMtlCore::_refreshModify(){
     }
 }
 
-void SVMtlCore::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlCore::_submitUniform(SVRendererPtr _render) {
     //get uniform
     if((m_LogicMtlFlag0&MTL_F0_MAT_M)>0){
         _render->submitUniformMatrix(NAME_M_MATRIX, m_LogicParamMatrix.m_mat_model);
@@ -303,7 +303,7 @@ void SVMtlCore::_submitUniform(SVRendererBasePtr _render) {
     }
 }
 
-void SVMtlCore::_submitState(SVRendererBasePtr _render) {
+void SVMtlCore::_submitState(SVRendererPtr _render) {
     //更新纹理
     if((m_LogicMtlFlag0&MTL_F0_TEX0)>0){
         _render->submitTex(0, m_LogicParamTex.m_texUnit[0]);
@@ -360,7 +360,7 @@ void SVMtlCore::_submitState(SVRendererBasePtr _render) {
     }
 }
 
-void SVMtlCore::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlCore::_submitMtl(SVRendererPtr _render) {
 }
 
 void SVMtlCore::setTexture(s32 _chanel,SVTexturePtr _texture) {

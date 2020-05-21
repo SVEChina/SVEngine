@@ -14,7 +14,7 @@
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderCmd.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../rendercore/SVRenderScene.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
@@ -28,7 +28,7 @@ SVFrameOutTex::SVFrameOutTex(SVInst *_app)
     m_pMtl = MakeSharedPtr<SVMtlCore>(mApp,"rgba");
     m_pMesh = mApp->getDataMgr()->m_screenMesh;
     //
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if( t_renderer ) {
 #if defined (SV_IOS)
         SVTexturePtr t_tex = t_renderer->createSVTexIOS(E_TEX_OUTSTREAM,
@@ -56,7 +56,7 @@ SVFrameOutTex::~SVFrameOutTex(){
 
 void SVFrameOutTex::update(f32 _dt){
     SVNode::update(_dt);
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(m_pMtl){
         m_pMtl->setModelMatrix(m_absolutMat.get());
         m_pMtl->setTexture(0,t_renderer->getSVTex(E_TEX_MAIN));    //那第一张纹理
@@ -67,14 +67,14 @@ void SVFrameOutTex::update(f32 _dt){
 }
 
 s32 SVFrameOutTex::getTexId(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     SVTexturePtr t_out_tex = t_renderer->getSVTex(E_TEX_OUTSTREAM);
     return t_out_tex->getTexID();
 }
 
 void SVFrameOutTex::render(){
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     SVTexturePtr t_out_tex = t_renderer->getSVTex(E_TEX_OUTSTREAM);
     if (t_rs && false  == t_rs->isSuspend() ) {
                 SVRenderCmdPassPtr t_cmd = MakeSharedPtr<SVRenderCmdPass>();

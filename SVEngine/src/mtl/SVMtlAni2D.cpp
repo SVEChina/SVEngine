@@ -7,7 +7,7 @@
 
 #include "SVMtlAni2D.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../rendercore/SVGL/SVRResGL.h"
 
 SVMtlAni2D::SVMtlAni2D(SVInst *_app)
@@ -36,7 +36,7 @@ void SVMtlAni2D::reset() {
     m_LogicParamBlendMode.reset();
 }
 
-void SVMtlAni2D::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlAni2D::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
     if((m_LogicMtlFlag0&MTL_F0_BLENDMODE)>0){
         _render->submitUniformi(NAME_BLENDMODE, m_LogicParamBlendMode.m_blendmode);

@@ -23,7 +23,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVResShader);
 
         //渲染器
-        DECLARE_SHAREPTR(SVRendererBase);
+        DECLARE_SHAREPTR(SVRenderer);
         DECLARE_SHAREPTR(SVRenderState);
         DECLARE_SHAREPTR(SVRenderTexture);
         

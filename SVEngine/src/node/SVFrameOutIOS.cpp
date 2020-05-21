@@ -16,7 +16,7 @@
 #include "../rendercore/SVRenderObject.h"
 #include "../rendercore/SVRenderCmdOut.h"
 #include "../rendercore/SVRenderScene.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../rendercore/SVRenderTexture.h"
 #include "../mtl/SVMtlCore.h"
 #include "../basesys/SVConfig.h"
@@ -42,7 +42,7 @@ SVFrameOutIOS::~SVFrameOutIOS() {
 
 void SVFrameOutIOS::init(SV_OUTSTEAMFORMATE _outformate,s32 _w,s32 _h) {
     //创建输出纹理
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if( t_renderer ) {
         SVTexturePtr t_tex = t_renderer->createSVTexIOS(E_TEX_OUTSTREAM,_w,_h,GL_RGBA); //GL_RGBA
         m_outStreamFbo = MakeSharedPtr<SVRenderTexture>(mApp,t_tex,false,false);
@@ -71,7 +71,7 @@ void SVFrameOutIOS::init(SV_OUTSTEAMFORMATE _outformate,s32 _w,s32 _h) {
 }
 
 void SVFrameOutIOS::destroy(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if( t_renderer ) {
         t_renderer->destroySVTex(E_TEX_OUTSTREAM);
     }
@@ -85,7 +85,7 @@ void SVFrameOutIOS::setCallback(cb_out_stream _cb) {
 
 void SVFrameOutIOS::update(f32 _dt) {
     SVNode::update(_dt);
-     SVRendererBasePtr t_renderer = mApp->getRenderer();
+     SVRendererPtr t_renderer = mApp->getRenderer();
     if(m_pMtl && t_renderer){
         m_pMtl->update(_dt);
         m_pMtl->setTexture(0,t_renderer->getSVTex(E_TEX_MAIN));    //那第一张纹理
@@ -101,7 +101,7 @@ void SVFrameOutIOS::update(f32 _dt) {
 
 void SVFrameOutIOS::render() {
     //输出到目标纹理 然后读取数据
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     SVRenderScenePtr t_rs = mApp->getRenderMgr()->getRenderScene();
     if( t_renderer && t_rs) {
         SVTexturePtr t_out_tex = t_renderer->getSVTex(E_TEX_OUTSTREAM);

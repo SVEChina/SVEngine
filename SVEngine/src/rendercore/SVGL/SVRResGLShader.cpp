@@ -17,7 +17,7 @@
 #include "../../base/SVDataSwap.h"
 #include "../../base/SVLock.h"
 #include "../../rendercore/SVRenderMgr.h"
-#include "../SVRendererBase.h"
+#include "../SVRenderer.h"
 #include "../SVRenderState.h"
 #include "../SVGL/SVRendererGL.h"
 
@@ -47,7 +47,7 @@ SVRResGLShader::~SVRResGLShader(){
     m_cs = 0;
 }
 
-void SVRResGLShader::create(SVRendererBasePtr _renderer) {
+void SVRResGLShader::create(SVRendererPtr _renderer) {
     SVRObjBase::create(_renderer);
     if( m_use_tech ) {
         _parseTech();
@@ -449,14 +449,14 @@ void SVRResGLShader::_clearShaderRes(){
     }
 }
 
-void SVRResGLShader::destroy(SVRendererBasePtr _renderer) {
+void SVRResGLShader::destroy(SVRendererPtr _renderer) {
     if(m_programm != 0){
         glDeleteProgram(m_programm);
     }
     SVRObjBase::destroy(_renderer);
 }
 
-bool SVRResGLShader::active(SVRendererBasePtr _render) {
+bool SVRResGLShader::active(SVRendererPtr _render) {
     SVRenderStatePtr t_state = _render->getState();
     if(m_programm>0) {
         glUseProgram(m_programm);

@@ -8,7 +8,7 @@
 
 #include "SVMtlBlackWhite.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlBlackWhite::SVMtlBlackWhite(SVInst *_app)
 :SVMtlCore(_app,"filterblackwhite") {
@@ -39,7 +39,7 @@ void SVMtlBlackWhite::update(f32 dt) {
    
 }
 
-void SVMtlBlackWhite::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlBlackWhite::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf("mode", m_mode);
 }

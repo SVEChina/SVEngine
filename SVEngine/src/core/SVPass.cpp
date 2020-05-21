@@ -9,7 +9,7 @@
 #include "../app/SVInst.h"
 #include "../mtl/SVMtlCore.h"
 #include "../rendercore/SVRenderTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVPass::SVPass(){
     mTag = "SVPass";

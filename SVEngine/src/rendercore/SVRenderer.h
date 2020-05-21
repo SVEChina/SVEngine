@@ -1,5 +1,5 @@
 //
-// SVRendererBase.h
+// SVRenderer.h
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
@@ -29,13 +29,13 @@ namespace sv {
         };
         //渲染器
         
-        class SVRendererBase: public SVGBase {
+        class SVRenderer: public SVGBase {
         public:
-            SVRendererBase(SVInst* _app);
+            SVRenderer(SVInst* _app);
             
-            ~SVRendererBase();
+            ~SVRenderer();
             //初始化
-            virtual void init(s32 _ver,void* _windows,void* context,s32 _w,s32 _h);
+            virtual void init(s32 _w,s32 _h);
             //销毁
             virtual void destroy();
             //重置大小

@@ -8,33 +8,27 @@
 #ifndef SV_RENDERERGL_H
 #define SV_RENDERERGL_H
 
-#include "../SVRendererBase.h"
+#include "../SVRenderer.h"
 #include "../../core/SVVertDef.h"
 
 namespace sv {
     
     namespace render{
         
-        // GL渲染器
+        /*
+         GL渲染器
+         */
         
-        class SVRendererGL : public SVRendererBase {
+        class SVRendererGL : public SVRenderer {
         public:
             SVRendererGL(SVInst* _app);
             
             ~SVRendererGL();
             
-#if defined SV_IOS
-            virtual void init(s32 _ver,void* _context,s32 _w,s32 _h);
-#elif defined SV_ANDROID
-            virtual void init(s32 _ver,void * _windows,void* context,s32 _w,s32 _h);
-#elif defined SV_OSX
-            virtual void init(s32 _ver,void* _context,void* _pixelFormate,s32 _w,s32 _h);
-#endif
-            virtual void destroy();
+            virtual void init(s32 _w,s32 _h);
             
             virtual void resize(s32 _w,s32 _);
             
-        public:
             //提交纹理
             virtual void submitTex(u32 _channel,TexUnit& _unit);
             //提交unifrom matrix
@@ -107,9 +101,6 @@ namespace sv {
             virtual void svClearColor(f32 _r,f32 _g,f32 _b,f32 _a);
             //设置清理掩码
             virtual void svClear(s32 _mask);
-            
-        protected:
-            s32 m_glVersion;
         };
 
     }//!namespace render

@@ -26,7 +26,7 @@
 #include "../rendercore/SVRenderTexture.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRenderScene.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../mtl/SVMtlFaceShape.h"
 #include "../mtl/SVMtlShapeVaried.h"
 #include "../mtl/SVTexture.h"

@@ -121,9 +121,9 @@ namespace sv {
             void _loadShader();
             virtual void _refreshMatrix();
             virtual void _refreshModify();
-            virtual void _submitUniform(SVRendererBasePtr _render);
-            virtual void _submitState(SVRendererBasePtr _render);
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitUniform(SVRendererPtr _render);
+            virtual void _submitState(SVRendererPtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             
         public:
             void addModify(SVModifyPtr _modify);

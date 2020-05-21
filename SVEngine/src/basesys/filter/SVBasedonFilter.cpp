@@ -11,7 +11,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../mtl/SVMtlBasedOn.h"
-#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderer.h"
 #include "../../rendercore/SVRenderMgr.h"
 
 SVBasedonFilter::SVBasedonFilter(SVInst *_app)
@@ -45,7 +45,7 @@ SVBasedonFilter::~SVBasedonFilter(){
 
 //创建
 bool SVBasedonFilter::create() {
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
     s32 t_w =  mApp->m_pGlobalParam->m_inner_width;

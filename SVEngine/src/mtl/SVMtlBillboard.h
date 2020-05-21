@@ -32,7 +32,7 @@ namespace sv {
             
             void setUp(FVec3 &_up);
         protected:
-            virtual void _submitUniform(SVRendererBasePtr _render);
+            virtual void _submitUniform(SVRendererPtr _render);
             FVec3 m_objPos;
             FVec3 m_viewPos;
             FVec3 m_up;

@@ -30,7 +30,7 @@ namespace sv {
             void setDistance(f32 _dis);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render); 
+            virtual void _submitMtl(SVRendererPtr _render); 
 
             f32 m_texelWidthOffset;
             f32 m_texelHeightOffset;
@@ -55,7 +55,7 @@ namespace sv {
             void setDistance(f32 _dis);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render); 
+            virtual void _submitMtl(SVRendererPtr _render); 
             
             f32 m_texelWidthOffset;
             f32 m_texelHeightOffset;
@@ -78,7 +78,7 @@ namespace sv {
             void setRadius(f32 _radius);
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             //
             f32 m_radius;
             //
@@ -98,7 +98,7 @@ namespace sv {
             void setRadius(f32 _radius);
 
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
 
             f32 m_radius;
             //
@@ -115,7 +115,7 @@ namespace sv {
             
             void setSmooth(f32 _smooth);
             
-            virtual void _submitMtl(SVRendererBasePtr _render); 
+            virtual void _submitMtl(SVRendererPtr _render); 
             
             virtual SVMtlCorePtr clone();
             
@@ -133,7 +133,7 @@ namespace sv {
             
             void setSmooth(f32 _smooth);
             
-            virtual void _submitMtl(SVRendererBasePtr _render); 
+            virtual void _submitMtl(SVRendererPtr _render); 
             
             virtual SVMtlCorePtr clone();
             
@@ -151,7 +151,7 @@ namespace sv {
             
             void setSmooth(f32 _smooth);
             
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             
             virtual SVMtlCorePtr clone();
             

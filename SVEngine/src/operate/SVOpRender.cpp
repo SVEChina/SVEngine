@@ -85,7 +85,7 @@ void SVOpCreateRenderderGLOSX::_process(float dt) {
     //跨平台
     SVRendererGLPtr t_renderer = MakeSharedPtr<SVRendererGL>(mApp);
     mApp->getRenderMgr()->setRenderer(t_renderer);
-    t_renderer->init(m_glVersion,m_glContext,m_pixelFormate,m_w,m_h);
+    t_renderer->init(m_w,m_h);
 }
 #endif
 
@@ -151,7 +151,7 @@ SVOpDestroyRenderder::SVOpDestroyRenderder(SVInst *_app)
 
 void SVOpDestroyRenderder::_process(float dt) {
     //need write
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         mApp->getRenderMgr()->setRenderer(nullptr);
         t_renderer->destroy();
@@ -168,7 +168,7 @@ SVOpResizeRenderder::SVOpResizeRenderder(SVInst *_app,s32 _w,s32 _h)
 
 void SVOpResizeRenderder::_process(float dt) {
     //need write
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         t_renderer->resize(m_width,m_height);
         SVCameraNodePtr t_camera = mApp->m_pGlobalMgr->m_pCameraMgr->getMainCamera();

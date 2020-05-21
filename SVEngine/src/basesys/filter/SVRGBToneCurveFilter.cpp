@@ -11,7 +11,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../mtl/SVMtlBasedOn.h"
-#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderer.h"
 #include "../../rendercore/SVRenderMgr.h"
 
 SVRGBToneCurveFilter::SVRGBToneCurveFilter(SVInst *_app)
@@ -28,7 +28,7 @@ SVRGBToneCurveFilter::~SVRGBToneCurveFilter(){
 }
 
 bool SVRGBToneCurveFilter::create() {
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
     s32 t_w =  mApp->m_pGlobalParam->m_inner_width;

@@ -13,7 +13,7 @@
 #include "../mtl/SVMtlLib.h"
 #include "../rendercore/SVRenderMesh.h"
 #include "../rendercore/SVRenderCmd.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderScene.h"
 

@@ -29,9 +29,9 @@ namespace sv {
         virtual void startSVE();
         //停止SV
         virtual void stopSVE();
-        //同步模式调用的借口
+        //更新引擎
         void updateSVE(f32 _dt);
-        //
+        //渲染引擎
         void renderSVE();
         //清楚缓存
         void clearCache();
@@ -80,7 +80,7 @@ namespace sv {
         SVActionMgrPtr getActionMgr();
         SVModelMgrPtr getModelMgr();
         SVPhysicsWorldMgrPtr getPhysicsWorldMgr();
-        SVRendererBasePtr getRenderer();
+        SVRendererPtr getRenderer();
         SVRenderStatePtr getRenderState();
     };
     

@@ -7,7 +7,7 @@
 
 #include "SVMtlGLTF.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../core/SVAnimateSkin.h"
 
 SVMtlGLTF::SVMtlGLTF(SVInst *_app)
@@ -146,7 +146,7 @@ void SVMtlGLTFSkin::refresh() {
     SVMtlGLTF::refresh();
 }
 
-void SVMtlGLTFSkin::_submitUniform(SVRendererBasePtr _render){
+void SVMtlGLTFSkin::_submitUniform(SVRendererPtr _render){
     SVMtlCore::_submitUniform(_render);
     //传递骨骼数据
     _render->submitUniformMatrixArray("uBoneMatrix", m_vecBoneMatrix,MAX_BONES);

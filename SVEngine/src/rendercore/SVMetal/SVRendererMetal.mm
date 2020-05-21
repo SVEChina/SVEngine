@@ -11,7 +11,7 @@
 #include "../../base/SVDataSwap.h"
 
 SVRendererMetal::SVRendererMetal(SVInst* _app)
-:SVRendererBase(_app){
+:SVRenderer(_app){
     m_pDevice = nullptr;
     m_pCmdQueue = nullptr;
     m_pLibrary = nullptr;
@@ -22,8 +22,8 @@ SVRendererMetal::~SVRendererMetal(){
 }
 
 //初始化
-void SVRendererMetal::init(void* _device,s32 _w,s32 _h){
-    m_pDevice = (__bridge id)_device;//MTLCreateSystemDefaultDevice();
+void SVRendererMetal::init(s32 _w,s32 _h){
+    //m_pDevice = (__bridge id)_device;//MTLCreateSystemDefaultDevice();
     if (m_pDevice == nil) {
         SV_LOG_INFO("don't support metal !");
     }
@@ -35,14 +35,6 @@ void SVRendererMetal::init(void* _device,s32 _w,s32 _h){
     //创建主纹理
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
-//    //
-//    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
-//    //主FBO
-//    m_pRenderTex = MakeSharedPtr<SVResMetalRenderTexture>(mApp,
-//                                                  t_tex,
-//                                                  true,
-//                                                  true);
-//    mApp->getRenderMgr()->pushRCmdCreate(m_pRenderTex);
 }
 
 //销毁

@@ -12,7 +12,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../mtl/SVMtlBasedOn.h"
-#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderer.h"
 #include "../../rendercore/SVRenderMgr.h"
 
 
@@ -30,7 +30,7 @@ SVFilterLUT::~SVFilterLUT(){
 }
 
 bool SVFilterLUT::create(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
     SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
@@ -78,7 +78,7 @@ void SVFilterLUT::destroy(){
     }
     m_pPassNode = nullptr;
     m_texLUT = nullptr;
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         t_renderer->destroySVTex(E_TEX_FILTER_LUT_OUT);
         t_renderer->destroySVTex(E_TEX_FILTER_LUT);
@@ -120,7 +120,7 @@ void SVFilterLUT::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocato
 
 void SVFilterLUT::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
     if (item.HasMember("data") && item["data"].IsString()) {
-        SVRendererBasePtr t_renderer = mApp->getRenderer();
+        SVRendererPtr t_renderer = mApp->getRenderer();
         if(t_renderer){
             t_renderer->createSVTex(E_TEX_FILTER_LUT, 512, 512, GL_RGBA,GL_RGBA);
             SVTexturePtr t_tex=t_renderer->getSVTex(E_TEX_FILTER_LUT);

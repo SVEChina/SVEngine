@@ -7,7 +7,7 @@
 
 #include "SVMtlStrokeBase.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVCameraNode.h"
 SVMtlStrokeBase::SVMtlStrokeBase(SVInst *_app, cptr8 _shader)
@@ -33,7 +33,7 @@ void SVMtlStrokeBase::reset() {
     
 }
 
-void SVMtlStrokeBase::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlStrokeBase::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
 }
 

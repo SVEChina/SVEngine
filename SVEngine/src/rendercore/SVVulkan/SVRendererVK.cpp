@@ -10,7 +10,7 @@
 #include "../../base/SVDataSwap.h"
 
 SVRendererVK::SVRendererVK(SVInst* _app)
-:SVRendererBase(_app){
+:SVRenderer(_app){
     
 }
 

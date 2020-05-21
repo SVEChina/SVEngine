@@ -34,7 +34,7 @@ namespace sv {
             
             void setSpeed(f32 _speed);
         protected:
-            virtual void _submitUniform(SVRendererBasePtr _render);
+            virtual void _submitUniform(SVRendererPtr _render);
             
             f32 m_time;
             f32 m_amount;

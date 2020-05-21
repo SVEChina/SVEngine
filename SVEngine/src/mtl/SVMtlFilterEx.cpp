@@ -8,7 +8,7 @@
 
 #include "SVMtlFilterEx.h"
 #include "../mtl/SVTexMgr.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlBrightnessContrast::SVMtlBrightnessContrast(SVInst *_app)
 :SVMtlCore(_app,"BrightnessContrast") {
@@ -38,7 +38,7 @@ void SVMtlBrightnessContrast::setContrast(f32 _smooth){
     m_contrast=_smooth;
 }
 
-void SVMtlBrightnessContrast::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlBrightnessContrast::_submitMtl(SVRendererPtr _render) {
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("brightness", m_brightness);
     _render->submitUniformf("contrast", m_contrast);
@@ -69,7 +69,7 @@ void SVMtlSaturation::setSaturation(f32 _smooth){
 }
 
 
-void SVMtlSaturation::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlSaturation::_submitMtl(SVRendererPtr _render) {
     SVMtlCore::_submitMtl(_render);
        _render->submitUniformf("saturation", m_saturation);
 }
@@ -97,7 +97,7 @@ void SVMtlVibrance::setVibrance(f32 _smooth){
 }
 
 
-void SVMtlVibrance::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlVibrance::_submitMtl(SVRendererPtr _render) {
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("vibrance", m_vibrance);
 }
@@ -121,7 +121,7 @@ SVMtlCorePtr SVMtlShadowHighlight::clone(){
     return PointerSharedPtr<SVMtlShadowHighlight>(new SVMtlShadowHighlight(this));
 }
 
-void SVMtlShadowHighlight::_submitMtl(SVRendererBasePtr _render){
+void SVMtlShadowHighlight::_submitMtl(SVRendererPtr _render){
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("shadows", m_shadow);
     _render->submitUniformf("highlights", m_HighLight);
@@ -146,7 +146,7 @@ SVMtlCorePtr SVMtlWhiteBlackLevel::clone(){
     return PointerSharedPtr<SVMtlWhiteBlackLevel>(new SVMtlWhiteBlackLevel(this));
 }
 
-void SVMtlWhiteBlackLevel::_submitMtl(SVRendererBasePtr _render){
+void SVMtlWhiteBlackLevel::_submitMtl(SVRendererPtr _render){
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("shadows", m_shadow);
     _render->submitUniformf("highlights", m_HighLight);
@@ -186,7 +186,7 @@ SVMtlCorePtr SVMtlColorBalance::clone(){
      return PointerSharedPtr<SVMtlColorBalance>(new SVMtlColorBalance(this));
 }
 
-void SVMtlColorBalance::_submitMtl(SVRendererBasePtr _render){
+void SVMtlColorBalance::_submitMtl(SVRendererPtr _render){
      SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("redShift", m_redShift);
     _render->submitUniformf("greenShift", m_greenShift);
@@ -238,7 +238,7 @@ SVMtlCorePtr SVMtlHSL::clone(){
     return PointerSharedPtr<SVMtlHSL>(new SVMtlHSL(this));
 }
 
-void SVMtlHSL::_submitMtl(SVRendererBasePtr _render){
+void SVMtlHSL::_submitMtl(SVRendererPtr _render){
     SVMtlCore::_submitMtl(_render);
     
     _render->submitUniformf("m_saturationRed", m_saturationRed);
@@ -295,7 +295,7 @@ void SVMtlWhiteBalance::setTint(f32 _smooth){
     m_Tint = _smooth;
 }
 
-void SVMtlWhiteBalance::_submitMtl(SVRendererBasePtr _render){
+void SVMtlWhiteBalance::_submitMtl(SVRendererPtr _render){
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("m_temperature", m_Temperature);
     _render->submitUniformf("m_tint", m_Tint);
@@ -323,7 +323,7 @@ void SVMtlGamma::setGamma(f32 _smooth){
     m_Gamma=_smooth;
 }
 
-void SVMtlGamma::_submitMtl(SVRendererBasePtr _render){
+void SVMtlGamma::_submitMtl(SVRendererPtr _render){
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("m_gamma", m_Gamma);
 }
@@ -350,7 +350,7 @@ void SVMtlExposure::setExposure(f32 _smooth){
     m_Exposure = _smooth;
 }
 
-void SVMtlExposure::_submitMtl(SVRendererBasePtr _render){
+void SVMtlExposure::_submitMtl(SVRendererPtr _render){
     SVMtlCore::_submitMtl(_render);
     _render->submitUniformf("m_exposure", m_Exposure);
 }

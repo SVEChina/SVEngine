@@ -12,7 +12,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../mtl/SVMtlBasedOn.h"
-#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderer.h"
 #include "../../mtl/SVMtlFilterEx.h"
 #include "../../mtl/SVMtlGradientMap.h"
 #include "../../rendercore/SVRenderMgr.h"
@@ -44,7 +44,7 @@ SVFilterGenLUT::~SVFilterGenLUT(){
 }
 
 bool SVFilterGenLUT::create(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
     SVTexturePtr inTex= mApp->getTexMgr()->getTextureSync("svres/lookup.png", true);
@@ -187,7 +187,7 @@ bool SVFilterGenLUT::create(){
 
 void SVFilterGenLUT::destroy(){
     //
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         t_renderer->destroySVTex(E_TEX_FILTER_GENLUT_OUT);
         t_renderer->destroySVTex(E_TEX_FILTER_GENLUT_H1);
@@ -212,7 +212,7 @@ void SVFilterGenLUT::destroy(){
 }
 
 SVTexturePtr SVFilterGenLUT::getOutTex(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         return t_renderer->getSVTex(E_TEX_FILTER_GENLUT_OUT);
     }
@@ -220,7 +220,7 @@ SVTexturePtr SVFilterGenLUT::getOutTex(){
 }
 
 void SVFilterGenLUT::setCurveRgba(ptr8  data,u32 size){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_FILTER_GENLUT_H3);
         t_tex->setTexData(data, size);
@@ -228,7 +228,7 @@ void SVFilterGenLUT::setCurveRgba(ptr8  data,u32 size){
 }
 
 void SVFilterGenLUT::setGradientMap(ptr8  data,u32 size){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_FILTER_GENLUT_H4);
         t_tex->setTexData(data, size);

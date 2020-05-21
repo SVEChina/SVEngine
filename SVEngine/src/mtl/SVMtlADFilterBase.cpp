@@ -8,7 +8,7 @@
 
 #include "SVMtlADFilterBase.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlADFilterBase::SVMtlADFilterBase(SVInst *_app, cptr8 _shader)
 :SVMtlCore(_app,_shader) {
@@ -37,7 +37,7 @@ void SVMtlADFilterBase::update(f32 dt) {
     SVMtlCore::update(dt);
 }
 
-void SVMtlADFilterBase::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlADFilterBase::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
     
 }

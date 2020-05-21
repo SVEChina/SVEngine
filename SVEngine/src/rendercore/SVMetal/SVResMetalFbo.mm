@@ -16,7 +16,7 @@
 #include "../../base/SVDataSwap.h"
 #include "../../base/SVLock.h"
 #include "../../rendercore/SVRenderMgr.h"
-#include "../SVRendererBase.h"
+#include "../SVRenderer.h"
 
 
 SVResMetalFBO::SVResMetalFBO(SVInst* _app)
@@ -29,11 +29,11 @@ SVResMetalFBO::~SVResMetalFBO() {
     
 }
 
-void SVResMetalFBO::create(SVRendererBasePtr _renderer) {
+void SVResMetalFBO::create(SVRendererPtr _renderer) {
     
 }
 
-void SVResMetalFBO::destroy(SVRendererBasePtr _renderer) {
+void SVResMetalFBO::destroy(SVRendererPtr _renderer) {
     
 }
 

@@ -8,7 +8,7 @@
 
 #include "SVMtlGlitch.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlGlitch::SVMtlGlitch(SVInst *_app)
 :SVMtlADFilterBase(_app,"filterglitch") {
@@ -93,7 +93,7 @@ void SVMtlGlitch::update(f32 dt) {
     m_accTime += dt;
 }
 
-void SVMtlGlitch::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlGlitch::_submitUniform(SVRendererPtr _render) {
     SVMtlADFilterBase::_submitUniform(_render);
     _render->submitUniformf("uColorDrift", m_drift[m_curFrame]);
     _render->submitUniformf2("uScanLineJitter", m_jitter[m_curFrame], m_threshHold[m_curFrame]);

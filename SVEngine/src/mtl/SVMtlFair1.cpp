@@ -8,7 +8,7 @@
 #include "SVMtlFair1.h"
 #include "../app/SVInst.h"
 #include "../app/SVGlobalParam.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 //
 SVMtlFilterBrilaterl::SVMtlFilterBrilaterl(SVInst *_app)
@@ -49,7 +49,7 @@ void SVMtlFilterBrilaterl::setDistance(f32 _dis) {
     }
 }
 
-void SVMtlFilterBrilaterl::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlFilterBrilaterl::_submitMtl(SVRendererPtr _render) {
     if(m_paramDirty) {
         m_paramDirty = false;
         f32 tt_w = m_texelWidthOffset /mApp->m_pGlobalParam->m_inner_width;
@@ -102,7 +102,7 @@ void SVMtlFilterBrilaterl2::setDistance(f32 _dis) {
     }
 }
 
-void SVMtlFilterBrilaterl2::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlFilterBrilaterl2::_submitMtl(SVRendererPtr _render) {
     if(m_paramDirty) {
         m_paramDirty = false;
         f32 tt_w = m_texelWidthOffset /mApp->m_pGlobalParam->m_inner_width;
@@ -142,7 +142,7 @@ void SVMtlGaussian::setRadius(f32 _radius) {
     }
 }
 
-void SVMtlGaussian::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlGaussian::_submitMtl(SVRendererPtr _render) {
     if(m_paramDirty) {
         m_paramDirty = false;
         f32 t_w = mApp->m_pGlobalParam->m_inner_width;
@@ -171,7 +171,7 @@ void SVMtlBlurFairGus::setSmooth(f32 _smooth){
     
 }
 
-void SVMtlBlurFairGus::_submitMtl(SVRendererBasePtr _render){
+void SVMtlBlurFairGus::_submitMtl(SVRendererPtr _render){
     
 }
 
@@ -205,7 +205,7 @@ void SVMtlBlur::setRadius(f32 _radius) {
     }
 }
 
-void SVMtlBlur::_submitMtl(SVRendererBasePtr _render) {
+void SVMtlBlur::_submitMtl(SVRendererPtr _render) {
     if(m_paramDirty) {
         m_paramDirty = false;
         f32 t_w = mApp->m_pGlobalParam->m_inner_width;
@@ -229,7 +229,7 @@ SVMtlBlurFair::SVMtlBlurFair(SVMtlBlurFair *_mtl)
 SVMtlBlurFair::~SVMtlBlurFair(){
 }
 
-void SVMtlBlurFair::_submitMtl(SVRendererBasePtr _render){
+void SVMtlBlurFair::_submitMtl(SVRendererPtr _render){
     _render->submitUniformf("blurAlpha", m_blurAlpha);
 }
 
@@ -258,7 +258,7 @@ void SVMtlFairLtraLow::setSmooth(f32 _smooth){
     m_smooth=_smooth;
 }
 
-void SVMtlFairLtraLow::_submitMtl(SVRendererBasePtr _render){
+void SVMtlFairLtraLow::_submitMtl(SVRendererPtr _render){
     _render->submitUniformf("softenStrength", m_smooth);
 }
 

@@ -8,7 +8,7 @@
 
 #include "SVMtlDark.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 
 SVMtlDark::SVMtlDark(SVInst *_app)
 :SVMtlCore(_app,"filterdark") {
@@ -45,7 +45,7 @@ void SVMtlDark::setDarkIntensity(f32 _intensity){
     }
 }
 
-void SVMtlDark::_submitUniform(SVRendererBasePtr _render) {
+void SVMtlDark::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf("intensity", m_intensity);
 }

@@ -7,7 +7,7 @@
 
 #include "SVMtl2D.h"
 #include "../mtl/SVTexture.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 SVMtl2D::SVMtl2D(SVInst *_app , cptr8 _shader)
 :SVMtlCore(_app, _shader) {
     m_alpha = 1.0f;
@@ -34,7 +34,7 @@ void SVMtl2D::reset() {
     SVMtlCore::reset();
 }
 
-void SVMtl2D::_submitUniform(SVRendererBasePtr _render) {
+void SVMtl2D::_submitUniform(SVRendererPtr _render) {
     SVMtlCore::_submitUniform(_render);
     _render->submitUniformf("alpha", m_alpha);
 }

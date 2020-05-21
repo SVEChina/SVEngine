@@ -26,7 +26,7 @@ namespace sv {
             
             virtual SVMtlCorePtr clone();
         protected:
-            virtual void _submitUniform(SVRendererBasePtr _render);
+            virtual void _submitUniform(SVRendererPtr _render);
         };
 
     }//!namespace mtl

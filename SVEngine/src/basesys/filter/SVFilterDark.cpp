@@ -11,7 +11,7 @@
 #include "../../mtl/SVTexture.h"
 #include "../../node/SVMultPassNode.h"
 #include "../../mtl/SVMtlBasedOn.h"
-#include "../../rendercore/SVRendererBase.h"
+#include "../../rendercore/SVRenderer.h"
 #include "../../mtl/SVMtlDark.h"
 #include "../../rendercore/SVRenderMgr.h"
 SVFilterDark::SVFilterDark(SVInst *_app)
@@ -25,7 +25,7 @@ SVFilterDark::~SVFilterDark(){
 }
 
 bool SVFilterDark::create(){
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(!t_renderer)
         return false;
     SVTexturePtr t_tex = t_renderer->getSVTex(E_TEX_MAIN);
@@ -63,7 +63,7 @@ void SVFilterDark::destroy(){
     }
     m_pPassNode = nullptr;
     m_mtlDark = nullptr;
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer){
         t_renderer->destroySVTex(E_TEX_FILTER_1);
     }
@@ -90,7 +90,7 @@ void SVFilterDark::toJSON(RAPIDJSON_NAMESPACE::Document::AllocatorType &_allocat
 
 void SVFilterDark::fromJSON(RAPIDJSON_NAMESPACE::Value &item) {
 //    if (item.HasMember("data") && item["data"].IsString()) {
-//        SVRendererBasePtr t_renderer = mApp->getRenderer();
+//        SVRendererPtr t_renderer = mApp->getRenderer();
 //        if(t_renderer){
 //            t_renderer->createSVTex(E_TEX_FILTER_LUT, 512, 512, GL_RGBA,GL_RGBA);
 //            SVTexturePtr t_tex=t_renderer->getSVTex(E_TEX_FILTER_LUT);

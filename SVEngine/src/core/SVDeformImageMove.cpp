@@ -20,7 +20,7 @@
 #include "../rendercore/SVRenderTexture.h"
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRenderScene.h"
-#include "../rendercore/SVRendererBase.h"
+#include "../rendercore/SVRenderer.h"
 #include "../core/SVGeoGen.h"
 #include "../core/SVPass.h"
 #include "../app/SVGlobalMgr.h"
@@ -81,14 +81,14 @@ SVDeformImageMove::~SVDeformImageMove(){
     m_pIUMP = nullptr;
     m_dataPoint = nullptr;
     m_fbo = nullptr;
-    SVRendererBasePtr t_renderer = mApp->getRenderer();
+    SVRendererPtr t_renderer = mApp->getRenderer();
     if(t_renderer) {
         t_renderer->destroySVTex(E_TEX_FILTER_DEFORM02);
     }
 }
 
 void SVDeformImageMove::init(SVTexturePtr _intex,SVTexturePtr _texout){
-    SVRendererBasePtr t_renderer =  mApp->getRenderer();
+    SVRendererPtr t_renderer =  mApp->getRenderer();
     if(t_renderer && _intex && _texout){
         m_tt_w = _intex->getwidth();
         m_tt_h = _intex->getheight();

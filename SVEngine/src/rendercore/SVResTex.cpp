@@ -8,7 +8,7 @@
 #include "SVResTex.h"
 #include "../app/SVInst.h"
 #include "../base/SVLock.h"
-#include "SVRendererBase.h"
+#include "SVRenderer.h"
 
 SVResTex::SVResTex(SVInst* _app)
 :SVRObjBase(_app){
@@ -21,11 +21,11 @@ SVResTex:: ~SVResTex(){
     m_texLock = nullptr;
 }
 
-void SVResTex::create(SVRendererBasePtr _renderer){
+void SVResTex::create(SVRendererPtr _renderer){
     
 }
 
-void SVResTex::destroy(SVRendererBasePtr _renderer){
+void SVResTex::destroy(SVRendererPtr _renderer){
     
 }
 

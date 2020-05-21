@@ -74,7 +74,7 @@ namespace sv {
             void unbindSke();
             
         protected:
-            virtual void _submitUniform(SVRendererBasePtr _render);
+            virtual void _submitUniform(SVRendererPtr _render);
             //
             f32 m_vecBoneMatrix[MAX_BONES_DATA];
             //关联骨架

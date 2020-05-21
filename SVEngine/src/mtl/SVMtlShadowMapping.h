@@ -28,7 +28,7 @@ namespace sv {
             virtual SVMtlCorePtr clone();
             
         protected:
-            virtual void _submitMtl(SVRendererBasePtr _render);
+            virtual void _submitMtl(SVRendererPtr _render);
             f32 m_LightVPMat[16];
     
         };
