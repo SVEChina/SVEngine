@@ -12379,7 +12379,7 @@
 					};
 					8233102C1FF1F7B100A13C9D = {
 						CreatedOnToolsVersion = 9.1;
-						DevelopmentTeam = BW96G54658;
+						DevelopmentTeam = K9H559M465;
 						ProvisioningStyle = Automatic;
 					};
 					82B7719120245AEB0097A0DD = {
@@ -12389,7 +12389,7 @@
 					};
 					82F7CB411FCD68A4009A750D = {
 						CreatedOnToolsVersion = 9.1;
-						DevelopmentTeam = BW96G54658;
+						DevelopmentTeam = K9H559M465;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -15074,7 +15074,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BW96G54658;
+				DEVELOPMENT_TEAM = K9H559M465;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 			};
@@ -15084,7 +15084,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BW96G54658;
+				DEVELOPMENT_TEAM = K9H559M465;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 			};
@@ -15209,7 +15209,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				DEVELOPMENT_TEAM = BW96G54658;
+				DEVELOPMENT_TEAM = K9H559M465;
 				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -15257,7 +15257,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = BW96G54658;
+				DEVELOPMENT_TEAM = K9H559M465;
 				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
