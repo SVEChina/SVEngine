@@ -124,18 +124,6 @@ void SVRenderMgr::render(){
     m_renderLock->unlock();
 }
 
-//        SVCtxBasePtr t_context = m_pRenderer->getRenderContext();
-//        if( t_context && t_context->activeContext() ){
-//            SVRenderTargetPtr t_rt = getRenderTarget( m_pRenderScene->getName() );
-//            if( t_context->activeRenderTarget( t_rt ) ){
-//                m_pRenderScene->render();
-//                m_pRenderer->resetState();
-//                t_context->swapRenderTarget( t_rt );   //交换场景
-//            }else{
-//                m_pRenderScene->clearRenderCmd();
-//            }
-//        }
-
 void SVRenderMgr::clearScreen(){
     m_renderLock->lock();
     if(m_pRenderer && m_pRenderScene ){
