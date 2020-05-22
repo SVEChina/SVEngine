@@ -30,9 +30,10 @@ namespace sv {
     private:
         //
         SVArray<s32> threadIDPool;    //线程的id池子
+        SVCondBroadcastPtr m_cond_threads;
         SVSemPtr m_sem;
         s32 m_count;
-        pthread_mutex_t pmutex;
+        pthread_mutex_t m_mutex;
     };
     
 }//!namespace sv

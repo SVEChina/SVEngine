@@ -17,8 +17,6 @@ SVThread::SVThread(){
 }
 
 SVThread::~SVThread(){
-    //
-    m_pWorkCallback = nullptr;
     if ( m_pThread && m_pThread->joinable() ) {
         m_pThread->join();
         delete m_pThread;
@@ -29,26 +27,41 @@ SVThread::~SVThread(){
 }
 
 //如果被多次调用很显然是不行的
-bool SVThread::startThread(cb_thread_mission _mission,bool _once){
-    if( m_svTState == TS_FREE ) {
-        m_once = _once;
-        m_pWorkCallback = _mission;
-        if( pthread_mutex_trylock(&m_mutex) == 0 ) {
-            pthread_cond_signal(&m_cond);   //加锁的目的 是防止被多次调用
-            pthread_mutex_unlock(&m_mutex); //释放锁
-        }
+bool SVThread::start(bool _once){
+    if(m_svTState == TS_FREE) {
+        pthread_cond_signal(&m_cond);
         return true;
     }
     return false;
 }
 
 //同步接口
-void SVThread::stopThread(){
+void SVThread::stop(){
     m_run = false;
-    //空闲状态，让他自动跑起来，结束掉线城
-    if(m_svTState == TS_FREE) {
-        
+}
+
+void SVThread::_update(){
+    //进入逻辑主循环
+    while( 1 ) {
+        try {
+            //挂起来
+            _wait();
+            SV_LOG_ERROR(m_pThread->id);
+            //检测
+            if(!m_run) {
+                break;
+            }
+            //执行逻辑
+            m_svTState = TS_WORK;
+            //
+            
+        }catch( ... ) {
+            m_pThread->join();
+            throw;
+        }
     }
+    //表示线程已死
+    m_svTState = TS_DESTROY;
 }
 
 void SVThread::_wait() {
@@ -58,29 +71,3 @@ void SVThread::_wait() {
     pthread_mutex_unlock(&m_mutex);
 }
 
-void SVThread::_update(){
-    //刚进来，就要挂起来
-    _wait();
-    //进入逻辑主循环
-    while( m_run ) {
-        try {
-            //
-            m_svTState = TS_WORK;
-            //执行逻辑
-            if(m_pWorkCallback) {
-                m_pWorkCallback();
-            }
-            if(m_once) {
-                m_pWorkCallback = nullptr;
-            }
-            SV_LOG_ERROR(m_pThread->id);
-            //挂起
-            _wait();
-        }catch( ... ) {
-            m_pThread->join();
-            throw;
-        }
-    }
-    //表示线程已死
-    m_svTState = TS_DESTROY;
-}

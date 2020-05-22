@@ -20,7 +20,10 @@ namespace sv {
     //线程任务回调
     typedef void (*cb_thread_mission)();
     
-    //线程
+    /*
+     单纯线程
+     */
+
     class SVThread: public SVObject {
     public:
         SVThread();
@@ -28,10 +31,10 @@ namespace sv {
         ~SVThread();
         
         //同步接口-开启(创建)
-        bool startThread(cb_thread_mission _mission,bool _once = true);
+        bool start(bool _once = true);
         
         //同步接口-停止(销毁)
-        void stopThread();
+        void stop();
         
         //执行一次
         void execonce();
@@ -42,19 +45,13 @@ namespace sv {
         virtual void _update();
         
     public:
+        SV_THREAD_STATE m_svTState;     //SV线程状态
         pthread_mutex_t m_mutex;
         pthread_cond_t m_cond;
-        //
-        SV_THREAD_STATE m_svTState;     //SV线程状态
         std::thread *m_pThread;         //线程
-        cb_thread_mission m_pWorkCallback;
         bool m_use;
         bool m_once;
         bool m_run;
-
-        f32 getThreadTime();
-        
-        void setThreadTime(f32 _time);
     };
     
 //!namespace
