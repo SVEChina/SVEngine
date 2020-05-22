@@ -9,14 +9,14 @@
 
 SVThreadGroup::SVThreadGroup(){
     pthread_mutex_init(&m_mutex, nullptr);
-    m_cond_threads = MakeSharedPtr<SVCondBroadcast>();
+    m_cond = MakeSharedPtr<SVCond>();
     m_sem =  MakeSharedPtr<SVSem>(0);
     m_count = 0;
 }
 
 SVThreadGroup::~SVThreadGroup(){
     m_sem = nullptr;
-    m_cond_threads = nullptr;
+    m_cond = nullptr;
     pthread_mutex_destroy(&m_mutex);
 }
 
@@ -25,17 +25,17 @@ void SVThreadGroup::run(bool _sync) {
     if(_sync) {
         //同步模式
         m_count = 0;
-        m_cond_threads->notice();   //通知所有子线成跑起来
+        m_cond->broad();   //通知所有子线成跑起来
         //自己阻塞，等待
         m_sem->wait();
     }else{
         //异步模式
         m_count = 0;
-        m_cond_threads->notice();   //通知所有子线成跑起来
+        m_cond->broad();   //通知所有子线成跑起来
     }
 }
 
-void SVThreadGroup::thread_start() {
+void SVThreadGroup::thread_wait() {
     
 }
 

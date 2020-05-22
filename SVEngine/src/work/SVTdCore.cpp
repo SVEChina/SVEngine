@@ -33,7 +33,7 @@ void SVLock::unlock() {
     pthread_mutex_unlock(&mutex);
 }
 
-int SVLock::trylock() {
+s32 SVLock::trylock() {
     return pthread_mutex_trylock(&mutex);
 }
 
@@ -47,6 +47,10 @@ SVCond::SVCond(){
 SVCond::~SVCond(){
     pthread_cond_destroy(&m_cond);
     pthread_mutex_destroy(&m_mutex);
+}
+
+s32 SVCond::trylock() {
+    return pthread_mutex_trylock(&mutex);
 }
 
 void SVCond::lock(){
@@ -65,24 +69,10 @@ void SVCond::notice(){
     pthread_cond_signal(&m_cond);
 }
 
-//
-SVCondBroadcast::SVCondBroadcast(){
-    pthread_mutex_init(&m_mutex, nullptr);
-    pthread_cond_init(&m_cond, nullptr);
-}
-
-SVCondBroadcast::~SVCondBroadcast(){
-    pthread_cond_destroy(&m_cond);
-    pthread_mutex_destroy(&m_mutex);
-}
-
-void SVCondBroadcast::wait(){
-    pthread_cond_wait(&m_cond, &m_mutex);
-}
-
-void SVCondBroadcast::notice(){
+void SVCond::broad() {
     pthread_cond_broadcast(&m_cond);
 }
+
 
 //
 SVSem::SVSem(s32 _resvalue){

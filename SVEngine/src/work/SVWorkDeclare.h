@@ -15,7 +15,6 @@ namespace sv {
 
     DECLARE_SHAREPTR(SVLockSpin);
     DECLARE_SHAREPTR(SVCond);
-    DECLARE_SHAREPTR(SVCondBroadcast);
     DECLARE_SHAREPTR(SVSem);
     DECLARE_SHAREPTR(SVThread);
     DECLARE_SHAREPTR(SVThreadGroup);

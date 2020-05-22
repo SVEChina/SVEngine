@@ -23,14 +23,14 @@ namespace sv {
         
         void run(bool _sync);
         
-        void thread_start();
+        void thread_wait();
         
         void thread_back();
         
     private:
         //
         SVArray<s32> threadIDPool;    //线程的id池子
-        SVCondBroadcastPtr m_cond_threads;
+        SVCondPtr m_cond;
         SVSemPtr m_sem;
         s32 m_count;
         pthread_mutex_t m_mutex;

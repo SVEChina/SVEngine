@@ -51,7 +51,7 @@ namespace sv {
         
         void unlock();
         
-        int trylock();
+        s32 trylock();
         
         pthread_mutex_t mutex;
     };
@@ -64,6 +64,8 @@ namespace sv {
         
         ~SVCond();
         
+        s32 trylock();
+        
         void lock();
         
         void unlock();
@@ -72,22 +74,7 @@ namespace sv {
         
         virtual void notice();
         
-    protected:
-        pthread_cond_t m_cond;
-        pthread_mutex_t m_mutex;
-    };
-
-    /*广播条件变量
-    */
-    class SVCondBroadcast :public SVObject{
-    public:
-        SVCondBroadcast();
-        
-        ~SVCondBroadcast();
-        
-        virtual void wait();
-        
-        virtual void notice();
+        virtual void broad();
         
     protected:
         pthread_cond_t m_cond;

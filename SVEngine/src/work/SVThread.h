@@ -16,9 +16,6 @@
 #include <thread>
 
 namespace sv {
-
-    //线程任务回调
-    typedef void (*cb_thread_mission)();
     
     /*
      单纯线程
@@ -27,6 +24,8 @@ namespace sv {
     class SVThread: public SVObject {
     public:
         SVThread();
+        
+        SVThread(SVCondPtr _cond);
         
         ~SVThread();
         
@@ -46,8 +45,7 @@ namespace sv {
         
     public:
         SV_THREAD_STATE m_svTState;     //SV线程状态
-        pthread_mutex_t m_mutex;
-        pthread_cond_t m_cond;
+        SVCondPtr m_cond;
         std::thread *m_pThread;         //线程
         bool m_use;
         bool m_once;

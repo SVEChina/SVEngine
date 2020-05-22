@@ -2,17 +2,30 @@
 #include "SVThread.h"
 
 SVThread::SVThread(){
+    m_cond = MakeSharedPtr<SVCond>();
     m_svTState = TS_INIT;
     m_use = false;
     m_once = true;
     m_run = true;
     m_pThread = nullptr;
-    pthread_mutex_init(&m_mutex, nullptr);
-    if( pthread_mutex_trylock(&m_mutex) == 0 ) {
-        pthread_cond_init(&m_cond, nullptr);    //创建信号量
+    if( m_cond->trylock() == 0 ) {
         m_pThread = new std::thread(&SVThread::_update, this);  //创建线程
         m_pThread->detach();     //线程自动启动，不会等待
-        pthread_mutex_unlock(&m_mutex); //释放锁
+        m_cond->unlock();
+    }
+}
+
+SVThread::SVThread(SVCondPtr _cond) {
+    m_cond = _cond;
+    m_svTState = TS_INIT;
+    m_use = false;
+    m_once = true;
+    m_run = true;
+    m_pThread = nullptr;
+    if( m_cond->trylock() == 0 ) {
+       m_pThread = new std::thread(&SVThread::_update, this);  //创建线程
+       m_pThread->detach();     //线程自动启动，不会等待
+       m_cond->unlock();
     }
 }
 
@@ -22,14 +35,13 @@ SVThread::~SVThread(){
         delete m_pThread;
         m_pThread = nullptr;
     }
-    pthread_cond_destroy(&m_cond);
-    pthread_mutex_destroy(&m_mutex);
+    m_cond = nullptr;
 }
 
 //如果被多次调用很显然是不行的
 bool SVThread::start(bool _once){
     if(m_svTState == TS_FREE) {
-        pthread_cond_signal(&m_cond);
+        m_cond->notice();
         return true;
     }
     return false;
@@ -65,9 +77,9 @@ void SVThread::_update(){
 }
 
 void SVThread::_wait() {
-    pthread_mutex_lock(&m_mutex);
+    m_cond->lock();
     m_svTState = TS_FREE;
-    pthread_cond_wait(&m_cond, &m_mutex);
-    pthread_mutex_unlock(&m_mutex);
+    m_cond->wait();
+    m_cond->unlock();
 }
 
