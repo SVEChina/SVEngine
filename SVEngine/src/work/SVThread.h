@@ -35,6 +35,8 @@ namespace sv {
         //同步接口-停止(销毁)
         void stop();
         
+        void setMis(SVMisPtr _mis,bool _clean = false);
+        
         //执行一次
         void execonce();
         
@@ -47,9 +49,11 @@ namespace sv {
         SV_THREAD_STATE m_svTState;     //SV线程状态
         SVCondPtr m_cond;
         std::thread *m_pThread;         //线程
+        SVMisPtr m_mis;
         bool m_use;
         bool m_once;
         bool m_run;
+        bool m_misclean;
     };
     
 //!namespace

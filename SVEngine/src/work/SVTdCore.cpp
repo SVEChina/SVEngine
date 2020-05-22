@@ -50,7 +50,7 @@ SVCond::~SVCond(){
 }
 
 s32 SVCond::trylock() {
-    return pthread_mutex_trylock(&mutex);
+    return pthread_mutex_trylock(&m_mutex);
 }
 
 void SVCond::lock(){

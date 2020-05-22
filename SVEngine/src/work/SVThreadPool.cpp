@@ -7,15 +7,6 @@
 #include <sys/time.h>
 #include "SVThreadPool.h"
 
-SVThreadPoolPtr SVThreadPool::m_inst = nullptr;
-    
-SVThreadPoolPtr SVThreadPool::getInst() {
-    if(!m_inst) {
-        m_inst = MakeSharedPtr<SVThreadPool>();
-    }
-    return m_inst;
-}
-
 SVThreadPool::SVThreadPool(){
 }
 

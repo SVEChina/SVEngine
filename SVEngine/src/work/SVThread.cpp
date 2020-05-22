@@ -1,7 +1,10 @@
 #include <sys/time.h>
 #include "SVThread.h"
+#include "SVMis.h"
 
 SVThread::SVThread(){
+    m_mis = nullptr;
+    m_misclean = true;
     m_cond = MakeSharedPtr<SVCond>();
     m_svTState = TS_INIT;
     m_use = false;
@@ -16,6 +19,8 @@ SVThread::SVThread(){
 }
 
 SVThread::SVThread(SVCondPtr _cond) {
+    m_mis = nullptr;
+    m_misclean = true;
     m_cond = _cond;
     m_svTState = TS_INIT;
     m_use = false;
@@ -52,6 +57,11 @@ void SVThread::stop(){
     m_run = false;
 }
 
+void SVThread::setMis(SVMisPtr _mis,bool _clean) {
+    m_mis = _mis;
+    m_misclean = _clean;
+}
+
 void SVThread::_update(){
     //进入逻辑主循环
     while( 1 ) {
@@ -66,7 +76,12 @@ void SVThread::_update(){
             //执行逻辑
             m_svTState = TS_WORK;
             //
-            
+            if(m_mis) {
+                m_mis->exec(0.0f);
+            }
+            if(m_misclean) {
+                m_mis = nullptr;
+            }
         }catch( ... ) {
             m_pThread->join();
             throw;

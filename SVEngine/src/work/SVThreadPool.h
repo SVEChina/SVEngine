@@ -27,12 +27,6 @@ namespace sv {
         
         ~SVThreadPool();
         
-    private:
-        static SVThreadPoolPtr m_inst;
-        
-    public:
-        static SVThreadPoolPtr getInst();
-        
         SVThreadPtr applyThread();
         
         SVThreadPtr getThread(s32 && _index);

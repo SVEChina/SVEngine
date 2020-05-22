@@ -21,6 +21,10 @@ namespace sv {
         
         ~SVThreadGroup();
         
+        void create(s32 _num)
+        
+        void destroy();
+        
         void run(bool _sync);
         
         void thread_wait();

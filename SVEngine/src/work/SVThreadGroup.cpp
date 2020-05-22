@@ -20,6 +20,14 @@ SVThreadGroup::~SVThreadGroup(){
     pthread_mutex_destroy(&m_mutex);
 }
 
+void SVThreadGroup::create(s32 _num) {
+    m_count = _num;
+}
+
+void SVThreadGroup::destroy() {
+    
+}
+
 //线程组执行线程
 void SVThreadGroup::run(bool _sync) {
     if(_sync) {
