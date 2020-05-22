@@ -4,7 +4,6 @@
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include <sys/time.h>
 #include "SVThreadGroup.h"
 
 SVThreadGroup::SVThreadGroup(){
@@ -21,11 +20,25 @@ SVThreadGroup::~SVThreadGroup(){
 }
 
 void SVThreadGroup::create(s32 _num) {
+    if(threadIDPool.size()>0) {
+        return ;
+    }
     m_count = _num;
+    for(s32 i=0;i<m_count;i++) {
+        inThreadPtr t_in_td = MakeSharedPtr<inThread>(THIS_TO_SHAREPTR(SVThreadGroup));
+        threadIDPool.append(t_in_td);
+    }
 }
 
 void SVThreadGroup::destroy() {
-    
+    threadIDPool.clear();
+    m_count = 0;
+}
+
+void SVThreadGroup::setMis(s32 _index,SVMisPtr _mis) {
+    if( _index<threadIDPool.size() ) {
+        threadIDPool[_index]->setMis(_mis,false);
+    }
 }
 
 //线程组执行线程

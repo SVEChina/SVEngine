@@ -29,16 +29,14 @@ namespace sv {
         
         ~SVThread();
         
-        //同步接口-开启(创建)
+        //(创建)
         bool start(bool _once = true);
         
-        //同步接口-停止(销毁)
+        //(销毁)
         void stop();
         
+        //设置任务
         void setMis(SVMisPtr _mis,bool _clean = false);
-        
-        //执行一次
-        void execonce();
         
     protected:
         void _wait();       //wait阶段
@@ -47,9 +45,9 @@ namespace sv {
         
     public:
         SV_THREAD_STATE m_svTState;     //SV线程状态
-        SVCondPtr m_cond;
-        std::thread *m_pThread;         //线程
-        SVMisPtr m_mis;
+        SVCondPtr m_cond;       //条件变量
+        std::thread *m_pThread; //线程
+        SVMisPtr m_mis;         //任务
         bool m_use;
         bool m_once;
         bool m_run;

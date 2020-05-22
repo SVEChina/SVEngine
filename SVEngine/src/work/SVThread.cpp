@@ -58,6 +58,8 @@ void SVThread::stop(){
 }
 
 void SVThread::setMis(SVMisPtr _mis,bool _clean) {
+    if(m_svTState == TS_WORK)
+        return ;
     m_mis = _mis;
     m_misclean = _clean;
 }
