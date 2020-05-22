@@ -7,7 +7,7 @@
 
 #include "SVRenderer.h"
 #include "../app/SVInst.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../mtl/SVTexMgr.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVTextureIOS.h"

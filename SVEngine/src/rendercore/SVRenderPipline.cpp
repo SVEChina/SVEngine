@@ -11,7 +11,7 @@
 #include "SVRenderMgr.h"
 #include "SVRenderer.h"
 #include "../app/SVInst.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../basesys/SVCameraMgr.h"
 #include "../node/SVCameraNode.h"
 #include <sys/time.h>

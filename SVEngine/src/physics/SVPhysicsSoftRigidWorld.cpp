@@ -6,7 +6,7 @@
 //
 #include "SVPhysicsSoftRigidWorld.h"
 #include "bodies/SVPhysicsBodySoft.h"
-#include "../../base/SVLock.h"
+#include "../../work/SVTdCore.h"
 
 SVPhysicsSoftRigidWorld::SVPhysicsSoftRigidWorld(SVInst* _app):SVPhysicsWorldBase(_app) {
     m_type = E_PHYSICS_WORLD_SOFT_RIGID;

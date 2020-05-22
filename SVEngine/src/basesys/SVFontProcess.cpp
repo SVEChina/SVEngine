@@ -8,7 +8,7 @@
 #include "SVFontProcess.h"
 #include "../app/SVInst.h"
 #include "../app/SVGlobalParam.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../core/SVBMFont.h"
 #include "../event/SVEventMgr.h"
 #include "../event/SVEvent.h"

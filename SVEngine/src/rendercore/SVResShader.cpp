@@ -7,7 +7,7 @@
 
 #include "SVResShader.h"
 #include "../app/SVInst.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "SVRenderer.h"
 
 SVResShader::SVResShader(SVInst* _app)

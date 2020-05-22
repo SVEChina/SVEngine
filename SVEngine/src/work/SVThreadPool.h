@@ -7,6 +7,7 @@
 #ifndef SV_THREADPOOL_H
 #define SV_THREADPOOL_H
 
+#include "SVWorkDeclare.h"
 #include "SVThread.h"
 
 //线程池之
@@ -15,14 +16,22 @@
  */
 
 namespace sv {
-
-    //线程组(控制线程同步逻辑的)
-
+    
+    /*
+        要做成单例
+     */
+    
     class SVThreadPool: public SVObject {
     public:
         SVThreadPool();
         
         ~SVThreadPool();
+        
+    private:
+        static SVThreadPoolPtr m_inst;
+        
+    public:
+        static SVThreadPoolPtr getInst();
         
         SVThreadPtr applyThread();
         

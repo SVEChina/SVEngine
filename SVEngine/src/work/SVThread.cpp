@@ -17,6 +17,7 @@ SVThread::SVThread(){
 }
 
 SVThread::~SVThread(){
+    //
     m_pWorkCallback = nullptr;
     if ( m_pThread && m_pThread->joinable() ) {
         m_pThread->join();
@@ -50,16 +51,21 @@ void SVThread::stopThread(){
     }
 }
 
-void SVThread::_update(){
-    //刚进来，就要挂起来
+void SVThread::_wait() {
     pthread_mutex_lock(&m_mutex);
     m_svTState = TS_FREE;
     pthread_cond_wait(&m_cond, &m_mutex);
     pthread_mutex_unlock(&m_mutex);
+}
+
+void SVThread::_update(){
+    //刚进来，就要挂起来
+    _wait();
     //进入逻辑主循环
-    m_svTState = TS_WORK;
     while( m_run ) {
         try {
+            //
+            m_svTState = TS_WORK;
             //执行逻辑
             if(m_pWorkCallback) {
                 m_pWorkCallback();
@@ -69,10 +75,7 @@ void SVThread::_update(){
             }
             SV_LOG_ERROR(m_pThread->id);
             //挂起
-            pthread_mutex_lock(&m_mutex);
-            m_svTState = TS_FREE;
-            pthread_cond_wait(&m_cond, &m_mutex);
-            pthread_mutex_unlock(&m_mutex);
+            _wait();
         }catch( ... ) {
             m_pThread->join();
             throw;

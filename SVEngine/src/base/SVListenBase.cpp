@@ -1,5 +1,5 @@
 #include "SVListenBase.h"
-#include "SVLock.h"
+#include "SVTdCore.h"
 
 SVListenBase::SVListenBase(SVInst* _app)
 :SVGBase(_app){

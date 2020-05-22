@@ -8,7 +8,7 @@
 #include "SVCameraMgr.h"
 #include "../basesys/SVBasicSys.h"
 #include "../node/SVCameraNode.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../rendercore/SVRenderMgr.h"
 #include "../rendercore/SVRenderer.h"
 #include "../rendercore/SVRenderTexture.h"

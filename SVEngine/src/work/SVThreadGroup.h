@@ -21,7 +21,18 @@ namespace sv {
         
         ~SVThreadGroup();
         
-
+        void run(bool _sync);
+        
+        void thread_start();
+        
+        void thread_back();
+        
+    private:
+        //
+        SVArray<s32> threadIDPool;    //线程的id池子
+        SVSemPtr m_sem;
+        s32 m_count;
+        pthread_mutex_t pmutex;
     };
     
 }//!namespace sv

@@ -7,7 +7,7 @@
 
 #include "SVModuleSys.h"
 #include "SVModuleBase.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 SVModuleSys::SVModuleSys(SVInst *_app)
 :SVSysBase(_app) {
     m_subsysType = "SVModuleSys";

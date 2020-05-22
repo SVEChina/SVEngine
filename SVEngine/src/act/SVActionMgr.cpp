@@ -6,8 +6,9 @@
 //
 
 #include "SVActionMgr.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "SVActionUnit.h"
+
 SVActionMgr::SVActionMgr(SVInst *_app)
 :SVSysBase(_app) {
     m_subsysType = "SVActionMgr";

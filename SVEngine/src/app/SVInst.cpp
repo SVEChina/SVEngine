@@ -8,7 +8,7 @@
 #include "SVInst.h"
 #include "SVGlobalMgr.h"
 #include "SVGlobalParam.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../work/SVThreadPool.h"
 #include "../file/SVFileMgr.h"
 #include "../rendercore/SVRenderMgr.h"
@@ -32,7 +32,6 @@ void SVInst::init() {
     //同步方式
     m_pGlobalMgr = MakeSharedPtr<SVGlobalMgr>(this);
     m_pGlobalParam = MakeSharedPtr<SVGlobalParam>(this);
-    m_pTPool = MakeSharedPtr<SVThreadPool>();
     //构建线程池
     m_pGlobalMgr->m_pConfig = MakeSharedPtr<SVConfig>(this);
     m_pGlobalMgr->m_pConfig->init();
@@ -41,7 +40,6 @@ void SVInst::init() {
 }
 
 void SVInst::destroy() {
-    m_pTPool = nullptr;
     m_pGlobalMgr = nullptr;
     m_pGlobalParam = nullptr;
     m_svst = SV_ST_NULL;

@@ -6,7 +6,6 @@
 //
 
 #include "SVOpLoadBase.h"
-#include "../base/SVSign.h"
 #include "../basesys/SVBasicSys.h"
 #include "../basesys/SVPickProcess.h"
 #include "../basesys/SVSceneMgr.h"

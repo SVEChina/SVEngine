@@ -9,7 +9,7 @@
 #include "../app/SVGlobalMgr.h"
 #include "../core/SVSpine.h"
 #include "../core/SVDeformImageMove.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../base/SVPreDeclare.h"
 #include "../node/SVNode.h"
 #include "../node/SVScene.h"

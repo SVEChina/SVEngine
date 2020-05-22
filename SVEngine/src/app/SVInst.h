@@ -53,8 +53,6 @@ namespace sv {
         SVGlobalMgrPtr m_pGlobalMgr;
         //全局参数
         SVGlobalParamPtr m_pGlobalParam;
-        //线程管理部分
-        SVThreadPoolPtr m_pTPool;
         //
         SV_STATE m_svst;
         //

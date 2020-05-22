@@ -7,7 +7,7 @@
 
 #include "SVMark.h"
 #include "../node/SVNode.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../base/SVPreDeclare.h"
 #include "../basesys/SVSceneMgr.h"
 #include "../node/SVScene.h"

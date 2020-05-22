@@ -10,7 +10,7 @@
 #include "../../app/SVInst.h"
 #include "../../base/SVPreDeclare.h"
 #include "../../base/SVDataSwap.h"
-#include "../../base/SVLock.h"
+#include "../../work/SVTdCore.h"
 #include "../../base/SVDataChunk.h"
 #include "../../mtl/SVMtlDef.h"
 #include "../../mtl/SVTexMgr.h"

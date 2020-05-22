@@ -12,7 +12,7 @@
 #include "../base/SVDatatDef.h"
 #include "../app/SVInst.h"
 #include "SVPersonTracker.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 
 //最大支持面部400个点
 #define MAX_FACE_PT_NUM 200

@@ -10,7 +10,7 @@
 
 #include "../basesys/SVSysBase.h"
 #include "../base/SVArray.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "SVEventDef.h"
 
 namespace sv {

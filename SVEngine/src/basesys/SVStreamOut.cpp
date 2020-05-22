@@ -8,7 +8,7 @@
 #include "SVStreamOut.h"
 #include "../app/SVInst.h"
 #include "../app/SVGlobalMgr.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../node/SVFrameOutIOS.h"
 #include "../node/SVScene.h"
 #include "../node/SVFrameOutTex.h"

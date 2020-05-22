@@ -18,7 +18,6 @@
 #include "../rendercore/SVRenderCmd.h"
 #include "../rendercore/SVRenderScene.h"
 #include "../rendercore/SVRenderer.h"
-#include "../base/SVSign.h"
 #include "../basesys/SVConfig.h"
 
 

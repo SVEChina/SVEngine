@@ -9,7 +9,7 @@
 #define SV_PHYSICS_WORLDBASE_H
 
 #include "../base/SVGBase.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../base/SVVec3.h"
 #include "btBulletDynamicsCommon.h"
 #define PHYSICSWORLDSTEP 1.0f/30.0f

@@ -26,7 +26,6 @@ namespace sv {
     DECLARE_SHAREPTR(SVGlobalParam);
     
     //模块module
-    DECLARE_SHAREPTR(SVThreadPool);
     DECLARE_SHAREPTR(SVFileMgr);
     DECLARE_SHAREPTR(SVConfig);
     DECLARE_SHAREPTR(SVStaticData);
@@ -34,11 +33,9 @@ namespace sv {
     
     //基础
     DECLARE_SHAREPTR(SVRandom);
-    DECLARE_SHAREPTR(SVLock);
-    DECLARE_SHAREPTR(SVSignLock);
-    DECLARE_SHAREPTR(SVThread);
     DECLARE_SHAREPTR(SVDataSwap);
     DECLARE_SHAREPTR(SVModify);
+    DECLARE_SHAREPTR(SVLock);
 
     //回调
     DECLARE_SHAREPTR(SVCallbackBase);

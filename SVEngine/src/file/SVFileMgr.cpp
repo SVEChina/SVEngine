@@ -6,7 +6,7 @@
 //
 
 #include "SVFileMgr.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../base/SVDataSwap.h"
 SVFileMgr::SVFileMgr(SVInst *_app)
 :SVSysBase(_app) {

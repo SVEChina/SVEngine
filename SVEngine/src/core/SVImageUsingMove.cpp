@@ -6,7 +6,7 @@
 //
 
 #include "SVImageUsingMove.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 
 SVImageUsingMove::SVImageUsingMove(){
     m_lock=MakeSharedPtr<SVLock>();

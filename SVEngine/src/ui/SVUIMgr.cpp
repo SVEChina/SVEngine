@@ -7,7 +7,7 @@
 
 #include "SVUIMgr.h"
 #include "../node/SVNode.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 
 SVUIMgr::SVUIMgr(SVInst *_app)
 :SVSysBase(_app) {

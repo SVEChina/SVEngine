@@ -15,7 +15,7 @@
 #include "../../base/SVDataChunk.h"
 #include "../../file/SVFileMgr.h"
 #include "../../base/SVDataSwap.h"
-#include "../../base/SVLock.h"
+#include "../../work/SVTdCore.h"
 #include "../../rendercore/SVRenderMgr.h"
 #include "../SVRenderer.h"
 #include "../SVRenderState.h"

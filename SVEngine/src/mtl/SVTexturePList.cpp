@@ -8,7 +8,7 @@
 #include "SVTexturePList.h"
 #include "../app/SVInst.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../rendercore/SVGL/SVRendererGL.h"
 #include "../rendercore/SVGL/SVRResGL.h"
 #include "../rendercore/SVVulkan/SVRendererVK.h"

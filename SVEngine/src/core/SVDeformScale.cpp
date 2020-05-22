@@ -7,7 +7,7 @@
 //
 
 #include "SVDeformScale.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 
 SVDeformScale::SVDeformScale(){
     m_lock=MakeSharedPtr<SVLock>();

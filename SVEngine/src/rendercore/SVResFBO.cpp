@@ -7,7 +7,7 @@
 
 #include "SVResFBO.h"
 #include "../app/SVInst.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "SVRenderer.h"
 
 SVResFBO::SVResFBO(SVInst* _app)

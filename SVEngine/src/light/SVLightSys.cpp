@@ -6,7 +6,7 @@
 //
 
 #include "SVLightSys.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../node/SVCameraNode.h"
 #include "../act/SVCameraCtrl.h"
 

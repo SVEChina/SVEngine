@@ -8,7 +8,7 @@
 #include "SVMesh.h"
 #include "../app/SVInst.h"
 #include "../base/SVDataSwap.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../mtl/SVMtlGLTF.h"
 #include "../mtl/SVMtlLib.h"
 #include "../rendercore/SVRenderMesh.h"

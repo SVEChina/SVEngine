@@ -10,7 +10,7 @@
 //数据交换区 有信号量互斥 共享区域
 
 #include "../base/SVObject.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../base/SVPreDeclare.h"
 
 namespace sv {

@@ -11,7 +11,7 @@
 #include "../basesys/SVCameraMgr.h"
 #include "../core/SVDeformImageMove.h"
 #include "../node/SVScene.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 
 SVDeformMgr::SVDeformMgr(SVInst *_app)
 :SVSysBase(_app){

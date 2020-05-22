@@ -8,7 +8,6 @@
 #include "SVThreadWorkCallback.h"
 #include "../app/SVInst.h"
 #include "../work/SVThread.h"
-#include "../base/SVSign.h"
 #include "../work/SVThreadPool.h"
 //空跑模式
 void process_wt_null(SVInst* _app,SVThread* _thread,SV_THREAD_STAGE _stage){

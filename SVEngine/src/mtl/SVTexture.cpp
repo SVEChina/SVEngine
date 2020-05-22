@@ -10,7 +10,7 @@
 #include "../app/SVInst.h"
 #include "../basesys/SVConfig.h"
 #include "../rendercore/SVRenderMgr.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../base/SVDataSwap.h"
 //
 #include "../rendercore/SVGL/SVRResGL.h"

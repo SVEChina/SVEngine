@@ -7,7 +7,7 @@
 
 #include "SVResVBO.h"
 #include "../app/SVInst.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "SVRenderer.h"
 
 s32 SVResVBO::getVertexFormateSize(VFTYPE _type) {

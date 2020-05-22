@@ -6,7 +6,7 @@
 //
 
 #include "SVEffectMusic.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../event/SVEventMgr.h"
 #include "../event/SVEvent.h"
 #include "../app/SVInst.h"

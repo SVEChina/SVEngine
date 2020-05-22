@@ -11,7 +11,7 @@
 #include "SVRenderPipline.h"
 #include "SVRenderer.h"
 #include "../app/SVInst.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include <sys/time.h>
 
 //

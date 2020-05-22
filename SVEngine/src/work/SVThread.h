@@ -11,7 +11,8 @@
 //线程基类
 
 #include "../base/SVObject.h"
-#include "../base/SVPreDeclare.h"
+#include "SVWorkDeclare.h"
+#include "SVTdCore.h"
 #include <thread>
 
 namespace sv {
@@ -36,6 +37,7 @@ namespace sv {
         void execonce();
         
     protected:
+        void _wait();       //wait阶段
         
         virtual void _update();
         

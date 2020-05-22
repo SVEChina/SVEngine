@@ -14,7 +14,7 @@
 #include "SVRenderer.h"
 #include "../mtl/SVTexture.h"
 #include "../mtl/SVMtlCore.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "../basesys/SVConfig.h"
 #include "../basesys/SVStaticData.h"
 #include "../app/SVInst.h"

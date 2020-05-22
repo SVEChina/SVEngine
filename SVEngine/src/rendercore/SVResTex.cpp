@@ -7,7 +7,7 @@
 
 #include "SVResTex.h"
 #include "../app/SVInst.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 #include "SVRenderer.h"
 
 SVResTex::SVResTex(SVInst* _app)

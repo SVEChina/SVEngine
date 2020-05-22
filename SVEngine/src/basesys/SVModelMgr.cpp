@@ -7,7 +7,7 @@
 
 #include "SVModelMgr.h"
 #include "../core/SVModel.h"
-#include "../base/SVLock.h"
+#include "../work/SVTdCore.h"
 //
 SVModelMgr::SVModelMgr(SVInst* _app)
 :SVSysBase(_app){
