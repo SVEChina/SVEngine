@@ -107,6 +107,7 @@ SVRenderTargetPtr SVRenderMgr::getRenderTarget(cptr8 _name) {
 
 //只关心渲染，不应该关心环境的切换 环境放到外面去调用
 void SVRenderMgr::render(){
+    //
     m_renderLock->lock();
     if(m_pRenderScene ){
         if( m_pRenderer ) {

@@ -47,8 +47,7 @@ void SVThreadGroup::run(bool _sync) {
         //同步模式
         m_count = 0;
         m_cond->broad();   //通知所有子线成跑起来
-        //自己阻塞，等待
-        m_sem->wait();
+        m_sem->wait();  //自己阻塞，等待
     }else{
         //异步模式
         m_count = 0;
@@ -66,7 +65,6 @@ void SVThreadGroup::thread_back() {
     m_count++;
     pthread_mutex_unlock(&m_mutex);
     if( m_count == threadIDPool.size() ) {
-        //自己继续执行
-        m_sem->post();
+        m_sem->post();  //自己继续执行
     }
 }

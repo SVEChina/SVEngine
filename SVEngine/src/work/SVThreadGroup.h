@@ -108,14 +108,14 @@ namespace sv {
             }
             //
             SVThreadGroupPtr m_gp;
-            SV_THREAD_STATE m_svTState;     //SV线程状态
-            std::thread *m_pThread; //线程
+            SV_THREAD_STATE m_svTState; //SV线程状态
+            std::thread *m_pThread;     //线程
             sv::SVMisPtr m_mis;         //任务
             bool m_run;
             bool m_misclean;
         };
         //
-        SVArray<inThreadPtr> threadIDPool;    //内部线程数组
+        SVArray<inThreadPtr> threadIDPool; //内部线程数组
     };
     
 }//!namespace sv
