@@ -28,13 +28,29 @@ namespace sv {
         
         virtual bool swap();
         
-        virtual SVRendererPtr createRenderer();
+        virtual SVRendererPtr createRenderer(SVInstPtr _handle);
         
     protected:
         s32 m_glversion;
         EAGLContext* m_pGLContext;
     };
 
+    //Metal渲染器
+    class SVCtxIOSMetal: public SVCtxBase {
+    public:
+        SVCtxIOSMetal();
+        
+        ~SVCtxIOSMetal();
+
+        virtual bool activeContext();
+        
+        virtual bool swap();
+        
+        virtual SVRendererPtr createRenderer(SVInstPtr _handle);
+        
+    protected:
+        s32 m_glversion;
+    };
     
 }//!namespace sv
 

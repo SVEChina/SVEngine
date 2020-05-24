@@ -28,6 +28,11 @@ namespace sv {
         void timeTag(bool _clear,cptr8 _tag);
         
     public:
+        //渲染器
+        //SVRendererPtr m_pRenderer;
+        //渲染技术
+        SVRenderMgrPtr m_pRenderMgr;
+        
         //文件部分
         SVFileMgrPtr m_pFileMgr;
         //配置部分
@@ -50,8 +55,7 @@ namespace sv {
         SVShaderMgrPtr m_pShaderMgr;
         //纹理部分
         SVTexMgrPtr m_pTexMgr;
-        //渲染部分
-        SVRenderMgrPtr m_pRenderMgr;
+
         //识别部分
         SVDetectMgrPtr m_pDetectMgr;
         //动画部分

@@ -35,10 +35,8 @@ void process_wt_record(SVInst* _app,SVThread* _thread,SV_THREAD_STAGE _stage){
 
 //工作线程回调
 void workThreadCallback(SVInst* _app,SVThread* _thread,SV_THREAD_STAGE _stage){
-    SV_LOG_INFO("thread back name %s stage %d \n",_thread->getName(),int(_stage) );
 }
 
 //线程销毁回调
 void workThreadDestroyCallback(SVInst* _app,SVThread* _thread,SV_THREAD_STAGE _stage){
-    SV_LOG_INFO("thread destroy: name %s \n",_thread->getName() );
 }

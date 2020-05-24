@@ -8,3 +8,12 @@ SVGBase::SVGBase(SVInst* _app)
 SVGBase::~SVGBase(){
     mApp = nullptr;
 }
+
+SVGBaseEx::SVGBaseEx(SVInstPtr _app)
+:mApp(_app){
+}
+
+SVGBaseEx::~SVGBaseEx(){
+    mApp = nullptr;
+}
+

@@ -16,6 +16,10 @@
 #include "../core/SVVertDef.h"
 #include "../mtl/SVMtlParamBase.h"
 
+//渲染器封装的是算法
+
+//渲染内核跨平台
+
 namespace sv {
     
     namespace render{
@@ -27,11 +31,19 @@ namespace sv {
             u32 m_width;
             u32 m_height;
         };
-        //渲染器
+    
+        /*
+         渲染内核
+         1.渲染资源的创建与销毁
+         2.渲染命令的统计（读，写流）
+         3.渲染优化（材质排序，批次合并）
+         4.渲染状态管理
+         5.渲染
+         */
         
-        class SVRenderer: public SVGBase {
+        class SVRenderer: public SVGBaseEx {
         public:
-            SVRenderer(SVInst* _app);
+            SVRenderer(SVInstPtr _app);
             
             ~SVRenderer();
             //初始化
@@ -88,6 +100,11 @@ namespace sv {
             void clearMatStack();
             
         protected:
+            //资源创建，销毁pipline
+            SVRenderPiplinePtr m_resPipline; //写管线
+            //渲染pipline
+            SVRenderPiplinePtr m_readPipline;  //读管线
+            
             //主FBO
             SVRenderTexturePtr m_pRenderTex;
             //各种内置纹理
@@ -114,7 +131,6 @@ namespace sv {
             s32 m_outHeight;
             
         public:
-            //renderder interface
             //提交纹理
             virtual void submitTex(u32 _channel,TexUnit& _unit){}
             //提交unifrom matrix

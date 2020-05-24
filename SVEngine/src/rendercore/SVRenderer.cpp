@@ -17,8 +17,8 @@
 #include "SVRObjBase.h"
 #include "SVRenderState.h"
 
-SVRenderer::SVRenderer(SVInst* _app)
-:SVGBase(_app)
+SVRenderer::SVRenderer(SVInstPtr _app)
+:SVGBaseEx(_app)
 ,m_pRenderTex(nullptr)
 ,m_pRState(nullptr)
 ,m_inWidth(256)
@@ -46,11 +46,9 @@ void SVRenderer::destroy(){
         m_svTex[i] = nullptr;
     }
     clearRes();
-    //
     m_stack_proj.destroy();
     m_stack_view.destroy();
     m_stack_vp.destroy();
-    //
     m_resLock = nullptr;
 }
 
@@ -142,53 +140,55 @@ bool SVRenderer::hasSVTex(SVTEXTYPE _type) {
 
 //创建内置纹理 有问题后期删掉
 SVTexturePtr SVRenderer::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate, bool _enableMipMap) {
-    SVTexturePtr t_tex = MakeSharedPtr<SVTexture>(mApp);;
-    SVString t_str("");
-    t_str.printf("intexture_%d",s32(_type));
-    #if defined(SV_ANDROID)
-    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_RGBA,_enableMipMap);
-    #else
-    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_BGRA,_enableMipMap);
-    #endif
-    mApp->getRenderMgr()->pushRCmdCreate(t_tex);
-    m_svTex[_type] = t_tex;
-    return m_svTex[_type];
+//    SVTexturePtr t_tex = MakeSharedPtr<SVTexture>(mApp);;
+//    SVString t_str("");
+//    t_str.printf("intexture_%d",s32(_type));
+//    #if defined(SV_ANDROID)
+//    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_RGBA,_enableMipMap);
+//    #else
+//    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_BGRA,_enableMipMap);
+//    #endif
+//    mApp->getRenderMgr()->pushRCmdCreate(t_tex);
+//    m_svTex[_type] = t_tex;
+//    return m_svTex[_type];
+    return nullptr;
 }
 
 //创建内置纹理 有问题后期删掉
 SVTexturePtr SVRenderer::createSVTex(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate, bool _enableMipMap) {
-    SVTexturePtr t_tex = MakeSharedPtr<SVTexture>(mApp);;
-    SVString t_str("");
-    t_str.printf("intexture_%d",s32(_type));
-    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate,_enableMipMap);
-    mApp->getRenderMgr()->pushRCmdCreate(t_tex);
-    m_svTex[_type] = t_tex;
-    return m_svTex[_type];
+//    SVTexturePtr t_tex = MakeSharedPtr<SVTexture>(mApp);;
+//    SVString t_str("");
+//    t_str.printf("intexture_%d",s32(_type));
+//    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate,_enableMipMap);
+//    mApp->getRenderMgr()->pushRCmdCreate(t_tex);
+//    m_svTex[_type] = t_tex;
+//    return m_svTex[_type];
+    return nullptr;
 }
 
 //创建内置纹理 IOS
 SVTexturePtr SVRenderer::createSVTexIOS(SVTEXTYPE _type,s32 _w,s32 _h,s32 _formate, bool _enableMipMap) {
 #if defined( SV_IOS )
-    SVTexturePtr t_tex = MakeSharedPtr<SVTextureIOS>(mApp);;
-    SVString t_str("");
-    t_str.printf("intexture_%d",s32(_type));
-    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_BGRA,_enableMipMap);
-    mApp->getRenderMgr()->pushRCmdCreate(t_tex);
-    m_svTex[_type] = t_tex;
-    return m_svTex[_type];
+//    SVTexturePtr t_tex = MakeSharedPtr<SVTextureIOS>(mApp);;
+//    SVString t_str("");
+//    t_str.printf("intexture_%d",s32(_type));
+//    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, GL_RGBA, GL_BGRA,_enableMipMap);
+//    mApp->getRenderMgr()->pushRCmdCreate(t_tex);
+//    m_svTex[_type] = t_tex;
+//    return m_svTex[_type];
 #endif
     return nullptr;
 }
 
 SVTexturePtr SVRenderer::createSVTexIOS(SVTEXTYPE _type,s32 _w,s32 _h,s32 _informate,s32 _daformate, bool _enableMipMap) {
 #if defined( SV_IOS )
-    SVTexturePtr t_tex = MakeSharedPtr<SVTextureIOS>(mApp);
-    SVString t_str("");
-    t_str.printf("intexture_%d",s32(_type));
-    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate,_enableMipMap);
-    mApp->getRenderMgr()->pushRCmdCreate(t_tex);
-    m_svTex[_type] = t_tex;
-    return m_svTex[_type];
+//    SVTexturePtr t_tex = MakeSharedPtr<SVTextureIOS>(mApp);
+//    SVString t_str("");
+//    t_str.printf("intexture_%d",s32(_type));
+//    t_tex->init(t_str.c_str(), GL_TEXTURE_2D, _w, _h, _informate, _daformate,_enableMipMap);
+//    mApp->getRenderMgr()->pushRCmdCreate(t_tex);
+//    m_svTex[_type] = t_tex;
+//    return m_svTex[_type];
 #endif
     return nullptr;
 }

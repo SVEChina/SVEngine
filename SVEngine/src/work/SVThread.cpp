@@ -70,7 +70,7 @@ void SVThread::_update(){
         try {
             //挂起来
             _wait();
-            SV_LOG_ERROR(m_pThread->id);
+//            SV_LOG_ERROR(m_pThread->id);
             //检测
             if(!m_run) {
                 break;

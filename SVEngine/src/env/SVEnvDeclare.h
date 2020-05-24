@@ -17,7 +17,7 @@ namespace sv {
     DECLARE_SHAREPTR(SVCtxBase);
 #ifdef SV_IOS
     DECLARE_SHAREPTR(SVCtxIOS);
-    //DECLARE_SHAREPTR(SVContextMetal);
+    DECLARE_SHAREPTR(SVCtxIOSMetal);
 #endif
         
 #ifdef SV_ANDROID

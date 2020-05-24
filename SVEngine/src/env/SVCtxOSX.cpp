@@ -8,6 +8,8 @@
 
 #include "SVCtxOSX.h"
 #include "../app/SVInst.h"
+#include "../rendercore/SVMetal/SVRendererMetal.h"
+#include "../rendercore/SVGL/SVRendererGL.h"
 
 #ifdef SV_OSX
 
@@ -21,9 +23,9 @@ SVCtxOSXGL::~SVCtxOSXGL() {
     m_pGLContext = nullptr;
 }
 
-SVRendererPtr SVCtxOSXGL::createRenderer() {
-    //SVRendererGLPtr t_renderer = Ma
-    return nullptr;
+SVRendererPtr SVCtxOSXGL::createRenderer(SVInstPtr _handle) {
+    SVRendererGLPtr t_renderer = MakeSharedPtr<SVRendererGL>(_handle);
+    return t_renderer;
 }
 
 bool SVCtxOSXGL::activeContext(){
@@ -51,8 +53,9 @@ SVCtxOSXMetal::SVCtxOSXMetal()
 SVCtxOSXMetal::~SVCtxOSXMetal() {
 }
 
-SVRendererPtr SVCtxOSXMetal::createRenderer() {
-    return nullptr;
+SVRendererPtr SVCtxOSXMetal::createRenderer(SVInstPtr _handle) {
+    SVRendererMetalPtr t_renderer = MakeSharedPtr<SVRendererMetal>(nullptr);
+    return t_renderer;
 }
 
 bool SVCtxOSXMetal::activeContext(){

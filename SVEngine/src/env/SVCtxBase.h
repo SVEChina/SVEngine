@@ -14,6 +14,10 @@
 
 namespace sv {
     
+    /*
+     环境不同，搭载的渲染器自然也不同，所以不必要显示创建渲染器
+     */
+
     class SVCtxBase: public SVObject {
     public:
         SVCtxBase();
@@ -24,7 +28,7 @@ namespace sv {
         
         virtual bool swap();
         
-        virtual SVRendererPtr createRenderer(){ return nullptr;}
+        virtual SVRendererPtr createRenderer(SVInstPtr _handle){ return nullptr;}
     };
     
 }//!namespace sv

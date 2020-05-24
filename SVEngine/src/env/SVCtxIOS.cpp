@@ -38,7 +38,7 @@ SVCtxIOS::~SVCtxIOS() {
     SV_LOG_INFO("destroy context ios\n");
 }
 
-SVRendererPtr SVCtxIOS::createRenderer() {
+SVRendererPtr SVCtxIOS::createRenderer(SVInstPtr _handle) {
     return nullptr;
 }
 
@@ -60,6 +60,28 @@ bool SVCtxIOS::swap(){
         }
         return true;
     }
+    return false;
+}
+
+//
+SVCtxIOSMetal::SVCtxIOSMetal()
+:SVCtxBase() {
+    activeContext();
+}
+
+SVCtxIOSMetal::~SVCtxIOSMetal() {
+}
+
+SVRendererPtr SVCtxIOSMetal::createRenderer(SVInstPtr _handle) {
+    return nullptr;
+}
+
+bool SVCtxIOSMetal::activeContext(){
+    return false;
+}
+
+//交换场景
+bool SVCtxIOSMetal::swap(){
     return false;
 }
 

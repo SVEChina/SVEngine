@@ -17,22 +17,15 @@
 #include "../../base/SVCompileConfig.h"
 #include "../../mtl/SVTexture.h"
 
-SVRendererGL::SVRendererGL(SVInst* _app)
+SVRendererGL::SVRendererGL(SVInstPtr _app)
 :SVRenderer(_app){
-    m_pRState = MakeSharedPtr<SVRenderStateGL>(_app);
+    //m_pRState = MakeSharedPtr<SVRenderStateGL>(_app);
 }
 
 SVRendererGL::~SVRendererGL(){
     m_pRState = nullptr;
     m_pRenderTex = nullptr;
 }
-
-//#if defined SV_IOS
-//#elif defined SV_ANDROID
-//            virtual void init(s32 _ver,void * _windows,void* context,s32 _w,s32 _h);
-//#elif defined SV_OSX
-//            virtual void init(s32 _ver,void* _context,void* _pixelFormate,s32 _w,s32 _h);
-//#endif
 
 #if defined SV_IOS
 
@@ -58,33 +51,26 @@ void SVRendererGL::init(s32 _w,s32 _h) {
     m_inHeight = _h;
     mApp->m_pGlobalParam->m_inner_width = _w;
     mApp->m_pGlobalParam->m_inner_height = _h;
+}
+
+#endif
+
+void SVRendererGL::resize(s32 _w,s32 _h) {
+//    //
+//    m_inWidth = _w;
+//    m_inHeight = _h;
+//    //重置size
+//    mApp->m_pGlobalParam->m_inner_width = _w;
+//    mApp->m_pGlobalParam->m_inner_height = _h;
+//    //重新创建主纹理
 //    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
+//    //重新创建主FBO
 //    m_pRenderTex = MakeSharedPtr<SVRenderTexture>(mApp,
 //                                                  t_tex,
 //                                                  true,
 //                                                  true);
 //    mApp->getRenderMgr()->pushRCmdCreate(m_pRenderTex);
 //    m_pRenderTex->setTexture(t_tex);
-}
-
-#endif
-
-void SVRendererGL::resize(s32 _w,s32 _h) {
-    //
-    m_inWidth = _w;
-    m_inHeight = _h;
-    //重置size
-    mApp->m_pGlobalParam->m_inner_width = _w;
-    mApp->m_pGlobalParam->m_inner_height = _h;
-    //重新创建主纹理
-    SVTexturePtr t_tex = createSVTex(E_TEX_MAIN,_w,_h,GL_RGBA);
-    //重新创建主FBO
-    m_pRenderTex = MakeSharedPtr<SVRenderTexture>(mApp,
-                                                  t_tex,
-                                                  true,
-                                                  true);
-    mApp->getRenderMgr()->pushRCmdCreate(m_pRenderTex);
-    m_pRenderTex->setTexture(t_tex);
 }
 
 //

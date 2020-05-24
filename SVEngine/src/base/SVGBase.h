@@ -13,6 +13,7 @@
 #include "../third/rapidjson/document.h"
 #include "../third/rapidjson/stringbuffer.h"
 #include "../third/rapidjson/writer.h"
+
 namespace sv {
     
     class SVGBase: public SVObject {
@@ -24,6 +25,16 @@ namespace sv {
     protected:
         SVInst* mApp;
     };
+
+    class SVGBaseEx: public SVObject {
+    public:
+        SVGBaseEx(SVInstPtr _app);
+    
+        ~SVGBaseEx();
+    
+    protected:
+        SVInstPtr mApp;
+};
     
 }//!namespace
 

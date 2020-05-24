@@ -10,7 +10,7 @@
 #include "../../app/SVInst.h"
 #include "../../base/SVDataSwap.h"
 
-SVRendererMetal::SVRendererMetal(SVInst* _app)
+SVRendererMetal::SVRendererMetal(SVInstPtr _app)
 :SVRenderer(_app){
     m_pDevice = nullptr;
     m_pCmdQueue = nullptr;

@@ -14,111 +14,22 @@
 namespace sv {
     
 #ifdef SV_IOS
-    //创建Metal渲染器
-    class SVOpCreateRenderderMTL : public SVOpBase {
-    public:
-        SVOpCreateRenderderMTL(SVInst *_app,void* _device);
-        
-    protected:
-        void _process(f32 dt);
-        s32 m_w;
-        s32 m_h;
-        void* m_pDevice;
-    };
-    //
-    class SVOpCreateRenderderGLIOS : public SVOpBase {
-    public:
-        SVOpCreateRenderderGLIOS(SVInst *_app,
-                                 s32 _ver,
-                                 void *_context,
-                                 s32 _w,
-                                 s32 _h);
-        
-    protected:
-        void _process(f32 dt);
-        //
-        void* m_glContext;
-        s32 m_glVersion;
-        s32 m_w;
-        s32 m_h;
-    };
+
 #endif
 
 #ifdef SV_WIN
-    //
-    class SVOpCreateRenderderGLWIN : public SVOpBase {
-    public:
-        SVOpCreateRenderderGLWIN(SVInst *_app);
-        
-    protected:
-        void _process(f32 dt);
-    };
+
 #endif
     
 #ifdef SV_OSX
-    //
-    class SVOpCreateRenderderGLOSX : public SVOpBase {
-    public:
-        SVOpCreateRenderderGLOSX(SVInst *_app,
-                                 s32 _ver,
-                                 void*_context,
-                                 void* _pixelFormate,
-                                 s32 _w,
-                                 s32 _h);
-        
-    protected:
-        void _process(f32 dt);
-        
-        void* m_glContext;
-        void* m_pixelFormate;
-        s32 m_glVersion;
-        s32 m_w;
-        s32 m_h;
-    };
+
 #endif
     
 #ifdef SV_ANDROID
     
-    //创建VK渲染器
-    class SVOpCreateRenderderVK : public SVOpBase {
-    public:
-        SVOpCreateRenderderVK(SVInst *_app);
-        
-    protected:
-        void _process(f32 dt);
-        s32 m_w;
-        s32 m_h;
-    };
-    
-    //
-    class SVOpCreateRenderderGLAND : public SVOpBase {
-    public:
-        SVOpCreateRenderderGLAND(SVInst *_app,
-                                 s32 _ver,
-                                 void*_context,
-                                 void* _windows,
-                                 s32 _w,
-                                 s32 _h);
-        
-    protected:
-        void _process(f32 dt);
-        void* m_glContext;
-        void* m_windows;
-        s32 m_glVersion;
-        s32 m_w;
-        s32 m_h;
-    };
 #endif
     
-    //销毁渲染器
-    class SVOpDestroyRenderder : public SVOpBase {
-    public:
-        SVOpDestroyRenderder(SVInst *_app);
-        
-    protected:
-        void _process(f32 dt);
-    };
-    
+
     //改变渲染器尺寸
     class SVOpResizeRenderder : public SVOpBase {
     public:
@@ -163,14 +74,6 @@ namespace sv {
         u32 m_texId;
     };
 
-    //设置GL渲染目标
-    class SVOpDestroyRenderTarget : public SVOpBase {
-    public:
-        SVOpDestroyRenderTarget(SVInst *_app);
-        
-    protected:
-        void _process(f32 dt);
-    };
     
     class SVOpSetRenderMirror: public SVOpBase{
     public:

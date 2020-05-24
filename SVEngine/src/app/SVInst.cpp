@@ -28,6 +28,11 @@ SVInst::SVInst() {
 SVInst::~SVInst() {
 }
 
+SVInstPtr SVInst::makeCreate() {
+    SVInstPtr t_inst = MakeSharedPtr<SVInst>();
+    return t_inst;
+}
+
 void SVInst::init() {
     //同步方式
     m_pGlobalMgr = MakeSharedPtr<SVGlobalMgr>(this);

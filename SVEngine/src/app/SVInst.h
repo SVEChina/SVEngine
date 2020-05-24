@@ -20,9 +20,13 @@ namespace sv {
 
     class SVInst : public SVObject {
     public:
+        //
+        static SVInstPtr makeCreate();
+        //
         SVInst();
         //
         virtual ~SVInst();
+        //
         //初始化SV
         virtual void init();
         //销毁SVå

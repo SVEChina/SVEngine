@@ -25,7 +25,7 @@ namespace sv {
         
         ~SVCtxOSXGL();
         
-        virtual SVRendererPtr createRenderer();
+        virtual SVRendererPtr createRenderer(SVInstPtr _handle);
         
         virtual bool activeContext();
         
@@ -34,14 +34,14 @@ namespace sv {
         NSOpenGLContext* m_pGLContext;
     };
 
-    //
+    //osx metal环境
     class SVCtxOSXMetal: public SVCtxBase {
     public:
         SVCtxOSXMetal();
         
         ~SVCtxOSXMetal();
         
-        virtual SVRendererPtr createRenderer();
+        virtual SVRendererPtr createRenderer(SVInstPtr _handle);
         
         virtual bool activeContext();
         

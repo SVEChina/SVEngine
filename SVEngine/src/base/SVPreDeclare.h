@@ -147,24 +147,10 @@ namespace sv {
     
     DECLARE_SHAREPTR(SVOpDestroyEffect);
     DECLARE_SHAREPTR(SVOpDestroyDivision);
-
-#if defined(SV_IOS)
-    DECLARE_SHAREPTR(SVOpCreateRenderderMTL);
-    DECLARE_SHAREPTR(SVOpCreateRenderderGLIOS);
-#elif defined(SV_ANDROID)
-    DECLARE_SHAREPTR(SVOpCreateRenderderVK);
-    DECLARE_SHAREPTR(SVOpCreateRenderderGLAND);
-#elif defined(SV_OSX)
-   DECLARE_SHAREPTR(SVOpCreateRenderderGLOSX);
-#elif defined(SV_WIN)
-    DECLARE_SHAREPTR(SVOpCreateRenderderGLWIN);
-#endif
     
-    DECLARE_SHAREPTR(SVOpDestroyRenderder);
     DECLARE_SHAREPTR(SVOpResizeRenderder);
     DECLARE_SHAREPTR(SVOpSetRenderTarget);
     DECLARE_SHAREPTR(SVOpSetRenderTextureTarget);
-    DECLARE_SHAREPTR(SVOpDestroyRenderTarget);
     DECLARE_SHAREPTR(SVOpSetRenderMirror);
     DECLARE_SHAREPTR(SVOpAppMode);
     

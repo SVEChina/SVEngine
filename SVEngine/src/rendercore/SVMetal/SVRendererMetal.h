@@ -19,10 +19,14 @@
 namespace sv {
     
     namespace render{
-        
+    
+        /*
+        Metal渲染器
+        */
+    
         class SVRendererMetal : public SVRenderer {
         public:
-            SVRendererMetal(SVInst* _app);
+            SVRendererMetal(SVInstPtr _app);
             
             ~SVRendererMetal();
             

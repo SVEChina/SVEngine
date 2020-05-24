@@ -21,7 +21,7 @@ namespace sv {
         
         class SVRendererGL : public SVRenderer {
         public:
-            SVRendererGL(SVInst* _app);
+            SVRendererGL(SVInstPtr _app);
             
             ~SVRendererGL();
             
@@ -101,6 +101,13 @@ namespace sv {
             virtual void svClearColor(f32 _r,f32 _g,f32 _b,f32 _a);
             //设置清理掩码
             virtual void svClear(s32 _mask);
+            
+        protected:
+            //纹理资源
+            u32 texIDPool[100];
+            //buf资源
+            
+            //shader资源
         };
 
     }//!namespace render

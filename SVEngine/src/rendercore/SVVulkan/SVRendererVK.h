@@ -16,7 +16,7 @@ namespace sv {
         
         class SVRendererVK : public SVRenderer {
         public:
-            SVRendererVK(SVInst* _app);
+            SVRendererVK(SVInstPtr _app);
             
             ~SVRendererVK();
             
