@@ -2,9 +2,9 @@
 precision highp float;
 #endif
 
-attribute vec4 s_attribute_0;
+attribute vec3 s_attribute_0;
 attribute vec4 s_attribute_1; //xy表示纹理坐标(255,255) zw表示颜色(255,255) 需要在外面归一化传入
-attribute vec3 s_attribute_2;
+attribute vec4 s_attribute_2;
 
 varying vec4 s_texcoord_0;
 varying vec4 s_texcoord_1;
@@ -60,5 +60,5 @@ void main()
     //
     s_texcoord_2 = color;
     //颜色
-    s_texcoord_3 = vec4(s_attribute_2, 1.0);
+    s_texcoord_3 = s_attribute_2;
 }

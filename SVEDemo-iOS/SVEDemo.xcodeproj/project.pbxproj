@@ -14,9 +14,6 @@
 		02297727213D0E01000E27EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02297726213D0E01000E27EE /* Assets.xcassets */; };
 		0229772A213D0E01000E27EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02297728213D0E01000E27EE /* LaunchScreen.storyboard */; };
 		0229772D213D0E01000E27EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0229772C213D0E01000E27EE /* main.m */; };
-		0229787D213D101A000E27EE /* SVInterfaceBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0229786D213D1018000E27EE /* SVInterfaceBase.mm */; };
-		0229787E213D101A000E27EE /* SVI.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02297871213D1019000E27EE /* SVI.mm */; };
-		02297880213D101A000E27EE /* SVICamera.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02297875213D1019000E27EE /* SVICamera.mm */; };
 		022978A3213D13FD000E27EE /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 022978A2213D13FD000E27EE /* VideoToolbox.framework */; };
 		022978A5213D1648000E27EE /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 022978A4213D1648000E27EE /* CoreMedia.framework */; };
 		022978A8213D1742000E27EE /* SDMainVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 022978A7213D1742000E27EE /* SDMainVC.m */; };
@@ -27,8 +24,19 @@
 		0231CAC5213D20EF004A2414 /* SDCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0231CAC4213D20EF004A2414 /* SDCamera.m */; };
 		0231CACC213D2D9A004A2414 /* SDMainUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0231CACB213D2D9A004A2414 /* SDMainUI.m */; };
 		023652B4216082790011A9F1 /* libSVEngine_Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 023652AF216082050011A9F1 /* libSVEngine_Static.a */; };
+		0298753224BEB9020024E311 /* SVInterfaceBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0298751524BEB9000024E311 /* SVInterfaceBase.mm */; };
+		0298753524BEB9020024E311 /* SVICamera.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0298751C24BEB9010024E311 /* SVICamera.mm */; };
+		0298753824BEB9020024E311 /* SVIEffect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0298752124BEB9010024E311 /* SVIEffect.mm */; };
+		0298753924BEB9020024E311 /* SVI.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0298752224BEB9010024E311 /* SVI.mm */; };
+		0298753A24BEB9020024E311 /* SVIThread.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0298752424BEB9020024E311 /* SVIThread.mm */; };
+		0298754824BEC00A0024E311 /* SVOpFaceBeautyExt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0298753E24BEC00A0024E311 /* SVOpFaceBeautyExt.cpp */; };
+		0298754924BEC00A0024E311 /* SVFaceBeautyShowFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0298754224BEC00A0024E311 /* SVFaceBeautyShowFilter.cpp */; };
+		0298754A24BEC00A0024E311 /* SVFaceMattingFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0298754324BEC00A0024E311 /* SVFaceMattingFilter.cpp */; };
+		0298754B24BEC00A0024E311 /* SVOpFaceDeform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0298754424BEC00A0024E311 /* SVOpFaceDeform.cpp */; };
+		0298754C24BEC00A0024E311 /* SVFaceDeform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0298754624BEC00A0024E311 /* SVFaceDeform.cpp */; };
+		0298755324BEC0600024E311 /* SVADFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0298754F24BEC0600024E311 /* SVADFilter.cpp */; };
+		0298755424BEC0600024E311 /* SVOpADFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0298755224BEC0600024E311 /* SVOpADFilter.cpp */; };
 		02D0304D213E4ED000E148FD /* qiuqian.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 02D0304C213E4ED000E148FD /* qiuqian.bundle */; };
-		02D031EB213E615200E148FD /* SVIEffect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D031EA213E615100E148FD /* SVIEffect.mm */; };
 		02D031EE213E624500E148FD /* hero.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 02D031ED213E624500E148FD /* hero.bundle */; };
 /* End PBXBuildFile section */
 
@@ -75,15 +83,6 @@
 		02297729213D0E01000E27EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0229772B213D0E01000E27EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0229772C213D0E01000E27EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		02297869213D1018000E27EE /* SVI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVI.h; sourceTree = "<group>"; };
-		0229786D213D1018000E27EE /* SVInterfaceBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVInterfaceBase.mm; sourceTree = "<group>"; };
-		0229786E213D1018000E27EE /* SVIHead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIHead.h; sourceTree = "<group>"; };
-		0229786F213D1018000E27EE /* SVInterfaceBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVInterfaceBase.h; sourceTree = "<group>"; };
-		02297870213D1018000E27EE /* SVICamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVICamera.h; sourceTree = "<group>"; };
-		02297871213D1019000E27EE /* SVI.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVI.mm; sourceTree = "<group>"; };
-		02297872213D1019000E27EE /* SVIEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIEffect.h; sourceTree = "<group>"; };
-		02297875213D1019000E27EE /* SVICamera.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVICamera.mm; sourceTree = "<group>"; };
-		0229787A213D1019000E27EE /* SVIDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIDef.h; sourceTree = "<group>"; };
 		022978A2213D13FD000E27EE /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		022978A4213D1648000E27EE /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		022978A6213D1742000E27EE /* SDMainVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDMainVC.h; sourceTree = "<group>"; };
@@ -102,8 +101,35 @@
 		0231CACA213D2D9A004A2414 /* SDMainUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDMainUI.h; sourceTree = "<group>"; };
 		0231CACB213D2D9A004A2414 /* SDMainUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDMainUI.m; sourceTree = "<group>"; };
 		023652A4216082050011A9F1 /* SVEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SVEngine.xcodeproj; path = ../../../SVEngine/platIOS/SVEngine.xcodeproj; sourceTree = "<group>"; };
+		0298750224BEB8FE0024E311 /* SVIEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIEffect.h; sourceTree = "<group>"; };
+		0298750B24BEB8FF0024E311 /* SVIDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIDef.h; sourceTree = "<group>"; };
+		0298751124BEB9000024E311 /* SVI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVI.h; sourceTree = "<group>"; };
+		0298751524BEB9000024E311 /* SVInterfaceBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVInterfaceBase.mm; sourceTree = "<group>"; };
+		0298751624BEB9000024E311 /* SVInterfaceBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVInterfaceBase.h; sourceTree = "<group>"; };
+		0298751824BEB9000024E311 /* SVICamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVICamera.h; sourceTree = "<group>"; };
+		0298751924BEB9000024E311 /* SVIHead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIHead.h; sourceTree = "<group>"; };
+		0298751C24BEB9010024E311 /* SVICamera.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVICamera.mm; sourceTree = "<group>"; };
+		0298752124BEB9010024E311 /* SVIEffect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVIEffect.mm; sourceTree = "<group>"; };
+		0298752224BEB9010024E311 /* SVI.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVI.mm; sourceTree = "<group>"; };
+		0298752424BEB9020024E311 /* SVIThread.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVIThread.mm; sourceTree = "<group>"; };
+		0298752624BEB9020024E311 /* SVIThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIThread.h; sourceTree = "<group>"; };
+		0298753D24BEC00A0024E311 /* SVFaceDeform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceDeform.h; sourceTree = "<group>"; };
+		0298753E24BEC00A0024E311 /* SVOpFaceBeautyExt.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVOpFaceBeautyExt.cpp; sourceTree = "<group>"; };
+		0298753F24BEC00A0024E311 /* SVFaceBeautyShowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceBeautyShowFilter.h; sourceTree = "<group>"; };
+		0298754024BEC00A0024E311 /* SVFaceMattingFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFaceMattingFilter.h; sourceTree = "<group>"; };
+		0298754124BEC00A0024E311 /* SVOpFaceBeautyExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpFaceBeautyExt.h; sourceTree = "<group>"; };
+		0298754224BEC00A0024E311 /* SVFaceBeautyShowFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFaceBeautyShowFilter.cpp; sourceTree = "<group>"; };
+		0298754324BEC00A0024E311 /* SVFaceMattingFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFaceMattingFilter.cpp; sourceTree = "<group>"; };
+		0298754424BEC00A0024E311 /* SVOpFaceDeform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVOpFaceDeform.cpp; sourceTree = "<group>"; };
+		0298754524BEC00A0024E311 /* SVOpFaceDeform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpFaceDeform.h; sourceTree = "<group>"; };
+		0298754624BEC00A0024E311 /* SVFaceDeform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFaceDeform.cpp; sourceTree = "<group>"; };
+		0298754724BEC00A0024E311 /* SVFilterExtDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFilterExtDef.h; sourceTree = "<group>"; };
+		0298754E24BEC0600024E311 /* SVADFilterDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVADFilterDef.h; sourceTree = "<group>"; };
+		0298754F24BEC0600024E311 /* SVADFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVADFilter.cpp; sourceTree = "<group>"; };
+		0298755024BEC0600024E311 /* SVOpADFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOpADFilter.h; sourceTree = "<group>"; };
+		0298755124BEC0600024E311 /* SVADFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVADFilter.h; sourceTree = "<group>"; };
+		0298755224BEC0600024E311 /* SVOpADFilter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVOpADFilter.cpp; sourceTree = "<group>"; };
 		02D0304C213E4ED000E148FD /* qiuqian.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = qiuqian.bundle; sourceTree = "<group>"; };
-		02D031EA213E615100E148FD /* SVIEffect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SVIEffect.mm; sourceTree = "<group>"; };
 		02D031ED213E624500E148FD /* hero.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = hero.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -185,16 +211,20 @@
 		02297868213D0FC3000E27EE /* sve */ = {
 			isa = PBXGroup;
 			children = (
-				02297869213D1018000E27EE /* SVI.h */,
-				02297871213D1019000E27EE /* SVI.mm */,
-				02297870213D1018000E27EE /* SVICamera.h */,
-				02297875213D1019000E27EE /* SVICamera.mm */,
-				0229787A213D1019000E27EE /* SVIDef.h */,
-				02297872213D1019000E27EE /* SVIEffect.h */,
-				02D031EA213E615100E148FD /* SVIEffect.mm */,
-				0229786E213D1018000E27EE /* SVIHead.h */,
-				0229786F213D1018000E27EE /* SVInterfaceBase.h */,
-				0229786D213D1018000E27EE /* SVInterfaceBase.mm */,
+				0298754D24BEC0600024E311 /* adFilter */,
+				0298753C24BEC00A0024E311 /* filter */,
+				0298751124BEB9000024E311 /* SVI.h */,
+				0298752224BEB9010024E311 /* SVI.mm */,
+				0298751824BEB9000024E311 /* SVICamera.h */,
+				0298751C24BEB9010024E311 /* SVICamera.mm */,
+				0298750B24BEB8FF0024E311 /* SVIDef.h */,
+				0298750224BEB8FE0024E311 /* SVIEffect.h */,
+				0298752124BEB9010024E311 /* SVIEffect.mm */,
+				0298751924BEB9000024E311 /* SVIHead.h */,
+				0298751624BEB9000024E311 /* SVInterfaceBase.h */,
+				0298751524BEB9000024E311 /* SVInterfaceBase.mm */,
+				0298752624BEB9020024E311 /* SVIThread.h */,
+				0298752424BEB9020024E311 /* SVIThread.mm */,
 			);
 			path = sve;
 			sourceTree = "<group>";
@@ -217,6 +247,36 @@
 				023652B3216082050011A9F1 /* libsve_s_mac.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0298753C24BEC00A0024E311 /* filter */ = {
+			isa = PBXGroup;
+			children = (
+				0298753D24BEC00A0024E311 /* SVFaceDeform.h */,
+				0298753E24BEC00A0024E311 /* SVOpFaceBeautyExt.cpp */,
+				0298753F24BEC00A0024E311 /* SVFaceBeautyShowFilter.h */,
+				0298754024BEC00A0024E311 /* SVFaceMattingFilter.h */,
+				0298754124BEC00A0024E311 /* SVOpFaceBeautyExt.h */,
+				0298754224BEC00A0024E311 /* SVFaceBeautyShowFilter.cpp */,
+				0298754324BEC00A0024E311 /* SVFaceMattingFilter.cpp */,
+				0298754424BEC00A0024E311 /* SVOpFaceDeform.cpp */,
+				0298754524BEC00A0024E311 /* SVOpFaceDeform.h */,
+				0298754624BEC00A0024E311 /* SVFaceDeform.cpp */,
+				0298754724BEC00A0024E311 /* SVFilterExtDef.h */,
+			);
+			path = filter;
+			sourceTree = "<group>";
+		};
+		0298754D24BEC0600024E311 /* adFilter */ = {
+			isa = PBXGroup;
+			children = (
+				0298754E24BEC0600024E311 /* SVADFilterDef.h */,
+				0298754F24BEC0600024E311 /* SVADFilter.cpp */,
+				0298755024BEC0600024E311 /* SVOpADFilter.h */,
+				0298755124BEC0600024E311 /* SVADFilter.h */,
+				0298755224BEC0600024E311 /* SVOpADFilter.cpp */,
+			);
+			path = adFilter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,19 +389,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0298754A24BEC00A0024E311 /* SVFaceMattingFilter.cpp in Sources */,
 				02297722213D0DFE000E27EE /* ViewController.m in Sources */,
-				0229787E213D101A000E27EE /* SVI.mm in Sources */,
+				0298754B24BEC00A0024E311 /* SVOpFaceDeform.cpp in Sources */,
 				022978A8213D1742000E27EE /* SDMainVC.m in Sources */,
+				0298755424BEC0600024E311 /* SVOpADFilter.cpp in Sources */,
+				0298754924BEC00A0024E311 /* SVFaceBeautyShowFilter.cpp in Sources */,
 				0229772D213D0E01000E27EE /* main.m in Sources */,
 				0231CACC213D2D9A004A2414 /* SDMainUI.m in Sources */,
 				022978AE213D198F000E27EE /* SDSVView.m in Sources */,
+				0298753924BEB9020024E311 /* SVI.mm in Sources */,
+				0298753A24BEB9020024E311 /* SVIThread.mm in Sources */,
+				0298754C24BEC00A0024E311 /* SVFaceDeform.cpp in Sources */,
 				0231CAC5213D20EF004A2414 /* SDCamera.m in Sources */,
+				0298754824BEC00A0024E311 /* SVOpFaceBeautyExt.cpp in Sources */,
 				022978AB213D17FA000E27EE /* SDUISys.m in Sources */,
 				0231CABE213D1BEC004A2414 /* SDLogicSys.m in Sources */,
-				02297880213D101A000E27EE /* SVICamera.mm in Sources */,
 				0231CAC1213D1D9A004A2414 /* SDState.m in Sources */,
-				0229787D213D101A000E27EE /* SVInterfaceBase.mm in Sources */,
-				02D031EB213E615200E148FD /* SVIEffect.mm in Sources */,
+				0298753524BEB9020024E311 /* SVICamera.mm in Sources */,
+				0298753224BEB9020024E311 /* SVInterfaceBase.mm in Sources */,
+				0298755324BEC0600024E311 /* SVADFilter.cpp in Sources */,
+				0298753824BEB9020024E311 /* SVIEffect.mm in Sources */,
 				0229771F213D0DFE000E27EE /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,7 +551,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R98BC2PLD7;
+				DEVELOPMENT_TEAM = BW96G54658;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../SVEngine/src\"",
@@ -509,7 +577,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R98BC2PLD7;
+				DEVELOPMENT_TEAM = BW96G54658;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../SVEngine/src\"",

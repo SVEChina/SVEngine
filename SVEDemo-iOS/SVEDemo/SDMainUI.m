@@ -42,26 +42,26 @@
         UIButton *t_btn = [[UIButton alloc] initWithFrame:CGRectMake(20 + (80 + 20)*i, self.frame.size.height - 50, 80, 40)];
         t_btn.tag = 100 + i;
         t_btn.titleLabel.font = [UIFont systemFontOfSize:14];
-        [t_btn setTitle:[NSString stringWithFormat:@"effect%d",i] forState:UIControlStateNormal];
+        [t_btn setTitle:effects[i] forState:UIControlStateNormal];
         [t_btn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+        [t_btn setBackgroundColor:[UIColor redColor]];
         [t_btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:t_btn];
     }
 }
 
 - (void)click:(UIButton *)btn{
-    [[SDLogicSys getInst].pSVI.pEffect removeEffectOP:NULL msg:@""];
     NSString *t_effect_name = effects[btn.tag - 100];
     NSString *t_path = [[NSBundle mainBundle] pathForResource:t_effect_name ofType:@"bundle"];
-    [[SDLogicSys getInst].pSVI.pEffect loadEffectPath:t_path OP:NULL msg:@""];
+    [[SDLogicSys getInst].pSVI.pEffect loadEffect:t_path msg:@""];
     
-    //写死了
-    if ([t_effect_name isEqualToString:@"hero"]) {
-        animations = [[NSArray alloc] initWithObjects:@"attack", @"crouch", @"fall", @"head-turn", @"idle", @"jump", @"run", @"walk", nil];
-    }else if ([t_effect_name isEqualToString:@"qiuqian"]){
-        animations = [[NSArray alloc] initWithObjects:@"animation", nil];
-    }
-    [self refreshViews];
+    //写死了，动画是可以切换动作的
+//    if ([t_effect_name isEqualToString:@"hero"]) {
+//        animations = [[NSArray alloc] initWithObjects:@"attack", @"crouch", @"fall", @"head-turn", @"idle", @"jump", @"run", @"walk", nil];
+//    }else if ([t_effect_name isEqualToString:@"qiuqian"]){
+//        animations = [[NSArray alloc] initWithObjects:@"animation", nil];
+//    }
+//    [self refreshViews];
 }
 
 - (void)refreshViews{
@@ -84,7 +84,7 @@
 
 - (void)aniclick:(UIButton *)btn {
     NSString *t_ani_name = animations[btn.tag - 200];
-    [[SDLogicSys getInst].pSVI.pEffect playAnimation:t_ani_name];
+//    [[SDLogicSys getInst].pSVI.pEffect playAnimation:t_ani_name];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

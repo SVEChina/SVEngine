@@ -3,7 +3,6 @@ precision mediump float;
 #endif
 
 attribute vec2 aPosition;
-attribute vec4 aColor0;
 attribute vec2 aTexcoord0;
 
 varying vec2 v_texcoord0;

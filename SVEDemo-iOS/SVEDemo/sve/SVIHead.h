@@ -11,10 +11,9 @@
 #if TARGET_OS_IPHONE
 
 #import <GLKit/GLKit.h>
-
 typedef void (*cb_func_percent)(float percent);
 typedef void (*cb_func_record)(int _frame);
-typedef void (*cb_func_op)(const char* _info);
+typedef void (*cb_func_op)(const char* _info, void *_obj);
 typedef void (*cb_func_game)(int _type,const char* _info);
 //输出回调
 typedef void (*cb_out_stream)(int _w,int _h,int _formate,void* _pdata,long _timtap);

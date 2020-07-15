@@ -8,7 +8,6 @@
 
 #import "SDCamera.h"
 #import <AssetsLibrary/AssetsLibrary.h>
-#import <Photos/PhotosDefines.h>
 #import <AVFoundation/AVFoundation.h>
 #import <ImageIO/ImageIO.h>
 @interface SDCamera()<AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>{

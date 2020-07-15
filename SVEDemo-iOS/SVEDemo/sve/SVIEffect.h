@@ -11,8 +11,11 @@
 
 #include "VideoToolBox/VideoToolbox.h"
 
-@interface SVIEffect : SVInterfaceBase
+@class SVThreadQueue;
+@class SVGLView;
 
+
+@interface SVIEffect : SVInterfaceBase
 
 //设置美颜滤镜  level 美颜级别  0 高性能设备用  1较低性能设备用
 -(void)setBeautyFilter:(NSString*)_filter level:(int)_level OP:(cb_func_op)_cb msg:(NSString*)_msg;
@@ -25,13 +28,14 @@
 //
 -(void)updateFilterBSplineOP:(cb_func_op)_cb msg:(NSString*)_msg dataTex:(unsigned char*)_data;
 
-- (void)loadEffectPath:(NSString *)_effect OP:(cb_func_op)_cb msg:(NSString*)_msg;
+//
+- (void)loadEffect:(NSString *)_effect msg:(NSString*)_msg;
 
-- (void)removeEffectOP:(cb_func_op)_cb msg:(NSString *)_msg;
-
-- (NSArray *)getAnimations;
-
-- (void)playAnimation:(NSString *)_ani;
+- (void)removeEffect:(NSString *)_effect msg:(NSString *)_msg;
+//
+- (void)testADFilter;
+- (void)testFilter;
 @end
 
 #endif
+

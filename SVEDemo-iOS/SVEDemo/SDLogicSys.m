@@ -74,7 +74,13 @@ static SDLogicSys *mInst;
         //.......................
         //渲染
         if (self.pSVI) {
-            [self.pSVI.pCamera pushInStream:SCENENAME Img:sampleBuffer];
+            CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+            //用纹理输入的方式
+            if(1){
+                [self.pSVI.pCamera pushInTextureStream:SCENENAME angle:0.0f img:pixelBuffer];
+            }else{
+                [self.pSVI.pCamera pushInStream:SCENENAME  angle:0.0f img:pixelBuffer];
+            }
         }
         
 
@@ -106,23 +112,44 @@ static SDLogicSys *mInst;
         //开启引擎
         [self.pSVI startEngine];
         //创建渲染器
-        [self.pSVI createRendererGL:3 Context:m_pGLContext Width:self.pState.svOutW Height:self.pState.svOutH];
+        //创建渲染器
+        if(0) {
+            //是用什么渲染器 这里来初始化了
+//            m_pMTLDevice = MTLCreateSystemDefaultDevice();
+//            [self.pSVI createRendererMetal:(__bridge void*)m_pMTLDevice
+//                                     Width:self.pSWState.svOutW
+//                                    Height:self.pSWState.svOutH];
+        }else{
+            //是用什么渲染器 这里来初始化了
+            [self.pSVI createRendererGL:3
+                                Context:m_pGLContext
+                                  Width:self.pState.svOutW
+                                 Height:self.pState.svOutH];
+        }
         //创建场景
         [self.pSVI createScene:NULL msg:@""];
         //创建相机节点
-        [self.pSVI.pCamera createInStream:SCENENAME Type:0 width:self.pState.svOutW height:self.pState.svOutH OP:NULL msg:@""];
-        //创建输出流节点
-        [self.pSVI.pCamera createOutStream:SCENENAME Type:0 StreamType:0 OP:NULL msg:@""];
+        if (1) {
+            //纹理的方式
+            [self.pSVI.pCamera createInTextureStream:SCENENAME formate:5 width:self.pState.svOutW height:self.pState.svOutH angle:0 context:m_pGLContext OP:NULL msg:@""];
+        }else{
+            [self.pSVI.pCamera createInStream:SCENENAME formate:5 width:self.pState.svOutW height:self.pState.svOutH angle:0.0f OP:NULL msg:@""];
+        }
+                   
+        [self.pSVI.pCamera createOutStream:SCENENAME streamType:18 width:self.pState.svOutW height:self.pState.svOutH OP:NULL msg:@""];
+        //这里是测试滤镜
+        [self.pSVI.pEffect testADFilter];
+        [self.pSVI.pEffect testFilter];
         //
-//        [self.pSVI.pEffect setBeautyFilter:@"" level:1 OP:nil msg:nil];
-//        //
-//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:50.0f filtertype:SVI_EBEAUTY_FILTER];
-//        //
-//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:20.0f filtertype:SVI_WHITENING_FILTER];
-//        //
-//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:10.0 filtertype:SVI_ACUTANCE_FILTER];
-//        //
-//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:18.0 filtertype:SVI_CONTRAST_FILTER];
+        [self.pSVI.pEffect setBeautyFilter:@"" level:1 OP:nil msg:nil];
+        //
+        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:50.0f filtertype:SVI_EBEAUTY_FILTER];
+        
+        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:20.0f filtertype:SVI_WHITENING_FILTER];
+        
+        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:10.0 filtertype:SVI_ACUTANCE_FILTER];
+        //
+        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:18.0 filtertype:SVI_CONTRAST_FILTER];
 
     }
 }
@@ -157,7 +184,7 @@ static SDLogicSys *mInst;
 - (void)addEffect:(NSNotification*)notifi{
     NSString* path = notifi.object;
     NSString *copy_path = [self.m_airdropFilePath stringByAppendingPathComponent:[path lastPathComponent]];
-    [self.pSVI.pEffect loadEffectPath:copy_path OP:NULL msg:@""];
+    [self.pSVI.pEffect loadEffect:copy_path  msg:@""];
 }
 
 @end

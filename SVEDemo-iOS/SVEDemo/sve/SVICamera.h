@@ -13,21 +13,36 @@
 
 @interface SVICamera : SVInterfaceBase
 
-//创建相机(创建一个相机节点）
-- (void)createInStream:(NSString*)_name Type:(int)_type width:(int)_w height:(int)_h OP:(cb_func_op)_cb msg:(NSString*)_msg;
+/***********************流入的方式*******************************/
+//创建相机(创建一个流相机节点）
+/**
+   _formate 5 BGRA
+   _formate 3 NV12
+ */
+- (void)createInStream:(NSString*)_name formate:(int)_formate width:(int)_w height:(int)_h angle:(float)_angle OP:(cb_func_op)_cb msg:(NSString*)_msg;
+
+//处理流数据
+- (void)pushInStream:(NSString*)_name angle:(float)_angle img:(CVPixelBufferRef)_pixelBuf;
+/***************************************************************/
+
+/***********************纹理入的方式*******************************/
+//创建相机(创建一个纹理相机节点）
+/**
+ _formate 5 BGRA
+ _formate 3 NV12
+ */
+- (void)createInTextureStream:(NSString*)_name formate:(int)_formate width:(int)_w height:(int)_h angle:(float)_angle context:(EAGLContext *)_context OP:(cb_func_op)_cb msg:(NSString*)_msg;
+
+//处理纹理数据（内部用纹理采集的方式处理）
+- (void)pushInTextureStream:(NSString*)_name angle:(float)_angle img:(CVPixelBufferRef)_pixelBuf;
+/***************************************************************/
 
 //删除相机节点
 - (void)destroyInstream:(NSString*)_name OP:(cb_func_op)_cb msg:(NSString*)_msg;
 
-//处理照片
-- (void)pushInStream:(NSString*)_name Img:(CMSampleBufferRef)_samplerBuf;
-
-//处理照片并保存
-- (void)pushInStream:(NSString*)_name Img:(CMSampleBufferRef)_samplerBuf Save:(bool)_save;
-
 //创建输出流节点
-//StreamType为0的时候正常读取输出流数据，为1时只读取美颜的数据
-- (void)createOutStream:(NSString*)_name Type:(int)_type StreamType:(int)_streamType OP:(cb_func_op)_cb msg:(NSString*)_msg;
+//_streamType 向外输出到哪个流
+- (void)createOutStream:(NSString*)_name streamType:(int)_streamType width:(int)_w height:(int)_h OP:(cb_func_op)_cb msg:(NSString*)_msg;
 
 //销毁输出流节点
 - (void)destroyOutStream:(NSString*)_name OP:(cb_func_op)_cb msg:(NSString*)_msg;
@@ -37,7 +52,6 @@
 
 //关闭输出流
 - (void)closeOutStream;
-
 @end
 
 #endif

@@ -8,15 +8,14 @@
 #import "SVIHead.h"
 
 #if TARGET_OS_IPHONE
-
+@class SVIThread;
 @interface SVInterfaceBase : NSObject{
     void*  m_pApp;
+    SVIThread *m_thread;
 }
+- (instancetype)initWithSVE:(void *)_sve Thread:(SVIThread *)_thread;
 
 -(void*)getSVE;
-
--(void)setSVE:(void*)_sve;
-
 @end
 
 #endif

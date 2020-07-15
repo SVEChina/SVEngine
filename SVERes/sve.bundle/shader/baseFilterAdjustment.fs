@@ -57,12 +57,29 @@ const vec3 luminanceWeighting = vec3(0.3, 0.3, 0.3);
 const vec3 saturationWeighting = vec3(0.2125, 0.7154, 0.0721);
 
 vec4 fhightshadows(vec4 rgba){
-    float t_shadows=shadows;
-    float t_highlights=highlights;
+    
+    float t_shadows=abs(shadows);
+    float t_highlights=0.0;
+    if(highlights>0.0){
+        t_highlights=1.0-highlights;
+    }else{
+        t_highlights=1.0+highlights;
+    }
     float luminance = dot(rgba.rgb, luminanceWeighting);
-    float shadow = clamp((pow(luminance, 1.0/(t_shadows+1.0)) + (-0.76)*pow(luminance, 2.0/(t_shadows+1.0))) - luminance, 0.0, 1.0);
-    float highlight = clamp((1.0 - (pow(1.0-luminance, 1.0/(2.0-t_highlights)) + (-0.8)*pow(1.0-luminance, 2.0/(2.0-t_highlights)))) - luminance, -1.0, 0.0);
-    vec3 result = vec3(0.0, 0.0, 0.0) + ((luminance + t_shadows + t_highlights) - 0.0) * ((rgba.rgb - vec3(0.0, 0.0, 0.0))/(luminance - 0.0));
+    float shadow=0.0;
+    float highlight=0.0;
+    shadow = clamp((pow(luminance, 1.0/(t_shadows+1.0)) + (-0.76)*pow(luminance, 2.0/(t_shadows+1.0))) - luminance, 0.0, 1.0);
+    highlight = clamp((1.0 - (pow(1.0-luminance, 1.0/(2.0-t_highlights)) + (-0.8)*pow(1.0-luminance, 2.0/(2.0-t_highlights)))) - luminance, -1.0, 0.0);
+    if(shadows<=0.0){
+        shadow=-1.0*shadow;
+    }
+    
+    if(highlights>0.0){
+        highlight=-1.0*highlight;
+    }
+    
+    float flagh=step(0.0,highlights);
+    vec3 result = vec3(0.0, 0.0, 0.0) + ((luminance +shadow+highlight) - 0.0) * ((rgba.rgb - vec3(0.0, 0.0, 0.0))/(luminance - 0.0));
     return vec4(result.rgb, rgba.a);
 }
 

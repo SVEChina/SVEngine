@@ -1,16 +1,20 @@
 {
     "param": {
         "detecttype":0,
-        "design_width":720,
-        "design_height":1280,
-        "design_img_width":700,
-        "design_img_height":1004,
+        "design_width":1080,
+        "design_height":1920,
+        "design_img_width":1080,
+        "design_img_height":1920,
         "camera_width":720,
         "camera_height":1280,
         "camera_angle":0.0,
-        "adaptmode":1,
+        "designadaptmode":1,
         "glversion":2,
-        "usepbo":1
+        "usepbo":1,
+        "stroke_width":0.005,
+        "stroke_color":[6.0, 176.0, 184.0, 255.0],
+        "stroke_glowidth":0.04,
+        "stroke_glowcolor":[36.0, 216.0, 224.0, 255.0]
     },
     "filter":{
         "2dmask":1,
@@ -26,3 +30,4 @@
         "audio":1
     }
 }
+
