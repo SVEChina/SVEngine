@@ -139,17 +139,17 @@ static SDLogicSys *mInst;
         [self.pSVI.pCamera createOutStream:SCENENAME streamType:18 width:self.pState.svOutW height:self.pState.svOutH OP:NULL msg:@""];
         //这里是测试滤镜
         [self.pSVI.pEffect testADFilter];
-        [self.pSVI.pEffect testFilter];
+//        [self.pSVI.pEffect testFilter];
         //
-        [self.pSVI.pEffect setBeautyFilter:@"" level:1 OP:nil msg:nil];
-        //
-        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:50.0f filtertype:SVI_EBEAUTY_FILTER];
-        
-        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:20.0f filtertype:SVI_WHITENING_FILTER];
-        
-        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:10.0 filtertype:SVI_ACUTANCE_FILTER];
-        //
-        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:18.0 filtertype:SVI_CONTRAST_FILTER];
+//        [self.pSVI.pEffect setBeautyFilter:@"" level:1 OP:nil msg:nil];
+//        //
+//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:50.0f filtertype:SVI_EBEAUTY_FILTER];
+//        
+//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:20.0f filtertype:SVI_WHITENING_FILTER];
+//        
+//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:10.0 filtertype:SVI_ACUTANCE_FILTER];
+//        //
+//        [self.pSVI.pEffect updateFilterOP:NULL msg:@"" smooth:18.0 filtertype:SVI_CONTRAST_FILTER];
 
     }
 }

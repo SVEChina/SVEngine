@@ -513,6 +513,90 @@
             "programme": "filterflashwhite"
         },
         {
+            "vs": "screennor",
+            "fs": "adfilter/filterArenaLight",
+            "af": "V2-T0",
+            "programme": "filterArenaLight"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/filterWindowLight",
+            "af": "V2-T0",
+            "programme": "filterWindowLight"
+        },
+        {
+            "vs": "adfilter/filterOilPaint",
+            "fs": "adfilter/filterOilPaint",
+            "af": "V2-T0",
+            "programme": "filterOilPaint"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/filterlic",
+            "af": "V2-T0",
+            "programme": "filterlic"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/filterlic2",
+            "af": "V2-T0",
+            "programme": "filterlic2"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/filterMoiree",
+            "af": "V2-T0",
+            "programme": "filterMoiree"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/filterFrostedGlass",
+            "af": "V2-T0",
+            "programme": "filterFrostedGlass"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/filterRelief",
+            "af": "V2-T0",
+            "programme": "filterRelief"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/oilpaint/grayScale",
+            "af": "V2-T0",
+            "programme": "grayScale"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/oilpaint/structureTensor",
+            "af": "V2-T0",
+            "programme": "structureTensor"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/oilpaint/gaussianH",
+            "af": "V2-T0",
+            "programme": "gaussianH"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/oilpaint/gaussianV",
+            "af": "V2-T0",
+            "programme": "gaussianV"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/oilpaint/eigen",
+            "af": "V2-T0",
+            "programme": "eigen"
+        },
+        {
+            "vs": "screennor",
+            "fs": "adfilter/oilpaint/edgeLic",
+            "af": "V2-T0",
+            "programme": "edgeLic"
+        },
+        {
             "vs": "penstroke_base",
             "fs": "penstroke_base",
             "programme": "penstroke_base"

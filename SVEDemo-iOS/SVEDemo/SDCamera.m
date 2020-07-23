@@ -79,7 +79,7 @@
         //[self.captureSession commitConfiguration];
     }
     
-    _currentCameraInput = [AVCaptureDeviceInput deviceInputWithDevice:self.frontCameraDevcie error:&error];
+    _currentCameraInput = [AVCaptureDeviceInput deviceInputWithDevice:self.backCameraDevice error:&error];
     
     if([self.captureSession canAddInput:_currentCameraInput]) {
         [self.captureSession addInput:_currentCameraInput];

@@ -174,7 +174,7 @@ void SVRenderMgr::_adapt() {
             SVRenderCmdAdaptPtr t_cmd = MakeSharedPtr<SVRenderCmdAdapt>();
             t_cmd->mTag = "adaptscene";
             t_cmd->setRenderer(m_pRenderer);
-            t_cmd->setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            t_cmd->setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             t_cmd->setWinSize(mApp->m_pGlobalParam->m_inner_width,mApp->m_pGlobalParam->m_inner_height);
             t_cmd->setMesh(mApp->getDataMgr()->m_screenMesh);
             t_cmd->setMaterial(t_pMtl->clone());

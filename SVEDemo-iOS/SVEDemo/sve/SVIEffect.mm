@@ -167,7 +167,7 @@ void gifteffect_op_callback(const char* _info, void *_obj) {
     [m_thread globalSyncProcessingQueue:^{
         SVInst* t_app = (SVInst*)self->m_pApp;
         SVMtlCorePtr t_mtl = nullptr;
-        //    t_mtl = MakeSharedPtr<SVMtlShinning>(t_app);//闪光滤镜
+//            t_mtl = MakeSharedPtr<SVMtlShinning>(t_app);//闪光滤镜
         
         //    t_mtl = MakeSharedPtr<SVMtlBlackWhite>(t_app);//黑白滤镜
         //

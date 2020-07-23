@@ -1,11 +1,11 @@
 //
-// SVADFilter.cpp
+// SVOilPaintFilter.cpp
 // SVEngine
 // Copyright 2017-2020
 // yizhou Fu,long Yin,longfei Lin,ziyu Xu,xiaofan Li,daming Li
 //
 
-#include "SVADFilter.h"
+#include "SVOilPaintFilter.h"
 #include "node/SVNode.h"
 #include "base/SVLock.h"
 #include "base/SVPreDeclare.h"
@@ -16,7 +16,7 @@
 #include "file/SVFileMgr.h"
 #include "basesys/SVBasicSys.h"
 #include "basesys/SVPictureProcess.h"
-#include "basesys/filter/SVADFilterBase.h"
+//#include "basesys/filter/SVOilPaintFilterBase.h"
 #include "mtl/SVMtlShinning.h"
 #include "mtl/SVMtlBlackWhite.h"
 #include "mtl/SVMtlStreak.h"
@@ -28,7 +28,7 @@
 #include "mtl/SVMtlWindowLight.h"
 #include "mtl/SVMtlOilPaint.h"
 
-SVADFilter::SVADFilter(SVInst* _app)
+SVOilPaintFilter::SVOilPaintFilter(SVInst* _app)
 :SVModuleBase(_app){
     m_state = AD_FILTER_SHINNING_READY;
     m_accTime = 0.0;
@@ -36,24 +36,24 @@ SVADFilter::SVADFilter(SVInst* _app)
     m_filterMtl = nullptr;
 }
 
-SVADFilter::~SVADFilter(){
+SVOilPaintFilter::~SVOilPaintFilter(){
     m_filter = nullptr;
     m_filterMtl = nullptr;
 }
 
-void SVADFilter::init(){
+void SVOilPaintFilter::init(){
     SVModuleBase::init();
 
 }
 
-void SVADFilter::destroy(){
+void SVOilPaintFilter::destroy(){
     SVModuleBase::destroy();
 }
 
-void SVADFilter::open(){
+void SVOilPaintFilter::open(){
     SVModuleBase::open();
     m_filterMtl = MakeSharedPtr<SVMtlOilPaint>(mApp);
-    m_filter = MakeSharedPtr<SVADFilterBase>(mApp, m_filterMtl);
+    m_filter = MakeSharedPtr<SVOilPaintFilterBase>(mApp, m_filterMtl);
     SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
     if(m_filter && t_picproc){
         m_filter->create();
@@ -62,7 +62,7 @@ void SVADFilter::open(){
     }
 }
 
-void SVADFilter::close() {
+void SVOilPaintFilter::close() {
     SVModuleBase::close();
     SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
     if( t_picproc) {
@@ -70,11 +70,11 @@ void SVADFilter::close() {
     }
 }
 
-bool SVADFilter::isOpen(){
+bool SVOilPaintFilter::isOpen(){
     return SVModuleBase::isOpen();
 }
 
-void SVADFilter::update(f32 _dt) {
+void SVOilPaintFilter::update(f32 _dt) {
     SVModuleBase::update(_dt);
     if (!m_filter) {
         return;
@@ -153,7 +153,7 @@ void SVADFilter::update(f32 _dt) {
     }
 }
 
-bool SVADFilter::procEvent(SVEventPtr _event) {
+bool SVOilPaintFilter::procEvent(SVEventPtr _event) {
     return  true;
 }
 

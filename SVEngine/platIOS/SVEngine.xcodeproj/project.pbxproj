@@ -2411,6 +2411,30 @@
 		02381F342247AF8800584EEF /* SVMtlDistorted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F2E2247AF8800584EEF /* SVMtlDistorted.cpp */; };
 		02381F352247AF8800584EEF /* SVMtlDistorted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F2E2247AF8800584EEF /* SVMtlDistorted.cpp */; };
 		02381F362247AF8800584EEF /* SVMtlDistorted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02381F2E2247AF8800584EEF /* SVMtlDistorted.cpp */; };
+		023DD0E524C2AE520059BA36 /* SVMtlArenaLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0E324C2AE520059BA36 /* SVMtlArenaLight.h */; };
+		023DD0E624C2AE520059BA36 /* SVMtlArenaLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0E324C2AE520059BA36 /* SVMtlArenaLight.h */; };
+		023DD0E724C2AE520059BA36 /* SVMtlArenaLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0E324C2AE520059BA36 /* SVMtlArenaLight.h */; };
+		023DD0E824C2AE520059BA36 /* SVMtlArenaLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0E324C2AE520059BA36 /* SVMtlArenaLight.h */; };
+		023DD0E924C2AE520059BA36 /* SVMtlArenaLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0E424C2AE520059BA36 /* SVMtlArenaLight.cpp */; };
+		023DD0EA24C2AE520059BA36 /* SVMtlArenaLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0E424C2AE520059BA36 /* SVMtlArenaLight.cpp */; };
+		023DD0EB24C2AE520059BA36 /* SVMtlArenaLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0E424C2AE520059BA36 /* SVMtlArenaLight.cpp */; };
+		023DD0EC24C2AE520059BA36 /* SVMtlArenaLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0E424C2AE520059BA36 /* SVMtlArenaLight.cpp */; };
+		023DD0EF24C2D7390059BA36 /* SVMtlWindowLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0ED24C2D7380059BA36 /* SVMtlWindowLight.cpp */; };
+		023DD0F024C2D7390059BA36 /* SVMtlWindowLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0ED24C2D7380059BA36 /* SVMtlWindowLight.cpp */; };
+		023DD0F124C2D7390059BA36 /* SVMtlWindowLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0ED24C2D7380059BA36 /* SVMtlWindowLight.cpp */; };
+		023DD0F224C2D7390059BA36 /* SVMtlWindowLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0ED24C2D7380059BA36 /* SVMtlWindowLight.cpp */; };
+		023DD0F324C2D7390059BA36 /* SVMtlWindowLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0EE24C2D7380059BA36 /* SVMtlWindowLight.h */; };
+		023DD0F424C2D7390059BA36 /* SVMtlWindowLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0EE24C2D7380059BA36 /* SVMtlWindowLight.h */; };
+		023DD0F524C2D7390059BA36 /* SVMtlWindowLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0EE24C2D7380059BA36 /* SVMtlWindowLight.h */; };
+		023DD0F624C2D7390059BA36 /* SVMtlWindowLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0EE24C2D7380059BA36 /* SVMtlWindowLight.h */; };
+		023DD0F924C2F1E30059BA36 /* SVMtlOilPaint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0F724C2F1E20059BA36 /* SVMtlOilPaint.cpp */; };
+		023DD0FA24C2F1E30059BA36 /* SVMtlOilPaint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0F724C2F1E20059BA36 /* SVMtlOilPaint.cpp */; };
+		023DD0FB24C2F1E30059BA36 /* SVMtlOilPaint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0F724C2F1E20059BA36 /* SVMtlOilPaint.cpp */; };
+		023DD0FC24C2F1E30059BA36 /* SVMtlOilPaint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 023DD0F724C2F1E20059BA36 /* SVMtlOilPaint.cpp */; };
+		023DD0FD24C2F1E30059BA36 /* SVMtlOilPaint.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0F824C2F1E20059BA36 /* SVMtlOilPaint.h */; };
+		023DD0FE24C2F1E30059BA36 /* SVMtlOilPaint.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0F824C2F1E20059BA36 /* SVMtlOilPaint.h */; };
+		023DD0FF24C2F1E30059BA36 /* SVMtlOilPaint.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0F824C2F1E20059BA36 /* SVMtlOilPaint.h */; };
+		023DD10024C2F1E30059BA36 /* SVMtlOilPaint.h in Headers */ = {isa = PBXBuildFile; fileRef = 023DD0F824C2F1E20059BA36 /* SVMtlOilPaint.h */; };
 		023FF32E2253565D00632659 /* SVBillboardNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF32C2253565D00632659 /* SVBillboardNode.h */; };
 		023FF32F2253565D00632659 /* SVBillboardNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF32C2253565D00632659 /* SVBillboardNode.h */; };
 		023FF3302253565D00632659 /* SVBillboardNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF32C2253565D00632659 /* SVBillboardNode.h */; };
@@ -6167,6 +6191,12 @@
 		02381F242246280000584EEF /* SVMtlGlitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlGlitch.h; sourceTree = "<group>"; };
 		02381F2D2247AF8800584EEF /* SVMtlDistorted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlDistorted.h; sourceTree = "<group>"; };
 		02381F2E2247AF8800584EEF /* SVMtlDistorted.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlDistorted.cpp; sourceTree = "<group>"; };
+		023DD0E324C2AE520059BA36 /* SVMtlArenaLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlArenaLight.h; sourceTree = "<group>"; };
+		023DD0E424C2AE520059BA36 /* SVMtlArenaLight.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlArenaLight.cpp; sourceTree = "<group>"; };
+		023DD0ED24C2D7380059BA36 /* SVMtlWindowLight.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlWindowLight.cpp; sourceTree = "<group>"; };
+		023DD0EE24C2D7380059BA36 /* SVMtlWindowLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlWindowLight.h; sourceTree = "<group>"; };
+		023DD0F724C2F1E20059BA36 /* SVMtlOilPaint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlOilPaint.cpp; sourceTree = "<group>"; };
+		023DD0F824C2F1E20059BA36 /* SVMtlOilPaint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlOilPaint.h; sourceTree = "<group>"; };
 		023FF32C2253565D00632659 /* SVBillboardNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBillboardNode.h; sourceTree = "<group>"; };
 		023FF32D2253565D00632659 /* SVBillboardNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBillboardNode.cpp; sourceTree = "<group>"; };
 		023FF3372253761000632659 /* SVMtlBillboard.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlBillboard.cpp; sourceTree = "<group>"; };
@@ -8800,6 +8830,12 @@
 				02381F0F2244B88400584EEF /* SVMtlRainbowColor.h */,
 				5F7D5F1B215F407700803BCF /* SVMtlRGB2YUV.cpp */,
 				5F7D5F33215F407700803BCF /* SVMtlRGB2YUV.h */,
+				023DD0F724C2F1E20059BA36 /* SVMtlOilPaint.cpp */,
+				023DD0F824C2F1E20059BA36 /* SVMtlOilPaint.h */,
+				023DD0E424C2AE520059BA36 /* SVMtlArenaLight.cpp */,
+				023DD0E324C2AE520059BA36 /* SVMtlArenaLight.h */,
+				023DD0ED24C2D7380059BA36 /* SVMtlWindowLight.cpp */,
+				023DD0EE24C2D7380059BA36 /* SVMtlWindowLight.h */,
 				020C3DEF22D49F4800201753 /* SVMtlShake.cpp */,
 				020C3DF022D49F4800201753 /* SVMtlShake.h */,
 				5F7D5F2D215F407700803BCF /* SVMtlShapeVaried.cpp */,
@@ -9572,6 +9608,7 @@
 				020C465922DC5DCD00201753 /* btBoxCollision.h in Headers */,
 				5F7D6733215F407900803BCF /* SVSkyDomeNode.h in Headers */,
 				5F7D675F215F407900803BCF /* SVParticlesNode.h in Headers */,
+				023DD0F624C2D7390059BA36 /* SVMtlWindowLight.h in Headers */,
 				020C440D22DC5DCC00201753 /* IDLinearMathInterface.hpp in Headers */,
 				020C516822DCA1AC00201753 /* SVPhysicsBody.h in Headers */,
 				5F7D67D3215F407900803BCF /* SVFaceShapeNode.h in Headers */,
@@ -9579,6 +9616,7 @@
 				020C483B22DC5DCE00201753 /* btSimpleDynamicsWorld.h in Headers */,
 				020C3DC222D0DCA200201753 /* SVFilterDark.h in Headers */,
 				025BE8AA234F0FFE004AB609 /* SVActPhysics.h in Headers */,
+				023DD0E824C2AE520059BA36 /* SVMtlArenaLight.h in Headers */,
 				020C4CBF22DC5DD200201753 /* btHashMap.h in Headers */,
 				020C438722DC5DCC00201753 /* btSoftBodyRigidBodyCollisionConfiguration.h in Headers */,
 				020C485522DC5DCF00201753 /* btVehicleRaycaster.h in Headers */,
@@ -9680,6 +9718,7 @@
 				020C498B22DC5DCF00201753 /* btNNCGConstraintSolver.h in Headers */,
 				5F7D62A1215F407800803BCF /* SkeletonJson.h in Headers */,
 				5F7D62DD215F407800803BCF /* BoundingBoxAttachment.h in Headers */,
+				023DD10024C2F1E30059BA36 /* SVMtlOilPaint.h in Headers */,
 				5F7D65AF215F407800803BCF /* SVResTex.h in Headers */,
 				02F27E56218EF216007E85C3 /* SVModelNode.h in Headers */,
 				5F6598BC23C33B310075A17C /* ZCOrgMgr.h in Headers */,
@@ -10039,6 +10078,7 @@
 				5F7D6611215F407800803BCF /* SVRenderDeclare.h in Headers */,
 				020C46D922DC5DCE00201753 /* btMaterial.h in Headers */,
 				020C43FB22DC5DCC00201753 /* IDConfig.hpp in Headers */,
+				023DD0E624C2AE520059BA36 /* SVMtlArenaLight.h in Headers */,
 				02381EDC2243625600584EEF /* SVParseFilter.h in Headers */,
 				020C4CD922DC5DD200201753 /* b3AabbUtil.h in Headers */,
 				5F7D67E9215F407900803BCF /* SVShapeVariedNode.h in Headers */,
@@ -10048,6 +10088,7 @@
 				020C481522DC5DCE00201753 /* btBulletDynamicsCommon.h in Headers */,
 				5F7D63C3215F407800803BCF /* strtod.h in Headers */,
 				020C456F22DC5DCD00201753 /* btEmptyCollisionAlgorithm.h in Headers */,
+				023DD0F424C2D7390059BA36 /* SVMtlWindowLight.h in Headers */,
 				5F7D614F215F407700803BCF /* SVGlobalMgr.h in Headers */,
 				5F7D6921215F407900803BCF /* SVDef.h in Headers */,
 				5F7D6699215F407800803BCF /* SVTexture.h in Headers */,
@@ -10108,6 +10149,7 @@
 				5F7D68BD215F407900803BCF /* SVMap.spu.h in Headers */,
 				5F7D6649215F407800803BCF /* SVThreadHelp.h in Headers */,
 				5C29E2C1217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */,
+				023DD0FE24C2F1E30059BA36 /* SVMtlOilPaint.h in Headers */,
 				020C46E522DC5DCE00201753 /* btMultiSphereShape.h in Headers */,
 				020C4CA522DC5DD200201753 /* btAlignedAllocator.h in Headers */,
 				5F7D609B215F407700803BCF /* SVFilterLUT.h in Headers */,
@@ -11139,6 +11181,7 @@
 				5F7D6032215F407700803BCF /* SVProcess.h in Headers */,
 				020C4BE822DC5DD100201753 /* b3Scalar.h in Headers */,
 				020C4C7222DC5DD200201753 /* btQuickprof.h in Headers */,
+				023DD0E524C2AE520059BA36 /* SVMtlArenaLight.h in Headers */,
 				020C46F022DC5DCE00201753 /* btStridingMeshInterface.h in Headers */,
 				020C47C022DC5DCE00201753 /* btCapsuleShape.h in Headers */,
 				020C468E22DC5DCD00201753 /* btGImpactBvhStructs.h in Headers */,
@@ -11223,6 +11266,7 @@
 				5F1475E122E86549000D140E /* SVMtlLib.h in Headers */,
 				020C474422DC5DCE00201753 /* btHeightfieldTerrainShape.h in Headers */,
 				020C445822DC5DCC00201753 /* btAxisSweep3Internal.h in Headers */,
+				023DD0FD24C2F1E30059BA36 /* SVMtlOilPaint.h in Headers */,
 				5F82682A2282FECB003D4476 /* SVMtlGLTF.h in Headers */,
 				020C48FE22DC5DCF00201753 /* btPATHSolver.h in Headers */,
 				5F7D6660215F407800803BCF /* SVTexMgr.h in Headers */,
@@ -11322,6 +11366,7 @@
 				5F7D641A215F407800803BCF /* pointer.h in Headers */,
 				5F7D6558215F407800803BCF /* SVRResGL.h in Headers */,
 				020C445422DC5DCC00201753 /* btBroadphaseInterface.h in Headers */,
+				023DD0F324C2D7390059BA36 /* SVMtlWindowLight.h in Headers */,
 				020C4C1822DC5DD200201753 /* btMatrixX.h in Headers */,
 				020C4B9C22DC5DD100201753 /* b3Vector3.h in Headers */,
 				5F7D6406215F407800803BCF /* allocators.h in Headers */,
@@ -11654,6 +11699,7 @@
 				5F7D6612215F407800803BCF /* SVRenderDeclare.h in Headers */,
 				020C46DA22DC5DCE00201753 /* btMaterial.h in Headers */,
 				020C43FC22DC5DCC00201753 /* IDConfig.hpp in Headers */,
+				023DD0E724C2AE520059BA36 /* SVMtlArenaLight.h in Headers */,
 				02381EDD2243625700584EEF /* SVParseFilter.h in Headers */,
 				020C4CDA22DC5DD200201753 /* b3AabbUtil.h in Headers */,
 				5F7D67EA215F407900803BCF /* SVShapeVariedNode.h in Headers */,
@@ -11663,6 +11709,7 @@
 				020C481622DC5DCE00201753 /* btBulletDynamicsCommon.h in Headers */,
 				5F7D63C4215F407800803BCF /* strtod.h in Headers */,
 				020C457022DC5DCD00201753 /* btEmptyCollisionAlgorithm.h in Headers */,
+				023DD0F524C2D7390059BA36 /* SVMtlWindowLight.h in Headers */,
 				5F7D6150215F407700803BCF /* SVGlobalMgr.h in Headers */,
 				5F7D6922215F407900803BCF /* SVDef.h in Headers */,
 				5F7D669A215F407800803BCF /* SVTexture.h in Headers */,
@@ -11723,6 +11770,7 @@
 				5F7D68BE215F407900803BCF /* SVMap.spu.h in Headers */,
 				5F7D664A215F407800803BCF /* SVThreadHelp.h in Headers */,
 				5C29E2C2217F004B00F26CB3 /* SVParseLUTFilter.h in Headers */,
+				023DD0FF24C2F1E30059BA36 /* SVMtlOilPaint.h in Headers */,
 				020C46E622DC5DCE00201753 /* btMultiSphereShape.h in Headers */,
 				020C4CA622DC5DD200201753 /* btAlignedAllocator.h in Headers */,
 				5F7D609C215F407700803BCF /* SVFilterLUT.h in Headers */,
@@ -12509,6 +12557,7 @@
 				5F7D6389215F407800803BCF /* TransformConstraint.c in Sources */,
 				020C458522DC5DCD00201753 /* SphereTriangleDetector.cpp in Sources */,
 				020C45CD22DC5DCD00201753 /* btEmptyCollisionAlgorithm.cpp in Sources */,
+				023DD0F224C2D7390059BA36 /* SVMtlWindowLight.cpp in Sources */,
 				020C436722DC5DCC00201753 /* btSoftBody.cpp in Sources */,
 				5C0C608B219BFF790052A826 /* mmx_optimized.cpp in Sources */,
 				5F1CA67A2268AA72002373BF /* SVContextMetal.mm in Sources */,
@@ -12749,6 +12798,7 @@
 				5C0C6033219BFF790052A826 /* InterpolateLinear.cpp in Sources */,
 				5F7D675B215F407900803BCF /* SVFrameOutNode.cpp in Sources */,
 				020C44D322DC5DCC00201753 /* btPersistentManifold.cpp in Sources */,
+				023DD0EC24C2AE520059BA36 /* SVMtlArenaLight.cpp in Sources */,
 				5FCE603C2359BD6E001A47F1 /* SVUIBase.cpp in Sources */,
 				020C4CCD22DC5DD200201753 /* b3GeometryUtil.cpp in Sources */,
 				5F7D65B7215F407800803BCF /* SVRenderTexture.cpp in Sources */,
@@ -12844,6 +12894,7 @@
 				020C443B22DC5DCC00201753 /* btQuantizedBvh.cpp in Sources */,
 				020C48D522DC5DCF00201753 /* btMultiBodyGearConstraint.cpp in Sources */,
 				020C494322DC5DCF00201753 /* btTypedConstraint.cpp in Sources */,
+				023DD0FC24C2F1E30059BA36 /* SVMtlOilPaint.cpp in Sources */,
 				5F7D6439215F407800803BCF /* SVModuleSys.cpp in Sources */,
 				020C4C1F22DC5DD200201753 /* btSerializer64.cpp in Sources */,
 				5F7D64B5215F407800803BCF /* SVActBase.cpp in Sources */,
@@ -13340,6 +13391,7 @@
 				5F7D6684215F407800803BCF /* SVMtlFilterEx.cpp in Sources */,
 				0219DD6B232FB74A00F02C9A /* SVLineNode.cpp in Sources */,
 				5F7D6382215F407800803BCF /* IkConstraintData.c in Sources */,
+				023DD0F924C2F1E30059BA36 /* SVMtlOilPaint.cpp in Sources */,
 				020C483C22DC5DCF00201753 /* btRigidBody.cpp in Sources */,
 				5F7D68C0215F407900803BCF /* SVGeometry.cpp in Sources */,
 				020C3E0522D5CAE300201753 /* SVMtlFlashWhite.cpp in Sources */,
@@ -13406,6 +13458,7 @@
 				020C484422DC5DCF00201753 /* btDiscreteDynamicsWorldMt.cpp in Sources */,
 				020C48B222DC5DCF00201753 /* btMultiBody.cpp in Sources */,
 				5F7D61BA215F407700803BCF /* SVLoaderPng.cpp in Sources */,
+				023DD0E924C2AE520059BA36 /* SVMtlArenaLight.cpp in Sources */,
 				020C458622DC5DCD00201753 /* btCollisionDispatcher.cpp in Sources */,
 				5F6598DC23C45AAF0075A17C /* SVTable.cpp in Sources */,
 				5F6598BD23C33B310075A17C /* ZCOrgMgr.cpp in Sources */,
@@ -13513,6 +13566,7 @@
 				02130D992365C044002964D2 /* SVUIButton.cpp in Sources */,
 				5F7D67F8215F407900803BCF /* SVMultPassNode.cpp in Sources */,
 				5F7D623E215F407800803BCF /* pngmem.c in Sources */,
+				023DD0EF24C2D7390059BA36 /* SVMtlWindowLight.cpp in Sources */,
 				020C462A22DC5DCD00201753 /* btContactProcessing.cpp in Sources */,
 				020C454222DC5DCD00201753 /* btGhostObject.cpp in Sources */,
 				5F7D6122215F407700803BCF /* SVSpine.cpp in Sources */,
@@ -13741,6 +13795,7 @@
 				02EA54A822E6D93600F5701D /* SVFaceDataMesh.cpp in Sources */,
 				5FD9B02522644DCD00522317 /* SVResMetalMesh.mm in Sources */,
 				020C439422DC5DCC00201753 /* btSoftBodyHelpers.cpp in Sources */,
+				023DD0F124C2D7390059BA36 /* SVMtlWindowLight.cpp in Sources */,
 				5F7D611C215F407700803BCF /* SVGeoGen.cpp in Sources */,
 				5F7D6986215F407900803BCF /* SVMat2.cpp in Sources */,
 				5F7D67F2215F407900803BCF /* SVSkinNode.cpp in Sources */,
@@ -13919,6 +13974,7 @@
 				5FB61F8B2227E521001EA141 /* SVPythonSys.cpp in Sources */,
 				020C49AA22DC5DD000201753 /* btGeneric6DofSpringConstraint.cpp in Sources */,
 				5FD9B02F22644E9400522317 /* SVResMetalTex.mm in Sources */,
+				023DD0FB24C2F1E30059BA36 /* SVMtlOilPaint.cpp in Sources */,
 				5F7D635C215F407800803BCF /* Event.c in Sources */,
 				5F7D68C2215F407900803BCF /* SVGeometry.cpp in Sources */,
 				5F7D5FF8215F407700803BCF /* SVPersonTracker.cpp in Sources */,
@@ -14211,6 +14267,7 @@
 				020C4C3422DC5DD200201753 /* btThreadSupportWin32.cpp in Sources */,
 				5F7D6458215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				0219DD8A2330C2BD00F02C9A /* SVPhysicsBodySoft.cpp in Sources */,
+				023DD0EB24C2AE520059BA36 /* SVMtlArenaLight.cpp in Sources */,
 				020C446222DC5DCC00201753 /* btOverlappingPairCache.cpp in Sources */,
 				020C467422DC5DCD00201753 /* btGImpactBvh.cpp in Sources */,
 				5F7D620C215F407800803BCF /* pngwio.c in Sources */,
@@ -14333,6 +14390,7 @@
 				02EA54A722E6D93600F5701D /* SVFaceDataMesh.cpp in Sources */,
 				5FD9B02422644DCD00522317 /* SVResMetalMesh.mm in Sources */,
 				020C439322DC5DCC00201753 /* btSoftBodyHelpers.cpp in Sources */,
+				023DD0F024C2D7390059BA36 /* SVMtlWindowLight.cpp in Sources */,
 				5F7D611B215F407700803BCF /* SVGeoGen.cpp in Sources */,
 				5F7D6985215F407900803BCF /* SVMat2.cpp in Sources */,
 				5F7D67F1215F407900803BCF /* SVSkinNode.cpp in Sources */,
@@ -14511,6 +14569,7 @@
 				5FB61F8A2227E521001EA141 /* SVPythonSys.cpp in Sources */,
 				020C49A922DC5DD000201753 /* btGeneric6DofSpringConstraint.cpp in Sources */,
 				5FD9B02E22644E9400522317 /* SVResMetalTex.mm in Sources */,
+				023DD0FA24C2F1E30059BA36 /* SVMtlOilPaint.cpp in Sources */,
 				5F7D635B215F407800803BCF /* Event.c in Sources */,
 				5F7D68C1215F407900803BCF /* SVGeometry.cpp in Sources */,
 				5F7D5FF7215F407700803BCF /* SVPersonTracker.cpp in Sources */,
@@ -14803,6 +14862,7 @@
 				020C4C3322DC5DD200201753 /* btThreadSupportWin32.cpp in Sources */,
 				5F7D6457215F407800803BCF /* SVDivisonFilter.cpp in Sources */,
 				0219DD892330C2BD00F02C9A /* SVPhysicsBodySoft.cpp in Sources */,
+				023DD0EA24C2AE520059BA36 /* SVMtlArenaLight.cpp in Sources */,
 				020C446122DC5DCC00201753 /* btOverlappingPairCache.cpp in Sources */,
 				020C467322DC5DCD00201753 /* btGImpactBvh.cpp in Sources */,
 				5F7D620B215F407800803BCF /* pngwio.c in Sources */,

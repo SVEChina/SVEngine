@@ -70,6 +70,9 @@ namespace sv {
         DECLARE_SHAREPTR(SVMtlDark);
         DECLARE_SHAREPTR(SVMtlShake);
         DECLARE_SHAREPTR(SVMtlFlashWhite);
+        DECLARE_SHAREPTR(SVMtlArenaLight);
+        DECLARE_SHAREPTR(SVMtlWindowLight);
+        DECLARE_SHAREPTR(SVMtlOilPaint);
         DECLARE_SHAREPTR(SVMtlADFilterBase);
         //texture
         DECLARE_SHAREPTR(SVTexture);
