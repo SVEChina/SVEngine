@@ -2451,6 +2451,14 @@
 		023FF33E2253761100632659 /* SVMtlBillboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF3382253761000632659 /* SVMtlBillboard.h */; };
 		023FF33F2253761100632659 /* SVMtlBillboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF3382253761000632659 /* SVMtlBillboard.h */; };
 		023FF3402253761100632659 /* SVMtlBillboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 023FF3382253761000632659 /* SVMtlBillboard.h */; };
+		024E093624C9AD77006B15E3 /* SVFilterOilPaint.h in Headers */ = {isa = PBXBuildFile; fileRef = 024E093424C9AD76006B15E3 /* SVFilterOilPaint.h */; };
+		024E093724C9AD77006B15E3 /* SVFilterOilPaint.h in Headers */ = {isa = PBXBuildFile; fileRef = 024E093424C9AD76006B15E3 /* SVFilterOilPaint.h */; };
+		024E093824C9AD77006B15E3 /* SVFilterOilPaint.h in Headers */ = {isa = PBXBuildFile; fileRef = 024E093424C9AD76006B15E3 /* SVFilterOilPaint.h */; };
+		024E093924C9AD77006B15E3 /* SVFilterOilPaint.h in Headers */ = {isa = PBXBuildFile; fileRef = 024E093424C9AD76006B15E3 /* SVFilterOilPaint.h */; };
+		024E093A24C9AD77006B15E3 /* SVFilterOilPaint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 024E093524C9AD76006B15E3 /* SVFilterOilPaint.cpp */; };
+		024E093B24C9AD77006B15E3 /* SVFilterOilPaint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 024E093524C9AD76006B15E3 /* SVFilterOilPaint.cpp */; };
+		024E093C24C9AD77006B15E3 /* SVFilterOilPaint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 024E093524C9AD76006B15E3 /* SVFilterOilPaint.cpp */; };
+		024E093D24C9AD77006B15E3 /* SVFilterOilPaint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 024E093524C9AD76006B15E3 /* SVFilterOilPaint.cpp */; };
 		025BE8A3234F0FFE004AB609 /* SVActPhysics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE8A1234F0FFD004AB609 /* SVActPhysics.cpp */; };
 		025BE8A4234F0FFE004AB609 /* SVActPhysics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE8A1234F0FFD004AB609 /* SVActPhysics.cpp */; };
 		025BE8A5234F0FFE004AB609 /* SVActPhysics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE8A1234F0FFD004AB609 /* SVActPhysics.cpp */; };
@@ -6201,6 +6209,8 @@
 		023FF32D2253565D00632659 /* SVBillboardNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVBillboardNode.cpp; sourceTree = "<group>"; };
 		023FF3372253761000632659 /* SVMtlBillboard.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVMtlBillboard.cpp; sourceTree = "<group>"; };
 		023FF3382253761000632659 /* SVMtlBillboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlBillboard.h; sourceTree = "<group>"; };
+		024E093424C9AD76006B15E3 /* SVFilterOilPaint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVFilterOilPaint.h; sourceTree = "<group>"; };
+		024E093524C9AD76006B15E3 /* SVFilterOilPaint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVFilterOilPaint.cpp; sourceTree = "<group>"; };
 		025BE8A1234F0FFD004AB609 /* SVActPhysics.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SVActPhysics.cpp; sourceTree = "<group>"; };
 		025BE8A2234F0FFE004AB609 /* SVActPhysics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActPhysics.h; sourceTree = "<group>"; };
 		02690F98227073AE00EF1FFC /* SVMtlPenStrokeGlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMtlPenStrokeGlow.h; sourceTree = "<group>"; };
@@ -8165,6 +8175,8 @@
 				5C3C60A3223D0D0E007DD879 /* SVRGBGradient.h */,
 				02381EE7224369EE00584EEF /* SVFilterShinning.cpp */,
 				02381EE8224369EE00584EEF /* SVFilterShinning.h */,
+				024E093524C9AD76006B15E3 /* SVFilterOilPaint.cpp */,
+				024E093424C9AD76006B15E3 /* SVFilterOilPaint.h */,
 				020C3DE622D49ECF00201753 /* SVFilterShake.cpp */,
 				020C3DE522D49ECE00201753 /* SVFilterShake.h */,
 				020C3DFA22D5CA8300201753 /* SVFilterFlashWhite.cpp */,
@@ -9757,6 +9769,7 @@
 				5F7D601D215F407700803BCF /* SVStreamOut.h in Headers */,
 				5C0C6037219BFF790052A826 /* SoundTouch.h in Headers */,
 				5FC23D3B2330EC8F0050B7B6 /* SVUIPanel.h in Headers */,
+				024E093924C9AD77006B15E3 /* SVFilterOilPaint.h in Headers */,
 				5F7D61C1215F407700803BCF /* SVParseMask.h in Headers */,
 				020C47CB22DC5DCE00201753 /* btTriangleIndexVertexArray.h in Headers */,
 				020C44EB22DC5DCC00201753 /* btContinuousConvexCollision.h in Headers */,
@@ -10502,6 +10515,7 @@
 				020C491122DC5DCF00201753 /* btConstraintSolver.h in Headers */,
 				020C481922DC5DCE00201753 /* btRigidBody.h in Headers */,
 				020C47B122DC5DCE00201753 /* btConvexInternalShape.h in Headers */,
+				024E093724C9AD77006B15E3 /* SVFilterOilPaint.h in Headers */,
 				020C46CD22DC5DCE00201753 /* btStaticPlaneShape.h in Headers */,
 				5F7D6919215F407900803BCF /* SVArray.h in Headers */,
 				020C451B22DC5DCC00201753 /* btBoxBoxDetector.h in Headers */,
@@ -11356,6 +11370,7 @@
 				5F7D68FC215F407900803BCF /* SVRandom.h in Headers */,
 				5F7D62BA215F407800803BCF /* SkeletonBinary.h in Headers */,
 				5FD9B02722644DCD00522317 /* SVResMetalMesh.h in Headers */,
+				024E093624C9AD77006B15E3 /* SVFilterOilPaint.h in Headers */,
 				0219DD842330C2BD00F02C9A /* SVPhysicsBodySoft.h in Headers */,
 				5F7D6508215F407800803BCF /* SVOpFilter.h in Headers */,
 				020C47E422DC5DCE00201753 /* b3Common.h in Headers */,
@@ -12123,6 +12138,7 @@
 				020C491222DC5DCF00201753 /* btConstraintSolver.h in Headers */,
 				020C481A22DC5DCE00201753 /* btRigidBody.h in Headers */,
 				020C47B222DC5DCE00201753 /* btConvexInternalShape.h in Headers */,
+				024E093824C9AD77006B15E3 /* SVFilterOilPaint.h in Headers */,
 				020C46CE22DC5DCE00201753 /* btStaticPlaneShape.h in Headers */,
 				5F7D691A215F407900803BCF /* SVArray.h in Headers */,
 				020C451C22DC5DCC00201753 /* btBoxBoxDetector.h in Headers */,
@@ -12844,6 +12860,7 @@
 				5F7D615D215F407700803BCF /* SVGlobalParam.cpp in Sources */,
 				5FC23D412331C2880050B7B6 /* SVUINetGrid.cpp in Sources */,
 				5F7D6205215F407700803BCF /* pngrio.c in Sources */,
+				024E093D24C9AD77006B15E3 /* SVFilterOilPaint.cpp in Sources */,
 				5F7D6345215F407800803BCF /* Slot.c in Sources */,
 				020C459922DC5DCD00201753 /* btConvexConcaveCollisionAlgorithm.cpp in Sources */,
 				5FAB9DDB2189AC6700B05ED5 /* SVAniBase.cpp in Sources */,
@@ -13710,6 +13727,7 @@
 				020C497C22DC5DCF00201753 /* btPoint2PointConstraint.cpp in Sources */,
 				5F7D685C215F407900803BCF /* SVMat4d.cpp in Sources */,
 				5F44286121843BD400AF4A5B /* SVOutMission.cpp in Sources */,
+				024E093A24C9AD77006B15E3 /* SVFilterOilPaint.cpp in Sources */,
 				5F7D6830215F407900803BCF /* SVEventProc.cpp in Sources */,
 				5F7D6764215F407900803BCF /* SVShapeVariedNode.cpp in Sources */,
 				020C46FC22DC5DCE00201753 /* btCompoundShape.cpp in Sources */,
@@ -14104,6 +14122,7 @@
 				5F7D6124215F407700803BCF /* SVSpine.cpp in Sources */,
 				5F7D67BA215F407900803BCF /* SVScene.cpp in Sources */,
 				020C4BFA22DC5DD100201753 /* b3Vector3.cpp in Sources */,
+				024E093C24C9AD77006B15E3 /* SVFilterOilPaint.cpp in Sources */,
 				020C496E22DC5DCF00201753 /* btSolve2LinearConstraint.cpp in Sources */,
 				020C47D622DC5DCE00201753 /* btConvexPointCloudShape.cpp in Sources */,
 				020C475222DC5DCE00201753 /* btStridingMeshInterface.cpp in Sources */,
@@ -14699,6 +14718,7 @@
 				5F7D6123215F407700803BCF /* SVSpine.cpp in Sources */,
 				5F7D67B9215F407900803BCF /* SVScene.cpp in Sources */,
 				020C4BF922DC5DD100201753 /* b3Vector3.cpp in Sources */,
+				024E093B24C9AD77006B15E3 /* SVFilterOilPaint.cpp in Sources */,
 				020C496D22DC5DCF00201753 /* btSolve2LinearConstraint.cpp in Sources */,
 				020C47D522DC5DCE00201753 /* btConvexPointCloudShape.cpp in Sources */,
 				020C475122DC5DCE00201753 /* btStridingMeshInterface.cpp in Sources */,

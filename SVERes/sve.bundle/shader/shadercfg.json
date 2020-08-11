@@ -592,9 +592,9 @@
         },
         {
             "vs": "screennor",
-            "fs": "adfilter/oilpaint/edgeLic",
+            "fs": "adfilter/oilpaint/edgeLIC",
             "af": "V2-T0",
-            "programme": "edgeLic"
+            "programme": "edgeLIC"
         },
         {
             "vs": "penstroke_base",

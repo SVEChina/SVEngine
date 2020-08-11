@@ -12,7 +12,7 @@
 #include "../rendercore/SVRendererBase.h"
 
 SVMtlOilPaint::SVMtlOilPaint(SVInst *_app)
-:SVMtlADFilterBase(_app,"edgeLic") {
+:SVMtlADFilterBase(_app,"grayScale") {
     m_time = 0.0f;
     s32 t_w =  mApp->m_pGlobalParam->m_inner_width;
     s32 t_h =  mApp->m_pGlobalParam->m_inner_height;

@@ -17,6 +17,7 @@
 #include "basesys/SVBasicSys.h"
 #include "basesys/SVPictureProcess.h"
 #include "basesys/filter/SVADFilterBase.h"
+#include "basesys/filter/SVFilterOilPaint.h"
 #include "mtl/SVMtlShinning.h"
 #include "mtl/SVMtlBlackWhite.h"
 #include "mtl/SVMtlStreak.h"
@@ -52,13 +53,15 @@ void SVADFilter::destroy(){
 
 void SVADFilter::open(){
     SVModuleBase::open();
-    m_filterMtl = MakeSharedPtr<SVMtlOilPaint>(mApp);
-    m_filter = MakeSharedPtr<SVADFilterBase>(mApp, m_filterMtl);
+//    m_filterMtl = MakeSharedPtr<SVMtlOilPaint>(mApp);
+//    m_filter = MakeSharedPtr<SVADFilterBase>(mApp, m_filterMtl);
+    
+    SVFilterOilPaintPtr oilPaint = MakeSharedPtr<SVFilterOilPaint>(mApp);
     SVPictureProcessPtr t_picproc = mApp->getBasicSys()->getPicProc();
-    if(m_filter && t_picproc){
-        m_filter->create();
-        t_picproc->addFilter(m_filter);
-        t_picproc->openFilter(m_filter);
+    if(t_picproc){
+        oilPaint->create();
+        t_picproc->addFilter(oilPaint);
+        t_picproc->openFilter(oilPaint);
     }
 }
 

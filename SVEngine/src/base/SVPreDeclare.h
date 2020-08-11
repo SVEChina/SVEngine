@@ -272,7 +272,7 @@ namespace sv {
         DECLARE_SHAREPTR(SVFilterShake);
         DECLARE_SHAREPTR(SVFilterFlashWhite);
         DECLARE_SHAREPTR(SVADFilterBase);
-        
+        DECLARE_SHAREPTR(SVFilterOilPaint);
         //物理部分
         DECLARE_SHAREPTR(SVPhysicsWorldBase);
         DECLARE_SHAREPTR(SVPhysicsWorld);

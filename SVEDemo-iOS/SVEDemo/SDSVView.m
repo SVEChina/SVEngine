@@ -72,7 +72,7 @@
         CATransform3D transform = CATransform3DScale(translate, t_scale, t_scale ,1.0);
         m_layer.transform = transform;
         
-        m_layer.backgroundColor = [UIColor greenColor].CGColor;
+//        m_layer.backgroundColor = [UIColor greenColor].CGColor;
     }
     [self active];
 }

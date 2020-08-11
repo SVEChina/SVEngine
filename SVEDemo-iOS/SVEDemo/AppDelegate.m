@@ -19,6 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
     [[SDLogicSys getInst] initSys];
     [[SDUISys getInst] initSys];
     [self.window makeKeyAndVisible];

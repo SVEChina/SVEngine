@@ -5,7 +5,6 @@ precision mediump float;
 varying vec2 v_texcoord0;
 uniform sampler2D aTexture0;
 
-
 void main(){
     vec2 uv = v_texcoord0;
     vec3 structureTensor = texture2D(aTexture0, uv).xyz;
