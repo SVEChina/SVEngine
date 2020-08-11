@@ -856,7 +856,7 @@ B3_FORCE_INLINE b3Matrix3x3
 operator*(const b3Matrix3x3& m, const b3Scalar& k)
 {
 #if (defined(B3_USE_SSE_IN_API) && defined(B3_USE_SSE))
-	__m128 vk = b3_splat_ps(_mm_load_ss((float*)&k), 0x80);
+	__m128 vk = b3_splat_ps(_mm_load_ss((float*)&k), 0x2);
 	return b3Matrix3x3(
 		_mm_mul_ps(m[0].mVec128, vk),
 		_mm_mul_ps(m[1].mVec128, vk),
